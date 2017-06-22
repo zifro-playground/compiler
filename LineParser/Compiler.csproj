@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C58A9D4D-2F9B-405D-BE58-27163A50CF5F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>LineParser</RootNamespace>
+    <AssemblyName>LineParser</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SyntaxCheck.cs" />
+    <Compile Include="Scope\Scope.cs" />
+    <Compile Include="Scope\ScopeType.cs" />
+    <Compile Include="Functions\Function.cs" />
+    <Compile Include="Scope\ScopeLoop.cs" />
+    <Compile Include="Variables\Variable.cs" />
+    <Compile Include="Variables\Variables.cs" />
+    <Compile Include="Variables\VariableTypes.cs" />
+    <Compile Include="Scope\ScopeStarter.cs" />
+    <Compile Include="Functions\CurrentFunctions.cs" />
+    <Compile Include="Variables\Values\BooleanValue.cs" />
+    <Compile Include="Variables\Values\TextValue.cs" />
+    <Compile Include="Variables\Values\NumberValue.cs" />
+    <Compile Include="Variables\Values\UnknownLogic.cs" />
+    <Compile Include="Logics\Loops\ForLoop.cs" />
+    <Compile Include="Logics\Loops\Loop.cs" />
+    <Compile Include="Logics\Operators\CommaSign.cs" />
+    <Compile Include="Logics\Operators\EqualSign.cs" />
+    <Compile Include="Logics\Operators\GreaterThenSign.cs" />
+    <Compile Include="Logics\Operators\IndentOperator.cs" />
+    <Compile Include="Logics\Operators\LessThenSign.cs" />
+    <Compile Include="Logics\Operators\MathOperator.cs" />
+    <Compile Include="Logics\Operators\NotOperator.cs" />
+    <Compile Include="Logics\Operators\XorOperator.cs" />
+    <Compile Include="Logics\Speciall\DefStatement.cs" />
+    <Compile Include="Logics\Speciall\ElseStatement.cs" />
+    <Compile Include="Logics\Speciall\FunctionCall.cs" />
+    <Compile Include="Logics\Speciall\IfStatement.cs" />
+    <Compile Include="Logics\Logic.cs" />
+    <Compile Include="Logics\Lines\ComparisonOperatorParser.cs" />
+    <Compile Include="Functions\FunctionParser.cs" />
+    <Compile Include="PackageUnWrapper.cs" />
+    <Compile Include="Logics\Loops\WhileLoop.cs" />
+    <Compile Include="Logics\WordTypes.cs" />
+    <Compile Include="Functions\UserFunction.cs" />
+    <Compile Include="Logics\Lines\CodeLine.cs" />
+    <Compile Include="Logics\ComparisonType.cs" />
+    <Compile Include="Parsers\SpeciallWordParser.cs" />
+    <Compile Include="Parsers\Statements\DefStatementParser.cs" />
+    <Compile Include="Parsers\Statements\ElseStatementParser.cs" />
+    <Compile Include="Parsers\Statements\ForLoopParser.cs" />
+    <Compile Include="Parsers\Statements\WhileLoopParser.cs" />
+    <Compile Include="Functions\BuiltInFunctions\FunctionRange.cs" />
+    <Compile Include="Functions\BuiltInFunctions\PreBuiltFunctionList.cs" />
+    <Compile Include="Functions\BuiltInFunctions\GameFunctions.cs" />
+    <Compile Include="Scope\Parser\IndentParser.cs" />
+    <Compile Include="Scope\Parser\ScopeParser.cs" />
+    <Compile Include="Scope\Parser\ScopeLogicParser.cs" />
+    <Compile Include="Scope\Parser\ScopeStarterParser.cs" />
+    <Compile Include="SyntaxCheck\CodeSyntaxWalker.cs" />
+    <Compile Include="SyntaxCheck\PossibleFunctionCall.cs" />
+    <Compile Include="SyntaxCheck\PossibleSpeciallWord.cs" />
+    <Compile Include="SyntaxCheck\PossibleStatement.cs" />
+    <Compile Include="SyntaxCheck\PossibleVariableDeclare.cs" />
+    <Compile Include="Runtime\CodeWalker.cs" />
+    <Compile Include="Logics\Operators\AndOperator.cs" />
+    <Compile Include="Logics\Operators\OrOperator.cs" />
+    <Compile Include="Runtime\Print.cs" />
+    <Compile Include="Logics\Speciall\ReturnStatement.cs" />
+    <Compile Include="Parsers\Statements\ReturnStatementParser.cs" />
+    <Compile Include="Logics\Lines\ReturnValue.cs" />
+    <Compile Include="Runtime\Debugger.cs" />
+    <Compile Include="Parsers\Words\WordParser.cs" />
+    <Compile Include="Parsers\Logics\PostLogicParsing.cs" />
+    <Compile Include="Parsers\Logics\WordsToLogicParser.cs" />
+    <Compile Include="Parsers\SumParser\SumParser.cs" />
+    <Compile Include="Parsers\SumParser\BooleanAlgebra\BooleanExpression.cs" />
+    <Compile Include="Parsers\SumParser\BooleanAlgebra\BooleanSumParser.cs" />
+    <Compile Include="Parsers\SumParser\BooleanAlgebra\BoolExpressionParser.cs" />
+    <Compile Include="Parsers\SumParser\TextSumParser.cs" />
+    <Compile Include="Parsers\SumParser\ValidSumCheck.cs" />
+    <Compile Include="Parsers\SumParser\MathParser.cs" />
+    <Compile Include="Parsers\SumParser\NumberSumParser.cs" />
+    <Compile Include="Parsers\Lines\LineParser.cs" />
+    <Compile Include="Parsers\Lines\LineSplitter.cs" />
+    <Compile Include="Parsers\Lines\ParsedLine.cs" />
+    <Compile Include="Tags\Operators\AndOrOperator.cs" />
+    <Compile Include="Tags\Operators\ComparisonOperator.cs" />
+    <Compile Include="Tags\Logic\BoolType.cs" />
+    <Compile Include="Parsers\SumParser\ExpressionParser.cs" />
+    <Compile Include="Parsers\SumParser\StatementParser.cs" />
+    <Compile Include="Tags\Logic\Value.cs" />
+    <Compile Include="Scope\Parser\ScopeReturnParser.cs" />
+    <Compile Include="Runtime\Commands\PureFunctionCallParser.cs" />
+    <Compile Include="Runtime\Commands\ReturnStatementCommand.cs" />
+    <Compile Include="Runtime\Commands\SpeciallVariableDeclareParser.cs" />
+    <Compile Include="Runtime\Commands\VariableDeclareParser.cs" />
+    <Compile Include="Parsers\SumParser\Exceptions\FunctionCallException.cs" />
+    <Compile Include="Logics\Speciall\Package.cs" />
+    <Compile Include="Runtime\Stack\ReturnMemoryControll.cs" />
+    <Compile Include="Runtime\Stack\ReturnMemoryClear.cs" />
+    <Compile Include="Runtime\VariableWindow\VariableWindow.cs" />
+    <Compile Include="Parsers\InternalParseFunctions.cs" />
+    <Compile Include="Runtime\Commands\SpeciallVariableDeclare\TextSpeciallVariableDeclare.cs" />
+    <Compile Include="Logics\Speciall\BreakStatement.cs" />
+    <Compile Include="Logics\Speciall\ContinueStatment.cs" />
+    <Compile Include="Runtime\Commands\BreakAndContinueStatementParser.cs" />
+    <Compile Include="Logics\Speciall\ElifStatement.cs" />
+    <Compile Include="Tags\Logic\ComparisonScope.cs" />
+    <Compile Include="Parsers\Statements\IfAndElifStatementParser.cs" />
+    <Compile Include="Parsers\SumParser\BooleanAlgebra\BoolExpressions\BoolCompressExpressions.cs" />
+    <Compile Include="Parsers\SumParser\BooleanAlgebra\BoolAlgebraWord.cs" />
+    <Compile Include="Parsers\SumParser\BooleanAlgebra\BoolAlgebraParser.cs" />
+    <Compile Include="ErrorHandler\ErrorMessage.cs" />
+    <Compile Include="ErrorHandler\ErrorStatements.cs" />
+    <Compile Include="ErrorHandler\ErrorLoops.cs" />
+    <Compile Include="ErrorHandler\LevenshteinDist.cs" />
+    <Compile Include="ErrorHandler\Languages\SwedishLanguage.cs" />
+    <Compile Include="ErrorHandler\Languages\Swe\LogiskaFel.cs" />
+    <Compile Include="ErrorHandler\Languages\CurrentStatements\LogicOrderErrors.cs" />
+    <Compile Include="ErrorHandler\Languages\LanguagePrefab\Language.cs" />
+    <Compile Include="ErrorHandler\Languages\CurrentStatements\IfStatementErrors.cs" />
+    <Compile Include="ErrorHandler\Languages\Swe\IfSatserFel.cs" />
+    <Compile Include="ErrorHandler\Languages\CurrentStatements\ElseStatementErrors.cs" />
+    <Compile Include="ErrorHandler\Languages\Swe\ElseSatserFel.cs" />
+    <Compile Include="ErrorHandler\Languages\CurrentStatements\ForLoopErrors.cs" />
+    <Compile Include="ErrorHandler\Languages\Swe\ForLoopFel.cs" />
+    <Compile Include="ErrorHandler\Languages\CurrentStatements\WhileLoopErrors.cs" />
+    <Compile Include="ErrorHandler\Languages\Swe\WhileLoopFel.cs" />
+    <Compile Include="ErrorHandler\Languages\CurrentStatements\IndentationErrors.cs" />
+    <Compile Include="ErrorHandler\Languages\Swe\IndenteringsFel.cs" />
+    <Compile Include="ErrorHandler\Languages\CurrentStatements\TextErrors.cs" />
+    <Compile Include="ErrorHandler\Languages\Swe\TextFel.cs" />
+    <Compile Include="ErrorHandler\Languages\CurrentStatements\VariableErrors.cs" />
+    <Compile Include="ErrorHandler\Languages\Swe\VariabelFel.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Scope\" />
+    <Folder Include="Functions\" />
+    <Folder Include="Variables\" />
+    <Folder Include="Parsers\" />
+    <Folder Include="Variables\Values\" />
+    <Folder Include="Logics\" />
+    <Folder Include="Parsers\Statements\" />
+    <Folder Include="Functions\BuiltInFunctions\" />
+    <Folder Include="Scope\Parser\" />
+    <Folder Include="SyntaxCheck\" />
+    <Folder Include="Runtime\" />
+    <Folder Include="Parsers\Words\" />
+    <Folder Include="Parsers\Logics\" />
+    <Folder Include="Parsers\SumParser\" />
+    <Folder Include="Parsers\Lines\" />
+    <Folder Include="Tags\" />
+    <Folder Include="Tags\Logic\" />
+    <Folder Include="Runtime\Commands\" />
+    <Folder Include="Parsers\SumParser\Exceptions\" />
+    <Folder Include="Runtime\Stack\" />
+    <Folder Include="Runtime\VariableWindow\" />
+    <Folder Include="Runtime\Commands\SpeciallVariableDeclare\" />
+    <Folder Include="Parsers\SumParser\BooleanAlgebra\BoolExpressions\" />
+    <Folder Include="ErrorHandler\" />
+    <Folder Include="ErrorHandler\Languages\" />
+    <Folder Include="ErrorHandler\Languages\Swe\" />
+    <Folder Include="ErrorHandler\Languages\CurrentStatements\" />
+    <Folder Include="ErrorHandler\Languages\LanguagePrefab\" />
+  </ItemGroup>
+</Project>

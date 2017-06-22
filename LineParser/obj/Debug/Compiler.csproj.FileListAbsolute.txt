@@ -1,0 +1,18 @@
+C:\Users\FreddeFrallan\Documents\GitHub\If Game\plugins\LineParser\LineParser\bin\Debug\LineParser.dll
+C:\Users\FreddeFrallan\Documents\GitHub\If Game\plugins\LineParser\LineParser\bin\Debug\LineParser.pdb
+C:\Users\FreddeFrallan\Documents\GitHub\If Game\plugins\LineParser\LineParser\obj\Debug\Compiler.csprojResolveAssemblyReference.cache
+C:\Users\FreddeFrallan\Documents\GitHub\If Game\plugins\LineParser\LineParser\obj\Debug\LineParser.dll
+C:\Users\FreddeFrallan\Documents\GitHub\If Game\plugins\LineParser\LineParser\obj\Debug\LineParser.pdb
+C:\Users\FreddeFrallan\Desktop\LOL\LineParser\LineParser\obj\Debug\Compiler.csprojResolveAssemblyReference.cache
+C:\Users\FreddeFrallan\Desktop\LOL\LineParser\LineParser\obj\Debug\LineParser.dll
+C:\Users\FreddeFrallan\Desktop\LOL\LineParser\LineParser\obj\Debug\LineParser.pdb
+C:\Users\FreddeFrallan\Desktop\LOL\LineParser\LineParser\bin\Debug\LineParser.dll
+C:\Users\FreddeFrallan\Desktop\LOL\LineParser\LineParser\bin\Debug\LineParser.pdb
+C:\Users\FreddeFrallan\Documents\GitHub\Hello-Python-Compiler\LineParser\bin\Debug\LineParser.dll
+C:\Users\FreddeFrallan\Documents\GitHub\Hello-Python-Compiler\LineParser\bin\Debug\LineParser.pdb
+C:\Users\FreddeFrallan\Documents\GitHub\Hello-Python-Compiler\LineParser\obj\Debug\LineParser.dll
+C:\Users\FreddeFrallan\Documents\GitHub\Hello-Python-Compiler\LineParser\obj\Debug\LineParser.pdb
+C:\Users\Jonathan\Documents\GitHub\TestCompiler\LineParser\bin\Debug\LineParser.dll
+C:\Users\Jonathan\Documents\GitHub\TestCompiler\LineParser\bin\Debug\LineParser.pdb
+C:\Users\Jonathan\Documents\GitHub\TestCompiler\LineParser\obj\Debug\LineParser.dll
+C:\Users\Jonathan\Documents\GitHub\TestCompiler\LineParser\obj\Debug\LineParser.pdb

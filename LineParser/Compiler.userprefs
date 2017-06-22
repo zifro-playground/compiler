@@ -1,0 +1,53 @@
+﻿<Properties StartupItem="Compiler.csproj" RefactoringSettings.EnableRefactorings="True">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Scope\Parser\ScopeParser.cs">
+    <Files>
+      <File FileName="SyntaxCheck.cs" Line="10" Column="17" />
+      <File FileName="Runtime\CodeWalker.cs" Line="20" Column="5" />
+      <File FileName="Scope\Scope.cs" Line="20" Column="3" />
+      <File FileName="Scope\Parser\ScopeParser.cs" Line="16" Column="85" />
+      <File FileName="ErrorHandler\ErrorMessage.cs" Line="27" Column="59" />
+      <File FileName="Logics\Lines\CodeLine.cs" Line="8" Column="2" />
+      <File FileName="Scope\Parser\IndentParser.cs" Line="6" Column="2" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Compiler" expanded="True">
+            <Node name="Compiler" expanded="True">
+              <Node name="ErrorHandler" expanded="True">
+                <Node name="Languages" expanded="True">
+                  <Node name="LanguagePrefab" expanded="True" />
+                </Node>
+              </Node>
+              <Node name="Logics" expanded="True">
+                <Node name="Lines" expanded="True" />
+                <Node name="Speciall" expanded="True" />
+              </Node>
+              <Node name="Parsers" expanded="True">
+                <Node name="Lines" expanded="True" />
+                <Node name="Logics" expanded="True" />
+                <Node name="SumParser" expanded="True" />
+                <Node name="Words" expanded="True" />
+              </Node>
+              <Node name="Runtime" expanded="True" />
+              <Node name="Scope" expanded="True">
+                <Node name="Parser" expanded="True">
+                  <Node name="ScopeParser.cs" selected="True" />
+                </Node>
+              </Node>
+              <Node name="SyntaxCheck" expanded="True" />
+              <Node name="Variables" expanded="True">
+                <Node name="Values" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
