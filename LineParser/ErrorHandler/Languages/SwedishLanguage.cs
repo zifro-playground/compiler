@@ -2,7 +2,7 @@
 
 namespace ErrorHandler
 {
-	public class SwedishLanguage : Language, ErrorSender
+	public class SwedishLanguage : Language, IErrorSender
 	{
 		
 		public VariableErrors variableErrors {

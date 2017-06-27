@@ -23,34 +23,33 @@ namespace Compiler
 				if (startNumber > 0) {
 					scopeLines.Add (programLines [startNumber - 1]);
 					currentScopeType = getNonMainScopeType (programLines [startNumber - 1].words, programLines [startNumber - 1].lineNumber);
-				} else
+				} 
+				else
 					currentScopeType = ScopeType.unknown;
-			}
+			} 
 			else
 				currentScopeType = ScopeType.main;
-			//
 
 
 			int lastLine = startNumber;
 			for (int i = startNumber; i < programLines.Count; i++) {
 				int currentIndent = programLines [i].indentLevel;
+
 				if (currentIndent == indentLevel) {
 					lastLine = i;
 					scopeLines.Add(programLines[i]);
 				}
-
-				if (currentIndent < indentLevel) 
+				else if (currentIndent < indentLevel) 
 					return new Scope (currentScopeType, startNumber, lastLine, indentLevel, scopeLines, childScopes, false);
 
-
-				if (currentIndent > indentLevel) {
+				else if (currentIndent > indentLevel) {
 					Scope childScope = parseCurrentScope (currentIndent, i, programLines, false);
 					i = childScope.endLine;
 					childScopes.Add (childScope);
 
 					if (i != programLines.Count - 1) 
-					if (programLines [i + 1].indentLevel < indentLevel)
-						lastLine = i;
+						if (programLines [i + 1].indentLevel < indentLevel)
+							lastLine = i;
 				}
 
 				if (i == programLines.Count - 1) {

@@ -48,41 +48,5 @@ namespace ErrorHandler
 			theStatements.Add (theErrorType, funcDict);
 		}
 	}
-
-
-
-
-
-	public interface ErrorSender
-	{
-		string getErrorMessage(ErrorType theErrorType, int index, string[] args);
-		void initLanguage(LogicOrderError logicOrder, IfStatementError If, ElseStatementError Else, ForLoopErrors For, WhileLoopErrors While);
-		void initLanguage2 (IndentationErrors indent, TextErrors text, VariableErrors varen);
-
-		LogicOrderError logicOrderErrors{ get; }
-		IfStatementError ifStatementErrors{ get; }
-		ElseStatementError elseStatementErrors{ get; }
-		ForLoopErrors forLoopErrors { get; }
-		WhileLoopErrors whileLoopErrors{ get; }
-		IndentationErrors indentErrors{ get; }
-		TextErrors textErrors { get; }
-		VariableErrors variableErrors { get; }
-	}
-
-
-
-	public enum ErrorType
-	{
-		LogicOrder,
-		ForLoop,
-		WhileLoop,
-		Variable,
-		Function,
-		IfStatements,
-		ElseStatements,
-		Expression,
-		Indentation,
-		Text
-	}
 }
 

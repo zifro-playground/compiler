@@ -48,8 +48,8 @@ namespace Compiler
 
 			if (word == "and")
 				return new AndOperator (word);
+			
 
-			if (isBooleanValue (word) >= 0)
 			if (isBooleanValue (word) == 1)
 				return new BooleanValue (true);
 			if (isBooleanValue (word) == 0)
@@ -63,9 +63,9 @@ namespace Compiler
 				return new TextValue (word);
 
 
-			if (SpeciallWordParser.isKeyWord (word)) {
-				SpeciallWordParser.checkIfUnsupportedKeyword (word, lineNumber);
-				WordTypes specialType = SpeciallWordParser.getSpecialType (word, lineNumber);
+			if (SpecialWordParser.isKeyWord (word)) {
+				SpecialWordParser.checkIfUnsupportedKeyword (word, lineNumber);
+				WordTypes specialType = SpecialWordParser.getSpecialType (word, lineNumber);
 
 				if (specialType == WordTypes.forLoop)
 					return new ForLoop ();

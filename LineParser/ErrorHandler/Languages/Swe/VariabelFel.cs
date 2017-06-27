@@ -8,7 +8,7 @@ namespace ErrorHandler
 
 		public string speciallDeclerationNeedsDeclaredVariable (string[] arg)
 		{
-			return "För att använda speciall tilldelning, så måste variabeln först vara deklarerad";
+			return "För att använda specialtilldelning, så måste variabeln först vara deklarerad";
 		}
 
 		#endregion

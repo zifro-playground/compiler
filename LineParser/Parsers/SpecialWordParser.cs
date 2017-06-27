@@ -5,7 +5,7 @@ using ErrorHandler;
 namespace Compiler
 {
 
-	public class SpeciallWordParser{
+	public class SpecialWordParser{
 
 		public static readonly string[] keywords = {"while", "for", "in", "if", "else", "elif", "def", "return", "break", "continue"};
 		public static readonly string[] scopeStarters = {"while", "for", "if", "else", "elif", "def"};
@@ -106,7 +106,7 @@ namespace Compiler
 
 
 		public static bool isValidScopeStarter(Logic[] logicOrder, int lineNumber){
-			WordTypes t = logicOrder [0].currentType;
+			//WordTypes t = logicOrder [0].currentType;   Onödig rad?
 
 			if (logicOrder[0] is ScopeStarter){
 				return true;

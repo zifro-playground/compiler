@@ -32,14 +32,14 @@ namespace Compiler
 			stringValue = newValue;
 			this.isCalcVar = isCalcVar;
 		}
-		public Variable(string name,double newValue, bool isCalcVar = false){
+		public Variable(string name, double newValue, bool isCalcVar = false){
 			this.name = name;
 			this.word = name;
 			variableType = VariableTypes.number;
 			numberValue = newValue;
 			this.isCalcVar = isCalcVar;
 		}
-		public Variable(string name,bool newValue, bool isCalcVar = false){
+		public Variable(string name, bool newValue, bool isCalcVar = false){
 			this.name = name;
 			this.word = name;
 			variableType = VariableTypes.boolean;

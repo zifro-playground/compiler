@@ -41,7 +41,7 @@ namespace Compiler
 						words.Add (temp);
 					}
 				} else {
-					functionQoutes = isInFunctionQoutes (trimedString [i], functionQoutes);
+					functionQoutes = isInFunctionQuotes (trimedString [i], functionQoutes);
 					functionParantes += isInFunctionParameter (trimedString [i], foundLetters, functionQoutes);
 					foundLetters++;
 				}
@@ -76,7 +76,7 @@ namespace Compiler
 		}
 
 
-		static int isInFunctionQoutes(char c, int functionQoutes){
+		static int isInFunctionQuotes(char c, int functionQoutes){
 
 			if (c == '"') {
 				if (functionQoutes > 0)

@@ -15,19 +15,18 @@ namespace Compiler
 			bool isFirst = true;
 
 			for (int i = 0; i < programLines.Count; i++) {
-				if (expectedHigherIndent)
+				if (expectedHigherIndent) {
 					if (isFirst) {
 						if (programLines [i].indentLevel != 0)
-						ErrorMessage.sendErrorMessage (programLines [i].lineNumber, ErrorType.Indentation, 1, null);
+							ErrorMessage.sendErrorMessage (programLines [i].lineNumber, ErrorType.Indentation, 1, null);
 						isFirst = false;
-					} 
-					else {
+					} else {
 						if (programLines [i].indentLevel != expectedIndent)
-						ErrorMessage.sendErrorMessage (programLines [i].lineNumber, ErrorType.Indentation, 2, null);
+							ErrorMessage.sendErrorMessage (programLines [i].lineNumber, ErrorType.Indentation, 2, null);
 					}
+				}
 
-
-				if (SpeciallWordParser.isValidScopeStarter (programLines [i].logicOrder, programLines [i].lineNumber)) {
+				if (SpecialWordParser.isValidScopeStarter (programLines [i].logicOrder, programLines [i].lineNumber)) {
 					expectedIndent = programLines [i].indentLevel + 1;
 					expectedHigherIndent = true;
 
@@ -48,7 +47,7 @@ namespace Compiler
 			for(int i = 0; i < currentScope.codeLines.Count; i++){
 				CodeLine line = currentScope.codeLines [i];
 
-				if (SpeciallWordParser.isValidScopeStarter (line.logicOrder, line.lineNumber)) {
+				if (SpecialWordParser.isValidScopeStarter (line.logicOrder, line.lineNumber)) {
 					if (currentChildScope > currentScope.childScopes.Count - 1)
 						ErrorMessage.sendErrorMessage (line.lineNumber, " Något gick fel med Scope Parsingen");
 
@@ -59,7 +58,7 @@ namespace Compiler
 					//Links else/elif
 					if (line.logicOrder [0] is ComparisonScope) {
 						if (i == 0 && line.logicOrder [0] is IfStatement == false)
-							ErrorMessage.sendErrorMessage (line.lineNumber, "Du kan inte börja med ett Else/Elif");
+							ErrorMessage.sendErrorMessage (line.lineNumber , "Finns inget if statment att länka med");
 
 						if (line.logicOrder [0] is IfStatement == false)
 							linkElseStatement (line.logicOrder [0], currentScope.codeLines [i - 1].logicOrder [0], currentScope, linkCounter, line.lineNumber);

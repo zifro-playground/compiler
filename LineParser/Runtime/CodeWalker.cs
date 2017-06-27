@@ -51,7 +51,7 @@ namespace Runtime
 
 			if (currentLine.logicOrder [0] is ScopeStarter) {
 
-				Print.print (currentLine.logicOrder [0].currentType.ToString() + ":  " + (currentLine.logicOrder [0] as ScopeStarter).doParseLine);
+				//Print.print (currentLine.logicOrder [0].currentType.ToString() + ":  " + (currentLine.logicOrder [0] as ScopeStarter).doParseLine);
 				if ((currentLine.logicOrder [0] as ScopeStarter).doParseLine == false) {
 					currentLineIndex++;
 					parseLine();
@@ -166,7 +166,7 @@ namespace Runtime
 			if(result.currentType != WordTypes.unknown)
 				return result;
 
-			result = SpeciallWordParser.parseSpeciallLine (logicOrder, lineNumber, currentScope);
+			result = SpecialWordParser.parseSpeciallLine (logicOrder, lineNumber, currentScope);
 			if(result.currentType != WordTypes.unknown)
 				return result;
 

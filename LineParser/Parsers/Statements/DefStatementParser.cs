@@ -14,7 +14,7 @@ namespace Compiler {
 		public static Logic parseDefStatement(Logic[] logicOrder, int lineNumber, Scope currentScope){
 			FunctionCall theFuncCall = logicOrder [1] as FunctionCall;
 
-			if(SpeciallWordParser.isKeyWord(theFuncCall.name))
+			if(SpecialWordParser.isKeyWord(theFuncCall.name))
 				ErrorMessage.sendErrorMessage (lineNumber,string.Format( "\"{0}\" är ett Python keyword, du kan därför inte döpa en funktion till det", theFuncCall.name));
 
 			int paraAmount = (FunctionParser.getParameterAmount (theFuncCall.parameter, lineNumber, currentScope));

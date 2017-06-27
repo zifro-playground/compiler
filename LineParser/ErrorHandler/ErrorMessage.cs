@@ -21,7 +21,7 @@ namespace ErrorHandler
 
 		public static void setLanguage(){
 			currentLanguage = new SwedishLanguage ();
-			ErrorSender theSender = (currentLanguage as ErrorSender);
+			IErrorSender theSender = (currentLanguage as IErrorSender);
 
 			LogicOrderError logicError = theSender.logicOrderErrors;
 			IfStatementError ifError = theSender.ifStatementErrors;

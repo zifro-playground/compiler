@@ -71,7 +71,6 @@
     <Compile Include="Functions\UserFunction.cs" />
     <Compile Include="Logics\Lines\CodeLine.cs" />
     <Compile Include="Logics\ComparisonType.cs" />
-    <Compile Include="Parsers\SpeciallWordParser.cs" />
     <Compile Include="Parsers\Statements\DefStatementParser.cs" />
     <Compile Include="Parsers\Statements\ElseStatementParser.cs" />
     <Compile Include="Parsers\Statements\ForLoopParser.cs" />
@@ -138,8 +137,6 @@
     <Compile Include="Parsers\SumParser\BooleanAlgebra\BoolAlgebraWord.cs" />
     <Compile Include="Parsers\SumParser\BooleanAlgebra\BoolAlgebraParser.cs" />
     <Compile Include="ErrorHandler\ErrorMessage.cs" />
-    <Compile Include="ErrorHandler\ErrorStatements.cs" />
-    <Compile Include="ErrorHandler\ErrorLoops.cs" />
     <Compile Include="ErrorHandler\LevenshteinDist.cs" />
     <Compile Include="ErrorHandler\Languages\SwedishLanguage.cs" />
     <Compile Include="ErrorHandler\Languages\Swe\LogiskaFel.cs" />
@@ -159,6 +156,11 @@
     <Compile Include="ErrorHandler\Languages\Swe\TextFel.cs" />
     <Compile Include="ErrorHandler\Languages\CurrentStatements\VariableErrors.cs" />
     <Compile Include="ErrorHandler\Languages\Swe\VariabelFel.cs" />
+    <Compile Include="Parsers\SpecialWordParser.cs" />
+    <Compile Include="ErrorHandler\IErrorSender.cs" />
+    <Compile Include="ErrorHandler\ErrorType.cs" />
+    <Compile Include="ErrorHandler\Old\ErrorLoops.cs" />
+    <Compile Include="ErrorHandler\Old\ErrorStatements.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -190,5 +192,6 @@
     <Folder Include="ErrorHandler\Languages\Swe\" />
     <Folder Include="ErrorHandler\Languages\CurrentStatements\" />
     <Folder Include="ErrorHandler\Languages\LanguagePrefab\" />
+    <Folder Include="ErrorHandler\Old\" />
   </ItemGroup>
 </Project>

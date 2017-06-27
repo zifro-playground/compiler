@@ -63,7 +63,7 @@ namespace Compiler
 		public static bool validParameters(string trimmedPara, Function calledFunction, int lineNumber, Scope currentScope){
 			int paraAmount = getParameterAmount (trimmedPara, lineNumber, currentScope);
 			if (calledFunction.inputParameterAmount.Contains (paraAmount) == false)
-				ErrorMessage.sendErrorMessage (lineNumber, "Antal parametrar matchar inte funktions definietionen");
+				ErrorMessage.sendErrorMessage (lineNumber, "Antal parametrar matchar inte funktions definition");
 
 			return true;
 		}

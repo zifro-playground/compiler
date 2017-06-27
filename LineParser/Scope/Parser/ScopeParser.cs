@@ -7,7 +7,7 @@ namespace Compiler
 	public class ScopeParser
 	{
 		/// <summary>
-		/// Parses all text into lines and lines into words. Parses the into scopes.
+		/// Parses all text into lines and lines into words. Parses the into scopes. Checks syntax for indentation, scopeStarters
 		/// </summary>
 		/// <returns>The into scopes.</returns>
 		/// <param name="codeText">Code text.</param>
@@ -19,7 +19,7 @@ namespace Compiler
 			Scope mainScope = IndentParser.parseIntoScopes (programLines);
 			ScopeLogicParser.parseScopeLineLogic (mainScope);
 			ScopeStarterParser.checkScopeStarters (programLines, mainScope);
-			CodeSyntaxWalker.walkAllLines (programLines.ToArray (), mainScope);
+			//CodeSyntaxWalker.walkAllLines (programLines.ToArray (), mainScope);
 	
 			return mainScope;
 		}

@@ -34,6 +34,7 @@ namespace Compiler
 		public ExpressionParser scopeParser;
 		public int lastReadLine = 0;
 
+
 		public Scope(ScopeType theScopeType, int startLine, int endLine, int indentLevel, List<CodeLine> codeLines, List<Scope> childScopes, bool isClone){
 			scopeParser = new ExpressionParser ();
 
