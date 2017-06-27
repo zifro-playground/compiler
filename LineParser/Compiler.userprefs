@@ -1,18 +1,41 @@
 ﻿<Properties StartupItem="Compiler.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ErrorHandler\LevenshteinDist.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ErrorHandler\Languages\LanguagePrefab\Language.cs">
     <Files>
-      <File FileName="Runtime\CodeWalker.cs" Line="1" Column="1" />
-      <File FileName="ErrorHandler\ErrorMessage.cs" Line="1" Column="1" />
-      <File FileName="ErrorHandler\Languages\LanguagePrefab\Language.cs" Line="1" Column="1" />
-      <File FileName="ErrorHandler\IErrorSender.cs" Line="1" Column="1" />
-      <File FileName="ErrorHandler\Languages\CurrentStatements\ForLoopErrors.cs" Line="1" Column="1" />
-      <File FileName="ErrorHandler\Languages\SwedishLanguage.cs" Line="1" Column="1" />
-      <File FileName="Parsers\Statements\ForLoopParser.cs" Line="1" Column="1" />
-      <File FileName="ErrorHandler\Languages\Swe\ForLoopFel.cs" Line="1" Column="1" />
-      <File FileName="ErrorHandler\ErrorLoops.cs" Line="1" Column="1" />
-      <File FileName="ErrorHandler\LevenshteinDist.cs" Line="1" Column="1" />
+      <File FileName="Runtime\CodeWalker.cs" Line="54" Column="7" />
+      <File FileName="ErrorHandler\ErrorMessage.cs" Line="24" Column="85" />
+      <File FileName="ErrorHandler\Languages\LanguagePrefab\Language.cs" Line="17" Column="6" />
+      <File FileName="ErrorHandler\IErrorSender.cs" Line="14" Column="3" />
+      <File FileName="ErrorHandler\Languages\SwedishLanguage.cs" Line="32" Column="3" />
+      <File FileName="Parsers\Statements\ForLoopParser.cs" Line="24" Column="108" />
+      <File FileName="ErrorHandler\Languages\CurrentStatements\ForLoopErrors.cs" Line="50" Column="58" />
+      <File FileName="ErrorHandler\Languages\Swe\ForLoopFel.cs" Line="21" Column="35" />
+      <File FileName="ErrorHandler\ErrorType.cs" Line="5" Column="2" />
+      <File FileName="ErrorHandler\ErrorTypes\ForLoopErrorType.cs" Line="5" Column="30" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Compiler" expanded="True">
+            <Node name="Compiler" expanded="True">
+              <Node name="ErrorHandler" expanded="True">
+                <Node name="ErrorTypes" expanded="True" />
+                <Node name="Languages" expanded="True">
+                  <Node name="CurrentStatements" expanded="True" />
+                  <Node name="LanguagePrefab" expanded="True">
+                    <Node name="Language.cs" selected="True" />
+                  </Node>
+                  <Node name="Swe" expanded="True" />
+                </Node>
+              </Node>
+              <Node name="Parsers" expanded="True">
+                <Node name="Statements" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

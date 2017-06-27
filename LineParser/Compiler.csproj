@@ -161,6 +161,7 @@
     <Compile Include="ErrorHandler\ErrorType.cs" />
     <Compile Include="ErrorHandler\Old\ErrorLoops.cs" />
     <Compile Include="ErrorHandler\Old\ErrorStatements.cs" />
+    <Compile Include="ErrorHandler\ErrorTypes\ForLoopErrorType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -193,5 +194,6 @@
     <Folder Include="ErrorHandler\Languages\CurrentStatements\" />
     <Folder Include="ErrorHandler\Languages\LanguagePrefab\" />
     <Folder Include="ErrorHandler\Old\" />
+    <Folder Include="ErrorHandler\ErrorTypes\" />
   </ItemGroup>
 </Project>

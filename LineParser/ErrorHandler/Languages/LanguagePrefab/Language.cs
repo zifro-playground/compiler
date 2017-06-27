@@ -14,7 +14,7 @@ namespace ErrorHandler
 
 
 		public void initLanguage(LogicOrderError logic, IfStatementError If, ElseStatementError Else, ForLoopErrors For, WhileLoopErrors While){
-			insertIntoDictionary (ErrorType.ForLoop, ForErrorsOrder.getStatements (For));
+			//insertIntoDictionary (ErrorType.ForLoop, ForErrorsOrder.getStatements (For));
 			insertIntoDictionary (ErrorType.LogicOrder, LogicErrorOrder.getStatements(logic));
 			insertIntoDictionary (ErrorType.IfStatements, IfErrorsOrder.getStatements(If));
 			insertIntoDictionary (ErrorType.ElseStatements, ElseErrorsOrder.getStatements(Else));
@@ -38,6 +38,25 @@ namespace ErrorHandler
 
 			return innerDict [index].Invoke (args);
 		}
+
+		#region testing
+		private Dictionary<ErrorType, Dictionary<ForLoopErrorType, Func<string[], string>>> errorMessages = new Dictionary<ErrorType, Dictionary<ForLoopErrorType, Func<string[], string>>> ();
+
+
+		public void initLanguageErrors(LogicOrderError Logic, IfStatementError If, ElseStatementError Else, ForLoopErrors For, WhileLoopErrors While, IndentationErrors Indent, TextErrors Text, VariableErrors Variable){
+			errorMessages.Add (ErrorType.ForLoop, ForErrorsOrder.getMessages (For));
+		}
+
+		public string getErrorMessage(ErrorType theErrorType, ForLoopErrorType theSpecificError, string[] args){
+
+			if (errorMessages.ContainsKey (theErrorType))
+			if (errorMessages[theErrorType].ContainsKey(theSpecificError))
+				return errorMessages [theErrorType] [theSpecificError].Invoke (args);
+
+			return notFoundStatement;
+
+		}
+		#endregion
 
 		private void insertIntoDictionary(ErrorType theErrorType, Func<string[], string>[] funcs){
 			Dictionary<int, Func<string[], string>> funcDict = new Dictionary<int, Func<string[], string>>();

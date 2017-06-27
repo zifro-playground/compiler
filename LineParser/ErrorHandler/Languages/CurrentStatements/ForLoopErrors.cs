@@ -16,8 +16,10 @@ namespace ErrorHandler
 	}
 
 
+
 	public class ForErrorsOrder
 	{
+		[System.Obsolete("Use messages instead")]
 		public static Func<string[], string>[] getStatements(ForLoopErrors theLogicOrder){
 			List<Func<string[], string>> statements = new List<Func<string[], string>> ();
 
@@ -30,9 +32,27 @@ namespace ErrorHandler
 			statements.Add (theLogicOrder.rangeArgumentNotNumber);
 			statements.Add (theLogicOrder.rangeMissingParenthesis);
 
-
 			return statements.ToArray ();
 		}
+
+		#region test
+
+		public static Dictionary<ForLoopErrorType, Func<string[], string>> getMessages(ForLoopErrors theLogicOrder){
+			Dictionary<ForLoopErrorType, Func<string[], string>> messages = new Dictionary<ForLoopErrorType, Func<string[], string>> ();
+
+			messages.Add (ForLoopErrorType.missingIndentOperator, theLogicOrder.missingIndentOperator);
+			messages.Add (ForLoopErrorType.unknownFormat, theLogicOrder.unknownFormat);
+			messages.Add (ForLoopErrorType.expectVariableAt2, theLogicOrder.expectVariableAt2);
+			messages.Add (ForLoopErrorType.expectInAt3, theLogicOrder.expectInAt3);
+			messages.Add (ForLoopErrorType.expectRangeAt4, theLogicOrder.expectRangeAt4);
+			messages.Add (ForLoopErrorType.rangeArgumentEmpty, theLogicOrder.rangeArgumentEmpty);
+			messages.Add (ForLoopErrorType.rangeArgumentNotNumber, theLogicOrder.rangeArgumentNotNumber);
+			messages.Add (ForLoopErrorType.rangeMissingParenthesis, theLogicOrder.rangeMissingParenthesis);
+
+			return messages;
+		}
+
+		#endregion
 
 	}
 }
