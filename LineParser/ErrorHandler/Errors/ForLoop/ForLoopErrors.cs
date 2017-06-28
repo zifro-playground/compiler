@@ -19,7 +19,7 @@ namespace ErrorHandler
 
 	public class ForErrorsOrder
 	{
-		[System.Obsolete("Use messages instead")]
+		[System.Obsolete("Use messages instead", true)]
 		public static Func<string[], string>[] getStatements(ForLoopErrors theLogicOrder){
 			List<Func<string[], string>> statements = new List<Func<string[], string>> ();
 

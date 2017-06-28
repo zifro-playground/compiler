@@ -45,8 +45,8 @@ namespace Compiler
 					break;
 				#endregion
 
-				case WordTypes.booleanExpression:
-					logicOrder [i] = (logicOrder [i] as BooleanExpression).parseExpression ();
+				case WordTypes.booleanExpression: //Är det möjligt att få det till ett booleanExpression?
+					logicOrder [i] = (logicOrder [i] as BooleanExpression).parseExpression (); 
 					setNewExpectVariable (theExpectedType, VariableTypes.boolean, lineNumber);
 					break;
 					
@@ -97,7 +97,7 @@ namespace Compiler
 					setNewExpectVariable (theExpectedType, (logicOrder [i] as Variable).variableType, lineNumber);
 				else{
 					if((logicOrder [i] as Variable).name.Length > 10)
-						ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, "Användning av okänd variabel!");
+						ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, "Användning av icke deklarerad variabel!");
 
 					LevenshteinDist.checkForClosesVariable (logicOrder [i].word, lineNumber, currentScope);
 					ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, "Variabeln: " + (logicOrder [i] as Variable).name + " är inte deklarerad");

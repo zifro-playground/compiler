@@ -18,13 +18,12 @@ namespace Runtime
 
 
 			Logic[] afterEqualSign = getAfterEqualSign (cloneLogicOrder, lineNumber, currentScope);
-			if(afterEqualSign == null)
+			if(afterEqualSign == null || afterEqualSign.Length == 0)
 				return new UnknownLogic(lineNumber);
 
-		//	Debugger.printLogicOrder (afterEqualSign, " Variable Declare Order After Equal Sign");
 			Variable afterEqualSignSum = SumParser.parseIntoSum (afterEqualSign, lineNumber, currentScope);
 
-			//Determine if to use speciallOperators or not
+			//Determine whether to use speciallOperators or not
 			if (cloneLogicOrder [1].currentType != WordTypes.equalSign)
 				afterEqualSignSum = SpeciallVariableDeclareParser.speciallVariableDeclare (cloneLogicOrder, lineNumber, afterEqualSignSum, currentScope);
 			else
@@ -36,7 +35,7 @@ namespace Runtime
 				return afterEqualSignSum;
 			}
 
-			ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, "Något gick fel i variabel deklareringen");
+			ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, "Något gick fel i variabeldeklareringen");
 			return new UnknownLogic(lineNumber);
 		}
 
@@ -61,14 +60,13 @@ namespace Runtime
 		private static Logic[] getAfterEqualSign(Logic[] cloneLogicOrder, int lineNumber, Scope currentScope){
 
 			int equalPos = getEqualPos (cloneLogicOrder);
-			if (equalPos != 1 && equalPos != 2)
+			if ((equalPos != 1 && equalPos != 2))
 				return null;
 
 
 			Logic[] afterEqualSign = new Logic[cloneLogicOrder.Length - (equalPos+1)];
 			for (int i = equalPos+1; i < cloneLogicOrder.Length; i++)
 				afterEqualSign [i-(equalPos+1)] = cloneLogicOrder [i];
-
 
 			return afterEqualSign;
 		}
@@ -79,7 +77,7 @@ namespace Runtime
 			for (int i = 0; i < logicOrder.Length; i++, equalPos++)
 				if (logicOrder [i].currentType == WordTypes.equalSign)
 					break;
-
+			
 			return equalPos;
 		}
 		#endregion

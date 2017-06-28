@@ -16,7 +16,7 @@ namespace SyntaxCheck{
 		}
 		
 		private static void findCommandType(CodeLine c, Scope mainScope){
-			checkForunknown (c.logicOrder, c.lineNumber);
+			checkForUnknown (c.logicOrder, c.lineNumber);
 			
 			if (PossibleVariableDeclare.checkForVariableDecleration (c.logicOrder, c.lineNumber))
 				return;
@@ -31,7 +31,7 @@ namespace SyntaxCheck{
 		}
 		
 		
-		static void checkForunknown(Logic[] logicOrder, int lineNumber){
+		static void checkForUnknown(Logic[] logicOrder, int lineNumber){
 			foreach (Logic L in logicOrder)
 				if (L.currentType == WordTypes.unknown)
 					ErrorMessage.sendErrorMessage (lineNumber, "unknown logic!");

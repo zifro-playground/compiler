@@ -159,10 +159,9 @@ namespace Runtime
 		private static Logic parseCommandType(int lineNumber, Scope currentScope){
 			CodeLine currentLine = currentScope.getCurrentLine ();
 			Logic[] logicOrder = currentLine.getLatestOrder();
-			checkForunknown (logicOrder, lineNumber);
+			checkForUnknown (logicOrder, lineNumber);
 
-			Logic result;
-			result = VariableDeclareParser.checkForVariableDecleration (logicOrder, lineNumber, currentScope);
+			Logic result = VariableDeclareParser.checkForVariableDecleration (logicOrder, lineNumber, currentScope);
 			if(result.currentType != WordTypes.unknown)
 				return result;
 
@@ -178,7 +177,7 @@ namespace Runtime
 			return new UnknownLogic(lineNumber);
 		}
 
-		private static void checkForunknown(Logic[] logicOrder, int lineNumber){
+		private static void checkForUnknown(Logic[] logicOrder, int lineNumber){
 			foreach (Logic L in logicOrder)
 				if (L.currentType == WordTypes.unknown)
 					ErrorMessage.sendErrorMessage (lineNumber, ErrorType.LogicOrder, 0, null);

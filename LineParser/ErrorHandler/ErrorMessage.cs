@@ -19,12 +19,12 @@ namespace ErrorHandler
 			sendErrorMessage (lineNumber, message);
 		}
 
-		#region test
+	#region test
 		internal static void sendErrorMessage(int lineNumber, ErrorType errorType, ForLoopErrorType specificError, string[] args){
 			string message = currentLanguage.getErrorMessage (errorType, specificError, args);
 			sendErrorMessage (lineNumber, message);
 		}
-		#endregion
+	#endregion
 			
 		public static void setLanguage(){
 			currentLanguage = new SwedishLanguage ();
@@ -42,7 +42,9 @@ namespace ErrorHandler
 			VariableErrors varError = theSender.variableErrors;
 			currentLanguage.initLanguage2 (indentError, txtError, varError);
 
+	#region test
 			currentLanguage.initLanguageErrors (logicError, ifError, elseError, forError, whileError, indentError, txtError, varError);
+	#endregion
 		}
 
 		public static void setErrorMethod(Action<int, string> errorMethod){

@@ -69,7 +69,7 @@ namespace Compiler
 					compressedOrder.Add (new Package (subArray, lineNumber));
 
 					if (logicOrder [i + 1] is AndOrOperator)
-						ErrorMessage.sendErrorMessage (lineNumber, "Kan inte ha And/Or direkt efter varandra");
+						ErrorMessage.sendErrorMessage (lineNumber, "Kan inte ha 2 And/Or direkt efter varandra");
 
 					lastFound = i + 1;
 					compressedOrder.Add (logicOrder [i]);

@@ -126,7 +126,6 @@
     <Compile Include="Runtime\Stack\ReturnMemoryClear.cs" />
     <Compile Include="Runtime\VariableWindow\VariableWindow.cs" />
     <Compile Include="Parsers\InternalParseFunctions.cs" />
-    <Compile Include="Runtime\Commands\SpeciallVariableDeclare\TextSpeciallVariableDeclare.cs" />
     <Compile Include="Logics\Speciall\BreakStatement.cs" />
     <Compile Include="Logics\Speciall\ContinueStatment.cs" />
     <Compile Include="Runtime\Commands\BreakAndContinueStatementParser.cs" />
@@ -139,29 +138,30 @@
     <Compile Include="ErrorHandler\ErrorMessage.cs" />
     <Compile Include="ErrorHandler\LevenshteinDist.cs" />
     <Compile Include="ErrorHandler\Languages\SwedishLanguage.cs" />
-    <Compile Include="ErrorHandler\Languages\Swe\LogiskaFel.cs" />
     <Compile Include="ErrorHandler\Languages\CurrentStatements\LogicOrderErrors.cs" />
     <Compile Include="ErrorHandler\Languages\LanguagePrefab\Language.cs" />
     <Compile Include="ErrorHandler\Languages\CurrentStatements\IfStatementErrors.cs" />
-    <Compile Include="ErrorHandler\Languages\Swe\IfSatserFel.cs" />
     <Compile Include="ErrorHandler\Languages\CurrentStatements\ElseStatementErrors.cs" />
-    <Compile Include="ErrorHandler\Languages\Swe\ElseSatserFel.cs" />
-    <Compile Include="ErrorHandler\Languages\CurrentStatements\ForLoopErrors.cs" />
-    <Compile Include="ErrorHandler\Languages\Swe\ForLoopFel.cs" />
     <Compile Include="ErrorHandler\Languages\CurrentStatements\WhileLoopErrors.cs" />
-    <Compile Include="ErrorHandler\Languages\Swe\WhileLoopFel.cs" />
     <Compile Include="ErrorHandler\Languages\CurrentStatements\IndentationErrors.cs" />
-    <Compile Include="ErrorHandler\Languages\Swe\IndenteringsFel.cs" />
     <Compile Include="ErrorHandler\Languages\CurrentStatements\TextErrors.cs" />
-    <Compile Include="ErrorHandler\Languages\Swe\TextFel.cs" />
     <Compile Include="ErrorHandler\Languages\CurrentStatements\VariableErrors.cs" />
-    <Compile Include="ErrorHandler\Languages\Swe\VariabelFel.cs" />
     <Compile Include="Parsers\SpecialWordParser.cs" />
     <Compile Include="ErrorHandler\IErrorSender.cs" />
     <Compile Include="ErrorHandler\ErrorType.cs" />
     <Compile Include="ErrorHandler\Old\ErrorLoops.cs" />
     <Compile Include="ErrorHandler\Old\ErrorStatements.cs" />
-    <Compile Include="ErrorHandler\ErrorTypes\ForLoopErrorType.cs" />
+    <Compile Include="ErrorHandler\Errors\ForLoop\ForLoopErrorType.cs" />
+    <Compile Include="ErrorHandler\Errors\ForLoop\ForLoopErrors.cs" />
+    <Compile Include="ErrorHandler\Languages\SwedishErrorTexts\LogiskaFel.cs" />
+    <Compile Include="ErrorHandler\Languages\SwedishErrorTexts\IfSatserFel.cs" />
+    <Compile Include="ErrorHandler\Languages\SwedishErrorTexts\ElseSatserFel.cs" />
+    <Compile Include="ErrorHandler\Languages\SwedishErrorTexts\ForLoopFel.cs" />
+    <Compile Include="ErrorHandler\Languages\SwedishErrorTexts\WhileLoopFel.cs" />
+    <Compile Include="ErrorHandler\Languages\SwedishErrorTexts\IndenteringsFel.cs" />
+    <Compile Include="ErrorHandler\Languages\SwedishErrorTexts\TextFel.cs" />
+    <Compile Include="ErrorHandler\Languages\SwedishErrorTexts\VariabelFel.cs" />
+    <Compile Include="Runtime\Commands\SpecialVariableDeclare\TextSpeciallVariableDeclare.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -186,14 +186,15 @@
     <Folder Include="Parsers\SumParser\Exceptions\" />
     <Folder Include="Runtime\Stack\" />
     <Folder Include="Runtime\VariableWindow\" />
-    <Folder Include="Runtime\Commands\SpeciallVariableDeclare\" />
     <Folder Include="Parsers\SumParser\BooleanAlgebra\BoolExpressions\" />
     <Folder Include="ErrorHandler\" />
     <Folder Include="ErrorHandler\Languages\" />
-    <Folder Include="ErrorHandler\Languages\Swe\" />
     <Folder Include="ErrorHandler\Languages\CurrentStatements\" />
     <Folder Include="ErrorHandler\Languages\LanguagePrefab\" />
     <Folder Include="ErrorHandler\Old\" />
-    <Folder Include="ErrorHandler\ErrorTypes\" />
+    <Folder Include="ErrorHandler\Errors\" />
+    <Folder Include="ErrorHandler\Errors\ForLoop\" />
+    <Folder Include="ErrorHandler\Languages\SwedishErrorTexts\" />
+    <Folder Include="Runtime\Commands\SpecialVariableDeclare\" />
   </ItemGroup>
 </Project>
