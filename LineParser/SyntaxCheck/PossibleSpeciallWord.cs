@@ -45,10 +45,10 @@ namespace SyntaxCheck{
 		
 		private static bool ifCheck(Logic[] logicOrder, int lineNumber){
 			if (logicOrder [logicOrder.Length - 1].currentType != WordTypes.indentOperator) 
-				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.IfStatements, 0, null);
+				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.IfStatements, IfErrorType.missingIndentOperator.ToString(), null);
 			
 			if (logicOrder.Length < 3) 
-				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.IfStatements, 1, null);
+				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.IfStatements, IfErrorType.unknownFormat.ToString(), null);
 			
 			
 			Logic[] statementLogic = new Logic[logicOrder.Length - 2];
@@ -57,7 +57,7 @@ namespace SyntaxCheck{
 				statementLogic [i - 1] = logicOrder [i];
 			
 			if(!PossibleStatement.validStatement(statementLogic, lineNumber))
-				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.IfStatements, 2, null);
+				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.IfStatements, IfErrorType.possibleComparissonStatements.ToString(), null);
 			
 			return true;
 		}

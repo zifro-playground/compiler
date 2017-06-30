@@ -15,7 +15,6 @@ namespace Compiler
 			string returnValue = "";
 			bool corrupt = false;
 
-
 			for (int i = 0; i < logicOrder.Length; i++) {
 
 				if (i % 2 == 1) {
@@ -30,13 +29,11 @@ namespace Compiler
 						returnValue += getStringValue (logicOrder [i]);
 
 					else {
+						// Can never reach this?
 						corrupt = true;
 						ErrorMessage.sendErrorMessage (lineNumber, ErrorType.Text, 1, null);	
 					}
-
 				}
-
-
 			}
 
 

@@ -6,13 +6,12 @@ namespace Compiler
 {
 	public class ReturnMemoryControll
 	{
-		public static void insertReturnExpectaton(CodeLine currentLine, int lineNumber, Logic targetLogic){
+		public static void insertReturnExpectation(CodeLine currentLine, int lineNumber, Logic targetLogic){
 			if (currentLine.returnCalculations == null)
 				currentLine.returnCalculations = (Logic[])currentLine.logicOrder.Clone ();
 
 			Logic[] tempOrder = (Logic[])currentLine.getLatestOrder();
 
-		//	Debugger.printLogicOrder (tempOrder, "Return insert Order");
 			searchInLogicOrderExpect (tempOrder, lineNumber, targetLogic);
 		}
 
@@ -21,7 +20,7 @@ namespace Compiler
 			for (int i = 0; i < logicOrder.Length; i++)
 				if (logicOrder [i] == targetLogic) {
 					logicOrder [i] = new ReturnValue();
-				//	Print.print ("FOOOUUND IT! and replaced it");
+
 					return true;
 				}
 				else if (logicOrder [i].currentType == WordTypes.package) {

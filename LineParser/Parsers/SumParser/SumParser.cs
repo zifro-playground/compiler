@@ -46,7 +46,8 @@ namespace Compiler
 				#endregion
 
 				case WordTypes.booleanExpression: //Är det möjligt att få det till ett booleanExpression?
-					logicOrder [i] = (logicOrder [i] as BooleanExpression).parseExpression (); 
+					Print.print("Om du har lyckats komma hit så vill jag se koden. Bool expressions.");
+					logicOrder [i] = (logicOrder [i] as BooleanExpression).parseExpression ();
 					setNewExpectVariable (theExpectedType, VariableTypes.boolean, lineNumber);
 					break;
 					

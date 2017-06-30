@@ -43,6 +43,7 @@ namespace Runtime
 			return tempVar;
 		}
 
+		[System.Obsolete("This function should not be in use", true)]
 		private static Variable getAfterEqualSignSum(Logic[] cloneLogicOrder, int lineNuber, Scope currentScope){
 			Logic[] afterEqualSign = InternalParseFunctions.getSubArray(cloneLogicOrder, 3, cloneLogicOrder.Length-1, lineNuber);
 

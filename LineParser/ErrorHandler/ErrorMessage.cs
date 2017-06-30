@@ -15,12 +15,13 @@ namespace ErrorHandler
 
 
 		internal static void sendErrorMessage(int lineNumber, ErrorType theErrorType, int index, string[] args){
-			string message = currentLanguage.getErrorMessage (theErrorType, index, args);
+			//string message = currentLanguage.getErrorMessage (theErrorType, index, args);
+			string message = "Message sent via old system...";
 			sendErrorMessage (lineNumber, message);
 		}
 
 	#region test
-		internal static void sendErrorMessage(int lineNumber, ErrorType errorType, ForLoopErrorType specificError, string[] args){
+		internal static void sendErrorMessage(int lineNumber, ErrorType errorType, string specificError, string[] args){
 			string message = currentLanguage.getErrorMessage (errorType, specificError, args);
 			sendErrorMessage (lineNumber, message);
 		}
@@ -30,21 +31,22 @@ namespace ErrorHandler
 			currentLanguage = new SwedishLanguage ();
 			IErrorSender theSender = (currentLanguage as IErrorSender);
 
-			LogicOrderError logicError = theSender.logicOrderErrors;
-			IfStatementError ifError = theSender.ifStatementErrors;
-			ElseStatementError elseError = theSender.elseStatementErrors;
+			IfStatementErrors ifError = theSender.ifStatementErrors;
+			ElseStatementErrors elseError = theSender.elseStatementErrors;
 			ForLoopErrors forError = theSender.forLoopErrors;
-			WhileLoopErrors whileError = theSender.whileLoopErrors;
-			currentLanguage.initLanguage (logicError, ifError, elseError, forError, whileError);
-
 			IndentationErrors indentError = theSender.indentErrors;
 			TextErrors txtError = theSender.textErrors;
 			VariableErrors varError = theSender.variableErrors;
-			currentLanguage.initLanguage2 (indentError, txtError, varError);
 
-	#region test
-			currentLanguage.initLanguageErrors (logicError, ifError, elseError, forError, whileError, indentError, txtError, varError);
-	#endregion
+			LogicErrors logicError = theSender.logicErrors;
+			WhileLoopErrors whileError = theSender.whileLoopErrors;
+			NumberErrors numError = theSender.numberErrors;
+			KeywordErrors keywordError = theSender.keywordErrors;
+			FunctionErrors funcError = theSender.functionErrors;
+			OtherErrors otherError = theSender.otherErrors;
+
+			currentLanguage.initLanguageErrors1 (ifError, elseError, forError, indentError, txtError, varError);
+			currentLanguage.initLanguageErrors2 (logicError, whileError, numError, keywordError, funcError, otherError);
 		}
 
 		public static void setErrorMethod(Action<int, string> errorMethod){

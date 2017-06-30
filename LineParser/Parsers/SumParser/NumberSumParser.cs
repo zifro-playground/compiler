@@ -28,17 +28,17 @@ namespace Compiler
 					corrupt = true;
 			}
 		
-			if (corrupt == false)
+			if (!corrupt)
 				try{
 					double returnResult = SyntaxCheck.globalParser.Evaluate(calcString);
 					return new Variable ("calcVarMaten", returnResult, true);
 				}
 				catch(Exception e){
-					ErrorMessage.sendErrorMessage (lineNumber, "Något gick fel i uträkningen");
+					ErrorMessage.sendErrorMessage (lineNumber, "Något gick fel i uträkningen: " + e.ToString());
 				}
 
 
-			ErrorMessage.sendErrorMessage (lineNumber, "Något gick fel med nummer tolkningen");
+			ErrorMessage.sendErrorMessage (lineNumber, "Något gick fel med nummertolkningen");
 			return new Variable ();
 		}
 
@@ -71,11 +71,12 @@ namespace Compiler
 			for (int i = 0; i < logicOrder.Length; i++) {
 				
 				if (logicOrder [i].currentType == WordTypes.mathOperator && logicOrder [i].word == "%") {
-					
-					if (i <= 0 && i >= logicOrder.Length - 1)
+
+					if (i <= 0 || i >= logicOrder.Length - 1)
 						ErrorMessage.sendErrorMessage (lineNumber, "Modulo operatorn måste appliceras på två tal");
 
 					if(logicOrder[i-1].currentType != WordTypes.variable && logicOrder[i-1].currentType != WordTypes.number)
+						// Will not be reached because there can't be a number and a notNumber at the same row
 						ErrorMessage.sendErrorMessage (lineNumber, "Modulo operatorn måste appliceras på två tal");
 
 					double firstValue = getNumberValue (logicOrder [i - 1]);
@@ -106,9 +107,9 @@ namespace Compiler
 			string lastWord = logicOrder [logicOrder.Length - 1].word;
 
 			if (lastWord == "*" || lastWord == "/")
-				ErrorMessage.sendErrorMessage (lineNumber, "Matematiska uttryck kan inte börja med  \"" + firstWord + "\"");
-			if (firstWord == "*" || firstWord == "/")
 				ErrorMessage.sendErrorMessage (lineNumber, "Matematiska uttryck kan inte sluta med \"" + lastWord + "\"");
+			if (firstWord == "*" || firstWord == "/")
+				ErrorMessage.sendErrorMessage (lineNumber, "Matematiska uttryck kan inte börja med  \"" + firstWord + "\"");
 			
 		}
 

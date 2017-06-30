@@ -13,7 +13,10 @@ namespace ErrorHandler
 		ElseStatements,
 		Expression,
 		Indentation,
-		Text
+		Text,
+		Number,
+		Keyword,
+		Other
 	}
 }
 

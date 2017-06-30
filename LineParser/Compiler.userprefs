@@ -1,11 +1,44 @@
 ﻿<Properties StartupItem="Compiler.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Parsers\SumParser\SumParser.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ErrorHandler\Languages\LanguagePrefab\Language.cs">
     <Files>
-      <File FileName="Runtime\CodeWalker.cs" Line="164" Column="52" />
-      <File FileName="Runtime\Commands\VariableDeclareParser.cs" Line="38" Column="86" />
-      <File FileName="Parsers\SumParser\SumParser.cs" Line="94" Column="5" />
+      <File FileName="Runtime\CodeWalker.cs" Line="163" Column="47" />
+      <File FileName="ErrorHandler\ErrorMessage.cs" Line="46" Column="44" />
+      <File FileName="ErrorHandler\Languages\LanguagePrefab\Language.cs" Line="64" Column="28" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Compiler" expanded="True">
+            <Node name="Compiler" expanded="True">
+              <Node name="ErrorHandler" expanded="True">
+                <Node name="Errors" expanded="True">
+                  <Node name="ForLoopError" expanded="True" />
+                  <Node name="FunctionError" expanded="True" />
+                  <Node name="NumberError" expanded="True" />
+                  <Node name="OtherError" expanded="True" />
+                </Node>
+                <Node name="Languages" expanded="True">
+                  <Node name="LanguagePrefab" expanded="True">
+                    <Node name="Language.cs" selected="True" />
+                  </Node>
+                  <Node name="SwedishErrorTexts" expanded="True" />
+                </Node>
+              </Node>
+              <Node name="Logics" expanded="True" />
+              <Node name="Parsers" expanded="True">
+                <Node name="Statements" expanded="True" />
+                <Node name="SumParser" expanded="True" />
+              </Node>
+              <Node name="Runtime" expanded="True">
+                <Node name="Commands" expanded="True" />
+              </Node>
+              <Node name="SyntaxCheck" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

@@ -1,9 +1,9 @@
 ﻿using System;
 namespace ErrorHandler
 {
-	public class IfSatserFel : IfStatementError
+	public class IfSatserFel : IfStatementErrors
 	{
-		#region IfStatementError implementation
+		#region IfStatementErrors implementation
 
 		public string possibleComparissonStatements (string[] arg)
 		{

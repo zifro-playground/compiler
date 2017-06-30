@@ -16,12 +16,12 @@ namespace Compiler {
 
 			// Checks if inputVariables is empty and else if only numbers
 			if (inputVariables.Length == 0) {
-				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.ForLoop, ForLoopErrorType.rangeArgumentEmpty, null);
+				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.ForLoop, ForLoopErrorType.rangeArgumentEmpty.ToString(), null);
 			} 
 			else {
 			foreach (Variable v in inputVariables)
 				if(v.variableType != VariableTypes.number)
-						ErrorMessage.sendErrorMessage (lineNumber, ErrorType.ForLoop, ForLoopErrorType.rangeArgumentNotNumber, null);
+						ErrorMessage.sendErrorMessage (lineNumber, ErrorType.ForLoop, ForLoopErrorType.rangeArgumentNotNumber.ToString(), null);
 			}
 			#endregion
 
@@ -54,7 +54,7 @@ namespace Compiler {
 			if (logicOrder.Length == 4) {
 				checkCorrectWordsForLoop (logicOrder, lineNumber);				
 			} else if (logicOrder.Length < 4 || logicOrder.Length > 5) {
-				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.ForLoop, ForLoopErrorType.unknownFormat, null);
+				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.ForLoop, ForLoopErrorType.unknownFormat.ToString(), null);
 			} else {
 				checkCorrectWordsForLoop (logicOrder, lineNumber);
 			}
@@ -63,24 +63,23 @@ namespace Compiler {
 		private static void checkCorrectWordsForLoop (Logic[] logicOrder, int lineNumber){
 
 			if (logicOrder [logicOrder.Length - 1].currentType != WordTypes.indentOperator)
-				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.ForLoop, ForLoopErrorType.missingIndentOperator, null);
-				//ErrorMessage.sendErrorMessage (lineNumber,  ErrorType.ForLoop, 0, null);
+				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.ForLoop, ForLoopErrorType.missingIndentOperator.ToString(), null);
 			
 			if (logicOrder [1].currentType != WordTypes.variable || logicOrder [1].word == "in")
-				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.ForLoop, ForLoopErrorType.expectVariableAt2, null);
+				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.ForLoop, ForLoopErrorType.expectVariableAt2.ToString(), null);
 			
 			if (logicOrder [2].word != "in")
-				ErrorMessage.sendErrorMessage (lineNumber,  ErrorType.ForLoop, ForLoopErrorType.expectInAt3, null);
+				ErrorMessage.sendErrorMessage (lineNumber,  ErrorType.ForLoop, ForLoopErrorType.expectInAt3.ToString(), null);
 			
 			if (logicOrder [3].currentType != WordTypes.functionCall) {
 				if (logicOrder [3].currentType == WordTypes.variable && logicOrder[3].word == "range")
-					ErrorMessage.sendErrorMessage (lineNumber, ErrorType.ForLoop, ForLoopErrorType.rangeMissingParenthesis, null);
+					ErrorMessage.sendErrorMessage (lineNumber, ErrorType.ForLoop, ForLoopErrorType.rangeMissingParenthesis.ToString(), null);
 				else 
-					ErrorMessage.sendErrorMessage (lineNumber, ErrorType.ForLoop, ForLoopErrorType.expectRangeAt4, null);	
+					ErrorMessage.sendErrorMessage (lineNumber, ErrorType.ForLoop, ForLoopErrorType.expectRangeAt4.ToString(), null);	
 			}
 
 			if ((logicOrder [3] as FunctionCall).name != "range") 
-				ErrorMessage.sendErrorMessage (lineNumber,  ErrorType.ForLoop, ForLoopErrorType.expectRangeAt4, null);
+				ErrorMessage.sendErrorMessage (lineNumber,  ErrorType.ForLoop, ForLoopErrorType.expectRangeAt4.ToString(), null);
 		}
 	}
 	

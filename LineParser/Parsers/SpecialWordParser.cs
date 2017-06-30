@@ -14,7 +14,7 @@ namespace Compiler
 		"exec", "finally", "from", "global", "import", "is", "lambda", "pass", "raise", "try", "with", "yield"};
 
 
-		public static Logic parseSpeciallLine(Logic[] logicOrder, int lineNumber, Scope currentScope){
+		public static Logic parseSpecialLine(Logic[] logicOrder, int lineNumber, Scope currentScope){
 
 			switch (logicOrder[0].currentType) {
 
@@ -106,7 +106,6 @@ namespace Compiler
 
 
 		public static bool isValidScopeStarter(Logic[] logicOrder, int lineNumber){
-			//WordTypes t = logicOrder [0].currentType;   Onödig rad?
 
 			if (logicOrder[0] is ScopeStarter){
 				return true;

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace ErrorHandler
 {
-	public class LogiskaFel : LogicOrderError
+	public class LogiskaFel : LogicErrors
 	{
-		#region LogicOrderError implementation
+		#region LogicErrors implementation
 
 		public string unknownLogic (string[] arg)
 		{

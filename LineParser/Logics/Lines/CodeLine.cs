@@ -62,7 +62,7 @@ namespace Compiler
 			Logic[] tempLogic = (Logic[])getLatestOrder ().Clone ();
 			returnCalculations = tempLogic;
 
-			ReturnMemoryControll.insertReturnExpectaton (this, lineNumber, l);
+			ReturnMemoryControll.insertReturnExpectation (this, lineNumber, l);
 		}
 		
 

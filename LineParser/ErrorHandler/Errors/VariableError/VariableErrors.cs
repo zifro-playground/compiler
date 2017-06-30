@@ -11,6 +11,7 @@ namespace ErrorHandler
 
 	public class VariableErrorsOrder
 	{
+		[System.Obsolete("Use getMessages() instead", true)]
 		public static Func<string[], string>[] getStatements(VariableErrors theLogicOrder){
 			List<Func<string[], string>> statements = new List<Func<string[], string>> ();
 
@@ -18,6 +19,14 @@ namespace ErrorHandler
 
 
 			return statements.ToArray ();
+		}
+
+		public static Dictionary<string, Func<string[], string>> getMessages(VariableErrors theLogicOrder){
+			Dictionary<string, Func<string[], string>> messages = new Dictionary<string, Func<string[], string>> ();
+
+			messages.Add (VariableErrorType.speciallDeclerationNeedsDeclaredVariable.ToString(), theLogicOrder.speciallDeclerationNeedsDeclaredVariable);
+
+			return messages;
 		}
 	}
 }

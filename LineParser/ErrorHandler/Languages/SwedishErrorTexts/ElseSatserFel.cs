@@ -2,9 +2,9 @@
 
 namespace ErrorHandler
 {
-	public class ElseSatserFel : ElseStatementError
+	public class ElseSatserFel : ElseStatementErrors
 	{
-		#region ElseStatementError implementation
+		#region ElseStatementErrors implementation
 
 		public string missingIndentOperator (string[] arg)
 		{

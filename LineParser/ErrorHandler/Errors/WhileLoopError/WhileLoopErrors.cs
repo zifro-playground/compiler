@@ -13,6 +13,7 @@ namespace ErrorHandler
 
 	public class WhileErrorsOrder
 	{
+		[System.Obsolete("Use getMessages() instead", true)]
 		public static Func<string[], string>[] getStatements(WhileLoopErrors theLogicOrder){
 			List<Func<string[], string>> statements = new List<Func<string[], string>> ();
 
@@ -21,6 +22,15 @@ namespace ErrorHandler
 
 
 			return statements.ToArray ();
+		}
+
+		public static Dictionary<string, Func<string[], string>> getMessages(WhileLoopErrors theLogicOrder){
+			Dictionary<string, Func<string[], string>> messages = new Dictionary<string, Func<string[], string>> ();
+
+			messages.Add (WhileErrorType.missingIndentOperator.ToString(), theLogicOrder.missingIndentOperator);
+			messages.Add (WhileErrorType.unknownFormat.ToString(), theLogicOrder.unknownFormat);
+
+			return messages;
 		}
 	}
 }
