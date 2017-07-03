@@ -18,11 +18,11 @@ namespace Compiler
 				if (expectedHigherIndent) {
 					if (isFirst) {
 						if (programLines [i].indentLevel != 0)
-							ErrorMessage.sendErrorMessage (programLines [i].lineNumber, ErrorType.Indentation, 1, null);
+							ErrorMessage.sendErrorMessage (programLines [i].lineNumber, ErrorType.Indentation, IndentationErrorType.firstLineIndentError.ToString(), null);
 						isFirst = false;
 					} else {
 						if (programLines [i].indentLevel != expectedIndent)
-							ErrorMessage.sendErrorMessage (programLines [i].lineNumber, ErrorType.Indentation, 2, null);
+							ErrorMessage.sendErrorMessage (programLines [i].lineNumber, ErrorType.Indentation, IndentationErrorType.indentationError.ToString(), null);
 					}
 				}
 
@@ -31,7 +31,7 @@ namespace Compiler
 					expectedHigherIndent = true;
 
 					if (i == programLines.Count - 1)
-						ErrorMessage.sendErrorMessage (programLines [i].lineNumber, ErrorType.Indentation, 3, null);
+						ErrorMessage.sendErrorMessage (programLines [i].lineNumber, ErrorType.Indentation, IndentationErrorType.indentExpectingBody.ToString(), null);
 				}
 				else
 					expectedHigherIndent = false;

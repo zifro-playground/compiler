@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ErrorHandler;
 
 namespace Compiler
 {
@@ -87,7 +88,7 @@ namespace Compiler
 				tempType = ScopeType.elifStatement;
 
 			if (tempType == ScopeType.unknown) {
-				ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, ErrorHandler.ErrorType.Indentation, 0, null);
+				ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, ErrorHandler.ErrorType.Indentation, IndentationErrorType.unknownIndentStarter.ToString(), null);
 				return tempType;
 			}
 

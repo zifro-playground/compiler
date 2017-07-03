@@ -13,7 +13,7 @@ namespace ErrorHandler
 			errorMessageMethod.Invoke (lineNumber, message);
 		}
 
-
+		[System.Obsolete("Use new sendErrorMessage() instead.", true)]
 		internal static void sendErrorMessage(int lineNumber, ErrorType theErrorType, int index, string[] args){
 			//string message = currentLanguage.getErrorMessage (theErrorType, index, args);
 			string message = "Message sent via old system...";

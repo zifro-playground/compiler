@@ -19,7 +19,7 @@ namespace Compiler
 
 				if (i % 2 == 1) {
 					if (!isPlusSign (logicOrder [i], lineNumber)) {
-						ErrorMessage.sendErrorMessage (lineNumber, ErrorType.Text, 0, null);	
+						ErrorMessage.sendErrorMessage (lineNumber, ErrorType.Text, TextErrorType.expectedPlusSignBetweenStrings.ToString(), null);	
 						corrupt = true;
 						break;
 					}
@@ -31,7 +31,7 @@ namespace Compiler
 					else {
 						// Can never reach this?
 						corrupt = true;
-						ErrorMessage.sendErrorMessage (lineNumber, ErrorType.Text, 1, null);	
+						ErrorMessage.sendErrorMessage (lineNumber, ErrorType.Text, TextErrorType.expectedATextValue.ToString(), null);	
 					}
 				}
 			}
@@ -40,12 +40,12 @@ namespace Compiler
 			//Check so it ends with a String
 			if(isStringType( logicOrder[logicOrder.Length -1], lineNumber) == false){
 				corrupt = true;
-				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.Text, 2, null);
+				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.Text, TextErrorType.expressionNeedsToEndWithAString.ToString(), null);
 			}
 
 
 			if (corrupt) {
-				ErrorMessage.sendErrorMessage (lineNumber,  ErrorType.Text, 3, null);
+				ErrorMessage.sendErrorMessage (lineNumber,  ErrorType.Text, TextErrorType.textParsingMalfunction.ToString(), null);
 				return new Variable ("Unknown Variable");
 			} 
 			else 

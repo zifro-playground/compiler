@@ -27,7 +27,7 @@ namespace SyntaxCheck{
 			if (PossibleFunctionCall.possibleFunctionCall (c.logicOrder, c.lineNumber))
 				return;
 			
-			ErrorMessage.sendErrorMessage (c.lineNumber, ErrorType.LogicOrder, 0, null);
+			ErrorMessage.sendErrorMessage (c.lineNumber, ErrorType.LogicOrder, LogicErrorType.unknownLogic.ToString(), null);
 		}
 		
 		

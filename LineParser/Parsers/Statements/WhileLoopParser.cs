@@ -12,10 +12,10 @@ namespace Compiler {
 		
 		public static Logic parseWhileLoop(Logic[] logicOrder, int lineNumber, Scope currentScope){
 			if (logicOrder.Length < 3)
-				ErrorMessage.sendErrorMessage (lineNumber,  ErrorType.WhileLoop, 1, null);
+				ErrorMessage.sendErrorMessage (lineNumber,  ErrorType.WhileLoop, WhileErrorType.unknownFormat.ToString(), null);
 			
 			if (logicOrder [logicOrder.Length -1].currentType != WordTypes.indentOperator)
-				ErrorMessage.sendErrorMessage (lineNumber,  ErrorType.WhileLoop, 0, null);
+				ErrorMessage.sendErrorMessage (lineNumber,  ErrorType.WhileLoop, WhileErrorType.missingIndentOperator.ToString(), null);
 			
 			Logic[] statementLogic = new Logic[logicOrder.Length - 2];
 			for (int i = 1; i < logicOrder.Length - 1; i++)

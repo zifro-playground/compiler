@@ -4,7 +4,7 @@ namespace ErrorHandler
 {
 	public class AndraFel : OtherErrors
 	{
-		#region ElseStatementErrors implementation
+		#region errors that should not reach the user
 
 		/*public string missingIndentOperator (string[] arg)
 		{

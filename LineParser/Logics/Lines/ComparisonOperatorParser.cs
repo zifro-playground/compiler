@@ -157,7 +157,7 @@ namespace Compiler
 			}
 
 
-			ErrorMessage.sendErrorMessage (lineNumber, ErrorType.LogicOrder, 0, null);
+			ErrorMessage.sendErrorMessage (lineNumber, ErrorType.LogicOrder, LogicErrorType.unknownLogic.ToString(), null);
 			return false;
 		}
 	}

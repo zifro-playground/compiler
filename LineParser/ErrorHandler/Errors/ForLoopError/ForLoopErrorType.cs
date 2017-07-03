@@ -10,7 +10,8 @@ namespace ErrorHandler
 		expectRangeAt4,
 		rangeArgumentEmpty,
 		rangeArgumentNotNumber,
-		rangeMissingParenthesis
+		rangeMissingParenthesis,
+		counterVariableIsNotNumber
 	}
 }
 

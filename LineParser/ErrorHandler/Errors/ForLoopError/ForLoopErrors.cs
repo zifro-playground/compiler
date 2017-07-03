@@ -13,6 +13,7 @@ namespace ErrorHandler
 		string rangeArgumentEmpty (string[] arg);
 		string rangeArgumentNotNumber (string[] arg);
 		string rangeMissingParenthesis (string[] arg);
+		string counterVariableIsNotNumber (string[] arg);
 	}
 
 
@@ -31,6 +32,7 @@ namespace ErrorHandler
 			statements.Add (theLogicOrder.rangeArgumentEmpty);
 			statements.Add (theLogicOrder.rangeArgumentNotNumber);
 			statements.Add (theLogicOrder.rangeMissingParenthesis);
+			statements.Add (theLogicOrder.counterVariableIsNotNumber);
 
 			return statements.ToArray ();
 		}
@@ -48,6 +50,7 @@ namespace ErrorHandler
 			messages.Add (ForLoopErrorType.rangeArgumentEmpty.ToString(), theLogicOrder.rangeArgumentEmpty);
 			messages.Add (ForLoopErrorType.rangeArgumentNotNumber.ToString(), theLogicOrder.rangeArgumentNotNumber);
 			messages.Add (ForLoopErrorType.rangeMissingParenthesis.ToString(), theLogicOrder.rangeMissingParenthesis);
+			messages.Add (ForLoopErrorType.counterVariableIsNotNumber.ToString(), theLogicOrder.counterVariableIsNotNumber);
 
 			return messages;
 		}

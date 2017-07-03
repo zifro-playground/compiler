@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Runtime;
+using ErrorHandler;
 
 namespace Compiler{
 
@@ -49,7 +50,7 @@ namespace Compiler{
 		public bool makeComparison (int lineNumber, bool doChangeValue = true)
 		{
 			if (counterVariable.variableType != VariableTypes.number)
-				ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, "Räkne variabeln kan inte ha ett värde som inte är ett nummer");
+				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.ForLoop, ForLoopErrorType.counterVariableIsNotNumber.ToString(), new string[1] {counterVariable.name});
 
 			if(doChangeValue)
 				counterVariable.setValue (counterVariable.getNumber () + incrementValue);
