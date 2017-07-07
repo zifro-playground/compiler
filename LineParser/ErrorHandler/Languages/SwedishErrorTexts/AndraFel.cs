@@ -6,9 +6,10 @@ namespace ErrorHandler
 	{
 		#region errors that should not reach the user
 
-		/*public string missingIndentOperator (string[] arg)
+
+		/*public string corruptAndOrStatement (string[] arg)
 		{
-			return "Det saknas ett \":\" i slutet av din Else sats";
+			return "Något har gått fel vid läsningen av And/Or";
 		}*/
 
 		#endregion

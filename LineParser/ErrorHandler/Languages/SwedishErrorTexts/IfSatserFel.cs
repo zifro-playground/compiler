@@ -20,6 +20,13 @@ namespace ErrorHandler
 			return "Okänt format i din if-sats. Kom ihåg att en if-sats ska likna: \"if jämförelse:\"";
 		}
 
+		/// Called when expression type is not bool, number, string nor None.
+		/// The expression in if-statement needs to evaluate to True or False.
+		public string expressionNotCorrectType (string[] arg)
+		{
+			return "Uttrycket i en if-sats måste vara True (Sant) eller False (Falskt)";
+		}
+
 		#endregion
 
 	}

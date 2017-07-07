@@ -5,7 +5,7 @@ namespace ErrorHandler
 {
 	public interface OtherErrors
 	{
-		//string speciallDeclerationNeedsDeclaredVariable (string[] arg);
+		//string corruptAndOrStatement (string[] arg);
 	}
 
 
@@ -15,7 +15,7 @@ namespace ErrorHandler
 		public static Dictionary<string, Func<string[], string>> getMessages(OtherErrors theLogicOrder){
 			Dictionary<string, Func<string[], string>> messages = new Dictionary<string, Func<string[], string>> ();
 
-			//messages.Add (OtherErrorType.speciallDeclerationNeedsDeclaredVariable.ToString(), theLogicOrder.speciallDeclerationNeedsDeclaredVariable);
+			//messages.Add (OtherErrorType.corruptAndOrStatement.ToString(), theLogicOrder.corruptAndOrStatement);
 
 			return messages;
 		}

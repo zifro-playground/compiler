@@ -14,7 +14,7 @@ namespace Compiler
 
 				return subArray;
 			} else
-				ErrorMessage.sendErrorMessage (lineNumber, "Korrupt And/Or expression");
+				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.Logic, LogicErrorType.corruptAndOrStatement.ToString(), null);
 
 			return null;
 		}

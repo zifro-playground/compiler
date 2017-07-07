@@ -9,6 +9,7 @@ namespace ErrorHandler
 		string missingIndentOperator (string[] arg);
 		string unknownFormat (string[] arg);
 		string possibleComparissonStatements (string[] arg);
+		string expressionNotCorrectType (string[] arg);
 	}
 
 
@@ -31,6 +32,7 @@ namespace ErrorHandler
 			messages.Add (IfErrorType.missingIndentOperator.ToString(), theLogicOrder.missingIndentOperator);
 			messages.Add (IfErrorType.unknownFormat.ToString(), theLogicOrder.unknownFormat);
 			messages.Add (IfErrorType.possibleComparissonStatements.ToString(), theLogicOrder.possibleComparissonStatements);
+			messages.Add (IfErrorType.expressionNotCorrectType.ToString(), theLogicOrder.expressionNotCorrectType);
 
 			return messages;
 		}

@@ -9,8 +9,25 @@ namespace Compiler
 		public static bool parseAndCheckStatement(Logic[] logicOrder, int lineNumber, Scope currentScope){
 			Variable sum = SumParser.parseIntoSum (logicOrder, lineNumber, currentScope);
 
+			if (sum.variableType == VariableTypes.number){
+				if (sum.getNumber() == 0)
+					return false;
+				else
+					return true;
+			}
+
+			if (sum.variableType == VariableTypes.textString) {
+				if (sum.getString () == "")
+					return false;
+				else
+					return true;
+			}
+
+			if (sum.variableType == VariableTypes.None)
+				return false;
+
 			if (sum.variableType != VariableTypes.boolean)
-				ErrorMessage.sendErrorMessage (lineNumber, "Ett expression kan bara vara Sant eller Falskt");
+				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.IfStatements, IfErrorType.expressionNotCorrectType.ToString(), null);
 
 			return sum.getBool ();
 		}
@@ -36,13 +53,12 @@ namespace Compiler
 				}
 
 			#endregion
-			if(operatorLow == 0)
-				ErrorMessage.sendErrorMessage (lineNumber, "FparsEtt expressionn kan inte starta med en operator");
-			if (operatorAmount > 2) 
-				ErrorMessage.sendErrorMessage (lineNumber, "Operatorerna i ditt expressions går inte att tyda");
+
+			if (operatorAmount > 2 || operatorHigh - operatorLow != 1) {
+				ErrorMessage.sendErrorMessage (lineNumber, "I detta moment är det inte tillåtet att gör flera jämförelser direkt efter varandra. Använd \"and\" och \"or\" istället.");
+			}
 			if (operatorAmount == 0)
 				return handleOnlyValueStatement (logicOrder, lineNumber, currentScope);
-
 
 			if (operatorAmount == 2) {
 				if (operatorHigh - operatorLow != 1) 
@@ -50,6 +66,7 @@ namespace Compiler
 			}
 			else
 				operatorHigh = operatorLow;
+
 
 
 

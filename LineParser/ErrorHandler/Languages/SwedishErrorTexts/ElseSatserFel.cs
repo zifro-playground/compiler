@@ -11,9 +11,11 @@ namespace ErrorHandler
 			return "Det saknas ett \":\" i slutet av din Else sats";
 		}
 
+		/// Called if the else statement is not composed of only 2 parts.
+		/// And else statement should only look like "else:"
 		public string unknownFormat (string[] arg)
 		{
-			return "Okänt format i din Else sats";
+			return "Okänt format i din Else sats. Kom ihåg att else ser ut såhär: \"else:\"";
 		}
 
 		public string missingStatementLink (string[] arg)

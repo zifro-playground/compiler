@@ -5,7 +5,8 @@ namespace ErrorHandler
 	public enum LogicErrorType
 	{
 		unknownLogic,
-		missingIndentOperator
+		missingIndentOperator,
+		corruptAndOrStatement
 	}
 }
 

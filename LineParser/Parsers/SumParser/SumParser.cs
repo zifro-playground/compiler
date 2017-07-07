@@ -45,8 +45,8 @@ namespace Compiler
 					break;
 				#endregion
 
-				case WordTypes.booleanExpression: //Är det möjligt att få det till ett booleanExpression?
-					Print.print("Om du har lyckats komma hit så vill jag se koden. Bool expressions.");
+				// booleanExpressions are for example a expression used in an if-statement
+				case WordTypes.booleanExpression:
 					logicOrder [i] = (logicOrder [i] as BooleanExpression).parseExpression ();
 					setNewExpectVariable (theExpectedType, VariableTypes.boolean, lineNumber);
 					break;

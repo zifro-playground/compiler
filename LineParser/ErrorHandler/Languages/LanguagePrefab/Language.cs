@@ -15,7 +15,7 @@ namespace ErrorHandler
 
 		public void initLanguage(LogicErrors logic, IfStatementErrors If, ElseStatementErrors Else, ForLoopErrors For, WhileLoopErrors While){
 			//insertIntoDictionary (ErrorType.ForLoop, ForErrorsOrder.getStatements (For));
-			//insertIntoDictionary (ErrorType.LogicOrder, LogicErrorsOrder.getStatements(logic));
+			//insertIntoDictionary (ErrorType.Logic, LogicErrorsOrder.getStatements(logic));
 			//insertIntoDictionary (ErrorType.IfStatements, IfErrorsOrder.getStatements(If));
 			//insertIntoDictionary (ErrorType.ElseStatements, ElseErrorsOrder.getStatements(Else));
 			//insertIntoDictionary (ErrorType.WhileLoop, WhileErrorsOrder.getStatements (While));
@@ -63,7 +63,7 @@ namespace ErrorHandler
 
 		/// Inits second part of the language errors. Stores error messages in dictionary.
 		public void initLanguageErrors2(LogicErrors Logic, WhileLoopErrors While, NumberErrors Number, KeywordErrors Keyword, FunctionErrors Function, OtherErrors Other) {
-			errorMessages.Add (ErrorType.LogicOrder, LogicErrorsOrder.getMessages (Logic));
+			errorMessages.Add (ErrorType.Logic, LogicErrorsOrder.getMessages (Logic));
 			errorMessages.Add (ErrorType.WhileLoop, WhileErrorsOrder.getMessages (While));
 			errorMessages.Add (ErrorType.Number, NumberErrorsOrder.getMessages (Number));
 			errorMessages.Add (ErrorType.Keyword, KeywordErrorsOrder.getMessages (Keyword));

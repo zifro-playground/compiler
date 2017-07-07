@@ -4,7 +4,7 @@ namespace ErrorHandler
 {
 	public enum ErrorType
 	{
-		LogicOrder,
+		Logic,
 		ForLoop,
 		WhileLoop,
 		Variable,

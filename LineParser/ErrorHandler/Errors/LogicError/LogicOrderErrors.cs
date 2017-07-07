@@ -7,6 +7,7 @@ namespace ErrorHandler
 	{
 		string unknownLogic (string[] arg);
 		string missingIndentOperator (string[] arg);
+		string corruptAndOrStatement (string[] arg);
 
 	}
 
@@ -27,6 +28,7 @@ namespace ErrorHandler
 
 			messages.Add (LogicErrorType.unknownLogic.ToString(), theLogicOrder.unknownLogic);
 			messages.Add (LogicErrorType.missingIndentOperator.ToString(), theLogicOrder.missingIndentOperator);
+			messages.Add (LogicErrorType.corruptAndOrStatement.ToString(), theLogicOrder.corruptAndOrStatement);
 
 			return messages;
 		}
