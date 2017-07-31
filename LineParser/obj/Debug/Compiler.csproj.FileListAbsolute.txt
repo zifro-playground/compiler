@@ -16,3 +16,7 @@ C:\Users\Jonathan\Documents\GitHub\TestCompiler\LineParser\bin\Debug\LineParser.
 C:\Users\Jonathan\Documents\GitHub\TestCompiler\LineParser\bin\Debug\LineParser.pdb
 C:\Users\Jonathan\Documents\GitHub\TestCompiler\LineParser\obj\Debug\LineParser.dll
 C:\Users\Jonathan\Documents\GitHub\TestCompiler\LineParser\obj\Debug\LineParser.pdb
+C:\Users\Tifos\Documents\GitHub\TestCompiler\LineParser\bin\Debug\LineParser.dll
+C:\Users\Tifos\Documents\GitHub\TestCompiler\LineParser\bin\Debug\LineParser.pdb
+C:\Users\Tifos\Documents\GitHub\TestCompiler\LineParser\obj\Debug\LineParser.dll
+C:\Users\Tifos\Documents\GitHub\TestCompiler\LineParser\obj\Debug\LineParser.pdb

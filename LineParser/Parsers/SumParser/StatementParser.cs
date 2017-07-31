@@ -52,6 +52,7 @@ namespace Compiler
 					operatorAmount++;
 				}
 
+
 			#endregion
 
 			if (operatorAmount > 2 || operatorHigh - operatorLow != 1) {
