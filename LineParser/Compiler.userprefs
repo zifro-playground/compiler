@@ -1,57 +1,52 @@
 ﻿<Properties StartupItem="Compiler.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Parsers\SumParser\StatementParser.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Runtime\Commands\VariableDeclareParser.cs">
     <Files>
-      <File FileName="Runtime\CodeWalker.cs" Line="158" Column="3" />
-      <File FileName="Parsers\SpecialWordParser.cs" Line="8" Column="15" />
-      <File FileName="Parsers\Statements\ElseStatementParser.cs" Line="15" Column="120" />
-      <File FileName="ErrorHandler\Languages\SwedishErrorTexts\ElseSatserFel.cs" Line="18" Column="72" />
-      <File FileName="ErrorHandler\Languages\SwedishErrorTexts\IfSatserFel.cs" Line="20" Column="93" />
-      <File FileName="Parsers\SumParser\StatementParser.cs" Line="58" Column="118" />
-      <File FileName="Parsers\SumParser\SumParser.cs" Line="50" Column="68" />
-      <File FileName="Parsers\SumParser\BooleanAlgebra\BoolAlgebraParser.cs" Line="33" Column="45" />
+      <File FileName="Runtime\CodeWalker.cs" Line="133" Column="8" />
+      <File FileName="Parsers\SpecialWordParser.cs" Line="13" Column="58" />
+      <File FileName="Parsers\SumParser\SumParser.cs" Line="1" Column="1" />
+      <File FileName="Parsers\SumParser\TextSumParser.cs" Line="7" Column="2" />
+      <File FileName="SyntaxCheck.cs" Line="29" Column="79" />
+      <File FileName="Scope\Parser\ScopeParser.cs" Line="14" Column="23" />
+      <File FileName="Scope\Parser\IndentParser.cs" Line="9" Column="3" />
+      <File FileName="Scope\Parser\ScopeStarterParser.cs" Line="11" Column="3" />
+      <File FileName="Functions\Function.cs" Line="5" Column="2" />
+      <File FileName="Scope\Scope.cs" Line="62" Column="49" />
+      <File FileName="Scope\ScopeType.cs" Line="6" Column="2" />
+      <File FileName="Scope\ScopeLoop.cs" Line="6" Column="2" />
+      <File FileName="Parsers\SumParser\ExpressionParser.cs" Line="294" Column="2" />
+      <File FileName="Variables\Variables.cs" Line="12" Column="3" />
+      <File FileName="Functions\UserFunction.cs" Line="23" Column="29" />
+      <File FileName="Scope\Parser\ScopeReturnParser.cs" Line="19" Column="28" />
+      <File FileName="Parsers\Words\WordParser.cs" Line="122" Column="28" />
+      <File FileName="Parsers\InternalParseFunctions.cs" Line="9" Column="55" />
+      <File FileName="Parsers\SumParser\MathParser.cs" Line="7" Column="79" />
+      <File FileName="Runtime\Debugger.cs" Line="9" Column="22" />
+      <File FileName="Parsers\Logics\WordsToLogicParser.cs" Line="1" Column="1" />
+      <File FileName="Logics\Operators\MathOperator.cs" Line="9" Column="4" />
+      <File FileName="ErrorHandler\Old\ErrorLoops.cs" Line="10" Column="4" />
+      <File FileName="ErrorHandler\LevenshteinDist.cs" Line="1" Column="1" />
+      <File FileName="Runtime\Commands\VariableDeclareParser.cs" Line="27" Column="45" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Compiler" expanded="True">
             <Node name="Compiler" expanded="True">
-              <Node name="ErrorHandler" expanded="True">
-                <Node name="Errors" expanded="True">
-                  <Node name="IfAndElifError" expanded="True" />
-                  <Node name="LogicError" expanded="True" />
-                  <Node name="OtherError" expanded="True" />
-                </Node>
-                <Node name="Languages" expanded="True">
-                  <Node name="LanguagePrefab" expanded="True" />
-                  <Node name="SwedishErrorTexts" expanded="True" />
-                </Node>
-              </Node>
-              <Node name="Logics" expanded="True">
-                <Node name="Lines" expanded="True" />
-                <Node name="Loops" expanded="True" />
-                <Node name="Speciall" expanded="True" />
-              </Node>
+              <Node name="ErrorHandler" expanded="True" />
               <Node name="Parsers" expanded="True">
-                <Node name="Statements" expanded="True" />
-                <Node name="SumParser" expanded="True">
-                  <Node name="BooleanAlgebra" expanded="True">
-                    <Node name="BoolExpressions" expanded="True" />
-                  </Node>
-                  <Node name="StatementParser.cs" selected="True" />
-                </Node>
+                <Node name="Logics" expanded="True" />
+                <Node name="SumParser" expanded="True" />
+                <Node name="Words" expanded="True" />
               </Node>
               <Node name="Runtime" expanded="True">
-                <Node name="Commands" expanded="True" />
+                <Node name="Commands" expanded="True">
+                  <Node name="VariableDeclareParser.cs" selected="True" />
+                </Node>
               </Node>
               <Node name="Scope" expanded="True">
                 <Node name="Parser" expanded="True" />
               </Node>
-              <Node name="SyntaxCheck" expanded="True" />
-              <Node name="Tags" expanded="True">
-                <Node name="Logic" expanded="True" />
-              </Node>
-              <Node name="Variables" expanded="True" />
             </Node>
           </Node>
         </State>

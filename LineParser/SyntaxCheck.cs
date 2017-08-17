@@ -25,7 +25,9 @@ namespace Compiler
 		/// </summary>
 		public static void CompileCode(string fullText, Action endWalker, Action pauseWalker, Action activateFunctionColor, Action<int> setWalkerPos){
 			Scope mainScope = ScopeParser.parseIntoScopes (fullText);
-			Runtime.CodeWalker.setActions(endWalker, pauseWalker, activateFunctionColor, setWalkerPos, mainScope);		
+			Runtime.CodeWalker.setActions(endWalker, pauseWalker, activateFunctionColor, setWalkerPos, mainScope);	
+			Runtime.Debugger.printLogicOrder (mainScope.codeLines [0].logicOrder, "Hej");
+
 		}
 	}
 }

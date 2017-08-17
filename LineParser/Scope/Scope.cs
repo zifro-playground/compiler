@@ -86,7 +86,7 @@ namespace Compiler
 		}
 			
 
-
+		//Not working ish....
 		public Scope createDeepCopy(){
 
 			List<CodeLine> tempCodeLines = new List<CodeLine> ();

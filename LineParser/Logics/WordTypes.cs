@@ -29,7 +29,7 @@
 		inWord,
 		indentOperator,
 		commaSign,
-		package,
+		package, // A package is a compressed parameter example: (x + 23 - 3)
 		nill,
 		unknown,
 	};
