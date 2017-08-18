@@ -3,12 +3,8 @@ namespace ErrorHandler
 {
 	public class IfSatserFel : IfStatementErrors
 	{
-		#region IfStatementErrors implementation
-
-		public string possibleComparissonStatements (string[] arg)
-		{
-			return "Okänt format av jämförelsen i  if-satsen";
-		}
+		
+		#region Errors from SyntaxCheck
 
 		public string missingIndentOperator (string[] arg)
 		{
@@ -20,6 +16,12 @@ namespace ErrorHandler
 			return "Okänt format i din if-sats. Kom ihåg att en if-sats ska likna: \"if jämförelse:\"";
 		}
 
+
+		#endregion
+
+
+
+		#region Errors from Runtime
 		/// Called when expression type is not bool, number, string nor None.
 		/// The expression in if-statement needs to evaluate to True or False.
 		public string expressionNotCorrectType (string[] arg)
@@ -28,7 +30,6 @@ namespace ErrorHandler
 		}
 
 		#endregion
-
 	}
 }
 

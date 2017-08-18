@@ -6,8 +6,7 @@ namespace ErrorHandler
 	{
 		expectedPlusSignBetweenStrings,
 		expectedATextValue,
-		expressionNeedsToEndWithAString,
-		textParsingMalfunction
+		expressionNeedsToEndWithAString
 	}
 }
 

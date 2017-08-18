@@ -31,7 +31,7 @@ namespace Compiler
 					expectedHigherIndent = true;
 
 					if (i == programLines.Count - 1)
-						ErrorMessage.sendErrorMessage (programLines [i].lineNumber, ErrorType.Indentation, IndentationErrorType.indentExpectingBody.ToString(), null);
+						ErrorMessage.sendErrorMessage (programLines [i].lineNumber, ErrorType.Indentation, IndentationErrorType.expectingBodyAfterScopeStarter.ToString(), null);
 				}
 				else
 					expectedHigherIndent = false;
@@ -49,13 +49,13 @@ namespace Compiler
 
 				if (SpecialWordParser.isValidScopeStarter (line.logicOrder, line.lineNumber)) {
 					if (currentChildScope > currentScope.childScopes.Count - 1)
-						ErrorMessage.sendErrorMessage (line.lineNumber, " Något gick fel med Scope Parsingen");
+						ErrorMessage.sendErrorMessage (line.lineNumber, ErrorType.System, SystemFailureErrorType.scopeParsingMalfunction.ToString(), null);
 
 					(line.logicOrder [0] as ScopeStarter).setTargetScope(currentScope.childScopes [currentChildScope]);
 					currentChildScope++;
 
 
-					//Links else/elif
+					// Links else/elif
 					if (line.logicOrder [0] is ComparisonScope) {
 						if (i == 0 && line.logicOrder [0] is IfStatement == false)
 							ErrorMessage.sendErrorMessage (line.lineNumber , "Finns inget if statment att länka med");

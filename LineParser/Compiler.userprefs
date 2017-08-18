@@ -1,15 +1,18 @@
 ﻿<Properties StartupItem="Compiler.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Parsers\SumParser\StatementParser.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Scope\Parser\ScopeStarterParser.cs">
     <Files>
-      <File FileName="Runtime\CodeWalker.cs" Line="158" Column="3" />
-      <File FileName="Parsers\SpecialWordParser.cs" Line="8" Column="15" />
-      <File FileName="Parsers\Statements\ElseStatementParser.cs" Line="15" Column="120" />
-      <File FileName="ErrorHandler\Languages\SwedishErrorTexts\ElseSatserFel.cs" Line="18" Column="72" />
-      <File FileName="ErrorHandler\Languages\SwedishErrorTexts\IfSatserFel.cs" Line="20" Column="93" />
+      <File FileName="Runtime\CodeWalker.cs" Line="182" Column="66" />
+      <File FileName="Parsers\SpecialWordParser.cs" Line="1" Column="1" />
+      <File FileName="Parsers\Statements\ElseStatementParser.cs" Line="12" Column="88" />
       <File FileName="Parsers\SumParser\StatementParser.cs" Line="58" Column="118" />
-      <File FileName="Parsers\SumParser\SumParser.cs" Line="50" Column="68" />
-      <File FileName="Parsers\SumParser\BooleanAlgebra\BoolAlgebraParser.cs" Line="33" Column="45" />
+      <File FileName="Parsers\SumParser\SumParser.cs" Line="1" Column="1" />
+      <File FileName="Parsers\SumParser\BooleanAlgebra\BoolAlgebraParser.cs" Line="1" Column="1" />
+      <File FileName="ErrorHandler\Languages\SwedishErrorTexts\SystemFel.cs" Line="16" Column="40" />
+      <File FileName="Scope\Parser\IndentParser.cs" Line="26" Column="25" />
+      <File FileName="ErrorHandler\Languages\SwedishErrorTexts\IndenteringsFel.cs" Line="28" Column="47" />
+      <File FileName="Scope\Parser\ScopeStarterParser.cs" Line="43" Column="58" />
+      <File FileName="Scope\Parser\ScopeParser.cs" Line="21" Column="34" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -18,9 +21,10 @@
             <Node name="Compiler" expanded="True">
               <Node name="ErrorHandler" expanded="True">
                 <Node name="Errors" expanded="True">
+                  <Node name="ForLoopError" expanded="True" />
                   <Node name="IfAndElifError" expanded="True" />
-                  <Node name="LogicError" expanded="True" />
-                  <Node name="OtherError" expanded="True" />
+                  <Node name="IndentationError" expanded="True" />
+                  <Node name="SystemFailureError" expanded="True" />
                 </Node>
                 <Node name="Languages" expanded="True">
                   <Node name="LanguagePrefab" expanded="True" />
@@ -29,23 +33,16 @@
               </Node>
               <Node name="Logics" expanded="True">
                 <Node name="Lines" expanded="True" />
-                <Node name="Loops" expanded="True" />
-                <Node name="Speciall" expanded="True" />
               </Node>
               <Node name="Parsers" expanded="True">
                 <Node name="Statements" expanded="True" />
-                <Node name="SumParser" expanded="True">
-                  <Node name="BooleanAlgebra" expanded="True">
-                    <Node name="BoolExpressions" expanded="True" />
-                  </Node>
-                  <Node name="StatementParser.cs" selected="True" />
-                </Node>
+                <Node name="SumParser" expanded="True" />
               </Node>
-              <Node name="Runtime" expanded="True">
-                <Node name="Commands" expanded="True" />
-              </Node>
+              <Node name="Runtime" expanded="True" />
               <Node name="Scope" expanded="True">
-                <Node name="Parser" expanded="True" />
+                <Node name="Parser" expanded="True">
+                  <Node name="ScopeStarterParser.cs" selected="True" />
+                </Node>
               </Node>
               <Node name="SyntaxCheck" expanded="True" />
               <Node name="Tags" expanded="True">

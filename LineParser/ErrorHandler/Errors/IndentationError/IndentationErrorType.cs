@@ -7,7 +7,7 @@ namespace ErrorHandler
 		unknownIndentStarter,
 		firstLineIndentError,
 		indentationError,
-		indentExpectingBody
+		expectingBodyAfterScopeStarter
 	}
 }
 

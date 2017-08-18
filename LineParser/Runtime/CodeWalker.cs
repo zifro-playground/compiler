@@ -172,14 +172,14 @@ namespace Runtime
 			if(result.currentType != WordTypes.unknown)
 				return result;
 
-			ErrorMessage.sendErrorMessage (lineNumber, ErrorType.Logic, LogicErrorType.unknownLogic.ToString(), null);
+			ErrorMessage.sendErrorMessage (lineNumber, ErrorType.System, SystemFailureErrorType.unknownLogic.ToString(), new string[]{"2"});
 			return new UnknownLogic(lineNumber);
 		}
 
 		private static void checkForUnknown(Logic[] logicOrder, int lineNumber){
 			foreach (Logic L in logicOrder)
 				if (L.currentType == WordTypes.unknown)
-					ErrorMessage.sendErrorMessage (lineNumber, ErrorType.Logic, LogicErrorType.unknownLogic.ToString(), null);
+					ErrorMessage.sendErrorMessage (lineNumber, ErrorType.System, SystemFailureErrorType.unknownLogic.ToString(), new string[]{"3"});
 		}
 
 		private static bool NTScopeStarter(CodeLine tempLine){

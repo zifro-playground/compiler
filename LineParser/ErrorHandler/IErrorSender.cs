@@ -6,7 +6,7 @@ namespace ErrorHandler
 		
 		string getErrorMessage(ErrorType theErrorType, string theSpecificError, string[] args);
 		void initLanguageErrors1(IfStatementErrors If, ElseStatementErrors Else, ForLoopErrors For, IndentationErrors Indent, TextErrors Text, VariableErrors Variable);
-		void initLanguageErrors2(LogicErrors Logic, WhileLoopErrors While, NumberErrors Number, KeywordErrors Keyword, FunctionErrors Function, OtherErrors Other);
+		void initLanguageErrors2(WhileLoopErrors While, NumberErrors Number, KeywordErrors Keyword, FunctionErrors Function, OtherErrors Other, SystemFailureErrors System);
 
 		IfStatementErrors ifStatementErrors{ get; }
 		ElseStatementErrors elseStatementErrors{ get; }
@@ -15,12 +15,12 @@ namespace ErrorHandler
 		TextErrors textErrors { get; }
 		VariableErrors variableErrors { get; }
 
-		LogicErrors logicErrors{ get; }
 		WhileLoopErrors whileLoopErrors{ get; }
 		NumberErrors numberErrors { get; }
 		KeywordErrors keywordErrors { get; }
 		FunctionErrors functionErrors { get; }
 		OtherErrors otherErrors { get; }
+		SystemFailureErrors systemErrors { get; }
 	}
 }
 

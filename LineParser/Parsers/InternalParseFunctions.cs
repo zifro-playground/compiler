@@ -14,7 +14,7 @@ namespace Compiler
 
 				return subArray;
 			} else
-				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.Logic, LogicErrorType.corruptAndOrStatement.ToString(), null);
+				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.System, SystemFailureErrorType.corruptAndOrStatement.ToString(), null);
 
 			return null;
 		}

@@ -45,7 +45,7 @@ namespace Compiler
 
 
 			if (corrupt) {
-				ErrorMessage.sendErrorMessage (lineNumber,  ErrorType.Text, TextErrorType.textParsingMalfunction.ToString(), null);
+				ErrorMessage.sendErrorMessage (lineNumber,  ErrorType.System, SystemFailureErrorType.textParsingMalfunction.ToString(), null);
 				return new Variable ("Unknown Variable");
 			} 
 			else 

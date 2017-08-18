@@ -6,7 +6,6 @@ namespace ErrorHandler
 	{
 		missingIndentOperator,
 		unknownFormat,
-		possibleComparissonStatements,
 		expressionNotCorrectType
 	}
 }

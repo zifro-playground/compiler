@@ -4,7 +4,7 @@ namespace ErrorHandler
 {
 	public class WhileLoopFel : WhileLoopErrors
 	{
-		#region WhileLoopErrors implementation
+		#region Errors from SyntaxCheck
 
 		public string missingIndentOperator (string[] arg)
 		{
@@ -18,6 +18,11 @@ namespace ErrorHandler
 
 		#endregion
 
+
+
+		#region Errors from Runtime
+
+		#endregion
 	}
 }
 

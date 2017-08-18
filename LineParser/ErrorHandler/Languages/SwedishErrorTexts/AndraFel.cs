@@ -4,13 +4,18 @@ namespace ErrorHandler
 {
 	public class AndraFel : OtherErrors
 	{
-		#region errors that should not reach the user
+		#region Errors from SyntaxCheck
 
-
-		/*public string corruptAndOrStatement (string[] arg)
+		/*public string missingIndentOperator (string[] arg)
 		{
-			return "Något har gått fel vid läsningen av And/Or";
+			return "Det saknas ett \":\" i slutet av din Else sats";
 		}*/
+
+		#endregion
+
+
+
+		#region Errors from Runtime
 
 		#endregion
 	}

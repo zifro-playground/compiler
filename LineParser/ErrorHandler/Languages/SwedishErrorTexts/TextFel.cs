@@ -4,13 +4,21 @@ namespace ErrorHandler
 {
 	public class TextFel : TextErrors
 	{
-		#region TextErrors implementation
+		#region Errors from SyntaxCheck
 
+		/// Should this error really exist? You can add strings to eachother without + in Python
 		public string expectedPlusSignBetweenStrings (string[] arg)
 		{
 			return "Det förväntas vara ett \"+\" mellan textsträngarna";
 		}
 
+
+
+		#endregion
+
+
+
+		#region Errors from Runtime
 		public string expectedATextValue (string[] arg)
 		{
 			return "Det förväntades ett text värde";
@@ -20,14 +28,7 @@ namespace ErrorHandler
 		{
 			return "Utrycket måste avslutas med en text";
 		}
-
-		public string textParsingMalfunction (string[] arg)
-		{
-			return "Något gick galet med text parsingen";
-		}
-
 		#endregion
-
 	}
 }
 

@@ -7,14 +7,6 @@ namespace SyntaxCheck{
 	
 	internal class CodeSyntaxWalker{
 		
-		
-		public static void walkAllLines(CodeLine[] allColdeLines, Scope mainScope){
-			/*
-			foreach (CodeLine c in allColdeLines)
-				findCommandType (c, mainScope);
-			*/
-		}
-		
 		private static void findCommandType(CodeLine c, Scope mainScope){
 			checkForUnknown (c.logicOrder, c.lineNumber);
 			
@@ -27,14 +19,13 @@ namespace SyntaxCheck{
 			if (PossibleFunctionCall.possibleFunctionCall (c.logicOrder, c.lineNumber))
 				return;
 			
-			ErrorMessage.sendErrorMessage (c.lineNumber, ErrorType.Logic, LogicErrorType.unknownLogic.ToString(), null);
+			ErrorMessage.sendErrorMessage (c.lineNumber, ErrorType.System, SystemFailureErrorType.unknownLogic.ToString(), new string[]{"0"});
 		}
-		
 		
 		static void checkForUnknown(Logic[] logicOrder, int lineNumber){
 			foreach (Logic L in logicOrder)
 				if (L.currentType == WordTypes.unknown)
-					ErrorMessage.sendErrorMessage (lineNumber, "unknown logic!");
+					ErrorMessage.sendErrorMessage (lineNumber, ErrorType.System, SystemFailureErrorType.unknownLogic.ToString(), new string[]{"1"});
 		}
 	}
 	

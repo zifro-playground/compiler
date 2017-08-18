@@ -4,7 +4,8 @@ namespace ErrorHandler
 {
 	public class ForLoopFel : ForLoopErrors
 	{
-		
+
+		#region Errors from SyntaxCheck
 		/// Missings the indent operator ":".
 		public string missingIndentOperator (string[] args)
 		{
@@ -29,34 +30,41 @@ namespace ErrorHandler
 			return "I en for-slinga förväntas det tredje ordet att vara \"in\"";
 		}
 
-		/// Expects the keyword "range" as word number 4.
+		/// Expects the keyword "range" as word number 4. This must be redefined if lists are introduced
 		public string expectRangeAt4 (string[] args)
 		{
 			return "I en for-slinga förväntas det fjärde ordet att vara \"range\"";
 		}
 
+		#endregion
+
+
+
+		#region Errors from Runtime
 		/// Expects atleast on number between parenthesis to range().
 		public string rangeArgumentEmpty (string[] args)
 		{
 			return "Det måste finnas minst en siffra mellan parenteserna till \"range()\"";
 		}
-
+		
 		/// Expects the argsuments to range() to be numbers.
 		public string rangeArgumentNotNumber (string[] args)
 		{
 			return "Det får bara vara siffor mellan parenteserna till \"range()\"";
 		}
-
+		
 		/// Expects the keyword "range" to be followed by parenthesis.
 		public string rangeMissingParenthesis (string[] args)
 		{
 			return "Det saknas parenteser till \"range()\"";
 		}
-
+		
 		public string counterVariableIsNotNumber (string[] args)
 		{
 			return "Din räknevariabel " + args[0] + " måste vara en siffra";
 		}
+
+		#endregion
 	}
 }
 

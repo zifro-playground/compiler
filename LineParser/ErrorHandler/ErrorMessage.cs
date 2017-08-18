@@ -38,15 +38,15 @@ namespace ErrorHandler
 			TextErrors txtError = theSender.textErrors;
 			VariableErrors varError = theSender.variableErrors;
 
-			LogicErrors logicError = theSender.logicErrors;
 			WhileLoopErrors whileError = theSender.whileLoopErrors;
 			NumberErrors numError = theSender.numberErrors;
 			KeywordErrors keywordError = theSender.keywordErrors;
 			FunctionErrors funcError = theSender.functionErrors;
 			OtherErrors otherError = theSender.otherErrors;
+			SystemFailureErrors systemErrors = theSender.systemErrors;
 
 			currentLanguage.initLanguageErrors1 (ifError, elseError, forError, indentError, txtError, varError);
-			currentLanguage.initLanguageErrors2 (logicError, whileError, numError, keywordError, funcError, otherError);
+			currentLanguage.initLanguageErrors2 (whileError, numError, keywordError, funcError, otherError, systemErrors);
 		}
 
 		public static void setErrorMethod(Action<int, string> errorMethod){

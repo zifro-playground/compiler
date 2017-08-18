@@ -31,10 +31,6 @@ namespace ErrorHandler
 
 
 
-		public LogicErrors logicErrors {
-			get {return new LogiskaFel();}
-		}
-
 		public WhileLoopErrors whileLoopErrors {
 			get {return new WhileLoopFel ();}
 		}
@@ -53,6 +49,10 @@ namespace ErrorHandler
 
 		public OtherErrors otherErrors {
 			get {return new AndraFel ();}
+		}
+
+		public SystemFailureErrors systemErrors {
+			get {return new SystemFel ();}
 		}
 	}
 }

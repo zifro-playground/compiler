@@ -157,7 +157,7 @@ namespace Compiler
 			}
 
 
-			ErrorMessage.sendErrorMessage (lineNumber, ErrorType.Logic, LogicErrorType.unknownLogic.ToString(), null);
+			ErrorMessage.sendErrorMessage (lineNumber, ErrorType.System, SystemFailureErrorType.unknownLogic.ToString(), new string[]{"4"});
 			return false;
 		}
 	}

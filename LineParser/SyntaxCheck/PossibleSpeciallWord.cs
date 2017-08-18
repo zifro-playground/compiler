@@ -57,7 +57,7 @@ namespace SyntaxCheck{
 				statementLogic [i - 1] = logicOrder [i];
 			
 			if(!PossibleStatement.validStatement(statementLogic, lineNumber))
-				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.IfStatements, IfErrorType.possibleComparissonStatements.ToString(), null);
+				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.System, SystemFailureErrorType.possibleComparissonStatements.ToString(), null);
 			
 			return true;
 		}
