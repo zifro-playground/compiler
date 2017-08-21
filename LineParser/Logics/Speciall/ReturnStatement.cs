@@ -22,7 +22,7 @@ namespace Compiler
 				return;
 			}
 			else if(currentScope.theScopeType == ScopeType.main)
-				ErrorMessage.sendErrorMessage (lineNumber, "Du kan inte returnera från main");
+				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.Function, FunctionErrorType.cantReturnFromMainScope.ToString(), null);
 
 
 			if(currentScope.parentScope == null)

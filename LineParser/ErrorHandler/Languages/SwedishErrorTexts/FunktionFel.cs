@@ -6,16 +6,18 @@ namespace ErrorHandler
 	{
 		#region Errors from SyntaxCheck
 
-		/*public string missingIndentOperator (string[] arg)
-		{
-			return "Det saknas ett \":\" i slutet av din Else sats";
-		}*/
 
 		#endregion
 
 
 
 		#region Errors from Runtime
+
+		/// Called if there is a return statement in the main scope
+		public string cantReturnFromMainScope (string[] arg)
+		{
+			return "Du kan inte använda return utanför en funktion";
+		}
 
 		#endregion
 	}

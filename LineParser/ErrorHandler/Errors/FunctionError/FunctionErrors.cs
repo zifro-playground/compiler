@@ -5,7 +5,7 @@ namespace ErrorHandler
 {
 	public interface FunctionErrors
 	{
-		//string speciallDeclerationNeedsDeclaredVariable (string[] arg);
+		string cantReturnFromMainScope (string[] arg);
 	}
 
 
@@ -15,7 +15,7 @@ namespace ErrorHandler
 		public static Dictionary<string, Func<string[], string>> getMessages(FunctionErrors theLogicOrder){
 			Dictionary<string, Func<string[], string>> messages = new Dictionary<string, Func<string[], string>> ();
 
-			//messages.Add (FunctionErrorType.speciallDeclerationNeedsDeclaredVariable.ToString(), theLogicOrder.speciallDeclerationNeedsDeclaredVariable);
+			messages.Add (FunctionErrorType.cantReturnFromMainScope.ToString(), theLogicOrder.cantReturnFromMainScope);
 
 			return messages;
 		}

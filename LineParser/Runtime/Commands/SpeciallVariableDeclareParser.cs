@@ -47,7 +47,7 @@ namespace Runtime
 		private static Variable getAfterEqualSignSum(Logic[] cloneLogicOrder, int lineNuber, Scope currentScope){
 			Logic[] afterEqualSign = InternalParseFunctions.getSubArray(cloneLogicOrder, 3, cloneLogicOrder.Length-1, lineNuber);
 
-			Debugger.printLogicOrder (afterEqualSign, "Checking how dis turns out");
+			//Debugger.printLogicOrder (afterEqualSign, "Checking how dis turns out");
 			return new Variable ();
 		}
 

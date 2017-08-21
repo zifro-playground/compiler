@@ -4,6 +4,7 @@ namespace ErrorHandler
 {
 	public enum FunctionErrorType
 	{
+		cantReturnFromMainScope
 	}
 }
 

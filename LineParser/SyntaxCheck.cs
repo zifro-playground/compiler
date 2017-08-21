@@ -19,15 +19,11 @@ namespace Compiler
 			return LineParser.parseLines (textLines);
 
 		}
-
-		/// <summary>
-		/// Links rullText and actions (endWalker etc) to CodeWalker via setActions.
-		/// </summary>
+			
+		/// Links fullText and actions (endWalker etc) to CodeWalker via setActions.
 		public static void CompileCode(string fullText, Action endWalker, Action pauseWalker, Action activateFunctionColor, Action<int> setWalkerPos){
 			Scope mainScope = ScopeParser.parseIntoScopes (fullText);
 			Runtime.CodeWalker.setActions(endWalker, pauseWalker, activateFunctionColor, setWalkerPos, mainScope);	
-			Runtime.Debugger.printLogicOrder (mainScope.codeLines [0].logicOrder, "Hej");
-
 		}
 	}
 }

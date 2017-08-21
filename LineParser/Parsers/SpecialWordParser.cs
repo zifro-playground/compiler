@@ -11,7 +11,7 @@ namespace Compiler
 		public static readonly string[] scopeStarters = {"while", "for", "if", "else", "elif", "def"};
 
 		public static readonly string[] unSupportedKeywords = {"as", "assert", "class", "del", "except",
-		"exec", "finally", "from", "global", "import", "is", "lambda", "pass", "raise", "try", "with", "yield"};
+		"exec", "finally", "from", "global", "import", "is", "lambda", "pass", "raise", "try", "with", "yield", "None"};
 
 
 		public static Logic parseSpecialLine(Logic[] logicOrder, int lineNumber, Scope currentScope){
