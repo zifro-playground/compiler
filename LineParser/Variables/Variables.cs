@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using B83.ExpressionParser;
 using Runtime;
+using ErrorHandler;
 
 namespace Compiler
 {
@@ -27,8 +28,8 @@ namespace Compiler
 					changeExistingVariable (tempCont, newVar.getString (), scopePareser);
 				else if(newVar.variableType == VariableTypes.None)
 					changeExistingVariable (tempCont, newVar.getString (), scopePareser);
-				//else
-				//	ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, "Tried to Change " + newVar.name + " to unsupported Value");
+				else
+					ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, ErrorType.System, SystemFailureErrorType.addOrChangeUnsupportedVariableType.ToString(), null);
 
 			} 
 			else {
@@ -37,8 +38,8 @@ namespace Compiler
 					if (newVar.variableType == VariableTypes.number)
 						scopePareser.AddConst (newVar.name, () => newVar.getNumber ());
 				}
-			//	else
-				//	ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, "Tried to Add " + newVar.name + " with unsupported Value");
+				else
+					ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, ErrorType.System, SystemFailureErrorType.addOrChangeUnsupportedVariableType.ToString(), null);
 
 			}
 

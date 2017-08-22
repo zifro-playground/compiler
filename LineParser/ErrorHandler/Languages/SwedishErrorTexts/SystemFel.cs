@@ -40,6 +40,11 @@ namespace ErrorHandler
 		{
 			return "Okänt format av jämförelsen i  if-satsen";
 		}
+
+		// Called if the variableType is not supported (eg unknown, unsigned)
+		public string addOrChangeUnsupportedVariableType(string[] arg){
+			return "Typen av data du försöker lägga in i variabeln stöds inte i detta moment";
+		}
 		#endregion
 	}
 }

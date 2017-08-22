@@ -58,7 +58,7 @@ namespace Compiler
 					// Links else/elif
 					if (line.logicOrder [0] is ComparisonScope) {
 						if (i == 0 && line.logicOrder [0] is IfStatement == false)
-							ErrorMessage.sendErrorMessage (line.lineNumber , "Finns inget if statment att länka med");
+							ErrorMessage.sendErrorMessage (line.lineNumber , ErrorType.ElseStatements, ElseErrorType.missingIfBeforeElse.ToString(), null);
 
 						if (line.logicOrder [0] is IfStatement == false)
 							linkElseStatement (line.logicOrder [0], currentScope.codeLines [i - 1].logicOrder [0], currentScope, linkCounter, line.lineNumber);
@@ -79,9 +79,9 @@ namespace Compiler
 
 		static void linkElseStatement(Logic newStatement, Logic preLineLogic, Scope currentScope, int linkCounter, int lineNumber){
 			if (linkCounter == 0)
-				ErrorMessage.sendErrorMessage (lineNumber, "Finns inget if statment att länka med");
+				ErrorMessage.sendErrorMessage (lineNumber , ErrorType.ElseStatements, ElseErrorType.missingIfBeforeElse.ToString(), null);
 			if(preLineLogic is ElseStatement)
-				ErrorMessage.sendErrorMessage (lineNumber, "Det går inte att länka med ett Else uttryck");
+				ErrorMessage.sendErrorMessage (lineNumber, ErrorType.ElseStatements, ElseErrorType.elseCantLinkToElse.ToString(), null);
 
 			(preLineLogic as ComparisonScope).linkNextStatement (newStatement as ComparisonScope);
 		}

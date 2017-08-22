@@ -6,7 +6,8 @@ namespace ErrorHandler
 	{
 		missingIndentOperator,
 		unknownFormat,
-		missingStatementLink
+		missingIfBeforeElse,
+		elseCantLinkToElse
 	}
 }
 

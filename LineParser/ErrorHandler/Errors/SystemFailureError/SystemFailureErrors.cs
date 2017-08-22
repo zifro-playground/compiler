@@ -10,6 +10,7 @@ namespace ErrorHandler
 		string possibleComparissonStatements (string[] arg);
 		string unknownLogic (string[] arg);
 		string scopeParsingMalfunction (string[] arg);
+		string addOrChangeUnsupportedVariableType (string[] arg);
 	}
 
 	public class SystemFailureErrorsOrder
@@ -22,6 +23,7 @@ namespace ErrorHandler
 			messages.Add (SystemFailureErrorType.possibleComparissonStatements.ToString(), theLogicOrder.possibleComparissonStatements);
 			messages.Add (SystemFailureErrorType.unknownLogic.ToString(), theLogicOrder.unknownLogic);
 			messages.Add (SystemFailureErrorType.scopeParsingMalfunction.ToString(), theLogicOrder.scopeParsingMalfunction);
+			messages.Add (SystemFailureErrorType.addOrChangeUnsupportedVariableType.ToString(), theLogicOrder.addOrChangeUnsupportedVariableType);
 
 			return messages;
 		}

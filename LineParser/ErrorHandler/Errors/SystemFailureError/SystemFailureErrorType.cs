@@ -8,7 +8,8 @@ namespace ErrorHandler
 		textParsingMalfunction,
 		possibleComparissonStatements,
 		unknownLogic,
-		scopeParsingMalfunction
+		scopeParsingMalfunction,
+		addOrChangeUnsupportedVariableType
 	}
 }
 

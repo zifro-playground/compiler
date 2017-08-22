@@ -20,9 +20,15 @@ namespace ErrorHandler
 
 
 		/// Missing if before else so link can not be setup
-		public string missingStatementLink (string[] arg)
+		public string missingIfBeforeElse (string[] arg)
 		{
-			return "Else måste vara länkat till en If sats";
+			return "Else måste vara länkat till en If-sats";
+		}
+
+		/// Called if there is two else after each other
+		public string elseCantLinkToElse (string[] arg)
+		{
+			return "Else måste komma direkt efter en If-sats. Kan inte kopplas till en annan else";
 		}
 
 		#endregion
