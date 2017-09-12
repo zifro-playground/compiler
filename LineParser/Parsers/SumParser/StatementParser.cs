@@ -55,7 +55,8 @@ namespace Compiler
 
 			#endregion
 
-			if (operatorAmount > 2 || operatorHigh - operatorLow != 1) {
+
+			if (operatorAmount > 2 && operatorHigh - operatorLow != 1) {
 				ErrorMessage.sendErrorMessage (lineNumber, "I detta moment är det inte tillåtet att gör flera jämförelser direkt efter varandra. Använd \"and\" och \"or\" istället.");
 			}
 			if (operatorAmount == 0)

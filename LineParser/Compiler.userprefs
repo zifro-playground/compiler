@@ -1,51 +1,14 @@
 ﻿<Properties StartupItem="Compiler.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Logics\Lines\ComparisonOperatorParser.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Parsers\SumParser\StatementParser.cs">
     <Files>
       <File FileName="Parsers\InternalParseFunctions.cs" Line="1" Column="1" />
-      <File FileName="Scope\Parser\IndentParser.cs" Line="91" Column="18" />
-      <File FileName="SyntaxCheck\CodeSyntaxWalker.cs" Line="28" Column="6" />
+      <File FileName="Scope\Parser\IndentParser.cs" Line="1" Column="1" />
+      <File FileName="SyntaxCheck\CodeSyntaxWalker.cs" Line="1" Column="1" />
       <File FileName="Logics\Lines\ComparisonOperatorParser.cs" Line="73" Column="17" />
+      <File FileName="Parsers\Statements\ReturnStatementParser.cs" Line="20" Column="49" />
+      <File FileName="Parsers\SumParser\StatementParser.cs" Line="66" Column="40" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="Compiler" expanded="True">
-            <Node name="Compiler" expanded="True">
-              <Node name="ErrorHandler" expanded="True">
-                <Node name="Errors" expanded="True">
-                  <Node name="ElseError" expanded="True" />
-                </Node>
-                <Node name="Languages" expanded="True">
-                  <Node name="SwedishErrorTexts" expanded="True" />
-                </Node>
-              </Node>
-              <Node name="Logics" expanded="True">
-                <Node name="Lines" expanded="True">
-                  <Node name="ComparisonOperatorParser.cs" selected="True" />
-                </Node>
-                <Node name="Loops" expanded="True" />
-                <Node name="Speciall" expanded="True" />
-              </Node>
-              <Node name="Parsers" expanded="True">
-                <Node name="Statements" expanded="True" />
-              </Node>
-              <Node name="Runtime" expanded="True">
-                <Node name="Commands" expanded="True" />
-              </Node>
-              <Node name="Scope" expanded="True">
-                <Node name="Parser" expanded="True" />
-              </Node>
-              <Node name="SyntaxCheck" expanded="True" />
-              <Node name="Tags" expanded="True">
-                <Node name="Logic" expanded="True" />
-              </Node>
-              <Node name="Variables" expanded="True" />
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
