@@ -15,16 +15,16 @@ namespace ErrorHandler
 		/// Called if first line is not at indentation level 0
 		public string firstLineIndentError (string[] arg)
 		{
-			return "Första raden i programmet måste alltid ha indentering noll";
+			return "Första raden i programmet måste alltid vara längst till vänster.";
 		}
 
 		/// Called if there is a indentation error like missing to indent after if declaration or indenting too much
 		public string indentationError (string[] arg)
 		{
-			return "Indenterings fel!";
+			return "Tabb-fel, koden måste vara rätt antal steg (tabb) in från kanten.";
 		}
 
-		/// Called if there is no more lines of code after a scope starter (eg if, while)
+		/// Called if there is no more lines of code after a scope starter (e.g. if, while)
 		public string expectingBodyAfterScopeStarter (string[] arg)
 		{
 			return "Förväntar sig indenterad kod efter den här raden";

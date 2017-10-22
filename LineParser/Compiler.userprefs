@@ -1,10 +1,11 @@
 ﻿<Properties StartupItem="Compiler.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ErrorHandler\LevenshteinDist.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ErrorHandler\Languages\SwedishErrorTexts\IndenteringsFel.cs">
     <Files>
       <File FileName="ErrorHandler\Languages\SwedishErrorTexts\VariabelFel.cs" Line="1" Column="1" />
-      <File FileName="Parsers\SumParser\SumParser.cs" Line="101" Column="78" />
+      <File FileName="Parsers\SumParser\SumParser.cs" Line="1" Column="1" />
       <File FileName="ErrorHandler\LevenshteinDist.cs" Line="25" Column="3" />
+      <File FileName="ErrorHandler\Languages\SwedishErrorTexts\IndenteringsFel.cs" Line="24" Column="60" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
