@@ -1,13 +1,10 @@
 ﻿<Properties StartupItem="Compiler.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Parsers\SumParser\StatementParser.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ErrorHandler\LevenshteinDist.cs">
     <Files>
-      <File FileName="Parsers\InternalParseFunctions.cs" Line="1" Column="1" />
-      <File FileName="Scope\Parser\IndentParser.cs" Line="1" Column="1" />
-      <File FileName="SyntaxCheck\CodeSyntaxWalker.cs" Line="1" Column="1" />
-      <File FileName="Logics\Lines\ComparisonOperatorParser.cs" Line="73" Column="17" />
-      <File FileName="Parsers\Statements\ReturnStatementParser.cs" Line="20" Column="49" />
-      <File FileName="Parsers\SumParser\StatementParser.cs" Line="66" Column="40" />
+      <File FileName="ErrorHandler\Languages\SwedishErrorTexts\VariabelFel.cs" Line="1" Column="1" />
+      <File FileName="Parsers\SumParser\SumParser.cs" Line="101" Column="78" />
+      <File FileName="ErrorHandler\LevenshteinDist.cs" Line="25" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
