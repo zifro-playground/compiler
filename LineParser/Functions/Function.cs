@@ -6,6 +6,7 @@ namespace Compiler
 	public abstract class Function{
 
 		public string name;
+		public string buttonText;
 		public bool hasReturnVariable;
 		public bool pauseWalker;
 		public List<int> inputParameterAmount = new List<int>();
