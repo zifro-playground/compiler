@@ -9,7 +9,7 @@ namespace Compiler
 			List<CodeLine> tempList = new List<CodeLine> ();
 
 			for (int i = 0; i < lineList.Count; i++) {
-				if (lineList [i].theString != "" && containsChar(lineList[i].theString) && !isComment(lineList[i].theString)) {
+				if (lineList [i].theString != "" /*&& containsChar(lineList[i].theString)*/ && !isComment(lineList[i].theString)) {
 					int indentLevel = getIndentLevel (lineList [i].theString);
 					string trimmedString = lineList [i].theString.Substring (indentLevel, lineList [i].theString.Length - indentLevel);
 					string[] words = WordParser.parseWords (trimmedString);
