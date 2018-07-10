@@ -26,9 +26,9 @@ namespace Compiler
 				else
 					theFuncCall.inputVariables = getValueOfParameters (theFuncCall.parameter, theFuncCall.targetFunc, lineNumber, currentScope, theFuncCall);
 
-				for (int i = 0; i < theFuncCall.inputVariables.Length; i++) {
-					Print.print (theFuncCall.inputVariables [i].name + "  : " +  theFuncCall.inputVariables [i].getNumber ().ToString ());
-				}
+				//for (int i = 0; i < theFuncCall.inputVariables.Length; i++) {
+				//	Print.print (theFuncCall.inputVariables [i].name + "  : " +  theFuncCall.inputVariables [i].getNumber ().ToString ());
+				//}
 
 
 				theFuncCall.lineNumber = lineNumber;

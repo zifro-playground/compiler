@@ -27,8 +27,8 @@ namespace Runtime
 			if (cloneLogicOrder [1].currentType != WordTypes.equalSign)
 				afterEqualSignSum = SpeciallVariableDeclareParser.speciallVariableDeclare (cloneLogicOrder, lineNumber, afterEqualSignSum, currentScope);
 			else
-				afterEqualSignSum.name = cloneLogicOrder [0].word;
-
+				afterEqualSignSum.name = (cloneLogicOrder[0] as Variable).name;
+				
 			//Add the newly declared variable
 			if (afterEqualSignSum.variableType != VariableTypes.unknown) {
 				currentScope.scopeVariables.addVariable(afterEqualSignSum, currentScope.scopeParser, lineNumber);

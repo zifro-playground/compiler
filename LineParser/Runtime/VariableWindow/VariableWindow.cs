@@ -11,7 +11,6 @@ namespace Runtime
 		private static Action resetList;
 
 		private static List<Variables> tempVariables = new List<Variables>();
-	//	private static PreBuiltFunctionList
 
 		public static void setVariableWindowFunctions(Action<Variable> insertVariableToList, Action resetTheList){
 			insertVariable = insertVariableToList;
@@ -25,8 +24,13 @@ namespace Runtime
 			sendScopeVariables (currentScope);
 
 			foreach (Variables Vars in tempVariables)
+			{
 				foreach (Variable v in Vars.variableList)
-					insertVariable (v);
+				{
+					//Print.print("Variable to send: " + v.name);
+					insertVariable(v);
+				}
+			}
 		}
 
 		private static void sendScopeVariables(Scope currentScope){

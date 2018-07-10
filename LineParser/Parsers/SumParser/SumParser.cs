@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Runtime;
 
 namespace Compiler
@@ -73,16 +74,21 @@ namespace Compiler
 			} else {
 				if ((logicOrder [i] as FunctionCall).targetFunc.pauseWalker)
 					CodeWalker.pauseWalker ();
-				
-				Variable returnVariable = (logicOrder [i] as FunctionCall).runFunction (currentScope);
-				logicOrder [i] = returnVariable;
 
-				if(returnVariable.variableType == VariableTypes.boolean)
-					setNewExpectVariable (theExpectedType, VariableTypes.boolean, lineNumber);
-				else if(returnVariable.variableType == VariableTypes.number)
-					setNewExpectVariable (theExpectedType, VariableTypes.number, lineNumber);
-				else if(returnVariable.variableType == VariableTypes.textString)
-					setNewExpectVariable (theExpectedType, VariableTypes.textString, lineNumber);
+				if ((logicOrder[i] as FunctionCall).targetFunc.name == "input"){
+					CodeWalker.linkSubmitInput.Invoke(SubmitInput, currentScope);
+					CodeWalker.isWaitingForUserInput = true;
+				}
+
+				Variable returnVariable = (logicOrder[i] as FunctionCall).runFunction(currentScope);
+				logicOrder[i] = returnVariable;
+
+				if (returnVariable.variableType == VariableTypes.boolean)
+					setNewExpectVariable(theExpectedType, VariableTypes.boolean, lineNumber);
+				else if (returnVariable.variableType == VariableTypes.number)
+					setNewExpectVariable(theExpectedType, VariableTypes.number, lineNumber);
+				else if (returnVariable.variableType == VariableTypes.textString)
+					setNewExpectVariable(theExpectedType, VariableTypes.textString, lineNumber);
 			}
 		}
 
@@ -106,8 +112,6 @@ namespace Compiler
 			}
 		}
 
-
-
 		private static Variable getCalcSum(expectType theExpectedType, Logic[] logicOrder, int lineNumber){
 			if (theExpectedType.currentType == VariableTypes.boolean) {
 				Variable sumVar = BooleanSumParser.validBoolSum (logicOrder, lineNumber);
@@ -130,6 +134,61 @@ namespace Compiler
 			return new Variable ("CalcVar");
 		}
 
+		public static void SubmitInput(string inputFromUser, Scope currentScope){
+			if (!CodeWalker.isWaitingForUserInput)
+				return;
+
+			var oldLine = currentScope.getCurrentLine().getFullLine();
+			var newLine = ReplaceInputWithValue(oldLine, inputFromUser);
+
+			var lines = Compiler.SyntaxCheck.parseLines(newLine);
+			var words = lines.First().words;
+			var logic = WordsToLogicParser.determineLogicFromWords(words, 1, currentScope);
+
+			currentScope.getCurrentLine().words = words;
+			currentScope.getCurrentLine().logicOrder = logic;
+
+			CodeWalker.parseLine(currentScope.getCurrentLine());
+			CodeWalker.isWaitingForUserInput = false;
+		}
+
+		private static string ReplaceInputWithValue(string currentLine, string value){
+			var currentCharIndex = 0;
+			var inputStartIndex = -1;
+			var inputEndIndex = -1;
+			var startedParanthesis = -1;
+
+			while (currentCharIndex < currentLine.Length){
+
+				if (currentLine[currentCharIndex] == 'i' && currentLine[currentCharIndex + 1] == 'n' && currentLine[currentCharIndex + 2] == 'p' &&
+				    currentLine[currentCharIndex + 3] == 'u' && currentLine[currentCharIndex + 4] == 't' && currentLine[currentCharIndex + 5] == '('){
+
+					inputStartIndex = currentCharIndex;
+					startedParanthesis = 1;
+					currentCharIndex += 6;
+				}
+
+				if (currentLine[currentCharIndex] == '(')
+					startedParanthesis++;
+				else if (currentLine[currentCharIndex] == ')')
+					startedParanthesis--;
+
+				if (startedParanthesis == 0)
+					inputEndIndex = currentCharIndex + 1;
+
+				currentCharIndex++;
+			}
+
+			var subStringLength = inputEndIndex - inputStartIndex;
+			var subStringWithInput = currentLine.Substring(inputStartIndex, subStringLength);
+
+			var firstPartSubString = currentLine.Substring(0, inputStartIndex);
+			var secondPartSubString = currentLine.Substring(inputEndIndex);
+
+			var newLine = firstPartSubString + "\"" + value + "\"" + secondPartSubString;
+			
+			return newLine;
+		}
 
 		#region Expected type
 		private class expectType

@@ -24,10 +24,10 @@ namespace Compiler
 		}
 			
 		/// Links fullText and actions (endWalker etc) to CodeWalker via setActions.
-		public static void CompileCode(string fullText, Action endWalker, Action pauseWalker, Action activateFunctionColor, Action<int> setWalkerPos){
+		public static void CompileCode(string fullText, Action endWalker, Action pauseWalker, Action<Action<string, Scope>, Scope> linkSubmitInput, Action activateFunctionColor, Action<int> setWalkerPos){
 			Scope mainScope = ScopeParser.parseIntoScopes (fullText);
 			MainScopeCopy = mainScope;
-			Runtime.CodeWalker.setActions(endWalker, pauseWalker, activateFunctionColor, setWalkerPos, mainScope);	
+			Runtime.CodeWalker.setActions(endWalker, pauseWalker, linkSubmitInput, activateFunctionColor, setWalkerPos, mainScope);
 		}
 	}
 }
