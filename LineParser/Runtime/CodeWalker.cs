@@ -1,6 +1,7 @@
 ﻿using Compiler;
 using ErrorHandler;
 using System;
+using System.Linq;
 
 namespace Runtime
 {
@@ -12,20 +13,24 @@ namespace Runtime
 		private static bool isReturning = false;
 
 		public static bool switchedToUserFunc = false;
+		public static bool isWaitingForUserInput;
 
 		internal static Action doEndWalker, pauseWalker, activateFunctionColor;
+		internal static Action<Action<string, Scope>, Scope> linkSubmitInput;
 		static Action<int> showCurrentActiveCodeLine;
 
 		#region initWalker
 		/// <summary>
 		/// Setup for CodeWalker.
 		/// </summary>
-		public static void setActions(Action endWalker, Action walkerPause, Action funcColor, Action<int> showCurrentLine, Scope main){
+		public static void setActions(Action endWalker, Action walkerPause, Action<Action<string, Scope>, Scope> linkInputTrigger, Action funcColor, Action<int> showCurrentLine, Scope main){
 			doEndWalker = endWalker;
 			pauseWalker = walkerPause;
+			linkSubmitInput = linkInputTrigger;
 			activateFunctionColor = funcColor;
 			showCurrentActiveCodeLine = showCurrentLine;
 			currentScope = main;
+			isWaitingForUserInput = false;
 			currentLineIndex = 0;
 		}
 		#endregion
@@ -45,8 +50,10 @@ namespace Runtime
 					SetFinalScopeCommands (false, currentScope.codeLines[currentScope.codeLines.Count-1].lineNumber);
 					return;
 				}
-				
-			currentScope.lastReadLine = currentLineIndex;
+
+			if (!isWaitingForUserInput)
+				currentScope.lastReadLine = currentLineIndex;
+
 			CodeLine currentLine = currentScope.getCurrentLine ();
 
 			if (currentLine.logicOrder [0] is ScopeStarter) {
@@ -60,8 +67,6 @@ namespace Runtime
 
 			showCurrentActiveCodeLine.Invoke (currentLine.lineNumber);
 
-		
-
 			try{
 				currentLine.theCommandType = parseCommandType (currentLine.lineNumber, currentScope);
 			}
@@ -70,13 +75,66 @@ namespace Runtime
 					return;	
 				throw e;
 			}
-			ReturnMemoryClear.clearLineMemory (currentLine);
 
-			//Enter New Scope
-			if ((currentLine.logicOrder[0] is ScopeStarter) && NTScopeStarter (currentLine))
+			if (!isWaitingForUserInput)
+			{
+				ReturnMemoryClear.clearLineMemory (currentLine);
+
+				//Enter New Scope
+				if ((currentLine.logicOrder[0] is ScopeStarter) && NTScopeStarter (currentLine))
+					return;
+
+				VariableWindow.sendStackVariables (currentScope);
+				currentLineIndex++;
+			}
+		}
+
+		public static void parseLine(CodeLine currentLine){
+			if (handleReturn())
 				return;
 
-			VariableWindow.sendStackVariables (currentScope);
+			if (currentLineIndex >= currentScope.codeLines.Count)
+				if (currentScope.parentScope == null)
+				{
+					doEndWalker.Invoke();
+					return;
+				}
+				else
+				{
+					SetFinalScopeCommands(false, currentScope.codeLines[currentScope.codeLines.Count - 1].lineNumber);
+					return;
+				}
+
+			currentScope.lastReadLine = currentLineIndex;
+
+			if (currentLine.logicOrder[0] is ScopeStarter){
+
+				if ((currentLine.logicOrder[0] as ScopeStarter).doParseLine == false)
+				{
+					currentLineIndex++;
+					parseLine();
+					return;
+				}
+			}
+
+			showCurrentActiveCodeLine.Invoke(currentLine.lineNumber);
+
+			try{
+				currentLine.theCommandType = parseCommandType(currentLine.lineNumber, currentScope);
+			}
+			catch (Exception e){
+				if (e is FunctionCallException)
+					return;
+				throw e;
+			}
+
+			ReturnMemoryClear.clearLineMemory(currentLine);
+
+			//Enter New Scope
+			if ((currentLine.logicOrder[0] is ScopeStarter) && NTScopeStarter(currentLine))
+				return;
+
+			VariableWindow.sendStackVariables(currentScope);
 			currentLineIndex++;
 		}
 		#endregion

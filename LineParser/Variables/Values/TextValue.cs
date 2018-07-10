@@ -12,6 +12,8 @@ namespace Compiler
 
 			if (word [0] == '"' && word [word.Length - 1] == '"')
 				removeQoutes ();
+			else
+				value = word;
 		}
 
 		private void removeQoutes(){
