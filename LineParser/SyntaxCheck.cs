@@ -8,9 +8,6 @@ namespace Compiler
 	{
 
 		public static B83.ExpressionParser.ExpressionParser globalParser;
-		
-		// Temporary copy to use by Kjell for input argument parser
-		public static Scope MainScopeCopy;
 
 		/// <summary>
 		/// Declares globalParser and returns parsed lines in list of Codelines.
@@ -26,7 +23,6 @@ namespace Compiler
 		/// Links fullText and actions (endWalker etc) to CodeWalker via setActions.
 		public static void CompileCode(string fullText, Action endWalker, Action pauseWalker, Action<Action<string, Scope>, Scope> linkSubmitInput, Action activateFunctionColor, Action<int> setWalkerPos){
 			Scope mainScope = ScopeParser.parseIntoScopes (fullText);
-			MainScopeCopy = mainScope;
 			Runtime.CodeWalker.setActions(endWalker, pauseWalker, linkSubmitInput, activateFunctionColor, setWalkerPos, mainScope);
 		}
 	}
