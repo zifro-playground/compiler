@@ -8,26 +8,13 @@ namespace Compiler
 	public class NumberSumParser{
 
 		public static Variable validNumberSum(Logic[] logicOrder, int lineNumber){
-			bool corrupt = false;
-			string calcString = "";
-
-			handleFirstAndLastWords (logicOrder, lineNumber);
+			handleFirstAndLastWords(logicOrder, lineNumber);
 
 			logicOrder = calcPow (logicOrder, lineNumber);
 			logicOrder = calcModulo (logicOrder, lineNumber);
 
-			for (int i = 0; i < logicOrder.Length; i++) {
-				if (logicOrder [i].currentType == WordTypes.variable) {
-					calcString += (logicOrder[i] as Variable).getNumber ().ToString ();
-				} 
-				else if (logicOrder [i].currentType == WordTypes.number)
-					calcString += logicOrder [i].word;
-				else if (logicOrder [i].currentType == WordTypes.mathOperator)
-					calcString += logicOrder [i].word;
-				else
-					corrupt = true;
-			}
-		
+			var calcString = LogicToCalcString(logicOrder, out bool corrupt);
+
 			if (!corrupt)
 				try{
 					double returnResult = SyntaxCheck.globalParser.Evaluate(calcString);
@@ -113,6 +100,52 @@ namespace Compiler
 			
 		}
 
+		private static string LogicToCalcString(Logic[] logicOrder, out bool corrupt)
+		{
+			string calcString = "";
+			corrupt = false;
+
+			for (int i = 0; i < logicOrder.Length; i++)
+			{
+				if (logicOrder[i].currentType == WordTypes.variable)
+				{
+					if (shouldAddParenthesis(logicOrder, i))
+						calcString += "(" + (logicOrder[i] as Variable).getNumber() + ")";
+					else
+						calcString += (logicOrder[i] as Variable).getNumber().ToString();
+				}
+				else if (logicOrder[i].currentType == WordTypes.number)
+				{
+					if (shouldAddParenthesis(logicOrder, i))
+					{
+						calcString = calcString.Remove(calcString.Length - 1);
+						calcString += "(-" + logicOrder[i].word + ")";
+					}
+					else
+						calcString += logicOrder[i].word;
+				}
+				else if (logicOrder[i].currentType == WordTypes.mathOperator)
+					calcString += logicOrder[i].word;
+				else
+					corrupt = true;
+			}
+			
+			return calcString;
+		}
+
+		private static bool shouldAddParenthesis(Logic[] logicOrder, int index)
+		{
+			if (index > 2 && 
+			    logicOrder[index - 1].word == "-" && 
+			    logicOrder[index - 2].currentType != WordTypes.number)
+				return true;
+
+			if (logicOrder[index].currentType == WordTypes.variable &&
+			    (logicOrder[index] as Variable).variableType == VariableTypes.number &&
+				(logicOrder[index] as Variable).getNumber() < 0)
+				return true;
+			return false;
+		}
 	}
 
 }
