@@ -20,7 +20,7 @@ namespace Compiler
 
 
 			if (results.Count > 0 && results [0].dist <= variableMaxDist)
-				ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, string.Format("Hittar inte variabeln \"{0}\",\nmenade du \"{1}\"?", notFoundName, results[0].word));
+				ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, string.Format("Hittar inte variabeln \"{0}\" i minnet.\nMenade du \"{1}\"?", notFoundName, results[0].word));
 		}
 
 		private class LeveshteinResult{

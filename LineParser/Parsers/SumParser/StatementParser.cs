@@ -90,7 +90,19 @@ namespace Compiler
 				ErrorMessage.sendErrorMessage (lineNumber, "Korrupt värde");
 
 			if (firstSum.variableType != secondSum.variableType)
-				ErrorMessage.sendErrorMessage (lineNumber, "Misslyckades med att jämföra " + firstSum.variableType + " med " + secondSum.variableType);
+			{
+				var firstSumType = SumParser.TypeToString(firstSum.variableType);
+				var secondSumType = SumParser.TypeToString(secondSum.variableType);
+
+				string errorMessage;
+
+				if (firstSumType == "" || secondSumType == "")
+					errorMessage = "Misslyckades med att jämföra " + firstSum.variableType + " med " + secondSum.variableType;
+				else
+					errorMessage = "Kan inte jämföra " + firstSumType + " med " + secondSumType + ".";
+
+				ErrorMessage.sendErrorMessage(lineNumber, errorMessage);
+			}
 
 			if (ComparisonOperatorParser.checkSumsToOperator(firstSum.variableType, operatorType,lineNumber)) {
 				bool resultOfComparison = ComparisonOperatorParser.makeComparison (firstSum, secondSum, operatorType, lineNumber);
@@ -100,7 +112,6 @@ namespace Compiler
 			ErrorMessage.sendErrorMessage (lineNumber, "Korrupt expression!");
 			return false;
 		}
-
 
 		public static bool isStatementOperator(Logic currentLogic){
 			if (currentLogic.currentType == WordTypes.equalSign)

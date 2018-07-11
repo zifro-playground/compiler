@@ -58,7 +58,19 @@ namespace Compiler
 			if (expect.currentType == VariableTypes.unsigned)
 				expect.currentType = newType;
 			else if (expect.currentType != newType)
-				ErrorMessage.sendErrorMessage (lineNumber, "Misslyckades att tolka " + expect.currentType + " med " + newType);
+			{
+				var firstSumType = SumParser.TypeToString(expect.currentType);
+				var secondSumType = SumParser.TypeToString(newType);
+
+				string errorMessage;
+
+				if (firstSumType == "" || secondSumType == "")
+					errorMessage = "Misslyckades med att para ihop " + expect.currentType + " med " + newType;
+				else
+					errorMessage = "Kan inte para ihop " + firstSumType + " med " + secondSumType + ".";
+
+				ErrorMessage.sendErrorMessage (lineNumber, errorMessage);
+			}
 
 			if (expect.currentType == VariableTypes.boolean)
 				BooleanSumParser.validBoolSum (logicOrder, lineNumber);

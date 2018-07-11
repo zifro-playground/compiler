@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using ErrorHandler;
 using Runtime;
 
 namespace Compiler
@@ -104,10 +105,10 @@ namespace Compiler
 					setNewExpectVariable (theExpectedType, (logicOrder [i] as Variable).variableType, lineNumber);
 				else{
 					if((logicOrder [i] as Variable).name.Length > 10)
-						ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, "Användning av icke deklarerad variabel!");
+						ErrorMessage.sendErrorMessage (lineNumber, "Användning av icke deklarerad variabel!");
 
 					LevenshteinDist.checkForClosesVariable (logicOrder [i].word, lineNumber, currentScope);
-					ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, "Variabeln: " + (logicOrder [i] as Variable).name + " är inte deklarerad");
+					ErrorMessage.sendErrorMessage (lineNumber, "Kunde inte hitta variabeln \"" + (logicOrder [i] as Variable).name + "\" i minnet.");
 				}
 			}
 		}
@@ -141,7 +142,7 @@ namespace Compiler
 			var oldLine = currentScope.getCurrentLine().getFullLine();
 			var newLine = ReplaceInputWithValue(oldLine, inputFromUser);
 
-			var lines = Compiler.SyntaxCheck.parseLines(newLine);
+			var lines = SyntaxCheck.parseLines(newLine);
 			var words = lines.First().words;
 			var logic = WordsToLogicParser.determineLogicFromWords(words, 1, currentScope);
 
@@ -203,11 +204,38 @@ namespace Compiler
 			if (expect.currentType == VariableTypes.unsigned)
 				expect.currentType = newType;
 			else if (expect.currentType != newType) {
-				ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, "Misslyckades att tolka " + expect.currentType + " med " + newType);
+				var firstSumType = TypeToString(expect.currentType);
+				var secondSumType = TypeToString(newType);
+
+				string errorMessage;
+
+				if (firstSumType == "" || secondSumType == "")
+					errorMessage = "Misslyckades med att para ihop " + expect.currentType + " med " + newType;
+				else
+					errorMessage = "Kan inte para ihop " + firstSumType + " med " + secondSumType + ".";
+
+				ErrorMessage.sendErrorMessage (lineNumber, errorMessage);
 				expect.currentType  = VariableTypes.unknown;
 			}
 		}
 		#endregion
+
+		public static string TypeToString(VariableTypes variableType)
+		{
+			if (variableType == VariableTypes.number)
+				return "ett tal";
+			if (variableType == VariableTypes.textString)
+				return "en sträng";
+			if (variableType == VariableTypes.boolean)
+				return "ett boolskt värde";
+			if (variableType == VariableTypes.None)
+				return "None";
+			if (variableType == VariableTypes.unknown)
+				return "ett okänt värde";
+			if (variableType == VariableTypes.unsigned)
+				return "ett odefinierat värde";
+			return "";
+		}
 	}
 
 }
