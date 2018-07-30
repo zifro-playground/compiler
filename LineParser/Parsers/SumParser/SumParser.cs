@@ -78,18 +78,30 @@ namespace Compiler
 
 				if ((logicOrder[i] as FunctionCall).targetFunc.name == "input"){
 					CodeWalker.linkSubmitInput.Invoke(SubmitInput, currentScope);
+
+					Variable returnVariable = (logicOrder[i] as FunctionCall).runFunction(currentScope);
+					logicOrder[i] = returnVariable;
+
+					if (returnVariable.variableType == VariableTypes.boolean)
+						setNewExpectVariable(theExpectedType, VariableTypes.boolean, lineNumber);
+					else if (returnVariable.variableType == VariableTypes.number)
+						setNewExpectVariable(theExpectedType, VariableTypes.number, lineNumber);
+					else if (returnVariable.variableType == VariableTypes.textString)
+						setNewExpectVariable(theExpectedType, VariableTypes.textString, lineNumber);
+
 					CodeWalker.isWaitingForUserInput = true;
 				}
+				else {
+					Variable returnVariable = (logicOrder[i] as FunctionCall).runFunction(currentScope);
+					logicOrder[i] = returnVariable;
 
-				Variable returnVariable = (logicOrder[i] as FunctionCall).runFunction(currentScope);
-				logicOrder[i] = returnVariable;
-
-				if (returnVariable.variableType == VariableTypes.boolean)
-					setNewExpectVariable(theExpectedType, VariableTypes.boolean, lineNumber);
-				else if (returnVariable.variableType == VariableTypes.number)
-					setNewExpectVariable(theExpectedType, VariableTypes.number, lineNumber);
-				else if (returnVariable.variableType == VariableTypes.textString)
-					setNewExpectVariable(theExpectedType, VariableTypes.textString, lineNumber);
+					if (returnVariable.variableType == VariableTypes.boolean)
+						setNewExpectVariable(theExpectedType, VariableTypes.boolean, lineNumber);
+					else if (returnVariable.variableType == VariableTypes.number)
+						setNewExpectVariable(theExpectedType, VariableTypes.number, lineNumber);
+					else if (returnVariable.variableType == VariableTypes.textString)
+						setNewExpectVariable(theExpectedType, VariableTypes.textString, lineNumber);
+				}
 			}
 		}
 
@@ -139,6 +151,8 @@ namespace Compiler
 			if (!CodeWalker.isWaitingForUserInput)
 				return;
 
+			CodeWalker.isWaitingForUserInput = false;
+
 			var oldLine = currentScope.getCurrentLine().getFullLine();
 			var newLine = ReplaceInputWithValue(oldLine, inputFromUser);
 
@@ -150,7 +164,6 @@ namespace Compiler
 			currentScope.getCurrentLine().logicOrder = logic;
 
 			CodeWalker.parseLine(currentScope.getCurrentLine());
-			CodeWalker.isWaitingForUserInput = false;
 		}
 
 		private static string ReplaceInputWithValue(string currentLine, string value){

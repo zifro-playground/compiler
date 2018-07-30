@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Runtime;
 
 namespace Compiler{
 	
@@ -27,7 +28,10 @@ namespace Compiler{
 		
 		
 		public Variable runFunction (Scope currentScope){
-			 return targetFunc.runFunction (currentScope, inputVariables, lineNumber);
+			if (CodeWalker.isWaitingForUserInput)
+				return new Variable();
+
+			return targetFunc.runFunction (currentScope, inputVariables, lineNumber);
 		}
 		
 		public void setLogic(string word, WordTypes currentType){
