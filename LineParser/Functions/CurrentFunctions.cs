@@ -21,7 +21,8 @@ namespace Compiler
 				if (savedFunctions [i].name == searchedFunction) 
 					return savedFunctions [i];
 
-			ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, "Funktionen \"" + searchedFunction + "\" är inte definierad");
+			LevenshteinDist.checkForClosesFunctions(searchedFunction, savedFunctions, lineNumber);
+			ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, "Hittar ingen funktion med namn \"" + searchedFunction + "\".");
 			return null;
 		}
 

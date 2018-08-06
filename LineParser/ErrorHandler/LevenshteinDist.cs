@@ -23,6 +23,20 @@ namespace Compiler
 				ErrorHandler.ErrorMessage.sendErrorMessage (lineNumber, string.Format("Hittar inte variabeln \"{0}\" i minnet.\nMenade du \"{1}\"?", notFoundName, results[0].word));
 		}
 
+		public static void checkForClosesFunctions(string notFoundName, List<Function> savedFunctions, int lineNumber) {
+			List<LeveshteinResult> results = new List<LeveshteinResult>();
+
+			foreach (Function function in savedFunctions)
+				if (function.name != notFoundName)
+					results.Add(new LeveshteinResult(CalcEditDist(notFoundName, function.name), function.name));
+
+			results = results.OrderBy(x => x.dist).ToList();
+
+
+			if (results.Count > 0 && results[0].dist <= variableMaxDist)
+				ErrorHandler.ErrorMessage.sendErrorMessage(lineNumber, string.Format("Hittar ingen funktion med namn \"{0}\".\nMenade du \"{1}\"?", notFoundName, results[0].word));
+		}
+
 		private class LeveshteinResult{
 			public int dist;
 			public string word;

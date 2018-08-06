@@ -15,7 +15,7 @@ namespace Runtime
 
 			int varPos = currentScope.scopeVariables.containsVariable (cloneLogicOrder [0].word);
 			if(varPos < 0)
-				ErrorHandler.ErrorMessage.sendErrorMessage (lineNuber, "För att kunna använda extra operatorer måste variabeln redan vara deklarerad " + cloneLogicOrder[0].word);
+				ErrorHandler.ErrorMessage.sendErrorMessage (lineNuber, "För att kunna använda extra operatorer måste variabeln med namn \"" + cloneLogicOrder[0].word + "\" redan vara deklarerad ");
 			cloneLogicOrder [0] = currentScope.scopeVariables.variableList [varPos];
 
 			if ((cloneLogicOrder [0] as Variable).variableType == VariableTypes.number)

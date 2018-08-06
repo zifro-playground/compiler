@@ -21,6 +21,8 @@ namespace Compiler
 					return new Variable ("calcVarMaten", returnResult, true);
 				}
 				catch(Exception e){
+					if (e is DivideByZeroException)
+						ErrorMessage.sendErrorMessage(lineNumber, "Kan inte dividera med noll!");
 					ErrorMessage.sendErrorMessage (lineNumber, "Något gick fel i uträkningen: " + e.ToString());
 				}
 

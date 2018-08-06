@@ -225,7 +225,7 @@ namespace Compiler
 				if (firstSumType == "" || secondSumType == "")
 					errorMessage = "Misslyckades med att para ihop " + expect.currentType + " med " + newType;
 				else
-					errorMessage = "Kan inte para ihop " + firstSumType + " med " + secondSumType + ".";
+					errorMessage = "Kan inte lägga ihop " + firstSumType + " med " + secondSumType + ".";
 
 				ErrorMessage.sendErrorMessage (lineNumber, errorMessage);
 				expect.currentType  = VariableTypes.unknown;

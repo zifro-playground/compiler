@@ -83,8 +83,12 @@ namespace Compiler
 			Variable secondSum = SumParser.parseIntoSum (rightSide, lineNumber, currentScope);
 			ComparisonType operatorType = ComparisonOperatorParser.parseOperators (operators);
 
-			if (operatorType == ComparisonType.unknown) 
-				ErrorMessage.sendErrorMessage (lineNumber, "Operatorerna går inte att tyda");
+			if (operatorType == ComparisonType.unknown) {
+				if (operators[0].currentType == WordTypes.equalSign)
+					ErrorMessage.sendErrorMessage(lineNumber, "Fel vid tilldelning. Kom ihåg att använda == om du vill jämföra om två värden är lika.");
+				else
+					ErrorMessage.sendErrorMessage(lineNumber, "Operatorerna går inte att tyda");
+			} 
 
 			if (firstSum.variableType == VariableTypes.unknown || secondSum.variableType == VariableTypes.unknown) 
 				ErrorMessage.sendErrorMessage (lineNumber, "Korrupt värde");

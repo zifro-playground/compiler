@@ -24,7 +24,8 @@
 
 	using System.Linq;
 using System.Collections.Generic;
-
+	using Runtime;
+using System;
 
 namespace B83.ExpressionParser
 {
@@ -460,6 +461,9 @@ namespace B83.ExpressionParser
 					exp.Add(Parse(parts[0]));
 				for (int i = 1; i < parts.Length; i++)
 				{
+					if (parts[i].Trim() == "0")
+						throw new DivideByZeroException();
+						
 					string s = parts[i].Trim();
 					if (!string.IsNullOrEmpty(s))
 						exp.Add(new OperationReciprocal(Parse(s)));

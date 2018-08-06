@@ -9,7 +9,7 @@ namespace ErrorHandler
 		/// Called if something goes wrong in the logic when parsing. A unique error code is added to know where it got triggered
 		public string unknownLogic (string[] arg)
 		{
-			return "Okänd kombination av kod. Felkod: " + arg[0];
+			return "Förstår inte koden. Försök igen! (" + arg[0] + ")";
 		}
 
 		/// Called if something goes wrong with the parsing of scopes
