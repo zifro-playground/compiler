@@ -153,8 +153,9 @@ namespace Compiler
 
 			CodeWalker.isWaitingForUserInput = false;
 
-			var oldLine = currentScope.getCurrentLine().getFullLine();
-			var newLine = ReplaceInputWithValue(oldLine, inputFromUser);
+			var oldLine = currentScope.getCurrentLine().cloneLine();
+			var oldLineString = oldLine.getFullLine();
+			var newLine = ReplaceInputWithValue(oldLineString, inputFromUser);
 
 			var lines = SyntaxCheck.parseLines(newLine);
 			var words = lines.First().words;
@@ -163,7 +164,7 @@ namespace Compiler
 			currentScope.getCurrentLine().words = words;
 			currentScope.getCurrentLine().logicOrder = logic;
 
-			CodeWalker.parseLine(currentScope.getCurrentLine());
+			CodeWalker.parseLine(currentScope.getCurrentLine(), oldLine);
 		}
 
 		private static string ReplaceInputWithValue(string currentLine, string value){

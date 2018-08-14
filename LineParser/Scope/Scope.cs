@@ -84,7 +84,12 @@ namespace Compiler
 		public CodeLine getCurrentLine(){
 			return codeLines [lastReadLine];
 		}
-			
+
+		public void setCurrentLine(CodeLine newLine)
+		{
+			codeLines[lastReadLine] = newLine;
+		}
+
 
 		//Not working ish....
 		public Scope createDeepCopy(){

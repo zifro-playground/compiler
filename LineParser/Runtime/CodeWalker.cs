@@ -89,7 +89,7 @@ namespace Runtime
 			}
 		}
 
-		public static void parseLine(CodeLine currentLine){
+		public static void parseLine(CodeLine currentLine, CodeLine originalLine){
 			if (handleReturn())
 				return;
 
@@ -136,6 +136,9 @@ namespace Runtime
 
 			VariableWindow.sendStackVariables(currentScope);
 			currentLineIndex++;
+			
+			// Reset current line so input can be run again if line is inside loop
+			currentScope.setCurrentLine(originalLine);
 		}
 		#endregion
 
