@@ -139,7 +139,8 @@ namespace Compiler
 		{
 			if (index > 2 && 
 			    logicOrder[index - 1].word == "-" && 
-			    logicOrder[index - 2].currentType != WordTypes.number)
+			    logicOrder[index - 2].currentType != WordTypes.number &&
+			    logicOrder[index - 2].currentType != WordTypes.variable)
 				return true;
 
 			if (logicOrder[index].currentType == WordTypes.variable &&
