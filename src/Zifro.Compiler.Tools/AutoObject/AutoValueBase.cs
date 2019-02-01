@@ -45,13 +45,15 @@ namespace Zifro.Compiler.Tools.AutoObject
                         return value;
 
                     case FieldInfo field:
-                        throw new NotImplementedException($"Type mismatch. Cannot get script version of {field.FieldType.Name}");
+                        throw new NotImplementedException(
+                            $"Type mismatch. Cannot get script version of {field.FieldType.Name}");
                     case PropertyInfo prop:
-                        throw new NotImplementedException($"Type mismatch. Cannot get script version of {prop.PropertyType.Name}");
+                        throw new NotImplementedException(
+                            $"Type mismatch. Cannot get script version of {prop.PropertyType.Name}");
                 }
             }
 
-            throw new NotImplementedException($"Property {property} not found");
+            return Processor.Factory.Null;
         }
 
         public IScriptType SetProperty(string property, IScriptType value)
