@@ -58,6 +58,11 @@ namespace Zifro.Compiler.Core.Interfaces
         /// </summary>
         bool TryConvert<T>(out T value);
 
+        /// <summary>
+        /// Try convert this value to it's CLR representation.
+        /// </summary>
+        bool TryConvert(Type type, out object value);
+
         #region Arithmetic operators
 
         /// <summary>

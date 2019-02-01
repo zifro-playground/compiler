@@ -1,4 +1,5 @@
-﻿using Zifro.Compiler.Core.Interfaces;
+﻿using System;
+using Zifro.Compiler.Core.Interfaces;
 
 namespace Zifro.Compiler.Proxies
 {
@@ -24,6 +25,7 @@ namespace Zifro.Compiler.Proxies
         public IScriptType GetProperty(string property) => InnerValue.GetProperty(property);
         public IScriptType SetProperty(string property, IScriptType value) => InnerValue.SetProperty(property, value);
         public bool TryConvert<T>(out T value) => InnerValue.TryConvert(out value);
+        public bool TryConvert(Type type, out object value) => InnerValue.TryConvert(type, out value);
         public IScriptType ArithmeticUnaryPositive() => InnerValue.ArithmeticUnaryPositive();
         public IScriptType ArithmeticUnaryNegative() => InnerValue.ArithmeticUnaryNegative();
         public IScriptType ArithmeticAdd(IScriptType rhs) => InnerValue.ArithmeticAdd(rhs);
