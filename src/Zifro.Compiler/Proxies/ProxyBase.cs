@@ -14,6 +14,7 @@ namespace Zifro.Compiler.Proxies
 
         public IProcessor Processor
         {
+            get => InnerValue.Processor;
             set => InnerValue.Processor = value;
         }
 

@@ -14,7 +14,7 @@ namespace Zifro.Compiler.Core.Interfaces
         /// The assigned processor environment.
         /// Set by the processor when value is binded to the context.
         /// </summary>
-        IProcessor Processor { set; }
+        IProcessor Processor { get; set; }
 
         /// <summary>
         /// <para>(Lua, Python) type(this)</para>
