@@ -8,4 +8,8 @@
     <Product>Zifro Playground Compiler</Product>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Zifro.Compiler.Core\Zifro.Compiler.Core.csproj" />
+  </ItemGroup>
+
 </Project>
