@@ -6,17 +6,17 @@ namespace Zifro.Compiler.Core.Interfaces
     public interface IValueTypeFactory
     {
         /// <summary>
-        /// A null/nil/None value from the current processor context.
+        /// Gets a null/nil/None value from the current processor context.
         /// </summary>
         IValueType Null { get; }
 
         /// <summary>
-        /// Value representing a boolean TRUE value from the current processor context.
+        /// Gets a value representing the boolean TRUE value from the current processor context.
         /// </summary>
         IValueType True { get; }
 
         /// <summary>
-        /// Value representing a boolean FALSE value from the current processor context.
+        /// Gets a value representing the boolean FALSE value from the current processor context.
         /// </summary>
         IValueType False { get; }
 

@@ -6,17 +6,17 @@ namespace Zifro.Compiler.Proxies
     public class Variable : ValueProxyBase
     {
         /// <summary>
-        /// Name of the declared variable.
+        /// Gets the name of the declared variable.
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// Source of where the variable was declared.
+        /// Gets the source of where the variable was declared.
         /// </summary>
         public SourceReference Source { get; }
 
         /// <summary>
-        /// Whether or not this variable was declared in the CLR or in the script environment.
+        /// Gets whether or not this variable was declared in the CLR or in the script environment.
         /// </summary>
         public bool IsFromClr { get; }
 

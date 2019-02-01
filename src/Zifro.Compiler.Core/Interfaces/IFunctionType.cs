@@ -25,7 +25,7 @@ namespace Zifro.Compiler.Core.Interfaces
         string Description { get; }
 
         /// <summary>
-        /// Source of where the variable was declared.
+        /// Get the source of where the variable was declared.
         /// </summary>
         SourceReference Source { get; }
 
