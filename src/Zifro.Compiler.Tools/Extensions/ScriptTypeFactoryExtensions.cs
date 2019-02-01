@@ -9,10 +9,16 @@ namespace Zifro.Compiler.Tools.Extensions
     {
         public static bool TryCreate<T>(this IScriptTypeFactory factory, T clrValue, out IScriptType scriptTypeValue)
         {
+            if (clrValue == null)
+            {
+                scriptTypeValue = factory.Null;
+                return true;
+            }
+
             switch (clrValue)
             {
                 case bool v:
-                    scriptTypeValue = factory.Create(v);
+                    scriptTypeValue = v ? factory.True : factory.False;
                     return true;
 
                 case int v:
