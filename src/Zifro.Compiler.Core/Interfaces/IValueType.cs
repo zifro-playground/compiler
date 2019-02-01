@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace Zifro.Compiler.Core.Interfaces
 {
@@ -17,6 +18,12 @@ namespace Zifro.Compiler.Core.Interfaces
         /// <para>(JavaScript) typeof(this)</para>
         /// </summary>
         IValueType GetTypeDef();
+
+        /// <summary>
+        /// Name of this type. Used in error messages.
+        /// Should be localized to the current UI culture set via <seealso cref="Thread.CurrentUICulture"/>.
+        /// </summary>
+        string GetTypeName();
 
         /// <summary>
         /// this(...<paramref name="arguments"/>)
