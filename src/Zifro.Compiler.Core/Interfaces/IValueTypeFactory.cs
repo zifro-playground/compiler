@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Zifro.Compiler.Core.Interfaces
 {
@@ -64,5 +65,10 @@ namespace Zifro.Compiler.Core.Interfaces
         /// Creates a <see cref="IValueType"/> from a dictionary of <see cref="IValueType"/> specific to the current <seealso cref="IProcessor"/> context.
         /// </summary>
         IValueType Create(IDictionary<IValueType, IValueType> value);
+
+        /// <summary>
+        /// Creates a <see cref="IValueType"/> from a function specific to the current <seealso cref="IProcessor"/> context.
+        /// </summary>
+        IValueType Create(IFunctionType value);
     }
 }
