@@ -1,4 +1,6 @@
-﻿namespace Zifro.Compiler.Core.Interfaces
+﻿using Zifro.Compiler.Core.Entities;
+
+namespace Zifro.Compiler.Core.Interfaces
 {
     public interface IFunctionType
     {
@@ -25,12 +27,7 @@
         /// <summary>
         /// Source of where the variable was declared.
         /// </summary>
-        ISourceReference Source { get; }
-
-        /// <summary>
-        /// Whether or not this variable was declared in the CLR or in the script environment.
-        /// </summary>
-        bool IsFromClr { get; }
+        SourceReference Source { get; }
 
         /// <summary>
         /// Executed by the processor when the function is invoked in the script environment.

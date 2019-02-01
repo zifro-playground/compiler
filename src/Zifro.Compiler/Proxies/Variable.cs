@@ -1,4 +1,5 @@
-﻿using Zifro.Compiler.Core.Interfaces;
+﻿using Zifro.Compiler.Core.Entities;
+using Zifro.Compiler.Core.Interfaces;
 
 namespace Zifro.Compiler.Proxies
 {
@@ -12,16 +13,23 @@ namespace Zifro.Compiler.Proxies
         /// <summary>
         /// Source of where the variable was declared.
         /// </summary>
-        public ISourceReference Source { get; }
+        public SourceReference Source { get; }
+
+        /// <summary>
+        /// Whether or not this variable was declared in the CLR or in the script environment.
+        /// </summary>
+        public bool IsFromClr { get; }
 
         /// <param name="innerValue">The inner value to wrap.</param>
         /// <param name="name">Name of the declared variable.</param>
         /// <param name="source">Source of where the variable was declared.</param>
-        public Variable(IValueType innerValue, string name, ISourceReference source)
+        /// <param name="isClr">Whether or not this variable was declared in the CLR or in the script environment.</param>
+        public Variable(IValueType innerValue, string name, SourceReference source, bool isClr)
             : base(innerValue)
         {
             Name = name;
             Source = source;
+            IsFromClr = isClr;
         }
     }
 }
