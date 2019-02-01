@@ -2,11 +2,11 @@
 
 namespace Zifro.Compiler.Core.Interfaces
 {
-    public interface IFunctionType
+    public interface IFunction
     {
         /// <summary>
         /// The assigned processor environment.
-        /// Set by the processor when function is created via the processors <see cref="IValueTypeFactory"/> factory.
+        /// Set by the processor when function is created via the processors <see cref="IScriptTypeFactory"/> factory.
         /// </summary>
         IProcessor Processor { set; }
 
@@ -32,6 +32,6 @@ namespace Zifro.Compiler.Core.Interfaces
         /// <summary>
         /// Executed by the processor when the function is invoked in the script environment.
         /// </summary>
-        IValueType Invoke(IValueType[] arguments);
+        IScriptType Invoke(IScriptType[] arguments);
     }
 }

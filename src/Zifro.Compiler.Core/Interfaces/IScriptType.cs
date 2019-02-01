@@ -5,7 +5,10 @@ using System.Threading;
 
 namespace Zifro.Compiler.Core.Interfaces
 {
-    public interface IValueType
+    /// <summary>
+    /// Used for reference typed variables.
+    /// </summary>
+    public interface IScriptType
     {
         /// <summary>
         /// The assigned processor environment.
@@ -17,7 +20,7 @@ namespace Zifro.Compiler.Core.Interfaces
         /// <para>(Lua, Python) type(this)</para>
         /// <para>(JavaScript) typeof(this)</para>
         /// </summary>
-        IValueType GetTypeDef();
+        IScriptType GetTypeDef();
 
         /// <summary>
         /// Name of this type. Used in error messages.
@@ -28,27 +31,27 @@ namespace Zifro.Compiler.Core.Interfaces
         /// <summary>
         /// this(...<paramref name="arguments"/>)
         /// </summary>
-        IValueType Invoke(IValueType[] arguments);
+        IScriptType Invoke(IScriptType[] arguments);
 
         /// <summary>
         /// this[<paramref name="index"/>]
         /// </summary>
-        IValueType GetIndex(IValueType index);
+        IScriptType GetIndex(IScriptType index);
 
         /// <summary>
         /// this[<paramref name="index"/>] = <paramref name="value"/>
         /// </summary>
-        IValueType SetIndex(IValueType index, IValueType value);
+        IScriptType SetIndex(IScriptType index, IScriptType value);
 
         /// <summary>
         /// this.<paramref name="property"/>
         /// </summary>
-        IValueType GetProperty(string property);
+        IScriptType GetProperty(string property);
 
         /// <summary>
         /// this.<paramref name="property"/> = <paramref name="value"/>
         /// </summary>
-        IValueType SetProperty(string property, IValueType value);
+        IScriptType SetProperty(string property, IScriptType value);
 
         /// <summary>
         /// Try convert this value to it's CLR representation.
@@ -60,47 +63,47 @@ namespace Zifro.Compiler.Core.Interfaces
         /// <summary>
         /// +this
         /// </summary>
-        IValueType ArithmeticUnaryPositive();
+        IScriptType ArithmeticUnaryPositive();
 
         /// <summary>
         /// -this
         /// </summary>
-        IValueType ArithmeticUnaryNegative();
+        IScriptType ArithmeticUnaryNegative();
 
         /// <summary>
         /// this + <paramref name="rhs"/>
         /// </summary>
-        IValueType ArithmeticAdd(IValueType rhs);
+        IScriptType ArithmeticAdd(IScriptType rhs);
 
         /// <summary>
         /// this - <paramref name="rhs"/>
         /// </summary>
-        IValueType ArithmeticSubtract(IValueType rhs);
+        IScriptType ArithmeticSubtract(IScriptType rhs);
 
         /// <summary>
         /// this * <paramref name="rhs"/>
         /// </summary>
-        IValueType ArithmeticMultiply(IValueType rhs);
+        IScriptType ArithmeticMultiply(IScriptType rhs);
 
         /// <summary>
         /// this / <paramref name="rhs"/>
         /// </summary>
-        IValueType ArithmeticDivide(IValueType rhs);
+        IScriptType ArithmeticDivide(IScriptType rhs);
 
         /// <summary>
         /// this % <paramref name="rhs"/>
         /// </summary>
-        IValueType ArithmeticModulus(IValueType rhs);
+        IScriptType ArithmeticModulus(IScriptType rhs);
 
         /// <summary>
         /// (Python) this ** <paramref name="rhs"/>
         /// </summary>
-        IValueType ArithmeticExponent(IValueType rhs);
+        IScriptType ArithmeticExponent(IScriptType rhs);
 
         /// <summary>
         /// (Python) this // <paramref name="rhs"/>
         /// </summary>
-        IValueType ArithmeticFloorDivide(IValueType rhs);
+        IScriptType ArithmeticFloorDivide(IScriptType rhs);
 
         #endregion
 
@@ -109,34 +112,34 @@ namespace Zifro.Compiler.Core.Interfaces
         /// <summary>
         /// this == <paramref name="rhs"/>
         /// </summary>
-        IValueType CompareEqual(IValueType rhs);
+        IScriptType CompareEqual(IScriptType rhs);
 
         /// <summary>
         /// <para>(Lua) this ~= <paramref name="rhs"/></para>
         /// <para>(JavaScript, Python) this != <paramref name="rhs"/></para>
         /// <para>(Python) this &lt;&gt; <paramref name="rhs"/></para>
         /// </summary>
-        IValueType CompareNotEqual(IValueType rhs);
+        IScriptType CompareNotEqual(IScriptType rhs);
 
         /// <summary>
         /// this &gt; <paramref name="rhs"/>
         /// </summary>
-        IValueType CompareGreaterThan(IValueType rhs);
+        IScriptType CompareGreaterThan(IScriptType rhs);
 
         /// <summary>
         /// this &gt;= <paramref name="rhs"/>
         /// </summary>
-        IValueType CompareGreaterThanOrEqual(IValueType rhs);
+        IScriptType CompareGreaterThanOrEqual(IScriptType rhs);
 
         /// <summary>
         /// this &lt; <paramref name="rhs"/>
         /// </summary>
-        IValueType CompareLessThan(IValueType rhs);
+        IScriptType CompareLessThan(IScriptType rhs);
 
         /// <summary>
         /// this &lt;= <paramref name="rhs"/>
         /// </summary>
-        IValueType CompareLessThanOrEqual(IValueType rhs);
+        IScriptType CompareLessThanOrEqual(IScriptType rhs);
 
         #endregion
 
@@ -145,32 +148,32 @@ namespace Zifro.Compiler.Core.Interfaces
         /// <summary>
         /// ~this
         /// </summary>
-        IValueType BinaryNot();
+        IScriptType BinaryNot();
 
         /// <summary>
         /// this & <paramref name="rhs"/>
         /// </summary>
-        IValueType BinaryAnd(IValueType rhs);
+        IScriptType BinaryAnd(IScriptType rhs);
 
         /// <summary>
         /// this | <paramref name="rhs"/>
         /// </summary>
-        IValueType BinaryOr(IValueType rhs);
+        IScriptType BinaryOr(IScriptType rhs);
 
         /// <summary>
         /// this ^ <paramref name="rhs"/>
         /// </summary>
-        IValueType BinaryXor(IValueType rhs);
+        IScriptType BinaryXor(IScriptType rhs);
 
         /// <summary>
         /// this &lt;&lt; <paramref name="rhs"/>
         /// </summary>
-        IValueType BinaryLeftShift(IValueType rhs);
+        IScriptType BinaryLeftShift(IScriptType rhs);
 
         /// <summary>
         /// this &gt;&gt; <paramref name="rhs"/>
         /// </summary>
-        IValueType BinaryRightShift(IValueType rhs);
+        IScriptType BinaryRightShift(IScriptType rhs);
 
         #endregion
 
@@ -180,17 +183,17 @@ namespace Zifro.Compiler.Core.Interfaces
         /// <para>(Lua, Python) not this</para>
         /// <para>(JavaScript) !this</para>
         /// </summary>
-        IValueType LogicalNot();
+        IScriptType LogicalNot();
 
         /// <summary>
         /// this and <paramref name="rhs"/>
         /// </summary>
-        IValueType LogicalAnd(IValueType rhs);
+        IScriptType LogicalAnd(IScriptType rhs);
 
         /// <summary>
         /// this or <paramref name="rhs"/>
         /// </summary>
-        IValueType LogicalOr(IValueType rhs);
+        IScriptType LogicalOr(IScriptType rhs);
 
         #endregion
 
@@ -199,12 +202,12 @@ namespace Zifro.Compiler.Core.Interfaces
         /// <summary>
         /// (JavaScript, Python) <paramref name="lhs"/> in this
         /// </summary>
-        IValueType MemberIn(IValueType lhs);
+        IScriptType MemberIn(IScriptType lhs);
 
         /// <summary>
         /// (Python) <paramref name="lhs"/> not in this
         /// </summary>
-        IValueType MemberNotIn(IValueType lhs);
+        IScriptType MemberNotIn(IScriptType lhs);
 
         #endregion
 
@@ -214,12 +217,12 @@ namespace Zifro.Compiler.Core.Interfaces
         /// (Python) this is <paramref name="rhs"/>
         /// (JavaScript) this instanceof <paramref name="rhs"/>
         /// </summary>
-        IValueType IdentityIs(IValueType rhs);
+        IScriptType IdentityIs(IScriptType rhs);
 
         /// <summary>
         /// (Python) this is not <paramref name="rhs"/>
         /// </summary>
-        IValueType IdentityIsNot(IValueType rhs);
+        IScriptType IdentityIsNot(IScriptType rhs);
 
         #endregion
     }

@@ -3,7 +3,7 @@ using Zifro.Compiler.Core.Interfaces;
 
 namespace Zifro.Compiler.Proxies
 {
-    public class Variable : ValueProxyBase
+    public class Variable : ProxyBase
     {
         /// <summary>
         /// Gets the name of the declared variable.
@@ -24,7 +24,7 @@ namespace Zifro.Compiler.Proxies
         /// <param name="name">Name of the declared variable.</param>
         /// <param name="source">Source of where the variable was declared.</param>
         /// <param name="isClr">Whether or not this variable was declared in the CLR or in the script environment.</param>
-        public Variable(IValueType innerValue, string name, SourceReference source, bool isClr)
+        public Variable(IScriptType innerValue, string name, SourceReference source, bool isClr)
             : base(innerValue)
         {
             Name = name;

@@ -3,7 +3,7 @@ using Zifro.Compiler.Core.Interfaces;
 
 namespace Zifro.Compiler
 {
-    public abstract class ClrFunctionBase : IFunctionType
+    public abstract class ClrFunctionBase : IFunction
     {
         #region Predefined properties
 
@@ -19,7 +19,7 @@ namespace Zifro.Compiler
 
         public abstract string Description { get; }
 
-        public abstract IValueType Invoke(IValueType[] arguments);
+        public abstract IScriptType Invoke(IScriptType[] arguments);
 
         #endregion
     }

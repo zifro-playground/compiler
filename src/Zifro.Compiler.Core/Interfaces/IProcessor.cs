@@ -2,10 +2,10 @@
 {
     public interface IProcessor
     {
-        IValueTypeFactory Factory { get; }
+        IScriptTypeFactory Factory { get; }
         IScopeContext TopScope { get; }
 
-        void ContinueYieldedValue(IValueType value);
+        void ContinueYieldedValue(IScriptType value);
         void Walk();
     }
 }

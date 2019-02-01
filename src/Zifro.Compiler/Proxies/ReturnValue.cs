@@ -2,14 +2,14 @@
 
 namespace Zifro.Compiler.Proxies
 {
-    public class ReturnValue : ValueProxyBase
+    public class ReturnValue : ProxyBase
     {
         /// <summary>
         /// Gets the function from which this value was retrieved.
         /// </summary>
-        public IFunctionType Function { get; }
+        public IFunction Function { get; }
 
-        public ReturnValue(IValueType innerValue, IFunctionType function)
+        public ReturnValue(IScriptType innerValue, IFunction function)
             : base(innerValue)
         {
             Function = function;
