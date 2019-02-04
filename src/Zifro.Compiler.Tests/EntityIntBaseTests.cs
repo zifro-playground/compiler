@@ -208,6 +208,22 @@ namespace Zifro.Compiler.Tests
             factoryMock.VerifyNoOtherCalls();
         }
 
+        [TestMethod]
+        public void IntInvoke()
+        {
+            // Arrange
+            IntegerBase a = GetInteger(5);
+
+            Action action = delegate { a.Invoke(null); };
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<RuntimeException>(action);
+
+            Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_Invoke));
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.VerifyNoOtherCalls();
+        }
+
         [DataTestMethod]
         [DataRow(5)]
         [DataRow(5L)]
@@ -245,6 +261,37 @@ namespace Zifro.Compiler.Tests
 
             // Act
             bool success = a.TryConvert(type, out object _);
+
+            // Assert
+            Assert.IsFalse(success);
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public void IntTryConvertGenericValid()
+        {
+            // Arrange
+            IntegerBase a = GetInteger(5);
+
+            // Act
+            bool success = a.TryConvert(out int result);
+
+            // Assert
+            Assert.IsTrue(success);
+            Assert.AreEqual(5, result);
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public void IntTryConvertGenericInvalid()
+        {
+            // Arrange
+            IntegerBase a = GetInteger(5);
+
+            // Act
+            bool success = a.TryConvert(out string _);
 
             // Assert
             Assert.IsFalse(success);
