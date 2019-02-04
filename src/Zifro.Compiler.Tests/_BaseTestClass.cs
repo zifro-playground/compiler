@@ -29,6 +29,7 @@ namespace Zifro.Compiler.Tests
         {
             var mock = new Mock<IntegerBase>();
             mock.SetupGet(o => o.Processor).Returns(processorMock.Object);
+            mock.Setup(o => o.GetTypeName()).Returns(nameof(IntegerBase));
             mock.CallBase = true;
             IntegerBase integerBase = mock.Object;
             integerBase.Value = value;
@@ -39,6 +40,7 @@ namespace Zifro.Compiler.Tests
         {
             var mock = new Mock<DoubleBase>();
             mock.SetupGet(o => o.Processor).Returns(processorMock.Object);
+            mock.Setup(o => o.GetTypeName()).Returns(nameof(DoubleBase));
             mock.CallBase = true;
             DoubleBase doubleBase = mock.Object;
             doubleBase.Value = value;
@@ -49,6 +51,7 @@ namespace Zifro.Compiler.Tests
         {
             var mock = new Mock<StringBase>();
             mock.SetupGet(o => o.Processor).Returns(processorMock.Object);
+            mock.Setup(o => o.GetTypeName()).Returns(nameof(StringBase));
             mock.CallBase = true;
             StringBase stringBase = mock.Object;
             stringBase.Value = value;

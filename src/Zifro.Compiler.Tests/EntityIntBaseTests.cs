@@ -40,12 +40,14 @@ namespace Zifro.Compiler.Tests
             // Arrange
             IntegerBase a = GetInteger(5);
             StringBase b = GetString("foo");
+            object[] expectedFormatArgs = {5, b.GetTypeName()};
             Action action = delegate { a.ArithmeticAdd(b); };
 
             // Act + Assert
             var ex = Assert.ThrowsException<RuntimeException>(action);
             Assert.IsNotNull(ex);
             Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_AddInvalidType));
+            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
             processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }
@@ -79,12 +81,14 @@ namespace Zifro.Compiler.Tests
             // Arrange
             IntegerBase a = GetInteger(5);
             StringBase b = GetString("foo");
+            object[] expectedFormatArgs = {5, b.GetTypeName()};
             Action action = delegate { a.ArithmeticSubtract(b); };
 
             // Act + Assert
             var ex = Assert.ThrowsException<RuntimeException>(action);
             Assert.IsNotNull(ex);
             Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_SubtractInvalidType));
+            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
             processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }
@@ -118,12 +122,14 @@ namespace Zifro.Compiler.Tests
             // Arrange
             IntegerBase a = GetInteger(5);
             StringBase b = GetString("foo");
+            object[] expectedFormatArgs = {5, b.GetTypeName()};
             Action action = delegate { a.ArithmeticMultiply(b); };
 
             // Act + Assert
             var ex = Assert.ThrowsException<RuntimeException>(action);
             Assert.IsNotNull(ex);
             Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_MultiplyInvalidType));
+            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
             processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }
@@ -158,7 +164,7 @@ namespace Zifro.Compiler.Tests
             // Arrange
             IntegerBase a = GetInteger(5);
             DoubleBase b = GetDouble(2.5);
-            const double expected = 5*2.5;
+            const double expected = 5 * 2.5;
 
             // Act
             IScriptType resultBase = a.ArithmeticMultiply(b);
@@ -228,12 +234,14 @@ namespace Zifro.Compiler.Tests
             // Arrange
             IntegerBase a = GetInteger(5);
             StringBase b = GetString("foo");
+            object[] expectedFormatArgs = {5, b.GetTypeName()};
             Action action = delegate { a.ArithmeticDivide(b); };
 
             // Act + Assert
             var ex = Assert.ThrowsException<RuntimeException>(action);
             Assert.IsNotNull(ex);
             Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_DivideInvalidType));
+            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
             processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }
@@ -244,11 +252,13 @@ namespace Zifro.Compiler.Tests
             // Arrange
             IntegerBase a = GetInteger(5);
             IntegerBase b = GetInteger(0);
+            object[] expectedFormatArgs = { };
             Action action = delegate { a.ArithmeticDivide(b); };
 
             // Act + Assert
             var ex = Assert.ThrowsException<RuntimeException>(action);
             Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Math_DivideByZero));
+            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
             processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }
@@ -281,6 +291,7 @@ namespace Zifro.Compiler.Tests
         {
             // Arrange
             IntegerBase a = GetInteger(5);
+            object[] expectedFormatArgs = {5};
 
             Action action = delegate { a.GetIndex(null); };
 
@@ -288,6 +299,7 @@ namespace Zifro.Compiler.Tests
             var ex = Assert.ThrowsException<RuntimeException>(action);
 
             Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_IndexGet));
+            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
             processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }
@@ -297,6 +309,7 @@ namespace Zifro.Compiler.Tests
         {
             // Arrange
             IntegerBase a = GetInteger(5);
+            object[] expectedFormatArgs = {5};
 
             Action action = delegate { a.SetIndex(null, null); };
 
@@ -304,6 +317,7 @@ namespace Zifro.Compiler.Tests
             var ex = Assert.ThrowsException<RuntimeException>(action);
 
             Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_IndexSet));
+            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
             processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }
@@ -314,6 +328,7 @@ namespace Zifro.Compiler.Tests
             // Arrange
             IntegerBase a = GetInteger(5);
             const string property = "prop";
+            object[] expectedFormatArgs = {5, property};
 
             Action action = delegate { a.GetProperty(property); };
 
@@ -321,6 +336,7 @@ namespace Zifro.Compiler.Tests
             var ex = Assert.ThrowsException<RuntimeException>(action);
 
             Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_PropertyGet));
+            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
             processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }
@@ -331,6 +347,7 @@ namespace Zifro.Compiler.Tests
             // Arrange
             IntegerBase a = GetInteger(5);
             const string property = "prop";
+            object[] expectedFormatArgs = {5, property};
 
             Action action = delegate { a.SetProperty(property, null); };
 
@@ -338,6 +355,7 @@ namespace Zifro.Compiler.Tests
             var ex = Assert.ThrowsException<RuntimeException>(action);
 
             Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_PropertySet));
+            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
             processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }
@@ -347,6 +365,7 @@ namespace Zifro.Compiler.Tests
         {
             // Arrange
             IntegerBase a = GetInteger(5);
+            object[] expectedFormatArgs = {5};
 
             Action action = delegate { a.Invoke(null); };
 
@@ -354,6 +373,7 @@ namespace Zifro.Compiler.Tests
             var ex = Assert.ThrowsException<RuntimeException>(action);
 
             Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_Invoke));
+            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
             processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }
