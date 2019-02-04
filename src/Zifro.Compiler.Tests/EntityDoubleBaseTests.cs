@@ -40,12 +40,26 @@ namespace Zifro.Compiler.Tests
         }
 
         [TestMethod]
+        public void DoubleAdditionIntegerTest()
+        {
+            // Arrange
+            DoubleBase a = GetDouble(0.5);
+            IntegerBase b = GetInteger(1);
+
+            // Act
+            IScriptType result = a.ArithmeticAdd(b);
+
+            // Assert
+            AssertArithmeticResult<DoubleBase>(result, a, b, 1.5);
+        }
+
+        [TestMethod]
         public void DoubleAdditionInvalidTest()
         {
             // Arrange
             DoubleBase a = GetDouble(5);
             StringBase b = GetString("foo");
-            object[] expectedFormatArgs = {5, b.GetTypeName()};
+            object[] expectedFormatArgs = {5d, b.GetTypeName()};
             Action action = delegate { a.ArithmeticAdd(b); };
 
             // Act + Assert
@@ -63,7 +77,7 @@ namespace Zifro.Compiler.Tests
             IScriptType result = a.ArithmeticSubtract(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(result, a, b, 15);
+            AssertArithmeticResult<IntegerBase>(result, a, b, -5);
         }
 
         [TestMethod]
@@ -81,12 +95,26 @@ namespace Zifro.Compiler.Tests
         }
 
         [TestMethod]
+        public void DoubleSubtractionIntegerTest()
+        {
+            // Arrange
+            DoubleBase a = GetDouble(5);
+            IntegerBase b = GetInteger(1);
+
+            // Act
+            IScriptType result = a.ArithmeticSubtract(b);
+
+            // Assert
+            AssertArithmeticResult<IntegerBase>(result, a, b, 4);
+        }
+
+        [TestMethod]
         public void DoubleSubtractionInvalidTest()
         {
             // Arrange
             DoubleBase a = GetDouble(5);
             StringBase b = GetString("foo");
-            object[] expectedFormatArgs = {5, b.GetTypeName()};
+            object[] expectedFormatArgs = {5d, b.GetTypeName()};
             Action action = delegate { a.ArithmeticSubtract(b); };
 
             // Act + Assert
@@ -108,12 +136,26 @@ namespace Zifro.Compiler.Tests
         }
 
         [TestMethod]
+        public void DoubleMultiplicationIntegerTest()
+        {
+            // Arrange
+            DoubleBase a = GetDouble(5);
+            IntegerBase b = GetInteger(10);
+
+            // Act
+            IScriptType result = a.ArithmeticMultiply(b);
+
+            // Assert
+            AssertArithmeticResult<IntegerBase>(result, a, b, 50);
+        }
+
+        [TestMethod]
         public void DoubleMultiplicationInvalidTest()
         {
             // Arrange
             DoubleBase a = GetDouble(5);
             StringBase b = GetString("foo");
-            object[] expectedFormatArgs = {5, b.GetTypeName()};
+            object[] expectedFormatArgs = {5d, b.GetTypeName()};
             Action action = delegate { a.ArithmeticMultiply(b); };
 
             // Act + Assert
@@ -145,16 +187,30 @@ namespace Zifro.Compiler.Tests
             IScriptType result = a.ArithmeticDivide(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(result, a, b, .5);
+            AssertArithmeticResult<DoubleBase>(result, a, b, .5);
+        }
+        
+        [TestMethod]
+        public void DoubleDivideIntegerTest()
+        {
+            // Arrange
+            DoubleBase a = GetDouble(50);
+            IntegerBase b = GetInteger(10);
+
+            // Act
+            IScriptType result = a.ArithmeticDivide(b);
+
+            // Assert
+            AssertArithmeticResult<IntegerBase>(result, a, b, 5);
         }
 
         [TestMethod]
         public void DoubleDivideInvalidTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            DoubleBase a = GetDouble(5);
             StringBase b = GetString("foo");
-            object[] expectedFormatArgs = {5, b.GetTypeName()};
+            object[] expectedFormatArgs = {5d, b.GetTypeName()};
             Action action = delegate { a.ArithmeticDivide(b); };
 
             // Act + Assert
@@ -179,7 +235,7 @@ namespace Zifro.Compiler.Tests
         {
             // Arrange
             DoubleBase a = GetDouble(5);
-            object[] expectedFormatArgs = {5};
+            object[] expectedFormatArgs = {5d};
 
             Action action = delegate { a.GetIndex(null); };
 
@@ -192,7 +248,7 @@ namespace Zifro.Compiler.Tests
         {
             // Arrange
             DoubleBase a = GetDouble(5);
-            object[] expectedFormatArgs = {5};
+            object[] expectedFormatArgs = {5d};
 
             Action action = delegate { a.SetIndex(null, null); };
 
@@ -206,7 +262,7 @@ namespace Zifro.Compiler.Tests
             // Arrange
             DoubleBase a = GetDouble(5);
             const string property = "prop";
-            object[] expectedFormatArgs = {5, property};
+            object[] expectedFormatArgs = {5d, property};
 
             Action action = delegate { a.GetProperty(property); };
 
@@ -220,7 +276,7 @@ namespace Zifro.Compiler.Tests
             // Arrange
             DoubleBase a = GetDouble(5);
             const string property = "prop";
-            object[] expectedFormatArgs = {5, property};
+            object[] expectedFormatArgs = {5d, property};
 
             Action action = delegate { a.SetProperty(property, null); };
 
@@ -233,7 +289,7 @@ namespace Zifro.Compiler.Tests
         {
             // Arrange
             DoubleBase a = GetDouble(5);
-            object[] expectedFormatArgs = {5};
+            object[] expectedFormatArgs = {5d};
 
             Action action = delegate { a.Invoke(null); };
 

@@ -2,6 +2,7 @@
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Resources;
+using Zifro.Compiler.Tools.Extensions;
 
 namespace Zifro.Compiler.Entities
 {
@@ -70,27 +71,9 @@ namespace Zifro.Compiler.Entities
 
         public bool TryConvert(Type type, out object value)
         {
-            if (type == typeof(int))
-            {
-                value = Value;
-                return true;
-            }
-
-            if (type == typeof(long))
-            {
-                value = (long)Value;
-                return true;
-            }
-
             if (type == typeof(double))
             {
                 value = (double)Value;
-                return true;
-            }
-
-            if (type == typeof(float))
-            {
-                value = (float)Value;
                 return true;
             }
 
@@ -116,44 +99,75 @@ namespace Zifro.Compiler.Entities
 
         public IScriptType ArithmeticAdd(IScriptType rhs)
         {
-            if (rhs is DoubleBase rhsDouble)
+            switch (rhs)
             {
-                return Processor.Factory.Create(Value + rhsDouble.Value);
+                case DoubleBase rhsDouble:
+                    return Processor.Factory.CreateAppropriate(Value + rhsDouble.Value);
+
+                case IntegerBase rhsInt:
+                    return Processor.Factory.CreateAppropriate(Value + rhsInt.Value);
+
+                default:
+                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Double_AddInvalidType),
+                        Localized_Base_Entities.Ex_Double_AddInvalidType,
+                        Value, rhs.GetTypeName());
             }
-            throw new NotImplementedException();
         }
 
         public IScriptType ArithmeticSubtract(IScriptType rhs)
         {
-            if (rhs is DoubleBase rhsDouble)
+            switch (rhs)
             {
-                return Processor.Factory.Create(Value - rhsDouble.Value);
+                case DoubleBase rhsDouble:
+                    return Processor.Factory.CreateAppropriate(Value - rhsDouble.Value);
+
+                case IntegerBase rhsInt:
+                    return Processor.Factory.CreateAppropriate(Value - rhsInt.Value);
+
+                default:
+                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Double_SubtractInvalidType),
+                        Localized_Base_Entities.Ex_Double_SubtractInvalidType,
+                        Value, rhs.GetTypeName());
             }
-            throw new NotImplementedException();
         }
 
         public IScriptType ArithmeticMultiply(IScriptType rhs)
         {
-            if (rhs is DoubleBase rhsDouble)
+            switch (rhs)
             {
-                return Processor.Factory.Create(Value * rhsDouble.Value);
+                case IntegerBase rhsInt:
+                    return Processor.Factory.CreateAppropriate(Value * rhsInt.Value);
+
+                case DoubleBase rhsDouble:
+                    return Processor.Factory.CreateAppropriate(Value * rhsDouble.Value);
+
+                default:
+                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Double_MultiplyInvalidType),
+                        Localized_Base_Entities.Ex_Double_MultiplyInvalidType,
+                        Value, rhs.GetTypeName());
             }
-            throw new NotImplementedException();
         }
 
         public IScriptType ArithmeticDivide(IScriptType rhs)
         {
-            if (rhs is DoubleBase rhsDouble)
+            switch (rhs)
             {
-                if (rhsDouble.Value.Equals(0d))
-                {
+                case IntegerBase rhsInteger when rhsInteger.Value.Equals(0):
+                case DoubleBase rhsDouble when rhsDouble.Value.Equals(0d):
                     throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
                         Localized_Base_Entities.Ex_Math_DivideByZero);
-                }
 
-                return Processor.Factory.Create(Value / rhsDouble.Value);
+                case DoubleBase rhsDouble:
+                    return Processor.Factory.CreateAppropriate(Value / rhsDouble.Value);
+
+                case IntegerBase rhsInt:
+                    return Processor.Factory.CreateAppropriate(Value / rhsInt.Value);
+
+                default:
+                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Double_DivideInvalidType),
+                        Localized_Base_Entities.Ex_Double_DivideInvalidType,
+                        Value, rhs.GetTypeName());
             }
-            throw new NotImplementedException();
         }
 
         public IScriptType ArithmeticModulus(IScriptType rhs)
