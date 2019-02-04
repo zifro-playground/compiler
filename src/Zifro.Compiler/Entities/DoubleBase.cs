@@ -145,6 +145,12 @@ namespace Zifro.Compiler.Entities
         {
             if (rhs is DoubleBase rhsDouble)
             {
+                if (rhsDouble.Value.Equals(0d))
+                {
+                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
+                        Localized_Base_Entities.Ex_Math_DivideByZero);
+                }
+
                 return Processor.Factory.Create(Value / rhsDouble.Value);
             }
             throw new NotImplementedException();

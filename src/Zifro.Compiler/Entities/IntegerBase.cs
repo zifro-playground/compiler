@@ -78,25 +78,25 @@ namespace Zifro.Compiler.Entities
 
             if (type == typeof(long))
             {
-                value = (long)Value;
+                value = (long) Value;
                 return true;
             }
 
             if (type == typeof(double))
             {
-                value = (double)Value;
+                value = (double) Value;
                 return true;
             }
 
             if (type == typeof(float))
             {
-                value = (float)Value;
+                value = (float) Value;
                 return true;
             }
 
             if (type == typeof(decimal))
             {
-                value = (decimal)Value;
+                value = (decimal) Value;
                 return true;
             }
 
@@ -120,6 +120,7 @@ namespace Zifro.Compiler.Entities
             {
                 return Processor.Factory.Create(Value + rhsInt.Value);
             }
+
             throw new NotImplementedException();
         }
 
@@ -129,6 +130,7 @@ namespace Zifro.Compiler.Entities
             {
                 return Processor.Factory.Create(Value - rhsInt.Value);
             }
+
             throw new NotImplementedException();
         }
 
@@ -138,6 +140,7 @@ namespace Zifro.Compiler.Entities
             {
                 return Processor.Factory.Create(Value * rhsInt.Value);
             }
+
             throw new NotImplementedException();
         }
 
@@ -145,8 +148,18 @@ namespace Zifro.Compiler.Entities
         {
             if (rhs is IntegerBase rhsInt)
             {
-                return Processor.Factory.Create(Value / rhsInt.Value);
+                if (rhsInt.Value.Equals(0))
+                {
+                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
+                        Localized_Base_Entities.Ex_Math_DivideByZero);
+                }
+
+                if (Value % rhsInt.Value == 0)
+                    return Processor.Factory.Create(Value / rhsInt.Value);
+
+                return Processor.Factory.Create(Value / (double) rhsInt.Value);
             }
+
             throw new NotImplementedException();
         }
 

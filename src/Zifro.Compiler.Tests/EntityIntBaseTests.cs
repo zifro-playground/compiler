@@ -9,31 +9,8 @@ using Zifro.Compiler.Resources;
 namespace Zifro.Compiler.Tests
 {
     [TestClass]
-    public class EntityIntBaseTests
+    public class EntityIntBaseTests : BaseTestClass
     {
-        private Mock<IProcessor> processorMock;
-        private Mock<IScriptTypeFactory> factoryMock;
-
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            processorMock = new Mock<IProcessor>();
-            factoryMock = new Mock<IScriptTypeFactory>();
-
-            processorMock.SetupGet(o => o.Factory).Returns(factoryMock.Object);
-            factoryMock.Setup(o => o.Create(It.IsAny<int>()))
-                .Returns<int>(GetInteger);
-        }
-
-        private IntegerBase GetInteger(int value)
-        {
-            var mock = new Mock<IntegerBase>();
-            mock.SetupGet(o => o.Processor).Returns(processorMock.Object);
-            mock.CallBase = true;
-            IntegerBase integerBase = mock.Object;
-            integerBase.Value = value;
-            return integerBase;
-        }
 
         [TestMethod]
         public void IntAdditionTest()
@@ -52,6 +29,10 @@ namespace Zifro.Compiler.Tests
             Assert.AreNotSame(a, result);
             Assert.AreNotSame(b, result);
             Assert.AreEqual(15, result.Value);
+            processorMock.VerifyGet(o => o.Factory, Times.Once);
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.Verify(o => o.Create(15), Times.Once);
+            factoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -71,6 +52,10 @@ namespace Zifro.Compiler.Tests
             Assert.AreNotSame(a, result);
             Assert.AreNotSame(b, result);
             Assert.AreEqual(-5, result.Value);
+            processorMock.VerifyGet(o => o.Factory, Times.Once);
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.Verify(o => o.Create(-5), Times.Once);
+            factoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -90,6 +75,10 @@ namespace Zifro.Compiler.Tests
             Assert.AreNotSame(a, result);
             Assert.AreNotSame(b, result);
             Assert.AreEqual(50, result.Value);
+            processorMock.VerifyGet(o => o.Factory, Times.Once);
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.Verify(o => o.Create(50), Times.Once);
+            factoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -100,7 +89,7 @@ namespace Zifro.Compiler.Tests
             IntegerBase b = GetInteger(10);
 
             // Act
-            IScriptType resultBase = a.ArithmeticMultiply(b);
+            IScriptType resultBase = a.ArithmeticDivide(b);
             var result = resultBase as IntegerBase;
 
             // Assert
@@ -109,6 +98,10 @@ namespace Zifro.Compiler.Tests
             Assert.AreNotSame(a, result);
             Assert.AreNotSame(b, result);
             Assert.AreEqual(5, result.Value);
+            processorMock.VerifyGet(o => o.Factory, Times.Once);
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.Verify(o => o.Create(5), Times.Once);
+            factoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -119,7 +112,7 @@ namespace Zifro.Compiler.Tests
             IntegerBase b = GetInteger(10);
 
             // Act
-            IScriptType resultBase = a.ArithmeticMultiply(b);
+            IScriptType resultBase = a.ArithmeticDivide(b);
             var result = resultBase as DoubleBase;
 
             // Assert
@@ -128,6 +121,10 @@ namespace Zifro.Compiler.Tests
             Assert.AreNotSame(a, result);
             Assert.AreNotSame(b, result);
             Assert.AreEqual(0.5, result.Value);
+            processorMock.VerifyGet(o => o.Factory, Times.Once);
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.Verify(o => o.Create(0.5d), Times.Once);
+            factoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -141,6 +138,8 @@ namespace Zifro.Compiler.Tests
             // Act + Assert
             var ex = Assert.ThrowsException<RuntimeException>(action);
             Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Math_DivideByZero));
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -155,6 +154,8 @@ namespace Zifro.Compiler.Tests
             var ex = Assert.ThrowsException<RuntimeException>(action);
 
             Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_IndexGet));
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -169,6 +170,8 @@ namespace Zifro.Compiler.Tests
             var ex = Assert.ThrowsException<RuntimeException>(action);
 
             Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_IndexSet));
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -184,6 +187,8 @@ namespace Zifro.Compiler.Tests
             var ex = Assert.ThrowsException<RuntimeException>(action);
 
             Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_PropertyGet));
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -199,6 +204,8 @@ namespace Zifro.Compiler.Tests
             var ex = Assert.ThrowsException<RuntimeException>(action);
 
             Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_PropertySet));
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.VerifyNoOtherCalls();
         }
 
         [DataTestMethod]
@@ -218,6 +225,8 @@ namespace Zifro.Compiler.Tests
             // Assert
             Assert.IsTrue(success);
             Assert.AreEqual(expected, result);
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.VerifyNoOtherCalls();
         }
 
         [DataTestMethod]
@@ -239,6 +248,8 @@ namespace Zifro.Compiler.Tests
 
             // Assert
             Assert.IsFalse(success);
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.VerifyNoOtherCalls();
         }
     }
 }
