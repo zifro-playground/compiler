@@ -43,13 +43,104 @@ namespace Zifro.Compiler.Tests
             IntegerBase b = GetInteger(10);
 
             // Act
-            var result = a.ArithmeticAdd(b) as IntegerBase;
+            IScriptType resultBase = a.ArithmeticAdd(b);
+            var result = resultBase as IntegerBase;
 
             // Assert
+            Assert.IsInstanceOfType(resultBase, typeof(IntegerBase));
             Assert.IsNotNull(result);
             Assert.AreNotSame(a, result);
             Assert.AreNotSame(b, result);
             Assert.AreEqual(15, result.Value);
+        }
+
+        [TestMethod]
+        public void IntSubtractionTest()
+        {
+            // Arrange
+            IntegerBase a = GetInteger(5);
+            IntegerBase b = GetInteger(10);
+
+            // Act
+            IScriptType resultBase = a.ArithmeticSubtract(b);
+            var result = resultBase as IntegerBase;
+
+            // Assert
+            Assert.IsInstanceOfType(resultBase, typeof(IntegerBase));
+            Assert.IsNotNull(result);
+            Assert.AreNotSame(a, result);
+            Assert.AreNotSame(b, result);
+            Assert.AreEqual(-5, result.Value);
+        }
+
+        [TestMethod]
+        public void IntMultiplicationTest()
+        {
+            // Arrange
+            IntegerBase a = GetInteger(5);
+            IntegerBase b = GetInteger(10);
+
+            // Act
+            IScriptType resultBase = a.ArithmeticMultiply(b);
+            var result = resultBase as IntegerBase;
+
+            // Assert
+            Assert.IsInstanceOfType(resultBase, typeof(IntegerBase));
+            Assert.IsNotNull(result);
+            Assert.AreNotSame(a, result);
+            Assert.AreNotSame(b, result);
+            Assert.AreEqual(50, result.Value);
+        }
+
+        [TestMethod]
+        public void IntDivideWholeTest()
+        {
+            // Arrange
+            IntegerBase a = GetInteger(50);
+            IntegerBase b = GetInteger(10);
+
+            // Act
+            IScriptType resultBase = a.ArithmeticMultiply(b);
+            var result = resultBase as IntegerBase;
+
+            // Assert
+            Assert.IsInstanceOfType(resultBase, typeof(IntegerBase));
+            Assert.IsNotNull(result);
+            Assert.AreNotSame(a, result);
+            Assert.AreNotSame(b, result);
+            Assert.AreEqual(5, result.Value);
+        }
+
+        [TestMethod]
+        public void IntDivideFractionTest()
+        {
+            // Arrange
+            IntegerBase a = GetInteger(5);
+            IntegerBase b = GetInteger(10);
+
+            // Act
+            IScriptType resultBase = a.ArithmeticMultiply(b);
+            var result = resultBase as DoubleBase;
+
+            // Assert
+            Assert.IsInstanceOfType(resultBase, typeof(DoubleBase));
+            Assert.IsNotNull(result);
+            Assert.AreNotSame(a, result);
+            Assert.AreNotSame(b, result);
+            Assert.AreEqual(0.5, result.Value);
+        }
+
+        [TestMethod]
+        public void IntDivideByZero()
+        {
+            // Arrange
+            IntegerBase a = GetInteger(5);
+            IntegerBase b = GetInteger(0);
+            Action action = delegate { a.ArithmeticDivide(b); };
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<RuntimeException>(action);
+            Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Math_DivideByZero));
         }
 
         [TestMethod]

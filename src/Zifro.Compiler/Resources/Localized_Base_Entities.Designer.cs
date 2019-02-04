@@ -61,6 +61,51 @@ namespace Zifro.Compiler.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ett decimaltal kan inte indexeras..
+        /// </summary>
+        public static string Ex_Double_IndexGet {
+            get {
+                return ResourceManager.GetString("Ex_Double_IndexGet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Det går inte att sätta inre värde på ett decimaltal genom indexering..
+        /// </summary>
+        public static string Ex_Double_IndexSet {
+            get {
+                return ResourceManager.GetString("Ex_Double_IndexSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ett decimaltal kan inte köras som en funktion..
+        /// </summary>
+        public static string Ex_Double_Invoke {
+            get {
+                return ResourceManager.GetString("Ex_Double_Invoke", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gick inte att läsa egenskapen &apos;{1}&apos; från decimaltalet. Decimaltal har inga egenskaper..
+        /// </summary>
+        public static string Ex_Double_PropertyGet {
+            get {
+                return ResourceManager.GetString("Ex_Double_PropertyGet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Det går inte att ändra egenskapen &apos;{1}&apos; på decimaltalet. Decimaltal har inga egenskaper..
+        /// </summary>
+        public static string Ex_Double_PropertySet {
+            get {
+                return ResourceManager.GetString("Ex_Double_PropertySet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ett heltal kan inte indexeras..
         /// </summary>
         public static string Ex_Int_IndexGet {
@@ -97,11 +142,20 @@ namespace Zifro.Compiler.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Det går inte att ändra egenskapen &apos;{1}&apos; på ett heltal..
+        ///   Looks up a localized string similar to Det går inte att ändra egenskapen &apos;{1}&apos; på ett heltal. Heltal har inga egenskaper..
         /// </summary>
         public static string Ex_Int_PropertySet {
             get {
                 return ResourceManager.GetString("Ex_Int_PropertySet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Du får inte dela ett tal på noll!.
+        /// </summary>
+        public static string Ex_Math_DivideByZero {
+            get {
+                return ResourceManager.GetString("Ex_Math_DivideByZero", resourceCulture);
             }
         }
         

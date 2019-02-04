@@ -31,6 +31,16 @@ namespace Zifro.Compiler.Core.Interfaces
         IScriptType Create(long value);
 
         /// <summary>
+        /// Creates a <see cref="IScriptType"/> from type <c>float</c> (single-precision floating point number) specific to the current <seealso cref="IProcessor"/> context.
+        /// </summary>
+        IScriptType Create(float value);
+
+        /// <summary>
+        /// Creates a <see cref="IScriptType"/> from type <c>double</c> (double-precision floating point number) specific to the current <seealso cref="IProcessor"/> context.
+        /// </summary>
+        IScriptType Create(double value);
+
+        /// <summary>
         /// Creates a <see cref="IScriptType"/> from type <c>short</c> (signed 16-bit integer) specific to the current <seealso cref="IProcessor"/> context.
         /// </summary>
         IScriptType Create(short value);

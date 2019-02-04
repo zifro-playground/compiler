@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Ex_Math_DivideByZero" xml:space="preserve">
+    <value>Du får inte dela ett tal på noll!</value>
+    <comment>myNumber / 0</comment>
+  </data>
   <data name="Ex_Int_IndexGet" xml:space="preserve">
     <value>Ett heltal kan inte indexeras.</value>
     <comment>myInt[x]; value of int={0}</comment>
@@ -134,8 +138,28 @@
     <comment>myInt.prop; value of int={0}, property name={1}</comment>
   </data>
   <data name="Ex_Int_PropertySet" xml:space="preserve">
-    <value>Det går inte att ändra egenskapen '{1}' på ett heltal.</value>
+    <value>Det går inte att ändra egenskapen '{1}' på ett heltal. Heltal har inga egenskaper.</value>
     <comment>myInt.prop = value; value of int={0}, property name={1}</comment>
+  </data>
+  <data name="Ex_Double_IndexGet" xml:space="preserve">
+    <value>Ett decimaltal kan inte indexeras.</value>
+    <comment>myDouble[x]; value of double={0}</comment>
+  </data>
+  <data name="Ex_Double_IndexSet" xml:space="preserve">
+    <value>Det går inte att sätta inre värde på ett decimaltal genom indexering.</value>
+    <comment>myDouble[x] = value; value of double={0}</comment>
+  </data>
+  <data name="Ex_Double_Invoke" xml:space="preserve">
+    <value>Ett decimaltal kan inte köras som en funktion.</value>
+    <comment>myDouble(); value of double={0}</comment>
+  </data>
+  <data name="Ex_Double_PropertyGet" xml:space="preserve">
+    <value>Gick inte att läsa egenskapen '{1}' från decimaltalet. Decimaltal har inga egenskaper.</value>
+    <comment>myDouble.prop; value of double={0}, property name={1}</comment>
+  </data>
+  <data name="Ex_Double_PropertySet" xml:space="preserve">
+    <value>Det går inte att ändra egenskapen '{1}' på decimaltalet. Decimaltal har inga egenskaper.</value>
+    <comment>myDouble.prop = value; value of double={0}, property name={1}</comment>
   </data>
   <data name="Ex_String_IndexGet_InvalidType" xml:space="preserve">
     <value>En textsträng kan endast indexeras av heltal, inte av typen '{2}'.</value>
