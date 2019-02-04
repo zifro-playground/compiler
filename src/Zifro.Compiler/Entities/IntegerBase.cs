@@ -2,6 +2,7 @@
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Resources;
+using Zifro.Compiler.Tools.Extensions;
 
 namespace Zifro.Compiler.Entities
 {
@@ -116,51 +117,67 @@ namespace Zifro.Compiler.Entities
 
         public IScriptType ArithmeticAdd(IScriptType rhs)
         {
-            if (rhs is IntegerBase rhsInt)
+            switch (rhs)
             {
-                return Processor.Factory.Create(Value + rhsInt.Value);
+                case IntegerBase rhsInt:
+                    return Processor.Factory.Create(Value + rhsInt.Value);
+                default:
+                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Int_AddInvalidType),
+                        Localized_Base_Entities.Ex_Int_AddInvalidType,
+                        Value, rhs?.GetTypeName() ?? "null");
             }
-
-            throw new NotImplementedException();
         }
 
         public IScriptType ArithmeticSubtract(IScriptType rhs)
         {
-            if (rhs is IntegerBase rhsInt)
+            switch (rhs)
             {
-                return Processor.Factory.Create(Value - rhsInt.Value);
+                case IntegerBase rhsInt:
+                    return Processor.Factory.Create(Value - rhsInt.Value);
+                default:
+                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Int_SubtractInvalidType),
+                        Localized_Base_Entities.Ex_Int_SubtractInvalidType,
+                        Value, rhs?.GetTypeName() ?? "null");
             }
-
-            throw new NotImplementedException();
         }
 
         public IScriptType ArithmeticMultiply(IScriptType rhs)
         {
-            if (rhs is IntegerBase rhsInt)
+            switch (rhs)
             {
-                return Processor.Factory.Create(Value * rhsInt.Value);
-            }
+                case IntegerBase rhsInt:
+                    return Processor.Factory.Create(Value * rhsInt.Value);
 
-            throw new NotImplementedException();
+                case DoubleBase rhsDouble:
+                    return Processor.Factory.CreateAppropriate(Value * rhsDouble.Value);
+
+                default:
+                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Int_MultiplyInvalidType),
+                        Localized_Base_Entities.Ex_Int_MultiplyInvalidType,
+                        Value, rhs?.GetTypeName() ?? "null");
+            }
         }
 
         public IScriptType ArithmeticDivide(IScriptType rhs)
         {
-            if (rhs is IntegerBase rhsInt)
+            switch (rhs)
             {
-                if (rhsInt.Value.Equals(0))
-                {
+                case IntegerBase rhsInt when rhsInt.Value.Equals(0):
+                case DoubleBase rhsDouble when rhsDouble.Value.Equals(0):
                     throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
                         Localized_Base_Entities.Ex_Math_DivideByZero);
-                }
 
-                if (Value % rhsInt.Value == 0)
-                    return Processor.Factory.Create(Value / rhsInt.Value);
+                case IntegerBase rhsInt:
+                    return Processor.Factory.CreateAppropriate(Value / (double) rhsInt.Value);
 
-                return Processor.Factory.Create(Value / (double) rhsInt.Value);
+                case DoubleBase rhsDouble:
+                    return Processor.Factory.CreateAppropriate(Value / rhsDouble.Value);
+
+                default:
+                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Int_DivideInvalidType),
+                        Localized_Base_Entities.Ex_Int_DivideInvalidType,
+                        Value, rhs?.GetTypeName() ?? "null");
             }
-
-            throw new NotImplementedException();
         }
 
         public IScriptType ArithmeticModulus(IScriptType rhs)
