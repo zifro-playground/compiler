@@ -63,13 +63,11 @@ namespace Zifro.Compiler.Tools.Extensions
             }
         }
 
-        public static IScriptType CreateApproximation(this IScriptTypeFactory factory, float value)
+        public static IScriptType CreateAppropriate(this IScriptTypeFactory factory, double value)
         {
-            return factory.Create(value);
-        }
+            if (Math.Abs(value) % 1 <= 1e-10)
+                return factory.Create((int)Math.Round(value));
 
-        public static IScriptType CreateApproximation(this IScriptTypeFactory factory, double value)
-        {
             return factory.Create(value);
         }
     }

@@ -99,9 +99,9 @@ namespace Zifro.Compiler.Tools.Tests
         [DataRow(1 + double.Epsilon, 1, typeof(IntegerBase))]
         [DataRow(150, 150, typeof(IntegerBase))]
         [DataRow(0.1+0.2, 0.3, typeof(DoubleBase))]
-        [DataRow(1e10+double.Epsilon, 1e10, typeof(IntegerBase))]
+        [DataRow(1e5+double.Epsilon, 1e5, typeof(IntegerBase))]
         [DataRow(1e5+1e-5, 1e5+1e-5, typeof(DoubleBase))]
-        public void CreateApproxDoubleSimple(double input, double expectedValue, Type expectedType)
+        public void CreateAppropriateDoubleSimple(double input, double expectedValue, Type expectedType)
         {
             // Arrange
             factoryMock.Setup(o => o.Create(It.IsAny<double>()))
@@ -118,15 +118,22 @@ namespace Zifro.Compiler.Tools.Tests
                     v.Value = i;
                     return v;
                 });
+            //factoryMock.Setup(o => o.Create(It.IsAny<long>()))
+            //    .Returns<long>(i =>
+            //    {
+            //        var v = Mock.Of<LongBase>();
+            //        v.Value = i;
+            //        return v;
+            //    });
 
             // Act
-            IScriptType result = factoryObject.CreateApproximation(input);
+            IScriptType result = factoryObject.CreateAppropriate(input);
 
             // Assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, expectedType);
             if (result is DoubleBase db)
-                Assert.AreEqual(expectedValue, db.Value);
+                Assert.AreEqual(expectedValue, db.Value, 1e-10);
             if (result is IntegerBase ib)
                 Assert.AreEqual(expectedValue, ib.Value);
         }
