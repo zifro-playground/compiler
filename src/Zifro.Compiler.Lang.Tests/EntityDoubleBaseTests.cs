@@ -4,7 +4,7 @@ using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Lang.Entities;
 using Zifro.Compiler.Lang.Resources;
 
-namespace Zifro.Compiler.Tests
+namespace Zifro.Compiler.Lang.Tests
 {
     [TestClass]
     public class EntityDoubleBaseTests : BaseTestClass

@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Zifro.Compiler.Core.Interfaces;
-using Zifro.Compiler.Entities;
+using Zifro.Compiler.Lang.Entities;
 using Zifro.Compiler.Tools.Extensions;
 
 namespace Zifro.Compiler.Tools.Tests

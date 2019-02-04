@@ -11,22 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Zifro.Compiler.Core\Zifro.Compiler.Core.csproj" />
-    <ProjectReference Include="..\Zifro.Compiler.Tools\Zifro.Compiler.Tools.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Resources\Localized_Base_Entities.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Localized_Base_Entities.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\Localized_Base_Entities.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Localized_Base_Entities.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

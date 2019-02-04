@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Zifro.Compiler.Resources {
+namespace Zifro.Compiler.Lang.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Zifro.Compiler.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Zifro.Compiler.Resources.Localized_Base_Entities", typeof(Localized_Base_Entities).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Zifro.Compiler.Lang.Resources.Localized_Base_Entities", typeof(Localized_Base_Entities).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

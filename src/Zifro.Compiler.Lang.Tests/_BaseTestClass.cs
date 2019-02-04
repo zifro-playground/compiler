@@ -5,7 +5,7 @@ using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Lang.Entities;
 
-namespace Zifro.Compiler.Tests
+namespace Zifro.Compiler.Lang.Tests
 {
     public class BaseTestClass
     {

@@ -4,8 +4,6 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
-
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +16,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Zifro.Compiler.Core\Zifro.Compiler.Core.csproj" />
     <ProjectReference Include="..\Zifro.Compiler.Lang\Zifro.Compiler.Lang.csproj" />
-    <ProjectReference Include="..\Zifro.Compiler\Zifro.Compiler.csproj" />
   </ItemGroup>
 
 </Project>

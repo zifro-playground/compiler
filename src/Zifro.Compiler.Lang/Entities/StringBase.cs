@@ -2,9 +2,9 @@
 using System.Linq;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Interfaces;
-using Zifro.Compiler.Resources;
+using Zifro.Compiler.Lang.Resources;
 
-namespace Zifro.Compiler.Entities
+namespace Zifro.Compiler.Lang.Entities
 {
     public abstract class StringBase : IScriptType
     {

@@ -1,49 +1,49 @@
 ﻿using System;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Interfaces;
-using Zifro.Compiler.Resources;
+using Zifro.Compiler.Lang.Resources;
 using Zifro.Compiler.Tools.Extensions;
 
-namespace Zifro.Compiler.Entities
+namespace Zifro.Compiler.Lang.Entities
 {
-    public abstract class IntegerBase : IScriptType
+    public abstract class DoubleBase : IScriptType
     {
         public abstract IProcessor Processor { get; set; }
 
         public abstract IScriptType GetTypeDef();
         public abstract string GetTypeName();
 
-        public int Value { get; set; }
+        public double Value { get; set; }
 
         public virtual IScriptType Invoke(IScriptType[] arguments)
         {
             throw new RuntimeException(
-                nameof(Localized_Base_Entities.Ex_Int_Invoke),
-                Localized_Base_Entities.Ex_Int_Invoke,
+                nameof(Localized_Base_Entities.Ex_Double_Invoke),
+                Localized_Base_Entities.Ex_Double_Invoke,
                 Value);
         }
 
         public virtual IScriptType GetIndex(IScriptType index)
         {
             throw new RuntimeException(
-                nameof(Localized_Base_Entities.Ex_Int_IndexGet),
-                Localized_Base_Entities.Ex_Int_IndexGet,
+                nameof(Localized_Base_Entities.Ex_Double_IndexGet),
+                Localized_Base_Entities.Ex_Double_IndexGet,
                 Value);
         }
 
         public virtual IScriptType SetIndex(IScriptType index, IScriptType value)
         {
             throw new RuntimeException(
-                nameof(Localized_Base_Entities.Ex_Int_IndexSet),
-                Localized_Base_Entities.Ex_Int_IndexSet,
+                nameof(Localized_Base_Entities.Ex_Double_IndexSet),
+                Localized_Base_Entities.Ex_Double_IndexSet,
                 Value);
         }
 
         public virtual IScriptType GetProperty(string property)
         {
             throw new RuntimeException(
-                nameof(Localized_Base_Entities.Ex_Int_PropertyGet),
-                Localized_Base_Entities.Ex_Int_PropertyGet,
+                nameof(Localized_Base_Entities.Ex_Double_PropertyGet),
+                Localized_Base_Entities.Ex_Double_PropertyGet,
                 Value,
                 property);
         }
@@ -51,8 +51,8 @@ namespace Zifro.Compiler.Entities
         public virtual IScriptType SetProperty(string property, IScriptType value)
         {
             throw new RuntimeException(
-                nameof(Localized_Base_Entities.Ex_Int_PropertySet),
-                Localized_Base_Entities.Ex_Int_PropertySet,
+                nameof(Localized_Base_Entities.Ex_Double_PropertySet),
+                Localized_Base_Entities.Ex_Double_PropertySet,
                 Value,
                 property);
         }
@@ -71,33 +71,15 @@ namespace Zifro.Compiler.Entities
 
         public bool TryConvert(Type type, out object value)
         {
-            if (type == typeof(int))
-            {
-                value = Value;
-                return true;
-            }
-
-            if (type == typeof(long))
-            {
-                value = (long) Value;
-                return true;
-            }
-
             if (type == typeof(double))
             {
-                value = (double) Value;
-                return true;
-            }
-
-            if (type == typeof(float))
-            {
-                value = (float) Value;
+                value = (double)Value;
                 return true;
             }
 
             if (type == typeof(decimal))
             {
-                value = (decimal) Value;
+                value = (decimal)Value;
                 return true;
             }
 
@@ -119,12 +101,16 @@ namespace Zifro.Compiler.Entities
         {
             switch (rhs)
             {
+                case DoubleBase rhsDouble:
+                    return Processor.Factory.CreateAppropriate(Value + rhsDouble.Value);
+
                 case IntegerBase rhsInt:
-                    return Processor.Factory.Create(Value + rhsInt.Value);
+                    return Processor.Factory.CreateAppropriate(Value + rhsInt.Value);
+
                 default:
-                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Int_AddInvalidType),
-                        Localized_Base_Entities.Ex_Int_AddInvalidType,
-                        Value, rhs?.GetTypeName() ?? "null");
+                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Double_AddInvalidType),
+                        Localized_Base_Entities.Ex_Double_AddInvalidType,
+                        Value, rhs.GetTypeName());
             }
         }
 
@@ -132,12 +118,16 @@ namespace Zifro.Compiler.Entities
         {
             switch (rhs)
             {
+                case DoubleBase rhsDouble:
+                    return Processor.Factory.CreateAppropriate(Value - rhsDouble.Value);
+
                 case IntegerBase rhsInt:
-                    return Processor.Factory.Create(Value - rhsInt.Value);
+                    return Processor.Factory.CreateAppropriate(Value - rhsInt.Value);
+
                 default:
-                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Int_SubtractInvalidType),
-                        Localized_Base_Entities.Ex_Int_SubtractInvalidType,
-                        Value, rhs?.GetTypeName() ?? "null");
+                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Double_SubtractInvalidType),
+                        Localized_Base_Entities.Ex_Double_SubtractInvalidType,
+                        Value, rhs.GetTypeName());
             }
         }
 
@@ -146,15 +136,15 @@ namespace Zifro.Compiler.Entities
             switch (rhs)
             {
                 case IntegerBase rhsInt:
-                    return Processor.Factory.Create(Value * rhsInt.Value);
+                    return Processor.Factory.CreateAppropriate(Value * rhsInt.Value);
 
                 case DoubleBase rhsDouble:
                     return Processor.Factory.CreateAppropriate(Value * rhsDouble.Value);
 
                 default:
-                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Int_MultiplyInvalidType),
-                        Localized_Base_Entities.Ex_Int_MultiplyInvalidType,
-                        Value, rhs?.GetTypeName() ?? "null");
+                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Double_MultiplyInvalidType),
+                        Localized_Base_Entities.Ex_Double_MultiplyInvalidType,
+                        Value, rhs.GetTypeName());
             }
         }
 
@@ -162,21 +152,21 @@ namespace Zifro.Compiler.Entities
         {
             switch (rhs)
             {
-                case IntegerBase rhsInt when rhsInt.Value.Equals(0):
-                case DoubleBase rhsDouble when rhsDouble.Value.Equals(0):
+                case IntegerBase rhsInteger when rhsInteger.Value.Equals(0):
+                case DoubleBase rhsDouble when rhsDouble.Value.Equals(0d):
                     throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
                         Localized_Base_Entities.Ex_Math_DivideByZero);
-
-                case IntegerBase rhsInt:
-                    return Processor.Factory.CreateAppropriate(Value / (double) rhsInt.Value);
 
                 case DoubleBase rhsDouble:
                     return Processor.Factory.CreateAppropriate(Value / rhsDouble.Value);
 
+                case IntegerBase rhsInt:
+                    return Processor.Factory.CreateAppropriate(Value / rhsInt.Value);
+
                 default:
-                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Int_DivideInvalidType),
-                        Localized_Base_Entities.Ex_Int_DivideInvalidType,
-                        Value, rhs?.GetTypeName() ?? "null");
+                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Double_DivideInvalidType),
+                        Localized_Base_Entities.Ex_Double_DivideInvalidType,
+                        Value, rhs.GetTypeName());
             }
         }
 
