@@ -22,7 +22,7 @@ namespace Zifro.Compiler.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Localized_Base_Entities {
+    public class Localized_Base_Entities {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Zifro.Compiler.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Zifro.Compiler.Resources.Localized_Base_Entities", typeof(Localized_Base_Entities).Assembly);
@@ -51,7 +51,7 @@ namespace Zifro.Compiler.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Zifro.Compiler.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Ett heltal kan inte indexeras..
         /// </summary>
-        internal static string Ex_Int_IndexGet {
+        public static string Ex_Int_IndexGet {
             get {
                 return ResourceManager.GetString("Ex_Int_IndexGet", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Zifro.Compiler.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Det går inte att sätta inre värde på ett heltal genom indexering..
         /// </summary>
-        internal static string Ex_Int_IndexSet {
+        public static string Ex_Int_IndexSet {
             get {
                 return ResourceManager.GetString("Ex_Int_IndexSet", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Zifro.Compiler.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Ett heltalsvärde kan inte köras som en funktion..
         /// </summary>
-        internal static string Ex_Int_Invoke {
+        public static string Ex_Int_Invoke {
             get {
                 return ResourceManager.GetString("Ex_Int_Invoke", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Zifro.Compiler.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Gick inte att läsa egenskapen &apos;{1}&apos; från heltalet. Heltal har inga egenskaper..
         /// </summary>
-        internal static string Ex_Int_PropertyGet {
+        public static string Ex_Int_PropertyGet {
             get {
                 return ResourceManager.GetString("Ex_Int_PropertyGet", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Zifro.Compiler.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Det går inte att ändra egenskapen &apos;{1}&apos; på ett heltal..
         /// </summary>
-        internal static string Ex_Int_PropertySet {
+        public static string Ex_Int_PropertySet {
             get {
                 return ResourceManager.GetString("Ex_Int_PropertySet", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace Zifro.Compiler.Resources {
         /// <summary>
         ///   Looks up a localized string similar to En textsträng kan endast indexeras av heltal, inte av typen &apos;{2}&apos;..
         /// </summary>
-        internal static string Ex_String_IndexGet_InvalidType {
+        public static string Ex_String_IndexGet_InvalidType {
             get {
                 return ResourceManager.GetString("Ex_String_IndexGet_InvalidType", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace Zifro.Compiler.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Gick inte att läsa bokstaven på plats &apos;{2}&apos; då den är utanför textsträngens längd ({1})..
         /// </summary>
-        internal static string Ex_String_IndexGet_OutOfRange {
+        public static string Ex_String_IndexGet_OutOfRange {
             get {
                 return ResourceManager.GetString("Ex_String_IndexGet_OutOfRange", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace Zifro.Compiler.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Det går inte att ändra enstaka bokstäver i en textsträng genom indexering..
         /// </summary>
-        internal static string Ex_String_IndexSet {
+        public static string Ex_String_IndexSet {
             get {
                 return ResourceManager.GetString("Ex_String_IndexSet", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace Zifro.Compiler.Resources {
         /// <summary>
         ///   Looks up a localized string similar to En textsträng kan inte köras som en funktion..
         /// </summary>
-        internal static string Ex_String_Invoke {
+        public static string Ex_String_Invoke {
             get {
                 return ResourceManager.GetString("Ex_String_Invoke", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace Zifro.Compiler.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Gick inte att läsa egenskapen &apos;{2}&apos; från textsträngen..
         /// </summary>
-        internal static string Ex_String_PropertyGet {
+        public static string Ex_String_PropertyGet {
             get {
                 return ResourceManager.GetString("Ex_String_PropertyGet", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace Zifro.Compiler.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Det går inte att ändra egenskapen &apos;{2}&apos; på en textsträng..
         /// </summary>
-        internal static string Ex_String_PropertySet {
+        public static string Ex_String_PropertySet {
             get {
                 return ResourceManager.GetString("Ex_String_PropertySet", resourceCulture);
             }

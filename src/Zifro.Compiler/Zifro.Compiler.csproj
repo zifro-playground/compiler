@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Resources\Localized_Base_Entities.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Localized_Base_Entities.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
