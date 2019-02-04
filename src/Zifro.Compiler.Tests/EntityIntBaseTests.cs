@@ -11,7 +11,6 @@ namespace Zifro.Compiler.Tests
     [TestClass]
     public class EntityIntBaseTests : BaseTestClass
     {
-
         [TestMethod]
         public void IntAdditionTest()
         {
@@ -32,6 +31,22 @@ namespace Zifro.Compiler.Tests
             processorMock.VerifyGet(o => o.Factory, Times.Once);
             processorMock.VerifyNoOtherCalls();
             factoryMock.Verify(o => o.Create(15), Times.Once);
+            factoryMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public void IntAdditionInvalidTest()
+        {
+            // Arrange
+            IntegerBase a = GetInteger(5);
+            StringBase b = GetString("foo");
+            Action action = delegate { a.ArithmeticAdd(b); };
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<RuntimeException>(action);
+            Assert.IsNotNull(ex);
+            Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_AddInvalidType));
+            processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }
 
@@ -59,6 +74,22 @@ namespace Zifro.Compiler.Tests
         }
 
         [TestMethod]
+        public void IntSubtractionInvalidTest()
+        {
+            // Arrange
+            IntegerBase a = GetInteger(5);
+            StringBase b = GetString("foo");
+            Action action = delegate { a.ArithmeticSubtract(b); };
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<RuntimeException>(action);
+            Assert.IsNotNull(ex);
+            Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_SubtractInvalidType));
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
         public void IntMultiplicationTest()
         {
             // Arrange
@@ -78,6 +109,70 @@ namespace Zifro.Compiler.Tests
             processorMock.VerifyGet(o => o.Factory, Times.Once);
             processorMock.VerifyNoOtherCalls();
             factoryMock.Verify(o => o.Create(50), Times.Once);
+            factoryMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public void IntMultiplicationInvalidTest()
+        {
+            // Arrange
+            IntegerBase a = GetInteger(5);
+            StringBase b = GetString("foo");
+            Action action = delegate { a.ArithmeticMultiply(b); };
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<RuntimeException>(action);
+            Assert.IsNotNull(ex);
+            Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_MultiplyInvalidType));
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public void IntMultiplicationDoubleWholeTest()
+        {
+            // Arrange
+            IntegerBase a = GetInteger(5);
+            DoubleBase b = GetDouble(2);
+            const int expected = 10;
+
+            // Act
+            IScriptType resultBase = a.ArithmeticMultiply(b);
+            var result = resultBase as IntegerBase;
+
+            // Assert
+            Assert.IsInstanceOfType(resultBase, typeof(IntegerBase));
+            Assert.IsNotNull(result);
+            Assert.AreNotSame(a, result);
+            Assert.AreNotSame(b, result);
+            Assert.AreEqual(expected, result.Value);
+            processorMock.VerifyGet(o => o.Factory, Times.Once);
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.Verify(o => o.Create(expected), Times.Once);
+            factoryMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public void IntMultiplicationDoubleFractionTest()
+        {
+            // Arrange
+            IntegerBase a = GetInteger(5);
+            DoubleBase b = GetDouble(2.5);
+            const double expected = 5*2.5;
+
+            // Act
+            IScriptType resultBase = a.ArithmeticMultiply(b);
+            var result = resultBase as DoubleBase;
+
+            // Assert
+            Assert.IsInstanceOfType(resultBase, typeof(DoubleBase));
+            Assert.IsNotNull(result);
+            Assert.AreNotSame(a, result);
+            Assert.AreNotSame(b, result);
+            Assert.AreEqual(expected, result.Value);
+            processorMock.VerifyGet(o => o.Factory, Times.Once);
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.Verify(o => o.Create(expected), Times.Once);
             factoryMock.VerifyNoOtherCalls();
         }
 
@@ -128,6 +223,22 @@ namespace Zifro.Compiler.Tests
         }
 
         [TestMethod]
+        public void IntDivideInvalidTest()
+        {
+            // Arrange
+            IntegerBase a = GetInteger(5);
+            StringBase b = GetString("foo");
+            Action action = delegate { a.ArithmeticDivide(b); };
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<RuntimeException>(action);
+            Assert.IsNotNull(ex);
+            Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_DivideInvalidType));
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
         public void IntDivideByZero()
         {
             // Arrange
@@ -139,6 +250,29 @@ namespace Zifro.Compiler.Tests
             var ex = Assert.ThrowsException<RuntimeException>(action);
             Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Math_DivideByZero));
             processorMock.VerifyNoOtherCalls();
+            factoryMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public void IntDivideByDouble()
+        {
+            // Arrange
+            IntegerBase a = GetInteger(5);
+            DoubleBase b = GetDouble(2);
+
+            // Act
+            IScriptType resultBase = a.ArithmeticDivide(b);
+            var result = resultBase as DoubleBase;
+
+            // Assert
+            Assert.IsInstanceOfType(resultBase, typeof(DoubleBase));
+            Assert.IsNotNull(result);
+            Assert.AreNotSame(a, result);
+            Assert.AreNotSame(b, result);
+            Assert.AreEqual(2.5d, result.Value, double.Epsilon);
+            processorMock.VerifyGet(o => o.Factory, Times.Once);
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.Verify(o => o.Create(It.IsInRange(2.4999, 2.5001, Range.Exclusive)), Times.Once);
             factoryMock.VerifyNoOtherCalls();
         }
 

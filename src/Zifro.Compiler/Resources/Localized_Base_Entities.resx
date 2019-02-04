@@ -185,4 +185,20 @@
     <value>Det går inte att ändra egenskapen '{2}' på en textsträng.</value>
     <comment>myStr.prop = value; value of str={0}, length of str={1}, property name={2}</comment>
   </data>
+  <data name="Ex_Int_DivideInvalidType" xml:space="preserve">
+    <value>Gick inte att dividera heltalet '{0}' med värde av typen '{1}'.</value>
+    <comment>myInt / value; value of int={0}, divisor type name={1}</comment>
+  </data>
+  <data name="Ex_Int_AddInvalidType" xml:space="preserve">
+    <value>Gick inte att addera heltalet '{0}' med värde av typen '{1}'.</value>
+    <comment>myInt + value; value of int={0}, divisor type name={1}</comment>
+  </data>
+  <data name="Ex_Int_MultiplyInvalidType" xml:space="preserve">
+    <value>Gick inte att multiplisera heltalet '{0}' med värde av typen '{1}'.</value>
+    <comment>myInt * value; value of int={0}, divisor type name={1}</comment>
+  </data>
+  <data name="Ex_Int_SubtractInvalidType" xml:space="preserve">
+    <value>Gick inte att subtrahera heltalet '{0}' med värde av typen '{1}'.</value>
+    <comment>myInt - value; value of int={0}, divisor type name={1}</comment>
+  </data>
 </root>

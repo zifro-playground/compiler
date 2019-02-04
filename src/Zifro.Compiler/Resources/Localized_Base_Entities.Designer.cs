@@ -106,6 +106,24 @@ namespace Zifro.Compiler.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gick inte att addera heltalet &apos;{0}&apos; med värde av typen &apos;{1}&apos;..
+        /// </summary>
+        public static string Ex_Int_AddInvalidType {
+            get {
+                return ResourceManager.GetString("Ex_Int_AddInvalidType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gick inte att dividera heltalet &apos;{0}&apos; med värde av typen &apos;{1}&apos;..
+        /// </summary>
+        public static string Ex_Int_DivideInvalidType {
+            get {
+                return ResourceManager.GetString("Ex_Int_DivideInvalidType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ett heltal kan inte indexeras..
         /// </summary>
         public static string Ex_Int_IndexGet {
@@ -133,6 +151,15 @@ namespace Zifro.Compiler.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gick inte att multiplisera heltalet &apos;{0}&apos; med värde av typen &apos;{1}&apos;..
+        /// </summary>
+        public static string Ex_Int_MultiplyInvalidType {
+            get {
+                return ResourceManager.GetString("Ex_Int_MultiplyInvalidType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gick inte att läsa egenskapen &apos;{1}&apos; från heltalet. Heltal har inga egenskaper..
         /// </summary>
         public static string Ex_Int_PropertyGet {
@@ -147,6 +174,15 @@ namespace Zifro.Compiler.Resources {
         public static string Ex_Int_PropertySet {
             get {
                 return ResourceManager.GetString("Ex_Int_PropertySet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gick inte att subtrahera heltalet &apos;{0}&apos; med värde av typen &apos;{1}&apos;..
+        /// </summary>
+        public static string Ex_Int_SubtractInvalidType {
+            get {
+                return ResourceManager.GetString("Ex_Int_SubtractInvalidType", resourceCulture);
             }
         }
         
