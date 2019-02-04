@@ -232,6 +232,24 @@ namespace Zifro.Compiler.Lang.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gick inte att addera din textsträng på {1} karaktärer med värde av typen &apos;{2}&apos;..
+        /// </summary>
+        public static string Ex_String_AddInvalidType {
+            get {
+                return ResourceManager.GetString("Ex_String_AddInvalidType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gick inte att dividera din textsträng på {1} karaktärer med värde av typen &apos;{2}&apos;..
+        /// </summary>
+        public static string Ex_String_DivideInvalidOperation {
+            get {
+                return ResourceManager.GetString("Ex_String_DivideInvalidOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to En textsträng kan endast indexeras av heltal, inte av typen &apos;{2}&apos;..
         /// </summary>
         public static string Ex_String_IndexGet_InvalidType {
@@ -268,6 +286,15 @@ namespace Zifro.Compiler.Lang.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gick inte att multiplisera din textsträng på {1} karaktärer med värde av typen &apos;{2}&apos;..
+        /// </summary>
+        public static string Ex_String_MultiplyInvalidOperation {
+            get {
+                return ResourceManager.GetString("Ex_String_MultiplyInvalidOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gick inte att läsa egenskapen &apos;{2}&apos; från textsträngen..
         /// </summary>
         public static string Ex_String_PropertyGet {
@@ -282,6 +309,15 @@ namespace Zifro.Compiler.Lang.Resources {
         public static string Ex_String_PropertySet {
             get {
                 return ResourceManager.GetString("Ex_String_PropertySet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gick inte att subtrahera din textsträng på {1} karaktärer med värde av typen &apos;{2}&apos;..
+        /// </summary>
+        public static string Ex_String_SubtractInvalidOperation {
+            get {
+                return ResourceManager.GetString("Ex_String_SubtractInvalidOperation", resourceCulture);
             }
         }
     }

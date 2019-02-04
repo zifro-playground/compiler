@@ -217,4 +217,20 @@
     <value>Gick inte att subtrahera decimaltalet '{0}' med värde av typen '{1}'.</value>
     <comment>myDouble - value; value of double={0}, other type name={1}</comment>
   </data>
+  <data name="Ex_String_AddInvalidType" xml:space="preserve">
+    <value>Gick inte att addera din textsträng på {1} karaktärer med värde av typen '{2}'.</value>
+    <comment>myStr + value; value of str={0}, length of str={1}, other type name={2}</comment>
+  </data>
+  <data name="Ex_String_DivideInvalidOperation" xml:space="preserve">
+    <value>En textsträng kan inte divideras med ett annat värde.</value>
+    <comment>myStr / value; value of str={0}, length of str={1}, other type name={2}</comment>
+  </data>
+  <data name="Ex_String_MultiplyInvalidOperation" xml:space="preserve">
+    <value>En textsträng kan inte multipliseras med ett annat värde.</value>
+    <comment>myStr * value; value of str={0}, length of str={1}, other type name={2}</comment>
+  </data>
+  <data name="Ex_String_SubtractInvalidOperation" xml:space="preserve">
+    <value>En textsträng kan inte subtraheras med ett annat värde.</value>
+    <comment>myStr - value; value of str={0}, length of str={1}, other type name={2}</comment>
+  </data>
 </root>
