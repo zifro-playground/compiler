@@ -64,6 +64,7 @@ namespace Zifro.Compiler.Lang.Tests
             object expected)
             where T : IScriptType
         {
+            Assert.IsNotNull(resultBase);
             Assert.IsInstanceOfType(resultBase, typeof(T));
             var result = (T) resultBase;
             Assert.IsNotNull(result);

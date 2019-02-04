@@ -35,23 +35,24 @@ namespace Zifro.Compiler.Lang.Entities
 
         public virtual IScriptType GetIndex(IScriptType index)
         {
-            if (!index.TryConvert(out int intIndex))
+            switch (index)
             {
-                throw new RuntimeException(
-                    nameof(Localized_Base_Entities.Ex_String_IndexGet_InvalidType),
-                    Localized_Base_Entities.Ex_String_IndexGet_InvalidType,
-                    values: GetErrorArgs(index.GetTypeName()));
-            }
+                case IntegerBase indexInteger when indexInteger.Value >= 0 &&
+                                                   indexInteger.Value < Value.Length:
+                    return Processor.Factory.Create(Value[indexInteger.Value]);
 
-            if (intIndex < 0 || intIndex >= Value.Length)
-            {
-                throw new RuntimeException(
-                    nameof(Localized_Base_Entities.Ex_String_IndexGet_OutOfRange),
-                    Localized_Base_Entities.Ex_String_IndexGet_OutOfRange,
-                    values: GetErrorArgs(intIndex));
-            }
+                case IntegerBase indexInteger:
+                    throw new RuntimeException(
+                        nameof(Localized_Base_Entities.Ex_String_IndexGet_OutOfRange),
+                        Localized_Base_Entities.Ex_String_IndexGet_OutOfRange,
+                        values: GetErrorArgs(indexInteger.Value));
 
-            return Processor.Factory.Create(Value[intIndex]);
+                default:
+                    throw new RuntimeException(
+                        nameof(Localized_Base_Entities.Ex_String_IndexGet_InvalidType),
+                        Localized_Base_Entities.Ex_String_IndexGet_InvalidType,
+                        values: GetErrorArgs(index.GetTypeName()));
+            }
         }
 
         public virtual IScriptType SetIndex(IScriptType index, IScriptType value)
@@ -120,26 +121,36 @@ namespace Zifro.Compiler.Lang.Entities
 
         public IScriptType ArithmeticAdd(IScriptType rhs)
         {
-            if (rhs is StringBase rhsString)
+            switch (rhs)
             {
-                return Processor.Factory.Create(Value + rhsString.Value);
+                case StringBase rhsString:
+                    return Processor.Factory.Create(Value + rhsString.Value);
+                default:
+                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_AddInvalidType),
+                        Localized_Base_Entities.Ex_String_AddInvalidType,
+                        values: GetErrorArgs(rhs.GetTypeName()));
             }
-            throw new NotImplementedException();
         }
 
         public IScriptType ArithmeticSubtract(IScriptType rhs)
         {
-            throw new NotImplementedException();
+            throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_SubtractInvalidOperation),
+                Localized_Base_Entities.Ex_String_SubtractInvalidOperation,
+                values: GetErrorArgs(rhs.GetTypeName()));
         }
 
         public IScriptType ArithmeticMultiply(IScriptType rhs)
         {
-            throw new NotImplementedException();
+            throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_MultiplyInvalidOperation),
+                Localized_Base_Entities.Ex_String_MultiplyInvalidOperation,
+                values: GetErrorArgs(rhs.GetTypeName()));
         }
 
         public IScriptType ArithmeticDivide(IScriptType rhs)
         {
-            throw new NotImplementedException();
+            throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_DivideInvalidOperation),
+                Localized_Base_Entities.Ex_String_DivideInvalidOperation,
+                values: GetErrorArgs(rhs.GetTypeName()));
         }
 
         public IScriptType ArithmeticModulus(IScriptType rhs)
