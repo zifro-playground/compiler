@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Zifro.Compiler.Core.Interfaces;
+using Zifro.Compiler.Entities;
 using Zifro.Compiler.Tools.Extensions;
 
 namespace Zifro.Compiler.Tools.Tests
@@ -92,6 +93,42 @@ namespace Zifro.Compiler.Tools.Tests
             // Assert
             factoryMock.VerifyGet(o => o.False, Times.Once);
             factoryMock.VerifyNoOtherCalls();
+        }
+
+        [DataTestMethod]
+        [DataRow(1 + double.Epsilon, 1, typeof(IntegerBase))]
+        [DataRow(150, 150, typeof(IntegerBase))]
+        [DataRow(0.1+0.2, 0.3, typeof(DoubleBase))]
+        [DataRow(1e10+double.Epsilon, 1e10, typeof(IntegerBase))]
+        [DataRow(1e5+1e-5, 1e5+1e-5, typeof(DoubleBase))]
+        public void CreateApproxDoubleSimple(double input, double expectedValue, Type expectedType)
+        {
+            // Arrange
+            factoryMock.Setup(o => o.Create(It.IsAny<double>()))
+                .Returns<double>(d =>
+                {
+                    var v = Mock.Of<DoubleBase>();
+                    v.Value = d;
+                    return v;
+                });
+            factoryMock.Setup(o => o.Create(It.IsAny<int>()))
+                .Returns<int>(i =>
+                {
+                    var v = Mock.Of<IntegerBase>();
+                    v.Value = i;
+                    return v;
+                });
+
+            // Act
+            IScriptType result = factoryObject.CreateApproximation(input);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, expectedType);
+            if (result is DoubleBase db)
+                Assert.AreEqual(expectedValue, db.Value);
+            if (result is IntegerBase ib)
+                Assert.AreEqual(expectedValue, ib.Value);
         }
     }
 }

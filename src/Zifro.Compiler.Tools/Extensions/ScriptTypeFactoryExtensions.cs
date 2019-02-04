@@ -62,5 +62,15 @@ namespace Zifro.Compiler.Tools.Extensions
                     return false;
             }
         }
+
+        public static IScriptType CreateApproximation(this IScriptTypeFactory factory, float value)
+        {
+            return factory.Create(value);
+        }
+
+        public static IScriptType CreateApproximation(this IScriptTypeFactory factory, double value)
+        {
+            return factory.Create(value);
+        }
     }
 }
