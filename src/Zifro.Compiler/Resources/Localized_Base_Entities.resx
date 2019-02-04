@@ -187,18 +187,34 @@
   </data>
   <data name="Ex_Int_DivideInvalidType" xml:space="preserve">
     <value>Gick inte att dividera heltalet '{0}' med värde av typen '{1}'.</value>
-    <comment>myInt / value; value of int={0}, divisor type name={1}</comment>
+    <comment>myInt / value; value of int={0}, other type name={1}</comment>
   </data>
   <data name="Ex_Int_AddInvalidType" xml:space="preserve">
     <value>Gick inte att addera heltalet '{0}' med värde av typen '{1}'.</value>
-    <comment>myInt + value; value of int={0}, divisor type name={1}</comment>
+    <comment>myInt + value; value of int={0}, other type name={1}</comment>
   </data>
   <data name="Ex_Int_MultiplyInvalidType" xml:space="preserve">
     <value>Gick inte att multiplisera heltalet '{0}' med värde av typen '{1}'.</value>
-    <comment>myInt * value; value of int={0}, divisor type name={1}</comment>
+    <comment>myInt * value; value of int={0}, other type name={1}</comment>
   </data>
   <data name="Ex_Int_SubtractInvalidType" xml:space="preserve">
     <value>Gick inte att subtrahera heltalet '{0}' med värde av typen '{1}'.</value>
-    <comment>myInt - value; value of int={0}, divisor type name={1}</comment>
+    <comment>myInt - value; value of int={0}, other type name={1}</comment>
+  </data>
+  <data name="Ex_Double_DivideInvalidType" xml:space="preserve">
+    <value>Gick inte att dividera decimaltalet '{0}' med värde av typen '{1}'.</value>
+    <comment>myDouble / value; value of double={0}, other type name={1}</comment>
+  </data>
+  <data name="Ex_Double_AddInvalidType" xml:space="preserve">
+    <value>Gick inte att addera decimaltalet '{0}' med värde av typen '{1}'.</value>
+    <comment>myDouble + value; value of double={0}, other type name={1}</comment>
+  </data>
+  <data name="Ex_Double_MultiplyInvalidType" xml:space="preserve">
+    <value>Gick inte att multiplisera decimaltalet '{0}' med värde av typen '{1}'.</value>
+    <comment>myDouble * value; value of double={0}, other type name={1}</comment>
+  </data>
+  <data name="Ex_Double_SubtractInvalidType" xml:space="preserve">
+    <value>Gick inte att subtrahera decimaltalet '{0}' med värde av typen '{1}'.</value>
+    <comment>myDouble - value; value of double={0}, other type name={1}</comment>
   </data>
 </root>

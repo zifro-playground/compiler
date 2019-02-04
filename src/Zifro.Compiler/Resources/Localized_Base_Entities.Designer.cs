@@ -61,6 +61,24 @@ namespace Zifro.Compiler.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gick inte att addera decimaltalet &apos;{0}&apos; med värde av typen &apos;{1}&apos;..
+        /// </summary>
+        public static string Ex_Double_AddInvalidType {
+            get {
+                return ResourceManager.GetString("Ex_Double_AddInvalidType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gick inte att dividera decimaltalet &apos;{0}&apos; med värde av typen &apos;{1}&apos;..
+        /// </summary>
+        public static string Ex_Double_DivideInvalidType {
+            get {
+                return ResourceManager.GetString("Ex_Double_DivideInvalidType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ett decimaltal kan inte indexeras..
         /// </summary>
         public static string Ex_Double_IndexGet {
@@ -88,6 +106,15 @@ namespace Zifro.Compiler.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gick inte att multiplisera decimaltalet &apos;{0}&apos; med värde av typen &apos;{1}&apos;..
+        /// </summary>
+        public static string Ex_Double_MultiplyInvalidType {
+            get {
+                return ResourceManager.GetString("Ex_Double_MultiplyInvalidType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gick inte att läsa egenskapen &apos;{1}&apos; från decimaltalet. Decimaltal har inga egenskaper..
         /// </summary>
         public static string Ex_Double_PropertyGet {
@@ -102,6 +129,15 @@ namespace Zifro.Compiler.Resources {
         public static string Ex_Double_PropertySet {
             get {
                 return ResourceManager.GetString("Ex_Double_PropertySet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gick inte att subtrahera decimaltalet &apos;{0}&apos; med värde av typen &apos;{1}&apos;..
+        /// </summary>
+        public static string Ex_Double_SubtractInvalidType {
+            get {
+                return ResourceManager.GetString("Ex_Double_SubtractInvalidType", resourceCulture);
             }
         }
         
