@@ -379,6 +379,22 @@ namespace Zifro.Compiler.Tests
             factoryMock.VerifyNoOtherCalls();
         }
 
+        [TestMethod]
+        public void IntTryConvertDecimal()
+        {
+            // Arrange
+            IntegerBase a = GetInteger(5);
+
+            // Act
+            bool success = a.TryConvert(typeof(decimal), out object result);
+
+            // Assert
+            Assert.IsTrue(success);
+            Assert.AreEqual(5m, result);
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.VerifyNoOtherCalls();
+        }
+
         [DataTestMethod]
         [DataRow(typeof(uint))]
         [DataRow(typeof(ulong))]
