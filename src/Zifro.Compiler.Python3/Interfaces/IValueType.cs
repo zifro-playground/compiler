@@ -1,4 +1,4 @@
-﻿namespace Zifro.Compiler.Core.Interfaces
+﻿namespace Zifro.Compiler.Lang.Python3.Interfaces
 {
     public interface IValueType
     {
