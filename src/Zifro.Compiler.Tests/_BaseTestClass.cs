@@ -61,11 +61,12 @@ namespace Zifro.Compiler.Tests
             return stringBase;
         }
 
-        protected void AssertArithmeticResult<T>(IScriptType resultBase, IScriptType lhs, IScriptType rhs, object expected)
+        protected void AssertArithmeticResult<T>(IScriptType resultBase, IScriptType lhs, IScriptType rhs,
+            object expected)
             where T : IScriptType
         {
             Assert.IsInstanceOfType(resultBase, typeof(T));
-            var result = (T)resultBase;
+            var result = (T) resultBase;
             Assert.IsNotNull(result);
             Assert.AreNotSame(lhs, result);
             Assert.AreNotSame(rhs, result);
@@ -74,9 +75,12 @@ namespace Zifro.Compiler.Tests
 
             processorMock.VerifyGet(o => o.Factory, Times.Once);
             processorMock.VerifyNoOtherCalls();
-            factoryMock.Verify(o => o.Create(It.Is<int>(v => v.GetType() == expected.GetType())), Times.Exactly(expected is int ? 1 : 0));
-            factoryMock.Verify(o => o.Create(It.Is<double>(v => v.GetType() == expected.GetType())), Times.Exactly(expected is double ? 1 : 0));
-            factoryMock.Verify(o => o.Create(It.Is<string>(v => v.GetType()==expected.GetType())), Times.Exactly(expected is string ? 1 : 0));
+            factoryMock.Verify(o => o.Create(It.Is<int>(v => v.GetType() == expected.GetType())),
+                Times.Exactly(expected is int ? 1 : 0));
+            factoryMock.Verify(o => o.Create(It.Is<double>(v => v.GetType() == expected.GetType())),
+                Times.Exactly(expected is double ? 1 : 0));
+            factoryMock.Verify(o => o.Create(It.Is<string>(v => v.GetType() == expected.GetType())),
+                Times.Exactly(expected is string ? 1 : 0));
             factoryMock.VerifyNoOtherCalls();
         }
 

@@ -20,18 +20,9 @@ namespace Zifro.Compiler.Tests
 
             // Act
             IScriptType resultBase = a.ArithmeticAdd(b);
-            var result = resultBase as IntegerBase;
 
             // Assert
-            Assert.IsInstanceOfType(resultBase, typeof(IntegerBase));
-            Assert.IsNotNull(result);
-            Assert.AreNotSame(a, result);
-            Assert.AreNotSame(b, result);
-            Assert.AreEqual(15, result.Value);
-            processorMock.VerifyGet(o => o.Factory, Times.Once);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.Verify(o => o.Create(15), Times.Once);
-            factoryMock.VerifyNoOtherCalls();
+            AssertArithmeticResult<IntegerBase>(resultBase, a, b, 15);
         }
 
         [TestMethod]
@@ -44,12 +35,7 @@ namespace Zifro.Compiler.Tests
             Action action = delegate { a.ArithmeticAdd(b); };
 
             // Act + Assert
-            var ex = Assert.ThrowsException<RuntimeException>(action);
-            Assert.IsNotNull(ex);
-            Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_AddInvalidType));
-            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.VerifyNoOtherCalls();
+            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Int_AddInvalidType), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -61,18 +47,9 @@ namespace Zifro.Compiler.Tests
 
             // Act
             IScriptType resultBase = a.ArithmeticSubtract(b);
-            var result = resultBase as IntegerBase;
 
             // Assert
-            Assert.IsInstanceOfType(resultBase, typeof(IntegerBase));
-            Assert.IsNotNull(result);
-            Assert.AreNotSame(a, result);
-            Assert.AreNotSame(b, result);
-            Assert.AreEqual(-5, result.Value);
-            processorMock.VerifyGet(o => o.Factory, Times.Once);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.Verify(o => o.Create(-5), Times.Once);
-            factoryMock.VerifyNoOtherCalls();
+            AssertArithmeticResult<IntegerBase>(resultBase, a, b, -5);
         }
 
         [TestMethod]
@@ -85,12 +62,7 @@ namespace Zifro.Compiler.Tests
             Action action = delegate { a.ArithmeticSubtract(b); };
 
             // Act + Assert
-            var ex = Assert.ThrowsException<RuntimeException>(action);
-            Assert.IsNotNull(ex);
-            Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_SubtractInvalidType));
-            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.VerifyNoOtherCalls();
+            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Int_SubtractInvalidType), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -102,18 +74,9 @@ namespace Zifro.Compiler.Tests
 
             // Act
             IScriptType resultBase = a.ArithmeticMultiply(b);
-            var result = resultBase as IntegerBase;
 
             // Assert
-            Assert.IsInstanceOfType(resultBase, typeof(IntegerBase));
-            Assert.IsNotNull(result);
-            Assert.AreNotSame(a, result);
-            Assert.AreNotSame(b, result);
-            Assert.AreEqual(50, result.Value);
-            processorMock.VerifyGet(o => o.Factory, Times.Once);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.Verify(o => o.Create(50), Times.Once);
-            factoryMock.VerifyNoOtherCalls();
+            AssertArithmeticResult<IntegerBase>(resultBase, a, b, 50);
         }
 
         [TestMethod]
@@ -126,12 +89,7 @@ namespace Zifro.Compiler.Tests
             Action action = delegate { a.ArithmeticMultiply(b); };
 
             // Act + Assert
-            var ex = Assert.ThrowsException<RuntimeException>(action);
-            Assert.IsNotNull(ex);
-            Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_MultiplyInvalidType));
-            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.VerifyNoOtherCalls();
+            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Int_MultiplyInvalidType), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -140,22 +98,12 @@ namespace Zifro.Compiler.Tests
             // Arrange
             IntegerBase a = GetInteger(5);
             DoubleBase b = GetDouble(2);
-            const int expected = 10;
 
             // Act
             IScriptType resultBase = a.ArithmeticMultiply(b);
-            var result = resultBase as IntegerBase;
 
             // Assert
-            Assert.IsInstanceOfType(resultBase, typeof(IntegerBase));
-            Assert.IsNotNull(result);
-            Assert.AreNotSame(a, result);
-            Assert.AreNotSame(b, result);
-            Assert.AreEqual(expected, result.Value);
-            processorMock.VerifyGet(o => o.Factory, Times.Once);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.Verify(o => o.Create(expected), Times.Once);
-            factoryMock.VerifyNoOtherCalls();
+            AssertArithmeticResult<IntegerBase>(resultBase, a, b, 10);
         }
 
         [TestMethod]
@@ -168,18 +116,9 @@ namespace Zifro.Compiler.Tests
 
             // Act
             IScriptType resultBase = a.ArithmeticMultiply(b);
-            var result = resultBase as DoubleBase;
 
             // Assert
-            Assert.IsInstanceOfType(resultBase, typeof(DoubleBase));
-            Assert.IsNotNull(result);
-            Assert.AreNotSame(a, result);
-            Assert.AreNotSame(b, result);
-            Assert.AreEqual(expected, result.Value);
-            processorMock.VerifyGet(o => o.Factory, Times.Once);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.Verify(o => o.Create(expected), Times.Once);
-            factoryMock.VerifyNoOtherCalls();
+            AssertArithmeticResult<DoubleBase>(resultBase, a, b, expected);
         }
 
         [TestMethod]
@@ -191,18 +130,9 @@ namespace Zifro.Compiler.Tests
 
             // Act
             IScriptType resultBase = a.ArithmeticDivide(b);
-            var result = resultBase as IntegerBase;
 
             // Assert
-            Assert.IsInstanceOfType(resultBase, typeof(IntegerBase));
-            Assert.IsNotNull(result);
-            Assert.AreNotSame(a, result);
-            Assert.AreNotSame(b, result);
-            Assert.AreEqual(5, result.Value);
-            processorMock.VerifyGet(o => o.Factory, Times.Once);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.Verify(o => o.Create(5), Times.Once);
-            factoryMock.VerifyNoOtherCalls();
+            AssertArithmeticResult<IntegerBase>(resultBase, a, b, 5);
         }
 
         [TestMethod]
@@ -214,18 +144,9 @@ namespace Zifro.Compiler.Tests
 
             // Act
             IScriptType resultBase = a.ArithmeticDivide(b);
-            var result = resultBase as DoubleBase;
 
             // Assert
-            Assert.IsInstanceOfType(resultBase, typeof(DoubleBase));
-            Assert.IsNotNull(result);
-            Assert.AreNotSame(a, result);
-            Assert.AreNotSame(b, result);
-            Assert.AreEqual(0.5, result.Value);
-            processorMock.VerifyGet(o => o.Factory, Times.Once);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.Verify(o => o.Create(0.5d), Times.Once);
-            factoryMock.VerifyNoOtherCalls();
+            AssertArithmeticResult<DoubleBase>(resultBase, a, b, 0.5);
         }
 
         [TestMethod]
@@ -238,12 +159,7 @@ namespace Zifro.Compiler.Tests
             Action action = delegate { a.ArithmeticDivide(b); };
 
             // Act + Assert
-            var ex = Assert.ThrowsException<RuntimeException>(action);
-            Assert.IsNotNull(ex);
-            Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_DivideInvalidType));
-            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.VerifyNoOtherCalls();
+            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Int_DivideInvalidType), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -256,11 +172,7 @@ namespace Zifro.Compiler.Tests
             Action action = delegate { a.ArithmeticDivide(b); };
 
             // Act + Assert
-            var ex = Assert.ThrowsException<RuntimeException>(action);
-            Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Math_DivideByZero));
-            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.VerifyNoOtherCalls();
+            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Math_DivideByZero), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -272,18 +184,9 @@ namespace Zifro.Compiler.Tests
 
             // Act
             IScriptType resultBase = a.ArithmeticDivide(b);
-            var result = resultBase as DoubleBase;
 
             // Assert
-            Assert.IsInstanceOfType(resultBase, typeof(DoubleBase));
-            Assert.IsNotNull(result);
-            Assert.AreNotSame(a, result);
-            Assert.AreNotSame(b, result);
-            Assert.AreEqual(2.5d, result.Value, double.Epsilon);
-            processorMock.VerifyGet(o => o.Factory, Times.Once);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.Verify(o => o.Create(It.IsInRange(2.4999, 2.5001, Range.Exclusive)), Times.Once);
-            factoryMock.VerifyNoOtherCalls();
+            AssertArithmeticResult<DoubleBase>(resultBase, a, b, 2.5);
         }
 
         [TestMethod]
@@ -296,12 +199,7 @@ namespace Zifro.Compiler.Tests
             Action action = delegate { a.GetIndex(null); };
 
             // Act + Assert
-            var ex = Assert.ThrowsException<RuntimeException>(action);
-
-            Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_IndexGet));
-            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.VerifyNoOtherCalls();
+            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Int_IndexGet), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -314,12 +212,7 @@ namespace Zifro.Compiler.Tests
             Action action = delegate { a.SetIndex(null, null); };
 
             // Act + Assert
-            var ex = Assert.ThrowsException<RuntimeException>(action);
-
-            Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_IndexSet));
-            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.VerifyNoOtherCalls();
+            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Int_IndexSet), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -333,12 +226,7 @@ namespace Zifro.Compiler.Tests
             Action action = delegate { a.GetProperty(property); };
 
             // Act + Assert
-            var ex = Assert.ThrowsException<RuntimeException>(action);
-
-            Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_PropertyGet));
-            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.VerifyNoOtherCalls();
+            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Int_PropertyGet), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -352,12 +240,7 @@ namespace Zifro.Compiler.Tests
             Action action = delegate { a.SetProperty(property, null); };
 
             // Act + Assert
-            var ex = Assert.ThrowsException<RuntimeException>(action);
-
-            Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_PropertySet));
-            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.VerifyNoOtherCalls();
+            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Int_PropertySet), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -370,12 +253,7 @@ namespace Zifro.Compiler.Tests
             Action action = delegate { a.Invoke(null); };
 
             // Act + Assert
-            var ex = Assert.ThrowsException<RuntimeException>(action);
-
-            Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Base_Entities.Ex_Int_Invoke));
-            CollectionAssert.AreEqual(ex.FormatArgs, expectedFormatArgs);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.VerifyNoOtherCalls();
+            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Int_Invoke), expectedFormatArgs);
         }
 
         [DataTestMethod]
