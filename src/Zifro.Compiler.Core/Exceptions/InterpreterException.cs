@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Zifro.Compiler.Core.Exceptions
 {
@@ -8,5 +9,12 @@ namespace Zifro.Compiler.Core.Exceptions
     /// </summary>
     public class InterpreterException : Exception
     {
+        public InterpreterException(string message, Exception innerException)
+            : base(message, innerException)
+        { }
+
+        public InterpreterException(string message)
+            : this(message, null)
+        { }
     }
 }
