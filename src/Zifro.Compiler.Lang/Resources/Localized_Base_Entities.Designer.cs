@@ -61,6 +61,87 @@ namespace Zifro.Compiler.Lang.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ett {1} boolean värde kan inte adderas med ett annat värde..
+        /// </summary>
+        public static string Ex_Boolean_AddInvalidOperation {
+            get {
+                return ResourceManager.GetString("Ex_Boolean_AddInvalidOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ett {1} boolean värde kan inte divideras med ett annat värde..
+        /// </summary>
+        public static string Ex_Boolean_DivideInvalidOperation {
+            get {
+                return ResourceManager.GetString("Ex_Boolean_DivideInvalidOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ett {1} boolean värde kan inte indexeras..
+        /// </summary>
+        public static string Ex_Boolean_IndexGet {
+            get {
+                return ResourceManager.GetString("Ex_Boolean_IndexGet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Det går inte att sätta inre värde på ett {1} boolean värde genom indexering..
+        /// </summary>
+        public static string Ex_Boolean_IndexSet {
+            get {
+                return ResourceManager.GetString("Ex_Boolean_IndexSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ett {1} boolean värde kan inte köras som en funktion..
+        /// </summary>
+        public static string Ex_Boolean_Invoke {
+            get {
+                return ResourceManager.GetString("Ex_Boolean_Invoke", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ett {1} boolean värde kan inte multipliseras med ett annat värde..
+        /// </summary>
+        public static string Ex_Boolean_MultiplyInvalidOperation {
+            get {
+                return ResourceManager.GetString("Ex_Boolean_MultiplyInvalidOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gick inte att läsa egenskapen &apos;{2}&apos; från ett {1} boolean värde. Booleans har inga egenskaper..
+        /// </summary>
+        public static string Ex_Boolean_PropertyGet {
+            get {
+                return ResourceManager.GetString("Ex_Boolean_PropertyGet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Det går inte att ändra egenskapen &apos;{2}&apos; på ett {1} boolean värde. Booleans har inga egenskaper..
+        /// </summary>
+        public static string Ex_Boolean_PropertySet {
+            get {
+                return ResourceManager.GetString("Ex_Boolean_PropertySet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ett {1} boolean värde kan inte subtraheras med ett annat värde..
+        /// </summary>
+        public static string Ex_Boolean_SubtractInvalidOperation {
+            get {
+                return ResourceManager.GetString("Ex_Boolean_SubtractInvalidOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gick inte att addera decimaltalet &apos;{0}&apos; med värde av typen &apos;{1}&apos;..
         /// </summary>
         public static string Ex_Double_AddInvalidType {
@@ -318,6 +399,33 @@ namespace Zifro.Compiler.Lang.Resources {
         public static string Ex_String_SubtractInvalidOperation {
             get {
                 return ResourceManager.GetString("Ex_String_SubtractInvalidOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to falskt.
+        /// </summary>
+        public static string Type_Boolean_False {
+            get {
+                return ResourceManager.GetString("Type_Boolean_False", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to boolean.
+        /// </summary>
+        public static string Type_Boolean_Name {
+            get {
+                return ResourceManager.GetString("Type_Boolean_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to sant.
+        /// </summary>
+        public static string Type_Boolean_True {
+            get {
+                return ResourceManager.GetString("Type_Boolean_True", resourceCulture);
             }
         }
         

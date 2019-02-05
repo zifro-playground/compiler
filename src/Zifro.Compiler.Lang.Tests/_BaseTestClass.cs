@@ -27,6 +27,11 @@ namespace Zifro.Compiler.Lang.Tests
                 .Returns<string>(GetString);
             factoryMock.Setup(o => o.Create(It.IsAny<char>()))
                 .Returns<char>(c => GetString(c.ToString()));
+
+            factoryMock.SetupGet(o => o.True)
+                .Returns(GetBoolean(true));
+            factoryMock.SetupGet(o => o.False)
+                .Returns(GetBoolean(false));
         }
 
         protected IntegerBase GetInteger(int value)
@@ -56,6 +61,34 @@ namespace Zifro.Compiler.Lang.Tests
             return stringBase;
         }
 
+        protected BooleanBase GetBoolean(bool value)
+        {
+            var mock = new Mock<BooleanBase>();
+            mock.Setup(o => o.GetTypeName()).Returns(nameof(BooleanBase));
+            mock.CallBase = true;
+            BooleanBase booleanBase = mock.Object;
+            booleanBase.Value = value;
+            booleanBase.Processor = processorMock.Object;
+            return booleanBase;
+        }
+
+        protected IScriptType GetValue(object value)
+        {
+            switch (value)
+            {
+                case int i:
+                    return GetInteger(i);
+                case double d:
+                    return GetDouble(d);
+                case string s:
+                    return GetString(s);
+                case bool b:
+                    return GetBoolean(b);
+                default:
+                    throw new NotSupportedException();
+            }
+        }
+
         protected void AssertArithmeticResult<T>(IScriptType resultBase, IScriptType lhs, IScriptType rhs,
             object expected)
             where T : IScriptType
@@ -72,24 +105,32 @@ namespace Zifro.Compiler.Lang.Tests
             processorMock.VerifyGet(o => o.Factory, Times.Once);
             processorMock.VerifyNoOtherCalls();
 
-            if (expected is int i)
+            switch (expected)
             {
-                factoryMock.Verify(o => o.Create(i),
-                    Times.Once);
-            }
+                case int i:
+                    factoryMock.Verify(o => o.Create(i),
+                        Times.Once);
+                    break;
 
-            if (expected is double d)
-            {
-                factoryMock.Verify(o => o.Create(It.Is<double>(v => Math.Abs(v - d) < 1e-10)),
-                    Times.Once);
-            }
+                case double d:
+                    factoryMock.Verify(o => o.Create(It.Is<double>(v => Math.Abs(v - d) < 1e-10)),
+                        Times.Once);
+                    break;
 
-            if (expected is string s)
-            {
-                factoryMock.Verify(o => o.Create(It.Is<string>(v => v == s)),
-                    Times.Exactly(s.Length == 1 ? 0 : 1));
-                factoryMock.Verify(o => o.Create(It.Is<char>(v => v.ToString() == s)),
-                    Times.Exactly(s.Length == 1 ? 1 : 0));
+                case string s:
+                    factoryMock.Verify(o => o.Create(It.Is<string>(v => v == s)),
+                        Times.Exactly(s.Length == 1 ? 0 : 1));
+                    factoryMock.Verify(o => o.Create(It.Is<char>(v => v.ToString() == s)),
+                        Times.Exactly(s.Length == 1 ? 1 : 0));
+                    break;
+
+                case bool b when b:
+                    factoryMock.VerifyGet(o => o.True, Times.Once);
+                    break;
+
+                case bool b when !b:
+                    factoryMock.VerifyGet(o => o.False, Times.Once);
+                    break;
             }
 
             factoryMock.VerifyNoOtherCalls();
@@ -116,6 +157,9 @@ namespace Zifro.Compiler.Lang.Tests
                     Assert.AreEqual(expected, i.Value);
                     break;
                 case StringBase s:
+                    Assert.AreEqual(expected, s.Value);
+                    break;
+                case BooleanBase s:
                     Assert.AreEqual(expected, s.Value);
                     break;
                 default:

@@ -233,16 +233,64 @@
     <value>En textsträng kan inte subtraheras med ett annat värde.</value>
     <comment>myStr - value; value of str={0}, length of str={1}, other type name={2}</comment>
   </data>
+  <data name="Ex_Boolean_IndexGet" xml:space="preserve">
+    <value>Ett {1} boolean värde kan inte indexeras.</value>
+    <comment>myBool[x]; value of bool={0}, Type_Boolean_True/False={1}</comment>
+  </data>
+  <data name="Ex_Boolean_IndexSet" xml:space="preserve">
+    <value>Det går inte att sätta inre värde på ett {1} boolean värde genom indexering.</value>
+    <comment>myBool[x] = value; value of bool={0}, Type_Boolean_True/False={1}</comment>
+  </data>
+  <data name="Ex_Boolean_Invoke" xml:space="preserve">
+    <value>Ett {1} boolean värde kan inte köras som en funktion.</value>
+    <comment>myBool(); value of bool={0}, Type_Boolean_True/False={1}</comment>
+  </data>
+  <data name="Ex_Boolean_PropertyGet" xml:space="preserve">
+    <value>Gick inte att läsa egenskapen '{2}' från ett {1} boolean värde. Booleans har inga egenskaper.</value>
+    <comment>myBool.prop; value of bool={0}, Type_Boolean_True/False={1}, property name={2}</comment>
+  </data>
+  <data name="Ex_Boolean_PropertySet" xml:space="preserve">
+    <value>Det går inte att ändra egenskapen '{2}' på ett {1} boolean värde. Booleans har inga egenskaper.</value>
+    <comment>myBool.prop = value; value of bool={0}, Type_Boolean_True/False={1}, property name={2}</comment>
+  </data>
+  <data name="Ex_Boolean_AddInvalidOperation" xml:space="preserve">
+    <value>Ett {1} boolean värde kan inte adderas med ett annat värde.</value>
+    <comment>myBool + value; value of bool={0}, Type_Boolean_True/False={1}, other type name={2}</comment>
+  </data>
+  <data name="Ex_Boolean_DivideInvalidOperation" xml:space="preserve">
+    <value>Ett {1} boolean värde kan inte divideras med ett annat värde.</value>
+    <comment>myBool / value; value of bool={0}, Type_Boolean_True/False={1}, other type name={2}</comment>
+  </data>
+  <data name="Ex_Boolean_MultiplyInvalidOperation" xml:space="preserve">
+    <value>Ett {1} boolean värde kan inte multipliseras med ett annat värde.</value>
+    <comment>myBool * value; value of bool={0}, Type_Boolean_True/False={1}, other type name={2}</comment>
+  </data>
+  <data name="Ex_Boolean_SubtractInvalidOperation" xml:space="preserve">
+    <value>Ett {1} boolean värde kan inte subtraheras med ett annat värde.</value>
+    <comment>myBool - value; value of bool={0}, Type_Boolean_True/False={1}, other type name={2}</comment>
+  </data>
   <data name="Type_Double_Name" xml:space="preserve">
     <value>decimaltal</value>
-    <comment>Used in generic errors, ex: Ex_String_AddInvalidType</comment>
+    <comment>Name of double type. Used in some errors, ex: Ex_String_AddInvalidType</comment>
   </data>
   <data name="Type_Int_Name" xml:space="preserve">
     <value>heltal</value>
-    <comment>Used in generic errors, ex: Ex_String_AddInvalidType</comment>
+    <comment>Name of integer type. Used in some errors, ex: Ex_String_AddInvalidType</comment>
   </data>
   <data name="Type_String_Name" xml:space="preserve">
     <value>textsträng</value>
-    <comment>Used in generic errors, ex: Ex_Int_AddInvalidType</comment>
+    <comment>Name of string type. Used in some errors, ex: Ex_Int_AddInvalidType</comment>
+  </data>
+  <data name="Type_Boolean_Name" xml:space="preserve">
+    <value>boolean</value>
+    <comment>Name of boolean type. Used in some errors, ex: Ex_Int_AddInvalidType</comment>
+  </data>
+  <data name="Type_Boolean_True" xml:space="preserve">
+    <value>sant</value>
+    <comment>True. Used in some errors, ex: Ex_Boolean_IndexGet</comment>
+  </data>
+  <data name="Type_Boolean_False" xml:space="preserve">
+    <value>falskt</value>
+    <comment>False. Used in some errors, ex: Ex_Boolean_IndexGet</comment>
   </data>
 </root>
