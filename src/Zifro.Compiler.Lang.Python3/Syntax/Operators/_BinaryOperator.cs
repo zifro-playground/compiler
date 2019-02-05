@@ -2,6 +2,9 @@
 
 namespace Zifro.Compiler.Lang.Python3.Syntax.Operators
 {
+    /// <summary>
+    /// Common two part operators, such as "and" (a && b), "or" (a || b), "xor" (a ^ b)
+    /// </summary>
     public abstract class BinaryOperator : ExpressionNode
     {
         protected BinaryOperator(SourceReference source, string sourceText, ExpressionNode leftOperand, ExpressionNode rightOperand)
