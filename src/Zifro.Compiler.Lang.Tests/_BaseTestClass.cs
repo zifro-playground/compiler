@@ -36,37 +36,33 @@ namespace Zifro.Compiler.Lang.Tests
 
         protected IntegerBase GetInteger(int value)
         {
-            var mock = new Mock<IntegerBase> {CallBase = true};
+            var mock = new Mock<IntegerBase>(processorMock.Object) {CallBase = true};
             IntegerBase integerBase = mock.Object;
             integerBase.Value = value;
-            integerBase.Processor = processorMock.Object;
             return integerBase;
         }
 
         protected DoubleBase GetDouble(double value)
         {
-            var mock = new Mock<DoubleBase> {CallBase = true};
+            var mock = new Mock<DoubleBase>(processorMock.Object) { CallBase = true};
             DoubleBase doubleBase = mock.Object;
             doubleBase.Value = value;
-            doubleBase.Processor = processorMock.Object;
             return doubleBase;
         }
 
         protected StringBase GetString(string value)
         {
-            var mock = new Mock<StringBase> {CallBase = true};
+            var mock = new Mock<StringBase>(processorMock.Object) { CallBase = true};
             StringBase stringBase = mock.Object;
             stringBase.Value = value;
-            stringBase.Processor = processorMock.Object;
             return stringBase;
         }
 
         protected BooleanBase GetBoolean(bool value)
         {
-            var mock = new Mock<BooleanBase> {CallBase = true};
+            var mock = new Mock<BooleanBase>(processorMock.Object) { CallBase = true};
             BooleanBase booleanBase = mock.Object;
             booleanBase.Value = value;
-            booleanBase.Processor = processorMock.Object;
             return booleanBase;
         }
 

@@ -16,9 +16,14 @@ namespace Zifro.Compiler.Lang.Entities
         public abstract IScriptType GetTypeDef();
 
         /// <inheritdoc/>
-        public IProcessor Processor { get; set; }
+        public IProcessor Processor { get; }
 
         public string Value { get; set; }
+
+        protected StringBase(IProcessor processor)
+        {
+            Processor = processor;
+        }
 
         /// <inheritdoc/>
         public virtual string GetTypeName()
