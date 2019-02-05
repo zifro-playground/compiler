@@ -8,12 +8,16 @@ namespace Zifro.Compiler.Lang.Entities
 {
     public abstract class DoubleBase : IScriptType
     {
-        public abstract IProcessor Processor { get; set; }
-
         public abstract IScriptType GetTypeDef();
-        public abstract string GetTypeName();
+
+        public IProcessor Processor { get; set; }
 
         public double Value { get; set; }
+
+        public virtual string GetTypeName()
+        {
+            return Localized_Base_Entities.Type_Double_Name;
+        }
 
         public virtual IScriptType Invoke(IScriptType[] arguments)
         {
@@ -73,13 +77,13 @@ namespace Zifro.Compiler.Lang.Entities
         {
             if (type == typeof(double))
             {
-                value = (double)Value;
+                value = (double) Value;
                 return true;
             }
 
             if (type == typeof(decimal))
             {
-                value = (decimal)Value;
+                value = (decimal) Value;
                 return true;
             }
 

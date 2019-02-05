@@ -233,4 +233,16 @@
     <value>En textsträng kan inte subtraheras med ett annat värde.</value>
     <comment>myStr - value; value of str={0}, length of str={1}, other type name={2}</comment>
   </data>
+  <data name="Type_Double_Name" xml:space="preserve">
+    <value>decimaltal</value>
+    <comment>Used in generic errors, ex: Ex_String_AddInvalidType</comment>
+  </data>
+  <data name="Type_Int_Name" xml:space="preserve">
+    <value>heltal</value>
+    <comment>Used in generic errors, ex: Ex_String_AddInvalidType</comment>
+  </data>
+  <data name="Type_String_Name" xml:space="preserve">
+    <value>textsträng</value>
+    <comment>Used in generic errors, ex: Ex_Int_AddInvalidType</comment>
+  </data>
 </root>

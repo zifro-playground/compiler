@@ -241,7 +241,7 @@ namespace Zifro.Compiler.Lang.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gick inte att dividera din textsträng på {1} karaktärer med värde av typen &apos;{2}&apos;..
+        ///   Looks up a localized string similar to En textsträng kan inte divideras med ett annat värde..
         /// </summary>
         public static string Ex_String_DivideInvalidOperation {
             get {
@@ -286,7 +286,7 @@ namespace Zifro.Compiler.Lang.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gick inte att multiplisera din textsträng på {1} karaktärer med värde av typen &apos;{2}&apos;..
+        ///   Looks up a localized string similar to En textsträng kan inte multipliseras med ett annat värde..
         /// </summary>
         public static string Ex_String_MultiplyInvalidOperation {
             get {
@@ -313,11 +313,38 @@ namespace Zifro.Compiler.Lang.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gick inte att subtrahera din textsträng på {1} karaktärer med värde av typen &apos;{2}&apos;..
+        ///   Looks up a localized string similar to En textsträng kan inte subtraheras med ett annat värde..
         /// </summary>
         public static string Ex_String_SubtractInvalidOperation {
             get {
                 return ResourceManager.GetString("Ex_String_SubtractInvalidOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to decimaltal.
+        /// </summary>
+        public static string Type_Double_Name {
+            get {
+                return ResourceManager.GetString("Type_Double_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to heltal.
+        /// </summary>
+        public static string Type_Int_Name {
+            get {
+                return ResourceManager.GetString("Type_Int_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to textsträng.
+        /// </summary>
+        public static string Type_String_Name {
+            get {
+                return ResourceManager.GetString("Type_String_Name", resourceCulture);
             }
         }
     }

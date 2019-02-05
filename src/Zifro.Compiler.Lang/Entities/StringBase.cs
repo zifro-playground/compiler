@@ -8,12 +8,16 @@ namespace Zifro.Compiler.Lang.Entities
 {
     public abstract class StringBase : IScriptType
     {
-        public abstract IProcessor Processor { get; set; }
-
         public abstract IScriptType GetTypeDef();
-        public abstract string GetTypeName();
+
+        public IProcessor Processor { get; set; }
 
         public string Value { get; set; }
+
+        public virtual string GetTypeName()
+        {
+            return Localized_Base_Entities.Type_String_Name;
+        }
 
         protected object[] GetErrorArgs(params object[] additional)
         {
