@@ -1,5 +1,5 @@
 ﻿using Antlr4.Runtime;
-using Zifro.Compiler.Lang.Python3.AST;
+using Zifro.Compiler.Lang.Python3.Grammar;
 
 namespace Zifro.Compiler.Lang.Python3
 {
