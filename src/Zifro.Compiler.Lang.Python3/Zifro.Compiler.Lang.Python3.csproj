@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Antlr4 Update="AST\Python3.g4">
+    <Antlr4 Update="Grammar\Python3.g4">
       <Listener>false</Listener>
     </Antlr4>
   </ItemGroup>
