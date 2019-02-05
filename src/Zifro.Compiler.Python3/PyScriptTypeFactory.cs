@@ -19,6 +19,16 @@ namespace Zifro.Compiler.Lang.Python3
             throw new System.NotImplementedException();
         }
 
+        public IScriptType Create(float value)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IScriptType Create(double value)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IScriptType Create(short value)
         {
             throw new System.NotImplementedException();
