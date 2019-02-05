@@ -63,9 +63,7 @@ namespace Zifro.Compiler.Lang.Tests
 
         protected BooleanBase GetBoolean(bool value)
         {
-            var mock = new Mock<BooleanBase>();
-            mock.Setup(o => o.GetTypeName()).Returns(nameof(BooleanBase));
-            mock.CallBase = true;
+            var mock = new Mock<BooleanBase> {CallBase = true};
             BooleanBase booleanBase = mock.Object;
             booleanBase.Value = value;
             booleanBase.Processor = processorMock.Object;
