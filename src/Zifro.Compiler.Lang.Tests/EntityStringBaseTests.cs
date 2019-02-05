@@ -144,7 +144,7 @@ namespace Zifro.Compiler.Lang.Tests
             // Arrange
             StringBase a = GetString("foo");
             StringBase b = GetString("a");
-            object[] expectedFormatArgs = { a.Value, a.Value.Length, b.Value };
+            object[] expectedFormatArgs = { a.Value, a.Value.Length, b.GetTypeName() };
 
             Action action = delegate { a.GetIndex(b); };
 

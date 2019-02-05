@@ -25,6 +25,8 @@ namespace Zifro.Compiler.Lang.Tests
                 .Returns<double>(GetDouble);
             factoryMock.Setup(o => o.Create(It.IsAny<string>()))
                 .Returns<string>(GetString);
+            factoryMock.Setup(o => o.Create(It.IsAny<char>()))
+                .Returns<char>(c => GetString(c.ToString()));
         }
 
         protected IntegerBase GetInteger(int value)
@@ -66,7 +68,7 @@ namespace Zifro.Compiler.Lang.Tests
         {
             Assert.IsNotNull(resultBase);
             Assert.IsInstanceOfType(resultBase, typeof(T));
-            var result = (T) resultBase;
+            var result = (T)resultBase;
             Assert.IsNotNull(result);
             Assert.AreNotSame(lhs, result);
             Assert.AreNotSame(rhs, result);
@@ -75,12 +77,27 @@ namespace Zifro.Compiler.Lang.Tests
 
             processorMock.VerifyGet(o => o.Factory, Times.Once);
             processorMock.VerifyNoOtherCalls();
-            factoryMock.Verify(o => o.Create(It.Is<int>(v => v.GetType() == expected.GetType())),
-                Times.Exactly(expected is int ? 1 : 0));
-            factoryMock.Verify(o => o.Create(It.Is<double>(v => v.GetType() == expected.GetType())),
-                Times.Exactly(expected is double ? 1 : 0));
-            factoryMock.Verify(o => o.Create(It.Is<string>(v => v.GetType() == expected.GetType())),
-                Times.Exactly(expected is string ? 1 : 0));
+
+            if (expected is int i)
+            {
+                factoryMock.Verify(o => o.Create(i),
+                    Times.Once);
+            }
+
+            if (expected is double d)
+            {
+                factoryMock.Verify(o => o.Create(It.Is<double>(v => Math.Abs(v - d) < 1e-10)),
+                    Times.Once);
+            }
+
+            if (expected is string s)
+            {
+                factoryMock.Verify(o => o.Create(It.Is<string>(v => v == s)),
+                    Times.Exactly(s.Length == 1 ? 0 : 1));
+                factoryMock.Verify(o => o.Create(It.Is<char>(v => v.ToString() == s)),
+                    Times.Exactly(s.Length == 1 ? 1 : 0));
+            }
+
             factoryMock.VerifyNoOtherCalls();
         }
 
