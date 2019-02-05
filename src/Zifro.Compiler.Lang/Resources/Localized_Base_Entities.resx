@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Ex_Math_DivideByZero" xml:space="preserve">
+    <value>Du får inte dela ett tal på noll!</value>
+    <comment>myNumber / 0</comment>
+  </data>
+  <data name="Ex_Int_IndexGet" xml:space="preserve">
+    <value>Ett heltal kan inte indexeras.</value>
+    <comment>myInt[x]; value of int={0}</comment>
+  </data>
+  <data name="Ex_Int_IndexSet" xml:space="preserve">
+    <value>Det går inte att sätta inre värde på ett heltal genom indexering.</value>
+    <comment>myInt[x] = value; value of int={0}</comment>
+  </data>
+  <data name="Ex_Int_Invoke" xml:space="preserve">
+    <value>Ett heltalsvärde kan inte köras som en funktion.</value>
+    <comment>myInt(); value of int={0}</comment>
+  </data>
+  <data name="Ex_Int_PropertyGet" xml:space="preserve">
+    <value>Gick inte att läsa egenskapen '{1}' från heltalet. Heltal har inga egenskaper.</value>
+    <comment>myInt.prop; value of int={0}, property name={1}</comment>
+  </data>
+  <data name="Ex_Int_PropertySet" xml:space="preserve">
+    <value>Det går inte att ändra egenskapen '{1}' på ett heltal. Heltal har inga egenskaper.</value>
+    <comment>myInt.prop = value; value of int={0}, property name={1}</comment>
+  </data>
+  <data name="Ex_Double_IndexGet" xml:space="preserve">
+    <value>Ett decimaltal kan inte indexeras.</value>
+    <comment>myDouble[x]; value of double={0}</comment>
+  </data>
+  <data name="Ex_Double_IndexSet" xml:space="preserve">
+    <value>Det går inte att sätta inre värde på ett decimaltal genom indexering.</value>
+    <comment>myDouble[x] = value; value of double={0}</comment>
+  </data>
+  <data name="Ex_Double_Invoke" xml:space="preserve">
+    <value>Ett decimaltal kan inte köras som en funktion.</value>
+    <comment>myDouble(); value of double={0}</comment>
+  </data>
+  <data name="Ex_Double_PropertyGet" xml:space="preserve">
+    <value>Gick inte att läsa egenskapen '{1}' från decimaltalet. Decimaltal har inga egenskaper.</value>
+    <comment>myDouble.prop; value of double={0}, property name={1}</comment>
+  </data>
+  <data name="Ex_Double_PropertySet" xml:space="preserve">
+    <value>Det går inte att ändra egenskapen '{1}' på decimaltalet. Decimaltal har inga egenskaper.</value>
+    <comment>myDouble.prop = value; value of double={0}, property name={1}</comment>
+  </data>
+  <data name="Ex_String_IndexGet_InvalidType" xml:space="preserve">
+    <value>En textsträng kan endast indexeras av heltal, inte av typen '{2}'.</value>
+    <comment>myStr[x]; value of str={0}, length of str={1}, index type str={1}</comment>
+  </data>
+  <data name="Ex_String_IndexGet_OutOfRange" xml:space="preserve">
+    <value>Gick inte att läsa bokstaven på plats '{2}' då den är utanför textsträngens längd ({1}).</value>
+    <comment>myStr[x]; value of str={0}, length of str={1}, int index={2}</comment>
+  </data>
+  <data name="Ex_String_IndexSet" xml:space="preserve">
+    <value>Det går inte att ändra enstaka bokstäver i en textsträng genom indexering.</value>
+    <comment>myStr[x] = value; value of str={0}, length of str={1}</comment>
+  </data>
+  <data name="Ex_String_Invoke" xml:space="preserve">
+    <value>En textsträng kan inte köras som en funktion.</value>
+    <comment>myStr(); value of str={0}, length of str={1}</comment>
+  </data>
+  <data name="Ex_String_PropertyGet" xml:space="preserve">
+    <value>Gick inte att läsa egenskapen '{2}' från textsträngen.</value>
+    <comment>myStr.prop; value of str={0}, length of str={1}, property name={2}</comment>
+  </data>
+  <data name="Ex_String_PropertySet" xml:space="preserve">
+    <value>Det går inte att ändra egenskapen '{2}' på en textsträng.</value>
+    <comment>myStr.prop = value; value of str={0}, length of str={1}, property name={2}</comment>
+  </data>
+  <data name="Ex_Int_DivideInvalidType" xml:space="preserve">
+    <value>Gick inte att dividera heltalet '{0}' med värde av typen '{1}'.</value>
+    <comment>myInt / value; value of int={0}, other type name={1}</comment>
+  </data>
+  <data name="Ex_Int_AddInvalidType" xml:space="preserve">
+    <value>Gick inte att addera heltalet '{0}' med värde av typen '{1}'.</value>
+    <comment>myInt + value; value of int={0}, other type name={1}</comment>
+  </data>
+  <data name="Ex_Int_MultiplyInvalidType" xml:space="preserve">
+    <value>Gick inte att multiplisera heltalet '{0}' med värde av typen '{1}'.</value>
+    <comment>myInt * value; value of int={0}, other type name={1}</comment>
+  </data>
+  <data name="Ex_Int_SubtractInvalidType" xml:space="preserve">
+    <value>Gick inte att subtrahera heltalet '{0}' med värde av typen '{1}'.</value>
+    <comment>myInt - value; value of int={0}, other type name={1}</comment>
+  </data>
+  <data name="Ex_Double_DivideInvalidType" xml:space="preserve">
+    <value>Gick inte att dividera decimaltalet '{0}' med värde av typen '{1}'.</value>
+    <comment>myDouble / value; value of double={0}, other type name={1}</comment>
+  </data>
+  <data name="Ex_Double_AddInvalidType" xml:space="preserve">
+    <value>Gick inte att addera decimaltalet '{0}' med värde av typen '{1}'.</value>
+    <comment>myDouble + value; value of double={0}, other type name={1}</comment>
+  </data>
+  <data name="Ex_Double_MultiplyInvalidType" xml:space="preserve">
+    <value>Gick inte att multiplisera decimaltalet '{0}' med värde av typen '{1}'.</value>
+    <comment>myDouble * value; value of double={0}, other type name={1}</comment>
+  </data>
+  <data name="Ex_Double_SubtractInvalidType" xml:space="preserve">
+    <value>Gick inte att subtrahera decimaltalet '{0}' med värde av typen '{1}'.</value>
+    <comment>myDouble - value; value of double={0}, other type name={1}</comment>
+  </data>
+  <data name="Ex_String_AddInvalidType" xml:space="preserve">
+    <value>Gick inte att addera din textsträng på {1} karaktärer med värde av typen '{2}'.</value>
+    <comment>myStr + value; value of str={0}, length of str={1}, other type name={2}</comment>
+  </data>
+  <data name="Ex_String_DivideInvalidOperation" xml:space="preserve">
+    <value>En textsträng kan inte divideras med ett annat värde.</value>
+    <comment>myStr / value; value of str={0}, length of str={1}, other type name={2}</comment>
+  </data>
+  <data name="Ex_String_MultiplyInvalidOperation" xml:space="preserve">
+    <value>En textsträng kan inte multipliseras med ett annat värde.</value>
+    <comment>myStr * value; value of str={0}, length of str={1}, other type name={2}</comment>
+  </data>
+  <data name="Ex_String_SubtractInvalidOperation" xml:space="preserve">
+    <value>En textsträng kan inte subtraheras med ett annat värde.</value>
+    <comment>myStr - value; value of str={0}, length of str={1}, other type name={2}</comment>
+  </data>
+</root>

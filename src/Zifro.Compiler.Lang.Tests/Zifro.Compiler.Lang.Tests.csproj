@@ -14,9 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Zifro.Compiler.Core\Zifro.Compiler.Core.csproj" />
     <ProjectReference Include="..\Zifro.Compiler.Lang\Zifro.Compiler.Lang.csproj" />
-    <ProjectReference Include="..\Zifro.Compiler.Tools\Zifro.Compiler.Tools.csproj" />
-    <ProjectReference Include="..\Zifro.Compiler\Zifro.Compiler.csproj" />
   </ItemGroup>
 
 </Project>
