@@ -3,9 +3,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Interfaces;
-using Zifro.Compiler.Lang.Entities;
+using Zifro.Compiler.Lang.Base.Entities;
 
-namespace Zifro.Compiler.Lang.Tests
+namespace Zifro.Compiler.Lang.Base.Tests
 {
     public class BaseTestClass
     {

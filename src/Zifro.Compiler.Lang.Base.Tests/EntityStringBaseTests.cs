@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using Zifro.Compiler.Core.Interfaces;
-using Zifro.Compiler.Lang.Entities;
-using Zifro.Compiler.Lang.Resources;
+using Zifro.Compiler.Lang.Base.Entities;
+using Zifro.Compiler.Lang.Base.Resources;
 
-namespace Zifro.Compiler.Lang.Tests
+namespace Zifro.Compiler.Lang.Base.Tests
 {
     [TestClass]
     public class EntityStringBaseTests : BaseTestClass

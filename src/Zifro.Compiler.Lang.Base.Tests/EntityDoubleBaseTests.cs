@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Zifro.Compiler.Core.Interfaces;
-using Zifro.Compiler.Lang.Entities;
-using Zifro.Compiler.Lang.Resources;
+using Zifro.Compiler.Lang.Base.Entities;
+using Zifro.Compiler.Lang.Base.Resources;
 
-namespace Zifro.Compiler.Lang.Tests
+namespace Zifro.Compiler.Lang.Base.Tests
 {
     [TestClass]
     public class EntityDoubleBaseTests : BaseTestClass

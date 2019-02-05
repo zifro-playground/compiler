@@ -1,5 +1,5 @@
 ﻿using Zifro.Compiler.Core.Interfaces;
-using Zifro.Compiler.Lang.Entities;
+using Zifro.Compiler.Lang.Base.Entities;
 
 namespace Zifro.Compiler.Lang.Python3.Entities
 {

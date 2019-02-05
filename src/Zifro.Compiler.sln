@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler", "Zifro.Com
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Languages", "Languages", "{CED85FF5-60E1-48F7-B5CC-CBB5D71C50E6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Lang.Python3", "Zifro.Compiler.Python3\Zifro.Compiler.Lang.Python3.csproj", "{51109273-1F11-4B8C-A97E-9313BF620BE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Lang.Python3", "Zifro.Compiler.Lang.Python3\Zifro.Compiler.Lang.Python3.csproj", "{51109273-1F11-4B8C-A97E-9313BF620BE3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Core", "Zifro.Compiler.Core\Zifro.Compiler.Core.csproj", "{A5F7FF96-241D-4397-98FE-154DE7751AA6}"
 EndProject
@@ -24,9 +24,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Tools.Tests", "Zifro.Compiler.Tools.Tests\Zifro.Compiler.Tools.Tests.csproj", "{AA3C09C5-9C52-4A6E-8E49-F79DE61BC0B7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Lang", "Zifro.Compiler.Lang\Zifro.Compiler.Lang.csproj", "{2076FE8C-82BE-40F4-A37D-704085830192}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Lang.Base", "Zifro.Compiler.Lang.Base\Zifro.Compiler.Lang.Base.csproj", "{2076FE8C-82BE-40F4-A37D-704085830192}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Lang.Tests", "Zifro.Compiler.Lang.Tests\Zifro.Compiler.Lang.Tests.csproj", "{F5A86ED3-9A20-4FD8-A400-12CB242FC525}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Lang.Base.Tests", "Zifro.Compiler.Lang.Base.Tests\Zifro.Compiler.Lang.Base.Tests.csproj", "{F5A86ED3-9A20-4FD8-A400-12CB242FC525}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
