@@ -10,7 +10,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Parser\" />
+    <PackageReference Include="Antlr4" Version="4.6.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Antlr4.Runtime" Version="4.6.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Antlr4 Update="AST\Python3.g4">
+      <Listener>false</Listener>
+    </Antlr4>
   </ItemGroup>
 
 </Project>

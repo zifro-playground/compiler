@@ -18,14 +18,15 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6F01D6A2-95D0-427D-93F5-377B3A07BFC5}"
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
+		..\NOTICE.md = ..\NOTICE.md
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Tools.Tests", "Zifro.Compiler.Tools.Tests\Zifro.Compiler.Tools.Tests.csproj", "{AA3C09C5-9C52-4A6E-8E49-F79DE61BC0B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zifro.Compiler.Lang", "Zifro.Compiler.Lang\Zifro.Compiler.Lang.csproj", "{2076FE8C-82BE-40F4-A37D-704085830192}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Lang", "Zifro.Compiler.Lang\Zifro.Compiler.Lang.csproj", "{2076FE8C-82BE-40F4-A37D-704085830192}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zifro.Compiler.Lang.Tests", "Zifro.Compiler.Lang.Tests\Zifro.Compiler.Lang.Tests.csproj", "{F5A86ED3-9A20-4FD8-A400-12CB242FC525}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Lang.Tests", "Zifro.Compiler.Lang.Tests\Zifro.Compiler.Lang.Tests.csproj", "{F5A86ED3-9A20-4FD8-A400-12CB242FC525}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
