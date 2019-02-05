@@ -228,5 +228,81 @@ namespace Zifro.Compiler.Lang.Tests
             processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }
+
+        [DataTestMethod]
+        [DataRow(true, false, false)]
+        [DataRow(false, true, false)]
+        [DataRow(false, false, true)]
+        [DataRow(true, true, true)]
+        public void BooleanCompareEqualBoolean(bool aVal, bool bVal, bool expected)
+        {
+            // Arrange
+            BooleanBase a = GetBoolean(aVal);
+            BooleanBase b = GetBoolean(bVal);
+
+            // Act
+            IScriptType result = a.CompareEqual(b);
+
+            // Assert
+            AssertArithmeticResult<BooleanBase>(result, a, b, expected);
+        }
+
+        [DataTestMethod]
+        [DataRow("foo")]
+        [DataRow("True")]
+        [DataRow(1)]
+        [DataRow(0)]
+        [DataRow(1.5)]
+        public void BooleanCompareEqualOther(object value)
+        {
+            // Arrange
+            BooleanBase a = GetBoolean(true);
+            IScriptType b = GetValue(value);
+            const bool expected = false;
+
+            // Act
+            IScriptType result = a.CompareEqual(b);
+
+            // Assert
+            AssertArithmeticResult<BooleanBase>(result, a, b, expected);
+        }
+
+        [DataTestMethod]
+        [DataRow(true, false, true)]
+        [DataRow(false, true, true)]
+        [DataRow(false, false, false)]
+        [DataRow(true, true, false)]
+        public void BooleanCompareNotEqualBoolean(bool aVal, bool bVal, bool expected)
+        {
+            // Arrange
+            BooleanBase a = GetBoolean(aVal);
+            BooleanBase b = GetBoolean(bVal);
+
+            // Act
+            IScriptType result = a.CompareNotEqual(b);
+
+            // Assert
+            AssertArithmeticResult<BooleanBase>(result, a, b, expected);
+        }
+
+        [DataTestMethod]
+        [DataRow("foo")]
+        [DataRow("True")]
+        [DataRow(1)]
+        [DataRow(0)]
+        [DataRow(1.5)]
+        public void BooleanCompareNotEqualOther(object value)
+        {
+            // Arrange
+            BooleanBase a = GetBoolean(true);
+            IScriptType b = GetValue(value);
+            const bool expected = true;
+
+            // Act
+            IScriptType result = a.CompareNotEqual(b);
+
+            // Assert
+            AssertArithmeticResult<BooleanBase>(result, a, b, expected);
+        }
     }
 }

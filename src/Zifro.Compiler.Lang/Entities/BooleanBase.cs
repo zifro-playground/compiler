@@ -184,13 +184,19 @@ namespace Zifro.Compiler.Lang.Entities
         /// <inheritdoc />
         public IScriptType CompareEqual(IScriptType rhs)
         {
-            throw new NotImplementedException();
+            if (rhs is BooleanBase b && b.Value == Value)
+                return Processor.Factory.True;
+
+            return Processor.Factory.False;
         }
 
         /// <inheritdoc />
         public IScriptType CompareNotEqual(IScriptType rhs)
         {
-            throw new NotImplementedException();
+            if (rhs is BooleanBase b && b.Value == Value)
+                return Processor.Factory.False;
+
+            return Processor.Factory.True;
         }
 
         /// <inheritdoc />

@@ -27,6 +27,11 @@ namespace Zifro.Compiler.Lang.Tests
                 .Returns<string>(GetString);
             factoryMock.Setup(o => o.Create(It.IsAny<char>()))
                 .Returns<char>(c => GetString(c.ToString()));
+
+            factoryMock.SetupGet(o => o.True)
+                .Returns(GetBoolean(true));
+            factoryMock.SetupGet(o => o.False)
+                .Returns(GetBoolean(false));
         }
 
         protected IntegerBase GetInteger(int value)
@@ -73,6 +78,23 @@ namespace Zifro.Compiler.Lang.Tests
             return booleanBase;
         }
 
+        protected IScriptType GetValue(object value)
+        {
+            switch (value)
+            {
+                case int i:
+                    return GetInteger(i);
+                case double d:
+                    return GetDouble(d);
+                case string s:
+                    return GetString(s);
+                case bool b:
+                    return GetBoolean(b);
+                default:
+                    throw new NotSupportedException();
+            }
+        }
+
         protected void AssertArithmeticResult<T>(IScriptType resultBase, IScriptType lhs, IScriptType rhs,
             object expected)
             where T : IScriptType
@@ -108,8 +130,12 @@ namespace Zifro.Compiler.Lang.Tests
                         Times.Exactly(s.Length == 1 ? 1 : 0));
                     break;
 
-                case bool b:
-                    factoryMock.Verify(o => o.Create(b), Times.Once);
+                case bool b when b:
+                    factoryMock.VerifyGet(o => o.True, Times.Once);
+                    break;
+
+                case bool b when !b:
+                    factoryMock.VerifyGet(o => o.False, Times.Once);
                     break;
             }
 
@@ -137,6 +163,9 @@ namespace Zifro.Compiler.Lang.Tests
                     Assert.AreEqual(expected, i.Value);
                     break;
                 case StringBase s:
+                    Assert.AreEqual(expected, s.Value);
+                    break;
+                case BooleanBase s:
                     Assert.AreEqual(expected, s.Value);
                     break;
                 default:
