@@ -6,14 +6,21 @@ using Zifro.Compiler.Lang.Resources;
 
 namespace Zifro.Compiler.Lang.Entities
 {
+    /// <inheritdoc/>
+    /// <summary>
+    /// Basic functionality of a string value.
+    /// </summary>
     public abstract class StringBase : IScriptType
     {
+        /// <inheritdoc/>
         public abstract IScriptType GetTypeDef();
 
+        /// <inheritdoc/>
         public IProcessor Processor { get; set; }
 
         public string Value { get; set; }
 
+        /// <inheritdoc/>
         public virtual string GetTypeName()
         {
             return Localized_Base_Entities.Type_String_Name;
@@ -29,6 +36,7 @@ namespace Zifro.Compiler.Lang.Entities
             return new object[] {Value, Value.Length};
         }
 
+        /// <inheritdoc/>
         public virtual IScriptType Invoke(IScriptType[] arguments)
         {
             throw new RuntimeException(
@@ -37,6 +45,7 @@ namespace Zifro.Compiler.Lang.Entities
                 values: GetErrorArgs());
         }
 
+        /// <inheritdoc/>
         public virtual IScriptType GetIndex(IScriptType index)
         {
             switch (index)
@@ -59,6 +68,7 @@ namespace Zifro.Compiler.Lang.Entities
             }
         }
 
+        /// <inheritdoc/>
         public virtual IScriptType SetIndex(IScriptType index, IScriptType value)
         {
             throw new RuntimeException(
@@ -67,6 +77,7 @@ namespace Zifro.Compiler.Lang.Entities
                 values: GetErrorArgs());
         }
 
+        /// <inheritdoc/>
         public virtual IScriptType GetProperty(string property)
         {
             throw new RuntimeException(
@@ -75,6 +86,7 @@ namespace Zifro.Compiler.Lang.Entities
                 values: GetErrorArgs(property));
         }
 
+        /// <inheritdoc/>
         public virtual IScriptType SetProperty(string property, IScriptType value)
         {
             throw new RuntimeException(
@@ -83,6 +95,7 @@ namespace Zifro.Compiler.Lang.Entities
                 values: GetErrorArgs(property));
         }
 
+        /// <inheritdoc/>
         public bool TryConvert<T>(out T value)
         {
             if (TryConvert(typeof(T), out object boxed))
@@ -95,6 +108,7 @@ namespace Zifro.Compiler.Lang.Entities
             return false;
         }
 
+        /// <inheritdoc/>
         public virtual bool TryConvert(Type type, out object value)
         {
             if (type == typeof(string))
@@ -113,16 +127,19 @@ namespace Zifro.Compiler.Lang.Entities
             return false;
         }
 
+        /// <inheritdoc/>
         public IScriptType ArithmeticUnaryPositive()
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType ArithmeticUnaryNegative()
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType ArithmeticAdd(IScriptType rhs)
         {
             switch (rhs)
@@ -136,6 +153,7 @@ namespace Zifro.Compiler.Lang.Entities
             }
         }
 
+        /// <inheritdoc/>
         public IScriptType ArithmeticSubtract(IScriptType rhs)
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_SubtractInvalidOperation),
@@ -143,6 +161,7 @@ namespace Zifro.Compiler.Lang.Entities
                 values: GetErrorArgs(rhs.GetTypeName()));
         }
 
+        /// <inheritdoc/>
         public IScriptType ArithmeticMultiply(IScriptType rhs)
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_MultiplyInvalidOperation),
@@ -150,6 +169,7 @@ namespace Zifro.Compiler.Lang.Entities
                 values: GetErrorArgs(rhs.GetTypeName()));
         }
 
+        /// <inheritdoc/>
         public IScriptType ArithmeticDivide(IScriptType rhs)
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_DivideInvalidOperation),
@@ -157,111 +177,133 @@ namespace Zifro.Compiler.Lang.Entities
                 values: GetErrorArgs(rhs.GetTypeName()));
         }
 
+        /// <inheritdoc/>
         public IScriptType ArithmeticModulus(IScriptType rhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType ArithmeticExponent(IScriptType rhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType ArithmeticFloorDivide(IScriptType rhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType CompareEqual(IScriptType rhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType CompareNotEqual(IScriptType rhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType CompareGreaterThan(IScriptType rhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType CompareGreaterThanOrEqual(IScriptType rhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType CompareLessThan(IScriptType rhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType CompareLessThanOrEqual(IScriptType rhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType BinaryNot()
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType BinaryAnd(IScriptType rhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType BinaryOr(IScriptType rhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType BinaryXor(IScriptType rhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType BinaryLeftShift(IScriptType rhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType BinaryRightShift(IScriptType rhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType LogicalNot()
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType LogicalAnd(IScriptType rhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType LogicalOr(IScriptType rhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType MemberIn(IScriptType lhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType MemberNotIn(IScriptType lhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType IdentityIs(IScriptType rhs)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IScriptType IdentityIsNot(IScriptType rhs)
         {
             throw new NotImplementedException();
