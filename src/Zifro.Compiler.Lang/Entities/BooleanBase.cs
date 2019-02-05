@@ -18,7 +18,7 @@ namespace Zifro.Compiler.Lang.Entities
         /// <inheritdoc />
         public IProcessor Processor { get; set; }
 
-        public double Value { get; set; }
+        public bool Value { get; set; }
 
         /// <inheritdoc />
         public virtual string GetTypeName()
@@ -78,7 +78,7 @@ namespace Zifro.Compiler.Lang.Entities
         {
             if (TryConvert(typeof(T), out object boxed))
             {
-                value = (T) boxed;
+                value = (T)boxed;
                 return true;
             }
 
@@ -89,17 +89,12 @@ namespace Zifro.Compiler.Lang.Entities
         /// <inheritdoc />
         public bool TryConvert(Type type, out object value)
         {
-            if (type == typeof(double))
-            {
-                value = (double) Value;
-                return true;
-            }
 
-            if (type == typeof(decimal))
-            {
-                value = (decimal) Value;
-                return true;
-            }
+            //if (type == typeof(decimal))
+            //{
+            //    value = (decimal)Value;
+            //    return true;
+            //}
 
             value = default;
             return false;
