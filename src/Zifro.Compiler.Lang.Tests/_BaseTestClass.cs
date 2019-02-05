@@ -31,34 +31,28 @@ namespace Zifro.Compiler.Lang.Tests
 
         protected IntegerBase GetInteger(int value)
         {
-            var mock = new Mock<IntegerBase>();
-            mock.SetupGet(o => o.Processor).Returns(processorMock.Object);
-            mock.Setup(o => o.GetTypeName()).Returns(nameof(IntegerBase));
-            mock.CallBase = true;
+            var mock = new Mock<IntegerBase> {CallBase = true};
             IntegerBase integerBase = mock.Object;
             integerBase.Value = value;
+            integerBase.Processor = processorMock.Object;
             return integerBase;
         }
 
         protected DoubleBase GetDouble(double value)
         {
-            var mock = new Mock<DoubleBase>();
-            mock.SetupGet(o => o.Processor).Returns(processorMock.Object);
-            mock.Setup(o => o.GetTypeName()).Returns(nameof(DoubleBase));
-            mock.CallBase = true;
+            var mock = new Mock<DoubleBase> {CallBase = true};
             DoubleBase doubleBase = mock.Object;
             doubleBase.Value = value;
+            doubleBase.Processor = processorMock.Object;
             return doubleBase;
         }
 
         protected StringBase GetString(string value)
         {
-            var mock = new Mock<StringBase>();
-            mock.SetupGet(o => o.Processor).Returns(processorMock.Object);
-            mock.Setup(o => o.GetTypeName()).Returns(nameof(StringBase));
-            mock.CallBase = true;
+            var mock = new Mock<StringBase> {CallBase = true};
             StringBase stringBase = mock.Object;
             stringBase.Value = value;
+            stringBase.Processor = processorMock.Object;
             return stringBase;
         }
 
