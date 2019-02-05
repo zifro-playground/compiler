@@ -19,11 +19,12 @@ namespace Zifro.Compiler.Lang.Entities
         /// <inheritdoc />
         public IProcessor Processor { get; }
 
-        public bool Value { get; set; }
+        public bool Value { get; }
 
-        protected BooleanBase(IProcessor processor)
+        protected BooleanBase(IProcessor processor, bool value)
         {
             Processor = processor;
+            Value = value;
         }
 
         /// <inheritdoc />

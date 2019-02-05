@@ -9,4 +9,8 @@
     <ProjectReference Include="..\Zifro.Compiler.Lang\Zifro.Compiler.Lang.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Parser\" />
+  </ItemGroup>
+
 </Project>

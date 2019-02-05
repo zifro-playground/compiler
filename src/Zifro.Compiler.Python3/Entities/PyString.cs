@@ -5,10 +5,9 @@ namespace Zifro.Compiler.Lang.Python3.Entities
 {
     public class PyString : StringBase
     {
-        public PyString(string value, PyProcessor processor)
-            : base(processor)
+        public PyString(PyProcessor processor, string value)
+            : base(processor, value)
         {
-            Value = value ?? string.Empty;
         }
 
         /// <inheritdoc />

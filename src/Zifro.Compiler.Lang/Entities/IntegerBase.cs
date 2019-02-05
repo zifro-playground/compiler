@@ -18,11 +18,12 @@ namespace Zifro.Compiler.Lang.Entities
         /// <inheritdoc/>
         public IProcessor Processor { get; }
 
-        public int Value { get; set; }
+        public int Value { get; }
 
-        protected IntegerBase(IProcessor processor)
+        protected IntegerBase(IProcessor processor, int value)
         {
             Processor = processor;
+            Value = value;
         }
 
         /// <inheritdoc/>

@@ -11,8 +11,8 @@ namespace Zifro.Compiler.Lang.Python3
         public PyScriptTypeFactory(PyProcessor processor)
         {
             _processor = processor;
-            True = new PyBoolean(true, _processor);
-            False = new PyBoolean(false, _processor);
+            True = new PyBoolean(_processor, true);
+            False = new PyBoolean(_processor, false);
         }
 
         public IScriptType Null { get; }
@@ -21,43 +21,43 @@ namespace Zifro.Compiler.Lang.Python3
 
         public IScriptType Create(int value)
         {
-            return new PyInteger(value, _processor);
+            return new PyInteger(_processor, value);
         }
 
         public IScriptType Create(long value)
         {
             // TODO: introduce BigNumber
-            return new PyInteger((int) value, _processor);
+            return new PyInteger(_processor, (int) value);
         }
 
         public IScriptType Create(float value)
         {
-            return new PyDouble(value, _processor);
+            return new PyDouble(_processor, value);
         }
 
         public IScriptType Create(double value)
         {
-            return new PyDouble(value, _processor);
+            return new PyDouble(_processor, value);
         }
 
         public IScriptType Create(short value)
         {
-            return new PyInteger(value, _processor);
+            return new PyInteger(_processor, value);
         }
 
         public IScriptType Create(byte value)
         {
-            return new PyInteger(value, _processor);
+            return new PyInteger(_processor, value);
         }
 
         public IScriptType Create(char value)
         {
-            return new PyString(value.ToString(), _processor);
+            return new PyString(_processor, value.ToString());
         }
 
         public IScriptType Create(string value)
         {
-            return new PyString(value, _processor);
+            return new PyString(_processor, value);
         }
 
         public IScriptType Create(bool value)

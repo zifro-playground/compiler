@@ -5,10 +5,9 @@ namespace Zifro.Compiler.Lang.Python3.Entities
 {
     public class PyBoolean : BooleanBase
     {
-        public PyBoolean(bool value, PyProcessor processor)
-            : base(processor)
+        public PyBoolean(PyProcessor processor, bool value)
+            : base(processor, value)
         {
-            Value = value;
         }
 
         public override IScriptType GetTypeDef()

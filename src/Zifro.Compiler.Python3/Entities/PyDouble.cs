@@ -5,10 +5,9 @@ namespace Zifro.Compiler.Lang.Python3.Entities
 {
     public class PyDouble : DoubleBase
     {
-        public PyDouble(double value, PyProcessor processor)
-            : base(processor)
+        public PyDouble(PyProcessor processor, double value)
+            : base(processor, value)
         {
-            Value = value;
         }
 
         /// <inheritdoc />
