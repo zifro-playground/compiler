@@ -3,15 +3,14 @@ using Zifro.Compiler.Lang.Entities;
 
 namespace Zifro.Compiler.Lang.Python3.Entities
 {
-    public class PyString : StringBase
+    public class PyBoolean : BooleanBase
     {
-        public PyString(string value, PyProcessor processor)
+        public PyBoolean(bool value, PyProcessor processor)
         {
-            Value = value ?? string.Empty;
+            Value = value;
             Processor = processor;
         }
 
-        /// <inheritdoc />
         public override IScriptType GetTypeDef()
         {
             throw new System.NotImplementedException();

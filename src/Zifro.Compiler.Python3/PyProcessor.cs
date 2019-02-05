@@ -4,6 +4,11 @@ namespace Zifro.Compiler.Lang.Python3
 {
     public class PyProcessor : IProcessor
     {
+        public PyProcessor()
+        {
+            Factory = new PyScriptTypeFactory(this);
+        }
+
         public IScriptTypeFactory Factory { get; }
 
         public IScopeContext Globals { get; }

@@ -5,14 +5,10 @@ namespace Zifro.Compiler.Lang.Python3.Entities
 {
     public class PyInteger : IntegerBase
     {
-        public PyInteger(int value)
+        public PyInteger(int value, PyProcessor processor)
         {
             Value = value;
-        }
-
-        public PyInteger()
-            : this(0)
-        {
+            Processor = processor;
         }
 
         /// <inheritdoc />
