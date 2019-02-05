@@ -207,14 +207,15 @@ namespace Zifro.Compiler.Lang.Tests
         }
 
         [DataTestMethod]
-        [DataRow(5)]
-        [DataRow(5L)]
-        [DataRow(5D)]
-        [DataRow(5F)]
-        public void StringTryConvertValid(object expected)
+        [DataRow("foo", "foo")]
+        [DataRow("f", "f")]
+        [DataRow("", "")]
+        [DataRow("f", 'f')] // char
+        [DataRow("foo", 'f')] // char
+        public void StringTryConvertValid(string input, object expected)
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            StringBase a = GetString(input);
             Type type = expected.GetType();
 
             // Act
@@ -227,35 +228,18 @@ namespace Zifro.Compiler.Lang.Tests
             factoryMock.VerifyNoOtherCalls();
         }
 
-        [TestMethod]
-        public void StringTryConvertDecimal()
-        {
-            // Arrange
-            IntegerBase a = GetInteger(5);
-
-            // Act
-            bool success = a.TryConvert(typeof(decimal), out object result);
-
-            // Assert
-            Assert.IsTrue(success);
-            Assert.AreEqual(5m, result);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.VerifyNoOtherCalls();
-        }
-
         [DataTestMethod]
-        [DataRow(typeof(uint))]
-        [DataRow(typeof(ulong))]
-        [DataRow(typeof(bool))]
-        [DataRow(typeof(byte))]
-        [DataRow(typeof(short))]
-        [DataRow(typeof(char))]
-        [DataRow(typeof(string))]
-        [DataRow(typeof(DateTime))]
-        public void StringTryConvertInvalid(Type type)
+        [DataRow("foo", typeof(uint))]
+        [DataRow("foo", typeof(int))]
+        [DataRow("foo", typeof(ulong))]
+        [DataRow("foo", typeof(long))]
+        [DataRow("foo", typeof(float))]
+        [DataRow("foo", typeof(double))]
+        [DataRow("", typeof(char))] // because its empty
+        public void StringTryConvertInvalid(string input, Type type)
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            StringBase a = GetString(input);
 
             // Act
             bool success = a.TryConvert(type, out object _);
@@ -270,14 +254,14 @@ namespace Zifro.Compiler.Lang.Tests
         public void StringTryConvertGenericValid()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            StringBase a = GetString("foo");
 
             // Act
-            bool success = a.TryConvert(out int result);
+            bool success = a.TryConvert(out string result);
 
             // Assert
             Assert.IsTrue(success);
-            Assert.AreEqual(5, result);
+            Assert.AreEqual("foo", result);
             processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }
@@ -286,10 +270,10 @@ namespace Zifro.Compiler.Lang.Tests
         public void StringTryConvertGenericInvalid()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            StringBase a = GetString("");
 
             // Act
-            bool success = a.TryConvert(out string _);
+            bool success = a.TryConvert(out char _);
 
             // Assert
             Assert.IsFalse(success);

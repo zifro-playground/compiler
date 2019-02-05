@@ -118,9 +118,6 @@ namespace Zifro.Compiler.Lang.Tests
                 case DoubleBase d when expected is double e:
                     Assert.AreEqual(e, d.Value, 1e-10);
                     break;
-                case DoubleBase d:
-                    Assert.AreEqual(expected, d.Value);
-                    break;
                 case IntegerBase i:
                     Assert.AreEqual(expected, i.Value);
                     break;
