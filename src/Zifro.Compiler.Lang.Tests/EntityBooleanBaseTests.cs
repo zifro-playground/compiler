@@ -159,21 +159,18 @@ namespace Zifro.Compiler.Lang.Tests
             AssertThrow(action, nameof(Localized_Base_Entities.Ex_Boolean_Invoke), expectedFormatArgs);
         }
 
-        [DataTestMethod]
-        [DataRow(true)]
-        [DataRow(false)]
-        public void BooleanTryConvertValid(object expected)
+        [TestMethod]
+        public void BooleanTryConvertValid()
         {
             // Arrange
             BooleanBase a = GetBoolean(true);
-            Type type = expected.GetType();
 
             // Act
-            bool success = a.TryConvert(type, out object result);
+            bool success = a.TryConvert(typeof(bool), out object result);
 
             // Assert
             Assert.IsTrue(success);
-            Assert.AreEqual(expected, result);
+            Assert.AreEqual(true, result);
             processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Lang.Resources;
@@ -26,13 +27,34 @@ namespace Zifro.Compiler.Lang.Entities
             return Localized_Base_Entities.Type_Boolean_Name;
         }
 
+        protected object[] GetErrorArgs(params object[] additional)
+        {
+            return GetErrorArgs().Concat(additional).ToArray();
+        }
+
+        protected object[] GetErrorArgs()
+        {
+            return new object[]
+            {
+                Value,
+                GetLocalizedString()
+            };
+        }
+
+        public string GetLocalizedString()
+        {
+            return Value
+                ? Localized_Base_Entities.Type_Boolean_True
+                : Localized_Base_Entities.Type_Boolean_False;
+        }
+
         /// <inheritdoc />
         public virtual IScriptType Invoke(IScriptType[] arguments)
         {
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Boolean_Invoke),
                 Localized_Base_Entities.Ex_Boolean_Invoke,
-                Value);
+                values: GetErrorArgs());
         }
 
         /// <inheritdoc />
@@ -41,7 +63,7 @@ namespace Zifro.Compiler.Lang.Entities
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Boolean_IndexGet),
                 Localized_Base_Entities.Ex_Boolean_IndexGet,
-                Value);
+                values: GetErrorArgs());
         }
 
         /// <inheritdoc />
@@ -50,7 +72,7 @@ namespace Zifro.Compiler.Lang.Entities
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Boolean_IndexSet),
                 Localized_Base_Entities.Ex_Boolean_IndexSet,
-                Value);
+                values: GetErrorArgs());
         }
 
         /// <inheritdoc />
@@ -59,8 +81,7 @@ namespace Zifro.Compiler.Lang.Entities
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Boolean_PropertyGet),
                 Localized_Base_Entities.Ex_Boolean_PropertyGet,
-                Value,
-                property);
+                values: GetErrorArgs(property));
         }
 
         /// <inheritdoc />
@@ -69,8 +90,7 @@ namespace Zifro.Compiler.Lang.Entities
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Boolean_PropertySet),
                 Localized_Base_Entities.Ex_Boolean_PropertySet,
-                Value,
-                property);
+                values: GetErrorArgs(property));
         }
 
         /// <inheritdoc />
@@ -78,7 +98,7 @@ namespace Zifro.Compiler.Lang.Entities
         {
             if (TryConvert(typeof(T), out object boxed))
             {
-                value = (T)boxed;
+                value = (T) boxed;
                 return true;
             }
 
@@ -89,12 +109,11 @@ namespace Zifro.Compiler.Lang.Entities
         /// <inheritdoc />
         public bool TryConvert(Type type, out object value)
         {
-
-            //if (type == typeof(decimal))
-            //{
-            //    value = (decimal)Value;
-            //    return true;
-            //}
+            if (type == typeof(bool))
+            {
+                value = Value;
+                return true;
+            }
 
             value = default;
             return false;
@@ -117,7 +136,7 @@ namespace Zifro.Compiler.Lang.Entities
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Boolean_AddInvalidOperation),
                 Localized_Base_Entities.Ex_Boolean_AddInvalidOperation,
-                Value, rhs.GetTypeName());
+                values: GetErrorArgs(rhs.GetTypeName()));
         }
 
         /// <inheritdoc />
@@ -125,7 +144,7 @@ namespace Zifro.Compiler.Lang.Entities
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Boolean_SubtractInvalidOperation),
                 Localized_Base_Entities.Ex_Boolean_SubtractInvalidOperation,
-                Value, rhs.GetTypeName());
+                values: GetErrorArgs(rhs.GetTypeName()));
         }
 
         /// <inheritdoc />
@@ -133,7 +152,7 @@ namespace Zifro.Compiler.Lang.Entities
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Boolean_MultiplyInvalidOperation),
                 Localized_Base_Entities.Ex_Boolean_MultiplyInvalidOperation,
-                Value, rhs.GetTypeName());
+                values: GetErrorArgs(rhs.GetTypeName()));
         }
 
         /// <inheritdoc />
@@ -141,7 +160,7 @@ namespace Zifro.Compiler.Lang.Entities
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Boolean_DivideInvalidOperation),
                 Localized_Base_Entities.Ex_Boolean_DivideInvalidOperation,
-                Value, rhs.GetTypeName());
+                values: GetErrorArgs(rhs.GetTypeName()));
         }
 
         /// <inheritdoc />
