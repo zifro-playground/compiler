@@ -22,6 +22,8 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
             // file_input: (NEWLINE | stmt)* EOF;
             var statements = new List<Statement>();
 
+            // This ignores newlines and eof
+            // and flattens nested StatementLists
             foreach (Python3Parser.StmtContext child in context.GetChildren().OfType<Python3Parser.StmtContext>())
             {
                 SyntaxNode result = VisitStmt(child);

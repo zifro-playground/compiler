@@ -321,6 +321,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             var smallMock = GetMockRule<Python3Parser.Small_stmtContext>();
             Statement statement = GetStatementMock();
 
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
             ctorMock.Setup(o => o.VisitSmall_stmt(smallMock.Object))
                 .Returns(statement).Verifiable();
 
@@ -352,6 +354,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             var smallMock = GetMockRule<Python3Parser.Small_stmtContext>();
             Statement statement = GetStatementMock();
 
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
             ctorMock.Setup(o => o.VisitSmall_stmt(smallMock.Object))
                 .Returns(statement).Verifiable();
 
@@ -380,12 +384,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Simple_stmtContext>();
-            var smallMock = GetMockRule<Python3Parser.Small_stmtContext>();
-            Statement statement = GetStatementMock();
 
-            ctorMock.Setup(o => o.VisitSmall_stmt(smallMock.Object))
-                .Returns(statement).Verifiable();
-
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
             contextMock.SetupChildren();
 
             Action action = delegate { ctor.VisitSimple_stmt(contextMock.Object); };
@@ -393,7 +393,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxException>(action);
             Assert.That.ErrorExpectedChildFormatArgs(ex, startTokenMock, stopTokenMock, contextMock);
-
+            
             contextMock.Verify();
             ctorMock.Verify();
         }
