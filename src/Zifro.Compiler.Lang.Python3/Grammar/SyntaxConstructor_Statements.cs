@@ -12,6 +12,7 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
     {
         public override SyntaxNode VisitStmt(Python3Parser.StmtContext context)
         {
+            // stmt: simple_stmt | compound_stmt
             IParseTree child = context.GetChild(0);
 
             if (child is Python3Parser.Simple_stmtContext simple)
@@ -28,11 +29,14 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitSimple_stmt(Python3Parser.Simple_stmtContext context)
         {
+            // simple_stmt: small_stmt (';' small_stmt)* [';'] NEWLINE
             return VisitChildren(context);
         }
 
         public override SyntaxNode VisitSmall_stmt(Python3Parser.Small_stmtContext context)
         {
+            // small_stmt: (expr_stmt | del_stmt | pass_stmt | flow_stmt |
+            //    import_stmt | global_stmt | nonlocal_stmt | assert_stmt)
             var child = context.GetChild(0) as ParserRuleContext;
 
             switch (child)

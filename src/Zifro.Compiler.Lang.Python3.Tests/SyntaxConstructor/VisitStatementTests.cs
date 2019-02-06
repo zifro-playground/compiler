@@ -31,7 +31,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 .Returns(GetStatementMock());
 
             contextMock.SetupChildren(
-                stmtMock.Object, stmtMock.Object, stmtMock.Object
+                stmtMock.Object,
+                stmtMock.Object,
+                stmtMock.Object
             );
 
             // Act
@@ -48,7 +50,72 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             contextMock.Verify();
             ctorMock.Verify();
         }
-        
+
+        [TestMethod]
+        public void FileStmt_Visit_FilledStatementListAndNewlines_Test()
+        {
+            // Arrange
+            var contextMock = GetMockRule<Python3Parser.File_inputContext>();
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            var stmtMock = GetMockRule<Python3Parser.StmtContext>();
+            ctorMock.Setup(o => o.VisitStmt(stmtMock.Object))
+                .Returns(GetStatementMock());
+
+            contextMock.SetupChildren(
+                stmtMock.Object, GetTerminal(Python3Parser.NEWLINE),
+                stmtMock.Object, GetTerminal(Python3Parser.NEWLINE),
+                stmtMock.Object
+            );
+
+            // Act
+            SyntaxNode result = ctor.VisitFile_input(contextMock.Object);
+
+            // Assert
+            ctorMock.Verify(o => o.VisitChildren(It.IsAny<IRuleNode>()), Times.Never);
+
+            Assert.That.IsStatementListWithCount(3, result);
+            contextMock.VerifyLoopedChildren(5);
+
+            ctorMock.Verify(o => o.VisitStmt(stmtMock.Object), Times.Exactly(3));
+
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+
+        [TestMethod]
+        public void FileStmt_Visit_FilledNewlines_Test()
+        {
+            // Arrange
+            var contextMock = GetMockRule<Python3Parser.File_inputContext>();
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            var stmtMock = GetMockRule<Python3Parser.StmtContext>();
+            ctorMock.Setup(o => o.VisitStmt(stmtMock.Object))
+                .Returns(GetStatementMock());
+
+            contextMock.SetupChildren(
+                GetTerminal(Python3Parser.NEWLINE),
+                GetTerminal(Python3Parser.NEWLINE),
+                GetTerminal(Python3Parser.NEWLINE)
+            );
+
+            // Act
+            SyntaxNode result = ctor.VisitFile_input(contextMock.Object);
+
+            // Assert
+            ctorMock.Verify(o => o.VisitChildren(It.IsAny<IRuleNode>()), Times.Never);
+
+            Assert.That.IsStatementListWithCount(0, result);
+            contextMock.VerifyLoopedChildren(3);
+
+            ctorMock.Verify(o => o.VisitStmt(stmtMock.Object), Times.Never);
+
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
         [TestMethod]
         public void FileStmt_Visit_EmptyStatementList_Test()
         {

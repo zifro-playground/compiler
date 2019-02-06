@@ -22,7 +22,7 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
             // file_input: (NEWLINE | stmt)* EOF;
             var statements = new List<Statement>();
 
-            foreach (Python3Parser.StmtContext child in context.GetChildren().Cast<Python3Parser.StmtContext>())
+            foreach (Python3Parser.StmtContext child in context.GetChildren().OfType<Python3Parser.StmtContext>())
             {
                 SyntaxNode result = VisitStmt(child);
                 if (result is StatementList list)
