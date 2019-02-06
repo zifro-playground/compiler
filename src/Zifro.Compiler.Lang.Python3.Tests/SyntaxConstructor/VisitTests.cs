@@ -18,8 +18,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         // ReSharper disable InconsistentNaming
         protected Mock<Grammar.SyntaxConstructor> ctorMock;
         protected Grammar.SyntaxConstructor ctor;
-        protected Mock<SyntaxNode> nodeMock;
-        protected SyntaxNode node;
+        protected Mock<SyntaxNode> basicNodeMock;
+        protected SyntaxNode basicNode;
+        protected Mock<IToken> tokenMock;
         // ReSharper restore InconsistentNaming
 
         protected static Mock<T> GetMockRule<T>() where T : ParserRuleContext
@@ -33,7 +34,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         {
             // Arrange
             ctorMock.Setup(action)
-                .Returns(node)
+                .Returns(basicNode)
                 .Verifiable();
 
             // Act
@@ -41,7 +42,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Assert
             ctorMock.Verify(o => o.VisitChildren(shouldVisit), $"Did not visit children of type <{shouldVisit.GetType().Name}>.");
-            Assert.AreSame(node, result);
+            Assert.AreSame(basicNode, result);
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -60,8 +61,12 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             };
             ctor = ctorMock.Object;
 
-            nodeMock = new Mock<SyntaxNode>(SourceReference.ClrSource, string.Empty);
-            node = nodeMock.Object;
+            basicNodeMock = new Mock<SyntaxNode>(SourceReference.ClrSource, string.Empty);
+            basicNode = basicNodeMock.Object;
+
+            tokenMock = new Mock<IToken>();
+            tokenMock.SetupGet(o => o.Line).Returns(1);
+            tokenMock.SetupGet(o => o.Column).Returns(1);
         }
 
         [TestMethod]
@@ -69,7 +74,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.File_inputContext>();
-            contextMock.SetupForSourceReference();
+            contextMock.SetupForSourceReference(tokenMock);
             contextMock.SetupGet(o => o.ChildCount)
                 .Returns(3).Verifiable();
 
@@ -85,14 +90,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             // Assert
             ctorMock.Verify(o => o.VisitChildren(It.IsAny<IRuleNode>()), Times.Never);
 
-            Assert.IsInstanceOfType(result, typeof(StatementList));
-            var list = (StatementList) result;
-            Assert.AreEqual(3, list.Statements.Count);
-
-            contextMock.VerifyGet(o => o.ChildCount, Times.AtLeastOnce);
-            contextMock.Verify(o => o.GetChild(0), Times.Once);
-            contextMock.Verify(o => o.GetChild(1), Times.Once);
-            contextMock.Verify(o => o.GetChild(2), Times.Once);
+            Assert.That.IsStatementListWithCount(3, result);
+            contextMock.VerifyLoopedChildren(3);
 
             ctorMock.Verify(o => o.VisitStmt(stmtMock.Object), Times.Exactly(3));
 
@@ -105,7 +104,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.File_inputContext>();
-            contextMock.SetupForSourceReference();
+            contextMock.SetupForSourceReference(tokenMock);
             contextMock.SetupGet(o => o.ChildCount).Returns(0).Verifiable();
 
             // Act
@@ -114,13 +113,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             // Assert
             ctorMock.Verify(o => o.VisitChildren(It.IsAny<IRuleNode>()), Times.Never);
 
-            Assert.IsInstanceOfType(result, typeof(StatementList));
-            var list = (StatementList)result;
-            Assert.AreEqual(0, list.Statements.Count);
-
-            contextMock.VerifyGet(o => o.ChildCount, Times.Once);
-
-            ctorMock.Verify(o => o.VisitFile_input(contextMock.Object), Times.Once);
+            Assert.That.IsStatementListWithCount(0, result);
+            contextMock.VerifyLoopedChildren(0);
 
             contextMock.Verify();
             ctorMock.Verify();
