@@ -32,12 +32,12 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitSmall_stmt(Python3Parser.Small_stmtContext context)
         {
-            throw new System.NotImplementedException();
+            throw new SyntaxNotYetImplementedException(context.GetSourceReference());
         }
 
         public override SyntaxNode VisitCompound_stmt(Python3Parser.Compound_stmtContext context)
         {
-            throw new System.NotImplementedException();
+            throw new SyntaxNotYetImplementedException(context.GetSourceReference());
         }
     }
 }

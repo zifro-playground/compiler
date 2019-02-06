@@ -3,6 +3,7 @@ using System.Linq;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using Zifro.Compiler.Core.Entities;
+using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Lang.Python3.Extensions;
 using Zifro.Compiler.Lang.Python3.Syntax;
 using Zifro.Compiler.Lang.Python3.Syntax.Statements;
@@ -17,7 +18,7 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
     {
         public override SyntaxNode VisitSingle_input(Python3Parser.Single_inputContext context)
         {
-            throw new System.NotImplementedException();
+            throw new SyntaxNotYetImplementedException(context.GetSourceReference());
         }
 
         public override SyntaxNode VisitFile_input(Python3Parser.File_inputContext context)
@@ -39,7 +40,7 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitEval_input(Python3Parser.Eval_inputContext context)
         {
-            throw new System.NotImplementedException();
+            throw new SyntaxNotYetImplementedException(context.GetSourceReference());
         }
 
         private static SourceReference SourceReference(ParserRuleContext context)
