@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Linq.Expressions;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -21,8 +20,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         // ReSharper disable InconsistentNaming
         protected Mock<Grammar.SyntaxConstructor> ctorMock;
         protected Grammar.SyntaxConstructor ctor;
-        protected Mock<SyntaxNode> basicNodeMock;
-        protected SyntaxNode basicNode;
         protected Mock<IToken> tokenMock;
         // ReSharper restore InconsistentNaming
 
@@ -31,28 +28,14 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             return new Mock<T>(ParserRuleContext.EmptyContext, 0);
         }
 
-        protected void ActAndAssertVisit<TContext>(Mock<TContext> contextMock,
-            Expression<Func<Grammar.SyntaxConstructor, SyntaxNode>> action, IRuleNode shouldVisit)
-            where TContext : ParserRuleContext
-        {
-            // Arrange
-            ctorMock.Setup(action)
-                .Returns(basicNode)
-                .Verifiable();
-
-            // Act
-            SyntaxNode result = action.Compile().Invoke(ctor);
-
-            // Assert
-            ctorMock.Verify(o => o.VisitChildren(shouldVisit), $"Did not visit children of type <{shouldVisit.GetType().Name}>.");
-            Assert.AreSame(basicNode, result);
-            contextMock.Verify();
-            ctorMock.Verify();
-        }
-
         protected Statement GetStatementMock()
         {
             return new Mock<Statement>(MockBehavior.Strict, SourceReference.ClrSource, string.Empty).Object;
+        }
+
+        protected Statement GetAssignmentMock()
+        {
+            return new Mock<StatementAssignment>(MockBehavior.Strict, SourceReference.ClrSource, string.Empty).Object;
         }
 
         protected StatementList GetStatementList(int count)
@@ -69,9 +52,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 CallBase = true
             };
             ctor = ctorMock.Object;
-
-            basicNodeMock = new Mock<SyntaxNode>(SourceReference.ClrSource, string.Empty);
-            basicNode = basicNodeMock.Object;
 
             tokenMock = new Mock<IToken>();
             tokenMock.SetupGet(o => o.Line).Returns(1);
@@ -276,17 +256,26 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
-            contextMock.SetupForSourceReference(tokenMock);
-            var innerContextMock = GetMockRule<Python3Parser.Expr_stmtContext>();
+            var exprMock = GetMockRule<Python3Parser.Expr_stmtContext>();
 
-            contextMock.Setup(o => o.GetRuleContext<Python3Parser.Expr_stmtContext>(0))
-                .Returns(innerContextMock.Object);
+            ctorMock.Setup(o => o.VisitExpr_stmt(exprMock.Object))
+                .Returns(GetStatementMock());
 
-            // Act + Assert
-            ActAndAssertVisit(
-                contextMock: contextMock,
-                action: o => o.VisitSmall_stmt(contextMock.Object),
-                shouldVisit: innerContextMock.Object);
+            contextMock.SetupChildren(
+                exprMock.Object
+            );
+
+            // Act
+            SyntaxNode result = ctor.VisitSmall_stmt(contextMock.Object);
+
+            // Assert
+            ctorMock.Verify(o => o.VisitChildren(It.IsAny<IRuleNode>()), Times.Never);
+
+            Assert.IsInstanceOfType(result, typeof(StatementAssignment));
+            contextMock.VerifyLoopedChildren(1);
+
+            contextMock.Verify();
+            ctorMock.Verify();
         }
 
         [TestMethod]
