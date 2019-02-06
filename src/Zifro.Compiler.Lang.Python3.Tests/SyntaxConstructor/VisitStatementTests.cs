@@ -19,6 +19,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
     [TestClass]
     public class VisitStatementTests : BaseVisitClass
     {
+        #region FileStmt
+
         [TestMethod]
         public void FileStmt_Visit_FilledStatementList_Test()
         {
@@ -172,6 +174,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             ctorMock.Verify();
         }
 
+        #endregion
+
         #region Stmt
 
         [TestMethod]
@@ -290,10 +294,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             Statement statement = GetStatementMock();
 
             ctorMock.Setup(o => o.VisitSmall_stmt(smallMock.Object))
-                .Returns(statement);
+                .Returns(statement).Verifiable();
 
             contextMock.SetupChildren(
-                smallMock.Object
+                smallMock.Object, GetTerminal(Python3Parser.NEWLINE)
             );
 
             // Act
@@ -303,7 +307,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             ctorMock.Verify(o => o.VisitChildren(It.IsAny<IRuleNode>()), Times.Never);
 
             Assert.AreSame(statement, result);
-            contextMock.VerifyLoopedChildren(1);
+            contextMock.VerifyLoopedChildren(2);
 
             contextMock.Verify();
             ctorMock.Verify();
@@ -318,10 +322,44 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             Statement statement = GetStatementMock();
 
             ctorMock.Setup(o => o.VisitSmall_stmt(smallMock.Object))
-                .Returns(statement);
+                .Returns(statement).Verifiable();
 
             contextMock.SetupChildren(
-                smallMock.Object, smallMock.Object, smallMock.Object
+                smallMock.Object, GetTerminal(Python3Parser.SEMI_COLON),
+                smallMock.Object, GetTerminal(Python3Parser.SEMI_COLON),
+                smallMock.Object, GetTerminal(Python3Parser.NEWLINE)
+            );
+
+            // Act
+            SyntaxNode result = ctor.VisitSimple_stmt(contextMock.Object);
+
+            // Assert
+            ctorMock.Verify(o => o.VisitChildren(It.IsAny<IRuleNode>()), Times.Never);
+
+            Assert.That.IsStatementListWithCount(3, result);
+            contextMock.VerifyLoopedChildren(6);
+
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+
+        [TestMethod]
+        public void SimpleStmt_Visit_MultipleSmallNoTokens_Test()
+        {
+            // Arrange
+            var contextMock = GetMockRule<Python3Parser.Simple_stmtContext>();
+            var smallMock = GetMockRule<Python3Parser.Small_stmtContext>();
+            Statement statement = GetStatementMock();
+
+            ctorMock.Setup(o => o.VisitSmall_stmt(smallMock.Object))
+                .Returns(statement).Verifiable();
+
+            // Invalid according to syntax tree, but syntax constructor should handle it
+            contextMock.SetupChildren(
+                smallMock.Object,
+                smallMock.Object,
+                smallMock.Object
             );
 
             // Act
@@ -346,7 +384,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             Statement statement = GetStatementMock();
 
             ctorMock.Setup(o => o.VisitSmall_stmt(smallMock.Object))
-                .Returns(statement);
+                .Returns(statement).Verifiable();
 
             contextMock.SetupChildren();
 
