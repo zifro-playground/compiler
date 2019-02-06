@@ -11,6 +11,7 @@ using Zifro.Compiler.Lang.Python3.Grammar;
 using Zifro.Compiler.Lang.Python3.Resources;
 using Zifro.Compiler.Lang.Python3.Syntax;
 using Zifro.Compiler.Lang.Python3.Syntax.Statements;
+// ReSharper disable ConvertToLocalFunction
 
 namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 {
