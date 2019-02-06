@@ -19,7 +19,9 @@ namespace Zifro.Compiler.Lang.Python3.Extensions
 
         public static SourceReference GetSourceReference(this ParserRuleContext context)
         {
-            return new SourceReference(context.Stop.Line, context.Stop.Line, context.Stop.Column, context.Stop.Column);
+            return new SourceReference(
+                fromRow: context.Start.Line, toRow: context.Stop.Line,
+                fromColumn: context.Start.Column, toColumn: context.Stop.Column);
         }
     }
 }
