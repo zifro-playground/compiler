@@ -14,12 +14,13 @@ namespace Zifro.Compiler.Lang.Python3.Tests
 {
     public static class TestingHelpers
     {
-        public static void SetupForSourceReference<T>(this Mock<T> context, Mock<IToken> tokenMock)
+        public static void SetupForSourceReference<T>(this Mock<T> context,
+            Mock<IToken> startTokenMock, Mock<IToken> stopTokenMock)
             where T : ParserRuleContext
         {
-            context.SetupGet(o => o.Start).Returns(tokenMock.Object)
+            context.SetupGet(o => o.Start).Returns(startTokenMock.Object)
                 .Verifiable($"Did not get start token from {typeof(T).Name}");
-            context.SetupGet(o => o.Stop).Returns(tokenMock.Object)
+            context.SetupGet(o => o.Stop).Returns(stopTokenMock.Object)
                 .Verifiable($"Did not get stop token from {typeof(T).Name}");
         }
 
