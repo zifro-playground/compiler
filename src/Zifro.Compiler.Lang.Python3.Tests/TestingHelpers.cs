@@ -32,7 +32,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             {
                 int iCopy = i;
                 contextMock.Setup(o => o.GetChild(iCopy))
-                    .Returns(children[i]).Verifiable();
+                    .Returns(children[i]);
             }
         }
 

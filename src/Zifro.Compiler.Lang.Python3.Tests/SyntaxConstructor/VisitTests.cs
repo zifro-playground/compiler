@@ -238,6 +238,34 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             ctorMock.Verify();
         }
 
+        [TestMethod]
+        public void Stmt_Visit_TooManyChildren_Test()
+        {
+            // Arrange
+            var contextMock = GetMockRule<Python3Parser.StmtContext>();
+            var compoundStmtMock = GetMockRule<Python3Parser.Compound_stmtContext>();
+
+            ctorMock.Setup(o => o.VisitCompound_stmt(compoundStmtMock.Object))
+                .Returns(GetStatementMock).Verifiable();
+
+            // Contains three, but should just ignore the excess as it's not part of the syntax.
+            contextMock.SetupChildren(
+                compoundStmtMock.Object, compoundStmtMock.Object, compoundStmtMock.Object
+            );
+
+            // Act
+            SyntaxNode result = ctor.VisitStmt(contextMock.Object);
+
+            // Assert
+            ctorMock.Verify(o => o.VisitChildren(It.IsAny<IRuleNode>()), Times.Never);
+
+            Assert.IsInstanceOfType(result, typeof(Statement));
+            contextMock.VerifyLoopedChildren(1);
+
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
         #endregion
 
         #region SmallStmt
