@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Zifro.Compiler.Core.Entities;
 
 namespace Zifro.Compiler.Core.Exceptions
@@ -10,26 +11,36 @@ namespace Zifro.Compiler.Core.Exceptions
     public class SyntaxException : InterpreterLocalizedException
     {
         public SourceReference SourceReference { get; set; }
-        
+
+        /// <summary>
+        /// Creates a syntax exception based off the source code.
+        /// <para>
+        /// The first 4 formatting values are dedicated from the source reference.
+        /// </para>
+        /// <para><c>{0}</c> source start line</para>
+        /// <para><c>{1}</c> source start column</para>
+        /// <para><c>{2}</c> source end line</para>
+        /// <para><c>{3}</c> source end column</para>
+        /// </summary>
         public SyntaxException(SourceReference source, string localizeKey, 
             string localizedMessageFormat, params object[] values)
-            : base(localizeKey, localizedMessageFormat, values)
+            : base(localizeKey, localizedMessageFormat, GetParams(source, values))
         {
             SourceReference = source;
         }
 
-        public SyntaxException(SourceReference source, string localizeKey,
-            string localizedMessage, Exception innerException)
-            : base(localizeKey, localizedMessage, innerException)
+        protected static object[] GetParams(SourceReference source)
         {
-            SourceReference = source;
+            return new object[]
+            {
+                source.FromRow, source.FromColumn,
+                source.ToRow, source.ToColumn
+            };
         }
 
-        public SyntaxException(SourceReference source, string localizeKey,
-            string localizedMessage)
-            : base(localizeKey, localizedMessage)
+        protected static object[] GetParams(SourceReference source, object[] additional)
         {
-            SourceReference = source;
+            return GetParams(source).Concat(additional).ToArray();
         }
     }
 }

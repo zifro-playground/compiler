@@ -24,13 +24,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
         protected static Mock<T> GetMockRule<T>() where T : ParserRuleContext
         {
-            return new Mock<T>(ParserRuleContext.EmptyContext, 0);
-        }
-
-        protected void VerifyNoOtherCallsToCtorOrNode()
-        {
-            ctorMock.VerifyNoOtherCalls();
-            nodeMock.VerifyNoOtherCalls();
+            return new Mock<T>(MockBehavior.Strict, ParserRuleContext.EmptyContext, 0);
         }
 
         protected void ActAndAssertVisit<TContext>(Mock<TContext> contextMock,
@@ -38,7 +32,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             where TContext : ParserRuleContext
         {
             // Arrange
-            ctorMock.Setup(action).Returns(node);
+            ctorMock.Setup(action)
+                .Returns(node)
+                .Verifiable();
 
             // Act
             SyntaxNode result = action.Compile().Invoke(ctor);
@@ -46,14 +42,13 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             // Assert
             ctorMock.Verify(o => o.VisitChildren(shouldVisit), $"Did not visit children of type <{shouldVisit.GetType().Name}>.");
             Assert.AreSame(node, result);
-            ctorMock.Verify(action);
-            contextMock.VerifyNoOtherCalls();
-            VerifyNoOtherCallsToCtorOrNode();
+            contextMock.Verify();
+            ctorMock.Verify();
         }
 
         protected Statement GetStatementMock()
         {
-            return new Mock<Statement>(SourceReference.ClrSource, string.Empty).Object;
+            return new Mock<Statement>(MockBehavior.Strict, SourceReference.ClrSource, string.Empty).Object;
         }
 
         [TestInitialize]
@@ -70,15 +65,17 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void FileStmtVisit_Test()
+        public void FileStmtVisit_FilledStatementList_Test()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.File_inputContext>();
-            contextMock.SetupGet(o => o.ChildCount).Returns(3);
+            contextMock.SetupForSourceReference();
+            contextMock.SetupGet(o => o.ChildCount)
+                .Returns(3).Verifiable();
 
             var stmtMock = GetMockRule<Python3Parser.StmtContext>();
             contextMock.Setup(o => o.GetChild(It.IsInRange(0, 2, Range.Inclusive)))
-                .Returns(stmtMock.Object);
+                .Returns(stmtMock.Object).Verifiable();
 
             ctorMock.Setup(o => o.VisitStmt(stmtMock.Object)).Returns(GetStatementMock());
 
@@ -87,7 +84,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Assert
             ctorMock.Verify(o => o.VisitChildren(It.IsAny<IRuleNode>()), Times.Never);
-            ctorMock.VerifyNoOtherCalls();
 
             Assert.IsInstanceOfType(result, typeof(StatementList));
             var list = (StatementList) result;
@@ -98,27 +94,36 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             contextMock.Verify(o => o.GetChild(1), Times.Once);
             contextMock.Verify(o => o.GetChild(2), Times.Once);
 
-            contextMock.VerifyNoOtherCalls();
+            ctorMock.Verify(o => o.VisitStmt(stmtMock.Object), Times.Exactly(3));
+
+            contextMock.Verify();
+            ctorMock.Verify();
         }
 
         [TestMethod]
-        public void FileStmtVisit_None_Test()
+        public void FileStmtVisit_EmptyStatementList_Test()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.File_inputContext>();
-            contextMock.SetupGet(o => o.ChildCount).Returns(0);
+            contextMock.SetupForSourceReference();
+            contextMock.SetupGet(o => o.ChildCount).Returns(0).Verifiable();
 
             // Act
-            ctor.VisitFile_input(contextMock.Object);
+            SyntaxNode result = ctor.VisitFile_input(contextMock.Object);
 
             // Assert
             ctorMock.Verify(o => o.VisitChildren(It.IsAny<IRuleNode>()), Times.Never);
-            ctorMock.VerifyNoOtherCalls();
-            
-            // TODO: Verify result is statement list
+
+            Assert.IsInstanceOfType(result, typeof(StatementList));
+            var list = (StatementList)result;
+            Assert.AreEqual(0, list.Statements.Count);
 
             contextMock.VerifyGet(o => o.ChildCount, Times.Once);
-            contextMock.VerifyNoOtherCalls();
+
+            ctorMock.Verify(o => o.VisitFile_input(contextMock.Object), Times.Once);
+
+            contextMock.Verify();
+            ctorMock.Verify();
         }
 
 
