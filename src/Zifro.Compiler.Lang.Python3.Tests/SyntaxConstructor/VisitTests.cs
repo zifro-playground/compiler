@@ -171,12 +171,12 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             var contextMock = GetMockRule<Python3Parser.StmtContext>();
             var simpleStmtMock = GetMockRule<Python3Parser.Simple_stmtContext>();
 
-            contextMock.SetupGet(o => o.ChildCount)
-                .Returns(1)
-                .Verifiable();
-            contextMock.Setup(o => o.GetChild(0))
-                .Returns(simpleStmtMock.Object)
-                .Verifiable();
+            ctorMock.Setup(o => o.VisitSimple_stmt(simpleStmtMock.Object))
+                .Returns(GetStatementList(2));
+
+            contextMock.SetupChildren(
+                simpleStmtMock.Object
+            );
 
             // Act
             SyntaxNode result = ctor.VisitStmt(contextMock.Object);
@@ -184,7 +184,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             // Assert
             ctorMock.Verify(o => o.VisitChildren(It.IsAny<IRuleNode>()), Times.Never);
 
-            Assert.That.IsStatementListWithCount(1, result);
+            Assert.That.IsStatementListWithCount(2, result);
             contextMock.VerifyLoopedChildren(1);
 
             ctorMock.Verify(o => o.VisitSimple_stmt(simpleStmtMock.Object), Times.Once);

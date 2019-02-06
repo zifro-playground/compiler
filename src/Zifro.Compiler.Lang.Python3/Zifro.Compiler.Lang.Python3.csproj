@@ -23,4 +23,19 @@
     </Antlr4>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Resources\Localized_Python3_Parser.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Localized_Python3_Parser.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Localized_Python3_Parser.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localized_Python3_Parser.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,7 @@
-﻿using Antlr4.Runtime;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Antlr4.Runtime;
+using Antlr4.Runtime.Tree;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Zifro.Compiler.Lang.Python3.Grammar;
@@ -18,11 +21,12 @@ namespace Zifro.Compiler.Lang.Python3.Tests
         }
 
         public static void SetupChildren<T>(this Mock<T> contextMock,
-            params ParserRuleContext[] children)
+            params IParseTree[] children)
             where T : ParserRuleContext
         {
+            contextMock.Object.children = children;
             contextMock.SetupGet(o => o.ChildCount)
-                .Returns(children.Length).Verifiable();
+                .Returns(children.Length);
 
             for (var i = 0; i < children.Length; i++)
             {
@@ -41,7 +45,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests
         public static void VerifyLoopedChildren<T>(this Mock<T> contextMock, int count)
             where T : ParserRuleContext
         {
-            contextMock.VerifyGet(o => o.ChildCount, Times.Exactly(count + 1));
+            if (count <= 1)
+                contextMock.VerifyGet(o => o.ChildCount, Times.AtMost(count + 1));
+            else
+                contextMock.VerifyGet(o => o.ChildCount, Times.Exactly(count + 1));
 
             for (var i = 0; i < count; i++)
             {
