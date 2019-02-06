@@ -5,19 +5,19 @@ using Zifro.Compiler.Lang.Python3.Syntax;
 
 namespace Zifro.Compiler.Lang.Python3.Grammar
 {
-    public partial class SyntaxConstructor : AbstractParseTreeVisitor<SyntaxNode>, IPython3Visitor<SyntaxNode>
+    public partial class SyntaxConstructor : Python3BaseVisitor<SyntaxNode>
     {
-        public SyntaxNode VisitSingle_input(Python3Parser.Single_inputContext context)
+        public override SyntaxNode VisitSingle_input(Python3Parser.Single_inputContext context)
         {
             throw new System.NotImplementedException();
         }
 
-        public SyntaxNode VisitFile_input(Python3Parser.File_inputContext context)
+        public override SyntaxNode VisitFile_input(Python3Parser.File_inputContext context)
         {
             return VisitChildren(context);
         }
 
-        public SyntaxNode VisitEval_input(Python3Parser.Eval_inputContext context)
+        public override SyntaxNode VisitEval_input(Python3Parser.Eval_inputContext context)
         {
             throw new System.NotImplementedException();
         }

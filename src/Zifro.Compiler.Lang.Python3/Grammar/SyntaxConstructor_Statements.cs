@@ -5,22 +5,22 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 {
     public partial class SyntaxConstructor
     {
-        public SyntaxNode VisitStmt(Python3Parser.StmtContext context)
+        public override SyntaxNode VisitStmt(Python3Parser.StmtContext context)
         {
             throw new System.NotImplementedException();
         }
 
-        public SyntaxNode VisitSimple_stmt(Python3Parser.Simple_stmtContext context)
+        public override SyntaxNode VisitSimple_stmt(Python3Parser.Simple_stmtContext context)
+        {
+            return VisitChildren(context);
+        }
+
+        public override SyntaxNode VisitSmall_stmt(Python3Parser.Small_stmtContext context)
         {
             throw new System.NotImplementedException();
         }
 
-        public SyntaxNode VisitSmall_stmt(Python3Parser.Small_stmtContext context)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public SyntaxNode VisitCompound_stmt(Python3Parser.Compound_stmtContext context)
+        public override SyntaxNode VisitCompound_stmt(Python3Parser.Compound_stmtContext context)
         {
             throw new System.NotImplementedException();
         }
