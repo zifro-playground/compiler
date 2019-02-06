@@ -8,6 +8,7 @@ using Moq;
 using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Lang.Python3.Grammar;
+using Zifro.Compiler.Lang.Python3.Resources;
 using Zifro.Compiler.Lang.Python3.Syntax;
 using Zifro.Compiler.Lang.Python3.Syntax.Statements;
 
@@ -172,7 +173,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             var simpleStmtMock = GetMockRule<Python3Parser.Simple_stmtContext>();
 
             ctorMock.Setup(o => o.VisitSimple_stmt(simpleStmtMock.Object))
-                .Returns(GetStatementList(2));
+                .Returns(GetStatementList(2)).Verifiable();
 
             contextMock.SetupChildren(
                 simpleStmtMock.Object
@@ -187,8 +188,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             Assert.That.IsStatementListWithCount(2, result);
             contextMock.VerifyLoopedChildren(1);
 
-            ctorMock.Verify(o => o.VisitSimple_stmt(simpleStmtMock.Object), Times.Once);
-
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -196,18 +195,47 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         [TestMethod]
         public void Stmt_Visit_CompoundStmt_Test()
         {
+
             // Arrange
             var contextMock = GetMockRule<Python3Parser.StmtContext>();
             var compoundStmtMock = GetMockRule<Python3Parser.Compound_stmtContext>();
 
-            contextMock.Setup(o => o.GetRuleContext<Python3Parser.Compound_stmtContext>(0))
-                .Returns(compoundStmtMock.Object);
+            ctorMock.Setup(o => o.VisitCompound_stmt(compoundStmtMock.Object))
+                .Returns(GetStatementMock).Verifiable();
 
-            // Act + Assert
-            ActAndAssertVisit(
-                contextMock: contextMock,
-                action: o => o.VisitStmt(contextMock.Object),
-                shouldVisit: compoundStmtMock.Object);
+            contextMock.SetupChildren(
+                compoundStmtMock.Object
+            );
+
+            // Act
+            SyntaxNode result = ctor.VisitStmt(contextMock.Object);
+
+            // Assert
+            ctorMock.Verify(o => o.VisitChildren(It.IsAny<IRuleNode>()), Times.Never);
+
+            Assert.IsInstanceOfType(result, typeof(Statement));
+            contextMock.VerifyLoopedChildren(1);
+
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void Stmt_Visit_NoChildren_Test()
+        {
+            // Arrange
+            var contextMock = GetMockRule<Python3Parser.StmtContext>();
+            contextMock.SetupForSourceReference(tokenMock);
+            contextMock.SetupChildren();
+
+            Action action = delegate { ctor.VisitStmt(contextMock.Object); };
+
+            // Act
+            var ex = Assert.ThrowsException<SyntaxException>(action);
+            Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Python3_Parser.Ex_Syntax_ExpectedChild));
+
+            contextMock.Verify();
+            ctorMock.Verify();
         }
 
         #endregion

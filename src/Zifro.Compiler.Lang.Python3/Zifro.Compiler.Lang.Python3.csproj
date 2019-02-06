@@ -33,7 +33,7 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Resources\Localized_Python3_Parser.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Localized_Python3_Parser.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
