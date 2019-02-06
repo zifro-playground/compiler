@@ -8,7 +8,7 @@ namespace Zifro.Compiler.Core.Entities
     public struct SourceReference
     {
         /// <summary>
-        /// Is the source defined in the Common Language Runtime?
+        /// Gets a source reference from the Common Language Runtime.
         /// </summary>
         public bool IsFromClr { get; private set; }
 
@@ -17,7 +17,7 @@ namespace Zifro.Compiler.Core.Entities
         public int FromColumn { get; private set; }
         public int ToColumn { get; private set; }
 
-        public static SourceReference ClrSource => new SourceReference
+        public static SourceReference ClrSource { get; } = new SourceReference
         {
             IsFromClr = true,
         };
@@ -37,6 +37,9 @@ namespace Zifro.Compiler.Core.Entities
 
         public static SourceReference Merge(SourceReference a, SourceReference b)
         {
+            if (a.IsFromClr && b.IsFromClr)
+                return a;
+
             if (b.FromRow < a.FromRow)
             {
                 a.FromRow = b.FromRow;
