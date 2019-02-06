@@ -125,4 +125,14 @@
 {2} source end line
 {3} source end column</comment>
   </data>
+  <data name="Ex_Syntax_UnexpectedChildType" xml:space="preserve">
+    <value>Oförväntad regel av typ '{5}' i en '{4}'.</value>
+    <comment>If child is of wrong type. Which should only happen due to sloppy programming.
+{0} source start line
+{1} source start column
+{2} source end line
+{3} source end column
+{4} context rule name
+{5} child rule name</comment>
+  </data>
 </root>

@@ -32,7 +32,35 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitSmall_stmt(Python3Parser.Small_stmtContext context)
         {
-            throw new SyntaxNotYetImplementedException(context.GetSourceReference());
+            IParseTree child = context.GetChild(0);
+
+            switch (child)
+            {
+                case Python3Parser.Expr_stmtContext expr:
+                    return VisitExpr_stmt(expr);
+
+                case Python3Parser.Assert_stmtContext _:
+                case Python3Parser.Del_stmtContext _:
+                case Python3Parser.Flow_stmtContext _:
+                case Python3Parser.Global_stmtContext _:
+                case Python3Parser.Import_stmtContext _:
+                case Python3Parser.Nonlocal_stmtContext _:
+                case Python3Parser.Pass_stmtContext _:
+                    throw new SyntaxNotYetImplementedException(context.GetSourceReference());
+
+                case ParserRuleContext childRule:
+                    throw new SyntaxException(context.GetSourceReference(),
+                        nameof(Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType),
+                        Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType,
+                        Python3Parser.ruleNames[context.RuleIndex],
+                        Python3Parser.ruleNames[childRule.RuleIndex]);
+
+                case null:
+                default:
+                    throw new SyntaxException(context.GetSourceReference(),
+                        localizeKey: nameof(Localized_Python3_Parser.Ex_Syntax_ExpectedChild),
+                        localizedMessageFormat: Localized_Python3_Parser.Ex_Syntax_ExpectedChild);
+            }
         }
 
         public override SyntaxNode VisitCompound_stmt(Python3Parser.Compound_stmtContext context)

@@ -68,5 +68,14 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
                 return ResourceManager.GetString("Ex_Syntax_ExpectedChild", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oförväntad regel av typ &apos;{5}&apos; i en &apos;{4}&apos;..
+        /// </summary>
+        public static string Ex_Syntax_UnexpectedChildType {
+            get {
+                return ResourceManager.GetString("Ex_Syntax_UnexpectedChildType", resourceCulture);
+            }
+        }
     }
 }

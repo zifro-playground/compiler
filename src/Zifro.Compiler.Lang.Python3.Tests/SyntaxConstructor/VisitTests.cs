@@ -180,9 +180,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             // Arrange
             var contextMock = GetMockRule<Python3Parser.StmtContext>();
             var compoundStmtMock = GetMockRule<Python3Parser.Compound_stmtContext>();
+            SyntaxNode expectedResult = GetStatementMock();
 
             ctorMock.Setup(o => o.VisitCompound_stmt(compoundStmtMock.Object))
-                .Returns(GetStatementMock).Verifiable();
+                .Returns(expectedResult).Verifiable();
 
             contextMock.SetupChildren(
                 compoundStmtMock.Object
@@ -194,7 +195,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             // Assert
             ctorMock.Verify(o => o.VisitChildren(It.IsAny<IRuleNode>()), Times.Never);
 
-            Assert.IsInstanceOfType(result, typeof(Statement));
+            Assert.AreSame(expectedResult, result);
             contextMock.VerifyLoopedChildren(1);
 
             contextMock.Verify();
@@ -225,9 +226,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             // Arrange
             var contextMock = GetMockRule<Python3Parser.StmtContext>();
             var compoundStmtMock = GetMockRule<Python3Parser.Compound_stmtContext>();
+            SyntaxNode expectedResult = GetStatementMock();
 
             ctorMock.Setup(o => o.VisitCompound_stmt(compoundStmtMock.Object))
-                .Returns(GetStatementMock).Verifiable();
+                .Returns(expectedResult).Verifiable();
 
             // Contains three, but should just ignore the excess as it's not part of the syntax.
             contextMock.SetupChildren(
@@ -240,7 +242,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             // Assert
             ctorMock.Verify(o => o.VisitChildren(It.IsAny<IRuleNode>()), Times.Never);
 
-            Assert.IsInstanceOfType(result, typeof(Statement));
+            Assert.AreSame(expectedResult, result);
             contextMock.VerifyLoopedChildren(1);
 
             contextMock.Verify();
@@ -257,9 +259,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
             var exprMock = GetMockRule<Python3Parser.Expr_stmtContext>();
+            SyntaxNode expectedResult = GetAssignmentMock();
 
             ctorMock.Setup(o => o.VisitExpr_stmt(exprMock.Object))
-                .Returns(GetStatementMock());
+                .Returns(expectedResult);
 
             contextMock.SetupChildren(
                 exprMock.Object
@@ -271,7 +274,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             // Assert
             ctorMock.Verify(o => o.VisitChildren(It.IsAny<IRuleNode>()), Times.Never);
 
-            Assert.IsInstanceOfType(result, typeof(StatementAssignment));
+            Assert.AreSame(expectedResult, result);
             contextMock.VerifyLoopedChildren(1);
 
             contextMock.Verify();
