@@ -2,9 +2,9 @@
 
 namespace Zifro.Compiler.Lang.Python3.Syntax.Statements
 {
-    public class StatementAssignment : Statement
+    public class Assignment : Statement
     {
-        public StatementAssignment(SourceReference source, string sourceText)
+        public Assignment(SourceReference source, string sourceText)
             : base(source, sourceText)
         {
         }

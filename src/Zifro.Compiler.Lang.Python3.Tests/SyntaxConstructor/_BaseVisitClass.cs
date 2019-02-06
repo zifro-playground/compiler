@@ -1,8 +1,10 @@
 ﻿using System.Linq;
 using Antlr4.Runtime;
+using Antlr4.Runtime.Tree;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Zifro.Compiler.Core.Entities;
+using Zifro.Compiler.Lang.Python3.Grammar;
 using Zifro.Compiler.Lang.Python3.Syntax;
 using Zifro.Compiler.Lang.Python3.Syntax.Statements;
 
@@ -23,6 +25,22 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             return new Mock<T>(ParserRuleContext.EmptyContext, 0) { CallBase = true };
         }
 
+        protected static ITerminalNode GetTerminal(int symbol)
+        {
+            var mock = new Mock<ITerminalNode>();
+            mock.Setup(o => o.Symbol).Returns(GetSymbol(symbol));
+            return mock.Object;
+        }
+
+        protected static IToken GetSymbol(int symbol)
+        {
+            var mock = new Mock<IToken>(MockBehavior.Strict);
+            mock.SetupGet(o => o.Type).Returns(symbol);
+            mock.SetupGet(o => o.Text).Returns(Python3Parser.DefaultVocabulary
+                .GetLiteralName(symbol)?.Trim('\''));
+            return mock.Object;
+        }
+
         protected Statement GetStatementMock()
         {
             return new Mock<Statement>(MockBehavior.Strict, SourceReference.ClrSource, string.Empty).Object;
@@ -30,13 +48,18 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
         protected Statement GetAssignmentMock()
         {
-            return new Mock<StatementAssignment>(MockBehavior.Strict, SourceReference.ClrSource, string.Empty).Object;
+            return new Mock<Assignment>(MockBehavior.Strict, SourceReference.ClrSource, string.Empty).Object;
         }
 
         protected StatementList GetStatementList(int count)
         {
             return new StatementList(SourceReference.ClrSource,
                 new byte[count].Select(_ => GetStatementMock()).ToArray());
+        }
+
+        protected ExpressionNode GetExpressionMock()
+        {
+            return new Mock<ExpressionNode>(MockBehavior.Strict, SourceReference.ClrSource, string.Empty).Object;
         }
 
         [TestInitialize]
