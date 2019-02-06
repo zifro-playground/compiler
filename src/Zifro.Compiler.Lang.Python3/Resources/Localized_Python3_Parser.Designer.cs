@@ -70,6 +70,15 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Användning av &apos;{0}&apos; stödjs inte än..
+        /// </summary>
+        public static string Ex_Syntax_NotYetImplemented_Keyword {
+            get {
+                return ResourceManager.GetString("Ex_Syntax_NotYetImplemented_Keyword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Oförväntad regel av typ &apos;{5}&apos; i en &apos;{4}&apos;..
         /// </summary>
         public static string Ex_Syntax_UnexpectedChildType {

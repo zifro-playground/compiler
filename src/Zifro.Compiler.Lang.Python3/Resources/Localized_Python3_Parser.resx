@@ -126,6 +126,11 @@
 {3} source end column
 {4} context rule name</comment>
   </data>
+  <data name="Ex_Syntax_NotYetImplemented_Keyword" xml:space="preserve">
+    <value>Användning av '{0}' stödjs inte än.</value>
+    <comment>Error for not yet implemented feature. Fallbacks to Localized_Exception.Ex_Syntax_NotYetImplemented from the Core project if keyword is not specified programmatically.
+{0} keyword</comment>
+  </data>
   <data name="Ex_Syntax_UnexpectedChildType" xml:space="preserve">
     <value>Oförväntad regel av typ '{5}' i en '{4}'.</value>
     <comment>If child is of wrong type. Which should only happen due to sloppy programming.

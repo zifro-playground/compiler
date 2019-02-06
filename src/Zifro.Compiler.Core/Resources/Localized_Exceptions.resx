@@ -123,7 +123,6 @@
 {0} source start line
 {1} source start column
 {2} source end line
-{3} source end column
-{4} context rule name</comment>
+{3} source end column</comment>
   </data>
 </root>

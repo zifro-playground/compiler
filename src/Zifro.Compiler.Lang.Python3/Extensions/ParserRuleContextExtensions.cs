@@ -5,6 +5,7 @@ using Antlr4.Runtime.Tree;
 using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Resources;
+using Zifro.Compiler.Lang.Python3.Exceptions;
 using Zifro.Compiler.Lang.Python3.Grammar;
 
 namespace Zifro.Compiler.Lang.Python3.Extensions
@@ -28,8 +29,12 @@ namespace Zifro.Compiler.Lang.Python3.Extensions
 
         public static SyntaxNotYetImplementedException NotYetImplementedException(this ParserRuleContext context)
         {
-            return new SyntaxNotYetImplementedException(context.GetSourceReference(),
-                Python3Parser.ruleNames[context.RuleIndex]);
+            return new SyntaxNotYetImplementedException(context.GetSourceReference());
+        }
+
+        public static SyntaxNotYetImplementedExceptionKeyword NotYetImplementedException(this ParserRuleContext context, string keyword)
+        {
+            return new SyntaxNotYetImplementedExceptionKeyword(context.GetSourceReference(), keyword);
         }
     }
 }

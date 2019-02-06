@@ -91,6 +91,7 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitCompound_stmt(Python3Parser.Compound_stmtContext context)
         {
+            VisitChildren(context);
             throw context.NotYetImplementedException();
         }
     }
