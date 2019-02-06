@@ -23,13 +23,18 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
         public override SyntaxNode VisitFile_input(Python3Parser.File_inputContext context)
         {
             // file_input: (NEWLINE | stmt)* EOF;
-            Statement[] children = context.GetChildren()
-                .Cast<Python3Parser.StmtContext>()
-                .Select(VisitStmt)
-                .Cast<Statement>()
-                .ToArray();
+            var statements = new List<Statement>();
+
+            foreach (Python3Parser.StmtContext child in context.GetChildren().Cast<Python3Parser.StmtContext>())
+            {
+                SyntaxNode result = VisitStmt(child);
+                if (result is StatementList list)
+                    statements.AddRange(list.Statements);
+                else
+                    statements.Add((Statement) result);
+            }
             
-            return new StatementList(context.GetSourceReference(), children);
+            return new StatementList(context.GetSourceReference(), statements);
         }
 
         public override SyntaxNode VisitEval_input(Python3Parser.Eval_inputContext context)
