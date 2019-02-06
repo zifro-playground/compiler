@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime.Tree;
+using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Lang.Python3.Syntax;
 
 namespace Zifro.Compiler.Lang.Python3.Grammar
@@ -7,7 +8,12 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
     {
         public override SyntaxNode VisitStmt(Python3Parser.StmtContext context)
         {
-            throw new System.NotImplementedException();
+            var simple = context.simple_stmt();
+            if (simple != null)
+                return VisitSimple_stmt(simple);
+
+            var compound = context.compound_stmt();
+            return VisitCompound_stmt(compound);
         }
 
         public override SyntaxNode VisitSimple_stmt(Python3Parser.Simple_stmtContext context)

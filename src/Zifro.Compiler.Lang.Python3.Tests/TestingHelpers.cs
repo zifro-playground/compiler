@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Zifro.Compiler.Lang.Python3.Grammar;
 using Zifro.Compiler.Lang.Python3.Syntax;
 
 namespace Zifro.Compiler.Lang.Python3.Tests
@@ -14,6 +15,21 @@ namespace Zifro.Compiler.Lang.Python3.Tests
                 .Verifiable($"Did not get start token from {typeof(T).Name}");
             context.SetupGet(o => o.Stop).Returns(tokenMock.Object)
                 .Verifiable($"Did not get stop token from {typeof(T).Name}");
+        }
+
+        public static void SetupChildren<T>(this Mock<T> contextMock,
+            params ParserRuleContext[] children)
+            where T : ParserRuleContext
+        {
+            contextMock.SetupGet(o => o.ChildCount)
+                .Returns(children.Length).Verifiable();
+
+            for (var i = 0; i < children.Length; i++)
+            {
+                int iCopy = i;
+                contextMock.Setup(o => o.GetChild(iCopy))
+                    .Returns(children[i]).Verifiable();
+            }
         }
 
         public static void IsStatementListWithCount(this Assert assert, int expected, SyntaxNode resultNode)

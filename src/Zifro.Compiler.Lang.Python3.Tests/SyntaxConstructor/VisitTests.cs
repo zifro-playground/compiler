@@ -26,7 +26,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
         protected static Mock<T> GetMockRule<T>() where T : ParserRuleContext
         {
-            return new Mock<T>(MockBehavior.Strict, ParserRuleContext.EmptyContext, 0);
+            return new Mock<T>(ParserRuleContext.EmptyContext, 0);
         }
 
         protected void ActAndAssertVisit<TContext>(Mock<TContext> contextMock,
@@ -82,14 +82,14 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             // Arrange
             var contextMock = GetMockRule<Python3Parser.File_inputContext>();
             contextMock.SetupForSourceReference(tokenMock);
-            contextMock.SetupGet(o => o.ChildCount)
-                .Returns(3).Verifiable();
 
             var stmtMock = GetMockRule<Python3Parser.StmtContext>();
-            contextMock.Setup(o => o.GetChild(It.IsInRange(0, 2, Range.Inclusive)))
-                .Returns(stmtMock.Object).Verifiable();
+            ctorMock.Setup(o => o.VisitStmt(stmtMock.Object))
+                .Returns(GetStatementMock());
 
-            ctorMock.Setup(o => o.VisitStmt(stmtMock.Object)).Returns(GetStatementMock());
+            contextMock.SetupChildren(
+                stmtMock.Object, stmtMock.Object, stmtMock.Object
+            );
 
             // Act
             SyntaxNode result = ctor.VisitFile_input(contextMock.Object);
@@ -112,7 +112,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             // Arrange
             var contextMock = GetMockRule<Python3Parser.File_inputContext>();
             contextMock.SetupForSourceReference(tokenMock);
-            contextMock.SetupGet(o => o.ChildCount).Returns(0).Verifiable();
+            contextMock.SetupChildren();
 
             // Act
             SyntaxNode result = ctor.VisitFile_input(contextMock.Object);
@@ -133,21 +133,18 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             // Arrange
             var contextMock = GetMockRule<Python3Parser.File_inputContext>();
             contextMock.SetupForSourceReference(tokenMock);
-            contextMock.SetupGet(o => o.ChildCount)
-                .Returns(3).Verifiable();
 
             var stmtMock = GetMockRule<Python3Parser.StmtContext>();
-            contextMock.Setup(o => o.GetChild(It.IsInRange(0, 1, Range.Inclusive)))
-                .Returns(stmtMock.Object).Verifiable();
-
-            ctorMock.Setup(o => o.VisitStmt(stmtMock.Object)).Returns(GetStatementMock());
+            ctorMock.Setup(o => o.VisitStmt(stmtMock.Object))
+                .Returns(GetStatementMock());
 
             var stmtWithNestedMock = GetMockRule<Python3Parser.StmtContext>();
-            contextMock.Setup(o => o.GetChild(2))
-                .Returns(stmtWithNestedMock.Object).Verifiable();
-
             ctorMock.Setup(o => o.VisitStmt(stmtWithNestedMock.Object))
                 .Returns(GetStatementList(3));
+
+            contextMock.SetupChildren(
+                stmtMock.Object, stmtMock.Object, stmtWithNestedMock.Object
+            );
 
             // Act
             SyntaxNode result = ctor.VisitFile_input(contextMock.Object);
@@ -165,31 +162,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             ctorMock.Verify();
         }
 
-
-        [TestMethod]
-        public void Stmt_Visit_Test()
-        {
-            // Arrange
-            var contextMock = GetMockRule<Python3Parser.StmtContext>();
-
-            // TODO: Replace with statement node
-            var stmtNodeMock = new Mock<SyntaxNode>();
-            var smallStmtMock = GetMockRule<Python3Parser.Small_stmtContext>();
-            ctorMock.Setup(o => o.VisitSmall_stmt(smallStmtMock.Object)).Returns(stmtNodeMock.Object);
-
-            // Act
-            ctor.VisitStmt(contextMock.Object);
-            // TODO: This is all faulty, fix pls
-            // Assert
-            ctorMock.Verify(o => o.VisitChildren(It.IsAny<IRuleNode>()), Times.Never);
-            ctorMock.VerifyNoOtherCalls();
-
-            // TODO: Verify result is statement list
-
-            contextMock.VerifyGet(o => o.ChildCount, Times.Once);
-            contextMock.VerifyNoOtherCalls();
-        }
-
         #region Stmt
 
         [TestMethod]
@@ -199,14 +171,26 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             var contextMock = GetMockRule<Python3Parser.StmtContext>();
             var simpleStmtMock = GetMockRule<Python3Parser.Simple_stmtContext>();
 
-            contextMock.Setup(o => o.GetRuleContext<Python3Parser.Simple_stmtContext>(0))
-                .Returns(simpleStmtMock.Object);
+            contextMock.SetupGet(o => o.ChildCount)
+                .Returns(1)
+                .Verifiable();
+            contextMock.Setup(o => o.GetChild(0))
+                .Returns(simpleStmtMock.Object)
+                .Verifiable();
 
-            // Act + Assert
-            ActAndAssertVisit(
-                contextMock: contextMock,
-                action: o => o.VisitStmt(contextMock.Object),
-                shouldVisit: simpleStmtMock.Object);
+            // Act
+            SyntaxNode result = ctor.VisitStmt(contextMock.Object);
+
+            // Assert
+            ctorMock.Verify(o => o.VisitChildren(It.IsAny<IRuleNode>()), Times.Never);
+
+            Assert.That.IsStatementListWithCount(1, result);
+            contextMock.VerifyLoopedChildren(1);
+
+            ctorMock.Verify(o => o.VisitSimple_stmt(simpleStmtMock.Object), Times.Once);
+
+            contextMock.Verify();
+            ctorMock.Verify();
         }
 
         [TestMethod]
@@ -224,18 +208,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 contextMock: contextMock,
                 action: o => o.VisitStmt(contextMock.Object),
                 shouldVisit: compoundStmtMock.Object);
-        }
-
-        [TestMethod]
-        public void Stmt_Visit_None_Test()
-        {
-            // Arrange
-            var contextMock = GetMockRule<Python3Parser.StmtContext>();
-
-            Action action = delegate { ctor.VisitStmt(contextMock.Object); };
-
-            // Act + Assert
-            Assert.ThrowsException<SyntaxException>(action);
         }
 
         #endregion
