@@ -70,7 +70,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void FileStmtVisit_FilledStatementList_Test()
+        public void FileStmt_Visit_FilledStatementList_Test()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.File_inputContext>();
@@ -100,7 +100,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void FileStmtVisit_EmptyStatementList_Test()
+        public void FileStmt_Visit_EmptyStatementList_Test()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.File_inputContext>();
@@ -122,7 +122,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
 
         [TestMethod]
-        public void StmtVisit_Test()
+        public void Stmt_Visit_Test()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.StmtContext>();
@@ -148,7 +148,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         #region Stmt
 
         [TestMethod]
-        public void StmtVisit_SimpleStmt_Test()
+        public void Stmt_Visit_SimpleStmt_Test()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.StmtContext>();
@@ -165,7 +165,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void StmtVisit_CompoundStmt_Test()
+        public void Stmt_Visit_CompoundStmt_Test()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.StmtContext>();
@@ -182,7 +182,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void StmtVisit_None_Test()
+        public void Stmt_Visit_None_Test()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.StmtContext>();
@@ -198,7 +198,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         #region SmallStmt
 
         [TestMethod]
-        public void SmallStmtVisit_ExprStmt_Test()
+        public void SmallStmt_Visit_ExprStmt_Test()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
@@ -215,7 +215,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void SmallStmtVisit_DelStmt_Test()
+        public void SmallStmt_Visit_DelStmt_Test()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
@@ -232,7 +232,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void SmallStmtVisit_PassStmt_Test()
+        public void SmallStmt_Visit_PassStmt_Test()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
@@ -249,7 +249,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void SmallStmtVisit_FlowStmt_Test()
+        public void SmallStmt_Visit_FlowStmt_Test()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
@@ -266,7 +266,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void SmallStmtVisit_ImportStmt_Test()
+        public void SmallStmt_Visit_ImportStmt_Test()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
@@ -283,7 +283,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void SmallStmtVisit_GlobalStmt_Test()
+        public void SmallStmt_Visit_GlobalStmt_Test()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
@@ -300,7 +300,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void SmallStmtVisit_NonLocalStmt_Test()
+        public void SmallStmt_Visit_NonLocalStmt_Test()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
@@ -317,7 +317,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void SmallStmtVisit_AssertStmt_Test()
+        public void SmallStmt_Visit_AssertStmt_Test()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
@@ -334,7 +334,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void SmallStmtVisit_None_Test()
+        public void SmallStmt_Visit_None_Test()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
