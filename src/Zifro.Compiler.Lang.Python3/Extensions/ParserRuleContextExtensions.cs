@@ -4,6 +4,8 @@ using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Exceptions;
+using Zifro.Compiler.Core.Resources;
+using Zifro.Compiler.Lang.Python3.Grammar;
 
 namespace Zifro.Compiler.Lang.Python3.Extensions
 {
@@ -22,6 +24,12 @@ namespace Zifro.Compiler.Lang.Python3.Extensions
             return new SourceReference(
                 fromRow: context.Start.Line, toRow: context.Stop.Line,
                 fromColumn: context.Start.Column, toColumn: context.Stop.Column);
+        }
+
+        public static SyntaxNotYetImplementedException NotYetImplementedException(this ParserRuleContext context)
+        {
+            return new SyntaxNotYetImplementedException(context.GetSourceReference(),
+                Python3Parser.ruleNames[context.RuleIndex]);
         }
     }
 }

@@ -50,10 +50,12 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             params object[] expectedArgs)
         {
             Assert.AreEqual(expectedLocalizedKey, exception.LocalizeKey);
-            CollectionAssert.AreEqual(expectedArgs, exception.FormatArgs);
 
-            Assert.AreEqual(expectedArgs.Length, exception.FormatArgs.Length);
-            CollectionAssert.AreEqual(expectedArgs, exception.FormatArgs);
+            Assert.AreEqual(expectedArgs.Length, exception.FormatArgs.Length, $"relevant key: {expectedLocalizedKey}");
+            for (var i = 0; i < expectedArgs.Length; i++)
+            {
+                Assert.AreEqual(expectedArgs[i], exception.FormatArgs[i], $"index: {i}");
+            }
         }
 
         public static void ErrorSyntaxFormatArgsEqual(this Assert assert,
@@ -61,8 +63,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             IToken startToken, IToken stopToken,
             params object[] expectedExcessArgs)
         {
-            Assert.AreEqual(expectedLocalizedKey, exception.LocalizeKey);
-
             object[] expected = (new object[]
             {
                 startToken.Line, startToken.Column,

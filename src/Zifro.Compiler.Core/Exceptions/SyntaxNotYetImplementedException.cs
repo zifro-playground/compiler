@@ -10,29 +10,12 @@ namespace Zifro.Compiler.Core.Exceptions
     /// </summary>
     public class SyntaxNotYetImplementedException : SyntaxException
     {
-        public SyntaxNotYetImplementedException(SourceReference source, string localizeKey,
-            string localizedMessageFormat, params object[] values)
-            : base(source, localizeKey, localizedMessageFormat, values)
+        public SyntaxNotYetImplementedException(SourceReference source, string ruleName)
+            : base(source,
+                nameof(Localized_Exceptions.Ex_Syntax_NotYetImplemented),
+                Localized_Exceptions.Ex_Syntax_NotYetImplemented,
+                ruleName)
         {
-        }
-
-        public SyntaxNotYetImplementedException(SourceReference source, string localizeKey,
-            string localizedMessage, Exception innerException)
-            : base(source, localizeKey, localizedMessage, innerException)
-        {
-        }
-
-        public SyntaxNotYetImplementedException(SourceReference source, string localizeKey,
-            string localizedMessage)
-            : base(source, localizeKey, localizedMessage)
-        {
-        }
-
-        public SyntaxNotYetImplementedException(SourceReference source)
-            : base(source, nameof(Localized_Exceptions.Ex_Syntax_NotYetImplemented),
-                Localized_Exceptions.Ex_Syntax_NotYetImplemented)
-        {
-            
         }
     }
 }

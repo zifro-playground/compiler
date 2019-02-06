@@ -21,8 +21,9 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                 return VisitCompound_stmt(compound);
 
             throw new SyntaxException(context.GetSourceReference(),
-                localizeKey: nameof(Localized_Python3_Parser.Ex_Syntax_ExpectedChild),
-                localizedMessageFormat: Localized_Python3_Parser.Ex_Syntax_ExpectedChild);
+                nameof(Localized_Python3_Parser.Ex_Syntax_ExpectedChild),
+                Localized_Python3_Parser.Ex_Syntax_ExpectedChild,
+                Python3Parser.ruleNames[context.RuleIndex]);
         }
 
         public override SyntaxNode VisitSimple_stmt(Python3Parser.Simple_stmtContext context)
@@ -32,7 +33,7 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitSmall_stmt(Python3Parser.Small_stmtContext context)
         {
-            IParseTree child = context.GetChild(0);
+            var child = context.GetChild(0) as ParserRuleContext;
 
             switch (child)
             {
@@ -46,26 +47,27 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                 case Python3Parser.Import_stmtContext _:
                 case Python3Parser.Nonlocal_stmtContext _:
                 case Python3Parser.Pass_stmtContext _:
-                    throw new SyntaxNotYetImplementedException(context.GetSourceReference());
+                    throw child.NotYetImplementedException();
 
-                case ParserRuleContext childRule:
+                case null:
+                    throw new SyntaxException(context.GetSourceReference(),
+                        nameof(Localized_Python3_Parser.Ex_Syntax_ExpectedChild),
+                        Localized_Python3_Parser.Ex_Syntax_ExpectedChild,
+                        Python3Parser.ruleNames[context.RuleIndex]);
+
+                default:
                     throw new SyntaxException(context.GetSourceReference(),
                         nameof(Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType),
                         Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType,
                         Python3Parser.ruleNames[context.RuleIndex],
-                        Python3Parser.ruleNames[childRule.RuleIndex]);
+                        Python3Parser.ruleNames[child.RuleIndex]);
 
-                case null:
-                default:
-                    throw new SyntaxException(context.GetSourceReference(),
-                        localizeKey: nameof(Localized_Python3_Parser.Ex_Syntax_ExpectedChild),
-                        localizedMessageFormat: Localized_Python3_Parser.Ex_Syntax_ExpectedChild);
             }
         }
 
         public override SyntaxNode VisitCompound_stmt(Python3Parser.Compound_stmtContext context)
         {
-            throw new SyntaxNotYetImplementedException(context.GetSourceReference());
+            throw context.NotYetImplementedException();
         }
     }
 }

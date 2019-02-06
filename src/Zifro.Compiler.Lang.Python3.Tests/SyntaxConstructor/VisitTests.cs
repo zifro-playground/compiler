@@ -25,7 +25,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
         protected static Mock<T> GetMockRule<T>() where T : ParserRuleContext
         {
-            return new Mock<T>(ParserRuleContext.EmptyContext, 0);
+            return new Mock<T>(ParserRuleContext.EmptyContext, 0) {CallBase = true};
         }
 
         protected Statement GetStatementMock()
@@ -286,8 +286,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
-            contextMock.SetupForSourceReference(tokenMock);
             var innerContextMock = GetMockRule<Python3Parser.Del_stmtContext>();
+            innerContextMock.SetupForSourceReference(tokenMock);
             contextMock.SetupChildren(innerContextMock.Object);
 
             // TODO: Add this functionality
@@ -295,7 +295,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, contextMock);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, innerContextMock);
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -305,8 +305,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
-            contextMock.SetupForSourceReference(tokenMock);
             var innerContextMock = GetMockRule<Python3Parser.Pass_stmtContext>();
+            innerContextMock.SetupForSourceReference(tokenMock);
             contextMock.SetupChildren(innerContextMock.Object);
 
             // TODO: Add this functionality
@@ -314,7 +314,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, contextMock);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, innerContextMock);
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -324,8 +324,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
-            contextMock.SetupForSourceReference(tokenMock);
             var innerContextMock = GetMockRule<Python3Parser.Flow_stmtContext>();
+            innerContextMock.SetupForSourceReference(tokenMock);
             contextMock.SetupChildren(innerContextMock.Object);
 
             // TODO: Add this functionality
@@ -333,7 +333,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, contextMock);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, innerContextMock);
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -343,8 +343,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
-            contextMock.SetupForSourceReference(tokenMock);
             var innerContextMock = GetMockRule<Python3Parser.Import_stmtContext>();
+            innerContextMock.SetupForSourceReference(tokenMock);
             contextMock.SetupChildren(innerContextMock.Object);
 
             // TODO: Add this functionality
@@ -352,7 +352,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, contextMock);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, innerContextMock);
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -362,8 +362,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
-            contextMock.SetupForSourceReference(tokenMock);
             var innerContextMock = GetMockRule<Python3Parser.Global_stmtContext>();
+            innerContextMock.SetupForSourceReference(tokenMock);
             contextMock.SetupChildren(innerContextMock.Object);
 
             // TODO: Add this functionality
@@ -371,7 +371,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, contextMock);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, innerContextMock);
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -381,8 +381,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
-            contextMock.SetupForSourceReference(tokenMock);
             var innerContextMock = GetMockRule<Python3Parser.Nonlocal_stmtContext>();
+            innerContextMock.SetupForSourceReference(tokenMock);
             contextMock.SetupChildren(innerContextMock.Object);
 
             // TODO: Add this functionality
@@ -390,7 +390,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, contextMock);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, innerContextMock);
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -400,8 +400,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
-            contextMock.SetupForSourceReference(tokenMock);
             var innerContextMock = GetMockRule<Python3Parser.Assert_stmtContext>();
+            innerContextMock.SetupForSourceReference(tokenMock);
             contextMock.SetupChildren(innerContextMock.Object);
 
             // TODO: Add this functionality
@@ -409,7 +409,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, contextMock);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, innerContextMock);
             contextMock.Verify();
             ctorMock.Verify();
         }

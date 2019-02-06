@@ -10,15 +10,11 @@ using Zifro.Compiler.Lang.Python3.Syntax.Statements;
 
 namespace Zifro.Compiler.Lang.Python3.Grammar
 {
-    public partial class Python3Parser
-    {
-    }
-
     public partial class SyntaxConstructor : Python3BaseVisitor<SyntaxNode>
     {
         public override SyntaxNode VisitSingle_input(Python3Parser.Single_inputContext context)
         {
-            throw new SyntaxNotYetImplementedException(context.GetSourceReference());
+            throw context.NotYetImplementedException();
         }
 
         public override SyntaxNode VisitFile_input(Python3Parser.File_inputContext context)
@@ -40,7 +36,7 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitEval_input(Python3Parser.Eval_inputContext context)
         {
-            throw new SyntaxNotYetImplementedException(context.GetSourceReference());
+            throw context.NotYetImplementedException();
         }
 
         private static SourceReference SourceReference(ParserRuleContext context)
