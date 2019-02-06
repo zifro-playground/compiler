@@ -72,6 +72,7 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                 case Python3Parser.Import_stmtContext _:
                 case Python3Parser.Nonlocal_stmtContext _:
                 case Python3Parser.Pass_stmtContext _:
+                    Visit(child);
                     throw child.NotYetImplementedException();
 
                 case null:

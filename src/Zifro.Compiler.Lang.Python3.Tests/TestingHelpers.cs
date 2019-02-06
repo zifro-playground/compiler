@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Resources;
+using Zifro.Compiler.Lang.Python3.Exceptions;
 using Zifro.Compiler.Lang.Python3.Grammar;
 using Zifro.Compiler.Lang.Python3.Resources;
 using Zifro.Compiler.Lang.Python3.Syntax;
@@ -97,15 +98,22 @@ namespace Zifro.Compiler.Lang.Python3.Tests
                 Python3Parser.ruleNames[context.Object.RuleIndex]);
         }
 
-        public static void ErrorNotYetImplFormatArgs<TContext>(this Assert assert,
-            SyntaxException exception, Mock<IToken> startTokenMock, Mock<IToken> stopTokenMock,
-            Mock<TContext> context)
-            where TContext : ParserRuleContext
+        public static void ErrorNotYetImplFormatArgs(this Assert assert,
+            SyntaxNotYetImplementedException exception, Mock<IToken> startTokenMock, Mock<IToken> stopTokenMock)
         {
             assert.ErrorSyntaxFormatArgsEqual(exception,
                 nameof(Localized_Exceptions.Ex_Syntax_NotYetImplemented),
+                startTokenMock.Object, stopTokenMock.Object);
+        }
+
+        public static void ErrorNotYetImplFormatArgs(this Assert assert,
+            SyntaxNotYetImplementedExceptionKeyword exception, Mock<IToken> startTokenMock, Mock<IToken> stopTokenMock,
+            string expectedKeyword)
+        {
+            assert.ErrorSyntaxFormatArgsEqual(exception,
+                nameof(Localized_Python3_Parser.Ex_Syntax_NotYetImplemented_Keyword),
                 startTokenMock.Object, stopTokenMock.Object,
-                Python3Parser.ruleNames[context.Object.RuleIndex]);
+                expectedKeyword);
         }
 
         public static void VerifyLoopedChildren<T>(this Mock<T> contextMock, int count)

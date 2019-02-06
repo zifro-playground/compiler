@@ -7,6 +7,7 @@ using Moq;
 using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Resources;
+using Zifro.Compiler.Lang.Python3.Exceptions;
 using Zifro.Compiler.Lang.Python3.Grammar;
 using Zifro.Compiler.Lang.Python3.Resources;
 using Zifro.Compiler.Lang.Python3.Syntax;
@@ -443,8 +444,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             Action action = delegate { ctor.VisitSmall_stmt(contextMock.Object); };
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, innerContextMock);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(action);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, "del");
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -462,8 +463,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             Action action = delegate { ctor.VisitSmall_stmt(contextMock.Object); };
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, innerContextMock);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(action);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, "pass");
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -482,7 +483,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, innerContextMock);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock);
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -500,8 +501,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             Action action = delegate { ctor.VisitSmall_stmt(contextMock.Object); };
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, innerContextMock);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(action);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, "import");
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -519,8 +520,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             Action action = delegate { ctor.VisitSmall_stmt(contextMock.Object); };
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, innerContextMock);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(action);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, "global");
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -538,8 +539,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             Action action = delegate { ctor.VisitSmall_stmt(contextMock.Object); };
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, innerContextMock);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(action);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, "nonlocal");
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -557,8 +558,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             Action action = delegate { ctor.VisitSmall_stmt(contextMock.Object); };
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, innerContextMock);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(action);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, "assert");
             contextMock.Verify();
             ctorMock.Verify();
         }
