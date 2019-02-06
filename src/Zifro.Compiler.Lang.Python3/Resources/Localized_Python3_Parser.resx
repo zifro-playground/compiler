@@ -118,12 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Ex_Syntax_ExpectedChild" xml:space="preserve">
-    <value>Förväntar en regel men det var tomt.</value>
+    <value>Förväntar en regel men det var tomt efter '{4}'.</value>
     <comment>If child is null in the compiling algo. Which should never happen.
 {0} source start line
 {1} source start column
 {2} source end line
-{3} source end column</comment>
+{3} source end column
+{4} context rule name</comment>
   </data>
   <data name="Ex_Syntax_UnexpectedChildType" xml:space="preserve">
     <value>Oförväntad regel av typ '{5}' i en '{4}'.</value>

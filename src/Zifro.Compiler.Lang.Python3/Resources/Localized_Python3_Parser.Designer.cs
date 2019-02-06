@@ -61,7 +61,7 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Förväntar en regel men det var tomt..
+        ///   Looks up a localized string similar to Förväntar en regel men det var tomt efter &apos;{4}&apos;..
         /// </summary>
         public static string Ex_Syntax_ExpectedChild {
             get {

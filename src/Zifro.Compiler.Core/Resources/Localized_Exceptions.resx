@@ -119,6 +119,11 @@
   </resheader>
   <data name="Ex_Syntax_NotYetImplemented" xml:space="preserve">
     <value>Denna funktion har tyvärr ej ännu blivit implementerad.</value>
-    <comment>Default string for notyetimplemented features. Used where specific error string is not specified.</comment>
+    <comment>Default string for notyetimplemented features. Used where specific error string is not specified.
+{0} source start line
+{1} source start column
+{2} source end line
+{3} source end column
+{4} context rule name</comment>
   </data>
 </root>

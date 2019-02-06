@@ -214,7 +214,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Act
             var ex = Assert.ThrowsException<SyntaxException>(action);
-            Assert.AreEqual(ex.LocalizeKey, nameof(Localized_Python3_Parser.Ex_Syntax_ExpectedChild));
+            Assert.That.ErrorExpectedChildFormatArgs(ex, tokenMock, tokenMock, contextMock);
 
             contextMock.Verify();
             ctorMock.Verify();
@@ -295,7 +295,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.AreEqual(nameof(Localized_Exceptions.Ex_Syntax_NotYetImplemented), ex.LocalizeKey);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, contextMock);
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -314,7 +314,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.AreEqual(nameof(Localized_Exceptions.Ex_Syntax_NotYetImplemented), ex.LocalizeKey);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, contextMock);
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -333,7 +333,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.AreEqual(nameof(Localized_Exceptions.Ex_Syntax_NotYetImplemented), ex.LocalizeKey);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, contextMock);
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -352,7 +352,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.AreEqual(nameof(Localized_Exceptions.Ex_Syntax_NotYetImplemented), ex.LocalizeKey);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, contextMock);
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -371,7 +371,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.AreEqual(nameof(Localized_Exceptions.Ex_Syntax_NotYetImplemented), ex.LocalizeKey);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, contextMock);
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -390,7 +390,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.AreEqual(nameof(Localized_Exceptions.Ex_Syntax_NotYetImplemented), ex.LocalizeKey);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, contextMock);
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -409,13 +409,13 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
-            Assert.AreEqual(nameof(Localized_Exceptions.Ex_Syntax_NotYetImplemented), ex.LocalizeKey);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, tokenMock, tokenMock, contextMock);
             contextMock.Verify();
             ctorMock.Verify();
         }
 
         [TestMethod]
-        public void SmallStmt_Visit_None_Test()
+        public void SmallStmt_Visit_NoChildren_Test()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
@@ -426,7 +426,26 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxException>(action);
-            Assert.AreEqual(nameof(Localized_Python3_Parser.Ex_Syntax_ExpectedChild), ex.LocalizeKey);
+            Assert.That.ErrorExpectedChildFormatArgs(ex, tokenMock, tokenMock, contextMock);
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void SmallStmt_Visit_InvalidChild_Test()
+        {
+            // Arrange
+            var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
+            contextMock.SetupForSourceReference(tokenMock);
+            var innerContextMock = GetMockRule<Python3Parser.File_inputContext>();
+            contextMock.SetupChildren(innerContextMock.Object);
+
+            Action action = delegate { ctor.VisitSmall_stmt(contextMock.Object); };
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxException>(action);
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, tokenMock, tokenMock, contextMock, innerContextMock);
+
             contextMock.Verify();
             ctorMock.Verify();
         }
