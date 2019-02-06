@@ -8,6 +8,7 @@ using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Lang.Python3.Grammar;
 using Zifro.Compiler.Lang.Python3.Syntax;
+using Zifro.Compiler.Lang.Python3.Syntax.Statements;
 
 namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 {
@@ -50,6 +51,11 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             VerifyNoOtherCallsToCtorOrNode();
         }
 
+        protected Statement GetStatementMock()
+        {
+            return new Mock<Statement>(SourceReference.ClrSource, string.Empty).Object;
+        }
+
         [TestInitialize]
         public void TestInitialize()
         {
@@ -74,16 +80,18 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             contextMock.Setup(o => o.GetChild(It.IsInRange(0, 2, Range.Inclusive)))
                 .Returns(stmtMock.Object);
 
-            ctorMock.Setup(o => o.VisitStmt(stmtMock.Object)).Returns(node);
+            ctorMock.Setup(o => o.VisitStmt(stmtMock.Object)).Returns(GetStatementMock());
 
             // Act
-            ctor.VisitFile_input(contextMock.Object);
+            SyntaxNode result = ctor.VisitFile_input(contextMock.Object);
 
             // Assert
             ctorMock.Verify(o => o.VisitChildren(It.IsAny<IRuleNode>()), Times.Never);
             ctorMock.VerifyNoOtherCalls();
 
-            // TODO: Verify result is statement list of my three nodes
+            Assert.IsInstanceOfType(result, typeof(StatementList));
+            var list = (StatementList) result;
+            Assert.AreEqual(3, list.Statements.Count);
 
             contextMock.VerifyGet(o => o.ChildCount, Times.AtLeastOnce);
             contextMock.Verify(o => o.GetChild(0), Times.Once);
