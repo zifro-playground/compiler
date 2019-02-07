@@ -7,8 +7,8 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Operators
     /// </summary>
     public abstract class UnaryOperator : ExpressionNode
     {
-        protected UnaryOperator(SourceReference source, string sourceText, ExpressionNode operand)
-            : base(source, sourceText)
+        protected UnaryOperator(SourceReference source, ExpressionNode operand)
+            : base(source)
         {
             Operand = operand;
         }

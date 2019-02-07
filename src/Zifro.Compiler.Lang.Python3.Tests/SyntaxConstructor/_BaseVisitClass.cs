@@ -45,12 +45,12 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
         protected Statement GetStatementMock()
         {
-            return new Mock<Statement>(MockBehavior.Strict, SourceReference.ClrSource, string.Empty).Object;
+            return new Mock<Statement>(MockBehavior.Strict, SourceReference.ClrSource).Object;
         }
 
         protected Statement GetAssignmentMock()
         {
-            return new Mock<Assignment>(MockBehavior.Strict, SourceReference.ClrSource, string.Empty).Object;
+            return new Mock<Assignment>(MockBehavior.Strict, SourceReference.ClrSource).Object;
         }
 
         protected StatementList GetStatementList(int count)
@@ -61,7 +61,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
         protected ExpressionNode GetExpressionMock()
         {
-            return new Mock<ExpressionNode>(MockBehavior.Strict, SourceReference.ClrSource, string.Empty).Object;
+            return new Mock<ExpressionNode>(MockBehavior.Strict, SourceReference.ClrSource).Object;
         }
 
         [TestInitialize]

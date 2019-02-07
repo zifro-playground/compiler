@@ -7,8 +7,8 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Operators
     /// </summary>
     public abstract class BinaryOperator : ExpressionNode
     {
-        protected BinaryOperator(SourceReference source, string sourceText, ExpressionNode leftOperand, ExpressionNode rightOperand)
-            : base(source, sourceText)
+        protected BinaryOperator(SourceReference source, ExpressionNode leftOperand, ExpressionNode rightOperand)
+            : base(source)
         {
             LeftOperand = leftOperand;
             RightOperand = rightOperand;

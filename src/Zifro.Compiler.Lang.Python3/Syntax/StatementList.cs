@@ -11,7 +11,7 @@ namespace Zifro.Compiler.Lang.Python3.Syntax
         public IReadOnlyList<Statement> Statements { get; set; }
 
         public StatementList(SourceReference source, IReadOnlyList<Statement> statements)
-            : base(source: source, sourceText: null)
+            : base(source)
         {
             Statements = statements;
         }

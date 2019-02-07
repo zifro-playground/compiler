@@ -4,9 +4,15 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Statements
 {
     public class Assignment : Statement
     {
-        public Assignment(SourceReference source, string sourceText)
-            : base(source, sourceText)
+        public ExpressionNode LeftOperand { get; }
+        public ExpressionNode RightOperand { get; }
+
+        public Assignment(SourceReference source,
+            ExpressionNode leftOperand, ExpressionNode rightOperand)
+            : base(source)
         {
+            LeftOperand = leftOperand;
+            RightOperand = rightOperand;
         }
     }
 }

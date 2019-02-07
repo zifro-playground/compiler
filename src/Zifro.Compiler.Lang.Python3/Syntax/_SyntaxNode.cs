@@ -4,13 +4,11 @@ namespace Zifro.Compiler.Lang.Python3.Syntax
 {
     public abstract class SyntaxNode
     {
-        protected SyntaxNode(SourceReference source, string sourceText)
+        protected SyntaxNode(SourceReference source)
         {
             Source = source;
-            SourceText = sourceText;
         }
 
         public SourceReference Source { get; }
-        public string SourceText { get; }
     }
 }

@@ -4,8 +4,8 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Literals
 {
     public abstract class Literal<T> : ExpressionNode
     {
-        protected Literal(SourceReference source, string sourceText, T value)
-            : base(source, sourceText)
+        protected Literal(SourceReference source, T value)
+            : base(source)
         {
             Value = value;
         }

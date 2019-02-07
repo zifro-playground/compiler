@@ -4,8 +4,8 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Literals
 {
     public class LiteralBoolean : Literal<bool>
     {
-        public LiteralBoolean(SourceReference source, string sourceText, bool value)
-            : base(source, sourceText, value)
+        public LiteralBoolean(SourceReference source, bool value)
+            : base(source, value)
         {
         }
     }

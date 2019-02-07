@@ -4,10 +4,10 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Operators
 {
     public class OperatorAnd : BinaryOperator
     {
-        public OperatorAnd(SourceReference source, string sourceText,
+        public OperatorAnd(SourceReference source,
             ExpressionNode leftOperand,
             ExpressionNode rightOperand)
-            : base(source, sourceText, leftOperand, rightOperand)
+            : base(source, leftOperand, rightOperand)
         {
         }
     }
