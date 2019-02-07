@@ -105,6 +105,62 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         }
 
         [TestMethod]
+        public void Visit_InvalidInlinedIfMissingTokens_Test()
+        {
+            // Arrange
+            var contextMock = GetMockRule<Python3Parser.TestContext>();
+            var orTestMock = GetMockRule<Python3Parser.Or_testContext>();
+
+            contextMock.SetupChildren(
+                orTestMock.Object,
+                GetTerminal(Python3Parser.IF)
+            );
+
+            Action action = delegate { ctor.VisitTest(contextMock.Object); };
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxException>(action);
+
+            Assert.That.ErrorExpectedChildFormatArgs(ex, startTokenMock, stopTokenMock, contextMock);
+            // Suppose error directly on IF token and count not enough
+            contextMock.VerifyLoopedChildren(2);
+
+            orTestMock.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void Visit_InvalidInlinedIfInvalidTokens_Test()
+        {
+            // Arrange
+            var contextMock = GetMockRule<Python3Parser.TestContext>();
+            var orTestMock = GetMockRule<Python3Parser.Or_testContext>();
+            var unexpectedMock = GetMockRule<Python3Parser.File_inputContext>();
+
+            contextMock.SetupChildren(
+                orTestMock.Object,
+                GetTerminal(Python3Parser.IF),
+                unexpectedMock.Object,
+                GetTerminal(Python3Parser.ARROW),
+                GetTerminal(Python3Parser.ASYNC)
+            );
+
+            Action action = delegate { ctor.VisitTest(contextMock.Object); };
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxException>(action);
+
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, unexpectedMock.Object);
+            // Suppose error directly on IF token and count not enough
+            contextMock.VerifyLoopedChildren(2);
+
+            orTestMock.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
         public void Visit_InvalidToken_Test()
         {
             // Arrange

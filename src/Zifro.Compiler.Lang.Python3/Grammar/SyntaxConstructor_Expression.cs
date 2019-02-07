@@ -129,6 +129,7 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitTest(Python3Parser.TestContext context)
         {
+
             VisitChildren(context);
             throw context.NotYetImplementedException();
         }
