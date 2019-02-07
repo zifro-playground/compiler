@@ -16,6 +16,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         protected Mock<TContextType> contextMock;
         // ReSharper restore InconsistentNaming
 
+        [TestInitialize]
         public override void TestInitialize()
         {
             contextMock = GetMockRule<TContextType>();
