@@ -224,7 +224,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             var ex = Assert.ThrowsException<SyntaxException>(action);
 
             Assert.That.ErrorExpectedChildFormatArgs(ex, startTokenMock, stopTokenMock, contextMock);
-            contextMock.VerifyLoopedChildren(1);
 
             contextMock.Verify();
             ctorMock.Verify();

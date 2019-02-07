@@ -77,6 +77,20 @@ namespace Zifro.Compiler.Lang.Python3.Extensions
                 childTerm.Symbol.Text);
         }
 
+        public static SyntaxException UnexpectedChildType(this ParserRuleContext context, IParseTree childTree)
+        {
+            switch (childTree)
+            {
+                case ITerminalNode terminal:
+                    return context.UnexpectedChildType(terminal);
+                case ParserRuleContext rule:
+                    return context.UnexpectedChildType(rule);
+
+                default:
+                    throw new InternalException("_unexpected_parse_tree_", "Unexpected tree item type: " + childTree.GetType().Name);
+            }
+        }
+
         public static SyntaxException ExpectedChild(this ParserRuleContext context)
         {
             return new SyntaxException(context.GetSourceReference(),

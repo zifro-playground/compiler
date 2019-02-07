@@ -31,7 +31,7 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                 {
                     case Python3Parser.Testlist_star_exprContext testListStarExpr
                         when (expressions.Count == 1 && lastWasAssign) ||
-                            expressions.Count == 0:
+                             expressions.Count == 0:
                         var expr = (ExpressionNode) VisitTestlist_star_expr(testListStarExpr);
                         // Append expression
                         expressions.Add(expr);
@@ -45,7 +45,9 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                         switch (expressions.Count)
                         {
                             case 0: throw context.UnexpectedChildType(term);
-                            case 1: lastWasAssign = true; continue;
+                            case 1:
+                                lastWasAssign = true;
+                                continue;
                             default: throw term.NotYetImplementedException();
                         }
 
@@ -129,9 +131,38 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitTest(Python3Parser.TestContext context)
         {
+            // test: or_test ['if' or_test 'else' test] | lambdef
 
-            VisitChildren(context);
-            throw context.NotYetImplementedException();
+            if (context.ChildCount == 0)
+                throw context.ExpectedChild();
+
+            var orTestOrLambda = context.GetChild(0);
+            switch (orTestOrLambda)
+            {
+                case ITerminalNode firstTerm:
+                    throw context.UnexpectedChildType(firstTerm);
+
+                case Python3Parser.LambdefContext _
+                    when context.ChildCount > 1:
+                    throw context.UnexpectedChildType(context.GetChild(1));
+
+                case Python3Parser.LambdefContext lambda:
+                    throw lambda.NotYetImplementedException("lambda");
+
+                case Python3Parser.Or_testContext orTest:
+                    switch (context.ChildCount)
+                    {
+                        case 1:
+                            return VisitOr_test(orTest);
+                        case 5:
+                            throw context.NotYetImplementedException("if");
+                        default:
+                            throw context.UnexpectedChildType(context.GetChild(1));
+                    }
+
+                default:
+                    throw context.UnexpectedChildType(orTestOrLambda);
+            }
         }
 
         public override SyntaxNode VisitOr_test(Python3Parser.Or_testContext context)
