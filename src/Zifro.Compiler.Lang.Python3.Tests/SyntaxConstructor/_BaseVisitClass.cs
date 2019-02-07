@@ -66,7 +66,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestInitialize]
-        public void TestInitialize()
+        public virtual void TestInitialize()
         {
             ctorMock = new Mock<Grammar.SyntaxConstructor>
             {

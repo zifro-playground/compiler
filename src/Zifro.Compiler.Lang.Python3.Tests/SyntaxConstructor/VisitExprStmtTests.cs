@@ -16,6 +16,13 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
     [TestClass]
     public class VisitExprStmtTests : BaseVisitClass
     {
+        [TestInitialize]
+        public void TestInitializeExprStmt()
+        {
+            ctorMock.Setup(o => o.VisitTestlist_star_expr(It.IsAny<Python3Parser.Testlist_star_exprContext>()))
+                .Returns(GetExpressionMock());
+        }
+
         [TestMethod]
         public void Visit_BasicAssignment_Test()
         {
@@ -23,13 +30,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             var contextMock = GetMockRule<Python3Parser.Expr_stmtContext>();
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
-            ExpressionNode expr = GetExpressionMock();
-
             var lhsMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
             var rhsMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
-
-            ctorMock.Setup(o => o.VisitTestlist_star_expr(It.IsAny<Python3Parser.Testlist_star_exprContext>()))
-                .Returns(expr);
 
             contextMock.SetupChildren(
                 lhsMock.Object,
@@ -58,10 +60,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             var contextMock = GetMockRule<Python3Parser.Expr_stmtContext>();
 
             var testListMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
-
-            ExpressionNode expr = GetExpressionMock();
-            ctorMock.Setup(o => o.VisitTestlist_star_expr(It.IsAny<Python3Parser.Testlist_star_exprContext>()))
-                .Returns(expr);
 
             ITerminalNode secondEqual = GetTerminal(Python3Parser.ASSIGN);
 
@@ -116,10 +114,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             var secondTestListMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
             secondTestListMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
-            ExpressionNode expr = GetExpressionMock();
-            ctorMock.Setup(o => o.VisitTestlist_star_expr(It.IsAny<Python3Parser.Testlist_star_exprContext>()))
-                .Returns(expr);
-
             contextMock.SetupChildren(
                 testListMock.Object,
                 secondTestListMock.Object,
@@ -153,10 +147,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             var addAssign = GetTerminal(Python3Parser.ADD_ASSIGN);
             augAssignMock.SetupChildren(addAssign);
             augAssignMock.SetupForSourceReference(startTokenMock, stopTokenMock);
-
-            ExpressionNode expr = GetExpressionMock();
-            ctorMock.Setup(o => o.VisitTestlist_star_expr(It.IsAny<Python3Parser.Testlist_star_exprContext>()))
-                .Returns(expr);
 
             contextMock.SetupChildren(
                 testListStarMock.Object,
