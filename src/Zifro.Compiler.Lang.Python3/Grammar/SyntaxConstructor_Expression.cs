@@ -60,6 +60,9 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                     case Python3Parser.AnnassignContext annassign:
                         throw annassign.NotYetImplementedException(":");
 
+                    case Python3Parser.Yield_exprContext yield:
+                        throw yield.NotYetImplementedException("yield");
+
                     case ParserRuleContext rule:
                         throw context.UnexpectedChildType(rule);
                 }
