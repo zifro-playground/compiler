@@ -38,6 +38,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             mock.SetupGet(o => o.Type).Returns(symbol);
             mock.SetupGet(o => o.Text).Returns(Python3Parser.DefaultVocabulary
                 .GetLiteralName(symbol)?.Trim('\''));
+            mock.SetupGet(o => o.Line).Returns(5);
+            mock.SetupGet(o => o.Column).Returns(6);
             return mock.Object;
         }
 

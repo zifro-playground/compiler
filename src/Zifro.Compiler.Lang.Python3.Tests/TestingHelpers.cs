@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
@@ -74,17 +75,46 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             assert.ErrorFormatArgsEqual(exception, expectedLocalizedKey, expectedArgs: expected);
         }
 
+        public static void ErrorSyntaxFormatArgsEqual(this Assert assert,
+            SyntaxException exception, string expectedLocalizedKey,
+            ITerminalNode token,
+            params object[] expectedExcessArgs)
+        {
+            object[] expected = (new object[]
+            {
+                token.Symbol.Line, token.Symbol.Column,
+                token.Symbol.Line, token.Symbol.Column + token.Symbol.Text.Length - 1
+            }).Concat(expectedExcessArgs).ToArray();
+
+            assert.ErrorFormatArgsEqual(exception, expectedLocalizedKey, expectedArgs: expected);
+        }
+
         public static void ErrorUnexpectedChildTypeFormatArgs<TContext, TChild>(this Assert assert,
             SyntaxException exception, Mock<IToken> startTokenMock, Mock<IToken> stopTokenMock,
-            Mock<TContext> context, Mock<TChild> childRule)
+            Mock<TContext> context, TChild child)
             where TContext : ParserRuleContext
-            where TChild : ParserRuleContext
+            where TChild : IParseTree
         {
-            assert.ErrorSyntaxFormatArgsEqual(exception,
-                nameof(Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType),
-                startTokenMock.Object, stopTokenMock.Object,
-                Python3Parser.ruleNames[context.Object.RuleIndex],
-                Python3Parser.ruleNames[childRule.Object.RuleIndex]);
+            switch (child)
+            {
+                case ITerminalNode term:
+                    assert.ErrorSyntaxFormatArgsEqual(exception,
+                        nameof(Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType),
+                        startTokenMock.Object, stopTokenMock.Object,
+                        Python3Parser.ruleNames[context.Object.RuleIndex],
+                        Python3Parser.DefaultVocabulary.GetSymbolicName(term.Symbol.Type));
+                    break;
+                case ParserRuleContext rule:
+                    assert.ErrorSyntaxFormatArgsEqual(exception,
+                        nameof(Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType),
+                        startTokenMock.Object, stopTokenMock.Object,
+                        Python3Parser.ruleNames[context.Object.RuleIndex],
+                        Python3Parser.ruleNames[rule.RuleIndex]);
+                    break;
+
+                default:
+                    throw new NotSupportedException();
+            }
         }
 
         public static void ErrorExpectedChildFormatArgs<TContext>(this Assert assert,
@@ -107,6 +137,14 @@ namespace Zifro.Compiler.Lang.Python3.Tests
         }
 
         public static void ErrorNotYetImplFormatArgs(this Assert assert,
+            SyntaxNotYetImplementedException exception, ITerminalNode terminal)
+        {
+            assert.ErrorSyntaxFormatArgsEqual(exception,
+                nameof(Localized_Exceptions.Ex_Syntax_NotYetImplemented),
+                terminal);
+        }
+
+        public static void ErrorNotYetImplFormatArgs(this Assert assert,
             SyntaxNotYetImplementedExceptionKeyword exception, Mock<IToken> startTokenMock, Mock<IToken> stopTokenMock,
             string expectedKeyword)
         {
@@ -114,6 +152,14 @@ namespace Zifro.Compiler.Lang.Python3.Tests
                 nameof(Localized_Python3_Parser.Ex_Syntax_NotYetImplemented_Keyword),
                 startTokenMock.Object, stopTokenMock.Object,
                 expectedKeyword);
+        }
+
+        public static void ErrorNotYetImplFormatArgs(this Assert assert,
+            SyntaxNotYetImplementedExceptionKeyword exception, ITerminalNode terminal, string keyword)
+        {
+            assert.ErrorSyntaxFormatArgsEqual(exception,
+                nameof(Localized_Python3_Parser.Ex_Syntax_NotYetImplemented_Keyword),
+                terminal, keyword);
         }
 
         public static void VerifyLoopedChildren<T>(this Mock<T> contextMock, int count)

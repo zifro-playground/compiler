@@ -587,6 +587,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
             var innerContextMock = GetMockRule<Python3Parser.File_inputContext>();
             contextMock.SetupChildren(innerContextMock.Object);
 
@@ -594,7 +595,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxException>(action);
-            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, innerContextMock);
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, innerContextMock.Object);
 
             contextMock.Verify();
             ctorMock.Verify();
