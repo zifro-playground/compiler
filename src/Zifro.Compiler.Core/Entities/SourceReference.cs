@@ -12,9 +12,27 @@ namespace Zifro.Compiler.Core.Entities
         /// </summary>
         public bool IsFromClr { get; private set; }
 
+        /// <summary>
+        /// Starting row in code. 1..n, inclusive.
+        /// </summary>
         public int FromRow { get; private set; }
+
+        /// <summary>
+        /// Ending row in code. 1..n, inclusive.
+        /// Equal to start row property <see cref="FromRow"/> if same row.
+        /// </summary>
         public int ToRow { get; private set; }
+
+        /// <summary>
+        /// Starting column in code. 0..n-1, inclusive.
+        /// </summary>
         public int FromColumn { get; private set; }
+
+        /// <summary>
+        /// Ending column in code. 0..n-1, inclusive.
+        /// Equal to start column property <see cref="FromColumn"/> if same column (and if single character).
+        /// Is 1 less than start column property <see cref="FromColumn"/> if references zero characters.
+        /// </summary>
         public int ToColumn { get; private set; }
 
         public static SourceReference ClrSource { get; } = new SourceReference
@@ -22,6 +40,17 @@ namespace Zifro.Compiler.Core.Entities
             IsFromClr = true,
         };
 
+        /// <param name="fromRow">Starting row in code. 1..n, inclusive</param>
+        /// <param name="toRow">
+        /// Ending row in code. 1..n, inclusive.
+        /// Equal to <paramref name="fromRow"/> if same row.
+        /// </param>
+        /// <param name="fromColumn">Starting column in code. 0..n-1, inclusive.</param>
+        /// <param name="toColumn">
+        /// Ending column in code. 0..n-1, inclusive.
+        /// Equal to <paramref name="fromColumn"/> if same column (and if single character).
+        /// Is 1 less than <paramref name="fromColumn"/> if references zero characters.
+        /// </param>
         public SourceReference(
             int fromRow,
             int toRow,
