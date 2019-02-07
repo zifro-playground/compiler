@@ -150,18 +150,27 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                     throw lambda.NotYetImplementedException("lambda");
 
                 case Python3Parser.Or_testContext orTest:
-                    switch (context.ChildCount)
-                    {
-                        case 1:
-                            return VisitOr_test(orTest);
-                        case 5:
-                            throw context.NotYetImplementedException("if");
-                        default:
-                            throw context.UnexpectedChildType(context.GetChild(1));
-                    }
+                    return HandleOrTest(orTest);
 
                 default:
                     throw context.UnexpectedChildType(orTestOrLambda);
+            }
+
+            SyntaxNode HandleOrTest(Python3Parser.Or_testContext orTest)
+            {
+                if (context.ChildCount == 1)
+                    return VisitOr_test(orTest);
+
+                if (context.ChildCount > 5)
+                    throw context.UnexpectedChildType(context.GetChild(4));
+
+                // test: or_test ['if' or_test 'else' test] | lambdef
+                ITerminalNode ifNode = context.GetChildOrThrow(1, Python3Parser.IF);
+                var condition = context.GetChildOrThrow<Python3Parser.Or_testContext>(2);
+                ITerminalNode elseNode = context.GetChildOrThrow(3, Python3Parser.ELSE);
+                var elseTest = context.GetChildOrThrow<Python3Parser.TestContext>(4);
+
+                throw ifNode.NotYetImplementedException();
             }
         }
 

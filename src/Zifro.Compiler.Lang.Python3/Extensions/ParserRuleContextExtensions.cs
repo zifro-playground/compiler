@@ -98,5 +98,30 @@ namespace Zifro.Compiler.Lang.Python3.Extensions
                 Localized_Python3_Parser.Ex_Syntax_ExpectedChild,
                 Python3Parser.ruleNames[context.RuleIndex]);
         }
+
+        public static ITerminalNode GetChildOrThrow(this ParserRuleContext context, int index, int expectedType)
+        {
+            if (index >= context.ChildCount)
+                throw context.ExpectedChild();
+
+            IParseTree parseTree = context.GetChild(index);
+            if (!(parseTree is ITerminalNode terminal))
+                throw context.UnexpectedChildType((ParserRuleContext)parseTree);
+            if (terminal.Symbol.Type != expectedType)
+                throw context.UnexpectedChildType(terminal);
+            return terminal;
+        }
+
+        public static T GetChildOrThrow<T>(this ParserRuleContext context, int index)
+            where T : ParserRuleContext
+        {
+            if (index >= context.ChildCount)
+                throw context.ExpectedChild();
+
+            IParseTree parseTree = context.GetChild(index);
+            if (!(parseTree is T rule))
+                throw context.UnexpectedChildType(parseTree);
+            return rule;
+        }
     }
 }

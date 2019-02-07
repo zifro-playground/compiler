@@ -77,9 +77,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             var orTestMock = GetMockRule<Python3Parser.Or_testContext>();
             var testMock = GetMockRule<Python3Parser.TestContext>();
             
-            ctorMock.Setup(o => o.VisitOr_test(orTestMock.Object))
-                .Returns(GetExpressionMock).Verifiable();
-
             ITerminalNode ifNode = GetTerminal(Python3Parser.IF);
 
             contextMock.SetupChildren(
@@ -111,6 +108,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             var contextMock = GetMockRule<Python3Parser.TestContext>();
             var orTestMock = GetMockRule<Python3Parser.Or_testContext>();
 
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
             contextMock.SetupChildren(
                 orTestMock.Object,
                 GetTerminal(Python3Parser.IF)
@@ -137,6 +136,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             var contextMock = GetMockRule<Python3Parser.TestContext>();
             var orTestMock = GetMockRule<Python3Parser.Or_testContext>();
             var unexpectedMock = GetMockRule<Python3Parser.File_inputContext>();
+
+            unexpectedMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             contextMock.SetupChildren(
                 orTestMock.Object,
