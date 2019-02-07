@@ -93,28 +93,24 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             SyntaxException exception, Mock<IToken> startTokenMock, Mock<IToken> stopTokenMock,
             Mock<TContext> context, TChild child)
             where TContext : ParserRuleContext
-            where TChild : IParseTree
+            where TChild : ParserRuleContext
         {
-            switch (child)
-            {
-                case ITerminalNode term:
-                    assert.ErrorSyntaxFormatArgsEqual(exception,
-                        nameof(Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType),
-                        startTokenMock.Object, stopTokenMock.Object,
-                        Python3Parser.ruleNames[context.Object.RuleIndex],
-                        Python3Parser.DefaultVocabulary.GetSymbolicName(term.Symbol.Type));
-                    break;
-                case ParserRuleContext rule:
-                    assert.ErrorSyntaxFormatArgsEqual(exception,
-                        nameof(Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType),
-                        startTokenMock.Object, stopTokenMock.Object,
-                        Python3Parser.ruleNames[context.Object.RuleIndex],
-                        Python3Parser.ruleNames[rule.RuleIndex]);
-                    break;
+            assert.ErrorSyntaxFormatArgsEqual(exception,
+                nameof(Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType),
+                startTokenMock.Object, stopTokenMock.Object,
+                Python3Parser.ruleNames[context.Object.RuleIndex],
+                Python3Parser.ruleNames[child.RuleIndex]);
+        }
 
-                default:
-                    throw new NotSupportedException();
-            }
+        public static void ErrorUnexpectedChildTypeFormatArgs<TContext>(this Assert assert,
+            SyntaxException exception, Mock<TContext> context, ITerminalNode child)
+            where TContext : ParserRuleContext
+        {
+            assert.ErrorSyntaxFormatArgsEqual(exception,
+                nameof(Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType),
+                child,
+                Python3Parser.ruleNames[context.Object.RuleIndex],
+                child.Symbol.Text);
         }
 
         public static void ErrorExpectedChildFormatArgs<TContext>(this Assert assert,
