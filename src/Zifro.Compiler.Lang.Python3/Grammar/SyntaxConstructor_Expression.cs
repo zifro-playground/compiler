@@ -80,6 +80,7 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitTestlist_star_expr(Python3Parser.Testlist_star_exprContext context)
         {
+            // testlist_star_expr: (test|star_expr) (',' (test|star_expr))* [',']
             VisitChildren(context);
             throw context.NotYetImplementedException();
         }
