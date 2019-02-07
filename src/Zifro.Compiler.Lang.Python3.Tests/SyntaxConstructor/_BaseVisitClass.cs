@@ -50,7 +50,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
         protected Statement GetAssignmentMock()
         {
-            return new Mock<Assignment>(MockBehavior.Strict, SourceReference.ClrSource).Object;
+            return new Mock<Assignment>(MockBehavior.Strict, SourceReference.ClrSource,
+                GetExpressionMock(), GetExpressionMock()).Object;
         }
 
         protected StatementList GetStatementList(int count)
