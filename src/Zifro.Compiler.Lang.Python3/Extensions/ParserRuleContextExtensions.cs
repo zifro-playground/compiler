@@ -22,6 +22,12 @@ namespace Zifro.Compiler.Lang.Python3.Extensions
 
         public static SourceReference GetSourceReference(this ParserRuleContext context)
         {
+#if DEBUG
+            if (context.Start == null)
+                throw new InterpreterException($"{Python3Parser.ruleNames[context.RuleIndex]}.Start == null");
+            if (context.Stop == null)
+                throw new InterpreterException($"{Python3Parser.ruleNames[context.RuleIndex]}.Stop == null");
+#endif
             return new SourceReference(
                 fromRow: context.Start.Line, toRow: context.Stop.Line,
                 fromColumn: context.Start.Column, toColumn: context.Stop.Column);
