@@ -165,11 +165,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests
         public static void VerifyLoopedChildren<T>(this Mock<T> contextMock, int count)
             where T : ParserRuleContext
         {
-            if (count <= 1)
-                contextMock.VerifyGet(o => o.ChildCount, Times.AtMost(count + 1));
-            else
-                contextMock.VerifyGet(o => o.ChildCount, Times.Exactly(count + 1));
-
             for (var i = 0; i < count; i++)
             {
                 int index = i;

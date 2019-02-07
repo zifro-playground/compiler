@@ -21,6 +21,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Expr_stmtContext>();
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             ExpressionNode expr = GetExpressionMock();
 

@@ -14,13 +14,40 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
     {
         public override SyntaxNode VisitExpr_stmt(Python3Parser.Expr_stmtContext context)
         {
-            var expressions = new List<ExpressionNode>();
+            ExpressionNode lhs = null;
+            var lastWasAssign = false;
+
             foreach (IParseTree child in context.GetChildren())
             {
                 switch (child)
                 {
-                    case ParserRuleContext rule:
+                    case Python3Parser.Testlist_star_exprContext testListStarExpr
+                        when lhs != null && lastWasAssign:
+                        var rhs = (ExpressionNode) VisitTestlist_star_expr(testListStarExpr);
+                        return new Assignment(context.GetSourceReference(),
+                            lhs, rhs);
+
+                    case Python3Parser.Testlist_star_exprContext testListStarExpr
+                        when lhs == null:
+                        lhs = (ExpressionNode) VisitTestlist_star_expr(testListStarExpr);
                         break;
+
+                    case ITerminalNode term
+                        when term.Symbol.Type == Python3Parser.ASSIGN && lhs != null:
+                        lastWasAssign = true;
+                        break;
+
+                    case ITerminalNode term:
+                        throw new SyntaxException(term.GetSourceReference(),
+                            nameof(Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType),
+                            Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType,
+                            term.Symbol.Text);
+
+                    case ParserRuleContext rule:
+                        throw new SyntaxException(rule.GetSourceReference(),
+                            nameof(Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType),
+                            Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType,
+                            Python3Parser.ruleNames[rule.RuleIndex]);
                 }
             }
 
