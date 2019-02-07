@@ -40,10 +40,5 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
         {
             throw context.NotYetImplementedException();
         }
-
-        private static SourceReference SourceReference(ParserRuleContext context)
-        {
-            return new SourceReference(context.Start.Line, context.Stop.Line, context.Start.Column, context.Stop.Column);
-        }
     }
 }

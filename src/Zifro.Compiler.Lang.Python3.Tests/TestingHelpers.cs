@@ -11,6 +11,7 @@ using Zifro.Compiler.Lang.Python3.Exceptions;
 using Zifro.Compiler.Lang.Python3.Grammar;
 using Zifro.Compiler.Lang.Python3.Resources;
 using Zifro.Compiler.Lang.Python3.Syntax;
+using Zifro.Compiler.Lang.Python3.Syntax.Operators;
 
 namespace Zifro.Compiler.Lang.Python3.Tests
 {
@@ -46,6 +47,17 @@ namespace Zifro.Compiler.Lang.Python3.Tests
         {
             Assert.IsInstanceOfType(resultNode, typeof(StatementList));
             Assert.AreEqual(expected, ((StatementList)resultNode).Statements.Count);
+        }
+
+        public static void IsBinaryOperator<TOperator>(this Assert assert, 
+            ExpressionNode expectedLhs, ExpressionNode expectedRhs,
+            SyntaxNode resultNode)
+            where TOperator : BinaryOperator
+        {
+            Assert.IsInstanceOfType(resultNode, typeof(TOperator));
+            var op = (TOperator)resultNode;
+            Assert.AreSame(expectedLhs, op.LeftOperand);
+            Assert.AreSame(expectedRhs, op.RightOperand);
         }
 
         public static void ErrorFormatArgsEqual(this Assert assert,

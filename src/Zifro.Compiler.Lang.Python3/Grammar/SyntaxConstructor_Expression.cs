@@ -2,10 +2,12 @@
 using System.Linq;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
+using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Lang.Python3.Extensions;
 using Zifro.Compiler.Lang.Python3.Resources;
 using Zifro.Compiler.Lang.Python3.Syntax;
+using Zifro.Compiler.Lang.Python3.Syntax.Operators;
 using Zifro.Compiler.Lang.Python3.Syntax.Statements;
 
 namespace Zifro.Compiler.Lang.Python3.Grammar
@@ -176,9 +178,24 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitOr_test(Python3Parser.Or_testContext context)
         {
-            if (context.GetToken(Python3Parser.OR, 0) != null)
-                throw context.NotYetImplementedException("or");
-            return VisitChildren(context);
+            // or_test: and_test ('or' and_test)*
+            var and = context.GetChildOrThrow<Python3Parser.And_testContext>(0);
+
+            var expression = VisitAnd_test(and)
+                .AsTypeOrThrow<ExpressionNode>();
+
+            for (var i = 1; i < context.ChildCount; i+=2)
+            {
+                context.GetChildOrThrow(i, Python3Parser.OR);
+
+                var secondAnd = context.GetChildOrThrow<Python3Parser.And_testContext>(i+1);
+                var secondExpression = VisitAnd_test(secondAnd)
+                    .AsTypeOrThrow<ExpressionNode>();
+
+                expression = new OperatorAnd(expression, secondExpression);
+            }
+
+            return expression;
         }
 
         public override SyntaxNode VisitAnd_test(Python3Parser.And_testContext context)

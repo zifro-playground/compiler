@@ -10,5 +10,13 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Operators
             : base(source, leftOperand, rightOperand)
         {
         }
+
+        public OperatorAnd(
+            ExpressionNode leftOperand,
+            ExpressionNode rightOperand)
+            : this(SourceReference.Merge(leftOperand.Source, rightOperand.Source),
+                leftOperand, rightOperand)
+        {
+        }
     }
 }
