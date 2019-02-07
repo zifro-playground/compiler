@@ -81,8 +81,24 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
         public override SyntaxNode VisitTestlist_star_expr(Python3Parser.Testlist_star_exprContext context)
         {
             // testlist_star_expr: (test|star_expr) (',' (test|star_expr))* [',']
-            VisitChildren(context);
-            throw context.NotYetImplementedException();
+            List<ParserRuleContext> children = context.GetChildren()
+                .OfType<ParserRuleContext>()
+                .ToList();
+
+            if (children.Count == 0)
+                throw context.ExpectedChild();
+
+            if (children.Count > 1)
+                throw children[1].NotYetImplementedException();
+
+            switch (children[0])
+            {
+                case Python3Parser.TestContext test:
+                    return VisitTest(test);
+
+                default:
+                    throw context.UnexpectedChildType(children[0]);
+            }
         }
 
         public override SyntaxNode VisitAnnassign(Python3Parser.AnnassignContext context)

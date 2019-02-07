@@ -225,16 +225,17 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
 
-            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
-
             var testMock = GetMockRule<Python3Parser.TestContext>();
+            var secondTestMock = GetMockRule<Python3Parser.TestContext>();
+
+            secondTestMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             contextMock.SetupChildren(
                 testMock.Object,
                 GetTerminal(Python3Parser.COMMA),
                 GetTerminal(Python3Parser.COMMA),
                 GetTerminal(Python3Parser.COMMA),
-                testMock.Object,
+                secondTestMock.Object,
                 GetTerminal(Python3Parser.COMMA),
                 GetTerminal(Python3Parser.COMMA),
                 testMock.Object,
