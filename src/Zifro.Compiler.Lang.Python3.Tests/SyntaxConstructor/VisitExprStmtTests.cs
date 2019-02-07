@@ -58,6 +58,11 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             var contextMock = GetMockRule<Python3Parser.Expr_stmtContext>();
 
             var testListMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
+            testListMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            ExpressionNode expr = GetExpressionMock();
+            ctorMock.Setup(o => o.VisitTestlist_star_expr(It.IsAny<Python3Parser.Testlist_star_exprContext>()))
+                .Returns(expr);
 
             ITerminalNode secondEqual = GetTerminal(Python3Parser.ASSIGN);
 

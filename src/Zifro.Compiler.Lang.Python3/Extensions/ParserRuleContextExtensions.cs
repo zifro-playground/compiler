@@ -7,6 +7,7 @@ using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Resources;
 using Zifro.Compiler.Lang.Python3.Exceptions;
 using Zifro.Compiler.Lang.Python3.Grammar;
+using Zifro.Compiler.Lang.Python3.Resources;
 
 namespace Zifro.Compiler.Lang.Python3.Extensions
 {
@@ -51,6 +52,37 @@ namespace Zifro.Compiler.Lang.Python3.Extensions
             string keyword)
         {
             return new SyntaxNotYetImplementedExceptionKeyword(context.GetSourceReference(), keyword);
+        }
+
+        public static SyntaxNotYetImplementedExceptionKeyword NotYetImplementedException(this ITerminalNode terminal)
+        {
+            return new SyntaxNotYetImplementedExceptionKeyword(terminal.GetSourceReference(), terminal.Symbol.Text);
+        }
+
+        public static SyntaxException UnexpectedChildType(this ParserRuleContext context, ParserRuleContext childRule)
+        {
+            return new SyntaxException(childRule.GetSourceReference(),
+                nameof(Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType),
+                Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType,
+                Python3Parser.ruleNames[context.RuleIndex],
+                Python3Parser.ruleNames[childRule.RuleIndex]);
+        }
+
+        public static SyntaxException UnexpectedChildType(this ParserRuleContext context, ITerminalNode childTerm)
+        {
+            return new SyntaxException(childTerm.GetSourceReference(),
+                nameof(Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType),
+                Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType,
+                Python3Parser.ruleNames[context.RuleIndex],
+                childTerm.Symbol.Text);
+        }
+
+        public static SyntaxException ExpectedChild(this ParserRuleContext context)
+        {
+            return new SyntaxException(context.GetSourceReference(),
+                nameof(Localized_Python3_Parser.Ex_Syntax_ExpectedChild),
+                Localized_Python3_Parser.Ex_Syntax_ExpectedChild,
+                Python3Parser.ruleNames[context.RuleIndex]);
         }
     }
 }

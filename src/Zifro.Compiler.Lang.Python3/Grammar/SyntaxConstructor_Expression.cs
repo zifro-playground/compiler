@@ -14,7 +14,15 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
     {
         public override SyntaxNode VisitExpr_stmt(Python3Parser.Expr_stmtContext context)
         {
-            ExpressionNode lhs = null;
+            // expr_stmt: testlist_star_expr
+            // (
+            //    annassign |
+            //    augassign (yield_expr|testlist) |
+            //    (
+            //       '=' (yield_expr | testlist_star_expr)
+            //    ) *
+            // )
+            var expressions = new List<ExpressionNode>();
             var lastWasAssign = false;
 
             foreach (IParseTree child in context.GetChildren())
@@ -22,39 +30,41 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                 switch (child)
                 {
                     case Python3Parser.Testlist_star_exprContext testListStarExpr
-                        when lhs != null && lastWasAssign:
-                        var rhs = (ExpressionNode) VisitTestlist_star_expr(testListStarExpr);
-                        return new Assignment(context.GetSourceReference(),
-                            lhs, rhs);
-
-                    case Python3Parser.Testlist_star_exprContext testListStarExpr
-                        when lhs == null:
-                        lhs = (ExpressionNode) VisitTestlist_star_expr(testListStarExpr);
+                        when (expressions.Count == 1 && lastWasAssign) ||
+                            expressions.Count == 0:
+                        var expr = (ExpressionNode) VisitTestlist_star_expr(testListStarExpr);
+                        // Append expression
+                        expressions.Add(expr);
                         break;
+
+                    case Python3Parser.Testlist_star_exprContext testListStarExpr:
+                        throw context.UnexpectedChildType(testListStarExpr);
 
                     case ITerminalNode term
-                        when term.Symbol.Type == Python3Parser.ASSIGN && lhs != null:
-                        lastWasAssign = true;
-                        break;
+                        when term.Symbol.Type == Python3Parser.ASSIGN:
+                        switch (expressions.Count)
+                        {
+                            case 0: throw context.UnexpectedChildType(term);
+                            case 1: lastWasAssign = true; continue;
+                            default: throw term.NotYetImplementedException();
+                        }
 
                     case ITerminalNode term:
-                        throw new SyntaxException(term.GetSourceReference(),
-                            nameof(Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType),
-                            Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType,
-                            term.Symbol.Text);
+                        throw context.UnexpectedChildType(term);
 
                     case ParserRuleContext rule:
-                        throw new SyntaxException(rule.GetSourceReference(),
-                            nameof(Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType),
-                            Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType,
-                            Python3Parser.ruleNames[rule.RuleIndex]);
+                        throw context.UnexpectedChildType(rule);
                 }
+
+                lastWasAssign = false;
             }
 
-            throw new SyntaxException(context.GetSourceReference(),
-                nameof(Localized_Python3_Parser.Ex_Syntax_ExpectedChild),
-                Localized_Python3_Parser.Ex_Syntax_ExpectedChild,
-                Python3Parser.ruleNames[context.RuleIndex]);
+            if (expressions.Count == 2)
+                return new Assignment(context.GetSourceReference(),
+                    leftOperand: expressions[0],
+                    rightOperand: expressions[1]);
+
+            throw context.ExpectedChild();
         }
 
         public override SyntaxNode VisitTestlist_star_expr(Python3Parser.Testlist_star_exprContext context)
