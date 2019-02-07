@@ -268,5 +268,30 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             contextMock.Verify();
             ctorMock.Verify();
         }
+
+        [TestMethod]
+        public void Visit_InvalidContext_Test()
+        {
+            // Arrange
+            var contextMock = GetMockRule<Python3Parser.Expr_stmtContext>();
+
+            var innerMocker = GetMockRule<Python3Parser.File_inputContext>();
+            innerMocker.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            contextMock.SetupChildren(
+                innerMocker.Object
+            );
+
+            Action action = delegate { ctor.VisitExpr_stmt(contextMock.Object); };
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxException>(action);
+
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, innerMocker.Object);
+            contextMock.VerifyLoopedChildren(1);
+
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
     }
 }
