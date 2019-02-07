@@ -16,7 +16,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
     public class VisitTestListStarExprTests : BaseVisitClass
     {
         [TestMethod]
-        public void Visit_SingleTest()
+        public void Visit_SingleTestTest()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
@@ -44,7 +44,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void Visit_SingleTrailingCommaTest()
+        public void Visit_SingleTestTrailingCommaTest()
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
@@ -108,6 +108,35 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
+        public void Visit_SingleStarTest()
+        {
+            // Arrange
+            var contextMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
+
+            var starMock = GetMockRule<Python3Parser.Star_exprContext>();
+
+            starMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            contextMock.SetupChildren(
+                starMock.Object
+            );
+
+            Action action = delegate { ctor.VisitTestlist_star_expr(contextMock.Object); };
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
+
+            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock);
+
+            // Should throw on 3rd, i.e. 2nd test
+            contextMock.VerifyLoopedChildren(3);
+
+            starMock.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
         public void Visit_NoChildrenTest()
         {
             // Arrange
@@ -149,6 +178,72 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             Assert.That.ErrorExpectedChildFormatArgs(ex, startTokenMock, stopTokenMock, contextMock);
             contextMock.VerifyLoopedChildren(3);
 
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void Visit_MultipleTestAndStarTest()
+        {
+            // Arrange
+            var contextMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
+
+            var testMock = GetMockRule<Python3Parser.TestContext>();
+            var starMock = GetMockRule<Python3Parser.Star_exprContext>();
+
+            starMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            contextMock.SetupChildren(
+                testMock.Object,
+                GetTerminal(Python3Parser.COMMA),
+                starMock.Object
+            );
+
+            Action action = delegate { ctor.VisitTestlist_star_expr(contextMock.Object); };
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
+
+            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock);
+
+            // Should throw on 3rd, i.e. 2nd test
+            contextMock.VerifyLoopedChildren(3);
+
+            testMock.Verify();
+            starMock.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void Visit_MultipleStarAndTestTest()
+        {
+            // Arrange
+            var contextMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
+
+            var starMock = GetMockRule<Python3Parser.Star_exprContext>();
+            var testMock = GetMockRule<Python3Parser.TestContext>();
+
+            starMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            contextMock.SetupChildren(
+                starMock.Object,
+                GetTerminal(Python3Parser.COMMA),
+                testMock.Object
+            );
+
+            Action action = delegate { ctor.VisitTestlist_star_expr(contextMock.Object); };
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
+
+            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock);
+
+            // Should throw on 3rd, i.e. 2nd test
+            contextMock.VerifyLoopedChildren(3);
+
+            testMock.Verify();
+            starMock.Verify();
             contextMock.Verify();
             ctorMock.Verify();
         }
