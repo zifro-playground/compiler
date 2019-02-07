@@ -40,6 +40,10 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                     case Python3Parser.Testlist_star_exprContext testListStarExpr:
                         throw context.UnexpectedChildType(testListStarExpr);
 
+                    case Python3Parser.AugassignContext augassign
+                        when augassign.ChildCount == 1 && augassign.GetChild(0) is ITerminalNode term:
+                        throw augassign.NotYetImplementedException(term.Symbol.Text);
+
                     case ITerminalNode term
                         when term.Symbol.Type == Python3Parser.ASSIGN:
                         switch (expressions.Count)

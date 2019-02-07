@@ -154,6 +154,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             augAssignMock.SetupChildren(addAssign);
             augAssignMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
+            ExpressionNode expr = GetExpressionMock();
+            ctorMock.Setup(o => o.VisitTestlist_star_expr(It.IsAny<Python3Parser.Testlist_star_exprContext>()))
+                .Returns(expr);
+
             contextMock.SetupChildren(
                 testListStarMock.Object,
                 augAssignMock.Object,
@@ -165,7 +169,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(action);
 
-            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, addAssign.Symbol.Text);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, "+=");
             // Should throw at 2nd
             contextMock.VerifyLoopedChildren(2);
 
