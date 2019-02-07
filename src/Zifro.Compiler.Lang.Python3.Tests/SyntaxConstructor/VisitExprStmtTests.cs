@@ -82,6 +82,26 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
+        public void Visit_Empty_Test()
+        {
+            // Arrange
+            var contextMock = GetMockRule<Python3Parser.Expr_stmtContext>();
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+            contextMock.SetupChildren();
+
+            Action action = delegate { ctor.VisitExpr_stmt(contextMock.Object); };
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxException>(action);
+
+            Assert.That.ErrorExpectedChildFormatArgs(ex, startTokenMock, stopTokenMock, contextMock);
+            contextMock.VerifyLoopedChildren(0);
+
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
         public void Visit_InvalidOrdering_Test()
         {
             // Arrange

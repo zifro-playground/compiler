@@ -1,8 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Lang.Python3.Extensions;
+using Zifro.Compiler.Lang.Python3.Resources;
 using Zifro.Compiler.Lang.Python3.Syntax;
+using Zifro.Compiler.Lang.Python3.Syntax.Statements;
 
 namespace Zifro.Compiler.Lang.Python3.Grammar
 {
@@ -10,8 +14,20 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
     {
         public override SyntaxNode VisitExpr_stmt(Python3Parser.Expr_stmtContext context)
         {
-            VisitChildren(context);
-            throw context.NotYetImplementedException();
+            var expressions = new List<ExpressionNode>();
+            foreach (IParseTree child in context.GetChildren())
+            {
+                switch (child)
+                {
+                    case ParserRuleContext rule:
+                        break;
+                }
+            }
+
+            throw new SyntaxException(context.GetSourceReference(),
+                nameof(Localized_Python3_Parser.Ex_Syntax_ExpectedChild),
+                Localized_Python3_Parser.Ex_Syntax_ExpectedChild,
+                Python3Parser.ruleNames[context.RuleIndex]);
         }
 
         public override SyntaxNode VisitTestlist_star_expr(Python3Parser.Testlist_star_exprContext context)
