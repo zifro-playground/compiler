@@ -13,14 +13,17 @@ using Zifro.Compiler.Lang.Python3.Syntax;
 namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 {
     [TestClass]
-    public class VisitTestTests : BaseVisitClass
+    public class VisitTestTests : BaseVisitClass<Python3Parser.TestContext>
     {
+        public override SyntaxNode VisitContext()
+        {
+            return ctor.VisitTest(contextMock.Object);
+        }
+
         [TestMethod]
         public void Visit_SingleOr_Test()
         {
             // Arrange
-            var contextMock = GetMockRule<Python3Parser.TestContext>();
-
             var orTestMock = GetMockRule<Python3Parser.Or_testContext>();
             var expected = GetExpressionMock();
 
@@ -32,7 +35,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
                 .Returns(expected).Verifiable();
 
             // Act
-            SyntaxNode result = ctor.VisitTest(contextMock.Object);
+            SyntaxNode result = VisitContext();
 
             // Assert
             Assert.AreSame(expected, result);
@@ -47,7 +50,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_SingleLambda_Test()
         {
             // Arrange
-            var contextMock = GetMockRule<Python3Parser.TestContext>();
             var lambdaMock = GetMockRule<Python3Parser.LambdefContext>();
 
             lambdaMock.SetupForSourceReference(startTokenMock, stopTokenMock);
@@ -56,10 +58,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
                 lambdaMock.Object
             );
 
-            Action action = delegate { ctor.VisitTest(contextMock.Object); };
-
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(action);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, "lambda");
             contextMock.VerifyLoopedChildren(1);
@@ -73,7 +73,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_SingleOrWithInlineIf_Test()
         {
             // Arrange
-            var contextMock = GetMockRule<Python3Parser.TestContext>();
             var orTestMock = GetMockRule<Python3Parser.Or_testContext>();
             var testMock = GetMockRule<Python3Parser.TestContext>();
             
@@ -87,10 +86,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
                 testMock.Object
             );
 
-            Action action = delegate { ctor.VisitTest(contextMock.Object); };
-
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(action);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, ifNode, "if");
             // Suppose error directly on IF token
@@ -105,7 +102,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_InvalidInlinedIfMissingTokens_Test()
         {
             // Arrange
-            var contextMock = GetMockRule<Python3Parser.TestContext>();
             var orTestMock = GetMockRule<Python3Parser.Or_testContext>();
 
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
@@ -115,10 +111,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
                 GetTerminal(Python3Parser.IF)
             );
 
-            Action action = delegate { ctor.VisitTest(contextMock.Object); };
-
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(action);
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             Assert.That.ErrorExpectedChildFormatArgs(ex, startTokenMock, stopTokenMock, contextMock);
             // Suppose error directly on IF token and count not enough
@@ -133,7 +127,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_InvalidInlinedIfInvalidTokens_Test()
         {
             // Arrange
-            var contextMock = GetMockRule<Python3Parser.TestContext>();
             var orTestMock = GetMockRule<Python3Parser.Or_testContext>();
             var unexpectedMock = GetMockRule<Python3Parser.File_inputContext>();
 
@@ -147,10 +140,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
                 GetTerminal(Python3Parser.ASYNC)
             );
 
-            Action action = delegate { ctor.VisitTest(contextMock.Object); };
-
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(action);
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, unexpectedMock.Object);
             // Suppose error directly on IF token and count not enough
@@ -165,17 +156,13 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_InvalidToken_Test()
         {
             // Arrange
-            var contextMock = GetMockRule<Python3Parser.TestContext>();
-
             ITerminalNode unexpectedNode = GetTerminal(Python3Parser.ASYNC);
             contextMock.SetupChildren(
                 unexpectedNode
             );
 
-            Action action = delegate { ctor.VisitTest(contextMock.Object); };
-
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(action);
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, unexpectedNode);
             contextMock.VerifyLoopedChildren(1);
@@ -188,7 +175,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_InvalidRule_Test()
         {
             // Arrange
-            var contextMock = GetMockRule<Python3Parser.TestContext>();
             var unexpectedRule = GetMockRule<Python3Parser.File_inputContext>();
 
             unexpectedRule.SetupForSourceReference(startTokenMock, stopTokenMock);
@@ -197,10 +183,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
                 unexpectedRule.Object
             );
 
-            Action action = delegate { ctor.VisitTest(contextMock.Object); };
-
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(action);
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, unexpectedRule.Object);
             contextMock.VerifyLoopedChildren(1);
@@ -214,15 +198,11 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_NoChildren_Test()
         {
             // Arrange
-            var contextMock = GetMockRule<Python3Parser.TestContext>();
-
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
             contextMock.SetupChildren();
 
-            Action action = delegate { ctor.VisitTest(contextMock.Object); };
-
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(action);
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             Assert.That.ErrorExpectedChildFormatArgs(ex, startTokenMock, stopTokenMock, contextMock);
 

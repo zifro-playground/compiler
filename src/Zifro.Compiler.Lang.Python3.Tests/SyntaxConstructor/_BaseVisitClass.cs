@@ -10,6 +10,22 @@ using Zifro.Compiler.Lang.Python3.Syntax.Statements;
 
 namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 {
+    public abstract class BaseVisitClass<TContextType> : BaseVisitClass where TContextType : ParserRuleContext
+    {
+        // ReSharper disable InconsistentNaming
+        protected Mock<TContextType> contextMock;
+        // ReSharper restore InconsistentNaming
+
+        public override void TestInitialize()
+        {
+            contextMock = GetMockRule<TContextType>();
+
+            base.TestInitialize();
+        }
+
+        public abstract SyntaxNode VisitContext();
+    }
+
     public class BaseVisitClass
     {
         // ReSharper disable InconsistentNaming
