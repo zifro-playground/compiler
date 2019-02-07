@@ -15,6 +15,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
     [TestClass]
     public class VisitTestListStarExprTests : BaseVisitClass
     {
+
         [TestMethod]
         public void Visit_SingleTestTest()
         {
@@ -128,8 +129,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock);
 
-            // Should throw on 3rd, i.e. 2nd test
-            contextMock.VerifyLoopedChildren(3);
+            contextMock.VerifyLoopedChildren(1);
 
             starMock.Verify();
             contextMock.Verify();
@@ -193,6 +193,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             starMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
+            ctorMock.Setup(o => o.VisitTest(testMock.Object))
+                .Returns(GetExpressionMock).Verifiable();
+
             contextMock.SetupChildren(
                 testMock.Object,
                 GetTerminal(Python3Parser.COMMA),
@@ -239,8 +242,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock);
 
-            // Should throw on 3rd, i.e. 2nd test
-            contextMock.VerifyLoopedChildren(3);
+            // Should throw on 1st
+            contextMock.VerifyLoopedChildren(1);
 
             testMock.Verify();
             starMock.Verify();
@@ -259,9 +262,14 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             secondTestMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
+            ctorMock.Setup(o => o.VisitTest(testMock.Object))
+                .Returns(GetExpressionMock).Verifiable();
+
             contextMock.SetupChildren(
-                testMock.Object, GetTerminal(Python3Parser.COMMA),
-                secondTestMock.Object, GetTerminal(Python3Parser.COMMA),
+                testMock.Object,
+                GetTerminal(Python3Parser.COMMA),
+                secondTestMock.Object,
+                GetTerminal(Python3Parser.COMMA),
                 testMock.Object
             );
 
@@ -292,6 +300,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             secondTestMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
+            ctorMock.Setup(o => o.VisitTest(testMock.Object))
+                .Returns(GetExpressionMock).Verifiable();
+
             contextMock.SetupChildren(
                 testMock.Object,
                 secondTestMock.Object,
@@ -305,8 +316,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock);
 
-            // Should throw on 3rd, i.e. 2nd test
-            contextMock.VerifyLoopedChildren(3);
+            contextMock.VerifyLoopedChildren(2);
 
             testMock.Verify();
             secondTestMock.Verify();
@@ -324,6 +334,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             var secondTestMock = GetMockRule<Python3Parser.TestContext>();
 
             secondTestMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            ctorMock.Setup(o => o.VisitTest(testMock.Object))
+                .Returns(GetExpressionMock).Verifiable();
 
             contextMock.SetupChildren(
                 testMock.Object,
