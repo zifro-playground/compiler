@@ -8,6 +8,7 @@ using Zifro.Compiler.Lang.Python3.Extensions;
 using Zifro.Compiler.Lang.Python3.Resources;
 using Zifro.Compiler.Lang.Python3.Syntax;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators;
+using Zifro.Compiler.Lang.Python3.Syntax.Operators.Comparisons;
 using Zifro.Compiler.Lang.Python3.Syntax.Statements;
 
 namespace Zifro.Compiler.Lang.Python3.Grammar
@@ -256,8 +257,26 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitComparison(Python3Parser.ComparisonContext context)
         {
-            VisitChildren(context);
-            throw context.NotYetImplementedException();
+            // comparison: expr (comp_op expr)*
+            var rule = context.GetChildOrThrow<Python3Parser.ExprContext>(0);
+
+            var expr = VisitExpr(rule)
+                .AsTypeOrThrow<ExpressionNode>();
+
+            for (var i = 1; i < context.ChildCount; i += 2)
+            {
+                var compRule = context.GetChildOrThrow<Python3Parser.Comp_opContext>(i);
+                var rhsRule = context.GetChildOrThrow<Python3Parser.ExprContext>(i + 1);
+
+                var compFactory = VisitComp_op(compRule)
+                    .AsTypeOrThrow<ComparisonFactory>();
+                var secondExpr = VisitExpr(rhsRule)
+                    .AsTypeOrThrow<ExpressionNode>();
+
+                expr = compFactory.Create(expr, secondExpr);
+            }
+
+            return expr;
         }
 
         public override SyntaxNode VisitComp_op(Python3Parser.Comp_opContext context)

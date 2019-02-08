@@ -34,15 +34,14 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             return ctor.VisitComparison(contextMock.Object);
         }
 
-        public Mock<Python3Parser.Comp_opContext> GetCompOpMockWithSetup()
+        public Mock<Python3Parser.Comp_opContext> GetCompOpMockWithSetup(ComparisonType compType = ComparisonType.Equals)
         {
             var mock = GetCompOpMock();
 
-            mock.SetupForSourceReference(startTokenMock, stopTokenMock);
-
             ctorMock.Setup(o => o.VisitComp_op(mock.Object))
-                .Returns(new ComparisonFactory(mock.Object.GetSourceReference(),
-                    ComparisonType.Equals)).Verifiable();
+                .Returns<Python3Parser.Comp_opContext>(o
+                    => new ComparisonFactory(o.GetSourceReference(),
+                        compType)).Verifiable();
 
             return mock;
         }
@@ -76,36 +75,14 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         }
 
         [TestMethod]
-        public void Visit_InvalidMissingRhs_Test()
-        {
-            // Arrange
-            var expected = GetExpressionMock();
-            var innerContextMock = GetInnerMockWithSetup(expected);
-            var compMock = GetCompOpMockWithSetup();
-
-            contextMock.SetupChildren(
-                innerContextMock.Object,
-                compMock.Object
-            );
-
-            // Act + Assert
-            SyntaxNode result = VisitContext();
-
-            contextMock.VerifyLoopedChildren(2);
-
-            compMock.Verify();
-            innerContextMock.Verify();
-            contextMock.Verify();
-            ctorMock.Verify();
-        }
-
-        [TestMethod]
         public void Visit_MultipleExpr_Test()
         {
             // Arrange
             var expected = GetExpressionMock();
             var innerContextMock = GetInnerMockWithSetup(expected);
             var compMock = GetCompOpMockWithSetup();
+
+            compMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             contextMock.SetupChildren(
                 innerContextMock.Object,
@@ -115,9 +92,37 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             // Act
             SyntaxNode result = VisitContext();
-            
+
             // Assert
             Assert.That.IsBinaryOperator<CompareEquals>(expected, expected, result);
+            contextMock.VerifyLoopedChildren(3);
+
+            compMock.Verify();
+            innerContextMock.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+        
+        [TestMethod]
+        public void Visit_MultipleNYIComparison_Test()
+        {
+            // Arrange
+            var expected = GetExpressionMock();
+            var innerContextMock = GetInnerMockWithSetup(expected);
+            var compMock = GetCompOpMockWithSetup(ComparisonType.NotEqualsABC);
+
+            compMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            contextMock.SetupChildren(
+                innerContextMock.Object,
+                compMock.Object,
+                innerContextMock.Object
+            );
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext);
+
+            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, "<>");
             contextMock.VerifyLoopedChildren(3);
 
             compMock.Verify();
@@ -134,24 +139,27 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             var expected2 = GetExpressionMock();
             var expected3 = GetExpressionMock();
 
-            var innerRuleMock1 = GetInnerMockWithSetup(expected1);
-            var innerRuleMock2 = GetInnerMockWithSetup(expected2);
-            var innerRuleMock3 = GetInnerMockWithSetup(expected3);
+            var innerRuleMock = GetInnerMock();
+
+            ctorMock.SetupSequence(o => o.VisitExpr(innerRuleMock.Object))
+                .Returns(expected1)
+                .Returns(expected2)
+                .Returns(expected3);
 
             var compMock = GetCompOpMockWithSetup();
+            compMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             contextMock.SetupChildren(
-                innerRuleMock1.Object,
+                innerRuleMock.Object,
                 compMock.Object,
-                innerRuleMock2.Object,
+                innerRuleMock.Object,
                 compMock.Object,
-                innerRuleMock3.Object
+                innerRuleMock.Object
             );
 
             // Act
             SyntaxNode result = VisitContext();
 
-            // Assert
             // Expect order ((1 op 2) op 3)
             // so it compiles left-to-right
             var lhs = Assert.That.IsBinaryOperatorGetLhs<CompareEquals>(
@@ -163,10 +171,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             contextMock.VerifyLoopedChildren(5);
 
+            ctorMock.Verify(o => o.VisitExpr(innerRuleMock.Object), Times.Exactly(3));
             compMock.Verify();
-            innerRuleMock1.Verify();
-            innerRuleMock2.Verify();
-            innerRuleMock3.Verify();
+            innerRuleMock.Verify();
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -175,11 +182,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_MultipleMissingLhs_Test()
         {
             // Arrange
-            var expected = GetExpressionMock();
-            var innerContextMock = GetInnerMockWithSetup(expected);
+            var innerContextMock = GetInnerMock();
             var compMock = GetCompOpMock();
 
-            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+            compMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             contextMock.SetupChildren(
                 compMock.Object,
@@ -189,8 +195,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
-            // Assert
-            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, compMock.Object);
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock,
+                compMock.Object);
             // Should error already on 1st
             contextMock.VerifyLoopedChildren(1);
 
@@ -218,8 +224,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
-            // Assert
-            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, compMock.Object);
+            Assert.That.ErrorExpectedChildFormatArgs(ex, startTokenMock, stopTokenMock, contextMock);
             contextMock.VerifyLoopedChildren(2);
 
             compMock.Verify();
@@ -246,8 +251,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
-            // Assert
-            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, unexpectedMock.Object);
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock,
+                unexpectedMock.Object);
             // Should error already on 2nd
             contextMock.VerifyLoopedChildren(2);
 
