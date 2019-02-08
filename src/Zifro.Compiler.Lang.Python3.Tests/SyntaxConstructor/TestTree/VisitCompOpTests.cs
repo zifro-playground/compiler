@@ -108,6 +108,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             contextMock.Verify();
             ctorMock.Verify();
+            ctorMock.Verify(o => o.VisitComp_op(contextMock.Object));
             ctorMock.VerifyNoOtherCalls();
         }
 
@@ -140,6 +141,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             contextMock.Verify();
             ctorMock.Verify();
+            ctorMock.Verify(o => o.VisitComp_op(contextMock.Object));
             ctorMock.VerifyNoOtherCalls();
         }
 
@@ -149,8 +151,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_InvalidDoubleFirstToken_Tests(int token1, int token2)
         {
             // Arrange
-            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
-
             ITerminalNode first = GetTerminal(token1);
             contextMock.SetupChildren(
                 first, GetTerminal(token2)
@@ -164,6 +164,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             contextMock.Verify();
             ctorMock.Verify();
+            ctorMock.Verify(o => o.VisitComp_op(contextMock.Object));
             ctorMock.VerifyNoOtherCalls();
         }
 
@@ -186,10 +187,11 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, second);
-            contextMock.VerifyLoopedChildren(1);
+            contextMock.VerifyLoopedChildren(2);
 
             contextMock.Verify();
             ctorMock.Verify();
+            ctorMock.Verify(o => o.VisitComp_op(contextMock.Object));
             ctorMock.VerifyNoOtherCalls();
         }
     }

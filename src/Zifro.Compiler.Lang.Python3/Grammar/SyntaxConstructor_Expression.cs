@@ -281,13 +281,70 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitComp_op(Python3Parser.Comp_opContext context)
         {
-            if (context.GetToken(Python3Parser.NOT_EQ_1, 0) != null)
-                throw context.NotYetImplementedException("<>");
-            var child = context.GetChild<ITerminalNode>(0);
-            if (child != null)
-                throw context.NotYetImplementedException(child.Symbol.Text);
-            throw context.NotYetImplementedException();
+            // comp_op: '<'|'>'|'=='|'>='|'<='|'<>'|'!='|
+            //    'in'|'not' 'in'|'is'|'is' 'not'
+            IParseTree first = context.GetChild(0);
+
+            if (first == null)
+                throw context.ExpectedChild();
+
+            if (!(first is ITerminalNode term))
+                throw context.UnexpectedChildType(first);
+
+            ComparisonType type = GetType(term.Symbol.Type);
+
+            if (type == ComparisonType.InNot ||
+                type == ComparisonType.IsNot)
+                ThrowIfMoreThan(2);
+            else
+                ThrowIfMoreThan(1);
+
+            return new ComparisonFactory(context.GetSourceReference(), type);
+
+            void ThrowIfMoreThan(int count)
+            {
+                if (context.ChildCount > count)
+                    throw context.UnexpectedChildType(context.GetChild(count));
+            }
+
+            ComparisonType GetType(int symbolType)
+            {
+                switch (symbolType)
+                {
+                    case Python3Parser.LESS_THAN:
+                        return ComparisonType.LessThan;
+                    case Python3Parser.GREATER_THAN:
+                        return ComparisonType.GreaterThan;
+                    case Python3Parser.EQUALS:
+                        return ComparisonType.Equals;
+                    case Python3Parser.GT_EQ:
+                        return ComparisonType.GreaterThanOrEqual;
+                    case Python3Parser.LT_EQ:
+                        return ComparisonType.LessThanOrEqual;
+                    case Python3Parser.NOT_EQ_1:
+                        return ComparisonType.NotEqualsABC;
+                    case Python3Parser.NOT_EQ_2:
+                        return ComparisonType.NotEquals;
+                    case Python3Parser.IN:
+                        return ComparisonType.In;
+
+                    case Python3Parser.IS when context.ChildCount > 1:
+                        context.GetChildOrThrow(1, Python3Parser.NOT);
+                        return ComparisonType.IsNot;
+
+                    case Python3Parser.IS:
+                        return ComparisonType.Is;
+
+                    case Python3Parser.NOT:
+                        context.GetChildOrThrow(1, Python3Parser.IN);
+                        return ComparisonType.InNot;
+
+                    default:
+                        throw context.UnexpectedChildType(term);
+                }
+            }
         }
+
 
         public override SyntaxNode VisitStar_expr(Python3Parser.Star_exprContext context)
         {
