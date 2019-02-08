@@ -24,7 +24,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
         public override ITerminalNode GetTerminalForThisClass()
         {
-            return GetTerminalForThisClass();
+            return GetTerminal(Python3Parser.IF);
         }
 
         public override void SetupForInnerMock(Mock<Python3Parser.Or_testContext> innerMock, SyntaxNode returnValue)

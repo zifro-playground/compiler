@@ -33,7 +33,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public abstract ITerminalNode GetTerminalForThisClass();
 
         [TestMethod]
-        public void Visit_InvalidToken_Test()
+        public virtual void Visit_InvalidToken_Test()
         {
             // Arrange
             ITerminalNode unexpectedNode = GetTerminal(Python3Parser.ASYNC);
@@ -53,7 +53,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         }
 
         [TestMethod]
-        public void Visit_InvalidRule_Test()
+        public virtual void Visit_InvalidRule_Test()
         {
             // Arrange
             var unexpectedRule = GetMockRule<Python3Parser.File_inputContext>();
@@ -77,7 +77,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         }
 
         [TestMethod]
-        public void Visit_NoChildren_Test()
+        public virtual void Visit_NoChildren_Test()
         {
             // Arrange
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);

@@ -16,198 +16,26 @@ using Zifro.Compiler.Lang.Python3.Syntax.Operators;
 namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 {
     [TestClass]
-    public class VisitAndTestTests
-        : BaseVisitTestClass<Python3Parser.And_testContext, Python3Parser.Not_testContext>
+    public sealed class VisitAndTestTests
+        : BaseBinaryOperatorTestClass<
+            Python3Parser.And_testContext, 
+            Python3Parser.Not_testContext,
+            OperatorAnd
+        >
     {
         public override SyntaxNode VisitContext()
         {
             return ctor.VisitAnd_test(contextMock.Object);
         }
 
-        public override void SetupForInnerMock(
-            Mock<Python3Parser.Not_testContext> innerMock,
-            SyntaxNode returnValue)
+        public override ISetup<Grammar.SyntaxConstructor, SyntaxNode> RawSetupForInnerMock(Mock<Python3Parser.Not_testContext> innerMock)
         {
-            ctorMock.Setup(o => o.VisitNot_test(innerMock.Object))
-                .Returns(returnValue).Verifiable();
+            return ctorMock.Setup(o => o.VisitNot_test(innerMock.Object));
         }
 
         public override ITerminalNode GetTerminalForThisClass()
         {
             return GetTerminal(Python3Parser.AND);
-        }
-
-        [TestMethod]
-        public void Visit_SingleRule_Test()
-        {
-            // Arrange
-            var innerRuleMock = GetInnerMock();
-            var expected = GetExpressionMock();
-
-            contextMock.SetupChildren(
-                innerRuleMock.Object
-            );
-
-            SetupForInnerMock(innerRuleMock, expected);
-
-            // Act
-            SyntaxNode result = VisitContext();
-
-            // Assert
-            Assert.AreSame(expected, result);
-            contextMock.VerifyLoopedChildren(1);
-
-            innerRuleMock.Verify();
-            contextMock.Verify();
-            ctorMock.Verify();
-        }
-        
-        [TestMethod]
-        public void Visit_MultipleRuleSingleToken_Test()
-        {
-            // Arrange
-            var innerRuleMock = GetInnerMock();
-            var expected = GetExpressionMock();
-
-            contextMock.SetupChildren(
-                innerRuleMock.Object,
-                GetTerminalForThisClass(),
-                innerRuleMock.Object
-            );
-
-            SetupForInnerMock(innerRuleMock, expected);
-
-            // Act
-            SyntaxNode result = VisitContext();
-
-            // Assert
-            Assert.That.IsBinaryOperator<OperatorAnd>(expected, expected, result);
-            contextMock.VerifyLoopedChildren(3);
-
-            innerRuleMock.Verify();
-            contextMock.Verify();
-            ctorMock.Verify();
-        }
-        
-        [TestMethod]
-        public void Visit_MultipleOpsOrder_Test()
-        {
-            // Arrange
-            var expected1 = GetExpressionMock();
-            var expected2 = GetExpressionMock();
-            var expected3 = GetExpressionMock();
-
-            var innerRuleMock1 = GetInnerMockWithSetup(expected1);
-            var innerRuleMock2 = GetInnerMockWithSetup(expected2);
-            var innerRuleMock3 = GetInnerMockWithSetup(expected3);
-
-            contextMock.SetupChildren(
-                innerRuleMock1.Object,
-                GetTerminalForThisClass(),
-                innerRuleMock2.Object,
-                GetTerminalForThisClass(),
-                innerRuleMock3.Object
-            );
-
-            // Act
-            SyntaxNode result = VisitContext();
-
-            // Assert
-            // Expect order ((1 and 2) and 3)
-            var lhs = Assert.That.IsBinaryOperatorGetLhs<OperatorAnd>(
-                expectedRhs: expected3, result);
-
-            Assert.That.IsBinaryOperator<OperatorAnd>(
-                expectedLhs: expected1, 
-                expectedRhs: expected2, lhs);
-
-            contextMock.VerifyLoopedChildren(3);
-
-            innerRuleMock1.Verify();
-            contextMock.Verify();
-            ctorMock.Verify();
-        }
-
-        [TestMethod]
-        public void Visit_InvalidMissingRhs_Test()
-        {
-            // Arrange
-            var innerRuleMock = GetInnerMock();
-
-            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
-
-            contextMock.SetupChildren(
-                innerRuleMock.Object,
-                GetTerminalForThisClass()
-            );
-
-            SetupForInnerMock(innerRuleMock, GetExpressionMock());
-
-            // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
-
-            Assert.That.ErrorExpectedChildFormatArgs(ex, startTokenMock, stopTokenMock, contextMock);
-            contextMock.VerifyLoopedChildren(2);
-
-            innerRuleMock.Verify();
-            contextMock.Verify();
-            ctorMock.Verify();
-        }
-
-        [TestMethod]
-        public void Visit_MultipleRuleInvalidToken_Test()
-        {
-            // Arrange
-            var innerRuleMock = GetInnerMock();
-
-            ITerminalNode unexpectedNode = GetTerminal(Python3Parser.OR);
-
-            contextMock.SetupChildren(
-                innerRuleMock.Object,
-                unexpectedNode,
-                innerRuleMock.Object
-            );
-
-            SetupForInnerMock(innerRuleMock, GetExpressionMock());
-
-            // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
-
-            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, unexpectedNode);
-            // Suppose error directly on token
-            contextMock.VerifyLoopedChildren(2);
-
-            contextMock.Verify();
-            ctorMock.Verify();
-        }
-
-        [TestMethod]
-        public void Visit_MultipleRuleExcessNode_Test()
-        {
-            // Arrange
-            var innerRuleMock = GetInnerMock();
-
-            ITerminalNode unexpectedNode = GetTerminalForThisClass();
-
-            contextMock.SetupChildren(
-                innerRuleMock.Object,
-                GetTerminalForThisClass(),
-                innerRuleMock.Object,
-                unexpectedNode
-            );
-
-            SetupForInnerMock(innerRuleMock, GetExpressionMock());
-
-            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
-
-            // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
-
-            Assert.That.ErrorExpectedChildFormatArgs(ex, startTokenMock, stopTokenMock, contextMock);
-            contextMock.VerifyLoopedChildren(4);
-
-            contextMock.Verify();
-            ctorMock.Verify();
         }
     }
 }
