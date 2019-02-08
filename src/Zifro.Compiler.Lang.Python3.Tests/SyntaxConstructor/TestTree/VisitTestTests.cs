@@ -153,8 +153,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, ifNode, "if");
-            // Suppose error directly on IF token
-            contextMock.VerifyLoopedChildren(2);
+            // Suppose read all, then error 'cause nyi
+            contextMock.VerifyLoopedChildren(5);
 
             innerRuleMock.Verify();
             contextMock.Verify();
@@ -185,7 +185,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             contextMock.Verify();
             ctorMock.Verify();
         }
-
+        
         [TestMethod]
         public void Visit_InvalidInlinedIfInvalidTokens_Test()
         {
@@ -207,8 +207,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, unexpectedMock.Object);
-            // Suppose error directly on IF token and count not enough
-            contextMock.VerifyLoopedChildren(2);
+            // Suppose error directly on rule
+            contextMock.VerifyLoopedChildren(3);
 
             unexpectedMock.Verify();
             innerRuleMock.Verify();

@@ -199,6 +199,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests
                 int index = i;
                 contextMock.Verify(o => o.GetChild(index), Times.Once);
             }
+
+            contextMock.Verify(o => o.GetChild(It.Is<int>(i => i < 0 || i >= count)), Times.Never);
         }
     }
 }

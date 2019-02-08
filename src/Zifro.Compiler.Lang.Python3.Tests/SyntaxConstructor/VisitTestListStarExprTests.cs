@@ -66,7 +66,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Assert
             Assert.AreSame(expected, result);
-            contextMock.VerifyLoopedChildren(1);
+            contextMock.VerifyLoopedChildren(2);
 
             testMock.Verify();
             contextMock.Verify();
@@ -388,7 +388,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
             // Assert
             Assert.AreSame(expected, result);
-            contextMock.VerifyLoopedChildren(1);
+            contextMock.VerifyLoopedChildren(2);
 
             contextMock.Verify();
             ctorMock.Verify();

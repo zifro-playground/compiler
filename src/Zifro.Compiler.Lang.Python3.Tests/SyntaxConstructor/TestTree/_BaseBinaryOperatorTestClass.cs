@@ -188,9 +188,11 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
                 expectedLhs: expected1,
                 expectedRhs: expected2, lhs);
 
-            contextMock.VerifyLoopedChildren(3);
+            contextMock.VerifyLoopedChildren(5);
 
             innerRuleMock1.Verify();
+            innerRuleMock2.Verify();
+            innerRuleMock3.Verify();
             contextMock.Verify();
             ctorMock.Verify();
         }
