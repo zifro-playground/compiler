@@ -18,8 +18,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Syntax.Operators
             // Arrange
             ExpressionNode lhs = BaseVisitClass.GetExpressionMock();
             ExpressionNode rhs = BaseVisitClass.GetExpressionMock();
-            var source = new SourceReference(1, 2, 3, 4);
-            var factory = new ComparisonFactory(source, type);
+            var factory = new ComparisonFactory(type);
 
             // Act
             Comparison result = factory.Create(lhs, rhs);
@@ -28,7 +27,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Syntax.Operators
             Assert.IsInstanceOfType(result, expectedType);
             Assert.AreSame(lhs, result.LeftOperand);
             Assert.AreSame(rhs, result.RightOperand);
-            Assert.AreEqual(source, result.Source);
         }
 
         [DataTestMethod]
@@ -47,8 +45,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Syntax.Operators
             // Arrange
             ExpressionNode lhs = BaseVisitClass.GetExpressionMock();
             ExpressionNode rhs = BaseVisitClass.GetExpressionMock();
-            var source = new SourceReference(1, 2, 3, 4);
-            var factory = new ComparisonFactory(source, inputType);
+            var factory = new ComparisonFactory(inputType);
 
             void GetResult()
             {
@@ -58,9 +55,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Syntax.Operators
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action) GetResult);
 
-            Assert.That.ErrorNotYetImplFormatArgs(ex, source, expectedKeyword);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, SourceReference.ClrSource, expectedKeyword);
             Assert.AreEqual(expectedKeyword, ex.Keyword);
-            Assert.AreEqual(source, ex.SourceReference);
         }
 
     }

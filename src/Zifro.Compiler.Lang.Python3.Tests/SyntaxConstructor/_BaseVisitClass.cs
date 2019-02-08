@@ -77,9 +77,14 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 new byte[count].Select(_ => GetStatementMock()).ToArray());
         }
 
+        public static ExpressionNode GetExpressionMock(SourceReference source)
+        {
+            return new Mock<ExpressionNode>(MockBehavior.Strict, source).Object;
+        }
+
         public static ExpressionNode GetExpressionMock()
         {
-            return new Mock<ExpressionNode>(MockBehavior.Strict, SourceReference.ClrSource).Object;
+            return GetExpressionMock(SourceReference.ClrSource);
         }
 
         [TestInitialize]

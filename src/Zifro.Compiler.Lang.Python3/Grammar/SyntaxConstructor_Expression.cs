@@ -299,7 +299,7 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
             else
                 ThrowIfMoreThan(1);
 
-            return new ComparisonFactory(context.GetSourceReference(), type);
+            return new ComparisonFactory(type);
 
             void ThrowIfMoreThan(int count)
             {

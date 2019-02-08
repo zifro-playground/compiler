@@ -11,8 +11,8 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Operators.Comparisons
         public ComparisonType Type { get; }
         public string Keyword => GetKeyword(Type);
 
-        public ComparisonFactory(SourceReference source, ComparisonType type)
-            : base(source)
+        public ComparisonFactory(ComparisonType type)
+            : base(SourceReference.ClrSource)
         {
             Type = type;
         }

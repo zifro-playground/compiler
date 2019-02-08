@@ -2,6 +2,7 @@
 using Antlr4.Runtime.Tree;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Lang.Python3.Exceptions;
 using Zifro.Compiler.Lang.Python3.Extensions;
@@ -40,8 +41,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             ctorMock.Setup(o => o.VisitComp_op(mock.Object))
                 .Returns<Python3Parser.Comp_opContext>(o
-                    => new ComparisonFactory(o.GetSourceReference(),
-                        compType)).Verifiable();
+                    => new ComparisonFactory(compType)).Verifiable();
 
             return mock;
         }
@@ -82,8 +82,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             var innerContextMock = GetInnerMockWithSetup(expected);
             var compMock = GetCompOpMockWithSetup();
 
-            compMock.SetupForSourceReference(startTokenMock, stopTokenMock);
-
             contextMock.SetupChildren(
                 innerContextMock.Object,
                 compMock.Object,
@@ -111,8 +109,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             var innerContextMock = GetInnerMockWithSetup(expected);
             var compMock = GetCompOpMockWithSetup(ComparisonType.NotEqualsABC);
 
-            compMock.SetupForSourceReference(startTokenMock, stopTokenMock);
-
             contextMock.SetupChildren(
                 innerContextMock.Object,
                 compMock.Object,
@@ -122,7 +118,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext);
 
-            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, "<>");
+            Assert.That.ErrorNotYetImplFormatArgs(ex, SourceReference.ClrSource, "<>");
             contextMock.VerifyLoopedChildren(3);
 
             compMock.Verify();
@@ -147,7 +143,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
                 .Returns(expected3);
 
             var compMock = GetCompOpMockWithSetup();
-            compMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
