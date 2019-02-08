@@ -1,8 +1,8 @@
-﻿namespace Zifro.Compiler.Lang.Python3.Syntax.Operators.Arithmetic
+﻿namespace Zifro.Compiler.Lang.Python3.Syntax.Operators.Arithmetics
 {
-    public class ArithmeticPower : BinaryOperator
+    public class ArithmeticAdd : BinaryOperator
     {
-        public ArithmeticPower(
+        public ArithmeticAdd(
             ExpressionNode leftOperand,
             ExpressionNode rightOperand)
             : base(leftOperand, rightOperand)
