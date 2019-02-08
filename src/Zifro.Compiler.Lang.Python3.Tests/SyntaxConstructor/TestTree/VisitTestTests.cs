@@ -1,6 +1,7 @@
 ﻿using System;
 using Antlr4.Runtime.Tree;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Lang.Python3.Exceptions;
 using Zifro.Compiler.Lang.Python3.Grammar;
@@ -13,26 +14,32 @@ using Zifro.Compiler.Lang.Python3.Syntax;
 namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 {
     [TestClass]
-    public class VisitTestTests : BaseVisitTestClass<Python3Parser.TestContext>
+    public class VisitTestTests
+        : BaseVisitTestClass<Python3Parser.TestContext, Python3Parser.Or_testContext>
     {
         public override SyntaxNode VisitContext()
         {
             return ctor.VisitTest(contextMock.Object);
         }
 
+        public override void SetupForInnerMock(Mock<Python3Parser.Or_testContext> innerMock, SyntaxNode returnValue)
+        {
+            ctorMock.Setup(o => o.VisitOr_test(innerMock.Object))
+                .Returns(returnValue).Verifiable();
+        }
+
         [TestMethod]
         public void Visit_SingleOr_Test()
         {
             // Arrange
-            var orTestMock = GetMockRule<Python3Parser.Or_testContext>();
+            var innerRuleMock = GetInnerMock();
             var expected = GetExpressionMock();
 
             contextMock.SetupChildren(
-                orTestMock.Object
+                innerRuleMock.Object
             );
 
-            ctorMock.Setup(o => o.VisitOr_test(orTestMock.Object))
-                .Returns(expected).Verifiable();
+            SetupForInnerMock(innerRuleMock, expected);
 
             // Act
             SyntaxNode result = VisitContext();
@@ -41,7 +48,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             Assert.AreSame(expected, result);
             contextMock.VerifyLoopedChildren(1);
 
-            orTestMock.Verify();
+            innerRuleMock.Verify();
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -73,15 +80,15 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_SingleOrWithInlineIf_Test()
         {
             // Arrange
-            var orTestMock = GetMockRule<Python3Parser.Or_testContext>();
+            var innerRuleMock = GetInnerMock();
             var testMock = GetMockRule<Python3Parser.TestContext>();
             
             ITerminalNode ifNode = GetTerminal(Python3Parser.IF);
 
             contextMock.SetupChildren(
-                orTestMock.Object,
+                innerRuleMock.Object,
                 ifNode,
-                orTestMock.Object,
+                innerRuleMock.Object,
                 GetTerminal(Python3Parser.ELSE),
                 testMock.Object
             );
@@ -93,7 +100,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Suppose error directly on IF token
             contextMock.VerifyLoopedChildren(2);
 
-            orTestMock.Verify();
+            innerRuleMock.Verify();
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -102,12 +109,12 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_InvalidInlinedIfMissingTokens_Test()
         {
             // Arrange
-            var orTestMock = GetMockRule<Python3Parser.Or_testContext>();
+            var innerRuleMock = GetInnerMock();
 
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             contextMock.SetupChildren(
-                orTestMock.Object,
+                innerRuleMock.Object,
                 GetTerminal(Python3Parser.IF)
             );
 
@@ -118,7 +125,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Suppose error directly on IF token and count not enough
             contextMock.VerifyLoopedChildren(2);
 
-            orTestMock.Verify();
+            innerRuleMock.Verify();
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -127,13 +134,13 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_InvalidInlinedIfInvalidTokens_Test()
         {
             // Arrange
-            var orTestMock = GetMockRule<Python3Parser.Or_testContext>();
+            var innerRuleMock = GetInnerMock();
             var unexpectedMock = GetMockRule<Python3Parser.File_inputContext>();
 
             unexpectedMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             contextMock.SetupChildren(
-                orTestMock.Object,
+                innerRuleMock.Object,
                 GetTerminal(Python3Parser.IF),
                 unexpectedMock.Object,
                 GetTerminal(Python3Parser.ARROW),
@@ -147,7 +154,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Suppose error directly on IF token and count not enough
             contextMock.VerifyLoopedChildren(2);
 
-            orTestMock.Verify();
+            innerRuleMock.Verify();
             contextMock.Verify();
             ctorMock.Verify();
         }
