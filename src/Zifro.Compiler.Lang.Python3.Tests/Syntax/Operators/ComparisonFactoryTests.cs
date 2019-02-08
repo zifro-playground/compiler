@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Lang.Python3.Exceptions;
 using Zifro.Compiler.Lang.Python3.Syntax;
+using Zifro.Compiler.Lang.Python3.Syntax.Operators;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators.Comparisons;
 using Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor;
 

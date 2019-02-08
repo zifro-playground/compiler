@@ -5,6 +5,7 @@ using Moq;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Lang.Python3.Grammar;
 using Zifro.Compiler.Lang.Python3.Syntax;
+using Zifro.Compiler.Lang.Python3.Syntax.Operators;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators.Comparisons;
 
 namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree

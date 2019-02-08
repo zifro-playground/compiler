@@ -8,6 +8,7 @@ using Zifro.Compiler.Lang.Python3.Exceptions;
 using Zifro.Compiler.Lang.Python3.Grammar;
 using Zifro.Compiler.Lang.Python3.Syntax;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators;
+using Zifro.Compiler.Lang.Python3.Syntax.Operators.Logicals;
 
 // ReSharper disable ConvertToLocalFunction
 // ReSharper disable SuggestVarOrType_Elsewhere
@@ -20,7 +21,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         : BaseBinaryOperatorTestClass<
             Python3Parser.And_testContext, 
             Python3Parser.Not_testContext,
-            OperatorAnd
+            LogicalAnd
         >
     {
         public override SyntaxNode VisitContext()

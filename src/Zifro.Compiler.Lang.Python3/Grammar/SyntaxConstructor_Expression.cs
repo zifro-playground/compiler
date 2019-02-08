@@ -9,6 +9,7 @@ using Zifro.Compiler.Lang.Python3.Resources;
 using Zifro.Compiler.Lang.Python3.Syntax;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators.Comparisons;
+using Zifro.Compiler.Lang.Python3.Syntax.Operators.Logicals;
 using Zifro.Compiler.Lang.Python3.Syntax.Statements;
 
 namespace Zifro.Compiler.Lang.Python3.Grammar
@@ -193,7 +194,7 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                 var secondExpr = VisitAnd_test(secondRule)
                     .AsTypeOrThrow<ExpressionNode>();
 
-                expr = new OperatorOr(expr, secondExpr);
+                expr = new LogicalOr(expr, secondExpr);
             }
 
             return expr;
@@ -214,7 +215,7 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                 var secondExpr = VisitNot_test(secondRule)
                     .AsTypeOrThrow<ExpressionNode>();
 
-                expr = new OperatorAnd(expr, secondExpr);
+                expr = new LogicalAnd(expr, secondExpr);
             }
 
             return expr;
@@ -241,7 +242,7 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                     var nestedExpr = VisitNot_test(nested)
                         .AsTypeOrThrow<ExpressionNode>();
 
-                    return new OperatorNot(context.GetSourceReference(), nestedExpr);
+                    return new LogicalNot(context.GetSourceReference(), nestedExpr);
 
                 case Python3Parser.ComparisonContext _
                     when context.ChildCount > 1:

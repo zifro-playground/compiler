@@ -5,6 +5,7 @@ using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Lang.Python3.Grammar;
 using Zifro.Compiler.Lang.Python3.Syntax;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators;
+using Zifro.Compiler.Lang.Python3.Syntax.Operators.Logicals;
 
 // ReSharper disable SuggestVarOrType_SimpleTypes
 // ReSharper disable SuggestVarOrType_Elsewhere
@@ -108,7 +109,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             SyntaxNode result = VisitContext();
 
             // Assert
-            Assert.That.IsUnaryOperator<OperatorNot>(expected, result);
+            Assert.That.IsUnaryOperator<LogicalNot>(expected, result);
             
             contextMock.VerifyLoopedChildren(2);
 
