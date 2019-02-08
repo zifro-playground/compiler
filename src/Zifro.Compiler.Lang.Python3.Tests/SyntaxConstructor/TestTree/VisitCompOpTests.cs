@@ -88,8 +88,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_ValidSingleToken_Tests(int token, ComparisonType type)
         {
             // Arrange
-            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
-
             ITerminalNode term = GetTerminal(token);
             contextMock.SetupChildren(
                 term
@@ -118,8 +116,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_ValidDoubleTokens_Tests(int token1, int token2, ComparisonType type)
         {
             // Arrange
-            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
-
             ITerminalNode term1 = GetTerminal(token1);
             ITerminalNode term2 = GetTerminal(token2);
             string expectedKeyword = $"{term1.Symbol.Text} {term2.Symbol.Text}";
