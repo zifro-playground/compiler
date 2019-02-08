@@ -59,6 +59,17 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             Assert.AreSame(expectedLhs, op.LeftOperand);
             Assert.AreSame(expectedRhs, op.RightOperand);
         }
+        
+        public static ExpressionNode IsBinaryOperatorGetLhs<TOperator>(this Assert assert,
+            ExpressionNode expectedRhs,
+            SyntaxNode resultNode)
+            where TOperator : BinaryOperator
+        {
+            Assert.IsInstanceOfType(resultNode, typeof(TOperator));
+            var op = (TOperator)resultNode;
+            Assert.AreSame(expectedRhs, op.RightOperand);
+            return op.LeftOperand;
+        }
 
         public static void ErrorFormatArgsEqual(this Assert assert,
             InterpreterLocalizedException exception, string expectedLocalizedKey,
