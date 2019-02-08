@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Zifro.Compiler.Core.Entities
 {
-    public struct SourceReference
+    public struct SourceReference : IEquatable<SourceReference>
     {
         /// <summary>
         /// Gets a source reference from the Common Language Runtime.
@@ -115,6 +115,52 @@ namespace Zifro.Compiler.Core.Entities
 
                 return value;
             }
+        }
+
+        public override string ToString()
+        {
+            if (IsFromClr)
+                return "$CLR";
+
+            if (FromRow == ToRow)
+                return $"ln{FromRow} col{FromColumn}-{ToColumn}";
+
+            return $"ln{FromRow} col{FromColumn}-ln{ToRow} col{ToColumn}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is SourceReference source && Equals(source);
+        }
+
+        public bool Equals(SourceReference other)
+        {
+            return IsFromClr == other.IsFromClr &&
+                   FromRow == other.FromRow &&
+                   ToRow == other.ToRow &&
+                   FromColumn == other.FromColumn &&
+                   ToColumn == other.ToColumn;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 57309968;
+            hashCode = hashCode * -1521134295 + IsFromClr.GetHashCode();
+            hashCode = hashCode * -1521134295 + FromRow.GetHashCode();
+            hashCode = hashCode * -1521134295 + ToRow.GetHashCode();
+            hashCode = hashCode * -1521134295 + FromColumn.GetHashCode();
+            hashCode = hashCode * -1521134295 + ToColumn.GetHashCode();
+            return hashCode;
+        }
+
+        public static bool operator ==(SourceReference reference1, SourceReference reference2)
+        {
+            return reference1.Equals(reference2);
+        }
+
+        public static bool operator !=(SourceReference reference1, SourceReference reference2)
+        {
+            return !(reference1 == reference2);
         }
     }
 }
