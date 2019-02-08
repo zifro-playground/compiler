@@ -164,9 +164,9 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                     return VisitOr_test(orTest);
 
                 if (context.ChildCount > 5)
-                    throw context.UnexpectedChildType(context.GetChild(4));
+                    throw context.UnexpectedChildType(context.GetChild(5));
 
-                // test: or_test ['if' or_test 'else' test] | lambdef
+                // expecting: or_test 'if' or_test 'else' test
                 ITerminalNode ifNode = context.GetChildOrThrow(1, Python3Parser.IF);
                 var condition = context.GetChildOrThrow<Python3Parser.Or_testContext>(2);
                 ITerminalNode elseNode = context.GetChildOrThrow(3, Python3Parser.ELSE);
@@ -179,23 +179,23 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
         public override SyntaxNode VisitOr_test(Python3Parser.Or_testContext context)
         {
             // or_test: and_test ('or' and_test)*
-            var and = context.GetChildOrThrow<Python3Parser.And_testContext>(0);
+            var rule = context.GetChildOrThrow<Python3Parser.And_testContext>(0);
 
-            var expression = VisitAnd_test(and)
+            var expr = VisitAnd_test(rule)
                 .AsTypeOrThrow<ExpressionNode>();
 
             for (var i = 1; i < context.ChildCount; i+=2)
             {
                 context.GetChildOrThrow(i, Python3Parser.OR);
 
-                var secondAnd = context.GetChildOrThrow<Python3Parser.And_testContext>(i+1);
-                var secondExpression = VisitAnd_test(secondAnd)
+                var secondRule = context.GetChildOrThrow<Python3Parser.And_testContext>(i+1);
+                var secondExpr = VisitAnd_test(secondRule)
                     .AsTypeOrThrow<ExpressionNode>();
 
-                expression = new OperatorOr(expression, secondExpression);
+                expr = new OperatorOr(expr, secondExpr);
             }
 
-            return expression;
+            return expr;
         }
 
         public override SyntaxNode VisitAnd_test(Python3Parser.And_testContext context)

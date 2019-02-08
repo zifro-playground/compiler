@@ -82,6 +82,57 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         }
 
         [TestMethod]
+        public void Visit_SingleLambdaExcessRule_Test()
+        {
+            // Arrange
+            var lambdaMock = GetMockRule<Python3Parser.LambdefContext>();
+
+            var unexpectedMock = GetMockRule<Python3Parser.File_inputContext>();
+
+            unexpectedMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            contextMock.SetupChildren(
+                lambdaMock.Object,
+                unexpectedMock.Object
+            );
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
+
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, unexpectedMock.Object);
+            contextMock.VerifyLoopedChildren(2);
+
+            lambdaMock.Verify();
+            unexpectedMock.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void Visit_SingleLambdaExcessToken_Test()
+        {
+            // Arrange
+            var lambdaMock = GetMockRule<Python3Parser.LambdefContext>();
+
+            var unexpected = GetTerminalForThisClass();
+
+            contextMock.SetupChildren(
+                lambdaMock.Object,
+                unexpected
+            );
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
+
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, unexpected);
+            contextMock.VerifyLoopedChildren(2);
+
+            lambdaMock.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
         public void Visit_SingleOrWithInlineIf_Test()
         {
             // Arrange
@@ -158,6 +209,34 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, unexpectedMock.Object);
             // Suppose error directly on IF token and count not enough
             contextMock.VerifyLoopedChildren(2);
+
+            unexpectedMock.Verify();
+            innerRuleMock.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void Visit_InvalidInlinedIfTooManyTokens_Test()
+        {
+            // Arrange
+            var innerRuleMock = GetInnerMock();
+
+            ITerminalNode unexpected = GetTerminal(Python3Parser.ASYNC);
+
+            contextMock.SetupChildren(
+                innerRuleMock.Object,
+                GetTerminalForThisClass(),
+                innerRuleMock.Object,
+                GetTerminal(Python3Parser.ELSE),
+                GetMockRule<Python3Parser.TestContext>().Object,
+                unexpected
+            );
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
+
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, unexpected);
 
             innerRuleMock.Verify();
             contextMock.Verify();
