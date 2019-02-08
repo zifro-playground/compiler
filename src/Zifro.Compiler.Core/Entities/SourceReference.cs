@@ -69,6 +69,12 @@ namespace Zifro.Compiler.Core.Entities
             if (a.IsFromClr && b.IsFromClr)
                 return a;
 
+            if (a.IsFromClr)
+                return b;
+
+            if (b.IsFromClr)
+                return a;
+
             if (b.FromRow < a.FromRow)
             {
                 a.FromRow = b.FromRow;
@@ -94,16 +100,21 @@ namespace Zifro.Compiler.Core.Entities
             return a;
         }
 
-        public static SourceReference Merge(IEnumerable<SourceReference> sources)
+        public static SourceReference Merge(params SourceReference[] sourcesParams)
         {
-            if (sources == null)
-                throw new ArgumentNullException(nameof(sources));
+            return Merge(sourcesEnumerable: sourcesParams);
+        }
 
-            using (IEnumerator<SourceReference> enumerator = sources.GetEnumerator())
+        public static SourceReference Merge(IEnumerable<SourceReference> sourcesEnumerable)
+        {
+            if (sourcesEnumerable == null)
+                throw new ArgumentNullException(nameof(sourcesEnumerable));
+
+            using (IEnumerator<SourceReference> enumerator = sourcesEnumerable.GetEnumerator())
             {
                 if (!enumerator.MoveNext())
                 {
-                    throw new ArgumentException("SourceReference enumeration is empty.", nameof(sources));
+                    throw new ArgumentException("SourceReference enumeration is empty.", nameof(sourcesEnumerable));
                 }
 
                 SourceReference value = enumerator.Current;

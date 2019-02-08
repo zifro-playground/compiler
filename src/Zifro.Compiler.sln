@@ -28,7 +28,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Lang.Base", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Lang.Base.Tests", "Zifro.Compiler.Lang.Base.Tests\Zifro.Compiler.Lang.Base.Tests.csproj", "{F5A86ED3-9A20-4FD8-A400-12CB242FC525}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zifro.Compiler.Lang.Python3.Tests", "Zifro.Compiler.Lang.Python3.Tests\Zifro.Compiler.Lang.Python3.Tests.csproj", "{DFFAA98E-A73D-470F-A00C-0DC0588F83CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Lang.Python3.Tests", "Zifro.Compiler.Lang.Python3.Tests\Zifro.Compiler.Lang.Python3.Tests.csproj", "{DFFAA98E-A73D-470F-A00C-0DC0588F83CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zifro.Compiler.Core.Tests", "Zifro.Compiler.Core.Tests\Zifro.Compiler.Core.Tests.csproj", "{F7A039FB-830D-4201-B289-EAAC2D766DC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +70,10 @@ Global
 		{DFFAA98E-A73D-470F-A00C-0DC0588F83CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFFAA98E-A73D-470F-A00C-0DC0588F83CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFFAA98E-A73D-470F-A00C-0DC0588F83CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7A039FB-830D-4201-B289-EAAC2D766DC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7A039FB-830D-4201-B289-EAAC2D766DC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7A039FB-830D-4201-B289-EAAC2D766DC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7A039FB-830D-4201-B289-EAAC2D766DC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +84,7 @@ Global
 		{2076FE8C-82BE-40F4-A37D-704085830192} = {CED85FF5-60E1-48F7-B5CC-CBB5D71C50E6}
 		{F5A86ED3-9A20-4FD8-A400-12CB242FC525} = {CED85FF5-60E1-48F7-B5CC-CBB5D71C50E6}
 		{DFFAA98E-A73D-470F-A00C-0DC0588F83CD} = {CED85FF5-60E1-48F7-B5CC-CBB5D71C50E6}
+		{F7A039FB-830D-4201-B289-EAAC2D766DC8} = {9DAE76BF-ADDC-4A2B-9CE9-035C924E23BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FA74885F-76C3-4E43-9A4C-C83A58CD986B}
