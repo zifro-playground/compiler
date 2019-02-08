@@ -5,6 +5,7 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Resources;
 using Zifro.Compiler.Lang.Python3.Exceptions;
@@ -81,6 +82,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             return op.LeftOperand;
         }
 
+        /// <summary>
+        /// Asserts the localized interpreter exception and uses the list of args
+        /// when comparing formatting arguments.
+        /// </summary>
         public static void ErrorFormatArgsEqual(this Assert assert,
             InterpreterLocalizedException exception, string expectedLocalizedKey,
             params object[] expectedArgs)
@@ -94,6 +99,11 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             }
         }
 
+        /// <summary>
+        /// Asserts the syntax exception and uses the source reference from the start token
+        /// <paramref name="startToken"/> and stop token <paramref name="stopToken"/>
+        /// when comparing formatting arguments {0} to {3}, as well as optional additional args.
+        /// </summary>
         public static void ErrorSyntaxFormatArgsEqual(this Assert assert,
             SyntaxException exception, string expectedLocalizedKey,
             IToken startToken, IToken stopToken,
@@ -108,6 +118,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             assert.ErrorFormatArgsEqual(exception, expectedLocalizedKey, expectedArgs: expected);
         }
 
+        /// <summary>
+        /// Asserts the syntax exception and uses the source reference from the parameter <paramref name="token"/>
+        /// when comparing formatting arguments {0} to {3}, as well as optional additional args.
+        /// </summary>
         public static void ErrorSyntaxFormatArgsEqual(this Assert assert,
             SyntaxException exception, string expectedLocalizedKey,
             ITerminalNode token,
@@ -122,6 +136,13 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             assert.ErrorFormatArgsEqual(exception, expectedLocalizedKey, expectedArgs: expected);
         }
 
+        /// <summary>
+        /// Asserts the syntax exception and uses the source reference from the start token
+        /// <paramref name="startTokenMock"/> and stop token <paramref name="stopTokenMock"/>
+        /// when comparing formatting arguments {0} to {3}, as well as rule names from
+        /// the containing context <paramref name="context"/> on {4}
+        /// and the rule name from the child context <paramref name="child"/> on {5}.
+        /// </summary>
         public static void ErrorUnexpectedChildTypeFormatArgs<TContext, TChild>(this Assert assert,
             SyntaxException exception, Mock<IToken> startTokenMock, Mock<IToken> stopTokenMock,
             Mock<TContext> context, TChild child)
@@ -166,11 +187,13 @@ namespace Zifro.Compiler.Lang.Python3.Tests
         }
 
         public static void ErrorNotYetImplFormatArgs(this Assert assert,
-            SyntaxNotYetImplementedException exception, ITerminalNode terminal)
+            SyntaxNotYetImplementedExceptionKeyword exception, SourceReference source, string keyword)
         {
-            assert.ErrorSyntaxFormatArgsEqual(exception,
-                nameof(Localized_Exceptions.Ex_Syntax_NotYetImplemented),
-                terminal);
+            assert.ErrorFormatArgsEqual(exception,
+                nameof(Localized_Python3_Parser.Ex_Syntax_NotYetImplemented_Keyword), 
+                source.FromRow, source.FromColumn,
+                source.ToRow, source.ToColumn,
+                keyword);
         }
 
         public static void ErrorNotYetImplFormatArgs(this Assert assert,

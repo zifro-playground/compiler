@@ -37,19 +37,19 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         protected Mock<IToken> stopTokenMock;
         // ReSharper restore InconsistentNaming
 
-        protected static Mock<T> GetMockRule<T>() where T : ParserRuleContext
+        public static Mock<T> GetMockRule<T>() where T : ParserRuleContext
         {
             return new Mock<T>(ParserRuleContext.EmptyContext, 0) { CallBase = true };
         }
 
-        protected static ITerminalNode GetTerminal(int symbol)
+        public static ITerminalNode GetTerminal(int symbol)
         {
             var mock = new Mock<ITerminalNode>();
             mock.Setup(o => o.Symbol).Returns(GetSymbol(symbol));
             return mock.Object;
         }
 
-        protected static IToken GetSymbol(int symbol)
+        public static IToken GetSymbol(int symbol)
         {
             var mock = new Mock<IToken>(MockBehavior.Strict);
             mock.SetupGet(o => o.Type).Returns(symbol);
@@ -60,24 +60,24 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             return mock.Object;
         }
 
-        protected Statement GetStatementMock()
+        public static Statement GetStatementMock()
         {
             return new Mock<Statement>(MockBehavior.Strict, SourceReference.ClrSource).Object;
         }
 
-        protected Statement GetAssignmentMock()
+        public static Statement GetAssignmentMock()
         {
             return new Mock<Assignment>(MockBehavior.Strict, SourceReference.ClrSource,
                 GetExpressionMock(), GetExpressionMock()).Object;
         }
 
-        protected StatementList GetStatementList(int count)
+        public static StatementList GetStatementList(int count)
         {
             return new StatementList(SourceReference.ClrSource,
                 new byte[count].Select(_ => GetStatementMock()).ToArray());
         }
 
-        protected ExpressionNode GetExpressionMock()
+        public static ExpressionNode GetExpressionMock()
         {
             return new Mock<ExpressionNode>(MockBehavior.Strict, SourceReference.ClrSource).Object;
         }
