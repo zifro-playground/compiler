@@ -12,8 +12,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Syntax.Operators
     public class ComparisonFactoryTests
     {
         [DataTestMethod]
-        [DataRow(ComparisonType.Equals, typeof(CompareEquals), DisplayName = "factory create ==")]
-        public void FactoryCreateValid_Test(ComparisonType type, Type expectedType)
+        [DataRow(typeof(CompareEquals), ComparisonType.Equals,
+            DisplayName = "factory create ==")]
+        public void FactoryCreateValid_Test(Type expectedType, ComparisonType type)
         {
             // Arrange
             ExpressionNode lhs = BaseVisitClass.GetExpressionMock();
@@ -30,17 +31,27 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Syntax.Operators
         }
 
         [DataTestMethod]
-        [DataRow(ComparisonType.LessThan, "<", DisplayName = "factory create <")]
-        [DataRow(ComparisonType.LessThanOrEqual, "<=", DisplayName = "factory create <=")]
-        [DataRow(ComparisonType.GreaterThan, ">", DisplayName = "factory create >")]
-        [DataRow(ComparisonType.GreaterThanOrEqual, ">=", DisplayName = "factory create >=")]
-        [DataRow(ComparisonType.NotEquals, "!=", DisplayName = "factory create !=")]
-        [DataRow(ComparisonType.NotEqualsABC, "<>", DisplayName = "factory create <>")]
-        [DataRow(ComparisonType.In, "in", DisplayName = "factory create in")]
-        [DataRow(ComparisonType.InNot, "not in", DisplayName = "factory create not in")]
-        [DataRow(ComparisonType.Is, "is", DisplayName = "factory create is")]
-        [DataRow(ComparisonType.IsNot, "is not", DisplayName = "factory create is not")]
-        public void FactoryCreateNYI_Test(ComparisonType inputType, string expectedKeyword)
+        [DataRow("<", ComparisonType.LessThan,
+            DisplayName = "factory create <")]
+        [DataRow("<=", ComparisonType.LessThanOrEqual,
+            DisplayName = "factory create <=")]
+        [DataRow(">", ComparisonType.GreaterThan,
+            DisplayName = "factory create >")]
+        [DataRow(">=", ComparisonType.GreaterThanOrEqual,
+            DisplayName = "factory create >=")]
+        [DataRow("!=", ComparisonType.NotEquals,
+            DisplayName = "factory create !=")]
+        [DataRow("<>", ComparisonType.NotEqualsABC,
+            DisplayName = "factory create <>")]
+        [DataRow("in", ComparisonType.In,
+            DisplayName = "factory create in")]
+        [DataRow("not in", ComparisonType.InNot,
+            DisplayName = "factory create not in")]
+        [DataRow("is", ComparisonType.Is,
+            DisplayName = "factory create is")]
+        [DataRow("is not", ComparisonType.IsNot,
+            DisplayName = "factory create is not")]
+        public void FactoryCreateNYI_Test(string expectedKeyword, ComparisonType inputType)
         {
             // Arrange
             ExpressionNode lhs = BaseVisitClass.GetExpressionMock();
