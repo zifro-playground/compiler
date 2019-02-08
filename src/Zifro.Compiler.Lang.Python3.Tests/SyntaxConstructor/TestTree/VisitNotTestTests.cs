@@ -66,8 +66,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_MultipleComparisions_Test()
         {
             // Arrange
-            var innerRuleMock = GetInnerMockWithSetup(GetExpressionMock());
-
+            var innerRuleMock = GetInnerMock();
             var unexpectedMock = GetInnerMock();
 
             contextMock.SetupChildren(
@@ -103,12 +102,14 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             SetupForNotMock(innerRuleMock, expected);
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             // Act
             SyntaxNode result = VisitContext();
 
             // Assert
             Assert.That.IsUnaryOperator<OperatorNot>(expected, result);
+            
             contextMock.VerifyLoopedChildren(2);
 
             innerRuleMock.Verify();
@@ -128,8 +129,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
                 unexpected,
                 innerRuleMock.Object
             );
-
-            SetupForNotMock(innerRuleMock, GetExpressionMock());
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
@@ -155,8 +154,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
                 innerRuleMock.Object,
                 unexpected
             );
-
-            SetupForNotMock(innerRuleMock, GetExpressionMock());
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
@@ -211,8 +208,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             unexpectedMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
-            SetupForNotMock(innerRuleMock, GetExpressionMock());
-
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
@@ -236,8 +231,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
                 unexpected,
                 innerRuleMock.Object
             );
-
-            SetupForNotMock(innerRuleMock, GetExpressionMock());
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);

@@ -221,9 +221,37 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitNot_test(Python3Parser.Not_testContext context)
         {
-            if (context.GetToken(Python3Parser.NOT, 0) != null)
-                throw context.NotYetImplementedException("not");
-            return VisitChildren(context);
+            // not_test: 'not' not_test | comparison
+            var first = context.GetChild(0)
+                        ?? throw context.ExpectedChild();
+
+            switch (first)
+            {
+                case ITerminalNode term
+                    when term.Symbol.Type != Python3Parser.NOT:
+                    throw context.UnexpectedChildType(term);
+
+                case ITerminalNode _:
+                    var nested = context.GetChildOrThrow<Python3Parser.Not_testContext>(1);
+
+                    if (context.ChildCount > 2)
+                        throw context.UnexpectedChildType(context.GetChild(2));
+
+                    var nestedExpr = VisitNot_test(nested)
+                        .AsTypeOrThrow<ExpressionNode>();
+
+                    return new OperatorNot(context.GetSourceReference(), nestedExpr);
+
+                case Python3Parser.ComparisonContext _
+                    when context.ChildCount > 1:
+                    throw context.UnexpectedChildType(context.GetChild(1));
+
+                case Python3Parser.ComparisonContext comp:
+                    return VisitComparison(comp);
+
+                default:
+                    throw context.UnexpectedChildType(first);
+            }
         }
 
         public override SyntaxNode VisitComparison(Python3Parser.ComparisonContext context)
