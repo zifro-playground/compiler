@@ -2,8 +2,13 @@
 using Antlr4.Runtime.Tree;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Zifro.Compiler.Core.Exceptions;
+using Zifro.Compiler.Lang.Python3.Exceptions;
+using Zifro.Compiler.Lang.Python3.Extensions;
 using Zifro.Compiler.Lang.Python3.Grammar;
 using Zifro.Compiler.Lang.Python3.Syntax;
+using Zifro.Compiler.Lang.Python3.Syntax.Operators.Comparisons;
+
 // ReSharper disable SuggestVarOrType_SimpleTypes
 // ReSharper disable SuggestVarOrType_Elsewhere
 
@@ -29,6 +34,24 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             return ctor.VisitComparison(contextMock.Object);
         }
 
+        public Mock<Python3Parser.Comp_opContext> GetCompOpMockWithSetup()
+        {
+            var mock = GetCompOpMock();
+
+            mock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            ctorMock.Setup(o => o.VisitComp_op(mock.Object))
+                .Returns(new ComparisonFactory(mock.Object.GetSourceReference(),
+                    ComparisonType.Equals)).Verifiable();
+
+            return mock;
+        }
+
+        public Mock<Python3Parser.Comp_opContext> GetCompOpMock()
+        {
+            return GetMockRule<Python3Parser.Comp_opContext>();
+        }
+
         [TestMethod]
         public void Visit_SingleExpr_Test()
         {
@@ -47,6 +70,188 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             Assert.AreSame(expected, result);
             contextMock.VerifyLoopedChildren(1);
 
+            innerContextMock.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void Visit_InvalidMissingRhs_Test()
+        {
+            // Arrange
+            var expected = GetExpressionMock();
+            var innerContextMock = GetInnerMockWithSetup(expected);
+            var compMock = GetCompOpMockWithSetup();
+
+            contextMock.SetupChildren(
+                innerContextMock.Object,
+                compMock.Object
+            );
+
+            // Act + Assert
+            SyntaxNode result = VisitContext();
+
+            contextMock.VerifyLoopedChildren(2);
+
+            compMock.Verify();
+            innerContextMock.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void Visit_MultipleExpr_Test()
+        {
+            // Arrange
+            var expected = GetExpressionMock();
+            var innerContextMock = GetInnerMockWithSetup(expected);
+            var compMock = GetCompOpMockWithSetup();
+
+            contextMock.SetupChildren(
+                innerContextMock.Object,
+                compMock.Object,
+                innerContextMock.Object
+            );
+
+            // Act
+            SyntaxNode result = VisitContext();
+            
+            // Assert
+            Assert.That.IsBinaryOperator<CompareEquals>(expected, expected, result);
+            contextMock.VerifyLoopedChildren(3);
+
+            compMock.Verify();
+            innerContextMock.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void Visit_MultipleOpsOrder_Test()
+        {
+            // Arrange
+            var expected1 = GetExpressionMock();
+            var expected2 = GetExpressionMock();
+            var expected3 = GetExpressionMock();
+
+            var innerRuleMock1 = GetInnerMockWithSetup(expected1);
+            var innerRuleMock2 = GetInnerMockWithSetup(expected2);
+            var innerRuleMock3 = GetInnerMockWithSetup(expected3);
+
+            var compMock = GetCompOpMockWithSetup();
+
+            contextMock.SetupChildren(
+                innerRuleMock1.Object,
+                compMock.Object,
+                innerRuleMock2.Object,
+                compMock.Object,
+                innerRuleMock3.Object
+            );
+
+            // Act
+            SyntaxNode result = VisitContext();
+
+            // Assert
+            // Expect order ((1 op 2) op 3)
+            // so it compiles left-to-right
+            var lhs = Assert.That.IsBinaryOperatorGetLhs<CompareEquals>(
+                expectedRhs: expected3, result);
+
+            Assert.That.IsBinaryOperator<CompareEquals>(
+                expectedLhs: expected1,
+                expectedRhs: expected2, lhs);
+
+            contextMock.VerifyLoopedChildren(5);
+
+            compMock.Verify();
+            innerRuleMock1.Verify();
+            innerRuleMock2.Verify();
+            innerRuleMock3.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void Visit_MultipleMissingLhs_Test()
+        {
+            // Arrange
+            var expected = GetExpressionMock();
+            var innerContextMock = GetInnerMockWithSetup(expected);
+            var compMock = GetCompOpMock();
+
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            contextMock.SetupChildren(
+                compMock.Object,
+                innerContextMock.Object
+            );
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
+
+            // Assert
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, compMock.Object);
+            // Should error already on 1st
+            contextMock.VerifyLoopedChildren(1);
+
+            compMock.Verify();
+            innerContextMock.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void Visit_MultipleMissingRhs_Test()
+        {
+            // Arrange
+            var expected = GetExpressionMock();
+            var innerContextMock = GetInnerMockWithSetup(expected);
+            var compMock = GetCompOpMock();
+
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            contextMock.SetupChildren(
+                innerContextMock.Object,
+                compMock.Object
+            );
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
+
+            // Assert
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, compMock.Object);
+            contextMock.VerifyLoopedChildren(2);
+
+            compMock.Verify();
+            innerContextMock.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void Visit_MultipleInvalidCompRule_Test()
+        {
+            // Arrange
+            var expected = GetExpressionMock();
+            var innerContextMock = GetInnerMockWithSetup(expected);
+            var unexpectedMock = GetMockRule<Python3Parser.File_inputContext>();
+            unexpectedMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            contextMock.SetupChildren(
+                innerContextMock.Object,
+                unexpectedMock.Object,
+                innerContextMock.Object
+            );
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
+
+            // Assert
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, unexpectedMock.Object);
+            // Should error already on 2nd
+            contextMock.VerifyLoopedChildren(2);
+
+            unexpectedMock.Verify();
             innerContextMock.Verify();
             contextMock.Verify();
             ctorMock.Verify();
