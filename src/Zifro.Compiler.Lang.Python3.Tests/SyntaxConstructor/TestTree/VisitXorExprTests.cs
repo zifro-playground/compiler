@@ -10,25 +10,26 @@ using Zifro.Compiler.Lang.Python3.Syntax.Operators.Binaries;
 namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 {
     [TestClass]
-    public class VisitExprTests : BaseBinaryOperatorTestClass<
-            Python3Parser.ExprContext,
+    public class VisitXorExprTests : BaseBinaryOperatorTestClass<
             Python3Parser.Xor_exprContext,
+            Python3Parser.And_exprContext,
             BinaryXor
         >
     {
         public override SyntaxNode VisitContext()
         {
-            return ctor.VisitExpr(contextMock.Object);
+            return ctor.VisitXor_expr(contextMock.Object);
         }
 
         public override ITerminalNode GetTerminalForThisClass()
         {
-            return GetTerminal(Python3Parser.OR_OP);
+            return GetTerminal(Python3Parser.XOR);
         }
 
-        public override ISetup<Grammar.SyntaxConstructor, SyntaxNode> RawSetupForInnerMock(Mock<Python3Parser.Xor_exprContext> innerMock)
+        public override ISetup<Grammar.SyntaxConstructor, SyntaxNode> RawSetupForInnerMock(
+            Mock<Python3Parser.And_exprContext> innerMock)
         {
-            return ctorMock.Setup(o => o.VisitXor_expr(innerMock.Object));
+            return ctorMock.Setup(o => o.VisitAnd_expr(innerMock.Object));
         }
     }
 }
