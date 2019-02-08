@@ -1,8 +1,8 @@
-﻿namespace Zifro.Compiler.Lang.Python3.Syntax.Operators.Arithmetic
+﻿namespace Zifro.Compiler.Lang.Python3.Syntax.Operators.Binaries
 {
-    public class ArithmeticMultiply : BinaryOperator
+    public class BinaryXor : BinaryOperator
     {
-        public ArithmeticMultiply(
+        public BinaryXor(
             ExpressionNode leftOperand,
             ExpressionNode rightOperand)
             : base(leftOperand, rightOperand)

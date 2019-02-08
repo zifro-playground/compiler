@@ -1,8 +1,8 @@
-﻿namespace Zifro.Compiler.Lang.Python3.Syntax.Operators.Binary
+﻿namespace Zifro.Compiler.Lang.Python3.Syntax.Operators.Arithmetics
 {
-    public class BinaryRightShift : BinaryOperator
+    public class ArithmeticModulus : BinaryOperator
     {
-        public BinaryRightShift(
+        public ArithmeticModulus(
             ExpressionNode leftOperand,
             ExpressionNode rightOperand)
             : base(leftOperand, rightOperand)

@@ -1,10 +1,10 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Lang.Python3.Exceptions;
 using Zifro.Compiler.Lang.Python3.Resources;
+using Zifro.Compiler.Lang.Python3.Syntax.Operators.Comparisons;
 
-namespace Zifro.Compiler.Lang.Python3.Syntax.Operators.Comparisons
+namespace Zifro.Compiler.Lang.Python3.Syntax.Operators
 {
     public class ComparisonFactory : SyntaxNode
     {

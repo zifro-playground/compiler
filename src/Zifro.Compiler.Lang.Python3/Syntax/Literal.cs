@@ -1,6 +1,6 @@
 ﻿using Zifro.Compiler.Core.Entities;
 
-namespace Zifro.Compiler.Lang.Python3.Syntax.Literals
+namespace Zifro.Compiler.Lang.Python3.Syntax
 {
     public abstract class Literal<T> : ExpressionNode
     {

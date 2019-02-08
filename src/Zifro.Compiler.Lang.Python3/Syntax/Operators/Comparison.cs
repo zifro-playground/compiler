@@ -1,6 +1,4 @@
-﻿using Zifro.Compiler.Core.Entities;
-
-namespace Zifro.Compiler.Lang.Python3.Syntax.Operators.Comparisons
+﻿namespace Zifro.Compiler.Lang.Python3.Syntax.Operators
 {
     public abstract class Comparison : BinaryOperator
     {

@@ -1,8 +1,8 @@
-﻿namespace Zifro.Compiler.Lang.Python3.Syntax.Operators.Binary
+﻿namespace Zifro.Compiler.Lang.Python3.Syntax.Operators.Binaries
 {
-    public class BinaryAnd : BinaryOperator
+    public class BinaryLeftShift : BinaryOperator
     {
-        public BinaryAnd(
+        public BinaryLeftShift(
             ExpressionNode leftOperand,
             ExpressionNode rightOperand)
             : base(leftOperand, rightOperand)
