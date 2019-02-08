@@ -15,6 +15,9 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Operators
             RightOperand = rightOperand;
         }
 
+        // You can happily merge them without conflict
+        // since the operator source will always be the
+        // combined range from lhs to rhs
         protected BinaryOperator(
             ExpressionNode leftOperand,
             ExpressionNode rightOperand)
