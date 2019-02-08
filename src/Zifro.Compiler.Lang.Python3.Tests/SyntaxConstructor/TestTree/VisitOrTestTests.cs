@@ -29,6 +29,11 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
                 .Returns(returnValue).Verifiable();
         }
 
+        public override ITerminalNode GetTerminalForThisClass()
+        {
+            return GetTerminal(Python3Parser.OR);
+        }
+
         [TestMethod]
         public void Visit_SingleAnd_Test()
         {
@@ -61,7 +66,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
-                GetTerminal(Python3Parser.OR),
+                GetTerminalForThisClass(),
                 innerRuleMock.Object
             );
 
@@ -87,7 +92,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
-                GetTerminal(Python3Parser.OR)
+                GetTerminalForThisClass()
             );
 
             // Act + Assert
@@ -132,11 +137,11 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var innerRuleMock = GetInnerMockWithSetup(GetExpressionMock());
 
-            ITerminalNode unexpectedNode = GetTerminal(Python3Parser.OR);
+            ITerminalNode unexpectedNode = GetTerminalForThisClass();
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
-                GetTerminal(Python3Parser.OR),
+                GetTerminalForThisClass(),
                 innerRuleMock.Object,
                 unexpectedNode
             );
@@ -167,9 +172,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             contextMock.SetupChildren(
                 innerRuleMock1.Object,
-                GetTerminal(Python3Parser.OR),
+                GetTerminalForThisClass(),
                 innerRuleMock2.Object,
-                GetTerminal(Python3Parser.OR),
+                GetTerminalForThisClass(),
                 innerRuleMock3.Object
             );
 

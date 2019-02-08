@@ -32,6 +32,11 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
                 .Returns(returnValue).Verifiable();
         }
 
+        public override ITerminalNode GetTerminalForThisClass()
+        {
+            return GetTerminal(Python3Parser.AND);
+        }
+
         [TestMethod]
         public void Visit_SingleRule_Test()
         {
@@ -66,7 +71,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
-                GetTerminal(Python3Parser.AND),
+                GetTerminalForThisClass(),
                 innerRuleMock.Object
             );
 
@@ -98,9 +103,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             contextMock.SetupChildren(
                 innerRuleMock1.Object,
-                GetTerminal(Python3Parser.AND),
+                GetTerminalForThisClass(),
                 innerRuleMock2.Object,
-                GetTerminal(Python3Parser.AND),
+                GetTerminalForThisClass(),
                 innerRuleMock3.Object
             );
 
@@ -133,7 +138,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
-                GetTerminal(Python3Parser.AND)
+                GetTerminalForThisClass()
             );
 
             SetupForInnerMock(innerRuleMock, GetExpressionMock());
@@ -155,7 +160,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var innerRuleMock = GetInnerMock();
 
-            ITerminalNode unexpectedNode = GetTerminal(Python3Parser.ASYNC);
+            ITerminalNode unexpectedNode = GetTerminal(Python3Parser.OR);
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
@@ -182,11 +187,11 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var innerRuleMock = GetInnerMock();
 
-            ITerminalNode unexpectedNode = GetTerminal(Python3Parser.OR);
+            ITerminalNode unexpectedNode = GetTerminalForThisClass();
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
-                GetTerminal(Python3Parser.AND),
+                GetTerminalForThisClass(),
                 innerRuleMock.Object,
                 unexpectedNode
             );

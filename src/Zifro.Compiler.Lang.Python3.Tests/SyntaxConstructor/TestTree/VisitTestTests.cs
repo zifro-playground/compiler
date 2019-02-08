@@ -22,6 +22,11 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             return ctor.VisitTest(contextMock.Object);
         }
 
+        public override ITerminalNode GetTerminalForThisClass()
+        {
+            return GetTerminalForThisClass();
+        }
+
         public override void SetupForInnerMock(Mock<Python3Parser.Or_testContext> innerMock, SyntaxNode returnValue)
         {
             ctorMock.Setup(o => o.VisitOr_test(innerMock.Object))
@@ -83,7 +88,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             var innerRuleMock = GetInnerMock();
             var testMock = GetMockRule<Python3Parser.TestContext>();
             
-            ITerminalNode ifNode = GetTerminal(Python3Parser.IF);
+            ITerminalNode ifNode = GetTerminalForThisClass();
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
@@ -115,7 +120,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
-                GetTerminal(Python3Parser.IF)
+                GetTerminalForThisClass()
             );
 
             // Act + Assert
@@ -141,7 +146,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
-                GetTerminal(Python3Parser.IF),
+                GetTerminalForThisClass(),
                 unexpectedMock.Object,
                 GetTerminal(Python3Parser.ARROW),
                 GetTerminal(Python3Parser.ASYNC)

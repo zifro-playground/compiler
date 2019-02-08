@@ -30,6 +30,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             Mock<TInnerContext> innerMock,
             SyntaxNode returnValue);
 
+        public abstract ITerminalNode GetTerminalForThisClass();
+
         [TestMethod]
         public void Visit_InvalidToken_Test()
         {
