@@ -2,9 +2,9 @@
 
 namespace Zifro.Compiler.Lang.Python3.Syntax.Operators
 {
-    public class OperatorAnd : BinaryOperator
+    public class OperatorOr : BinaryOperator
     {
-        public OperatorAnd(
+        public OperatorOr(
             ExpressionNode leftOperand,
             ExpressionNode rightOperand)
             : base(leftOperand, rightOperand)

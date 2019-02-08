@@ -192,7 +192,7 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                 var secondExpression = VisitAnd_test(secondAnd)
                     .AsTypeOrThrow<ExpressionNode>();
 
-                expression = new OperatorAnd(expression, secondExpression);
+                expression = new OperatorOr(expression, secondExpression);
             }
 
             return expression;
@@ -200,9 +200,23 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitAnd_test(Python3Parser.And_testContext context)
         {
-            if (context.GetToken(Python3Parser.AND, 0) != null)
-                throw context.NotYetImplementedException("and");
-            return VisitChildren(context);
+            // and_test: not_test ('and' not_test)*
+            var rule = context.GetChildOrThrow<Python3Parser.Not_testContext>(0);
+
+            var expr = VisitNot_test(rule)
+                .AsTypeOrThrow<ExpressionNode>();
+
+            for (var i = 1; i < context.ChildCount; i += 2)
+            {
+                context.GetChildOrThrow(i, Python3Parser.AND);
+                var secondRule = context.GetChildOrThrow<Python3Parser.Not_testContext>(i + 1);
+                var secondExpr = VisitNot_test(secondRule)
+                    .AsTypeOrThrow<ExpressionNode>();
+
+                expr = new OperatorAnd(expr, secondExpr);
+            }
+
+            return expr;
         }
 
         public override SyntaxNode VisitNot_test(Python3Parser.Not_testContext context)

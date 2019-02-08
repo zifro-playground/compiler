@@ -7,11 +7,20 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Operators
     /// </summary>
     public abstract class BinaryOperator : ExpressionNode
     {
-        protected BinaryOperator(SourceReference source, ExpressionNode leftOperand, ExpressionNode rightOperand)
+        protected BinaryOperator(SourceReference source,
+            ExpressionNode leftOperand, ExpressionNode rightOperand)
             : base(source)
         {
             LeftOperand = leftOperand;
             RightOperand = rightOperand;
+        }
+
+        protected BinaryOperator(
+            ExpressionNode leftOperand,
+            ExpressionNode rightOperand)
+            : this(SourceReference.Merge(leftOperand.Source, rightOperand.Source),
+                leftOperand, rightOperand)
+        {
         }
 
         public ExpressionNode LeftOperand { get; }

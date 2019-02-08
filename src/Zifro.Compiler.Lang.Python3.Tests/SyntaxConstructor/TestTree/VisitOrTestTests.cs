@@ -69,7 +69,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             SyntaxNode result = VisitContext();
 
             // Assert
-            Assert.That.IsBinaryOperator<OperatorAnd>(expected, expected, result);
+            Assert.That.IsBinaryOperator<OperatorOr>(expected, expected, result);
             contextMock.VerifyLoopedChildren(3);
 
             innerRuleMock.Verify();
@@ -107,7 +107,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var innerRuleMock = GetInnerMockWithSetup(GetExpressionMock());
 
-            ITerminalNode unexpectedNode = GetTerminal(Python3Parser.ASYNC);
+            ITerminalNode unexpectedNode = GetTerminal(Python3Parser.AND);
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
@@ -178,10 +178,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             // Assert
             // Expect order ((1 or 2) or 3)
-            var lhs = Assert.That.IsBinaryOperatorGetLhs<OperatorAnd>(
+            var lhs = Assert.That.IsBinaryOperatorGetLhs<OperatorOr>(
                 expectedRhs: expected3, result);
 
-            Assert.That.IsBinaryOperator<OperatorAnd>(
+            Assert.That.IsBinaryOperator<OperatorOr>(
                 expectedLhs: expected1,
                 expectedRhs: expected2, lhs);
 
