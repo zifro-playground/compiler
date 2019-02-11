@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Exceptions;
+using Zifro.Compiler.Lang.Python3.Exceptions;
 using Zifro.Compiler.Lang.Python3.Extensions;
 using Zifro.Compiler.Lang.Python3.Resources;
 using Zifro.Compiler.Lang.Python3.Syntax;
+using Zifro.Compiler.Lang.Python3.Syntax.Literals;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators.Arithmetics;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators.Binaries;
@@ -634,16 +637,75 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitAtom(Python3Parser.AtomContext context)
         {
-            if (context.GetToken(Python3Parser.OPEN_PAREN, 0) != null)
-                throw context.NotYetImplementedException("()");
-            if (context.GetToken(Python3Parser.OPEN_BRACK, 0) != null)
-                throw context.NotYetImplementedException("[]");
-            if (context.GetToken(Python3Parser.OPEN_BRACE, 0) != null)
-                throw context.NotYetImplementedException("{}");
-            var child = context.GetChild<ITerminalNode>(0);
-            if (child != null)
-                throw context.NotYetImplementedException(child.Symbol.Text);
-            throw context.NotYetImplementedException();
+            // atom:
+            //    '(' [yield_expr|testlist_comp] ')' |
+            //    '[' [testlist_comp] ']' |
+            //    '{' [dictorsetmaker] '}' |
+            //    NAME | NUMBER | STRING+ | '...' | 'None' | 'True' | 'False'
+            var firstToken = context.GetChildOrThrow<ITerminalNode>(0);
+
+
+            switch (firstToken.Symbol.Type)
+            {
+                case Python3Parser.NAME when context.ChildCount > 1:
+                case Python3Parser.TRUE when context.ChildCount > 1:
+                case Python3Parser.FALSE when context.ChildCount > 1:
+                case Python3Parser.NUMBER when context.ChildCount > 1:
+                    throw context.UnexpectedChildType(context.GetChild(1));
+
+                case Python3Parser.NAME:
+                    throw new SyntaxNotYetImplementedException(firstToken.GetSourceReference());
+
+                case Python3Parser.TRUE:
+                    return new LiteralBoolean(firstToken.GetSourceReference(), true);
+                case Python3Parser.FALSE:
+                    return new LiteralBoolean(firstToken.GetSourceReference(), false);
+
+                case Python3Parser.NUMBER when firstToken.Symbol.Text.EndsWith("j", true, CultureInfo.InvariantCulture):
+                    throw new SyntaxNotYetImplementedException(firstToken.GetSourceReference());
+
+                case Python3Parser.NUMBER:
+                    try
+                    {
+                        return LiteralInteger.Parse(firstToken.GetSourceReference(),
+                            firstToken.Symbol.Text);
+                    }
+                    catch (SyntaxLiteralFormatException)
+                    {
+                        return LiteralDouble.Parse(firstToken.GetSourceReference(),
+                            firstToken.Symbol.Text);
+                    }
+
+                case Python3Parser.STRING:
+                    for (var i = 1; i < context.ChildCount; /* i++ */)
+                    {
+                        throw new SyntaxNotYetImplementedException(
+                            context.GetChildOrThrow(i, Python3Parser.STRING)
+                                .GetSourceReference());
+                    }
+
+                    return LiteralString.Parse(firstToken.GetSourceReference(),
+                        firstToken.Symbol.Text);
+
+                case Python3Parser.ELLIPSIS:
+                case Python3Parser.NONE:
+                    throw firstToken.NotYetImplementedException();
+
+                case Python3Parser.OPEN_PAREN:
+                    context.ExpectClosingParenthesis(firstToken, Python3Parser.CLOSE_PAREN);
+                    throw firstToken.NotYetImplementedException("()");
+
+                case Python3Parser.OPEN_BRACE:
+                    context.ExpectClosingParenthesis(firstToken, Python3Parser.CLOSE_BRACE);
+                    throw firstToken.NotYetImplementedException("{}");
+
+                case Python3Parser.OPEN_BRACK:
+                    context.ExpectClosingParenthesis(firstToken, Python3Parser.CLOSE_BRACK);
+                    throw firstToken.NotYetImplementedException("[]");
+
+                default:
+                    throw context.UnexpectedChildType(firstToken);
+            }
         }
 
         public override SyntaxNode VisitTestlist_comp(Python3Parser.Testlist_compContext context)

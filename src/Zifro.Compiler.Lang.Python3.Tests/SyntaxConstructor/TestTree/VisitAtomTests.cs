@@ -36,10 +36,14 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         [DataTestMethod]
         [DataRow(Python3Parser.NUMBER, "420", typeof(LiteralInteger))]
         [DataRow(Python3Parser.NUMBER, "3.14", typeof(LiteralDouble))]
+        [DataRow(Python3Parser.NUMBER, "0x10", typeof(LiteralInteger))] // hex
+        [DataRow(Python3Parser.NUMBER, "1e10", typeof(LiteralDouble))] // sci-notation
         [DataRow(Python3Parser.STRING, "\"foo\"", typeof(LiteralString))]
         [DataRow(Python3Parser.STRING, "'foo'", typeof(LiteralString))]
         [DataRow(Python3Parser.STRING, "'foo\\'bar'", typeof(LiteralString))]
         [DataRow(Python3Parser.STRING, "\"foo'bar\"", typeof(LiteralString))]
+        [DataRow(Python3Parser.STRING, "r'raw'", typeof(LiteralString))]
+        [DataRow(Python3Parser.STRING, "\"\"\"long str\"\"\"", typeof(LiteralString))]
         [DataRow(Python3Parser.TRUE, "True", typeof(LiteralBoolean))]
         [DataRow(Python3Parser.FALSE, "False", typeof(LiteralBoolean))]
         public void Visit_LiteralTypes_Test(int token, string text, Type expectedType)
@@ -67,32 +71,25 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             ITerminalNode node1 = GetTerminal(Python3Parser.STRING, "\"foo\"");
             ITerminalNode node2 = GetTerminal(Python3Parser.STRING, "\"bar\"");
-            const string expected = "foobar";
 
             contextMock.SetupChildren(
                 node1,
                 node2
             );
 
-            // Act
-            SyntaxNode result = VisitContext();
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(VisitContext);
 
-            // Assert
-            Assert.IsInstanceOfType(result, typeof(LiteralString));
-            var literal = (LiteralString) result;
-            Assert.AreEqual(expected, literal.Value);
-            
+            Assert.That.ErrorNotYetImplFormatArgs(ex, node2);
+
             contextMock.Verify();
             ctorMock.Verify();
         }
 
         [DataTestMethod]
         [DataRow(Python3Parser.NUMBER, "0o10")] // oct
-        [DataRow(Python3Parser.NUMBER, "0x10")] // hex
         [DataRow(Python3Parser.NUMBER, "0b10")] // bin
-        [DataRow(Python3Parser.NUMBER, "1e10")] // sci-notation
         [DataRow(Python3Parser.NUMBER, "1j")] // complex
-        [DataRow(Python3Parser.STRING, "r'foo'")] // raw
         [DataRow(Python3Parser.STRING, "u'foo'")] // unicode
         [DataRow(Python3Parser.STRING, "b'foo'")] // bytes
         [DataRow(Python3Parser.STRING, "f'foo'")] // formatted
@@ -100,10 +97,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         [DataRow(Python3Parser.STRING, "rf'foo'")] // raw+formatted
         [DataRow(Python3Parser.STRING, "br'foo'")] // raw+bytes
         [DataRow(Python3Parser.STRING, "rb'foo'")] // raw+bytes
-        [DataRow(Python3Parser.STRING, "\"\"\"long str\"\"\"")]
-        [DataRow(Python3Parser.NONE, "None")]
         [DataRow(Python3Parser.NAME, "x")]
-        [DataRow(Python3Parser.ELLIPSIS, "...")]
         public void Visit_LiteralsNotYetImplemented_Test(int token, string text)
         {
             // Arrange
@@ -123,14 +117,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         }
 
         [DataTestMethod]
-        [DataRow(Python3Parser.NUMBER, "1b01")]
-        [DataRow(Python3Parser.NUMBER, "1i")]
-        [DataRow(Python3Parser.STRING, "ru'foo'")]
-        [DataRow(Python3Parser.STRING, "\"x'")]
-        [DataRow(Python3Parser.NONE, "Nope")]
-        [DataRow(Python3Parser.NAME, "5")]
-        [DataRow(Python3Parser.ELLIPSIS, ";_;")]
-        public void Visit_LiteralsInvalidText_Test(int token, string text)
+        [DataRow(Python3Parser.NONE, "None", "None")]
+        [DataRow(Python3Parser.ELLIPSIS, "...", "...")]
+        public void Visit_LiteralsNotYetImplementedKeyword_Test(int token, string text, string expectedKeyword)
         {
             // Arrange
             ITerminalNode node = GetTerminal(token, text);
@@ -140,11 +129,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext);
 
-            Assert.That.ErrorSyntaxFormatArgsEqual(ex,
-                nameof(Localized_Python3_Parser.Ex_Literal_Format),
-                node);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, node, expectedKeyword);
 
             contextMock.Verify();
             ctorMock.Verify();

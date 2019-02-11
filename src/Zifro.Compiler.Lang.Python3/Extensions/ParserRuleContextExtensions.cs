@@ -59,6 +59,11 @@ namespace Zifro.Compiler.Lang.Python3.Extensions
             return new SyntaxNotYetImplementedExceptionKeyword(terminal.GetSourceReference(), terminal.Symbol.Text);
         }
 
+        public static SyntaxNotYetImplementedExceptionKeyword NotYetImplementedException(this ITerminalNode terminal, string keywordOverride)
+        {
+            return new SyntaxNotYetImplementedExceptionKeyword(terminal.GetSourceReference(), keywordOverride);
+        }
+
         public static SyntaxException UnexpectedChildType(this ParserRuleContext context, ParserRuleContext childRule)
         {
             return new SyntaxException(childRule.GetSourceReference(),
@@ -122,6 +127,21 @@ namespace Zifro.Compiler.Lang.Python3.Extensions
             if (!(parseTree is T rule))
                 throw context.UnexpectedChildType(parseTree);
             return rule;
+        }
+
+        public static ITerminalNode ExpectClosingParenthesis(this ParserRuleContext context, ITerminalNode opening, int closingType)
+        {
+            IParseTree last = context.GetChild(context.ChildCount - 1);
+
+            if (!(last is ITerminalNode node) || node.Symbol.Type != closingType)
+            {
+                throw new SyntaxException(opening.GetSourceReference(),
+                    nameof(Localized_Python3_Parser.Ex_Parenthesis_NoClosing),
+                    Localized_Python3_Parser.Ex_Parenthesis_NoClosing,
+                    Python3Parser.DefaultVocabulary.GetLiteralName(closingType).Trim('\''));
+            }
+
+            return node;
         }
     }
 }
