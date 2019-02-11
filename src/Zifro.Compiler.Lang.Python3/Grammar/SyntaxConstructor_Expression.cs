@@ -644,17 +644,18 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
             //    NAME | NUMBER | STRING+ | '...' | 'None' | 'True' | 'False'
             var firstToken = context.GetChildOrThrow<ITerminalNode>(0);
 
-
             switch (firstToken.Symbol.Type)
             {
                 case Python3Parser.NAME when context.ChildCount > 1:
                 case Python3Parser.TRUE when context.ChildCount > 1:
                 case Python3Parser.FALSE when context.ChildCount > 1:
                 case Python3Parser.NUMBER when context.ChildCount > 1:
+                case Python3Parser.ELLIPSIS when context.ChildCount > 1:
+                case Python3Parser.NONE when context.ChildCount > 1:
                     throw context.UnexpectedChildType(context.GetChild(1));
 
                 case Python3Parser.NAME:
-                    throw new SyntaxNotYetImplementedException(firstToken.GetSourceReference());
+                    return new Identifier(firstToken.GetSourceReference(), firstToken.Symbol.Text);
 
                 case Python3Parser.TRUE:
                     return new LiteralBoolean(firstToken.GetSourceReference(), true);

@@ -46,6 +46,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         [DataRow(Python3Parser.STRING, "\"\"\"long str\"\"\"", typeof(LiteralString))]
         [DataRow(Python3Parser.TRUE, "True", typeof(LiteralBoolean))]
         [DataRow(Python3Parser.FALSE, "False", typeof(LiteralBoolean))]
+        [DataRow(Python3Parser.NAME, "x", typeof(Identifier))]
         public void Visit_LiteralTypes_Test(int token, string text, Type expectedType)
         {
             // Arrange
@@ -97,7 +98,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         [DataRow(Python3Parser.STRING, "rf'foo'")] // raw+formatted
         [DataRow(Python3Parser.STRING, "br'foo'")] // raw+bytes
         [DataRow(Python3Parser.STRING, "rb'foo'")] // raw+bytes
-        [DataRow(Python3Parser.NAME, "x")]
         public void Visit_LiteralsNotYetImplemented_Test(int token, string text)
         {
             // Arrange
