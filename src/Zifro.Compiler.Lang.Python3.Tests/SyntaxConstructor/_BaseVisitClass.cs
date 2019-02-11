@@ -49,12 +49,24 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             return mock.Object;
         }
 
+        public static ITerminalNode GetTerminal(int symbol, string text)
+        {
+            var mock = new Mock<ITerminalNode>();
+            mock.Setup(o => o.Symbol).Returns(GetSymbol(symbol, text));
+            return mock.Object;
+        }
+
         public static IToken GetSymbol(int symbol)
+        {
+            return GetSymbol(symbol, Python3Parser.DefaultVocabulary
+                .GetLiteralName(symbol)?.Trim('\''));
+        }
+
+        public static IToken GetSymbol(int symbol, string text)
         {
             var mock = new Mock<IToken>(MockBehavior.Strict);
             mock.SetupGet(o => o.Type).Returns(symbol);
-            mock.SetupGet(o => o.Text).Returns(Python3Parser.DefaultVocabulary
-                .GetLiteralName(symbol)?.Trim('\''));
+            mock.SetupGet(o => o.Text).Returns(text);
             mock.SetupGet(o => o.Line).Returns(5);
             mock.SetupGet(o => o.Column).Returns(6);
             return mock.Object;

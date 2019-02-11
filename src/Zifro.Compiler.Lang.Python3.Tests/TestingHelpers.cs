@@ -211,6 +211,14 @@ namespace Zifro.Compiler.Lang.Python3.Tests
         }
 
         public static void ErrorNotYetImplFormatArgs(this Assert assert,
+            SyntaxNotYetImplementedException exception, ITerminalNode node)
+        {
+            assert.ErrorSyntaxFormatArgsEqual(exception,
+                nameof(Localized_Exceptions.Ex_Syntax_NotYetImplemented),
+                node);
+        }
+
+        public static void ErrorNotYetImplFormatArgs(this Assert assert,
             SyntaxNotYetImplementedExceptionKeyword exception, SourceReference source, string keyword)
         {
             assert.ErrorFormatArgsEqual(exception,

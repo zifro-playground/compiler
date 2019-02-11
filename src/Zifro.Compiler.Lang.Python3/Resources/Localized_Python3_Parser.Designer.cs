@@ -61,6 +61,24 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ogiltigt format på värdet i koden..
+        /// </summary>
+        public static string Ex_Literal_Format {
+            get {
+                return ResourceManager.GetString("Ex_Literal_Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saknar en &apos;{4}&apos; som slutparantes..
+        /// </summary>
+        public static string Ex_Parenthesis_NoClosing {
+            get {
+                return ResourceManager.GetString("Ex_Parenthesis_NoClosing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Förväntar en regel men det var tomt efter &apos;{4}&apos;..
         /// </summary>
         public static string Ex_Syntax_ExpectedChild {
