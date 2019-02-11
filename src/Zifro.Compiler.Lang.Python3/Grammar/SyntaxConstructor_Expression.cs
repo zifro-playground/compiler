@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
@@ -602,10 +603,33 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitAtom_expr(Python3Parser.Atom_exprContext context)
         {
-            if (context.GetToken(Python3Parser.AWAIT, 0) != null)
-                throw context.NotYetImplementedException("await");
-            VisitChildren(context);
-            throw context.NotYetImplementedException();
+            // atom_expr: ['await'] atom trailer*
+            var first = context.GetChildOrThrow<IParseTree>(0);
+
+            switch (first)
+            {
+                case ITerminalNode node
+                    when node.Symbol.Type == Python3Parser.AWAIT && context.ChildCount == 1:
+                    throw context.ExpectedChild();
+
+                case ITerminalNode node
+                    when node.Symbol.Type == Python3Parser.AWAIT:
+                    throw node.NotYetImplementedException();
+
+                case ITerminalNode node:
+                    throw context.UnexpectedChildType(node);
+
+                case Python3Parser.AtomContext atom
+                    when context.ChildCount == 1:
+                    return VisitAtom(atom).AsTypeOrThrow<ExpressionNode>();
+
+                case Python3Parser.AtomContext atom:
+                    var trailer = context.GetChildOrThrow<Python3Parser.TrailerContext>(1);
+                    throw trailer.NotYetImplementedException();
+
+                default:
+                    throw context.UnexpectedChildType(first);
+            }
         }
 
         public override SyntaxNode VisitAtom(Python3Parser.AtomContext context)

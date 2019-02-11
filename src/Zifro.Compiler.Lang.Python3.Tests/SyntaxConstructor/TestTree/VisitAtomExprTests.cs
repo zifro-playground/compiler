@@ -81,8 +81,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_AtomSingleTrailer_Test()
         {
             // Arrange
-            ExpressionNode expr = GetExpressionMock();
-            var innerMock = GetInnerMockWithSetup(expr);
+            var innerMock = GetInnerMock();
             var trailerMock = GetMockRule<Python3Parser.TrailerContext>();
             trailerMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
@@ -92,7 +91,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(VisitContext);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock);
             contextMock.VerifyLoopedChildren(2);
@@ -107,8 +106,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_AtomMultipleTrailer_Test()
         {
             // Arrange
-            ExpressionNode expr = GetExpressionMock();
-            var innerMock = GetInnerMockWithSetup(expr);
+            var innerMock = GetInnerMock();
             var trailerMock = GetMockRule<Python3Parser.TrailerContext>();
             trailerMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
@@ -122,7 +120,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(VisitContext);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock);
             contextMock.VerifyLoopedChildren(2);
