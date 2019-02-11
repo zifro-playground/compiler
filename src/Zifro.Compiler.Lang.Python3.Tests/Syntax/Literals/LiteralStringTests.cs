@@ -21,6 +21,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Syntax.Literals
         [DataRow("\"foo'bar\"", "foo'bar")]
         [DataRow("r'foo'", "foo")] // raw
         [DataRow("r'new\\nline'", "new\\nline")]
+        [DataRow("\"\"\"foo\"\"\"", "foo")] // triple quoted
+        [DataRow("'''foo'''", "foo")]
+        [DataRow("r'''foo\\bbar'''", "foo\\bbar")]
+        [DataRow("''", "")]
         public override void ParseValidTest(string input, string expectedValue)
         {
             base.ParseValidTest(input, expectedValue);
@@ -31,16 +35,18 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Syntax.Literals
         [DataRow("ru'raw unicode'")]
         [DataRow("fb'formatted bytes'")]
         [DataRow("frb'formatted raw bytes'")]
-        [DataRow("\"unescaped\"quote\"")]
-        [DataRow("'unescaped'quote'")]
+        //[DataRow("\"unescaped\"quote\"")]
+        //[DataRow("'unescaped'quote'")]
+        [DataRow("")]
+        [DataRow("r")]
+        [DataRow("'''")]
+        [DataRow("'\"")]
         public override void ParseInvalidTest(string input)
         {
             base.ParseInvalidTest(input);
         }
 
         [DataTestMethod]
-        [DataRow("\"\"\"foo\"\"\"")]
-        [DataRow("'''foo'''")]
         [DataRow("u'foo'")] // unicode
         [DataRow("b'foo'")] // bytes
         [DataRow("f'foo'")] // formatted

@@ -37,7 +37,8 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Literals
                 throw new SyntaxLiteralFormatException(source);
             }
 
-            string withoutQuotes = withoutModifiers.Substring(quotes.Length, withoutModifiers.Length - quotes.Length);
+            string withoutQuotes = withoutModifiers.Substring(quotes.Length,
+                withoutModifiers.Length - quotes.Length * 2);
             switch (modifiers.ToLowerInvariant())
             {
                 case "":
