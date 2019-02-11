@@ -580,9 +580,24 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitPower(Python3Parser.PowerContext context)
         {
-            if (context.GetToken(Python3Parser.POWER, 0) != null)
-                throw context.NotYetImplementedException("**");
-            return VisitChildren(context);
+            // power: atom_expr ['**' factor]
+            var first = context.GetChildOrThrow<Python3Parser.Atom_exprContext>(0);
+            var expr = VisitAtom_expr(first)
+                .AsTypeOrThrow<ExpressionNode>();
+
+            if (context.ChildCount == 1)
+                return expr;
+
+            context.GetChildOrThrow(1, Python3Parser.POWER);
+            var factor = context.GetChildOrThrow<Python3Parser.FactorContext>(2);
+
+            if (context.ChildCount > 3)
+                throw context.UnexpectedChildType(context.GetChild(3));
+
+            var factorExpr = VisitFactor(factor)
+                .AsTypeOrThrow<ExpressionNode>();
+
+            return new ArithmeticPower(expr, factorExpr);
         }
 
         public override SyntaxNode VisitAtom_expr(Python3Parser.Atom_exprContext context)

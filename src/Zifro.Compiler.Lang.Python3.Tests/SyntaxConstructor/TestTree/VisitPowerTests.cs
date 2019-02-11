@@ -11,10 +11,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 {
     [TestClass]
     public class VisitPowerTests : BaseBinaryOperatorTestClass<
-            Python3Parser.PowerContext,
-            Python3Parser.Atom_exprContext,
-            ArithmeticPower
-        >
+        Python3Parser.PowerContext,
+        Python3Parser.Atom_exprContext,
+        ArithmeticPower
+    >
     {
         public override SyntaxNode VisitContext()
         {
@@ -32,13 +32,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             return ctorMock.Setup(o => o.VisitAtom_expr(innerMock.Object));
         }
 
-        public override void Visit_MultipleOpsOrder_Test()
-        {
-            // do nothing
-        }
-
         [TestMethod]
-        public void Visit_InvalidMultipleOps_Test()
+        public override void Visit_MultipleOpsOrder_Test()
         {
             // Arrange
             var innerRuleMock = GetInnerMockWithSetup(GetExpressionMock());
@@ -48,7 +43,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             contextMock.SetupChildren(
                 innerRuleMock.Object,
                 GetTerminalForThisClass(),
-                innerRuleMock.Object,
+                GetMockRule<Python3Parser.FactorContext>().Object,
                 unexpectedNode,
                 innerRuleMock.Object
             );
@@ -68,16 +63,17 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public override void Visit_MultipleRuleExcessNode_Test()
         {
             // Arrange
-            var innerRuleMock = GetInnerMock();
+            var atomExprMock = GetInnerMockWithSetup(GetExpressionMock());
+            var factorMock = GetMockRule<Python3Parser.FactorContext>();
 
             ITerminalNode unexpectedNode = GetTerminalForThisClass();
 
             contextMock.SetupChildren(
-                innerRuleMock.Object,
+                atomExprMock.Object,
                 GetTerminalForThisClass(),
-                innerRuleMock.Object,
-                GetMockRule<Python3Parser.FactorContext>().Object,
-                unexpectedNode
+                factorMock.Object,
+                unexpectedNode,
+                factorMock.Object
             );
 
             // Act + Assert
@@ -86,7 +82,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, unexpectedNode);
             contextMock.VerifyLoopedChildren(4);
 
-            innerRuleMock.Verify();
+            atomExprMock.Verify();
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -109,8 +105,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
                 GetTerminalForThisClass(),
                 factorMock.Object
             );
-
-            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             // Act
             SyntaxNode result = VisitContext();

@@ -133,6 +133,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
         {
             // Arrange
             var innerRuleMock = GetInnerMockWithSetup(GetExpressionMock());
+            innerRuleMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             ITerminalNode unexpectedNode = GetTerminalForThisClass();
 
