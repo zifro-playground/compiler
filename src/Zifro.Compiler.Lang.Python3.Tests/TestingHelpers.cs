@@ -142,6 +142,19 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             assert.ErrorFormatArgsEqual(exception, expectedLocalizedKey, expectedArgs: expected);
         }
 
+        public static void ErrorSyntaxFormatArgsEqual(this Assert assert,
+            SyntaxException exception, string expectedLocalizedKey, SourceReference source,
+            params object[] expectedExcessArgs)
+        {
+            object[] expected = new object[]
+            {
+                source.FromRow, source.FromColumn,
+                source.ToRow, source.ToColumn
+            }.Concat(expectedExcessArgs).ToArray();
+
+            assert.ErrorFormatArgsEqual(exception, expectedLocalizedKey, expectedArgs: expected);
+        }
+
         /// <summary>
         /// Asserts the syntax exception and uses the source reference from the parameter <paramref name="token"/>
         /// when comparing formatting arguments {0} to {3}, as well as optional additional args.

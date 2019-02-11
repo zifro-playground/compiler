@@ -8,5 +8,10 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Literals
             : base(source, value)
         {
         }
+
+        public static LiteralString Parse(SourceReference source, string text)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
