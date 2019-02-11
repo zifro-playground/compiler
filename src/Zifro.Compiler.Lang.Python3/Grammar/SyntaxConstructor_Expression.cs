@@ -377,9 +377,23 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitXor_expr(Python3Parser.Xor_exprContext context)
         {
-            if (context.GetToken(Python3Parser.XOR, 0) != null)
-                throw context.NotYetImplementedException("^");
-            return VisitChildren(context);
+            // xor_expr: and_expr ('^' and_expr)*
+            var rule = context.GetChildOrThrow<Python3Parser.And_exprContext>(0);
+
+            var expr = VisitAnd_expr(rule)
+                .AsTypeOrThrow<ExpressionNode>();
+
+            for (var i = 1; i < context.ChildCount; i += 2)
+            {
+                context.GetChildOrThrow(i, Python3Parser.XOR);
+                var secondRule = context.GetChildOrThrow<Python3Parser.And_exprContext>(i + 1);
+                var secondExpr = VisitAnd_expr(secondRule)
+                    .AsTypeOrThrow<ExpressionNode>();
+
+                expr = new BinaryXor(expr, secondExpr);
+            }
+
+            return expr;
         }
 
         public override SyntaxNode VisitAnd_expr(Python3Parser.And_exprContext context)
