@@ -50,14 +50,22 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             Assert.AreEqual(expected, ((StatementList)resultNode).Statements.Count);
         }
 
+        public static void IsUnaryOperator(this Assert assert,
+            Type expectedType,
+            ExpressionNode expectedInner,
+            SyntaxNode resultNode)
+        {
+            Assert.IsInstanceOfType(resultNode, expectedType);
+            var op = (UnaryOperator)resultNode;
+            Assert.AreSame(expectedInner, op.Operand);
+        }
+
         public static void IsUnaryOperator<TOperator>(this Assert assert,
             ExpressionNode expectedInner,
             SyntaxNode resultNode)
             where TOperator : UnaryOperator
         {
-            Assert.IsInstanceOfType(resultNode, typeof(TOperator));
-            var op = (TOperator)resultNode;
-            Assert.AreSame(expectedInner, op.Operand);
+            assert.IsUnaryOperator(typeof(TOperator), expectedInner, resultNode);
         }
 
         public static void IsBinaryOperator(this Assert assert,
