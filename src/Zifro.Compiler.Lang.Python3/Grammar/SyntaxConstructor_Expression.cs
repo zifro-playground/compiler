@@ -482,17 +482,46 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitTerm(Python3Parser.TermContext context)
         {
-            if (context.GetToken(Python3Parser.STAR, 0) != null)
-                throw context.NotYetImplementedException("*");
-            if (context.GetToken(Python3Parser.AT, 0) != null)
-                throw context.NotYetImplementedException("@");
-            if (context.GetToken(Python3Parser.DIV, 0) != null)
-                throw context.NotYetImplementedException("/");
-            if (context.GetToken(Python3Parser.MOD, 0) != null)
-                throw context.NotYetImplementedException("%");
-            if (context.GetToken(Python3Parser.IDIV, 0) != null)
-                throw context.NotYetImplementedException("//");
-            return VisitChildren(context);
+            // term: factor (('*'|'@'|'/'|'%'|'//') factor)*
+            var rule = context.GetChildOrThrow<Python3Parser.FactorContext>(0);
+
+            var expr = VisitFactor(rule)
+                .AsTypeOrThrow<ExpressionNode>();
+
+            for (var i = 1; i < context.ChildCount; i += 2)
+            {
+                var op = context.GetChildOrThrow<ITerminalNode>(i);
+                var secondRule = context.GetChildOrThrow<Python3Parser.FactorContext>(i + 1);
+                var secondExpr = VisitFactor(secondRule)
+                    .AsTypeOrThrow<ExpressionNode>();
+
+                switch (op.Symbol.Type)
+                {
+                    case Python3Parser.STAR:
+                        expr = new ArithmeticMultiply(expr, secondExpr);
+                        break;
+
+                    case Python3Parser.AT:
+                        throw op.NotYetImplementedException();
+
+                    case Python3Parser.DIV:
+                        expr = new ArithmeticDivide(expr, secondExpr);
+                        break;
+
+                    case Python3Parser.MOD:
+                        expr = new ArithmeticModulus(expr, secondExpr);
+                        break;
+
+                    case Python3Parser.IDIV:
+                        expr = new ArithmeticFloor(expr, secondExpr);
+                        break;
+
+                    default:
+                        throw context.UnexpectedChildType(op);
+                }
+            }
+
+            return expr;
         }
 
         public override SyntaxNode VisitFactor(Python3Parser.FactorContext context)
