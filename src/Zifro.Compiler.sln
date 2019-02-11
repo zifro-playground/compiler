@@ -30,7 +30,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Lang.Base.Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Lang.Python3.Tests", "Zifro.Compiler.Lang.Python3.Tests\Zifro.Compiler.Lang.Python3.Tests.csproj", "{DFFAA98E-A73D-470F-A00C-0DC0588F83CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zifro.Compiler.Core.Tests", "Zifro.Compiler.Core.Tests\Zifro.Compiler.Core.Tests.csproj", "{F7A039FB-830D-4201-B289-EAAC2D766DC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Core.Tests", "Zifro.Compiler.Core.Tests\Zifro.Compiler.Core.Tests.csproj", "{F7A039FB-830D-4201-B289-EAAC2D766DC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
