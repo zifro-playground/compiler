@@ -85,7 +85,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, unexpectedToken);
 
-            contextMock.VerifyLoopedChildren(2);
+            contextMock.VerifyLoopedChildren(1);
 
             contextMock.Verify();
             innerMock.Verify();
@@ -101,17 +101,14 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.ADD),
-                unexpectedToken,
-                innerMock.Object
+                innerMock.Object,
+                unexpectedToken
             );
 
             // Act + Arrange
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, unexpectedToken);
-
-            // Should error on 2nd
-            contextMock.VerifyLoopedChildren(2);
 
             contextMock.Verify();
             innerMock.Verify();
@@ -171,7 +168,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var innerMock = GetMockRule<Python3Parser.FactorContext>();
             var unexpectedMock = GetInnerMock();
-
+            unexpectedMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.ADD),
@@ -183,9 +180,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, unexpectedMock.Object);
-
-            // Assume error without even looking at it since it's too many for the grammar
-            contextMock.VerifyLoopedChildren(2);
 
             contextMock.Verify();
             innerMock.Verify();
@@ -223,7 +217,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var innerMock = GetInnerMock();
             var unexpectedMock = GetInnerMock();
-
+            unexpectedMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             contextMock.SetupChildren(
                 innerMock.Object,

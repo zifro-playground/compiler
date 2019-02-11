@@ -188,11 +188,11 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
             var expr = VisitAnd_test(rule)
                 .AsTypeOrThrow<ExpressionNode>();
 
-            for (var i = 1; i < context.ChildCount; i+=2)
+            for (var i = 1; i < context.ChildCount; i += 2)
             {
                 context.GetChildOrThrow(i, Python3Parser.OR);
 
-                var secondRule = context.GetChildOrThrow<Python3Parser.And_testContext>(i+1);
+                var secondRule = context.GetChildOrThrow<Python3Parser.And_testContext>(i + 1);
                 var secondExpr = VisitAnd_test(secondRule)
                     .AsTypeOrThrow<ExpressionNode>();
 
@@ -526,13 +526,56 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitFactor(Python3Parser.FactorContext context)
         {
-            if (context.GetToken(Python3Parser.ADD, 0) != null)
-                throw context.NotYetImplementedException("+");
-            if (context.GetToken(Python3Parser.MINUS, 0) != null)
-                throw context.NotYetImplementedException("-");
-            if (context.GetToken(Python3Parser.NOT_OP, 0) != null)
-                throw context.NotYetImplementedException("~");
-            return VisitChildren(context);
+            // factor: ('+' | '-' | '~') factor | power
+            var first = context.GetChildOrThrow<IParseTree>(0);
+
+            switch (first)
+            {
+                case Python3Parser.PowerContext _
+                    when context.ChildCount > 1:
+                    throw context.UnexpectedChildType(context.GetChild(1));
+
+                case Python3Parser.PowerContext power:
+                    return VisitPower(power);
+
+                case ITerminalNode _
+                    when context.ChildCount > 2:
+                    throw context.UnexpectedChildType(context.GetChild(2));
+
+                case ITerminalNode term:
+                    switch (term.Symbol.Type)
+                    {
+                        case Python3Parser.ADD:
+                        {
+                            ExpressionNode innerExpr = GetInnerExpr();
+                            return new ArithmeticPositive(context.GetSourceReference(), innerExpr);
+                        }
+                        case Python3Parser.MINUS:
+                        {
+                            ExpressionNode innerExpr = GetInnerExpr();
+                            return new ArithmeticNegative(context.GetSourceReference(), innerExpr);
+                        }
+                        case Python3Parser.NOT_OP:
+                        {
+                            ExpressionNode innerExpr = GetInnerExpr();
+                            return new BinaryNot(context.GetSourceReference(), innerExpr);
+                        }
+                        default:
+                            throw context.UnexpectedChildType(term);
+                    }
+
+                default:
+                    throw context.UnexpectedChildType(first);
+            }
+
+            ExpressionNode GetInnerExpr()
+            {
+                var innerFactor = context.GetChildOrThrow<Python3Parser.FactorContext>(1);
+                var innerExpr = VisitFactor(innerFactor)
+                    .AsTypeOrThrow<ExpressionNode>();
+
+                return innerExpr;
+            }
         }
 
         public override SyntaxNode VisitPower(Python3Parser.PowerContext context)
