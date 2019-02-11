@@ -113,7 +113,7 @@ namespace Zifro.Compiler.Lang.Python3.Extensions
         }
 
         public static T GetChildOrThrow<T>(this ParserRuleContext context, int index)
-            where T : ParserRuleContext
+            where T : IParseTree
         {
             if (index >= context.ChildCount)
                 throw context.ExpectedChild();

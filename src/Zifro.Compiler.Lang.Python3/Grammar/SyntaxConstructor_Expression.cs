@@ -419,11 +419,33 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitShift_expr(Python3Parser.Shift_exprContext context)
         {
-            if (context.GetToken(Python3Parser.LEFT_SHIFT, 0) != null)
-                throw context.NotYetImplementedException("<<");
-            if (context.GetToken(Python3Parser.RIGHT_SHIFT, 0) != null)
-                throw context.NotYetImplementedException(">>");
-            return VisitChildren(context);
+            // shift_expr: arith_expr (('<<'|'>>') arith_expr)*
+            var rule = context.GetChildOrThrow<Python3Parser.Arith_exprContext>(0);
+
+            var expr = VisitArith_expr(rule)
+                .AsTypeOrThrow<ExpressionNode>();
+
+            for (var i = 1; i < context.ChildCount; i += 2)
+            {
+                var op = context.GetChildOrThrow<ITerminalNode>(i);
+                var secondRule = context.GetChildOrThrow<Python3Parser.Arith_exprContext>(i + 1);
+                var secondExpr = VisitArith_expr(secondRule)
+                    .AsTypeOrThrow<ExpressionNode>();
+
+                switch (op.Symbol.Type)
+                {
+                    case Python3Parser.LEFT_SHIFT:
+                        expr = new BinaryLeftShift(expr, secondExpr);
+                        break;
+                    case Python3Parser.RIGHT_SHIFT:
+                        expr = new BinaryRightShift(expr, secondExpr);
+                        break;
+                    default:
+                        throw context.UnexpectedChildType(op);
+                }
+            }
+
+            return expr;
         }
 
         public override SyntaxNode VisitArith_expr(Python3Parser.Arith_exprContext context)

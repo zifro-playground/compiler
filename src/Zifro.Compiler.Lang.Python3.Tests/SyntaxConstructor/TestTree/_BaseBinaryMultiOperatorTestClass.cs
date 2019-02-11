@@ -176,8 +176,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, unexpectedNode);
-            // Suppose error directly on token
-            contextMock.VerifyLoopedChildren(2);
+            // ~~Suppose error directly on token~~
+            // Allow any number of iterations through children
+            //contextMock.VerifyLoopedChildren(2);
 
             contextMock.Verify();
             ctorMock.Verify();
@@ -190,7 +191,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var innerRuleMock = GetInnerMockWithSetup(GetExpressionMock());
 
-            ITerminalNode unexpectedNode = GetTerminalForThisClass();
+            ITerminalNode unexpectedNode = GetTerminal(token);
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
