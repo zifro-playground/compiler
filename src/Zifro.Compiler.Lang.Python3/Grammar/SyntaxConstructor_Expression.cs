@@ -8,6 +8,7 @@ using Zifro.Compiler.Lang.Python3.Extensions;
 using Zifro.Compiler.Lang.Python3.Resources;
 using Zifro.Compiler.Lang.Python3.Syntax;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators;
+using Zifro.Compiler.Lang.Python3.Syntax.Operators.Arithmetics;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators.Binaries;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators.Comparisons;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators.Logicals;
@@ -450,11 +451,33 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitArith_expr(Python3Parser.Arith_exprContext context)
         {
-            if (context.GetToken(Python3Parser.ADD, 0) != null)
-                throw context.NotYetImplementedException("+");
-            if (context.GetToken(Python3Parser.MINUS, 0) != null)
-                throw context.NotYetImplementedException("-");
-            return VisitChildren(context);
+            // arith_expr: term (('+'|'-') term)*
+            var rule = context.GetChildOrThrow<Python3Parser.TermContext>(0);
+
+            var expr = VisitTerm(rule)
+                .AsTypeOrThrow<ExpressionNode>();
+
+            for (var i = 1; i < context.ChildCount; i += 2)
+            {
+                var op = context.GetChildOrThrow<ITerminalNode>(i);
+                var secondRule = context.GetChildOrThrow<Python3Parser.TermContext>(i + 1);
+                var secondExpr = VisitTerm(secondRule)
+                    .AsTypeOrThrow<ExpressionNode>();
+
+                switch (op.Symbol.Type)
+                {
+                    case Python3Parser.ADD:
+                        expr = new ArithmeticAdd(expr, secondExpr);
+                        break;
+                    case Python3Parser.MINUS:
+                        expr = new ArithmeticSubtract(expr, secondExpr);
+                        break;
+                    default:
+                        throw context.UnexpectedChildType(op);
+                }
+            }
+
+            return expr;
         }
 
         public override SyntaxNode VisitTerm(Python3Parser.TermContext context)
