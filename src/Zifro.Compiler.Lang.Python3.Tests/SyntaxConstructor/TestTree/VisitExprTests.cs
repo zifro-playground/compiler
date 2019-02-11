@@ -13,7 +13,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
     public class VisitExprTests : BaseBinaryOperatorTestClass<
             Python3Parser.ExprContext,
             Python3Parser.Xor_exprContext,
-            BinaryXor
+            BinaryOr
         >
     {
         public override SyntaxNode VisitContext()
