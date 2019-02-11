@@ -60,26 +60,42 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             Assert.AreSame(expectedInner, op.Operand);
         }
 
+        public static void IsBinaryOperator(this Assert assert,
+            Type expectedType,
+            ExpressionNode expectedLhs, ExpressionNode expectedRhs,
+            SyntaxNode resultNode)
+        {
+            Assert.IsInstanceOfType(resultNode, expectedType);
+            var op = (BinaryOperator)resultNode;
+            Assert.AreSame(expectedLhs, op.LeftOperand);
+            Assert.AreSame(expectedRhs, op.RightOperand);
+        }
+
         public static void IsBinaryOperator<TOperator>(this Assert assert, 
             ExpressionNode expectedLhs, ExpressionNode expectedRhs,
             SyntaxNode resultNode)
             where TOperator : BinaryOperator
         {
-            Assert.IsInstanceOfType(resultNode, typeof(TOperator));
-            var op = (TOperator)resultNode;
-            Assert.AreSame(expectedLhs, op.LeftOperand);
-            Assert.AreSame(expectedRhs, op.RightOperand);
+            assert.IsBinaryOperator(typeof(TOperator), expectedLhs, expectedRhs, resultNode);
         }
-        
+
+        public static ExpressionNode IsBinaryOperatorGetLhs(this Assert assert,
+            Type expectedType,
+            ExpressionNode expectedRhs,
+            SyntaxNode resultNode)
+        {
+            Assert.IsInstanceOfType(resultNode, expectedType);
+            var op = (BinaryOperator)resultNode;
+            Assert.AreSame(expectedRhs, op.RightOperand);
+            return op.LeftOperand;
+        }
+
         public static ExpressionNode IsBinaryOperatorGetLhs<TOperator>(this Assert assert,
             ExpressionNode expectedRhs,
             SyntaxNode resultNode)
             where TOperator : BinaryOperator
         {
-            Assert.IsInstanceOfType(resultNode, typeof(TOperator));
-            var op = (TOperator)resultNode;
-            Assert.AreSame(expectedRhs, op.RightOperand);
-            return op.LeftOperand;
+            return assert.IsBinaryOperatorGetLhs(typeof(TOperator), expectedRhs, resultNode);
         }
 
         /// <summary>

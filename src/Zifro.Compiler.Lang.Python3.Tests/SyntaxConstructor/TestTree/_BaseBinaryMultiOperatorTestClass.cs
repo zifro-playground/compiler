@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,11 +19,10 @@ using Zifro.Compiler.Lang.Python3.Syntax.Operators;
 
 namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 {
-    public abstract class BaseBinaryOperatorTestClass<TContext, TInnerContext, TOperator>
+    public abstract class BaseBinaryMultiOperatorTestClass<TContext, TInnerContext>
         : BaseVisitTestClass<TContext, TInnerContext>
         where TContext : ParserRuleContext
         where TInnerContext : ParserRuleContext
-        where TOperator : BinaryOperator
     {
         public override void SetupForInnerMock(Mock<TInnerContext> innerMock, SyntaxNode returnValue)
         {
@@ -30,6 +32,57 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
         public abstract ISetup<Grammar.SyntaxConstructor, SyntaxNode> RawSetupForInnerMock(
             Mock<TInnerContext> innerMock);
+
+        public override ITerminalNode GetTerminalForThisClass()
+        {
+            throw new NotSupportedException("Use DataRow attributes instead.");
+        }
+
+        public static IEnumerable<(int token, Type expectedType)> OperatorsAndExpectedTypes;
+
+        public static IEnumerable<object[]> DataTokenExpectedType
+            => OperatorsAndExpectedTypes
+                .Select(o => new object[] { o.token, o.expectedType });
+
+        public static IEnumerable<object[]> DataDoubleDifferentTokenExpectedType
+            => from data1 in OperatorsAndExpectedTypes
+                join data2 in OperatorsAndExpectedTypes on 1 equals 1
+                where data1.token != data2.token
+                select new object[]
+                {
+                    data1.token,
+                    data1.expectedType,
+                    data2.token,
+                    data2.expectedType
+                };
+
+        public static IEnumerable<object[]> DataTokens
+            => OperatorsAndExpectedTypes
+                .Select(o => new object[]
+                {
+                    o.token
+                });
+
+        public static string GetCustomDynamicDataDisplayName(MethodInfo method, object[] data)
+        {
+            string name = method.Name.Substring("Visit_".Length);
+            name = name.Substring(0, name.Length - "_Test".Length);
+
+            return string.Join(" · ", data.Select(o =>
+            {
+                switch (o)
+                {
+                    case Type t:
+                        return t.Name;
+
+                    case int i:
+                        return Python3Parser.DefaultVocabulary.GetLiteralName(i);
+
+                    default:
+                        return o.ToString();
+                }
+            })) + $" ({name})";
+        }
 
         [TestMethod]
         public virtual void Visit_SingleRule_Test()
@@ -54,8 +107,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             ctorMock.Verify();
         }
 
-        [TestMethod]
-        public virtual void Visit_MultipleRuleSingleToken_Test()
+        [DataTestMethod]
+        [DynamicData(nameof(DataTokenExpectedType), DynamicDataDisplayName = nameof(GetCustomDynamicDataDisplayName))]
+        public virtual void Visit_MultipleRuleSingleToken_Test(int token, Type expectedOperatorType)
         {
             // Arrange
             var expected = GetExpressionMock();
@@ -63,7 +117,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
-                GetTerminalForThisClass(),
+                GetTerminal(token),
                 innerRuleMock.Object
             );
 
@@ -71,7 +125,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             SyntaxNode result = VisitContext();
 
             // Assert
-            Assert.That.IsBinaryOperator<TOperator>(expected, expected, result);
+            Assert.That.IsBinaryOperator(expectedOperatorType, expected, expected, result);
             contextMock.VerifyLoopedChildren(3);
 
             innerRuleMock.Verify();
@@ -79,8 +133,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             ctorMock.Verify();
         }
 
-        [TestMethod]
-        public virtual void Visit_InvalidMissingRhs_Test()
+        [DataTestMethod]
+        [DynamicData(nameof(DataTokenExpectedType), DynamicDataDisplayName = nameof(GetCustomDynamicDataDisplayName))]
+        public virtual void Visit_InvalidMissingRhs_Test(int token, Type expectedOperatorType)
         {
             // Arrange
             var innerRuleMock = GetInnerMockWithSetup(GetExpressionMock());
@@ -89,7 +144,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
-                GetTerminalForThisClass()
+                GetTerminal(token)
             );
 
             // Act + Assert
@@ -128,8 +183,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             ctorMock.Verify();
         }
 
-        [TestMethod]
-        public virtual void Visit_MultipleRuleExcessNode_Test()
+        [DataTestMethod]
+        [DynamicData(nameof(DataTokens), DynamicDataDisplayName = nameof(GetCustomDynamicDataDisplayName))]
+        public virtual void Visit_MultipleRuleExcessNode_Test(int token)
         {
             // Arrange
             var innerRuleMock = GetInnerMockWithSetup(GetExpressionMock());
@@ -138,7 +194,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
-                GetTerminalForThisClass(),
+                GetTerminal(token),
                 innerRuleMock.Object,
                 unexpectedNode
             );
@@ -155,8 +211,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             ctorMock.Verify();
         }
 
-        [TestMethod]
-        public virtual void Visit_MultipleOpsOrder_Test()
+        [DataTestMethod]
+        [DynamicData(nameof(DataTokenExpectedType), DynamicDataDisplayName = nameof(GetCustomDynamicDataDisplayName))]
+        public virtual void Visit_MultipleSameOpsOrder_Test(int token, Type expectedType)
         {
             // Arrange
             var expected1 = GetExpressionMock();
@@ -169,9 +226,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             contextMock.SetupChildren(
                 innerRuleMock1.Object,
-                GetTerminalForThisClass(),
+                GetTerminal(token),
                 innerRuleMock2.Object,
-                GetTerminalForThisClass(),
+                GetTerminal(token),
                 innerRuleMock3.Object
             );
 
@@ -181,10 +238,57 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Assert
             // Expect order ((1 op 2) op 3)
             // so it compiles left-to-right
-            var lhs = Assert.That.IsBinaryOperatorGetLhs<TOperator>(
+            var lhs = Assert.That.IsBinaryOperatorGetLhs(
+                expectedType: expectedType,
                 expectedRhs: expected3, result);
 
-            Assert.That.IsBinaryOperator<TOperator>(
+            Assert.That.IsBinaryOperator(
+                expectedType: expectedType,
+                expectedLhs: expected1,
+                expectedRhs: expected2, lhs);
+
+            contextMock.VerifyLoopedChildren(5);
+
+            innerRuleMock1.Verify();
+            innerRuleMock2.Verify();
+            innerRuleMock3.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [DataTestMethod]
+        [DynamicData(nameof(DataDoubleDifferentTokenExpectedType), DynamicDataDisplayName = nameof(GetCustomDynamicDataDisplayName))]
+        public virtual void Visit_MultipleDistinctOpsOrder_Test(int token1, Type expectedType1, int token2, Type expectedType2)
+        {
+            // Arrange
+            var expected1 = GetExpressionMock();
+            var expected2 = GetExpressionMock();
+            var expected3 = GetExpressionMock();
+
+            var innerRuleMock1 = GetInnerMockWithSetup(expected1);
+            var innerRuleMock2 = GetInnerMockWithSetup(expected2);
+            var innerRuleMock3 = GetInnerMockWithSetup(expected3);
+
+            contextMock.SetupChildren(
+                innerRuleMock1.Object,
+                GetTerminal(token1),
+                innerRuleMock2.Object,
+                GetTerminal(token2),
+                innerRuleMock3.Object
+            );
+
+            // Act
+            SyntaxNode result = VisitContext();
+
+            // Assert
+            // Expect order ((1 op 2) op 3)
+            // so it compiles left-to-right
+            var lhs = Assert.That.IsBinaryOperatorGetLhs(
+                expectedType: expectedType2,
+                expectedRhs: expected3, result);
+
+            Assert.That.IsBinaryOperator(
+                expectedType: expectedType1,
                 expectedLhs: expected1,
                 expectedRhs: expected2, lhs);
 
