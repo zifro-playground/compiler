@@ -70,7 +70,7 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Användning av &apos;{0}&apos; stödjs inte än..
+        ///   Looks up a localized string similar to Användning av &apos;{4}&apos; stödjs inte än..
         /// </summary>
         public static string Ex_Syntax_NotYetImplemented_Keyword {
             get {
