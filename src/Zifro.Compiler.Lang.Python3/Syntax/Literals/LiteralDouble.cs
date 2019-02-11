@@ -1,4 +1,7 @@
-﻿using Zifro.Compiler.Core.Entities;
+﻿using System.Globalization;
+using Zifro.Compiler.Core.Entities;
+using Zifro.Compiler.Core.Exceptions;
+using Zifro.Compiler.Lang.Python3.Exceptions;
 
 namespace Zifro.Compiler.Lang.Python3.Syntax.Literals
 {
@@ -11,7 +14,17 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Literals
 
         public static LiteralDouble Parse(SourceReference source, string text)
         {
-            throw new System.NotImplementedException();
+            // floatnumber   ::=  pointfloat | exponentfloat
+
+            if (double.TryParse(text,
+                NumberStyles.AllowExponent |
+                NumberStyles.AllowDecimalPoint,
+                CultureInfo.InvariantCulture,  out double value))
+            {
+                return new LiteralDouble(source, value);
+            }
+
+            throw new SyntaxLiteralFormatException(source);
         }
     }
 }

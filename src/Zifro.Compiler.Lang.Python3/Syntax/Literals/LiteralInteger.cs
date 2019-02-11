@@ -18,13 +18,16 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Literals
             {
                 switch (text[1])
                 {
+                    case 'B':
                     case 'b':
                         // bininteger     ::=  "0" ("b" | "B") bindigit+
                         throw new SyntaxNotYetImplementedException(source);
+                    case 'O':
                     case 'o':
                         // octinteger     ::=  "0" ("o" | "O") octdigit+
                         throw new SyntaxNotYetImplementedException(source);
 
+                    case 'X':
                     case 'x':
                         // hexinteger     ::=  "0" ("x" | "X") hexdigit+
                         if (int.TryParse(text.Substring(2),
