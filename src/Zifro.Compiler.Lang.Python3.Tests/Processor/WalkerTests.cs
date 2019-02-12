@@ -36,7 +36,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             processor.WalkInstruction();
 
             // Assert
-            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name, processor.LastError?.Message);
+            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name,
+                processor.LastError?.Message);
             Assert.AreEqual(ProcessState.Ended, processor.State);
         }
 
@@ -44,37 +45,39 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         public void OpCodeThrewInterpreterErrorTest()
         {
             // Arrange
-            var actualEx = new InternalException("","");
+            var expectedEx = new InternalException("", "");
             var processor = new PyProcessor(
-                new ThrowingOp(actualEx)
+                new ThrowingOp(expectedEx)
             );
 
             // Act
-            processor.WalkInstruction();
+            var thrownEx = Assert.ThrowsException<InternalException>((Action) processor.WalkInstruction);
 
             // Assert
             Assert.AreEqual(ProcessState.Error, processor.State);
             Assert.AreEqual(ProcessState.Error, processor.State);
-            Assert.AreSame(actualEx, processor.LastError);
+            Assert.AreSame(expectedEx, processor.LastError);
+            Assert.AreSame(expectedEx, thrownEx);
         }
 
         [TestMethod]
         public void OpCodeThrewSystemErrorTest()
         {
             // Arrange
-            var actualEx = new Exception();
+            var expectedEx = new Exception();
             var processor = new PyProcessor(
-                new ThrowingOp(actualEx)
+                new ThrowingOp(expectedEx)
             );
 
             // Act
-            processor.WalkInstruction();
+            var thrownEx = Assert.ThrowsException<InterpreterLocalizedException>((Action) processor.WalkInstruction);
 
             // Assert
             Assert.AreEqual(ProcessState.Error, processor.State);
             Assert.IsNotNull(processor.LastError);
             Assert.IsInstanceOfType(processor.LastError, typeof(InterpreterLocalizedException));
-            Assert.AreSame(actualEx, processor.LastError.InnerException);
+            Assert.AreSame(expectedEx, processor.LastError.InnerException);
+            Assert.AreSame(expectedEx, thrownEx.InnerException);
         }
 
         [TestMethod]
@@ -88,7 +91,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             var ex = Assert.ThrowsException<InternalException>((Action) processor.WalkInstruction);
 
             // Assert
-            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name, processor.LastError?.Message);
+            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name,
+                processor.LastError?.Message);
             Assert.That.ErrorFormatArgsEqual(ex,
                 nameof(Localized_Python3_Interpreter.Ex_Process_Ended));
         }
@@ -98,12 +102,13 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new ThrowingOp(new InternalException("",""))
+                new ThrowingOp(new InternalException("", ""))
             );
 
             // Act
-            processor.WalkInstruction();
-            var ex = Assert.ThrowsException<InternalException>((Action)processor.WalkInstruction);
+            Assert.ThrowsException<InternalException>((Action) processor.WalkInstruction);
+
+            var ex = Assert.ThrowsException<InternalException>((Action) processor.WalkInstruction);
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
@@ -139,10 +144,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new NopOp { Source = new SourceReference(1,1,0,0) },
-                new NopOp { Source = new SourceReference(1,1,1,1) },
-                new NopOp { Source = new SourceReference(1,1,2,2) },
-                new NopOp { Source = new SourceReference(2,2,3,3) }
+                new NopOp {Source = new SourceReference(1, 1, 0, 0)},
+                new NopOp {Source = new SourceReference(1, 1, 1, 1)},
+                new NopOp {Source = new SourceReference(1, 1, 2, 2)},
+                new NopOp {Source = new SourceReference(2, 2, 3, 3)}
             );
 
             // Act
@@ -158,10 +163,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new NopOp { Source = new SourceReference(1, 1, 0, 0) },
-                new NopOp { Source = new SourceReference(1, 1, 1, 1) },
-                new NopOp { Source = new SourceReference(1, 1, 2, 2) },
-                new NopOp { Source = new SourceReference(2, 2, 3, 3) }
+                new NopOp {Source = new SourceReference(1, 1, 0, 0)},
+                new NopOp {Source = new SourceReference(1, 1, 1, 1)},
+                new NopOp {Source = new SourceReference(1, 1, 2, 2)},
+                new NopOp {Source = new SourceReference(2, 2, 3, 3)}
             );
 
             // Act
@@ -177,10 +182,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new NopOp { Source = new SourceReference(1, 1, 0, 0) },
-                new NopOp { Source = new SourceReference(2, 2, 1, 1) },
-                new NopOp { Source = new SourceReference(2, 2, 2, 2) },
-                new NopOp { Source = new SourceReference(2, 2, 3, 3) }
+                new NopOp {Source = new SourceReference(1, 1, 0, 0)},
+                new NopOp {Source = new SourceReference(2, 2, 1, 1)},
+                new NopOp {Source = new SourceReference(2, 2, 2, 2)},
+                new NopOp {Source = new SourceReference(2, 2, 3, 3)}
             );
 
             // Act
@@ -196,10 +201,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new NopOp { Source = new SourceReference(1, 1, 0, 0) },
-                new NopOp { Source = SourceReference.ClrSource },
-                new NopOp { Source = SourceReference.ClrSource },
-                new NopOp { Source = new SourceReference(2, 2, 3, 3) }
+                new NopOp {Source = new SourceReference(1, 1, 0, 0)},
+                new NopOp {Source = SourceReference.ClrSource},
+                new NopOp {Source = SourceReference.ClrSource},
+                new NopOp {Source = new SourceReference(2, 2, 3, 3)}
             );
 
             // Act
@@ -215,10 +220,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new NopOp { Source = SourceReference.ClrSource },
-                new NopOp { Source = new SourceReference(1, 1, 1, 1) },
-                new NopOp { Source = new SourceReference(1, 1, 2, 2) },
-                new NopOp { Source = new SourceReference(2, 2, 3, 3) }
+                new NopOp {Source = SourceReference.ClrSource},
+                new NopOp {Source = new SourceReference(1, 1, 1, 1)},
+                new NopOp {Source = new SourceReference(1, 1, 2, 2)},
+                new NopOp {Source = new SourceReference(2, 2, 3, 3)}
             );
 
             // Act
@@ -234,10 +239,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new NopOp { Source = new SourceReference(2, 1, 0, 0) },
-                new NopOp { Source = new SourceReference(2, 2, 1, 1) },
-                new NopOp { Source = new SourceReference(2, 2, 2, 2) },
-                new NopOp { Source = new SourceReference(2, 2, 3, 3) }
+                new NopOp {Source = new SourceReference(2, 1, 0, 0)},
+                new NopOp {Source = new SourceReference(2, 2, 1, 1)},
+                new NopOp {Source = new SourceReference(2, 2, 2, 2)},
+                new NopOp {Source = new SourceReference(2, 2, 3, 3)}
             );
 
             // Act
@@ -247,6 +252,5 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             Assert.AreEqual(3, processor.ProgramCounter);
             Assert.AreEqual(ProcessState.Ended, processor.State);
         }
-
     }
 }
