@@ -1,4 +1,6 @@
 ﻿using Zifro.Compiler.Core.Entities;
+using Zifro.Compiler.Core.Interfaces;
+using Zifro.Compiler.Lang.Python3.Entities;
 using Zifro.Compiler.Lang.Python3.Exceptions;
 
 namespace Zifro.Compiler.Lang.Python3.Syntax.Literals
@@ -22,6 +24,11 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Literals
                 default:
                     throw new SyntaxLiteralFormatException(source);
             }
+        }
+
+        public override IScriptType ToScriptType(PyProcessor processor)
+        {
+            return new PyBoolean(processor, Value);
         }
     }
 }

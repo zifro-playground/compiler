@@ -10,15 +10,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
 {
     [TestClass]
     [DoNotParallelize]
-    public class ValueStackTests
+    public class ValueStackTests : BaseProcessorTestClass
     {
-        protected PyProcessor processor;
-
-        protected static Mock<IScriptType> GetScriptTypeMock()
-        {
-            return new Mock<IScriptType>(MockBehavior.Strict);
-        }
-
         [TestInitialize]
         public void TestInitialize()
         {
@@ -29,11 +22,11 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         public void AddToStackTest()
         {
             // Arrange
-            var valueMock = GetScriptTypeMock();
+            var integer = GetInteger(5);
 
             // Act
             int before = processor.ValueStackCount;
-            processor.PushValue(valueMock.Object);
+            processor.PushValue(integer);
             int after = processor.ValueStackCount;
 
             // Assert
@@ -45,13 +38,13 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         public void AddMultipleTest()
         {
             // Arrange
-            var valueMock = GetScriptTypeMock();
+            var integer = GetInteger(5);
 
             // Act
             int before = processor.ValueStackCount;
-            processor.PushValue(valueMock.Object);
-            processor.PushValue(valueMock.Object);
-            processor.PushValue(valueMock.Object);
+            processor.PushValue(integer);
+            processor.PushValue(integer);
+            processor.PushValue(integer);
             int after = processor.ValueStackCount;
 
             // Assert
@@ -79,12 +72,12 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         public void PopOrderingTest()
         {
             // Arrange
-            var valueMock1 = GetScriptTypeMock();
-            var valueMock2 = GetScriptTypeMock();
-            var valueMock3 = GetScriptTypeMock();
-            processor.PushValue(valueMock1.Object);
-            processor.PushValue(valueMock2.Object);
-            processor.PushValue(valueMock3.Object);
+            var valueMock1 = GetInteger(5);
+            var valueMock2 = GetInteger(5);
+            var valueMock3 = GetInteger(5);
+            processor.PushValue(valueMock1);
+            processor.PushValue(valueMock2);
+            processor.PushValue(valueMock3);
 
             // Act
             int before = processor.ValueStackCount;
@@ -96,9 +89,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             // Assert
 
             // Check first in -> last out
-            Assert.AreSame(valueMock3.Object, result1);
-            Assert.AreSame(valueMock2.Object, result2);
-            Assert.AreSame(valueMock1.Object, result3);
+            Assert.AreSame(valueMock3, result1);
+            Assert.AreSame(valueMock2, result2);
+            Assert.AreSame(valueMock1, result3);
 
             Assert.AreEqual(3, before);
             Assert.AreEqual(0, after);
