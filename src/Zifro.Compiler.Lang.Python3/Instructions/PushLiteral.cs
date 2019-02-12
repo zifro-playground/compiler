@@ -7,15 +7,15 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
 {
     public class PushLiteral<TValue> : IOpCode
     {
+        public SourceReference Source { get; }
+
+        public Literal<TValue> Literal { get; }
+
         public PushLiteral(Literal<TValue> literal)
         {
             Literal = literal;
             Source = literal.Source;
         }
-
-        public Literal<TValue> Literal { get; }
-
-        public SourceReference Source { get; }
 
         public void Execute(PyProcessor processor)
         {
