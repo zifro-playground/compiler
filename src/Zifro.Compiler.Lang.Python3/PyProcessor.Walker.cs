@@ -20,22 +20,48 @@ namespace Zifro.Compiler.Lang.Python3
 
         public void WalkInstruction()
         {
-            try
+            switch (State)
             {
-                _instructionPointer++;
-                _opCodes[_instructionPointer].Execute(this);
-            }
-            catch (InterpreterException ex)
-            {
-                LastError = ex;
-                State = ProcessState.Error;
-            }
-            catch (Exception ex)
-            {
-                LastError = new InterpreterLocalizedException(
-                    nameof(Localized_Python3_Interpreter.Ex_Unknown_Error),
-                    Localized_Python3_Interpreter.Ex_Unknown_Error,
-                    ex, ex.Message);
+                case ProcessState.Ended:
+                case ProcessState.Error:
+                    throw new InternalException(
+                        nameof(Localized_Python3_Interpreter.Ex_Process_Ended),
+                        Localized_Python3_Interpreter.Ex_Process_Ended);
+
+                case ProcessState.Yielded:
+                    throw new InternalException(
+                        nameof(Localized_Python3_Interpreter.Ex_Process_Yielded),
+                        Localized_Python3_Interpreter.Ex_Process_Yielded);
+
+                case ProcessState.NotStarted when _opCodes.Length == 0:
+                    State = ProcessState.Ended;
+                    break;
+
+                default:
+                    try
+                    {
+                        _instructionPointer++;
+                        _opCodes[_instructionPointer].Execute(this);
+
+                        State = _instructionPointer + 1 < _opCodes.Length
+                            ? ProcessState.Running
+                            : ProcessState.Ended;
+                    }
+                    catch (InterpreterException ex)
+                    {
+                        State = ProcessState.Error;
+                        LastError = ex;
+                    }
+                    catch (Exception ex)
+                    {
+                        State = ProcessState.Error;
+
+                        LastError = new InterpreterLocalizedException(
+                            nameof(Localized_Python3_Interpreter.Ex_Unknown_Error),
+                            Localized_Python3_Interpreter.Ex_Unknown_Error,
+                            ex, ex.Message);
+                    }
+                    break;
             }
         }
     }

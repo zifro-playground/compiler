@@ -22,8 +22,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             public readonly InternalException exception = 
                 new InternalException(LocalizeKey, "Error thrown by op-code.");
             
-
             public SourceReference Source { get; } = SourceReference.ClrSource;
+
             public void Execute(PyProcessor processor)
             {
                 throw exception;
@@ -31,7 +31,18 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         }
 
         [TestMethod]
-        public void NoOpCodesTest()
+        public void NoOpCodesNotStartedTest()
+        {
+            // Arrange
+            var processor = new PyProcessor();
+
+            // Assert
+            Assert.AreEqual(ProcessState.NotStarted, processor.State);
+            Assert.IsNull(processor.LastError);
+        }
+
+        [TestMethod]
+        public void NoOpCodesStartedTest()
         {
             // Arrange
             var processor = new PyProcessor();
@@ -40,8 +51,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             processor.WalkInstruction();
 
             // Assert
+            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name, processor.LastError?.Message);
             Assert.AreEqual(ProcessState.Ended, processor.State);
-            Assert.IsNull(processor.LastError);
         }
 
         [TestMethod]
@@ -69,12 +80,13 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             var processor = new PyProcessor();
 
             // Act
+            processor.WalkInstruction();
             var ex = Assert.ThrowsException<InternalException>((Action) processor.WalkInstruction);
 
             // Assert
+            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name, processor.LastError?.Message);
             Assert.That.ErrorFormatArgsEqual(ex,
                 nameof(Localized_Python3_Interpreter.Ex_Process_Ended));
-            Assert.IsNull(processor.LastError);
         }
 
         [TestMethod]
