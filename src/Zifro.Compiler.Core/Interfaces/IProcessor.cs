@@ -3,9 +3,10 @@
     public interface IProcessor
     {
         IScriptTypeFactory Factory { get; }
-        IScopeContext Globals { get; }
+        IScopeContext GlobalScope { get; }
+        IScopeContext CurrentScope { get; }
 
         void ContinueYieldedValue(IScriptType value);
-        void Walk();
+        void WalkLine();
     }
 }

@@ -1,13 +1,14 @@
 ﻿using Antlr4.Runtime;
+using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Lang.Python3.Grammar;
 
 namespace Zifro.Compiler.Lang.Python3
 {
-    public class PyCompiler : Python3BaseVisitor<ParserRuleContext>
+    public class PyCompiler : ICompiler
     {
-        public override ParserRuleContext VisitFile_input(Python3Parser.File_inputContext context)
+        public IProcessor Compile(string code)
         {
-            return base.VisitFile_input(context);
+            throw new System.NotImplementedException();
         }
     }
 }

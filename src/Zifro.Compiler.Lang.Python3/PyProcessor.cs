@@ -1,8 +1,9 @@
-﻿using Zifro.Compiler.Core.Interfaces;
+﻿using System.Collections.Generic;
+using Zifro.Compiler.Core.Interfaces;
 
 namespace Zifro.Compiler.Lang.Python3
 {
-    public class PyProcessor : IProcessor
+    public partial class PyProcessor : IProcessor
     {
         public PyProcessor()
         {
@@ -11,16 +12,25 @@ namespace Zifro.Compiler.Lang.Python3
 
         public IScriptTypeFactory Factory { get; }
 
-        public IScopeContext Globals { get; }
+        public IScopeContext GlobalScope { get; }
+        public IScopeContext CurrentScope { get; }
+
+        private int _instructionPointer;
+        private Stack<IScriptType> _valueStack;
 
         public void ContinueYieldedValue(IScriptType value)
         {
             throw new System.NotImplementedException();
         }
 
-        public void Walk()
+        public void WalkLine()
         {
             throw new System.NotImplementedException();
+        }
+
+        public void WalkInstruction()
+        {
+
         }
     }
 }

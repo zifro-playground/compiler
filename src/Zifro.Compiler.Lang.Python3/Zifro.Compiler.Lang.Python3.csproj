@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -25,6 +25,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resources\Localized_Python3_Interpreter.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Localized_Python3_Interpreter.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Localized_Python3_Parser.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -38,6 +43,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\Localized_Python3_Interpreter.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localized_Python3_Interpreter.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Localized_Python3_Parser.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Localized_Python3_Parser.Designer.cs</LastGenOutput>
@@ -46,6 +55,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Localized_Python3_Syntax.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Instructions\" />
   </ItemGroup>
 
 </Project>
