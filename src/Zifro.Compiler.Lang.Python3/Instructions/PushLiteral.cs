@@ -1,4 +1,5 @@
-﻿using Zifro.Compiler.Core.Interfaces;
+﻿using Zifro.Compiler.Core.Entities;
+using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Lang.Python3.Interfaces;
 using Zifro.Compiler.Lang.Python3.Syntax;
 
@@ -9,18 +10,21 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
         public PushLiteral(Literal<TValue> literal)
         {
             Literal = literal;
+            Source = literal.Source;
         }
 
         public Literal<TValue> Literal { get; }
 
+        public SourceReference Source { get; }
+
         public void Execute(PyProcessor processor)
         {
-            throw new System.NotImplementedException();
+            processor.PushValue(Literal.ToScriptType(processor));
         }
 
         public override string ToString()
         {
-            return $"add ${Literal}";
+            return $"push ${Literal}";
         }
     }
 }

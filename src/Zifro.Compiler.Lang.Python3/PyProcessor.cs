@@ -25,19 +25,5 @@ namespace Zifro.Compiler.Lang.Python3
         private readonly Stack<IScriptType> _valueStack;
         private IOpCode[] _opCodes;
 
-        public void ContinueYieldedValue(IScriptType value)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void WalkLine()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void WalkInstruction()
-        {
-
-        }
     }
 }
