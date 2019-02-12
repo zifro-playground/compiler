@@ -13,7 +13,7 @@ using Zifro.Compiler.Lang.Python3.Tests.TestingOps;
 namespace Zifro.Compiler.Lang.Python3.Tests.Processor
 {
     [TestClass]
-    public class OpCodeTests
+    public class WalkerTests
     {
         [TestMethod]
         public void NoOpCodesNotStartedTest()

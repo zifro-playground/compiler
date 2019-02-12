@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Linq.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Zifro.Compiler.Core.Entities;
+using Zifro.Compiler.Core.Interfaces;
+using Zifro.Compiler.Lang.Python3.Entities;
 using Zifro.Compiler.Lang.Python3.Instructions;
 using Zifro.Compiler.Lang.Python3.Syntax;
 using Zifro.Compiler.Lang.Python3.Syntax.Literals;
@@ -14,13 +17,13 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
     public class CompileOperatorTests
     {
         [DataTestMethod]
-        [DataRow(typeof(ArithmeticAdd), OperatorCode.Add, DisplayName = "op +")]
-        [DataRow(typeof(ArithmeticSubtract), OperatorCode.Sub, DisplayName = "op -")]
-        [DataRow(typeof(ArithmeticMultiply), OperatorCode.Mul, DisplayName = "op *")]
-        [DataRow(typeof(ArithmeticDivide), OperatorCode.Div, DisplayName = "op /")]
-        [DataRow(typeof(ArithmeticFloor), OperatorCode.Flr, DisplayName = "op //")]
-        [DataRow(typeof(ArithmeticModulus), OperatorCode.Mod, DisplayName = "op %")]
-        [DataRow(typeof(ArithmeticPower), OperatorCode.Pow, DisplayName = "op **")]
+        [DataRow(typeof(ArithmeticAdd), OperatorCode.Add, DisplayName = "comp op +")]
+        [DataRow(typeof(ArithmeticSubtract), OperatorCode.Sub, DisplayName = "comp op -")]
+        [DataRow(typeof(ArithmeticMultiply), OperatorCode.Mul, DisplayName = "comp op *")]
+        [DataRow(typeof(ArithmeticDivide), OperatorCode.Div, DisplayName = "comp op /")]
+        [DataRow(typeof(ArithmeticFloor), OperatorCode.Flr, DisplayName = "comp op //")]
+        [DataRow(typeof(ArithmeticModulus), OperatorCode.Mod, DisplayName = "comp op %")]
+        [DataRow(typeof(ArithmeticPower), OperatorCode.Pow, DisplayName = "comp op **")]
         public void CompileBinaryTests(Type operatorType, OperatorCode expectedCode)
         {
             // Arrange
@@ -42,5 +45,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
 
             exprMock.Verify(o => o.Compile(compiler), Times.Exactly(2));
         }
+
     }
 }
