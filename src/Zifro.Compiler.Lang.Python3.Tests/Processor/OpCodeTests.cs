@@ -6,30 +6,15 @@ using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Lang.Python3.Entities;
 using Zifro.Compiler.Lang.Python3.Instructions;
-using Zifro.Compiler.Lang.Python3.Interfaces;
 using Zifro.Compiler.Lang.Python3.Resources;
 using Zifro.Compiler.Lang.Python3.Syntax.Literals;
+using Zifro.Compiler.Lang.Python3.Tests.Processor.TestingOps;
 
 namespace Zifro.Compiler.Lang.Python3.Tests.Processor
 {
     [TestClass]
     public class OpCodeTests
     {
-        private class ThrowingOp : IOpCode
-        {
-            private const string LocalizeKey = "_testing_";
-
-            public readonly InternalException exception = 
-                new InternalException(LocalizeKey, "Error thrown by op-code.");
-            
-            public SourceReference Source { get; } = SourceReference.ClrSource;
-
-            public void Execute(PyProcessor processor)
-            {
-                throw exception;
-            }
-        }
-
         [TestMethod]
         public void NoOpCodesNotStartedTest()
         {
@@ -56,12 +41,12 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         }
 
         [TestMethod]
-        public void OpCodeThrewErrorTest()
+        public void OpCodeThrewInterpreterErrorTest()
         {
             // Arrange
-            var op = new ThrowingOp();
+            var actualEx = new InternalException("","");
             var processor = new PyProcessor(
-                op
+                new ThrowingOp(actualEx)
             );
 
             // Act
@@ -70,7 +55,26 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             // Assert
             Assert.AreEqual(ProcessState.Error, processor.State);
             Assert.AreEqual(ProcessState.Error, processor.State);
-            Assert.AreSame(op.exception, processor.LastError);
+            Assert.AreSame(actualEx, processor.LastError);
+        }
+
+        [TestMethod]
+        public void OpCodeThrewSystemErrorTest()
+        {
+            // Arrange
+            var actualEx = new Exception();
+            var processor = new PyProcessor(
+                new ThrowingOp(actualEx)
+            );
+
+            // Act
+            processor.WalkInstruction();
+
+            // Assert
+            Assert.AreEqual(ProcessState.Error, processor.State);
+            Assert.IsNotNull(processor.LastError);
+            Assert.IsInstanceOfType(processor.LastError, typeof(InterpreterLocalizedException));
+            Assert.AreSame(actualEx, processor.LastError.InnerException);
         }
 
         [TestMethod]
@@ -94,7 +98,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new ThrowingOp()
+                new ThrowingOp(new InternalException("",""))
             );
 
             // Act
@@ -129,5 +133,120 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             Assert.AreEqual(1, processor.PopValue<PyInteger>().Value);
             Assert.AreEqual(ProcessState.Ended, processor.State);
         }
+
+        [TestMethod]
+        public void WalkLineManySameLineTest()
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new NopOp { Source = new SourceReference(1,1,0,0) },
+                new NopOp { Source = new SourceReference(1,1,1,1) },
+                new NopOp { Source = new SourceReference(1,1,2,2) },
+                new NopOp { Source = new SourceReference(2,2,3,3) }
+            );
+
+            // Act
+            processor.WalkLine();
+
+            // Assert
+            Assert.AreEqual(2, processor.ProgramCounter);
+            Assert.AreEqual(ProcessState.Running, processor.State);
+        }
+
+        [TestMethod]
+        public void WalkInstructionManySameLineTest()
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new NopOp { Source = new SourceReference(1, 1, 0, 0) },
+                new NopOp { Source = new SourceReference(1, 1, 1, 1) },
+                new NopOp { Source = new SourceReference(1, 1, 2, 2) },
+                new NopOp { Source = new SourceReference(2, 2, 3, 3) }
+            );
+
+            // Act
+            processor.WalkInstruction();
+
+            // Assert
+            Assert.AreEqual(0, processor.ProgramCounter);
+            Assert.AreEqual(ProcessState.Running, processor.State);
+        }
+
+        [TestMethod]
+        public void WalkLineOneSameLineTest()
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new NopOp { Source = new SourceReference(1, 1, 0, 0) },
+                new NopOp { Source = new SourceReference(2, 2, 1, 1) },
+                new NopOp { Source = new SourceReference(2, 2, 2, 2) },
+                new NopOp { Source = new SourceReference(2, 2, 3, 3) }
+            );
+
+            // Act
+            processor.WalkLine();
+
+            // Assert
+            Assert.AreEqual(0, processor.ProgramCounter);
+            Assert.AreEqual(ProcessState.Running, processor.State);
+        }
+
+        [TestMethod]
+        public void WalkLineOneFollowedByClrTest()
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new NopOp { Source = new SourceReference(1, 1, 0, 0) },
+                new NopOp { Source = SourceReference.ClrSource },
+                new NopOp { Source = SourceReference.ClrSource },
+                new NopOp { Source = new SourceReference(2, 2, 3, 3) }
+            );
+
+            // Act
+            processor.WalkLine();
+
+            // Assert
+            Assert.AreEqual(2, processor.ProgramCounter);
+            Assert.AreEqual(ProcessState.Running, processor.State);
+        }
+
+        [TestMethod]
+        public void WalkLineOneFirstIsClrTest()
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new NopOp { Source = SourceReference.ClrSource },
+                new NopOp { Source = new SourceReference(1, 1, 1, 1) },
+                new NopOp { Source = new SourceReference(1, 1, 2, 2) },
+                new NopOp { Source = new SourceReference(2, 2, 3, 3) }
+            );
+
+            // Act
+            processor.WalkLine();
+
+            // Assert
+            Assert.AreEqual(0, processor.ProgramCounter);
+            Assert.AreEqual(ProcessState.Running, processor.State);
+        }
+
+        [TestMethod]
+        public void WalkLineAllSameLineTest()
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new NopOp { Source = new SourceReference(2, 1, 0, 0) },
+                new NopOp { Source = new SourceReference(2, 2, 1, 1) },
+                new NopOp { Source = new SourceReference(2, 2, 2, 2) },
+                new NopOp { Source = new SourceReference(2, 2, 3, 3) }
+            );
+
+            // Act
+            processor.WalkLine();
+
+            // Assert
+            Assert.AreEqual(3, processor.ProgramCounter);
+            Assert.AreEqual(ProcessState.Ended, processor.State);
+        }
+
     }
 }

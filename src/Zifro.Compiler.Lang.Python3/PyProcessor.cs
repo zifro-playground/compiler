@@ -16,7 +16,7 @@ namespace Zifro.Compiler.Lang.Python3
             LastError = null;
 
             _valueStack = new Stack<IScriptType>();
-            _instructionPointer = -1;
+            ProgramCounter = -1;
             _opCodes = opCodes ?? new IOpCode[0];
         }
 
@@ -28,9 +28,12 @@ namespace Zifro.Compiler.Lang.Python3
 
         public ProcessState State { get; private set; }
 
+        public SourceReference CurrentSource => GetSourceReference(ProgramCounter);
+
         public InterpreterException LastError { get; private set; }
 
-        private int _instructionPointer;
+        public int ProgramCounter { get; private set; }
+
         private readonly Stack<IScriptType> _valueStack;
         private readonly IOpCode[] _opCodes;
 

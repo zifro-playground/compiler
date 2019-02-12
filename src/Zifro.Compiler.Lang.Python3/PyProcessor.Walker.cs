@@ -15,7 +15,33 @@ namespace Zifro.Compiler.Lang.Python3
 
         public void WalkLine()
         {
-            throw new System.NotImplementedException();
+            WalkInstruction();
+
+            // Because counter starts at -1
+            int? initialRow = GetRow(ProgramCounter);
+
+            if (initialRow.HasValue)
+            {
+                // Initial is row => walk until next is other row
+                while (!(GetRow(ProgramCounter + 1) > initialRow.Value) &&
+                       State == ProcessState.Running)
+                    WalkInstruction();
+            }
+            else
+            {
+                // Initial is clr => walk until next is line
+                while (GetRow(ProgramCounter + 1) == null &&
+                       State == ProcessState.Running)
+                    WalkInstruction();
+            }
+
+            int? GetRow(int i)
+            {
+                var source = GetSourceReference(i);
+                return source.IsFromClr
+                    ? (int?) null
+                    : source.FromRow;
+            }
         }
 
         public void WalkInstruction()
@@ -40,10 +66,10 @@ namespace Zifro.Compiler.Lang.Python3
                 default:
                     try
                     {
-                        _instructionPointer++;
-                        _opCodes[_instructionPointer].Execute(this);
+                        ProgramCounter++;
+                        _opCodes[ProgramCounter].Execute(this);
 
-                        State = _instructionPointer + 1 < _opCodes.Length
+                        State = ProgramCounter + 1 < _opCodes.Length
                             ? ProcessState.Running
                             : ProcessState.Ended;
                     }
@@ -61,8 +87,17 @@ namespace Zifro.Compiler.Lang.Python3
                             Localized_Python3_Interpreter.Ex_Unknown_Error,
                             ex, ex.Message);
                     }
+
                     break;
             }
+        }
+
+        private SourceReference GetSourceReference(int opCodeIndex)
+        {
+            if (opCodeIndex >= 0 && opCodeIndex < _opCodes.Length)
+                return _opCodes[opCodeIndex].Source;
+
+            return SourceReference.ClrSource;
         }
     }
 }

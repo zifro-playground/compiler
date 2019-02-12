@@ -9,6 +9,7 @@ namespace Zifro.Compiler.Core.Interfaces
         IScopeContext GlobalScope { get; }
         IScopeContext CurrentScope { get; }
         ProcessState State { get; }
+        SourceReference CurrentSource { get; }
 
         InterpreterException LastError { get; }
 
