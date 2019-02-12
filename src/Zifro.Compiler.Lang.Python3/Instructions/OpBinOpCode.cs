@@ -33,17 +33,17 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
                 case OperatorCode.Add:
                     return lhs.ArithmeticAdd(rhs);
                 case OperatorCode.Sub:
-                    return lhs.ArithmeticAdd(rhs);
+                    return lhs.ArithmeticSubtract(rhs);
                 case OperatorCode.Mul:
-                    return lhs.ArithmeticAdd(rhs);
+                    return lhs.ArithmeticMultiply(rhs);
                 case OperatorCode.Div:
-                    return lhs.ArithmeticAdd(rhs);
+                    return lhs.ArithmeticDivide(rhs);
                 case OperatorCode.Flr:
-                    return lhs.ArithmeticAdd(rhs);
+                    return lhs.ArithmeticFloorDivide(rhs);
                 case OperatorCode.Mod:
-                    return lhs.ArithmeticAdd(rhs);
+                    return lhs.ArithmeticModulus(rhs);
                 case OperatorCode.Pow:
-                    return lhs.ArithmeticAdd(rhs);
+                    return lhs.ArithmeticExponent(rhs);
                 default:
                     throw new SyntaxNotYetImplementedException(Source);
             }
