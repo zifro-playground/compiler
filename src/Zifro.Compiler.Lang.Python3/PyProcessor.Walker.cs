@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Interfaces;
@@ -63,7 +64,8 @@ namespace Zifro.Compiler.Lang.Python3
                     State = ProcessState.Ended;
                     break;
 
-                default:
+                case ProcessState.NotStarted:
+                case ProcessState.Running:
                     try
                     {
                         ProgramCounter++;
@@ -77,6 +79,8 @@ namespace Zifro.Compiler.Lang.Python3
                     {
                         State = ProcessState.Error;
                         LastError = ex;
+
+                        throw;
                     }
                     catch (Exception ex)
                     {
@@ -86,9 +90,14 @@ namespace Zifro.Compiler.Lang.Python3
                             nameof(Localized_Python3_Interpreter.Ex_Unknown_Error),
                             Localized_Python3_Interpreter.Ex_Unknown_Error,
                             ex, ex.Message);
+
+                        throw LastError;
                     }
 
                     break;
+
+                default:
+                    throw new InvalidEnumArgumentException(nameof(State), (int)State, typeof(ProcessState));
             }
         }
 
