@@ -48,7 +48,7 @@ namespace Zifro.Compiler.Lang.Base.Entities
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_String_Invoke),
                 Localized_Base_Entities.Ex_String_Invoke,
-                values: GetErrorArgs());
+                formatArgs: GetErrorArgs());
         }
 
         /// <inheritdoc/>
@@ -64,13 +64,13 @@ namespace Zifro.Compiler.Lang.Base.Entities
                     throw new RuntimeException(
                         nameof(Localized_Base_Entities.Ex_String_IndexGet_OutOfRange),
                         Localized_Base_Entities.Ex_String_IndexGet_OutOfRange,
-                        values: GetErrorArgs(indexInteger.Value));
+                        formatArgs: GetErrorArgs(indexInteger.Value));
 
                 default:
                     throw new RuntimeException(
                         nameof(Localized_Base_Entities.Ex_String_IndexGet_InvalidType),
                         Localized_Base_Entities.Ex_String_IndexGet_InvalidType,
-                        values: GetErrorArgs(index.GetTypeName()));
+                        formatArgs: GetErrorArgs(index.GetTypeName()));
             }
         }
 
@@ -80,7 +80,7 @@ namespace Zifro.Compiler.Lang.Base.Entities
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_String_IndexSet),
                 Localized_Base_Entities.Ex_String_IndexSet,
-                values: GetErrorArgs());
+                formatArgs: GetErrorArgs());
         }
 
         /// <inheritdoc/>
@@ -89,7 +89,7 @@ namespace Zifro.Compiler.Lang.Base.Entities
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_String_PropertyGet),
                 Localized_Base_Entities.Ex_String_PropertyGet,
-                values: GetErrorArgs(property));
+                formatArgs: GetErrorArgs(property));
         }
 
         /// <inheritdoc/>
@@ -98,7 +98,7 @@ namespace Zifro.Compiler.Lang.Base.Entities
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_String_PropertySet),
                 Localized_Base_Entities.Ex_String_PropertySet,
-                values: GetErrorArgs(property));
+                formatArgs: GetErrorArgs(property));
         }
 
         /// <inheritdoc/>
@@ -155,7 +155,7 @@ namespace Zifro.Compiler.Lang.Base.Entities
                 default:
                     throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_AddInvalidType),
                         Localized_Base_Entities.Ex_String_AddInvalidType,
-                        values: GetErrorArgs(rhs.GetTypeName()));
+                        formatArgs: GetErrorArgs(rhs.GetTypeName()));
             }
         }
 
@@ -164,7 +164,7 @@ namespace Zifro.Compiler.Lang.Base.Entities
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_SubtractInvalidOperation),
                 Localized_Base_Entities.Ex_String_SubtractInvalidOperation,
-                values: GetErrorArgs(rhs.GetTypeName()));
+                formatArgs: GetErrorArgs(rhs.GetTypeName()));
         }
 
         /// <inheritdoc/>
@@ -172,7 +172,7 @@ namespace Zifro.Compiler.Lang.Base.Entities
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_MultiplyInvalidOperation),
                 Localized_Base_Entities.Ex_String_MultiplyInvalidOperation,
-                values: GetErrorArgs(rhs.GetTypeName()));
+                formatArgs: GetErrorArgs(rhs.GetTypeName()));
         }
 
         /// <inheritdoc/>
@@ -180,7 +180,7 @@ namespace Zifro.Compiler.Lang.Base.Entities
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_DivideInvalidOperation),
                 Localized_Base_Entities.Ex_String_DivideInvalidOperation,
-                values: GetErrorArgs(rhs.GetTypeName()));
+                formatArgs: GetErrorArgs(rhs.GetTypeName()));
         }
 
         /// <inheritdoc/>

@@ -10,8 +10,8 @@ namespace Zifro.Compiler.Core.Exceptions
     /// </summary>
     public class RuntimeException : InterpreterLocalizedException
     {
-        public RuntimeException(string localizeKey, string localizedMessageFormat, params object[] values)
-            : base(localizeKey, localizedMessageFormat, values)
+        public RuntimeException(string localizeKey, string localizedMessageFormat, params object[] formatArgs)
+            : base(localizeKey, localizedMessageFormat, formatArgs)
         {
         }
 
