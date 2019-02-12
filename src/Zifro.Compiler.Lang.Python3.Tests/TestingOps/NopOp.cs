@@ -1,7 +1,7 @@
 ﻿using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Lang.Python3.Interfaces;
 
-namespace Zifro.Compiler.Lang.Python3.Tests.Processor.TestingOps
+namespace Zifro.Compiler.Lang.Python3.Tests.TestingOps
 {
     public class NopOp : IOpCode
     {

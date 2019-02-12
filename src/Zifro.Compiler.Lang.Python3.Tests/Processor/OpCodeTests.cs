@@ -8,7 +8,7 @@ using Zifro.Compiler.Lang.Python3.Entities;
 using Zifro.Compiler.Lang.Python3.Instructions;
 using Zifro.Compiler.Lang.Python3.Resources;
 using Zifro.Compiler.Lang.Python3.Syntax.Literals;
-using Zifro.Compiler.Lang.Python3.Tests.Processor.TestingOps;
+using Zifro.Compiler.Lang.Python3.Tests.TestingOps;
 
 namespace Zifro.Compiler.Lang.Python3.Tests.Processor
 {
