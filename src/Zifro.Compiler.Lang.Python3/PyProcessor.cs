@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Zifro.Compiler.Core.Entities;
+using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Lang.Python3.Interfaces;
 
@@ -10,6 +12,9 @@ namespace Zifro.Compiler.Lang.Python3
         internal PyProcessor(params IOpCode[] opCodes)
         {
             Factory = new PyScriptTypeFactory(this);
+            State = ProcessState.NotStarted;
+            LastError = null;
+
             _valueStack = new Stack<IScriptType>();
             _instructionPointer = -1;
             _opCodes = opCodes ?? new IOpCode[0];
@@ -21,9 +26,13 @@ namespace Zifro.Compiler.Lang.Python3
 
         public IScopeContext CurrentScope { get; }
 
+        public ProcessState State { get; private set; }
+
+        public InterpreterException LastError { get; private set; }
+
         private int _instructionPointer;
         private readonly Stack<IScriptType> _valueStack;
-        private IOpCode[] _opCodes;
+        private readonly IOpCode[] _opCodes;
 
     }
 }

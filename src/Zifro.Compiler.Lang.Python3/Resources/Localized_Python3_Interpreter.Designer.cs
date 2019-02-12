@@ -61,6 +61,33 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Koden har redan kört klart..
+        /// </summary>
+        internal static string Ex_Process_Ended {
+            get {
+                return ResourceManager.GetString("Ex_Process_Ended", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Koden inväntar att funktionen återupptas innan den kan köra vidare..
+        /// </summary>
+        internal static string Ex_Process_Yielded {
+            get {
+                return ResourceManager.GetString("Ex_Process_Yielded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Okänt internt fel. &quot;{0}&quot;.
+        /// </summary>
+        internal static string Ex_Unknown_Error {
+            get {
+                return ResourceManager.GetString("Ex_Unknown_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Internt fel. Värde stacken var oförväntat tom vid försök att hämta värde av typ &apos;{0}&apos;..
         /// </summary>
         internal static string Ex_ValueStack_PopEmpty {
