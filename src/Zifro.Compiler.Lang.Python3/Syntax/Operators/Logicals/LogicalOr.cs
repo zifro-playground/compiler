@@ -1,4 +1,6 @@
-﻿namespace Zifro.Compiler.Lang.Python3.Syntax.Operators.Logicals
+﻿using Zifro.Compiler.Lang.Python3.Instructions;
+
+namespace Zifro.Compiler.Lang.Python3.Syntax.Operators.Logicals
 {
     public class LogicalOr : BinaryOperator
     {
@@ -9,9 +11,9 @@
         {
         }
 
-        public override void Compile(PyCompiler compiler)
+        protected override BaseBinaryOp GetOp()
         {
-            throw new System.NotImplementedException();
+            return new DivOp(Source);
         }
     }
 }

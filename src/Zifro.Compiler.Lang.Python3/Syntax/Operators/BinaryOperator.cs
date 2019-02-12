@@ -1,4 +1,5 @@
 ﻿using Zifro.Compiler.Core.Entities;
+using Zifro.Compiler.Lang.Python3.Instructions;
 
 namespace Zifro.Compiler.Lang.Python3.Syntax.Operators
 {
@@ -28,5 +29,14 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Operators
 
         public ExpressionNode LeftOperand { get; }
         public ExpressionNode RightOperand { get; }
+
+        public override void Compile(PyCompiler compiler)
+        {
+            LeftOperand.Compile(compiler);
+            RightOperand.Compile(compiler);
+            compiler.Push(GetOp());
+        }
+
+        protected abstract BaseBinaryOp GetOp();
     }
 }

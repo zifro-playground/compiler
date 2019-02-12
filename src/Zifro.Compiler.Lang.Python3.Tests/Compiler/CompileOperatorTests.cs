@@ -1,7 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Lang.Python3.Instructions;
+using Zifro.Compiler.Lang.Python3.Syntax;
 using Zifro.Compiler.Lang.Python3.Syntax.Literals;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators.Arithmetics;
@@ -23,18 +25,21 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
         {
             // Arrange
             var compiler = new PyCompiler();
-            var expr1 = new LiteralInteger(SourceReference.ClrSource, 1);
-            var expr2 = new LiteralInteger(SourceReference.ClrSource, 2);
-            var opNode = (BinaryOperator)Activator.CreateInstance(operatorType, expr1, expr2);
+            var exprMock = new Mock<ExpressionNode>(SourceReference.ClrSource);
+            var opNode = (BinaryOperator)Activator.CreateInstance(operatorType,
+                exprMock.Object, exprMock.Object);
+
+            exprMock.Setup(o => o.Compile(compiler))
+                .Verifiable();
 
             // Act
             opNode.Compile(compiler);
 
             // Assert
-            Assert.That.IsPushLiteralOpCode<int>(1, compiler, index: 0);
-            Assert.That.IsPushLiteralOpCode<int>(2, compiler, index: 1);
-            Assert.That.IsBinaryOpCode(expectedType, compiler, index: 2);
-            Assert.AreEqual(3, compiler.Count);
+            Assert.That.IsBinaryOpCode(expectedType, compiler, index: 0);
+            Assert.AreEqual(1, compiler.Count);
+
+            exprMock.Verify(o => o.Compile(compiler), Times.Exactly(2));
         }
     }
 }
