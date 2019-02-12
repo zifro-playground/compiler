@@ -30,5 +30,10 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Literals
         {
             return new PyBoolean(processor, Value);
         }
+
+        public override string ToString()
+        {
+            return Value ? "True" : "False";
+        }
     }
 }

@@ -20,6 +20,20 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Literals
             return new PyString(processor, Value);
         }
 
+        public override string ToString()
+        {
+            string value = Value;
+
+            // TODO: Use escape algorithm
+
+            if (value.IndexOf('\"') == -1)
+                return $@"""{value}""";
+            if (value.IndexOf('\'') == -1)
+                return $"'{value}'";
+
+            return $@"""{value.Replace("\"", "\\\"")}""";
+        }
+
         public static LiteralString Parse(SourceReference source, string text)
         {
             // At least 2 for an empty quoted string

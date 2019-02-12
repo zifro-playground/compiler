@@ -9,13 +9,13 @@ using Zifro.Compiler.Lang.Python3.Syntax.Literals;
 namespace Zifro.Compiler.Lang.Python3.Tests.Processor
 {
     [TestClass]
-    public class OpCodeTests : BaseProcessorTestClass
+    public class OpCodeTests
     {
         [TestMethod]
         public void PushValuesTest()
         {
             // Arrange
-            processor = new PyProcessor(
+            var processor = new PyProcessor(
                 new PushLiteral<int>(new LiteralInteger(SourceReference.ClrSource, 1)),
                 new PushLiteral<int>(new LiteralInteger(SourceReference.ClrSource, 2)),
                 new PushLiteral<int>(new LiteralInteger(SourceReference.ClrSource, 3))
