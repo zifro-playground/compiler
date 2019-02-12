@@ -1,4 +1,7 @@
-﻿using Zifro.Compiler.Core.Entities;
+﻿using System;
+using Zifro.Compiler.Core.Entities;
+using Zifro.Compiler.Core.Exceptions;
+using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Lang.Python3.Interfaces;
 
 namespace Zifro.Compiler.Lang.Python3.Instructions
@@ -17,7 +20,33 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
 
         public void Execute(PyProcessor processor)
         {
-            throw new System.NotImplementedException();
+            IScriptType result = GetResult(processor);
+            processor.PushValue(result);
+        }
+
+        private IScriptType GetResult(PyProcessor processor)
+        {
+            var rhs = processor.PopValue<IScriptType>();
+            var lhs = processor.PopValue<IScriptType>();
+            switch (Code)
+            {
+                case OperatorCode.Add:
+                    return lhs.ArithmeticAdd(rhs);
+                case OperatorCode.Sub:
+                    return lhs.ArithmeticAdd(rhs);
+                case OperatorCode.Mul:
+                    return lhs.ArithmeticAdd(rhs);
+                case OperatorCode.Div:
+                    return lhs.ArithmeticAdd(rhs);
+                case OperatorCode.Flr:
+                    return lhs.ArithmeticAdd(rhs);
+                case OperatorCode.Mod:
+                    return lhs.ArithmeticAdd(rhs);
+                case OperatorCode.Pow:
+                    return lhs.ArithmeticAdd(rhs);
+                default:
+                    throw new SyntaxNotYetImplementedException(Source);
+            }
         }
 
         public override string ToString()

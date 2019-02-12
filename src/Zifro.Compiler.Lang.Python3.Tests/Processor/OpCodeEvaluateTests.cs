@@ -68,23 +68,26 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
                 new OpBinOpCode(SourceReference.ClrSource, opCode)
             );
 
-            var valueMock = new Mock<IScriptType>();
+            var lhsMock = new Mock<IScriptType>(MockBehavior.Strict);
+            var rhsMock = new Mock<IScriptType>(MockBehavior.Strict);
             var resultMock = new Mock<IScriptType>();
 
-            valueMock.Setup(method).Returns(resultMock.Object);
+            lhsMock.Setup(method).Returns(resultMock.Object);
 
-            processor.PushValue(valueMock.Object);
-            processor.PushValue(valueMock.Object);
+            processor.PushValue(lhsMock.Object);
+            processor.PushValue(rhsMock.Object);
 
             // Act
             processor.WalkLine();
-            var result = processor.PopValue<IScriptType>();
             int numOfValues = processor.ValueStackCount;
+            var result = processor.PopValue<IScriptType>();
 
             // Assert
+            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name, processor.LastError?.Message);
+
             Assert.AreEqual(1, numOfValues, "Did not absorb values.");
-            Assert.AreSame(resultMock.Object, result);
-            valueMock.Verify(method);
+            Assert.AreSame(resultMock.Object, result, "Did not produce result.");
+            lhsMock.Verify(method);
         }
     }
 }
