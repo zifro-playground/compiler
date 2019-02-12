@@ -48,7 +48,7 @@
       <LastGenOutput>Localized_Python3_Interpreter.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Localized_Python3_Parser.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Localized_Python3_Parser.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Localized_Python3_Syntax.resx">

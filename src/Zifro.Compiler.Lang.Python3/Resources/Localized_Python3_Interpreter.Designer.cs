@@ -77,5 +77,14 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
                 return ResourceManager.GetString("Ex_ValueStack_PopInvalidType", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internt fel. En operation försökte trycka på null på värde stacken..
+        /// </summary>
+        internal static string Ex_ValueStack_PushNull {
+            get {
+                return ResourceManager.GetString("Ex_ValueStack_PushNull", resourceCulture);
+            }
+        }
     }
 }

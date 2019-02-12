@@ -32,6 +32,13 @@ namespace Zifro.Compiler.Lang.Python3
 
         internal void PushValue(IScriptType value)
         {
+            if (value is null)
+            {
+                throw new InternalException(
+                    nameof(Localized_Python3_Interpreter.Ex_ValueStack_PushNull),
+                    Localized_Python3_Interpreter.Ex_ValueStack_PushNull);
+            }
+
             _valueStack.Push(value);
         }
     }

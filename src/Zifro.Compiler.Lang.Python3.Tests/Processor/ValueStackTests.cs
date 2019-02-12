@@ -69,10 +69,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             }
 
             // Act
-            var ex = Assert.ThrowsException<InterpreterLocalizedException>((Action) Action);
+            var ex = Assert.ThrowsException<InternalException>((Action) Action);
 
             Assert.That.ErrorFormatArgsEqual(ex,
-                "the key");
+                nameof(Localized_Python3_Interpreter.Ex_ValueStack_PushNull));
         }
 
         [TestMethod]
@@ -114,7 +114,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             }
 
             // Act
-            var ex = Assert.ThrowsException<InterpreterLocalizedException>((Action)Action);
+            var ex = Assert.ThrowsException<InternalException>((Action)Action);
 
             Assert.That.ErrorFormatArgsEqual(ex,
                 nameof(Localized_Python3_Interpreter.Ex_ValueStack_PopEmpty),
@@ -133,7 +133,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             }
 
             // Act
-            var ex = Assert.ThrowsException<InterpreterLocalizedException>((Action)Action);
+            var ex = Assert.ThrowsException<InternalException>((Action)Action);
 
             Assert.That.ErrorFormatArgsEqual(ex,
                 nameof(Localized_Python3_Interpreter.Ex_ValueStack_PopInvalidType),

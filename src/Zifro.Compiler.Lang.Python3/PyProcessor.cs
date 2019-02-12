@@ -8,6 +8,7 @@ namespace Zifro.Compiler.Lang.Python3
         public PyProcessor()
         {
             Factory = new PyScriptTypeFactory(this);
+            _valueStack = new Stack<IScriptType>();
         }
 
         public IScriptTypeFactory Factory { get; }
@@ -16,7 +17,7 @@ namespace Zifro.Compiler.Lang.Python3
         public IScopeContext CurrentScope { get; }
 
         private int _instructionPointer;
-        private Stack<IScriptType> _valueStack;
+        private readonly Stack<IScriptType> _valueStack;
 
         public void ContinueYieldedValue(IScriptType value)
         {

@@ -22,7 +22,7 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Localized_Python3_Parser {
+    internal class Localized_Python3_Parser {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Zifro.Compiler.Lang.Python3.Resources.Localized_Python3_Parser", typeof(Localized_Python3_Parser).Assembly);
@@ -51,7 +51,7 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Ogiltigt format på värdet i koden..
         /// </summary>
-        public static string Ex_Literal_Format {
+        internal static string Ex_Literal_Format {
             get {
                 return ResourceManager.GetString("Ex_Literal_Format", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Saknar en &apos;{4}&apos; som slutparantes..
         /// </summary>
-        public static string Ex_Parenthesis_NoClosing {
+        internal static string Ex_Parenthesis_NoClosing {
             get {
                 return ResourceManager.GetString("Ex_Parenthesis_NoClosing", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Förväntar en regel men det var tomt efter &apos;{4}&apos;..
         /// </summary>
-        public static string Ex_Syntax_ExpectedChild {
+        internal static string Ex_Syntax_ExpectedChild {
             get {
                 return ResourceManager.GetString("Ex_Syntax_ExpectedChild", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Användning av &apos;{4}&apos; stödjs inte än..
         /// </summary>
-        public static string Ex_Syntax_NotYetImplemented_Keyword {
+        internal static string Ex_Syntax_NotYetImplemented_Keyword {
             get {
                 return ResourceManager.GetString("Ex_Syntax_NotYetImplemented_Keyword", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Oförväntad regel av typ &apos;{5}&apos; i en &apos;{4}&apos;..
         /// </summary>
-        public static string Ex_Syntax_UnexpectedChildType {
+        internal static string Ex_Syntax_UnexpectedChildType {
             get {
                 return ResourceManager.GetString("Ex_Syntax_UnexpectedChildType", resourceCulture);
             }
