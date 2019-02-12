@@ -11,9 +11,6 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Operators.Binaries
         {
         }
 
-        protected override BaseBinaryOp GetOp()
-        {
-            return new DivOp(Source);
-        }
+        public override OperatorCode OpCode => throw new System.NotImplementedException();
     }
 }

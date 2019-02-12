@@ -14,29 +14,30 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
     public class CompileOperatorTests
     {
         [DataTestMethod]
-        [DataRow(typeof(ArithmeticAdd), typeof(AddOp), DisplayName = "op +")]
-        [DataRow(typeof(ArithmeticSubtract), typeof(SubOp), DisplayName = "op -")]
-        [DataRow(typeof(ArithmeticMultiply), typeof(MultOp), DisplayName = "op *")]
-        [DataRow(typeof(ArithmeticDivide), typeof(DivOp), DisplayName = "op /")]
-        [DataRow(typeof(ArithmeticFloor), typeof(FloorOp), DisplayName = "op //")]
-        [DataRow(typeof(ArithmeticModulus), typeof(ModOp), DisplayName = "op %")]
-        [DataRow(typeof(ArithmeticPower), typeof(PowOp), DisplayName = "op **")]
-        public void CompileBinaryTests(Type operatorType, Type expectedType)
+        [DataRow(typeof(ArithmeticAdd), OperatorCode.Add, DisplayName = "op +")]
+        [DataRow(typeof(ArithmeticSubtract), OperatorCode.Sub, DisplayName = "op -")]
+        [DataRow(typeof(ArithmeticMultiply), OperatorCode.Mul, DisplayName = "op *")]
+        [DataRow(typeof(ArithmeticDivide), OperatorCode.Div, DisplayName = "op /")]
+        [DataRow(typeof(ArithmeticFloor), OperatorCode.Flr, DisplayName = "op //")]
+        [DataRow(typeof(ArithmeticModulus), OperatorCode.Mod, DisplayName = "op %")]
+        [DataRow(typeof(ArithmeticPower), OperatorCode.Pow, DisplayName = "op **")]
+        public void CompileBinaryTests(Type operatorType, OperatorCode expectedCode)
         {
             // Arrange
             var compiler = new PyCompiler();
-            var exprMock = new Mock<ExpressionNode>(SourceReference.ClrSource);
-            var opNode = (BinaryOperator)Activator.CreateInstance(operatorType,
-                exprMock.Object, exprMock.Object);
 
+            var exprMock = new Mock<ExpressionNode>(SourceReference.ClrSource);
             exprMock.Setup(o => o.Compile(compiler))
                 .Verifiable();
+
+            var opNode = (BinaryOperator)Activator.CreateInstance(operatorType,
+                exprMock.Object, exprMock.Object);
 
             // Act
             opNode.Compile(compiler);
 
             // Assert
-            Assert.That.IsBinaryOpCode(expectedType, compiler, index: 0);
+            Assert.That.IsBinaryOpCode(expectedCode, compiler, index: 0);
             Assert.AreEqual(1, compiler.Count);
 
             exprMock.Verify(o => o.Compile(compiler), Times.Exactly(2));

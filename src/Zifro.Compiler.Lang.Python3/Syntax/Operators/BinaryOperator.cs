@@ -8,6 +8,8 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Operators
     /// </summary>
     public abstract class BinaryOperator : ExpressionNode
     {
+        public abstract OperatorCode OpCode { get; }
+
         protected BinaryOperator(SourceReference source,
             ExpressionNode leftOperand, ExpressionNode rightOperand)
             : base(source)
@@ -34,9 +36,7 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Operators
         {
             LeftOperand.Compile(compiler);
             RightOperand.Compile(compiler);
-            compiler.Push(GetOp());
+            compiler.Push(new OpBinOpCode(Source, OpCode));
         }
-
-        protected abstract BaseBinaryOp GetOp();
     }
 }
