@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler", "Zifro.Com
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Languages", "Languages", "{CED85FF5-60E1-48F7-B5CC-CBB5D71C50E6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Lang.Python3", "Zifro.Compiler.Python3\Zifro.Compiler.Lang.Python3.csproj", "{51109273-1F11-4B8C-A97E-9313BF620BE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Lang.Python3", "Zifro.Compiler.Lang.Python3\Zifro.Compiler.Lang.Python3.csproj", "{51109273-1F11-4B8C-A97E-9313BF620BE3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Core", "Zifro.Compiler.Core\Zifro.Compiler.Core.csproj", "{A5F7FF96-241D-4397-98FE-154DE7751AA6}"
 EndProject
@@ -18,14 +18,19 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6F01D6A2-95D0-427D-93F5-377B3A07BFC5}"
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
+		..\NOTICE.md = ..\NOTICE.md
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Tools.Tests", "Zifro.Compiler.Tools.Tests\Zifro.Compiler.Tools.Tests.csproj", "{AA3C09C5-9C52-4A6E-8E49-F79DE61BC0B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zifro.Compiler.Lang", "Zifro.Compiler.Lang\Zifro.Compiler.Lang.csproj", "{2076FE8C-82BE-40F4-A37D-704085830192}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Lang.Base", "Zifro.Compiler.Lang.Base\Zifro.Compiler.Lang.Base.csproj", "{2076FE8C-82BE-40F4-A37D-704085830192}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zifro.Compiler.Lang.Tests", "Zifro.Compiler.Lang.Tests\Zifro.Compiler.Lang.Tests.csproj", "{F5A86ED3-9A20-4FD8-A400-12CB242FC525}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Lang.Base.Tests", "Zifro.Compiler.Lang.Base.Tests\Zifro.Compiler.Lang.Base.Tests.csproj", "{F5A86ED3-9A20-4FD8-A400-12CB242FC525}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Lang.Python3.Tests", "Zifro.Compiler.Lang.Python3.Tests\Zifro.Compiler.Lang.Python3.Tests.csproj", "{DFFAA98E-A73D-470F-A00C-0DC0588F83CD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zifro.Compiler.Core.Tests", "Zifro.Compiler.Core.Tests\Zifro.Compiler.Core.Tests.csproj", "{F7A039FB-830D-4201-B289-EAAC2D766DC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +66,14 @@ Global
 		{F5A86ED3-9A20-4FD8-A400-12CB242FC525}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5A86ED3-9A20-4FD8-A400-12CB242FC525}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5A86ED3-9A20-4FD8-A400-12CB242FC525}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFFAA98E-A73D-470F-A00C-0DC0588F83CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFFAA98E-A73D-470F-A00C-0DC0588F83CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFFAA98E-A73D-470F-A00C-0DC0588F83CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFFAA98E-A73D-470F-A00C-0DC0588F83CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7A039FB-830D-4201-B289-EAAC2D766DC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7A039FB-830D-4201-B289-EAAC2D766DC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7A039FB-830D-4201-B289-EAAC2D766DC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7A039FB-830D-4201-B289-EAAC2D766DC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,6 +83,8 @@ Global
 		{A5F7FF96-241D-4397-98FE-154DE7751AA6} = {9DAE76BF-ADDC-4A2B-9CE9-035C924E23BA}
 		{2076FE8C-82BE-40F4-A37D-704085830192} = {CED85FF5-60E1-48F7-B5CC-CBB5D71C50E6}
 		{F5A86ED3-9A20-4FD8-A400-12CB242FC525} = {CED85FF5-60E1-48F7-B5CC-CBB5D71C50E6}
+		{DFFAA98E-A73D-470F-A00C-0DC0588F83CD} = {CED85FF5-60E1-48F7-B5CC-CBB5D71C50E6}
+		{F7A039FB-830D-4201-B289-EAAC2D766DC8} = {9DAE76BF-ADDC-4A2B-9CE9-035C924E23BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FA74885F-76C3-4E43-9A4C-C83A58CD986B}

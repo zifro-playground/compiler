@@ -3,7 +3,7 @@
     public interface IProcessor
     {
         IScriptTypeFactory Factory { get; }
-        IScopeContext TopScope { get; }
+        IScopeContext Globals { get; }
 
         void ContinueYieldedValue(IScriptType value);
         void Walk();

@@ -12,12 +12,7 @@ namespace Zifro.Compiler.Proxies
             InnerValue = innerValue;
         }
 
-        public IProcessor Processor
-        {
-            get => InnerValue.Processor;
-            set => InnerValue.Processor = value;
-        }
-
+        public IProcessor Processor => InnerValue.Processor;
         public IScriptType GetTypeDef() => InnerValue.GetTypeDef();
         public string GetTypeName() => InnerValue.GetTypeName();
         public IScriptType Invoke(IScriptType[] arguments) => InnerValue.Invoke(arguments);

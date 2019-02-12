@@ -4,37 +4,24 @@ using System.Text;
 
 namespace Zifro.Compiler.Core.Exceptions
 {
-    public class RuntimeException : InterpreterException
+    /// <inheritdoc />
+    /// <summary>
+    /// Use this for exceptions that occur during runtime. From DivideByZero and TypeError to simple AssertionError.
+    /// </summary>
+    public class RuntimeException : InterpreterLocalizedException
     {
-        public string LocalizeKey { get; }
-        public object[] FormatArgs { get; }
-
-        private RuntimeException(string localizeKey,
-            string localizedMessage, object[] formatArgs, Exception innerException)
-            : base(localizedMessage, innerException)
+        public RuntimeException(string localizeKey, string localizedMessageFormat, params object[] values)
+            : base(localizeKey, localizedMessageFormat, values)
         {
-            LocalizeKey = localizeKey;
-            FormatArgs = formatArgs ?? new object[0];
         }
 
-        public RuntimeException(string localizeKey,
-            string localizedMessage, Exception innerException)
-            : this(localizeKey, localizedMessage,
-                formatArgs: null, innerException: innerException)
+        public RuntimeException(string localizeKey, string localizedMessage, Exception innerException)
+            : base(localizeKey, localizedMessage, innerException)
         {
         }
 
         public RuntimeException(string localizeKey, string localizedMessage)
-            : this(localizeKey, localizedMessage,
-                formatArgs: null, innerException: null)
-        {
-        }
-
-        public RuntimeException(string localizeKey, string localizedMessageFormat,
-            params object[] values)
-            : this(localizeKey,
-                string.Format(localizedMessageFormat, values),
-                formatArgs: values, innerException: null)
+            : base(localizeKey, localizedMessage)
         {
         }
     }

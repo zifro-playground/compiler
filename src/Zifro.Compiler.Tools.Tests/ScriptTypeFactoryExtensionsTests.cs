@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Zifro.Compiler.Core.Interfaces;
-using Zifro.Compiler.Lang.Entities;
+using Zifro.Compiler.Lang.Base.Entities;
 using Zifro.Compiler.Tools.Extensions;
 
 namespace Zifro.Compiler.Tools.Tests
@@ -105,26 +105,9 @@ namespace Zifro.Compiler.Tools.Tests
         {
             // Arrange
             factoryMock.Setup(o => o.Create(It.IsAny<double>()))
-                .Returns<double>(d =>
-                {
-                    var v = Mock.Of<DoubleBase>();
-                    v.Value = d;
-                    return v;
-                });
+                .Returns<double>(d => new Mock<DoubleBase>(null, d).Object);
             factoryMock.Setup(o => o.Create(It.IsAny<int>()))
-                .Returns<int>(i =>
-                {
-                    var v = Mock.Of<IntegerBase>();
-                    v.Value = i;
-                    return v;
-                });
-            //factoryMock.Setup(o => o.Create(It.IsAny<long>()))
-            //    .Returns<long>(i =>
-            //    {
-            //        var v = Mock.Of<LongBase>();
-            //        v.Value = i;
-            //        return v;
-            //    });
+                .Returns<int>(i => new Mock<IntegerBase>(null, i).Object);
 
             // Act
             IScriptType result = factoryObject.CreateAppropriate(input);
