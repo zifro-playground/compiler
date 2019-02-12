@@ -8,5 +8,10 @@
             : base(leftOperand, rightOperand)
         {
         }
+
+        public override void Compile(PyCompiler compiler)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

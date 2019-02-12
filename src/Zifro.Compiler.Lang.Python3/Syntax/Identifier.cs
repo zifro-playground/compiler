@@ -10,5 +10,10 @@ namespace Zifro.Compiler.Lang.Python3.Syntax
         {
             Name = name;
         }
+
+        public override void Compile(PyCompiler compiler)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

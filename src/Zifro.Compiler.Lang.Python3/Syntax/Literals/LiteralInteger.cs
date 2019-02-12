@@ -58,6 +58,11 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Literals
             return new PyInteger(processor, Value);
         }
 
+        public override void Compile(PyCompiler compiler)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override string ToString()
         {
             return Value.ToString(CultureInfo.InvariantCulture);

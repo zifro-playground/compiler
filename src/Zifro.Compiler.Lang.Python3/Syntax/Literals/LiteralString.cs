@@ -20,6 +20,11 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Literals
             return new PyString(processor, Value);
         }
 
+        public override void Compile(PyCompiler compiler)
+        {
+            throw new NotImplementedException();
+        }
+
         public override string ToString()
         {
             string value = Value;

@@ -10,5 +10,7 @@ namespace Zifro.Compiler.Lang.Python3.Syntax
         }
 
         public SourceReference Source { get; }
+
+        public abstract void Compile(PyCompiler compiler);
     }
 }
