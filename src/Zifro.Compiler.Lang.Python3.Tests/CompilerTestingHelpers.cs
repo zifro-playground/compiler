@@ -27,5 +27,16 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             var binOpCode = (BasicOperator) opCode;
             Assert.AreEqual(expectedCode, binOpCode.Code);
         }
+
+        public static TOpCode IsOpCode<TOpCode>(this Assert assert, PyCompiler compiler, int index)
+            where TOpCode : IOpCode
+        {
+            if (index >= compiler.Count)
+                throw new AssertFailedException($"Expected IOpCode at index {index} but compiler only contains {compiler.Count} op codes.");
+
+            IOpCode opCode = compiler[index];
+            Assert.IsInstanceOfType(opCode, typeof(TOpCode));
+            return (TOpCode) opCode;
+        }
     }
 }

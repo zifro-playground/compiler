@@ -5,12 +5,15 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
 {
     public class VarSet : IOpCode
     {
-        public VarSet(SourceReference source)
+        public VarSet(SourceReference source, string identifier)
         {
             Source = source;
+            Identifier = identifier;
         }
 
         public SourceReference Source { get; }
+
+        public string Identifier { get; }
 
         public void Execute(PyProcessor processor)
         {
