@@ -24,7 +24,7 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
 
         public override string ToString()
         {
-            return $"push {{{Literal}}}";
+            return $"push->{{{Literal}}}";
         }
     }
 }

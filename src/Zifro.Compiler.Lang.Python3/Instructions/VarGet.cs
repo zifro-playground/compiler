@@ -4,9 +4,9 @@ using Zifro.Compiler.Lang.Python3.Interfaces;
 
 namespace Zifro.Compiler.Lang.Python3.Instructions
 {
-    public class VarSet : IOpCode
+    public class VarGet : IOpCode
     {
-        public VarSet(SourceReference source, string identifier)
+        public VarGet(SourceReference source, string identifier)
         {
             Source = source;
             Identifier = identifier;
@@ -18,13 +18,11 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
 
         public void Execute(PyProcessor processor)
         {
-            var value = processor.PopValue<IScriptType>();
-            processor.SetVariable(Identifier, value);
         }
 
         public override string ToString()
         {
-            return $"pop->${Identifier}";
+            return $"push->${Identifier}";
         }
     }
 }
