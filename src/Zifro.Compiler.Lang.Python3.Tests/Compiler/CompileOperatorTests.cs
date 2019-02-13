@@ -13,6 +13,7 @@ using Zifro.Compiler.Lang.Python3.Syntax.Operators.Arithmetics;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators.Binaries;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators.Comparisons;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators.Logicals;
+using Zifro.Compiler.Lang.Python3.Tests.TestingOps;
 
 namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
 {
@@ -48,21 +49,32 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
             // Arrange
             var compiler = new PyCompiler();
 
-            var exprMock = new Mock<ExpressionNode>(SourceReference.ClrSource);
-            exprMock.Setup(o => o.Compile(compiler))
+            var exprLhsMock = new Mock<ExpressionNode>(SourceReference.ClrSource);
+            var exprLhsOp = new NopOp();
+            exprLhsMock.Setup(o => o.Compile(compiler))
+                .Callback((PyCompiler c) => { c.Push(exprLhsOp); })
+                .Verifiable();
+
+            var exprRhsMock = new Mock<ExpressionNode>(SourceReference.ClrSource);
+            var exprRhsOp = new NopOp();
+            exprRhsMock.Setup(o => o.Compile(compiler))
+                .Callback((PyCompiler c) => { c.Push(exprRhsOp); })
                 .Verifiable();
 
             var opNode = (BinaryOperator)Activator.CreateInstance(operatorType,
-                exprMock.Object, exprMock.Object);
+                exprLhsMock.Object, exprRhsMock.Object);
 
             // Act
             opNode.Compile(compiler);
 
             // Assert
-            Assert.That.IsBinaryOpCode(expectedCode, compiler, index: 0);
-            Assert.AreEqual(1, compiler.Count);
+            Assert.That.IsBinaryOpCode(expectedCode, compiler, index: 2);
+            Assert.AreEqual(3, compiler.Count);
+            Assert.AreSame(exprLhsOp, compiler[0], "compiler[0] was not exprLhsOp");
+            Assert.AreSame(exprRhsOp, compiler[1], "compiler[1] was not exprRhsOp");
 
-            exprMock.Verify(o => o.Compile(compiler), Times.Exactly(2));
+            exprLhsMock.Verify(o => o.Compile(compiler), Times.Once);
+            exprRhsMock.Verify(o => o.Compile(compiler), Times.Once);
         }
 
         [DataTestMethod]
@@ -76,7 +88,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
             var compiler = new PyCompiler();
 
             var exprMock = new Mock<ExpressionNode>(SourceReference.ClrSource);
+            var exprOp = new NopOp();
+
             exprMock.Setup(o => o.Compile(compiler))
+                .Callback((PyCompiler c) => { c.Push(exprOp);})
                 .Verifiable();
 
             var opNode = (UnaryOperator)Activator.CreateInstance(operatorType,
@@ -87,8 +102,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
             opNode.Compile(compiler);
 
             // Assert
-            Assert.That.IsBinaryOpCode(expectedCode, compiler, index: 0);
-            Assert.AreEqual(1, compiler.Count);
+            Assert.That.IsBinaryOpCode(expectedCode, compiler, index: 1);
+            Assert.AreEqual(2, compiler.Count);
+            Assert.AreSame(exprOp, compiler[0]);
 
             exprMock.Verify(o => o.Compile(compiler), Times.Once);
         }
