@@ -3,6 +3,7 @@ using Moq;
 using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Lang.Python3.Instructions;
+using Zifro.Compiler.Lang.Python3.Tests.TestingOps;
 
 namespace Zifro.Compiler.Lang.Python3.Tests.Processor
 {
@@ -19,15 +20,17 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             );
 
             var rhsMock = new Mock<IScriptType>(MockBehavior.Strict);
-
             processor.PushValue(rhsMock.Object);
+
+            var globalScope = (PyScope) processor.GlobalScope;
 
             // Act
             processor.WalkLine();
             int numOfValues = processor.ValueStackCount;
 
             // Assert
-            // TODO test processor global scope (should have value)
+            globalScope.Variables.TryGetValue(identifier, out IScriptType globalVar);
+            Assert.AreSame(rhsMock.Object, globalVar);
 
             Assert.AreEqual(0, numOfValues, "Did not absorb value.");
         }
@@ -41,17 +44,21 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
                 new VarSet(SourceReference.ClrSource, identifier)
             );
 
-            var rhsMock = new Mock<IScriptType>(MockBehavior.Strict);
+            var rhs = Mock.Of<IScriptType>();
+            processor.PushValue(rhs);
 
-            processor.PushValue(rhsMock.Object);
-            // TODO set initial value
+            var before = Mock.Of<IScriptType>();
+            var globalScope = (PyScope)processor.GlobalScope;
+            globalScope.SetVariable(identifier, before);
 
             // Act
             processor.WalkLine();
             int numOfValues = processor.ValueStackCount;
 
             // Assert
-            // TODO test processor global scope (should have new value)
+            globalScope.Variables.TryGetValue(identifier, out IScriptType globalVar);
+            Assert.AreSame(rhs, globalVar);
+            Assert.AreNotSame(before, globalVar);
 
             Assert.AreEqual(0, numOfValues, "Did not absorb value.");
         }
@@ -62,21 +69,28 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             // Arrange
             const string identifier = "foo";
             var processor = new PyProcessor(
-                // TODO Add increment scope op,
-                new VarSet(SourceReference.ClrSource, identifier)
+                new ScopePusher(),
+                new VarSet(SourceReference.ClrSource, identifier),
+                new ScopePopper()
             );
 
-            var rhsMock = new Mock<IScriptType>(MockBehavior.Strict);
+            var rhs = Mock.Of<IScriptType>();
+            processor.PushValue(rhs);
 
-            processor.PushValue(rhsMock.Object);
+            var globalScope = (PyScope)processor.GlobalScope;
 
             // Act
-            processor.WalkLine();
+            processor.WalkInstruction();
+            processor.WalkInstruction();
+            IScopeContext localScope =  processor.CurrentScope;
+            processor.WalkInstruction();
             int numOfValues = processor.ValueStackCount;
 
             // Assert
-            // TODO test processor global scope (should not have value)
-            // TODO test processor current scope (should have value)
+            globalScope.Variables.TryGetValue(identifier, out IScriptType globalVar);
+            localScope.Variables.TryGetValue(identifier, out IScriptType localVar);
+            Assert.IsNull(globalVar);
+            Assert.AreSame(rhs, localVar);
 
             Assert.AreEqual(0, numOfValues, "Did not absorb value.");
         }
@@ -87,22 +101,28 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             // Arrange
             const string identifier = "foo";
             var processor = new PyProcessor(
-                // TODO Add increment scope op,
-                new VarSet(SourceReference.ClrSource, identifier)
+                new ScopePusher(),
+                new VarSet(SourceReference.ClrSource, identifier),
+                new ScopePopper()
             );
 
-            var rhsMock = new Mock<IScriptType>(MockBehavior.Strict);
+            var rhs = Mock.Of<IScriptType>();
+            processor.PushValue(rhs);
 
-            processor.PushValue(rhsMock.Object);
-            // TODO set initial value to global scope
+            processor.WalkInstruction();
+
+            var before = Mock.Of<IScriptType>();
+            var localScope = (PyScope)processor.CurrentScope;
+            localScope.SetVariable(identifier, before);
 
             // Act
             processor.WalkLine();
             int numOfValues = processor.ValueStackCount;
 
             // Assert
-            // TODO test processor global scope (should have new value)
-            // TODO test processor current scope (should not have value)
+            localScope.Variables.TryGetValue(identifier, out IScriptType localVar);
+            Assert.AreSame(rhs, localVar);
+            Assert.AreNotSame(rhs, before);
 
             Assert.AreEqual(0, numOfValues, "Did not absorb value.");
         }
