@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Linq.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Zifro.Compiler.Core.Entities;
-using Zifro.Compiler.Core.Interfaces;
-using Zifro.Compiler.Lang.Python3.Entities;
 using Zifro.Compiler.Lang.Python3.Instructions;
 using Zifro.Compiler.Lang.Python3.Syntax;
-using Zifro.Compiler.Lang.Python3.Syntax.Literals;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators.Arithmetics;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators.Binaries;
@@ -28,40 +24,32 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
         [DataRow(typeof(ArithmeticFloor), OperatorCode.AFlr, DisplayName = "comp op //")]
         [DataRow(typeof(ArithmeticModulus), OperatorCode.AMod, DisplayName = "comp op %")]
         [DataRow(typeof(ArithmeticPower), OperatorCode.APow, DisplayName = "comp op **")]
-
         [DataRow(typeof(BinaryAnd), OperatorCode.BAnd, DisplayName = "comp op a&b")]
         [DataRow(typeof(BinaryLeftShift), OperatorCode.BLsh, DisplayName = "comp op a<<b")]
         [DataRow(typeof(BinaryRightShift), OperatorCode.BRsh, DisplayName = "comp op a>>b")]
         [DataRow(typeof(BinaryOr), OperatorCode.BOr, DisplayName = "comp op a|b")]
         [DataRow(typeof(BinaryXor), OperatorCode.BXor, DisplayName = "comp op a^b")]
-
         [DataRow(typeof(CompareEquals), OperatorCode.CEq, DisplayName = "comp op a==b")]
         //[DataRow(typeof(CNEq), OperatorCode.CNEq, DisplayName = "comp op a!=b")]
         //[DataRow(typeof(CGt), OperatorCode.CGt, DisplayName = "comp op a>b")]
         //[DataRow(typeof(CGtEq), OperatorCode.CGtEq, DisplayName = "comp op a>=b")]
         //[DataRow(typeof(CLt), OperatorCode.CLt, DisplayName = "comp op a<b")]
         //[DataRow(typeof(CLtEq), OperatorCode.CLtEq, DisplayName = "comp op a<=b")]
-
         [DataRow(typeof(LogicalAnd), OperatorCode.LAnd, DisplayName = "comp op a&&b")]
         [DataRow(typeof(LogicalOr), OperatorCode.LOr, DisplayName = "comp op a||b")]
         public void CompileBinaryTests(Type operatorType, OperatorCode expectedCode)
         {
             // Arrange
             var compiler = new PyCompiler();
+            compiler.CreateAndSetupExpression(
+                out Mock<ExpressionNode> exprLhsMock,
+                out NopOp exprLhsOp);
 
-            var exprLhsMock = new Mock<ExpressionNode>(SourceReference.ClrSource);
-            var exprLhsOp = new NopOp();
-            exprLhsMock.Setup(o => o.Compile(compiler))
-                .Callback((PyCompiler c) => { c.Push(exprLhsOp); })
-                .Verifiable();
+            compiler.CreateAndSetupExpression(
+                out Mock<ExpressionNode> exprRhsMock,
+                out NopOp exprRhsOp);
 
-            var exprRhsMock = new Mock<ExpressionNode>(SourceReference.ClrSource);
-            var exprRhsOp = new NopOp();
-            exprRhsMock.Setup(o => o.Compile(compiler))
-                .Callback((PyCompiler c) => { c.Push(exprRhsOp); })
-                .Verifiable();
-
-            var opNode = (BinaryOperator)Activator.CreateInstance(operatorType,
+            var opNode = (BinaryOperator) Activator.CreateInstance(operatorType,
                 exprLhsMock.Object, exprRhsMock.Object);
 
             // Act
@@ -87,14 +75,11 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
             // Arrange
             var compiler = new PyCompiler();
 
-            var exprMock = new Mock<ExpressionNode>(SourceReference.ClrSource);
-            var exprOp = new NopOp();
+            compiler.CreateAndSetupExpression(
+                out Mock<ExpressionNode> exprMock,
+                out NopOp exprOp);
 
-            exprMock.Setup(o => o.Compile(compiler))
-                .Callback((PyCompiler c) => { c.Push(exprOp);})
-                .Verifiable();
-
-            var opNode = (UnaryOperator)Activator.CreateInstance(operatorType,
+            var opNode = (UnaryOperator) Activator.CreateInstance(operatorType,
                 SourceReference.ClrSource,
                 exprMock.Object);
 
@@ -108,6 +93,5 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
 
             exprMock.Verify(o => o.Compile(compiler), Times.Once);
         }
-
     }
 }
