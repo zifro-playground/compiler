@@ -230,6 +230,15 @@ namespace Zifro.Compiler.Lang.Python3.Tests
         }
 
         public static void ErrorNotYetImplFormatArgs(this Assert assert,
+            SyntaxNotYetImplementedException exception, SourceReference source)
+        {
+            assert.ErrorFormatArgsEqual(exception,
+                nameof(Localized_Exceptions.Ex_Syntax_NotYetImplemented),
+                source.FromRow, source.FromColumn,
+                source.ToRow, source.ToColumn);
+        }
+
+        public static void ErrorNotYetImplFormatArgs(this Assert assert,
             SyntaxNotYetImplementedException exception, Mock<IToken> startTokenMock, Mock<IToken> stopTokenMock)
         {
             assert.ErrorSyntaxFormatArgsEqual(exception,
