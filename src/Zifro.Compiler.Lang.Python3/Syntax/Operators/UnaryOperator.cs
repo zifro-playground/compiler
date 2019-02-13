@@ -21,7 +21,7 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Operators
         public override void Compile(PyCompiler compiler)
         {
             Operand.Compile(compiler);
-            compiler.Push(new OpBinOpCode(Source, OpCode));
+            compiler.Push(new BasicOperator(Source, OpCode));
         }
     }
 }

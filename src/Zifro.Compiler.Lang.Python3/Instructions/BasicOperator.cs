@@ -7,13 +7,13 @@ using Zifro.Compiler.Lang.Python3.Interfaces;
 
 namespace Zifro.Compiler.Lang.Python3.Instructions
 {
-    public class OpBinOpCode : IOpCode
+    public class BasicOperator : IOpCode
     {
         public OperatorCode Code { get; }
 
         public SourceReference Source { get; }
 
-        public OpBinOpCode(SourceReference source, OperatorCode code)
+        public BasicOperator(SourceReference source, OperatorCode code)
         {
             Source = source;
             Code = code;

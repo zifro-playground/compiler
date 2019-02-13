@@ -91,7 +91,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             // Arrange
             var source = new SourceReference(1,2,3,4);
             var processor = new PyProcessor(
-                new OpBinOpCode(source, opCode)
+                new BasicOperator(source, opCode)
             );
 
             var lhsMock = new Mock<IScriptType>(MockBehavior.Strict);
@@ -114,7 +114,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new OpBinOpCode(SourceReference.ClrSource, opCode)
+                new BasicOperator(SourceReference.ClrSource, opCode)
             );
 
             var lhsMock = new Mock<IScriptType>(MockBehavior.Strict);

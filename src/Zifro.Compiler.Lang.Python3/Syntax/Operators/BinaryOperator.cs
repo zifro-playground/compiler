@@ -36,7 +36,7 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Operators
         {
             LeftOperand.Compile(compiler);
             RightOperand.Compile(compiler);
-            compiler.Push(new OpBinOpCode(Source, OpCode));
+            compiler.Push(new BasicOperator(Source, OpCode));
         }
     }
 }

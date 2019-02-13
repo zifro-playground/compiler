@@ -23,8 +23,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests
                 throw new AssertFailedException($"Expected IOpCode at index {index} but compiler only contains {compiler.Count} op codes.");
 
             IOpCode opCode = compiler[index];
-            Assert.IsInstanceOfType(opCode, typeof(OpBinOpCode));
-            var binOpCode = (OpBinOpCode) opCode;
+            Assert.IsInstanceOfType(opCode, typeof(BasicOperator));
+            var binOpCode = (BasicOperator) opCode;
             Assert.AreEqual(expectedCode, binOpCode.Code);
         }
     }
