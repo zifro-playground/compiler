@@ -4,6 +4,7 @@ using Moq;
 using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Interfaces;
+using Zifro.Compiler.Lang.Python3.Instructions;
 using Zifro.Compiler.Lang.Python3.Resources;
 using Zifro.Compiler.Lang.Python3.Tests.TestingOps;
 
@@ -17,7 +18,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new ScopePusher()
+                new ScopePush(SourceReference.ClrSource)
             );
 
             // Act
@@ -39,9 +40,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new ScopePusher(),
-                new ScopePusher(),
-                new ScopePopper()
+                new ScopePush(SourceReference.ClrSource),
+                new ScopePush(SourceReference.ClrSource),
+                new ScopePop(SourceReference.ClrSource)
             );
 
             // Act
@@ -63,8 +64,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new ScopePusher(),
-                new ScopePopper()
+                new ScopePush(SourceReference.ClrSource),
+                new ScopePop(SourceReference.ClrSource)
             );
             var global = processor.GlobalScope;
 
@@ -84,10 +85,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new ScopePusher(),
-                new ScopePusher(),
-                new ScopePopper(),
-                new ScopePopper()
+                new ScopePush(SourceReference.ClrSource),
+                new ScopePush(SourceReference.ClrSource),
+                new ScopePop(SourceReference.ClrSource),
+                new ScopePop(SourceReference.ClrSource)
             );
             var global = processor.GlobalScope;
 
@@ -114,9 +115,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new ScopePusher(),
-                new ScopePopper(),
-                new ScopePopper()
+                new ScopePush(SourceReference.ClrSource),
+                new ScopePop(SourceReference.ClrSource),
+                new ScopePop(SourceReference.ClrSource)
             );
 
             // Act
@@ -138,7 +139,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new ScopePopper()
+                new ScopePop(SourceReference.ClrSource)
             );
 
             // Act

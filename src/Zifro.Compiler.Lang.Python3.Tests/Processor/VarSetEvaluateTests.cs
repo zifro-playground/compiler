@@ -69,9 +69,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             // Arrange
             const string identifier = "foo";
             var processor = new PyProcessor(
-                new ScopePusher(),
+                new ScopePush(SourceReference.ClrSource),
                 new VarSet(SourceReference.ClrSource, identifier),
-                new ScopePopper()
+                new ScopePop(SourceReference.ClrSource)
             );
 
             var rhs = Mock.Of<IScriptType>();
@@ -101,9 +101,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             // Arrange
             const string identifier = "foo";
             var processor = new PyProcessor(
-                new ScopePusher(),
+                new ScopePush(SourceReference.ClrSource),
                 new VarSet(SourceReference.ClrSource, identifier),
-                new ScopePopper()
+                new ScopePop(SourceReference.ClrSource)
             );
 
             var rhs = Mock.Of<IScriptType>();

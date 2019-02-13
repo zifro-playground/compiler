@@ -1,30 +1,25 @@
 ﻿using Zifro.Compiler.Core.Entities;
-using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Lang.Python3.Interfaces;
 
 namespace Zifro.Compiler.Lang.Python3.Instructions
 {
-    public class VarSet : IOpCode
+    public class ScopePop : IOpCode
     {
-        public VarSet(SourceReference source, string identifier)
+        public ScopePop(SourceReference source)
         {
             Source = source;
-            Identifier = identifier;
         }
 
         public SourceReference Source { get; }
 
-        public string Identifier { get; }
-
         public void Execute(PyProcessor processor)
         {
-            var value = processor.PopValue<IScriptType>();
-            processor.SetVariable(Identifier, value);
+            processor.PopScope();
         }
 
         public override string ToString()
         {
-            return $"pop->{Identifier}";
+            return "pop->$scope";
         }
     }
 }
