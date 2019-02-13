@@ -18,6 +18,8 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
 
         public void Execute(PyProcessor processor)
         {
+            IScriptType value = processor.GetVariable(Identifier);
+            processor.PushValue(value);
         }
 
         public override string ToString()

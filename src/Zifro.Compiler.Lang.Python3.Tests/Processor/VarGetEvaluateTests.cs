@@ -105,8 +105,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
                 new ScopePopper()
             );
 
-            var value = Mock.Of<IScriptType>();
-
             // Act
             var ex = Assert.ThrowsException<RuntimeException>((Action) processor.WalkLine);
 
