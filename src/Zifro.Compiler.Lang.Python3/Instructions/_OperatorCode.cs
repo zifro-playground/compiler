@@ -25,7 +25,7 @@
         CLtEq, // a<=b
 
         LAnd = 0x18, // a&&b
-        LOr = 0x18, // a||b
+        LOr, // a||b
 
         // Unary operators (op rhs)
         ANeg = 0x20, // +a

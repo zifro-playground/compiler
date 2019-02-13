@@ -2,6 +2,7 @@
 using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Interfaces;
+using Zifro.Compiler.Lang.Python3.Exceptions;
 using Zifro.Compiler.Lang.Python3.Interfaces;
 
 namespace Zifro.Compiler.Lang.Python3.Instructions
@@ -44,6 +45,30 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
                     return lhs.ArithmeticModulus(rhs);
                 case OperatorCode.APow:
                     return lhs.ArithmeticExponent(rhs);
+
+                // Binary operators (lhs op rhs)
+                case OperatorCode.BAnd: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "&");
+                case OperatorCode.BLsh: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "<<");
+                case OperatorCode.BRsh: throw new SyntaxNotYetImplementedExceptionKeyword(Source, ">>");
+                case OperatorCode.BOr: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "|");
+                case OperatorCode.BXor: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "^");
+
+                case OperatorCode.CEq: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "==");
+                case OperatorCode.CNEq: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "!=");
+                case OperatorCode.CGt: throw new SyntaxNotYetImplementedExceptionKeyword(Source, ">");
+                case OperatorCode.CGtEq: throw new SyntaxNotYetImplementedExceptionKeyword(Source, ">=");
+                case OperatorCode.CLt: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "<");
+                case OperatorCode.CLtEq: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "<=");
+
+                case OperatorCode.LAnd: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "&&");
+                case OperatorCode.LOr: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "||");
+
+                // Unary operators (op rhs)
+                case OperatorCode.ANeg: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "+");
+                case OperatorCode.APos: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "-");
+                case OperatorCode.BNot: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "~");
+                case OperatorCode.LNot: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "!");
+
                 default:
                     throw new SyntaxNotYetImplementedException(Source);
             }
