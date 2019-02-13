@@ -4,7 +4,7 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Operators.Arithmetics
 {
     public class ArithmeticMultiply : BinaryOperator
     {
-        public override OperatorCode OpCode => OperatorCode.Mul;
+        public override OperatorCode OpCode => OperatorCode.AMul;
 
         public ArithmeticMultiply(
             ExpressionNode leftOperand,

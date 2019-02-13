@@ -30,19 +30,19 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
             var lhs = processor.PopValue<IScriptType>();
             switch (Code)
             {
-                case OperatorCode.Add:
+                case OperatorCode.AAdd:
                     return lhs.ArithmeticAdd(rhs);
-                case OperatorCode.Sub:
+                case OperatorCode.ASub:
                     return lhs.ArithmeticSubtract(rhs);
-                case OperatorCode.Mul:
+                case OperatorCode.AMul:
                     return lhs.ArithmeticMultiply(rhs);
-                case OperatorCode.Div:
+                case OperatorCode.ADiv:
                     return lhs.ArithmeticDivide(rhs);
-                case OperatorCode.Flr:
+                case OperatorCode.AFlr:
                     return lhs.ArithmeticFloorDivide(rhs);
-                case OperatorCode.Mod:
+                case OperatorCode.AMod:
                     return lhs.ArithmeticModulus(rhs);
-                case OperatorCode.Pow:
+                case OperatorCode.APow:
                     return lhs.ArithmeticExponent(rhs);
                 default:
                     throw new SyntaxNotYetImplementedException(Source);

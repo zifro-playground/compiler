@@ -17,13 +17,13 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
     public class CompileOperatorTests
     {
         [DataTestMethod]
-        [DataRow(typeof(ArithmeticAdd), OperatorCode.Add, DisplayName = "comp op +")]
-        [DataRow(typeof(ArithmeticSubtract), OperatorCode.Sub, DisplayName = "comp op -")]
-        [DataRow(typeof(ArithmeticMultiply), OperatorCode.Mul, DisplayName = "comp op *")]
-        [DataRow(typeof(ArithmeticDivide), OperatorCode.Div, DisplayName = "comp op /")]
-        [DataRow(typeof(ArithmeticFloor), OperatorCode.Flr, DisplayName = "comp op //")]
-        [DataRow(typeof(ArithmeticModulus), OperatorCode.Mod, DisplayName = "comp op %")]
-        [DataRow(typeof(ArithmeticPower), OperatorCode.Pow, DisplayName = "comp op **")]
+        [DataRow(typeof(ArithmeticAdd), OperatorCode.AAdd, DisplayName = "comp op +")]
+        [DataRow(typeof(ArithmeticSubtract), OperatorCode.ASub, DisplayName = "comp op -")]
+        [DataRow(typeof(ArithmeticMultiply), OperatorCode.AMul, DisplayName = "comp op *")]
+        [DataRow(typeof(ArithmeticDivide), OperatorCode.ADiv, DisplayName = "comp op /")]
+        [DataRow(typeof(ArithmeticFloor), OperatorCode.AFlr, DisplayName = "comp op //")]
+        [DataRow(typeof(ArithmeticModulus), OperatorCode.AMod, DisplayName = "comp op %")]
+        [DataRow(typeof(ArithmeticPower), OperatorCode.APow, DisplayName = "comp op **")]
         public void CompileBinaryTests(Type operatorType, OperatorCode expectedCode)
         {
             // Arrange
