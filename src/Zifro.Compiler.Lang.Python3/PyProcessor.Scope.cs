@@ -1,5 +1,6 @@
 ﻿using System;
 using Zifro.Compiler.Core.Exceptions;
+using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Lang.Python3.Resources;
 
 namespace Zifro.Compiler.Lang.Python3
@@ -8,7 +9,7 @@ namespace Zifro.Compiler.Lang.Python3
     {
         public void PushScope()
         {
-            _scopesStack.Add(new PyScope());
+            _scopesStack.Add(new PyScope(CurrentScope));
         }
 
         public void PopScope()
@@ -21,6 +22,25 @@ namespace Zifro.Compiler.Lang.Python3
             }
 
             _scopesStack.RemoveAt(_scopesStack.Count - 1);
+        }
+
+        public void SetGlobalVariable(string key, IScriptType value)
+        {
+            _globalScope.SetVariable(key, value);
+        }
+
+        public IScriptType GetGlobalVariable(string key)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void SetVariable(string key, IScriptType value)
+        {
+        }
+
+        public IScriptType GetVariable(string key)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

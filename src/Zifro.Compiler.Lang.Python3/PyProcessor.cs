@@ -15,9 +15,9 @@ namespace Zifro.Compiler.Lang.Python3
             Factory = new PyScriptTypeFactory(this);
             State = ProcessState.NotStarted;
             LastError = null;
-            GlobalScope = new PyScope();
 
             _valueStack = new Stack<IScriptType>();
+            _globalScope = new PyScope(null);
             _scopesStack = new List<PyScope>();
             ProgramCounter = -1;
             _opCodes = opCodes ?? new IOpCode[0];
@@ -25,7 +25,7 @@ namespace Zifro.Compiler.Lang.Python3
 
         public IScriptTypeFactory Factory { get; }
 
-        public IScopeContext GlobalScope { get; }
+        public IScopeContext GlobalScope => _globalScope;
 
         public IScopeContext CurrentScope => _scopesStack.LastOrDefault()
                                              ?? GlobalScope;
@@ -40,6 +40,7 @@ namespace Zifro.Compiler.Lang.Python3
 
         private readonly Stack<IScriptType> _valueStack;
         private readonly List<PyScope> _scopesStack;
+        private readonly PyScope _globalScope;
         private readonly IOpCode[] _opCodes;
     }
 }
