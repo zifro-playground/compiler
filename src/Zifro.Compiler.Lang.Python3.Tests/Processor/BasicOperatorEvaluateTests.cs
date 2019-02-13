@@ -12,7 +12,7 @@ using Zifro.Compiler.Lang.Python3.Instructions;
 namespace Zifro.Compiler.Lang.Python3.Tests.Processor
 {
     [TestClass]
-    public class OpCodeEvaluateTests
+    public class BasicOperatorEvaluateTests
     {
         [TestMethod]
         public void EvaluateBinary_Add_Test()
