@@ -19,9 +19,14 @@ namespace Zifro.Compiler.Lang.Python3
             // Only check on clean end, ignore if ended with error
             if (e == ProcessState.Ended && GlobalScope != CurrentScope)
             {
-                throw new InternalException(
+                var ex = new InternalException(
                     nameof(Localized_Python3_Interpreter.Ex_Scope_LastScopeNotPopped),
                     Localized_Python3_Interpreter.Ex_Scope_LastScopeNotPopped);
+
+                State = ProcessState.Error;
+                LastError = ex;
+
+                throw ex;
             }
         }
 

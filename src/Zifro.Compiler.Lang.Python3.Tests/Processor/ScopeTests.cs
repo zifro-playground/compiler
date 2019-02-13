@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Lang.Python3.Resources;
+using Zifro.Compiler.Lang.Python3.Tests.TestingOps;
 
 namespace Zifro.Compiler.Lang.Python3.Tests.Processor
 {
@@ -13,11 +14,12 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         public void PushRunFullNoPopTest()
         {
             // Arrange
-            var processor = new PyProcessor();
+            var processor = new PyProcessor(
+                new ScopePusher()
+            );
 
             // Act
-            processor.PushScope();
-            var ex = Assert.ThrowsException<InternalException>((Action) processor.WalkInstruction);
+            var ex = Assert.ThrowsException<InternalException>((Action) processor.WalkLine);
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
@@ -34,13 +36,14 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         public void Push2RunFull1PopTest()
         {
             // Arrange
-            var processor = new PyProcessor();
+            var processor = new PyProcessor(
+                new ScopePusher(),
+                new ScopePusher(),
+                new ScopePopper()
+            );
 
             // Act
-            processor.PushScope();
-            processor.PushScope();
-            processor.PopScope();
-            var ex = Assert.ThrowsException<InternalException>((Action)processor.WalkInstruction);
+            var ex = Assert.ThrowsException<InternalException>((Action)processor.WalkLine);
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
@@ -49,7 +52,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             Assert.AreEqual(ProcessState.Error, processor.State);
 
             Assert.That.ErrorFormatArgsEqual(
-                (InterpreterLocalizedException)processor.LastError,
+                (InternalException)processor.LastError,
                 nameof(Localized_Python3_Interpreter.Ex_Scope_LastScopeNotPopped));
         }
 
@@ -57,13 +60,15 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         public void Push1RunFull1PopTest()
         {
             // Arrange
-            var processor = new PyProcessor();
+            var processor = new PyProcessor(
+                new ScopePusher(),
+                new ScopePopper()
+            );
             var global = processor.GlobalScope;
 
             // Act
-            processor.PushScope();
+            processor.WalkInstruction();
             var scope = processor.CurrentScope;
-            processor.PopScope();
             processor.WalkInstruction();
 
             // Assert
@@ -76,17 +81,21 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         public void Push2RunFull2PopTest()
         {
             // Arrange
-            var processor = new PyProcessor();
+            var processor = new PyProcessor(
+                new ScopePusher(),
+                new ScopePusher(),
+                new ScopePopper(),
+                new ScopePopper()
+            );
             var global = processor.GlobalScope;
 
             // Act
-            processor.PushScope();
+            processor.WalkInstruction();
             var scope1 = processor.CurrentScope;
-            processor.PushScope();
+            processor.WalkInstruction();
             var scope2 = processor.CurrentScope;
-            processor.PopScope();
+            processor.WalkInstruction();
             var scope3 = processor.CurrentScope;
-            processor.PopScope();
             processor.WalkInstruction();
 
             // Assert
@@ -99,14 +108,39 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         }
 
         [TestMethod]
+        public void Push1RunFull2PopTest()
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new ScopePusher(),
+                new ScopePopper(),
+                new ScopePopper()
+            );
+
+            // Act
+            var ex = Assert.ThrowsException<InternalException>((Action)processor.WalkLine);
+
+            // Assert
+            Assert.That.ErrorFormatArgsEqual(ex,
+                nameof(Localized_Python3_Interpreter.Ex_Scope_PopGlobal));
+
+            Assert.AreEqual(ProcessState.Error, processor.State);
+
+            Assert.That.ErrorFormatArgsEqual(
+                (InternalException)processor.LastError,
+                nameof(Localized_Python3_Interpreter.Ex_Scope_PopGlobal));
+        }
+
+        [TestMethod]
         public void PopGlobalScopeTest()
         {
             // Arrange
-            var processor = new PyProcessor();
+            var processor = new PyProcessor(
+                new ScopePopper()
+            );
 
             // Act
-            processor.PushScope();
-            var ex = Assert.ThrowsException<InternalException>((Action)processor.WalkInstruction);
+            var ex = Assert.ThrowsException<InternalException>((Action)processor.WalkLine);
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
