@@ -28,5 +28,10 @@ namespace Zifro.Compiler.Lang.Python3
                 ? value
                 : null;
         }
+
+        internal bool HasVariable(string key)
+        {
+            return _variables.ContainsKey(key);
+        }
     }
 }

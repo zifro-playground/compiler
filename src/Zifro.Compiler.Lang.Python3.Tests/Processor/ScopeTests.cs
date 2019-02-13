@@ -230,8 +230,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             var fromLocal = localScope.GetVariable("foo");
 
             // Assert
-            Assert.IsNull(fromGlobal, "fromGlobal was null");
-            Assert.IsNotNull(fromLocal, "fromLocal was not null");
+            Assert.IsNull(fromGlobal, "fromGlobal was not null");
+            Assert.IsNotNull(fromLocal, "fromLocal was null");
             Assert.AreSame(value, fromLocal, "fromLocal was not same as mock");
         }
 
@@ -255,42 +255,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             Assert.AreSame(valueAfter, actual, "Value did not get overwritten");
             Assert.AreNotSame(valueBefore, actual);
         }
-
-        [TestMethod]
-        public void GetGlobalValueFromGlobalScopeTest()
-        {
-            // Arrange
-            var value = Mock.Of<IScriptType>();
-            var processor = new PyProcessor();
-            var globalScope = (PyScope)processor.GlobalScope;
-            globalScope.SetVariable("foo", value);
-
-            // Act
-            IScriptType result = processor.GetGlobalVariable("foo");
-
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreSame(value, result);
-        }
-
-        [TestMethod]
-        public void GetGlobalValueFromLocalScopeTest()
-        {
-            // Arrange
-            var value = Mock.Of<IScriptType>();
-            var processor = new PyProcessor();
-            var globalScope = (PyScope)processor.GlobalScope;
-            processor.PushScope();
-            globalScope.SetVariable("foo", value);
-
-            // Act
-            IScriptType result = processor.GetGlobalVariable("foo");
-
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreSame(value, result);
-        }
-
+        
         [TestMethod]
         public void GetGlobalValueWithinLocalScopeTest()
         {
@@ -310,7 +275,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         }
 
         [TestMethod]
-        public void GetLocalValueInGlobalScopeTest()
+        public void GetValueInGlobalScopeTest()
         {
             // Arrange
             var value = Mock.Of<IScriptType>();
@@ -327,7 +292,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         }
 
         [TestMethod]
-        public void GetLocalValueFromLocalScopeTest()
+        public void GetValueFromLocalScopeTest()
         {
             // Arrange
             var value = Mock.Of<IScriptType>();
@@ -342,32 +307,6 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             // Assert
             Assert.IsNotNull(result, "fromLocal was not null");
             Assert.AreSame(value, result, "fromLocal was not same as mock");
-        }
-
-        [TestMethod]
-        public void GetGlobalNonExistingTest()
-        {
-            // Arrange
-            var value = Mock.Of<IScriptType>();
-            var processor = new PyProcessor();
-
-            processor.PushScope();
-            var localScope = (PyScope)processor.CurrentScope;
-            localScope.SetVariable("foo", value);
-
-            void Action()
-            {
-                processor.GetGlobalVariable("foo");
-            }
-
-            // Act
-            var ex = Assert.ThrowsException<RuntimeException>((Action) Action);
-
-            // Assert
-            Assert.That.ErrorFormatArgsEqual(ex,
-                nameof(Localized_Python3_Runtime.Ex_Variable_NotDefinedGlobal),
-                Localized_Python3_Runtime.Ex_Variable_NotDefinedGlobal,
-                "foo");
         }
 
         [TestMethod]
@@ -389,7 +328,31 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
                 nameof(Localized_Python3_Runtime.Ex_Variable_NotDefined),
-                Localized_Python3_Runtime.Ex_Variable_NotDefined,
+                "foo");
+        }
+
+        [TestMethod]
+        public void GetValueFromOldLocalTest()
+        {
+            // Arrange
+            var value = Mock.Of<IScriptType>();
+            var processor = new PyProcessor();
+
+            processor.PushScope();
+            processor.SetVariable("foo", value);
+            processor.PopScope();
+
+            void Action()
+            {
+                processor.GetVariable("foo");
+            }
+
+            // Act
+            var ex = Assert.ThrowsException<RuntimeException>((Action)Action);
+
+            // Assert
+            Assert.That.ErrorFormatArgsEqual(ex,
+                nameof(Localized_Python3_Runtime.Ex_Variable_NotDefined),
                 "foo");
         }
     }

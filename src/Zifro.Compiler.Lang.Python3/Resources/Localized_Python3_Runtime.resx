@@ -122,9 +122,4 @@
     <comment>Variable not found in local or global scope.
 {0} name of variable</comment>
   </data>
-  <data name="Ex_Variable_NotDefinedGlobal" xml:space="preserve">
-    <value>Finns ingen global variabel med namn '{0}' definierad.</value>
-    <comment>Variable not found in global scope.
-{0} name of global variable</comment>
-  </data>
 </root>

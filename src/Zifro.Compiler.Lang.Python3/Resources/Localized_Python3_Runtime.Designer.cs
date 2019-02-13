@@ -68,14 +68,5 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
                 return ResourceManager.GetString("Ex_Variable_NotDefined", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Finns ingen global variabel med namn &apos;{0}&apos; definierad..
-        /// </summary>
-        internal static string Ex_Variable_NotDefinedGlobal {
-            get {
-                return ResourceManager.GetString("Ex_Variable_NotDefinedGlobal", resourceCulture);
-            }
-        }
     }
 }

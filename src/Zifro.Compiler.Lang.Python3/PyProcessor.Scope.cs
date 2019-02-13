@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Lang.Python3.Resources;
@@ -29,18 +30,40 @@ namespace Zifro.Compiler.Lang.Python3
             _globalScope.SetVariable(key, value);
         }
 
-        public IScriptType GetGlobalVariable(string key)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public void SetVariable(string key, IScriptType value)
         {
+            var scope = (PyScope)CurrentScope;
+
+            scope.SetVariable(key, value);
         }
 
         public IScriptType GetVariable(string key)
         {
-            throw new System.NotImplementedException();
+            PyScope scope = GetScopeWithVariableOrNull(key);
+
+            if (scope == null)
+                throw new RuntimeException(
+                    nameof(Localized_Python3_Runtime.Ex_Variable_NotDefined),
+                    Localized_Python3_Runtime.Ex_Variable_NotDefined,
+                    key);
+
+            return scope.GetVariable(key);
+        }
+
+        private PyScope GetScopeWithVariableOrNull(string key)
+        {
+            PyScope scope = _scopesStack.LastOrDefault()
+                            ?? _globalScope;
+
+            while (scope != null)
+            {
+                if (scope.HasVariable(key))
+                    return scope;
+
+                scope = (PyScope)scope.ParentScope;
+            }
+
+            return null;
         }
     }
 }
