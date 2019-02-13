@@ -125,6 +125,14 @@
     <value>Koden inväntar att funktionen återupptas innan den kan köra vidare.</value>
     <comment>Process asked to walk when reached state "Yielded".</comment>
   </data>
+  <data name="Ex_Scope_LastScopeNotPopped" xml:space="preserve">
+    <value>Internt fel. Alla variabelgrupper (scopes) blev inte korrekt stängda.</value>
+    <comment>Occurs on process ended but current scope was not brought back to global scope (via op-codes).</comment>
+  </data>
+  <data name="Ex_Scope_PopGlobal" xml:space="preserve">
+    <value>Internt fel. En operation försökte stänga den globala variabelgruppen.</value>
+    <comment>Occurs when current scope is the global scope and PyProcessor.PopScope is invoked.</comment>
+  </data>
   <data name="Ex_Unknown_Error" xml:space="preserve">
     <value>Okänt internt fel. "{0}"</value>
     <comment>Processor catched an exception that was not of type InterpreterException.

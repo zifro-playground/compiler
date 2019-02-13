@@ -36,6 +36,5 @@ namespace Zifro.Compiler.Lang.Python3
 
         private readonly Stack<IScriptType> _valueStack;
         private readonly IOpCode[] _opCodes;
-
     }
 }

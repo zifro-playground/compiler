@@ -79,6 +79,24 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Internt fel. Alla variabelgrupper (scopes) blev inte korrekt stängda..
+        /// </summary>
+        internal static string Ex_Scope_LastScopeNotPopped {
+            get {
+                return ResourceManager.GetString("Ex_Scope_LastScopeNotPopped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internt fel. En operation försökte stänga den globala variabelgruppen..
+        /// </summary>
+        internal static string Ex_Scope_PopGlobal {
+            get {
+                return ResourceManager.GetString("Ex_Scope_PopGlobal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Okänt internt fel. &quot;{0}&quot;.
         /// </summary>
         internal static string Ex_Unknown_Error {

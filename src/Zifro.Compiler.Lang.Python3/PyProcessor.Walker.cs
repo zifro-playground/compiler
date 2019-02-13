@@ -62,6 +62,7 @@ namespace Zifro.Compiler.Lang.Python3
 
                 case ProcessState.NotStarted when _opCodes.Length == 0:
                     State = ProcessState.Ended;
+                    OnProcessEnded(State);
                     break;
 
                 case ProcessState.NotStarted:
@@ -71,15 +72,20 @@ namespace Zifro.Compiler.Lang.Python3
                         ProgramCounter++;
                         _opCodes[ProgramCounter].Execute(this);
 
-                        State = ProgramCounter + 1 < _opCodes.Length
-                            ? ProcessState.Running
-                            : ProcessState.Ended;
+                        if (ProgramCounter + 1 < _opCodes.Length)
+                            State = ProcessState.Running;
+                        else
+                        {
+                            State = ProcessState.Ended;
+                            OnProcessEnded(State);
+                        }
                     }
                     catch (InterpreterException ex)
                     {
                         State = ProcessState.Error;
                         LastError = ex;
 
+                        OnProcessEnded(State);
                         throw;
                     }
                     catch (Exception ex)
@@ -91,6 +97,7 @@ namespace Zifro.Compiler.Lang.Python3
                             Localized_Python3_Interpreter.Ex_Unknown_Error,
                             ex, ex.Message);
 
+                        OnProcessEnded(State);
                         throw LastError;
                     }
 
