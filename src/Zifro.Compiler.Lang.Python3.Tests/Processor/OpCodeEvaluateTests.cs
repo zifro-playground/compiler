@@ -6,6 +6,7 @@ using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Lang.Python3.Exceptions;
+using Zifro.Compiler.Lang.Python3.Extensions;
 using Zifro.Compiler.Lang.Python3.Instructions;
 
 namespace Zifro.Compiler.Lang.Python3.Tests.Processor
@@ -137,6 +138,57 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             Assert.AreEqual(1, numOfValues, "Did not absorb values.");
             Assert.AreSame(resultMock.Object, result, "Did not produce result.");
             lhsMock.Verify(method);
+        }
+
+        [DataTestMethod]
+        [DataRow(OperatorCode.AAdd, DisplayName = "is bin op a+b")]
+        [DataRow(OperatorCode.ASub, DisplayName = "is bin op a-b")]
+        [DataRow(OperatorCode.AMul, DisplayName = "is bin op a*b")]
+        [DataRow(OperatorCode.ADiv, DisplayName = "is bin op a/b")]
+        [DataRow(OperatorCode.AFlr, DisplayName = "is bin op a//b")]
+        [DataRow(OperatorCode.AMod, DisplayName = "is bin op a%b")]
+        [DataRow(OperatorCode.APow, DisplayName = "is bin op a**b")]
+
+        [DataRow(OperatorCode.BAnd, DisplayName = "is bin op a&b")]
+        [DataRow(OperatorCode.BLsh, DisplayName = "is bin op a<<b")]
+        [DataRow(OperatorCode.BRsh, DisplayName = "is bin op a>>b")]
+        [DataRow(OperatorCode.BOr, DisplayName = "is bin op a|b")]
+        [DataRow(OperatorCode.BXor, DisplayName = "is bin op a^b")]
+
+        [DataRow(OperatorCode.CEq, DisplayName = "is bin op a==b")]
+        [DataRow(OperatorCode.CNEq, DisplayName = "is bin op a!=b")]
+        [DataRow(OperatorCode.CGt, DisplayName = "is bin op a>b")]
+        [DataRow(OperatorCode.CGtEq, DisplayName = "is bin op a>=b")]
+        [DataRow(OperatorCode.CLt, DisplayName = "is bin op a<b")]
+        [DataRow(OperatorCode.CLtEq, DisplayName = "is bin op a<=b")]
+
+        [DataRow(OperatorCode.LAnd, DisplayName = "is bin op a&&b")]
+        [DataRow(OperatorCode.LOr, DisplayName = "is bin op a||b")]
+        public void IsBinaryTests(OperatorCode code)
+        {
+            // Act
+            bool isBinary = code.IsBinary();
+            bool isUnary = code.IsUnary();
+
+            // Assert
+            Assert.IsTrue(isBinary, $"OperatorCode.{code}.IsBinary() was false");
+            Assert.IsFalse(isUnary, $"OperatorCode.{code}.IsUnary() was true");
+        }
+
+        [DataTestMethod]
+        [DataRow(OperatorCode.ANeg, DisplayName = "is un op +a")]
+        [DataRow(OperatorCode.APos, DisplayName = "is un op -a")]
+        [DataRow(OperatorCode.BNot, DisplayName = "is un op ~a")]
+        [DataRow(OperatorCode.LNot, DisplayName = "is un op !a")]
+        public void IsUnaryTests(OperatorCode code)
+        {
+            // Act
+            bool isBinary = code.IsBinary();
+            bool isUnary = code.IsUnary();
+
+            // Assert
+            Assert.IsFalse(isBinary, $"OperatorCode.{code}.IsBinary() was true");
+            Assert.IsTrue(isUnary, $"OperatorCode.{code}.IsUnary() was false");
         }
     }
 }
