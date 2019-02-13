@@ -58,14 +58,18 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor();
+            var global = processor.GlobalScope;
 
             // Act
             processor.PushScope();
+            var scope = processor.CurrentScope;
             processor.PopScope();
             processor.WalkInstruction();
 
             // Assert
             Assert.AreEqual(ProcessState.Ended, processor.State);
+            Assert.AreNotSame(global, scope);
+            Assert.AreSame(global, processor.CurrentScope);
         }
 
         [TestMethod]
@@ -73,16 +77,25 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor();
+            var global = processor.GlobalScope;
 
             // Act
             processor.PushScope();
+            var scope1 = processor.CurrentScope;
             processor.PushScope();
+            var scope2 = processor.CurrentScope;
             processor.PopScope();
+            var scope3 = processor.CurrentScope;
             processor.PopScope();
             processor.WalkInstruction();
 
             // Assert
             Assert.AreEqual(ProcessState.Ended, processor.State);
+            Assert.AreNotSame(global, scope1);
+            Assert.AreNotSame(global, scope2);
+            Assert.AreNotSame(global, scope3);
+            Assert.AreSame(scope1, scope3);
+            Assert.AreSame(global, processor.CurrentScope);
         }
 
         [TestMethod]
