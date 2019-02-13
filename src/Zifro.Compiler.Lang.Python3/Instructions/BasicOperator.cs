@@ -1,8 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
 using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Lang.Python3.Exceptions;
+using Zifro.Compiler.Lang.Python3.Extensions;
 using Zifro.Compiler.Lang.Python3.Interfaces;
 
 namespace Zifro.Compiler.Lang.Python3.Instructions
@@ -21,14 +23,18 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
 
         public void Execute(PyProcessor processor)
         {
-            IScriptType result = GetResult(processor);
+            IScriptType result = Code.IsBinary()
+                ? GetBinaryResult(processor)
+                : GetUnaryResult(processor);
+
             processor.PushValue(result);
         }
 
-        private IScriptType GetResult(PyProcessor processor)
+        private IScriptType GetBinaryResult(PyProcessor processor)
         {
             var rhs = processor.PopValue<IScriptType>();
             var lhs = processor.PopValue<IScriptType>();
+
             switch (Code)
             {
                 case OperatorCode.AAdd:
@@ -63,6 +69,18 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
                 case OperatorCode.LAnd: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "&&");
                 case OperatorCode.LOr: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "||");
 
+                default:
+                    throw new InvalidEnumArgumentException(nameof(Code), (int)Code, typeof(OperatorCode));
+            }
+        }
+
+
+        private IScriptType GetUnaryResult(PyProcessor processor)
+        {
+            var lhs = processor.PopValue<IScriptType>();
+
+            switch (Code)
+            {
                 // Unary operators (op rhs)
                 case OperatorCode.ANeg: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "+");
                 case OperatorCode.APos: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "-");
@@ -70,13 +88,19 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
                 case OperatorCode.LNot: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "!");
 
                 default:
-                    throw new SyntaxNotYetImplementedException(Source);
+                    throw new InvalidEnumArgumentException(nameof(Code), (int)Code, typeof(OperatorCode));
             }
         }
 
         public override string ToString()
         {
-            return Code.ToString().ToLowerInvariant();
+            // BAnd => band
+            // AAdd => add
+            // CEq => eq
+            string name = Code.ToString().ToLowerInvariant();
+            return name[0] != 'b'
+                ? name.Substring(1)
+                : name;
         }
     }
 }
