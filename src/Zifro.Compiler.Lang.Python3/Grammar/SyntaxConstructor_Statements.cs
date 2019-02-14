@@ -100,6 +100,9 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
         public override SyntaxNode VisitCompound_stmt(Python3Parser.Compound_stmtContext context)
         {
+            // compound_stmt: if_stmt | while_stmt | for_stmt
+            //    | try_stmt | with_stmt | funcdef | classdef
+            //    | decorated | async_stmt
             VisitChildren(context);
             throw context.NotYetImplementedException();
         }
