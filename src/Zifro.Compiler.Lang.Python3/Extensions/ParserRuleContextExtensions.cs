@@ -36,16 +36,15 @@ namespace Zifro.Compiler.Lang.Python3.Extensions
 
         public static SourceReference GetSourceReference(this ITerminalNode node)
         {
-            int len = node.Symbol.StartIndex == -1
-                ? -1
-                // +1 because start&stop indexes are inclusive
-                : node.Symbol.StopIndex - node.Symbol.StartIndex + 1;
+            int stopOffset = node.Symbol.StartIndex == -1
+                ? 0
+                : node.Symbol.StopIndex - node.Symbol.StartIndex;
 
             return new SourceReference(
                 fromRow: node.Symbol.Line,
                 toRow: node.Symbol.Line, // assumes same line
                 fromColumn: node.Symbol.Column,
-                toColumn: node.Symbol.Column + len);
+                toColumn: node.Symbol.Column + stopOffset);
         }
 
         public static SyntaxNotYetImplementedException NotYetImplementedException(this ParserRuleContext context)
