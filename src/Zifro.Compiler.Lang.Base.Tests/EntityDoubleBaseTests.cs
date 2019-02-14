@@ -58,10 +58,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             DoubleBase a = GetDouble(5);
             StringBase b = GetString("foo");
             object[] expectedFormatArgs = {5d, b.GetTypeName()};
-            Action action = delegate { a.ArithmeticAdd(b); };
+            void Action() { a.ArithmeticAdd(b); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Double_AddInvalidType), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Double_AddInvalidType), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -113,10 +113,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             DoubleBase a = GetDouble(5);
             StringBase b = GetString("foo");
             object[] expectedFormatArgs = {5d, b.GetTypeName()};
-            Action action = delegate { a.ArithmeticSubtract(b); };
+            void Action() { a.ArithmeticSubtract(b); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Double_SubtractInvalidType), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Double_SubtractInvalidType), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -154,10 +154,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             DoubleBase a = GetDouble(5);
             StringBase b = GetString("foo");
             object[] expectedFormatArgs = {5d, b.GetTypeName()};
-            Action action = delegate { a.ArithmeticMultiply(b); };
+            void Action() { a.ArithmeticMultiply(b); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Double_MultiplyInvalidType), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Double_MultiplyInvalidType), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -209,10 +209,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             DoubleBase a = GetDouble(5);
             StringBase b = GetString("foo");
             object[] expectedFormatArgs = {5d, b.GetTypeName()};
-            Action action = delegate { a.ArithmeticDivide(b); };
+            void Action() { a.ArithmeticDivide(b); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Double_DivideInvalidType), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Double_DivideInvalidType), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -222,10 +222,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             DoubleBase a = GetDouble(5);
             DoubleBase b = GetDouble(0);
             object[] expectedFormatArgs = { };
-            Action action = delegate { a.ArithmeticDivide(b); };
+            void Action() { a.ArithmeticDivide(b); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Math_DivideByZero), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Math_DivideByZero), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -235,10 +235,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             DoubleBase a = GetDouble(5);
             object[] expectedFormatArgs = {5d};
 
-            Action action = delegate { a.GetIndex(null); };
+            void Action() { a.GetIndex(null); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Double_IndexGet), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Double_IndexGet), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -248,10 +248,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             DoubleBase a = GetDouble(5);
             object[] expectedFormatArgs = {5d};
 
-            Action action = delegate { a.SetIndex(null, null); };
+            void Action() { a.SetIndex(null, null); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Double_IndexSet), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Double_IndexSet), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -262,10 +262,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             const string property = "prop";
             object[] expectedFormatArgs = {5d, property};
 
-            Action action = delegate { a.GetProperty(property); };
+            void Action() { a.GetProperty(property); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Double_PropertyGet), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Double_PropertyGet), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -276,10 +276,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             const string property = "prop";
             object[] expectedFormatArgs = {5d, property};
 
-            Action action = delegate { a.SetProperty(property, null); };
+            void Action() { a.SetProperty(property, null); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Double_PropertySet), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Double_PropertySet), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -289,10 +289,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             DoubleBase a = GetDouble(5);
             object[] expectedFormatArgs = {5d};
 
-            Action action = delegate { a.Invoke(null); };
+            void Action() { a.Invoke(null); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Double_Invoke), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Double_Invoke), expectedFormatArgs);
         }
 
         [DataTestMethod]

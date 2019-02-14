@@ -24,10 +24,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             BooleanBase b = GetBoolean(false);
             object[] expectedFormatArgs = {a.Value, LocalizedBool(a.Value), b.GetTypeName()};
 
-            Action action = delegate { a.ArithmeticAdd(b); };
+            void Action() { a.ArithmeticAdd(b); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Boolean_AddInvalidOperation),
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_AddInvalidOperation),
                 expectedFormatArgs);
         }
 
@@ -39,10 +39,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             BooleanBase b = GetBoolean(false);
             object[] expectedFormatArgs = {a.Value, LocalizedBool(a.Value), b.GetTypeName()};
 
-            Action action = delegate { a.ArithmeticSubtract(b); };
+            void Action() { a.ArithmeticSubtract(b); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Boolean_SubtractInvalidOperation),
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_SubtractInvalidOperation),
                 expectedFormatArgs);
         }
 
@@ -54,10 +54,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             BooleanBase b = GetBoolean(false);
             object[] expectedFormatArgs = {a.Value, LocalizedBool(a.Value), b.GetTypeName()};
 
-            Action action = delegate { a.ArithmeticMultiply(b); };
+            void Action() { a.ArithmeticMultiply(b); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Boolean_MultiplyInvalidOperation),
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_MultiplyInvalidOperation),
                 expectedFormatArgs);
         }
 
@@ -69,10 +69,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             BooleanBase b = GetBoolean(false);
             object[] expectedFormatArgs = {a.Value, LocalizedBool(a.Value), b.GetTypeName()};
 
-            Action action = delegate { a.ArithmeticDivide(b); };
+            void Action() { a.ArithmeticDivide(b); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Boolean_DivideInvalidOperation), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_DivideInvalidOperation), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -83,11 +83,11 @@ namespace Zifro.Compiler.Lang.Base.Tests
             BooleanBase b = GetBoolean(false);
             object[] expectedFormatArgs = {a.Value, LocalizedBool(a.Value), b.GetTypeName()};
 
-            Action action = delegate { a.ArithmeticDivide(b); };
+            void Action() { a.ArithmeticDivide(b); }
 
             // Act + Assert
             // Ensure not the "DIVIDE BY ZERO" error, just regular invalid-operation error
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Boolean_DivideInvalidOperation), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_DivideInvalidOperation), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -97,10 +97,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             BooleanBase a = GetBoolean(true);
             object[] expectedFormatArgs = {a.Value, LocalizedBool(a.Value)};
 
-            Action action = delegate { a.GetIndex(null); };
+            void Action() { a.GetIndex(null); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Boolean_IndexGet), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_IndexGet), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -110,10 +110,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             BooleanBase a = GetBoolean(true);
             object[] expectedFormatArgs = { a.Value, LocalizedBool(a.Value) };
 
-            Action action = delegate { a.SetIndex(null, null); };
+            void Action() { a.SetIndex(null, null); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Boolean_IndexSet), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_IndexSet), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -124,10 +124,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             const string property = "prop";
             object[] expectedFormatArgs = { a.Value, LocalizedBool(a.Value), property };
 
-            Action action = delegate { a.GetProperty(property); };
+            void Action() { a.GetProperty(property); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Boolean_PropertyGet), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_PropertyGet), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -138,10 +138,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             const string property = "prop";
             object[] expectedFormatArgs = { a.Value, LocalizedBool(a.Value), property };
 
-            Action action = delegate { a.SetProperty(property, null); };
+            void Action() { a.SetProperty(property, null); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Boolean_PropertySet), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_PropertySet), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -151,10 +151,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             BooleanBase a = GetBoolean(true);
             object[] expectedFormatArgs = { a.Value, LocalizedBool(a.Value) };
 
-            Action action = delegate { a.Invoke(null); };
+            void Action() { a.Invoke(null); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Boolean_Invoke), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_Invoke), expectedFormatArgs);
         }
 
         [TestMethod]

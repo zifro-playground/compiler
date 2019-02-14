@@ -30,10 +30,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             IntegerBase a = GetInteger(5);
             StringBase b = GetString("foo");
             object[] expectedFormatArgs = {5, b.GetTypeName()};
-            Action action = delegate { a.ArithmeticAdd(b); };
+            void Action() { a.ArithmeticAdd(b); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Int_AddInvalidType), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_AddInvalidType), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -57,10 +57,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             IntegerBase a = GetInteger(5);
             StringBase b = GetString("foo");
             object[] expectedFormatArgs = {5, b.GetTypeName()};
-            Action action = delegate { a.ArithmeticSubtract(b); };
+            void Action() { a.ArithmeticSubtract(b); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Int_SubtractInvalidType), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_SubtractInvalidType), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -84,10 +84,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             IntegerBase a = GetInteger(5);
             StringBase b = GetString("foo");
             object[] expectedFormatArgs = {5, b.GetTypeName()};
-            Action action = delegate { a.ArithmeticMultiply(b); };
+            void Action() { a.ArithmeticMultiply(b); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Int_MultiplyInvalidType), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_MultiplyInvalidType), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -154,10 +154,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             IntegerBase a = GetInteger(5);
             StringBase b = GetString("foo");
             object[] expectedFormatArgs = {5, b.GetTypeName()};
-            Action action = delegate { a.ArithmeticDivide(b); };
+            void Action() { a.ArithmeticDivide(b); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Int_DivideInvalidType), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_DivideInvalidType), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -167,10 +167,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             IntegerBase a = GetInteger(5);
             IntegerBase b = GetInteger(0);
             object[] expectedFormatArgs = { };
-            Action action = delegate { a.ArithmeticDivide(b); };
+            void Action() { a.ArithmeticDivide(b); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Math_DivideByZero), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Math_DivideByZero), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -194,10 +194,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             IntegerBase a = GetInteger(5);
             object[] expectedFormatArgs = {5};
 
-            Action action = delegate { a.GetIndex(null); };
+            void Action() { a.GetIndex(null); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Int_IndexGet), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_IndexGet), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -207,10 +207,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             IntegerBase a = GetInteger(5);
             object[] expectedFormatArgs = {5};
 
-            Action action = delegate { a.SetIndex(null, null); };
+            void Action() { a.SetIndex(null, null); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Int_IndexSet), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_IndexSet), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -221,10 +221,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             const string property = "prop";
             object[] expectedFormatArgs = {5, property};
 
-            Action action = delegate { a.GetProperty(property); };
+            void Action() { a.GetProperty(property); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Int_PropertyGet), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_PropertyGet), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -235,10 +235,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             const string property = "prop";
             object[] expectedFormatArgs = {5, property};
 
-            Action action = delegate { a.SetProperty(property, null); };
+            void Action() { a.SetProperty(property, null); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Int_PropertySet), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_PropertySet), expectedFormatArgs);
         }
 
         [TestMethod]
@@ -248,10 +248,10 @@ namespace Zifro.Compiler.Lang.Base.Tests
             IntegerBase a = GetInteger(5);
             object[] expectedFormatArgs = {5};
 
-            Action action = delegate { a.Invoke(null); };
+            void Action() { a.Invoke(null); }
 
             // Act + Assert
-            AssertThrow(action, nameof(Localized_Base_Entities.Ex_Int_Invoke), expectedFormatArgs);
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_Invoke), expectedFormatArgs);
         }
 
         [DataTestMethod]
