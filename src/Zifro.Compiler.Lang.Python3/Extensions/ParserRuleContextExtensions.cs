@@ -36,11 +36,16 @@ namespace Zifro.Compiler.Lang.Python3.Extensions
 
         public static SourceReference GetSourceReference(this ITerminalNode node)
         {
+            int len = node.Symbol.StartIndex == -1
+                ? -1
+                // +1 because start&stop indexes are inclusive
+                : node.Symbol.StopIndex - node.Symbol.StartIndex + 1;
+
             return new SourceReference(
                 fromRow: node.Symbol.Line,
                 toRow: node.Symbol.Line, // assumes same line
                 fromColumn: node.Symbol.Column,
-                toColumn: node.Symbol.Column + node.Symbol.Text.Length - 1);
+                toColumn: node.Symbol.Column + len);
         }
 
         public static SyntaxNotYetImplementedException NotYetImplementedException(this ParserRuleContext context)
@@ -59,7 +64,8 @@ namespace Zifro.Compiler.Lang.Python3.Extensions
             return new SyntaxNotYetImplementedExceptionKeyword(terminal.GetSourceReference(), terminal.Symbol.Text);
         }
 
-        public static SyntaxNotYetImplementedExceptionKeyword NotYetImplementedException(this ITerminalNode terminal, string keywordOverride)
+        public static SyntaxNotYetImplementedExceptionKeyword NotYetImplementedException(this ITerminalNode terminal,
+            string keywordOverride)
         {
             return new SyntaxNotYetImplementedExceptionKeyword(terminal.GetSourceReference(), keywordOverride);
         }
@@ -92,7 +98,8 @@ namespace Zifro.Compiler.Lang.Python3.Extensions
                     return context.UnexpectedChildType(rule);
 
                 default:
-                    throw new InternalException("_unexpected_parse_tree_", "Unexpected tree item type: " + childTree.GetType().Name);
+                    throw new InternalException("_unexpected_parse_tree_",
+                        "Unexpected tree item type: " + childTree.GetType().Name);
             }
         }
 
@@ -111,7 +118,7 @@ namespace Zifro.Compiler.Lang.Python3.Extensions
 
             IParseTree parseTree = context.GetChild(index);
             if (!(parseTree is ITerminalNode terminal))
-                throw context.UnexpectedChildType((ParserRuleContext)parseTree);
+                throw context.UnexpectedChildType((ParserRuleContext) parseTree);
             if (terminal.Symbol.Type != expectedType)
                 throw context.UnexpectedChildType(terminal);
             return terminal;
@@ -129,7 +136,8 @@ namespace Zifro.Compiler.Lang.Python3.Extensions
             return rule;
         }
 
-        public static ITerminalNode ExpectClosingParenthesis(this ParserRuleContext context, ITerminalNode opening, int closingType)
+        public static ITerminalNode ExpectClosingParenthesis(this ParserRuleContext context, ITerminalNode opening,
+            int closingType)
         {
             IParseTree last = context.GetChild(context.ChildCount - 1);
 

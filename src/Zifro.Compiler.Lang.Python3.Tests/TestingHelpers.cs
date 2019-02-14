@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,6 +14,7 @@ using Zifro.Compiler.Lang.Python3.Grammar;
 using Zifro.Compiler.Lang.Python3.Resources;
 using Zifro.Compiler.Lang.Python3.Syntax;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators;
+using Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor;
 using Zifro.Compiler.Lang.Python3.Tests.TestingOps;
 
 namespace Zifro.Compiler.Lang.Python3.Tests
@@ -58,10 +60,48 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             }
         }
 
+        public static ExpressionNode SetupExpressionMock(this Mock<Grammar.SyntaxConstructor> ctorMock,
+            Expression<Func<Grammar.SyntaxConstructor, SyntaxNode>> setupExpression)
+        {
+            var expr = BaseVisitClass.GetExpressionMock();
+
+            ctorMock.Setup(setupExpression).Returns(expr).Verifiable();
+
+            return expr;
+        }
+
+        public static Statement SetupStatementMock(this Mock<Grammar.SyntaxConstructor> ctorMock,
+            Expression<Func<Grammar.SyntaxConstructor, SyntaxNode>> setupExpression)
+        {
+            var stmt = BaseVisitClass.GetStatementMock();
+
+            ctorMock.Setup(setupExpression).Returns(stmt).Verifiable();
+
+            return stmt;
+        }
+
         public static void IsStatementListWithCount(this Assert assert, int expected, SyntaxNode resultNode)
         {
             Assert.IsInstanceOfType(resultNode, typeof(StatementList));
-            Assert.AreEqual(expected, ((StatementList)resultNode).Statements.Count);
+            Assert.AreEqual(expected, ((StatementList) resultNode).Statements.Count);
+        }
+
+        public static void IsStatementListContaining(this Assert assert, SyntaxNode resultNode,
+            params Statement[] statements)
+        {
+            Assert.IsNotNull(resultNode, "Expected StatementList, got null.");
+            Assert.IsInstanceOfType(resultNode, typeof(StatementList));
+            var stmtList = (StatementList) resultNode;
+            for (var i = 0; i < statements.Length; i++)
+            {
+                Assert.IsTrue(i < stmtList.Statements.Count,
+                    $"Expected {statements.Length} statements, actual {stmtList.Statements.Count}.");
+                Assert.AreSame(statements[i], stmtList.Statements[i],
+                    $"Statements on index {i} did not match.\nExpected<{statements[i]?.GetType().FullName ?? "null"}>\nActual:<{stmtList.Statements[i]?.GetType().FullName ?? "null"}>");
+            }
+
+            Assert.AreEqual(statements.Length, ((StatementList) resultNode).Statements.Count,
+                $"Expected {statements.Length} statements, actual {stmtList.Statements.Count}.");
         }
 
         public static void IsUnaryOperator(this Assert assert,
@@ -70,7 +110,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             SyntaxNode resultNode)
         {
             Assert.IsInstanceOfType(resultNode, expectedType);
-            var op = (UnaryOperator)resultNode;
+            var op = (UnaryOperator) resultNode;
             Assert.AreSame(expectedInner, op.Operand);
         }
 
@@ -88,12 +128,12 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             SyntaxNode resultNode)
         {
             Assert.IsInstanceOfType(resultNode, expectedType);
-            var op = (BinaryOperator)resultNode;
+            var op = (BinaryOperator) resultNode;
             Assert.AreSame(expectedLhs, op.LeftOperand);
             Assert.AreSame(expectedRhs, op.RightOperand);
         }
 
-        public static void IsBinaryOperator<TOperator>(this Assert assert, 
+        public static void IsBinaryOperator<TOperator>(this Assert assert,
             ExpressionNode expectedLhs, ExpressionNode expectedRhs,
             SyntaxNode resultNode)
             where TOperator : BinaryOperator
@@ -107,7 +147,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             SyntaxNode resultNode)
         {
             Assert.IsInstanceOfType(resultNode, expectedType);
-            var op = (BinaryOperator)resultNode;
+            var op = (BinaryOperator) resultNode;
             Assert.AreSame(expectedRhs, op.RightOperand);
             return op.LeftOperand;
         }
@@ -258,7 +298,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             SyntaxNotYetImplementedExceptionKeyword exception, SourceReference source, string keyword)
         {
             assert.ErrorFormatArgsEqual(exception,
-                nameof(Localized_Python3_Parser.Ex_Syntax_NotYetImplemented_Keyword), 
+                nameof(Localized_Python3_Parser.Ex_Syntax_NotYetImplemented_Keyword),
                 source.FromRow, source.FromColumn,
                 source.ToRow, source.ToColumn,
                 keyword);

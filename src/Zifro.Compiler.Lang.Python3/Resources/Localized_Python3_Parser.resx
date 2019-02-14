@@ -143,6 +143,30 @@
 {3} source end column
 {4} context rule name</comment>
   </data>
+  <data name="Ex_Syntax_If_Elif_MissingColon" xml:space="preserve">
+    <value>Saknar ett kolon i slutet av villkoret efter din 'elif'.</value>
+    <comment>Missing colon after elif condition in if-statement.
+{0} source start line
+{1} source start column
+{2} source end line
+{3} source end column</comment>
+  </data>
+  <data name="Ex_Syntax_If_Else_MissingColon" xml:space="preserve">
+    <value>Saknar ett kolon i slutet av din 'else' i 'if'-satsen.</value>
+    <comment>Missing colon after else keyword in if-statement.
+{0} source start line
+{1} source start column
+{2} source end line
+{3} source end column</comment>
+  </data>
+  <data name="Ex_Syntax_If_MissingColon" xml:space="preserve">
+    <value>Saknar ett kolon i slutet av din 'if'-sats.</value>
+    <comment>Missing colon after condition in if-statement.
+{0} source start line
+{1} source start column
+{2} source end line
+{3} source end column</comment>
+  </data>
   <data name="Ex_Syntax_NotYetImplemented_Keyword" xml:space="preserve">
     <value>Användning av '{4}' stödjs inte än.</value>
     <comment>Error for not yet implemented feature. Fallbacks to Localized_Exception.Ex_Syntax_NotYetImplemented from the Core project if keyword is not specified programmatically.
