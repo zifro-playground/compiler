@@ -10,7 +10,10 @@ namespace Zifro.Compiler.Lang.Python3
     {
         public void PushScope()
         {
-            _scopesStack.Add(new PyScope(CurrentScope));
+            var newScope = new PyScope(CurrentScope);
+
+            _scopesStack.Add(newScope);
+            OnScopeChanged(newScope);
         }
 
         public void PopScope()
@@ -23,6 +26,7 @@ namespace Zifro.Compiler.Lang.Python3
             }
 
             _scopesStack.RemoveAt(_scopesStack.Count - 1);
+            OnScopeChanged(CurrentScope);
         }
 
         public void SetGlobalVariable(string key, IScriptType value)
