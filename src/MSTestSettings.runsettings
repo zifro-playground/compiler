@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RunConfiguration>
+  <MSTest>
+    <Parallelize>
+      <Workers>0</Workers>
+      <Scope>MethodLevel</Scope>
+    </Parallelize>
+  </MSTest>
+</RunConfiguration>

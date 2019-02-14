@@ -122,10 +122,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 starMock.Object
             );
 
-            Action action = delegate { ctor.VisitTestlist_star_expr(contextMock.Object); };
+            void Action() { ctor.VisitTestlist_star_expr(contextMock.Object); }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>((Action) Action);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock);
 
@@ -145,10 +145,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
             contextMock.SetupChildren();
 
-            Action action = delegate { ctor.VisitTestlist_star_expr(contextMock.Object); };
+            void Action() { ctor.VisitTestlist_star_expr(contextMock.Object); }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(action);
+            var ex = Assert.ThrowsException<SyntaxException>((Action) Action);
 
             // Assert
             Assert.That.ErrorExpectedChildFormatArgs(ex, startTokenMock, stopTokenMock, contextMock);
@@ -170,10 +170,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 GetTerminal(Python3Parser.COMMA)
             );
 
-            Action action = delegate { ctor.VisitTestlist_star_expr(contextMock.Object); };
+            void Action() { ctor.VisitTestlist_star_expr(contextMock.Object); }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(action);
+            var ex = Assert.ThrowsException<SyntaxException>((Action) Action);
 
             Assert.That.ErrorExpectedChildFormatArgs(ex, startTokenMock, stopTokenMock, contextMock);
             contextMock.VerifyLoopedChildren(3);
@@ -202,10 +202,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 starMock.Object
             );
 
-            Action action = delegate { ctor.VisitTestlist_star_expr(contextMock.Object); };
+            void Action() { ctor.VisitTestlist_star_expr(contextMock.Object); }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>((Action) Action);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock);
 
@@ -235,10 +235,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 testMock.Object
             );
 
-            Action action = delegate { ctor.VisitTestlist_star_expr(contextMock.Object); };
+            void Action() { ctor.VisitTestlist_star_expr(contextMock.Object); }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>((Action) Action);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock);
 
@@ -273,10 +273,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 testMock.Object
             );
 
-            Action action = delegate { ctor.VisitTestlist_star_expr(contextMock.Object); };
+            void Action() { ctor.VisitTestlist_star_expr(contextMock.Object); }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>((Action) Action);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock);
 
@@ -309,10 +309,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 testMock.Object
             );
 
-            Action action = delegate { ctor.VisitTestlist_star_expr(contextMock.Object); };
+            void Action() { ctor.VisitTestlist_star_expr(contextMock.Object); }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>((Action) Action);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock);
 
@@ -350,10 +350,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 GetTerminal(Python3Parser.COMMA)
             );
 
-            Action action = delegate { ctor.VisitTestlist_star_expr(contextMock.Object); };
+            void Action() { ctor.VisitTestlist_star_expr(contextMock.Object); }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(action);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>((Action) Action);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock);
 
@@ -407,10 +407,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 unexpectedMock.Object
             );
 
-            Action action = delegate { ctor.VisitTestlist_star_expr(contextMock.Object); };
+            void Action() { ctor.VisitTestlist_star_expr(contextMock.Object); }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(action);
+            var ex = Assert.ThrowsException<SyntaxException>((Action) Action);
 
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, unexpectedMock.Object);
 

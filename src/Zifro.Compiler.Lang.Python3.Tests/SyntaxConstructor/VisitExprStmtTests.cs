@@ -8,7 +8,6 @@ using Zifro.Compiler.Lang.Python3.Grammar;
 using Zifro.Compiler.Lang.Python3.Syntax;
 using Zifro.Compiler.Lang.Python3.Syntax.Statements;
 
-// ReSharper disable ConvertToLocalFunction
 // ReSharper disable SuggestVarOrType_SimpleTypes
 // ReSharper disable SuggestVarOrType_Elsewhere
 
@@ -72,10 +71,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 testListMock.Object
             );
 
-            Action action = delegate { ctor.VisitExpr_stmt(contextMock.Object); };
+            void Action() { ctor.VisitExpr_stmt(contextMock.Object); }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(action);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action) Action);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, secondEqual, "=");
             // Should throw at 4th
@@ -93,10 +92,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
             contextMock.SetupChildren();
 
-            Action action = delegate { ctor.VisitExpr_stmt(contextMock.Object); };
+            void Action() { ctor.VisitExpr_stmt(contextMock.Object); }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(action);
+            var ex = Assert.ThrowsException<SyntaxException>((Action) Action);
 
             Assert.That.ErrorExpectedChildFormatArgs(ex, startTokenMock, stopTokenMock, contextMock);
             contextMock.VerifyLoopedChildren(0);
@@ -121,10 +120,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 GetTerminal(Python3Parser.ASSIGN)
             );
 
-            Action action = delegate { ctor.VisitExpr_stmt(contextMock.Object); };
+            void Action() { ctor.VisitExpr_stmt(contextMock.Object); }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(action);
+            var ex = Assert.ThrowsException<SyntaxException>((Action) Action);
 
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock,
                 secondTestListMock.Object);
@@ -155,10 +154,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 testListMock.Object
             );
 
-            Action action = delegate { ctor.VisitExpr_stmt(contextMock.Object); };
+            void Action() { ctor.VisitExpr_stmt(contextMock.Object); }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(action);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action) Action);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, "+=");
             // Should throw at 2nd
@@ -183,10 +182,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 annAssignMock.Object
             );
 
-            Action action = delegate { ctor.VisitExpr_stmt(contextMock.Object); };
+            void Action() { ctor.VisitExpr_stmt(contextMock.Object); }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(action);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action) Action);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, ":");
             contextMock.VerifyLoopedChildren(2);
@@ -210,10 +209,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 yieldExprMock.Object
             );
 
-            Action action = delegate { ctor.VisitExpr_stmt(contextMock.Object); };
+            void Action() { ctor.VisitExpr_stmt(contextMock.Object); }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(action);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action) Action);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, "yield");
             contextMock.VerifyLoopedChildren(2);
@@ -234,10 +233,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 assignNode
             );
 
-            Action action = delegate { ctor.VisitExpr_stmt(contextMock.Object); };
+            void Action() { ctor.VisitExpr_stmt(contextMock.Object); }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(action);
+            var ex = Assert.ThrowsException<SyntaxException>((Action) Action);
 
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, assignNode);
             contextMock.VerifyLoopedChildren(1);
@@ -258,10 +257,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 assignNode
             );
 
-            Action action = delegate { ctor.VisitExpr_stmt(contextMock.Object); };
+            void Action() { ctor.VisitExpr_stmt(contextMock.Object); }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(action);
+            var ex = Assert.ThrowsException<SyntaxException>((Action) Action);
 
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, assignNode);
             contextMock.VerifyLoopedChildren(1);
@@ -283,10 +282,10 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
                 innerMocker.Object
             );
 
-            Action action = delegate { ctor.VisitExpr_stmt(contextMock.Object); };
+            void Action() { ctor.VisitExpr_stmt(contextMock.Object); }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(action);
+            var ex = Assert.ThrowsException<SyntaxException>((Action) Action);
 
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, innerMocker.Object);
             contextMock.VerifyLoopedChildren(1);

@@ -2,6 +2,8 @@
 using System.Text;
 using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Exceptions;
+using Zifro.Compiler.Core.Interfaces;
+using Zifro.Compiler.Lang.Python3.Entities;
 using Zifro.Compiler.Lang.Python3.Exceptions;
 
 namespace Zifro.Compiler.Lang.Python3.Syntax.Literals
@@ -11,6 +13,30 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Literals
         public LiteralString(SourceReference source, string value)
             : base(source, value)
         {
+        }
+
+        public override IScriptType ToScriptType(PyProcessor processor)
+        {
+            return new PyString(processor, Value);
+        }
+
+        public override void Compile(PyCompiler compiler)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            string value = Value;
+
+            // TODO: Use escape algorithm
+
+            if (value.IndexOf('\"') == -1)
+                return $@"""{value}""";
+            if (value.IndexOf('\'') == -1)
+                return $"'{value}'";
+
+            return $@"""{value.Replace("\"", "\\\"")}""";
         }
 
         public static LiteralString Parse(SourceReference source, string text)

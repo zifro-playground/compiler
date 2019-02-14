@@ -65,7 +65,7 @@ namespace Zifro.Compiler.Core.Interfaces
         #region Arithmetic operators
 
         /// <summary>
-        /// +this
+        /// (Python, JavaScript) +this
         /// </summary>
         IScriptType ArithmeticUnaryPositive();
 
@@ -100,12 +100,13 @@ namespace Zifro.Compiler.Core.Interfaces
         IScriptType ArithmeticModulus(IScriptType rhs);
 
         /// <summary>
-        /// (Python) this ** <paramref name="rhs"/>
+        /// <para>(Python) this ** <paramref name="rhs"/></para>
+        /// <para>(Lua) this ^ <paramref name="rhs"/></para>
         /// </summary>
         IScriptType ArithmeticExponent(IScriptType rhs);
 
         /// <summary>
-        /// (Python) this // <paramref name="rhs"/>
+        /// (Python, Lua) this // <paramref name="rhs"/>
         /// </summary>
         IScriptType ArithmeticFloorDivide(IScriptType rhs);
 
@@ -127,11 +128,15 @@ namespace Zifro.Compiler.Core.Interfaces
 
         /// <summary>
         /// this &gt; <paramref name="rhs"/>
+        /// <para>In Lua this is ignored.
+        /// Greater than is evaluated via reversing the order of <see cref="CompareLessThan"/></para>
         /// </summary>
         IScriptType CompareGreaterThan(IScriptType rhs);
 
         /// <summary>
         /// this &gt;= <paramref name="rhs"/>
+        /// <para>In Lua this is ignored.
+        /// Greater than is evaluated via reversing the order of <see cref="CompareLessThanOrEqual"/></para>
         /// </summary>
         IScriptType CompareGreaterThanOrEqual(IScriptType rhs);
 
@@ -165,7 +170,8 @@ namespace Zifro.Compiler.Core.Interfaces
         IScriptType BinaryOr(IScriptType rhs);
 
         /// <summary>
-        /// this ^ <paramref name="rhs"/>
+        /// <para>(Python, JavaScript) this ^ <paramref name="rhs"/></para>
+        /// <para>(Lua) this ~ <paramref name="rhs"/></para>
         /// </summary>
         IScriptType BinaryXor(IScriptType rhs);
 

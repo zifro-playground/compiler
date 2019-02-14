@@ -13,11 +13,25 @@ using Zifro.Compiler.Lang.Python3.Grammar;
 using Zifro.Compiler.Lang.Python3.Resources;
 using Zifro.Compiler.Lang.Python3.Syntax;
 using Zifro.Compiler.Lang.Python3.Syntax.Operators;
+using Zifro.Compiler.Lang.Python3.Tests.TestingOps;
 
 namespace Zifro.Compiler.Lang.Python3.Tests
 {
     public static class TestingHelpers
     {
+        public static void CreateAndSetupExpression(this PyCompiler compiler,
+            out Mock<ExpressionNode> exprMock,
+            out NopOp exprOp)
+        {
+            exprMock = new Mock<ExpressionNode>(SourceReference.ClrSource);
+            exprOp = new NopOp();
+            NopOp exprOpRefCopy = exprOp;
+
+            exprMock.Setup(o => o.Compile(compiler))
+                .Callback((PyCompiler c) => { c.Push(exprOpRefCopy); })
+                .Verifiable();
+        }
+
         public static void SetupForSourceReference<T>(this Mock<T> context,
             Mock<IToken> startTokenMock, Mock<IToken> stopTokenMock)
             where T : ParserRuleContext
@@ -213,6 +227,15 @@ namespace Zifro.Compiler.Lang.Python3.Tests
                 nameof(Localized_Python3_Parser.Ex_Syntax_ExpectedChild),
                 startTokenMock.Object, stopTokenMock.Object,
                 Python3Parser.ruleNames[context.Object.RuleIndex]);
+        }
+
+        public static void ErrorNotYetImplFormatArgs(this Assert assert,
+            SyntaxNotYetImplementedException exception, SourceReference source)
+        {
+            assert.ErrorFormatArgsEqual(exception,
+                nameof(Localized_Exceptions.Ex_Syntax_NotYetImplemented),
+                source.FromRow, source.FromColumn,
+                source.ToRow, source.ToColumn);
         }
 
         public static void ErrorNotYetImplFormatArgs(this Assert assert,

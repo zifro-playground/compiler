@@ -1,7 +1,11 @@
-﻿namespace Zifro.Compiler.Lang.Python3.Syntax.Operators.Arithmetics
+﻿using Zifro.Compiler.Lang.Python3.Instructions;
+
+namespace Zifro.Compiler.Lang.Python3.Syntax.Operators.Arithmetics
 {
     public class ArithmeticModulus : BinaryOperator
     {
+        public override OperatorCode OpCode => OperatorCode.AMod;
+
         public ArithmeticModulus(
             ExpressionNode leftOperand,
             ExpressionNode rightOperand)

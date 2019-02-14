@@ -15,5 +15,10 @@ namespace Zifro.Compiler.Lang.Python3.Syntax
         {
             Statements = statements;
         }
+
+        public override void Compile(PyCompiler compiler)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

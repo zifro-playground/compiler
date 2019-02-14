@@ -1,4 +1,6 @@
 ﻿using Zifro.Compiler.Core.Entities;
+using Zifro.Compiler.Core.Exceptions;
+using Zifro.Compiler.Lang.Python3.Instructions;
 
 namespace Zifro.Compiler.Lang.Python3.Syntax.Statements
 {
@@ -13,6 +15,20 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Statements
         {
             LeftOperand = leftOperand;
             RightOperand = rightOperand;
+        }
+
+        public override void Compile(PyCompiler compiler)
+        {
+            switch (LeftOperand)
+            {
+                case Identifier id:
+                    RightOperand.Compile(compiler);
+                    compiler.Push(new VarSet(Source, id.Name));
+                    break;
+
+                default:
+                    throw new SyntaxNotYetImplementedException(LeftOperand.Source);
+            }
         }
     }
 }
