@@ -103,8 +103,44 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
             // compound_stmt: if_stmt | while_stmt | for_stmt
             //    | try_stmt | with_stmt | funcdef | classdef
             //    | decorated | async_stmt
-            VisitChildren(context);
-            throw context.NotYetImplementedException();
+
+            var first = context.GetChildOrThrow<ParserRuleContext>(0);
+
+            if (context.ChildCount > 1)
+                throw context.UnexpectedChildType(context.GetChild(1));
+
+            switch (first)
+            {
+                case Python3Parser.If_stmtContext ifStmt:
+                    return VisitIf_stmt(ifStmt);
+
+                case Python3Parser.While_stmtContext whileStmt:
+                    return VisitWhile_stmt(whileStmt);
+
+                case Python3Parser.For_stmtContext forStmt:
+                    return VisitFor_stmt(forStmt);
+
+                case Python3Parser.Try_stmtContext tryStmt:
+                    return VisitTry_stmt(tryStmt);
+
+                case Python3Parser.With_stmtContext withStmt:
+                    return VisitWith_stmt(withStmt);
+
+                case Python3Parser.FuncdefContext funcDef:
+                    return VisitFuncdef(funcDef);
+
+                case Python3Parser.ClassdefContext classDef:
+                    return VisitClassdef(classDef);
+
+                case Python3Parser.DecoratedContext decorated:
+                    return VisitDecorated(decorated);
+
+                case Python3Parser.Async_stmtContext asyncStmt:
+                    return VisitAsync_stmt(asyncStmt);
+
+                default:
+                    throw context.UnexpectedChildType(first);
+            }
         }
     }
 }
