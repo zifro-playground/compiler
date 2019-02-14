@@ -1,4 +1,5 @@
 ﻿using Zifro.Compiler.Core.Entities;
+using Zifro.Compiler.Lang.Python3.Instructions;
 
 namespace Zifro.Compiler.Lang.Python3.Syntax
 {
@@ -13,7 +14,7 @@ namespace Zifro.Compiler.Lang.Python3.Syntax
 
         public override void Compile(PyCompiler compiler)
         {
-            throw new System.NotImplementedException();
+            compiler.Push(new VarGet(Source, Name));
         }
     }
 }

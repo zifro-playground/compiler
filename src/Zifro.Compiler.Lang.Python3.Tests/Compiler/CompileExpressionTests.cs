@@ -14,7 +14,7 @@ using Zifro.Compiler.Lang.Python3.Tests.TestingOps;
 namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
 {
     [TestClass]
-    public class CompileOperatorTests
+    public class CompileExpressionTests
     {
         [DataTestMethod]
         [DataRow(typeof(ArithmeticAdd), OperatorCode.AAdd, DisplayName = "comp op +")]
@@ -92,6 +92,23 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
             Assert.AreSame(exprOp, compiler[0]);
 
             exprMock.Verify(o => o.Compile(compiler), Times.Once);
+        }
+
+        [TestMethod]
+        public void IdentifierTest()
+        {
+            // Arrange
+            var compiler = new PyCompiler();
+
+            var identifier = new Identifier(SourceReference.ClrSource, "foo");
+
+            // Act
+            identifier.Compile(compiler);
+
+            // Assert
+            var varGet = Assert.That.IsOpCode<VarGet>(compiler, 0);
+            Assert.AreEqual(1, compiler.Count);
+            Assert.AreEqual("foo", varGet.Identifier);
         }
     }
 }
