@@ -17,7 +17,7 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
 
         public void Execute(PyProcessor processor)
         {
-            throw new System.NotImplementedException();
+            // do nothing
         }
     }
 }

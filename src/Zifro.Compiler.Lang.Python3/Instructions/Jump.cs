@@ -1,4 +1,5 @@
-﻿using Zifro.Compiler.Core.Entities;
+﻿using System;
+using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Lang.Python3.Interfaces;
 
 namespace Zifro.Compiler.Lang.Python3.Instructions
@@ -17,7 +18,10 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
 
         public virtual void Execute(PyProcessor processor)
         {
-            throw new System.NotImplementedException();
+            if (Label.OpCodeIndex == -1)
+                throw new InvalidOperationException("Label was not assigned an index. Are you sure it was added to the processor?");
+            
+            processor.JumpToInstruction(Label.OpCodeIndex);
         }
     }
 }

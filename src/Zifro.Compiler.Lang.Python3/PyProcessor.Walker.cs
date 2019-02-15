@@ -3,12 +3,19 @@ using System.ComponentModel;
 using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Interfaces;
+using Zifro.Compiler.Lang.Python3.Instructions;
+using Zifro.Compiler.Lang.Python3.Interfaces;
 using Zifro.Compiler.Lang.Python3.Resources;
 
 namespace Zifro.Compiler.Lang.Python3
 {
     public partial class PyProcessor
     {
+        private int _numOfJumpsThisWalk = 0;
+
+        // Oliver & Fredrik approved ✔️
+        private const int JUMPS_THRESHOLD = 102+137;
+
         public void ContinueYieldedValue(IScriptType value)
         {
             throw new System.NotImplementedException();
@@ -16,6 +23,8 @@ namespace Zifro.Compiler.Lang.Python3
 
         public void WalkLine()
         {
+            _numOfJumpsThisWalk = 0;
+
             WalkInstruction();
 
             // Because counter starts at -1
@@ -25,14 +34,16 @@ namespace Zifro.Compiler.Lang.Python3
             {
                 // Initial is row => walk until next is other row
                 while (!(GetRow(ProgramCounter + 1) > initialRow.Value) &&
-                       State == ProcessState.Running)
+                       State == ProcessState.Running &&
+                       _numOfJumpsThisWalk < JUMPS_THRESHOLD)
                     WalkInstruction();
             }
             else
             {
                 // Initial is clr => walk until next is line
                 while (GetRow(ProgramCounter + 1) == null &&
-                       State == ProcessState.Running)
+                       State == ProcessState.Running &&
+                       _numOfJumpsThisWalk < JUMPS_THRESHOLD)
                     WalkInstruction();
             }
 
@@ -114,6 +125,12 @@ namespace Zifro.Compiler.Lang.Python3
                 return _opCodes[opCodeIndex].Source;
 
             return SourceReference.ClrSource;
+        }
+
+        internal void JumpToInstruction(int index)
+        {
+            ProgramCounter = index - 1;
+            _numOfJumpsThisWalk++;
         }
     }
 }
