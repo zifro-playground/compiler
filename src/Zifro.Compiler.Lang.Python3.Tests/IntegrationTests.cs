@@ -154,5 +154,38 @@ namespace Zifro.Compiler.Lang.Python3.Tests
 
             Assert.AreEqual(ProcessState.Ended, processor.State);
         }
+
+        [TestMethod]
+        public void ProcessP3Test()
+        {
+            /*
+             
+               y = "hej"
+               x = (y + y) * 2
+               x = 33
+               x = x + 2
+               
+               if x < 50: 
+                   y = "inge print än"
+               
+             */
+
+            // Arrange
+            const string code = "y = \"hej\"\n" +
+                                "x = (y + y) * 2\n" +
+                                "x = 33\n" +
+                                "x = x + 2\n" +
+                                "\n" +
+                                "if x < 50:\n" +
+                                "    y = \"inge print än\"";
+
+            var processor = (PyProcessor)new PyCompiler().Compile(code);
+
+            // Act
+            do
+            {
+                processor.WalkLine();
+            } while (processor.State == ProcessState.Running);
+        }
     }
 }
