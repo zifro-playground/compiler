@@ -141,6 +141,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             mock.SetupGet(o => o.Line).Returns(5);
             mock.SetupGet(o => o.Column).Returns(6);
             mock.SetupGet(o => o.StartIndex).Returns(10);
+            // 9 if null, because stopindex is inclusive it's
+            // 1 less than start if it's zero-width
             mock.SetupGet(o => o.StopIndex).Returns(10 + text?.Length - 1 ?? 9);
             return mock.Object;
         }
@@ -150,8 +152,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             var mock = new Mock<IToken>(MockBehavior.Strict);
             mock.SetupGet(o => o.Type).Returns(symbol);
             mock.SetupGet(o => o.Text).Returns($"<missing {Python3Parser.DefaultVocabulary.GetDisplayName(symbol)}>");
-            mock.SetupGet(o => o.Line).Returns(5);
-            mock.SetupGet(o => o.Column).Returns(6);
+            mock.SetupGet(o => o.Line).Returns(7);
+            mock.SetupGet(o => o.Column).Returns(8);
             mock.SetupGet(o => o.StartIndex).Returns(-1); // !important
             mock.SetupGet(o => o.StopIndex).Returns(-1);
             return mock.Object;

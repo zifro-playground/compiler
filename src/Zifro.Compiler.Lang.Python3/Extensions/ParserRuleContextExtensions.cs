@@ -37,7 +37,7 @@ namespace Zifro.Compiler.Lang.Python3.Extensions
         public static SourceReference GetSourceReference(this ITerminalNode node)
         {
             int stopOffset = node.Symbol.StartIndex == -1
-                ? 0
+                ? -1 // since it's missing
                 : node.Symbol.StopIndex - node.Symbol.StartIndex;
 
             return new SourceReference(
