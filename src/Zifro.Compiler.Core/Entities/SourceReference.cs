@@ -64,6 +64,22 @@ namespace Zifro.Compiler.Core.Entities
             ToColumn = toColumn;
         }
 
+        public SourceReference LastRow()
+        {
+            if (IsFromClr)
+                return ClrSource;
+
+            if (FromRow == ToRow)
+            {
+                return this;
+            }
+
+            return new SourceReference(
+                ToRow, ToRow,
+                0, ToColumn
+            );
+        }
+
         public static SourceReference Merge(SourceReference a, SourceReference b)
         {
             if (a.IsFromClr && b.IsFromClr)

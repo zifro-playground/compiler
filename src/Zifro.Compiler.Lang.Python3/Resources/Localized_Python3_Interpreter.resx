@@ -139,15 +139,8 @@
 {0} message of inner exception</comment>
   </data>
   <data name="Ex_ValueStack_PopEmpty" xml:space="preserve">
-    <value>Internt fel. Värde stacken var oförväntat tom vid försök att hämta värde av typ '{0}'.</value>
-    <comment>Occurs on attempting to pop on an empty value stack.
-{0} expected type name</comment>
-  </data>
-  <data name="Ex_ValueStack_PopInvalidType" xml:space="preserve">
-    <value>Internt fel. Felaktig typ av värde i värde stacken. Förväntade sig '{0}' men fick '{1}'.</value>
-    <comment>Occurs on wrong type on top of value stack compared to what's expected.
-{0} expected type name
-{1} actual type name</comment>
+    <value>Internt fel. Värde stacken var oförväntat tom vid försök att hämta värde.</value>
+    <comment>Occurs on attempting to pop on an empty value stack.</comment>
   </data>
   <data name="Ex_ValueStack_PushNull" xml:space="preserve">
     <value>Internt fel. En operation försökte trycka på null på värde stacken.</value>

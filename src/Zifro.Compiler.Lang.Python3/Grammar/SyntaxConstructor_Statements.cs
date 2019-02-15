@@ -12,53 +12,126 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 {
     public partial class SyntaxConstructor
     {
+        public override SyntaxNode VisitSuite(Python3Parser.SuiteContext context)
+        {
+            // suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT
+            var first = context.GetChildOrThrow<IParseTree>(0);
+
+            switch (first)
+            {
+                case Python3Parser.Simple_stmtContext _
+                    when context.ChildCount > 1:
+                    throw context.UnexpectedChildType(context.GetChild(1));
+
+                case Python3Parser.Simple_stmtContext simple:
+                    return VisitSimple_stmt(simple);
+
+                case ITerminalNode term
+                    when term.Symbol.Type != Python3Parser.NEWLINE:
+                    throw context.UnexpectedChildType(term);
+
+                case ITerminalNode _:
+                    context.GetChildOrThrow(1, Python3Parser.INDENT);
+                    context.GetChildOrThrow(context.ChildCount - 1, Python3Parser.DEDENT);
+
+                    var statements = new List<Statement>();
+                    for (var i = 2; i < context.ChildCount - 1; i++)
+                    {
+                        var rule = context.GetChildOrThrow<Python3Parser.StmtContext>(i);
+                        var stmt = VisitStmt(rule).AsTypeOrThrow<Statement>();
+
+                        if (stmt is StatementList list)
+                        {
+                            statements.AddRange(list.Statements);
+                        }
+                        else
+                        {
+                            statements.Add(stmt);
+                        }
+                    }
+
+                    if (statements.Count == 0)
+                    {
+                        throw context.ExpectedChild();
+                    }
+
+                    if (statements.Count == 1)
+                    {
+                        return statements[0];
+                    }
+
+                    return new StatementList(context.GetSourceReference(), statements);
+
+                default:
+                    throw context.UnexpectedChildType(first);
+            }
+        }
+
         public override SyntaxNode VisitStmt(Python3Parser.StmtContext context)
         {
             // stmt: simple_stmt | compound_stmt
-            IParseTree child = context.GetChild(0);
+            var child = context.GetChildOrThrow<ParserRuleContext>(0);
 
-            if (child is Python3Parser.Simple_stmtContext simple)
-                return VisitSimple_stmt(simple);
+            switch (child)
+            {
+                case Python3Parser.Simple_stmtContext simple:
+                    return VisitSimple_stmt(simple);
 
-            if (child is Python3Parser.Compound_stmtContext compound)
-                return VisitCompound_stmt(compound);
+                case Python3Parser.Compound_stmtContext compound:
+                    return VisitCompound_stmt(compound);
 
-            throw new SyntaxException(context.GetSourceReference(),
-                nameof(Localized_Python3_Parser.Ex_Syntax_ExpectedChild),
-                Localized_Python3_Parser.Ex_Syntax_ExpectedChild,
-                Python3Parser.ruleNames[context.RuleIndex]);
+                default:
+                    throw context.UnexpectedChildType(child);
+            }
         }
 
         public override SyntaxNode VisitSimple_stmt(Python3Parser.Simple_stmtContext context)
         {
             // simple_stmt: small_stmt (';' small_stmt)* [';'] NEWLINE
 
-            // This ignores newlines and semicolons atm
-            List<Statement> statements = context.GetChildren()
-                .OfType<Python3Parser.Small_stmtContext>()
-                .Select(child => (Statement) VisitSmall_stmt(child))
-                .ToList();
-
-            switch (statements.Count)
+            var allRules = new List<Python3Parser.Small_stmtContext>();
+            foreach (IParseTree child in context.GetChildren())
             {
-                case 0:
-                    throw new SyntaxException(context.GetSourceReference(),
-                        nameof(Localized_Python3_Parser.Ex_Syntax_ExpectedChild),
-                        Localized_Python3_Parser.Ex_Syntax_ExpectedChild,
-                        Python3Parser.ruleNames[context.RuleIndex]);
-                case 1:
-                    return statements[0];
+                // This ignores newlines and semicolons atm
+                if (!(child is ParserRuleContext ruleContext))
+                    continue;
 
-                default:
-                    return new StatementList(context.GetSourceReference(), statements);
+                if (!(ruleContext is Python3Parser.Small_stmtContext smallStmt))
+                    throw context.UnexpectedChildType(ruleContext);
+
+                allRules.Add(smallStmt);
             }
+
+            if (allRules.Count == 0)
+                throw context.ExpectedChild();
+
+            var firstRule = allRules[0];
+            var firstStmt = VisitSmall_stmt(firstRule)
+                .AsTypeOrThrow<Statement>();
+
+            if (allRules.Count == 1)
+                return firstStmt;
+
+            // but wait, there's more!
+            var statements = new Statement[allRules.Count];
+            statements[0] = firstStmt;
+
+            for (var i = 1; i < allRules.Count; i++)
+            {
+                var rule = allRules[i];
+                var stmt = VisitSmall_stmt(rule).AsTypeOrThrow<Statement>();
+
+                statements[i] = stmt;
+            }
+
+            return new StatementList(context.GetSourceReference(), statements);
         }
 
         public override SyntaxNode VisitSmall_stmt(Python3Parser.Small_stmtContext context)
         {
             // small_stmt: (expr_stmt | del_stmt | pass_stmt | flow_stmt |
             //    import_stmt | global_stmt | nonlocal_stmt | assert_stmt)
-            var child = context.GetChild(0) as ParserRuleContext;
+            var child = context.GetChildOrThrow<ParserRuleContext>(0);
 
             switch (child)
             {
@@ -75,25 +148,54 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                     Visit(child);
                     throw child.NotYetImplementedException();
 
-                case null:
-                    throw new SyntaxException(context.GetSourceReference(),
-                        nameof(Localized_Python3_Parser.Ex_Syntax_ExpectedChild),
-                        Localized_Python3_Parser.Ex_Syntax_ExpectedChild,
-                        Python3Parser.ruleNames[context.RuleIndex]);
-
                 default:
-                    throw new SyntaxException(context.GetSourceReference(),
-                        nameof(Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType),
-                        Localized_Python3_Parser.Ex_Syntax_UnexpectedChildType,
-                        Python3Parser.ruleNames[context.RuleIndex],
-                        Python3Parser.ruleNames[child.RuleIndex]);
+                    throw context.UnexpectedChildType(child);
             }
         }
 
         public override SyntaxNode VisitCompound_stmt(Python3Parser.Compound_stmtContext context)
         {
-            VisitChildren(context);
-            throw context.NotYetImplementedException();
+            // compound_stmt: if_stmt | while_stmt | for_stmt
+            //    | try_stmt | with_stmt | funcdef | classdef
+            //    | decorated | async_stmt
+
+            var first = context.GetChildOrThrow<ParserRuleContext>(0);
+
+            if (context.ChildCount > 1)
+                throw context.UnexpectedChildType(context.GetChild(1));
+
+            switch (first)
+            {
+                case Python3Parser.If_stmtContext ifStmt:
+                    return VisitIf_stmt(ifStmt);
+
+                case Python3Parser.While_stmtContext whileStmt:
+                    return VisitWhile_stmt(whileStmt);
+
+                case Python3Parser.For_stmtContext forStmt:
+                    return VisitFor_stmt(forStmt);
+
+                case Python3Parser.Try_stmtContext tryStmt:
+                    return VisitTry_stmt(tryStmt);
+
+                case Python3Parser.With_stmtContext withStmt:
+                    return VisitWith_stmt(withStmt);
+
+                case Python3Parser.FuncdefContext funcDef:
+                    return VisitFuncdef(funcDef);
+
+                case Python3Parser.ClassdefContext classDef:
+                    return VisitClassdef(classDef);
+
+                case Python3Parser.DecoratedContext decorated:
+                    return VisitDecorated(decorated);
+
+                case Python3Parser.Async_stmtContext asyncStmt:
+                    return VisitAsync_stmt(asyncStmt);
+
+                default:
+                    throw context.UnexpectedChildType(first);
+            }
         }
     }
 }

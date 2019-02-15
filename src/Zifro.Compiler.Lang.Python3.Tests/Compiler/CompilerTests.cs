@@ -1,5 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Zifro.Compiler.Core.Entities;
+using Zifro.Compiler.Core.Interfaces;
+using Zifro.Compiler.Lang.Python3.Entities;
+using Zifro.Compiler.Lang.Python3.Instructions;
 using Zifro.Compiler.Lang.Python3.Tests.TestingOps;
 
 namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
@@ -115,6 +119,24 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
 
             // Act
             Assert.ThrowsException<ArgumentNullException>((Action)Action);
+        }
+
+        [TestMethod]
+        public void IntegrationStringAssignmentTest()
+        {
+            // Arrange
+            const string code = @"x = 5";
+            var compiler = new PyCompiler();
+
+            // Act
+            compiler.Compile(code);
+
+            // Assert
+            Assert.AreNotEqual(0, compiler.Count, "Did not produce any op codes.");
+            var literal = Assert.That.IsOpCode<PushLiteral<int>>(compiler, 0);
+            Assert.AreEqual(5, literal.Literal.Value);
+            var varSet = Assert.That.IsOpCode<VarSet>(compiler, 1);
+            Assert.AreEqual("x", varSet.Identifier);
         }
     }
 }

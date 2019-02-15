@@ -81,9 +81,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
 
             // Act
             int before = processor.ValueStackCount;
-            var result1 = processor.PopValue<IScriptType>();
-            var result2 = processor.PopValue<IScriptType>();
-            var result3 = processor.PopValue<IScriptType>();
+            var result1 = processor.PopValue();
+            var result2 = processor.PopValue();
+            var result3 = processor.PopValue();
             int after = processor.ValueStackCount;
 
             // Assert
@@ -103,34 +103,14 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             // Arrange
             void Action()
             {
-                processor.PopValue<PyInteger>();
+                processor.PopValue();
             }
 
             // Act
             var ex = Assert.ThrowsException<InternalException>((Action)Action);
 
             Assert.That.ErrorFormatArgsEqual(ex,
-                nameof(Localized_Python3_Interpreter.Ex_ValueStack_PopEmpty),
-                nameof(PyInteger));
-        }
-
-        [TestMethod]
-        public void PopInvalidExpectedTypeTest()
-        {
-            // Arrange
-            processor.PushValue(new PyBoolean(processor, true));
-
-            void Action()
-            {
-                processor.PopValue<PyInteger>();
-            }
-
-            // Act
-            var ex = Assert.ThrowsException<InternalException>((Action)Action);
-
-            Assert.That.ErrorFormatArgsEqual(ex,
-                nameof(Localized_Python3_Interpreter.Ex_ValueStack_PopInvalidType),
-                nameof(PyInteger), nameof(PyBoolean));
+                nameof(Localized_Python3_Interpreter.Ex_ValueStack_PopEmpty));
         }
     }
 }

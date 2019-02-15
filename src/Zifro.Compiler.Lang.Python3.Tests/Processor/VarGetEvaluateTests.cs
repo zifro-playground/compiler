@@ -34,7 +34,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             // Assert
             Assert.AreEqual(1, numOfValues, "Did not push value.");
 
-            var result = processor.PopValue<IScriptType>();
+            var result = processor.PopValue();
             Assert.AreSame(value, result);
         }
 
@@ -61,7 +61,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             // Assert
             Assert.AreEqual(1, numOfValues, "Did not push value.");
 
-            var result = processor.PopValue<IScriptType>();
+            var result = processor.PopValue();
             Assert.AreSame(value, result);
         }
         
@@ -90,7 +90,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             // Assert
             Assert.AreEqual(1, numOfValues, "Did not push value.");
 
-            var result = processor.PopValue<IScriptType>();
+            var result = processor.PopValue();
             Assert.AreSame(value, result);
         }
 

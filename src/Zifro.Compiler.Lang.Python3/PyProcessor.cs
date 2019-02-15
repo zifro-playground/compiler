@@ -4,6 +4,7 @@ using System.Linq;
 using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Interfaces;
+using Zifro.Compiler.Lang.Python3.Instructions;
 using Zifro.Compiler.Lang.Python3.Interfaces;
 
 namespace Zifro.Compiler.Lang.Python3
@@ -21,6 +22,13 @@ namespace Zifro.Compiler.Lang.Python3
             _scopesStack = new List<PyScope>();
             ProgramCounter = -1;
             _opCodes = opCodes ?? new IOpCode[0];
+
+            // Assign indexes to labels
+            for (var i = 0; i < _opCodes.Length; i++)
+            {
+                if (_opCodes[i] is Label label)
+                    label.OpCodeIndex = i;
+            }
         }
 
         public IScriptTypeFactory Factory { get; }

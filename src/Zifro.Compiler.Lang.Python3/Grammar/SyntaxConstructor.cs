@@ -32,7 +32,12 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                 else
                     statements.Add((Statement) result);
             }
-            
+
+            if (statements.Count == 1)
+            {
+                return statements[0];
+            }
+
             return new StatementList(context.GetSourceReference(), statements);
         }
 

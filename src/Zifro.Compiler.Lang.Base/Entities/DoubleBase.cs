@@ -112,6 +112,12 @@ namespace Zifro.Compiler.Lang.Base.Entities
         }
 
         /// <inheritdoc />
+        public virtual bool IsTruthy()
+        {
+            return !Value.Equals(0d);
+        }
+
+        /// <inheritdoc />
         public IScriptType ArithmeticUnaryPositive()
         {
             throw new NotImplementedException();
@@ -286,24 +292,6 @@ namespace Zifro.Compiler.Lang.Base.Entities
 
         /// <inheritdoc />
         public IScriptType BinaryRightShift(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType LogicalNot()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType LogicalAnd(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType LogicalOr(IScriptType rhs)
         {
             throw new NotImplementedException();
         }

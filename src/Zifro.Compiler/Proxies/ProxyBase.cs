@@ -15,6 +15,7 @@ namespace Zifro.Compiler.Proxies
         public IProcessor Processor => InnerValue.Processor;
         public IScriptType GetTypeDef() => InnerValue.GetTypeDef();
         public string GetTypeName() => InnerValue.GetTypeName();
+        public bool IsTruthy() => InnerValue.IsTruthy();
         public IScriptType Invoke(IScriptType[] arguments) => InnerValue.Invoke(arguments);
         public IScriptType GetIndex(IScriptType index) => InnerValue.GetIndex(index);
         public IScriptType SetIndex(IScriptType index, IScriptType value) => InnerValue.SetIndex(index, value);
@@ -43,9 +44,6 @@ namespace Zifro.Compiler.Proxies
         public IScriptType BinaryXor(IScriptType rhs) => InnerValue.BinaryXor(rhs);
         public IScriptType BinaryLeftShift(IScriptType rhs) => InnerValue.BinaryLeftShift(rhs);
         public IScriptType BinaryRightShift(IScriptType rhs) => InnerValue.BinaryRightShift(rhs);
-        public IScriptType LogicalNot() => InnerValue.LogicalNot();
-        public IScriptType LogicalAnd(IScriptType rhs) => InnerValue.LogicalAnd(rhs);
-        public IScriptType LogicalOr(IScriptType rhs) => InnerValue.LogicalOr(rhs);
         public IScriptType MemberIn(IScriptType lhs) => InnerValue.MemberIn(lhs);
         public IScriptType MemberNotIn(IScriptType lhs) => InnerValue.MemberNotIn(lhs);
         public IScriptType IdentityIs(IScriptType rhs) => InnerValue.IdentityIs(rhs);

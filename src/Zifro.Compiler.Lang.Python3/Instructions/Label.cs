@@ -1,30 +1,30 @@
 ﻿using Zifro.Compiler.Core.Entities;
-using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Lang.Python3.Interfaces;
 
 namespace Zifro.Compiler.Lang.Python3.Instructions
 {
-    public class VarSet : IOpCode
+    public class Label : IOpCode
     {
-        public VarSet(SourceReference source, string identifier)
+        public Label(SourceReference source)
         {
             Source = source;
-            Identifier = identifier;
+            OpCodeIndex = -1;
         }
 
         public SourceReference Source { get; }
 
-        public string Identifier { get; }
+        public int OpCodeIndex { get; internal set; }
 
         public void Execute(PyProcessor processor)
         {
-            var value = processor.PopValue();
-            processor.SetVariable(Identifier, value);
+            // do nothing
         }
 
         public override string ToString()
         {
-            return $"pop->{Identifier}";
+            if (OpCodeIndex != -1)
+                return $"label@{OpCodeIndex}";
+            return "label";
         }
     }
 }

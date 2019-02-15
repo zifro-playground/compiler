@@ -32,6 +32,11 @@ namespace Zifro.Compiler.Lang.Base.Entities
             return Localized_Base_Entities.Type_String_Name;
         }
 
+        public virtual bool IsTruthy()
+        {
+            return !string.IsNullOrEmpty(Value);
+        }
+
         protected object[] GetErrorArgs(params object[] additional)
         {
             return GetErrorArgs().Concat(additional).ToArray();
@@ -269,24 +274,6 @@ namespace Zifro.Compiler.Lang.Base.Entities
 
         /// <inheritdoc/>
         public IScriptType BinaryRightShift(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType LogicalNot()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType LogicalAnd(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType LogicalOr(IScriptType rhs)
         {
             throw new NotImplementedException();
         }

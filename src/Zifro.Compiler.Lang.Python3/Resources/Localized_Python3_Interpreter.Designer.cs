@@ -106,20 +106,11 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Internt fel. Värde stacken var oförväntat tom vid försök att hämta värde av typ &apos;{0}&apos;..
+        ///   Looks up a localized string similar to Internt fel. Värde stacken var oförväntat tom vid försök att hämta värde..
         /// </summary>
         internal static string Ex_ValueStack_PopEmpty {
             get {
                 return ResourceManager.GetString("Ex_ValueStack_PopEmpty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Internt fel. Felaktig typ av värde i värde stacken. Förväntade sig &apos;{0}&apos; men fick &apos;{1}&apos;..
-        /// </summary>
-        internal static string Ex_ValueStack_PopInvalidType {
-            get {
-                return ResourceManager.GetString("Ex_ValueStack_PopInvalidType", resourceCulture);
             }
         }
         

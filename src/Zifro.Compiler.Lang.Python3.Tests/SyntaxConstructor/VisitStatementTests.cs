@@ -586,9 +586,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         {
             // Arrange
             var contextMock = GetMockRule<Python3Parser.Small_stmtContext>();
-            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             var innerContextMock = GetMockRule<Python3Parser.File_inputContext>();
+            innerContextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
             contextMock.SetupChildren(innerContextMock.Object);
 
             void Action() { ctor.VisitSmall_stmt(contextMock.Object); }

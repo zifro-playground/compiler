@@ -88,6 +88,33 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saknar ett kolon i slutet av villkoret efter din &apos;elif&apos;..
+        /// </summary>
+        internal static string Ex_Syntax_If_Elif_MissingColon {
+            get {
+                return ResourceManager.GetString("Ex_Syntax_If_Elif_MissingColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saknar ett kolon i slutet av din &apos;else&apos; i din &apos;if&apos;-sats..
+        /// </summary>
+        internal static string Ex_Syntax_If_Else_MissingColon {
+            get {
+                return ResourceManager.GetString("Ex_Syntax_If_Else_MissingColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saknar ett kolon efter villkoret i slutet av din &apos;if&apos;-sats..
+        /// </summary>
+        internal static string Ex_Syntax_If_MissingColon {
+            get {
+                return ResourceManager.GetString("Ex_Syntax_If_MissingColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Användning av &apos;{4}&apos; stödjs inte än..
         /// </summary>
         internal static string Ex_Syntax_NotYetImplemented_Keyword {

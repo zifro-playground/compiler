@@ -54,6 +54,12 @@ namespace Zifro.Compiler.Lang.Base.Entities
         }
 
         /// <inheritdoc />
+        public virtual bool IsTruthy()
+        {
+            return Value;
+        }
+
+        /// <inheritdoc />
         public virtual IScriptType Invoke(IScriptType[] arguments)
         {
             throw new RuntimeException(
@@ -263,25 +269,7 @@ namespace Zifro.Compiler.Lang.Base.Entities
         {
             throw new NotImplementedException();
         }
-
-        /// <inheritdoc />
-        public IScriptType LogicalNot()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType LogicalAnd(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType LogicalOr(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         /// <inheritdoc />
         public IScriptType MemberIn(IScriptType lhs)
         {

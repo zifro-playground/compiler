@@ -119,6 +119,11 @@ namespace Zifro.Compiler.Tools.AutoObject
             return false;
         }
 
+        public bool IsTruthy()
+        {
+            throw new NotImplementedException();
+        }
+
         public IScriptType ArithmeticUnaryPositive()
         {
             throw new NotImplementedException();
@@ -223,22 +228,7 @@ namespace Zifro.Compiler.Tools.AutoObject
         {
             throw new NotImplementedException();
         }
-
-        public IScriptType LogicalNot()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IScriptType LogicalAnd(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IScriptType LogicalOr(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public IScriptType MemberIn(IScriptType lhs)
         {
             throw new NotImplementedException();
