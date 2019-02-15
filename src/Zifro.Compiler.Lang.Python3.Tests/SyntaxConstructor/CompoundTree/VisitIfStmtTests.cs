@@ -35,6 +35,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
         public void Visit_If_Test()
         {
             // Arrange
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
             CreateAndSetupTest(
                 out Mock<Python3Parser.TestContext> testMock,
                 out ExpressionNode testExpr);
@@ -63,7 +65,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             Assert.IsInstanceOfType(result, typeof(IfStatement));
             var ifStmt = (IfStatement)result;
             Assert.AreSame(testExpr, ifStmt.Condition, "if condition did not match");
-            Assert.That.IsStatementListContaining(ifStmt.ElseSuite, suiteStmt);
+            Assert.AreSame(ifStmt.IfSuite, suiteStmt);
             Assert.IsNull(ifStmt.ElseSuite, "ifStmt.ElseSuite was not null");
 
             testMock.Verify();
@@ -76,6 +78,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
         public void Visit_If_Else_Test()
         {
             // Arrange
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
             CreateAndSetupTest(
                 out Mock<Python3Parser.TestContext> testMock,
                 out ExpressionNode testExpr);
@@ -109,8 +113,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             Assert.IsInstanceOfType(result, typeof(IfStatement));
             var ifStmt = (IfStatement)result;
             Assert.AreSame(testExpr, ifStmt.Condition, "if condition did not match");
-            Assert.That.IsStatementListContaining(ifStmt.IfSuite, suiteStmt);
-            Assert.That.IsStatementListContaining(ifStmt.ElseSuite, elseStmt);
+            Assert.AreSame(ifStmt.IfSuite, suiteStmt);
+            Assert.AreSame(ifStmt.ElseSuite, elseStmt);
 
             testMock.Verify();
             suiteMock.Verify();
@@ -122,6 +126,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
         public void Visit_If_ElIf_Test()
         {
             // Arrange
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
             CreateAndSetupTest(
                 out Mock<Python3Parser.TestContext> testMock,
                 out ExpressionNode testExpr);
@@ -137,6 +143,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             CreateAndSetupSuite(
                 out Mock<Python3Parser.SuiteContext> elifSuiteMock,
                 out Statement elifStmt);
+
+            elifSuiteMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.IF),
@@ -167,11 +175,11 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             Assert.IsInstanceOfType(result, typeof(IfStatement));
             var ifStmt = (IfStatement)result;
             Assert.AreSame(testExpr, ifStmt.Condition, "if condition did not match");
-            Assert.That.IsStatementListContaining(ifStmt.IfSuite, suiteStmt);
+            Assert.AreSame(ifStmt.IfSuite, suiteStmt);
 
             var innerIf = (IfStatement) ifStmt.ElseSuite;
             Assert.AreSame(elifTestExpr, innerIf.Condition);
-            Assert.That.IsStatementListContaining(innerIf.IfSuite, elifStmt);
+            Assert.AreSame(innerIf.IfSuite, elifStmt);
             Assert.IsNull(innerIf.ElseSuite);
 
             testMock.Verify();
@@ -184,6 +192,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
         public void Visit_If_ElIf_Else_Test()
         {
             // Arrange
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
             CreateAndSetupTest(
                 out Mock<Python3Parser.TestContext> testMock,
                 out ExpressionNode testExpr);
@@ -199,6 +209,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             CreateAndSetupSuite(
                 out Mock<Python3Parser.SuiteContext> elifSuiteMock,
                 out Statement elifStmt);
+
+            elifSuiteMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             CreateAndSetupSuite(
                 out Mock<Python3Parser.SuiteContext> elseSuiteMock,
@@ -238,15 +250,13 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             Assert.IsInstanceOfType(result, typeof(IfStatement));
             var ifStmt = (IfStatement)result;
             Assert.AreSame(testExpr, ifStmt.Condition, "if condition did not match");
-            Assert.That.IsStatementListContaining(ifStmt.IfSuite, suiteStmt);
-            Assert.That.IsStatementListWithCount(1, ifStmt.ElseSuite);
+            Assert.AreSame(ifStmt.IfSuite, suiteStmt);
 
             var innerIf = (IfStatement)ifStmt.ElseSuite;
             Assert.AreSame(elifTestExpr, innerIf.Condition);
-            Assert.That.IsStatementListContaining(innerIf.IfSuite, elifStmt);
-            Assert.IsNull(innerIf.ElseSuite);
+            Assert.AreSame(innerIf.IfSuite, elifStmt);
 
-            Assert.That.IsStatementListContaining(ifStmt.ElseSuite, elseStmt);
+            Assert.AreSame(innerIf.ElseSuite, elseStmt);
 
             testMock.Verify();
             suiteMock.Verify();
@@ -258,6 +268,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
         public void Visit_If_2ElIf_Else_Test()
         {
             // Arrange
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
             CreateAndSetupTest(
                 out Mock<Python3Parser.TestContext> testMock,
                 out ExpressionNode testExpr);
@@ -274,6 +286,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
                 out Mock<Python3Parser.SuiteContext> elif1SuiteMock,
                 out Statement elif1Stmt);
 
+            elif1SuiteMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
             CreateAndSetupTest(
                 out Mock<Python3Parser.TestContext> elif2TestMock,
                 out ExpressionNode elif2TestExpr);
@@ -281,6 +295,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             CreateAndSetupSuite(
                 out Mock<Python3Parser.SuiteContext> elif2SuiteMock,
                 out Statement elif2Stmt);
+
+            elif2SuiteMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             CreateAndSetupSuite(
                 out Mock<Python3Parser.SuiteContext> elseSuiteMock,
@@ -330,20 +346,16 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             Assert.IsInstanceOfType(result, typeof(IfStatement));
             var ifStmt = (IfStatement)result;
             Assert.AreSame(testExpr, ifStmt.Condition, "if condition did not match");
-            Assert.That.IsStatementListContaining(ifStmt.IfSuite, suiteStmt);
-            Assert.That.IsStatementListWithCount(1, ifStmt.ElseSuite);
+            Assert.AreSame(ifStmt.IfSuite, suiteStmt);
 
             var innerIf1 = (IfStatement)ifStmt.ElseSuite;
             Assert.AreSame(elif1TestExpr, innerIf1.Condition);
-            Assert.That.IsStatementListContaining(innerIf1.IfSuite, elif1Stmt);
-            Assert.That.IsStatementListWithCount(1, innerIf1.ElseSuite);
+            Assert.AreSame(innerIf1.IfSuite, elif1Stmt);
 
             var innerIf2 = (IfStatement)innerIf1.ElseSuite;
             Assert.AreSame(elif2TestExpr, innerIf2.Condition);
-            Assert.That.IsStatementListContaining(innerIf2.IfSuite, elif2Stmt);
-            Assert.IsNull(innerIf2.ElseSuite);
-
-            Assert.That.IsStatementListContaining(ifStmt.ElseSuite, elseStmt);
+            Assert.AreSame(innerIf2.IfSuite, elif2Stmt);
+            Assert.AreSame(innerIf2.ElseSuite, elseStmt);
 
             testMock.Verify();
             suiteMock.Verify();

@@ -1,5 +1,7 @@
-﻿using Antlr4.Runtime;
+﻿using System.Collections.Generic;
+using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
+using Zifro.Compiler.Core.Entities;
 using Zifro.Compiler.Lang.Python3.Extensions;
 using Zifro.Compiler.Lang.Python3.Resources;
 using Zifro.Compiler.Lang.Python3.Syntax;
@@ -37,15 +39,25 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 
             Statement elseStmt = null;
 
+            var elIfStatements = new List<(
+                SourceReference source,
+                ExpressionNode testExpr,
+                Statement suite
+            )>();
+
             // note: increment by 4
             for (var i = 4; i < context.ChildCount; i += 4)
             {
                 var elseOrElif = context.GetChildOrThrow<ITerminalNode>(i);
                 switch (elseOrElif.Symbol.Type)
                 {
+                    case Python3Parser.ELSE when elseStmt != null:
+                    case Python3Parser.ELIF when elseStmt != null:
+                        throw context.UnexpectedChildType(elseOrElif);
+
                     case Python3Parser.ELIF:
                         var elifTestRule = context.GetChildOrThrow<Python3Parser.TestContext>(i + 1);
-                        
+
                         context.GetChildOrThrow(i + 2, Python3Parser.COLON)
                             .ThrowIfMissing(nameof(Localized_Python3_Parser.Ex_Syntax_If_Elif_MissingColon));
 
@@ -55,11 +67,18 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                             .AsTypeOrThrow<ExpressionNode>();
                         var elifStmt = VisitSuite(elifSuiteRule)
                             .AsTypeOrThrow<Statement>();
-                        break;
 
-                    case Python3Parser.ELSE
-                        when elseStmt != null:
-                        throw context.UnexpectedChildType(elseOrElif);
+                        SourceReference source = SourceReference.Merge(
+                            elseOrElif.GetSourceReference(),
+                            elifSuiteRule.GetSourceReference()
+                        );
+
+                        elIfStatements.Add((
+                            source,
+                            elifExpr,
+                            elifStmt
+                        ));
+                        break;
 
                     case Python3Parser.ELSE:
                         context.GetChildOrThrow(i + 1, Python3Parser.COLON)
@@ -75,8 +94,26 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                 }
             }
 
+            // Combine elif statements into the elseStmt var
+            for (int i = elIfStatements.Count - 1; i >= 0; i--)
+            {
+                (SourceReference elifSource,
+                    ExpressionNode elifCondition,
+                    Statement elifSuite) = elIfStatements[i];
+
+                elseStmt = new IfStatement(
+                    source: elifSource,
+                    condition: elifCondition,
+                    ifSuite: elifSuite,
+                    elseSuite: elseStmt
+                );
+            }
+
             return new IfStatement(context.GetSourceReference(),
-                testExpr, suiteStmt, elseStmt);
+                condition: testExpr,
+                ifSuite: suiteStmt,
+                elseSuite: elseStmt
+            );
         }
 
         public override SyntaxNode VisitWhile_stmt(Python3Parser.While_stmtContext context)
