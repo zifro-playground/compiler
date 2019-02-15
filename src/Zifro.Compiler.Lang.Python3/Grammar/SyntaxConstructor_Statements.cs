@@ -12,6 +12,61 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
 {
     public partial class SyntaxConstructor
     {
+        public override SyntaxNode VisitSuite(Python3Parser.SuiteContext context)
+        {
+            // suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT
+            var first = context.GetChildOrThrow<IParseTree>(0);
+
+            switch (first)
+            {
+                case Python3Parser.Simple_stmtContext _
+                    when context.ChildCount > 1:
+                    throw context.UnexpectedChildType(context.GetChild(1));
+
+                case Python3Parser.Simple_stmtContext simple:
+                    return VisitSimple_stmt(simple);
+
+                case ITerminalNode term
+                    when term.Symbol.Type != Python3Parser.NEWLINE:
+                    throw context.UnexpectedChildType(term);
+
+                case ITerminalNode _:
+                    context.GetChildOrThrow(1, Python3Parser.INDENT);
+                    context.GetChildOrThrow(context.ChildCount - 1, Python3Parser.DEDENT);
+
+                    var statements = new List<Statement>();
+                    for (var i = 2; i < context.ChildCount - 1; i++)
+                    {
+                        var rule = context.GetChildOrThrow<Python3Parser.StmtContext>(i);
+                        var stmt = VisitStmt(rule).AsTypeOrThrow<Statement>();
+
+                        if (stmt is StatementList list)
+                        {
+                            statements.AddRange(list.Statements);
+                        }
+                        else
+                        {
+                            statements.Add(stmt);
+                        }
+                    }
+
+                    if (statements.Count == 0)
+                    {
+                        throw context.ExpectedChild();
+                    }
+
+                    if (statements.Count == 1)
+                    {
+                        return statements[0];
+                    }
+
+                    return new StatementList(context.GetSourceReference(), statements);
+
+                default:
+                    throw context.UnexpectedChildType(first);
+            }
+        }
+
         public override SyntaxNode VisitStmt(Python3Parser.StmtContext context)
         {
             // stmt: simple_stmt | compound_stmt

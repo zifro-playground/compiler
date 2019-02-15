@@ -95,6 +95,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         {
             // Arrange
             var innerMock = GetMockRule<Python3Parser.StmtContext>();
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             Statement stmt = ctorMock.SetupStatementMock(o
                 => o.VisitStmt(innerMock.Object));
@@ -129,6 +130,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             var innerMock = GetMockRule<Python3Parser.StmtContext>();
 
             var innerWithNestedMock = GetMockRule<Python3Parser.StmtContext>();
+
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             Statement stmt = ctorMock.SetupStatementMock(o
                 => o.VisitStmt(innerMock.Object));
@@ -224,7 +227,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         {
             // Arrange
             var innerMock = GetMockRule<Python3Parser.StmtContext>();
-            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+            innerMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.NEWLINE),
@@ -236,8 +239,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             // Assert
-            Assert.That.ErrorExpectedChildFormatArgs(ex,
-                startTokenMock, stopTokenMock, contextMock);
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex,
+                startTokenMock, stopTokenMock, contextMock, innerMock.Object);
 
             innerMock.Verify();
             contextMock.Verify();

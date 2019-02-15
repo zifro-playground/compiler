@@ -162,12 +162,6 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
             throw context.NotYetImplementedException("except");
         }
 
-        public override SyntaxNode VisitSuite(Python3Parser.SuiteContext context)
-        {
-            VisitChildren(context);
-            throw context.NotYetImplementedException();
-        }
-
         public override SyntaxNode VisitTest_nocond(Python3Parser.Test_nocondContext context)
         {
             VisitChildren(context);
