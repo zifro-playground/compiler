@@ -187,17 +187,18 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             IToken startToken, IToken stopToken,
             params object[] expectedExcessArgs)
         {
-            object[] expected = (new object[]
+            object[] expected = new object[]
             {
                 startToken.Line, startToken.Column,
                 stopToken.Line, stopToken.Column
-            }).Concat(expectedExcessArgs).ToArray();
+            }.Concat(expectedExcessArgs).ToArray();
 
             assert.ErrorFormatArgsEqual(exception, expectedLocalizedKey, expectedArgs: expected);
         }
 
         public static void ErrorSyntaxFormatArgsEqual(this Assert assert,
-            SyntaxException exception, string expectedLocalizedKey, SourceReference source,
+            SyntaxException exception, string expectedLocalizedKey,
+            SourceReference source,
             params object[] expectedExcessArgs)
         {
             object[] expected = new object[]
@@ -218,11 +219,15 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             ITerminalNode token,
             params object[] expectedExcessArgs)
         {
-            object[] expected = (new object[]
+            int stopOffset = token.Symbol.StartIndex == -1
+                ? -1
+                : token.Symbol.StopIndex - token.Symbol.StartIndex;
+
+            object[] expected = new object[]
             {
                 token.Symbol.Line, token.Symbol.Column,
-                token.Symbol.Line, token.Symbol.Column + token.Symbol.Text.Length - 1
-            }).Concat(expectedExcessArgs).ToArray();
+                token.Symbol.Line, token.Symbol.Column + stopOffset
+            }.Concat(expectedExcessArgs).ToArray();
 
             assert.ErrorFormatArgsEqual(exception, expectedLocalizedKey, expectedArgs: expected);
         }
