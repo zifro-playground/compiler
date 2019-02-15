@@ -4,6 +4,7 @@ using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Lang.Python3.Entities;
 using Zifro.Compiler.Lang.Python3.Exceptions;
+using Zifro.Compiler.Lang.Python3.Instructions;
 
 namespace Zifro.Compiler.Lang.Python3.Syntax.Literals
 {
@@ -60,7 +61,7 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Literals
 
         public override void Compile(PyCompiler compiler)
         {
-            throw new System.NotImplementedException();
+            compiler.Push(new PushLiteral<int>(this));
         }
 
         public override string ToString()
