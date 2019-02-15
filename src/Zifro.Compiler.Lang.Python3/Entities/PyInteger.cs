@@ -1,4 +1,5 @@
-﻿using Zifro.Compiler.Core.Interfaces;
+﻿using System.Globalization;
+using Zifro.Compiler.Core.Interfaces;
 using Zifro.Compiler.Lang.Base.Entities;
 
 namespace Zifro.Compiler.Lang.Python3.Entities
@@ -14,6 +15,11 @@ namespace Zifro.Compiler.Lang.Python3.Entities
         public override IScriptType GetTypeDef()
         {
             throw new System.NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            return Value.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

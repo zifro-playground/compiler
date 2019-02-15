@@ -14,5 +14,10 @@ namespace Zifro.Compiler.Lang.Python3.Entities
         {
             throw new System.NotImplementedException();
         }
+
+        public override string ToString()
+        {
+            return Value ? "True" : "False";
+        }
     }
 }

@@ -186,6 +186,17 @@ namespace Zifro.Compiler.Lang.Python3.Tests
             {
                 processor.WalkLine();
             } while (processor.State == ProcessState.Running);
+
+            // Assert
+            IScriptType x = processor.GetVariable("x");
+            Assert.IsInstanceOfType(x, typeof(PyInteger));
+            Assert.AreEqual(35, ((PyInteger)x).Value);
+
+            IScriptType y = processor.GetVariable("y");
+            Assert.IsInstanceOfType(y, typeof(PyString));
+            Assert.AreEqual("inge print än", ((PyString)y).Value);
+
+            Assert.AreEqual(ProcessState.Ended, processor.State);
         }
     }
 }
