@@ -1,6 +1,9 @@
-﻿using Zifro.Compiler.Lang.Python3.Extensions;
+﻿using Antlr4.Runtime;
+using Antlr4.Runtime.Tree;
+using Zifro.Compiler.Lang.Python3.Extensions;
 using Zifro.Compiler.Lang.Python3.Resources;
 using Zifro.Compiler.Lang.Python3.Syntax;
+using Zifro.Compiler.Lang.Python3.Syntax.Statements;
 
 namespace Zifro.Compiler.Lang.Python3.Grammar
 {
@@ -27,9 +30,53 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
                 .ThrowIfMissing(nameof(Localized_Python3_Parser.Ex_Syntax_If_MissingColon));
             var suiteRule = context.GetChildOrThrow<Python3Parser.SuiteContext>(3);
 
+            var testExpr = VisitTest(testRule)
+                .AsTypeOrThrow<ExpressionNode>();
+            var suiteStmt = VisitSuite(suiteRule)
+                .AsTypeOrThrow<Statement>();
 
+            Statement elseStmt = null;
 
-            throw context.NotYetImplementedException("if");
+            // note: increment by 4
+            for (var i = 4; i < context.ChildCount; i += 4)
+            {
+                var elseOrElif = context.GetChildOrThrow<ITerminalNode>(i);
+                switch (elseOrElif.Symbol.Type)
+                {
+                    case Python3Parser.ELIF:
+                        var elifTestRule = context.GetChildOrThrow<Python3Parser.TestContext>(i + 1);
+                        
+                        context.GetChildOrThrow(i + 2, Python3Parser.COLON)
+                            .ThrowIfMissing(nameof(Localized_Python3_Parser.Ex_Syntax_If_Elif_MissingColon));
+
+                        var elifSuiteRule = context.GetChildOrThrow<Python3Parser.SuiteContext>(i + 3);
+
+                        var elifExpr = VisitTest(elifTestRule)
+                            .AsTypeOrThrow<ExpressionNode>();
+                        var elifStmt = VisitSuite(elifSuiteRule)
+                            .AsTypeOrThrow<Statement>();
+                        break;
+
+                    case Python3Parser.ELSE
+                        when elseStmt != null:
+                        throw context.UnexpectedChildType(elseOrElif);
+
+                    case Python3Parser.ELSE:
+                        context.GetChildOrThrow(i + 1, Python3Parser.COLON)
+                            .ThrowIfMissing(nameof(Localized_Python3_Parser.Ex_Syntax_If_Else_MissingColon));
+
+                        var elseRule = context.GetChildOrThrow<Python3Parser.SuiteContext>(i + 2);
+                        elseStmt = VisitSuite(elseRule)
+                            .AsTypeOrThrow<Statement>();
+                        break;
+
+                    default:
+                        throw context.UnexpectedChildType(elseOrElif);
+                }
+            }
+
+            return new IfStatement(context.GetSourceReference(),
+                testExpr, suiteStmt, elseStmt);
         }
 
         public override SyntaxNode VisitWhile_stmt(Python3Parser.While_stmtContext context)

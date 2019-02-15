@@ -168,9 +168,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             var ifStmt = (IfStatement)result;
             Assert.AreSame(testExpr, ifStmt.Condition, "if condition did not match");
             Assert.That.IsStatementListContaining(ifStmt.IfSuite, suiteStmt);
-            Assert.That.IsStatementListWithCount(1, ifStmt.ElseSuite);
 
-            var innerIf = (IfStatement) ifStmt.ElseSuite.Statements[0];
+            var innerIf = (IfStatement) ifStmt.ElseSuite;
             Assert.AreSame(elifTestExpr, innerIf.Condition);
             Assert.That.IsStatementListContaining(innerIf.IfSuite, elifStmt);
             Assert.IsNull(innerIf.ElseSuite);
@@ -242,7 +241,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             Assert.That.IsStatementListContaining(ifStmt.IfSuite, suiteStmt);
             Assert.That.IsStatementListWithCount(1, ifStmt.ElseSuite);
 
-            var innerIf = (IfStatement)ifStmt.ElseSuite.Statements[0];
+            var innerIf = (IfStatement)ifStmt.ElseSuite;
             Assert.AreSame(elifTestExpr, innerIf.Condition);
             Assert.That.IsStatementListContaining(innerIf.IfSuite, elifStmt);
             Assert.IsNull(innerIf.ElseSuite);
@@ -334,12 +333,12 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             Assert.That.IsStatementListContaining(ifStmt.IfSuite, suiteStmt);
             Assert.That.IsStatementListWithCount(1, ifStmt.ElseSuite);
 
-            var innerIf1 = (IfStatement)ifStmt.ElseSuite.Statements[0];
+            var innerIf1 = (IfStatement)ifStmt.ElseSuite;
             Assert.AreSame(elif1TestExpr, innerIf1.Condition);
             Assert.That.IsStatementListContaining(innerIf1.IfSuite, elif1Stmt);
             Assert.That.IsStatementListWithCount(1, innerIf1.ElseSuite);
 
-            var innerIf2 = (IfStatement)innerIf1.ElseSuite.Statements[0];
+            var innerIf2 = (IfStatement)innerIf1.ElseSuite;
             Assert.AreSame(elif2TestExpr, innerIf2.Condition);
             Assert.That.IsStatementListContaining(innerIf2.IfSuite, elif2Stmt);
             Assert.IsNull(innerIf2.ElseSuite);
@@ -385,7 +384,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
         public void Invalid_If_Else_MissingColon_Test()
         {
             // Arrange
-            var testMock = GetMockRule<Python3Parser.TestContext>();
+            CreateAndSetupTest(
+                out Mock<Python3Parser.TestContext> testMock,
+                out _);
             CreateAndSetupSuite(
                 out Mock<Python3Parser.SuiteContext> suiteMock,
                 out Statement _);
@@ -421,7 +422,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
         public void Invalid_If_Elif_MissingColon_Test()
         {
             // Arrange
-            var testMock = GetMockRule<Python3Parser.TestContext>();
+            CreateAndSetupTest(
+                out Mock<Python3Parser.TestContext> testMock,
+                out _);
             CreateAndSetupSuite(
                 out Mock<Python3Parser.SuiteContext> suiteMock,
                 out Statement _);

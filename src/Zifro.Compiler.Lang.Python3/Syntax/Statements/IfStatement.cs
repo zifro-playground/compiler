@@ -6,8 +6,8 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Statements
     {
         public IfStatement(SourceReference source,
             ExpressionNode condition,
-            StatementList ifSuite,
-            StatementList elseSuite) : base(source)
+            Statement ifSuite,
+            Statement elseSuite) : base(source)
         {
             Condition = condition;
             IfSuite = ifSuite;
@@ -16,16 +16,16 @@ namespace Zifro.Compiler.Lang.Python3.Syntax.Statements
 
         public IfStatement(SourceReference source,
             ExpressionNode condition,
-            StatementList ifSuite)
+            Statement ifSuite)
             : this(source, condition, ifSuite, null)
         {
         }
 
         public ExpressionNode Condition { get; }
 
-        public StatementList IfSuite { get; }
+        public Statement IfSuite { get; }
 
-        public StatementList ElseSuite { get; }
+        public Statement ElseSuite { get; }
 
         public override void Compile(PyCompiler compiler)
         {
