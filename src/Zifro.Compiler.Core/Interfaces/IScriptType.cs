@@ -28,6 +28,12 @@ namespace Zifro.Compiler.Core.Interfaces
         string GetTypeName();
 
         /// <summary>
+        /// For use in <c>and</c> & <c>or</c> operators, as well as <c>if</c> and <c>while</c> statements.
+        /// <para>As <c>and</c> & <c>or</c> operators short-circuit depending on a values truthy'ness.</para>
+        /// </summary>
+        bool IsTruthy();
+
+        /// <summary>
         /// this(...<paramref name="arguments"/>)
         /// </summary>
         IScriptType Invoke(IScriptType[] arguments);
@@ -184,26 +190,6 @@ namespace Zifro.Compiler.Core.Interfaces
         /// this &gt;&gt; <paramref name="rhs"/>
         /// </summary>
         IScriptType BinaryRightShift(IScriptType rhs);
-
-        #endregion
-
-        #region Logical operators
-
-        /// <summary>
-        /// <para>(Lua, Python) not this</para>
-        /// <para>(JavaScript) !this</para>
-        /// </summary>
-        IScriptType LogicalNot();
-
-        /// <summary>
-        /// this and <paramref name="rhs"/>
-        /// </summary>
-        IScriptType LogicalAnd(IScriptType rhs);
-
-        /// <summary>
-        /// this or <paramref name="rhs"/>
-        /// </summary>
-        IScriptType LogicalOr(IScriptType rhs);
 
         #endregion
 
