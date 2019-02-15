@@ -21,15 +21,16 @@ namespace Zifro.Compiler.Lang.Python3.Tests
 {
     public static class TestingHelpers
     {
-        public static void CreateAndSetupExpression(this PyCompiler compiler,
-            out Mock<ExpressionNode> exprMock,
-            out NopOp exprOp)
+        public static void CreateAndSetup<TSyntaxType>(this PyCompiler compiler,
+            out Mock<TSyntaxType> nodeMock,
+            out NopOp resultOp)
+            where TSyntaxType : SyntaxNode
         {
-            exprMock = new Mock<ExpressionNode>(SourceReference.ClrSource);
-            exprOp = new NopOp();
-            NopOp exprOpRefCopy = exprOp;
+            nodeMock = new Mock<TSyntaxType>(SourceReference.ClrSource);
+            resultOp = new NopOp();
+            NopOp exprOpRefCopy = resultOp;
 
-            exprMock.Setup(o => o.Compile(compiler))
+            nodeMock.Setup(o => o.Compile(compiler))
                 .Callback((PyCompiler c) => { c.Push(exprOpRefCopy); })
                 .Verifiable();
         }

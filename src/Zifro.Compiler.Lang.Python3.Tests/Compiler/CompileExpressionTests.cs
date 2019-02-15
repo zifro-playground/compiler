@@ -41,11 +41,11 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
         {
             // Arrange
             var compiler = new PyCompiler();
-            compiler.CreateAndSetupExpression(
+            compiler.CreateAndSetup(
                 out Mock<ExpressionNode> exprLhsMock,
                 out NopOp exprLhsOp);
 
-            compiler.CreateAndSetupExpression(
+            compiler.CreateAndSetup(
                 out Mock<ExpressionNode> exprRhsMock,
                 out NopOp exprRhsOp);
 
@@ -75,7 +75,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
             // Arrange
             var compiler = new PyCompiler();
 
-            compiler.CreateAndSetupExpression(
+            compiler.CreateAndSetup(
                 out Mock<ExpressionNode> exprMock,
                 out NopOp exprOp);
 

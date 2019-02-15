@@ -35,8 +35,15 @@ namespace Zifro.Compiler.Lang.Python3.Tests
                 throw new AssertFailedException($"Expected IOpCode at index {index} but compiler only contains {compiler.Count} op codes.");
 
             IOpCode opCode = compiler[index];
-            Assert.IsInstanceOfType(opCode, typeof(TOpCode));
+            Assert.IsInstanceOfType(opCode, typeof(TOpCode), $"Op code at index {index} is wrong type.");
             return (TOpCode) opCode;
+        }
+
+        public static void IsExpectedOpCode<TOpCode>(this Assert assert, PyCompiler compiler, int index, TOpCode expected)
+            where TOpCode : IOpCode
+        {
+            var opCode = assert.IsOpCode<TOpCode>(compiler, index);
+            Assert.AreSame(expected, opCode, $"Op code at index {index} are not same as expected.");
         }
     }
 }
