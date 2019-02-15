@@ -163,6 +163,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
 
             testMock.Verify(o => o.Compile(compiler), Times.Once);
             suiteMock.Verify(o => o.Compile(compiler), Times.Once);
+            elseMock.Verify(o => o.Compile(compiler), Times.Once);
         }
 
         [TestMethod]
@@ -224,6 +225,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
 
             testMock.Verify(o => o.Compile(compiler), Times.Once);
             suiteMock.Verify(o => o.Compile(compiler), Times.Once);
+            elifTestMock.Verify(o => o.Compile(compiler), Times.Once);
+            elifSuiteMock.Verify(o => o.Compile(compiler), Times.Once);
         }
 
         [TestMethod]
@@ -287,26 +290,34 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
             // elif 1
             var labelElif1 = Assert.That.IsOpCode<Label>(compiler, 4);
             Assert.That.IsExpectedOpCode(compiler, 5, elif1TestOp);
-            var jumpFromElif1 = Assert.That.IsOpCode<JumpIfFalse>(compiler, 6);
+            var jumpToElif2 = Assert.That.IsOpCode<JumpIfFalse>(compiler, 6);
             Assert.That.IsExpectedOpCode(compiler, 7, elif1SuiteOp);
+            var jumpFromElif1 = Assert.That.IsOpCode<Jump>(compiler, 8);
             // elif 2
-            var labelElif2 = Assert.That.IsOpCode<Label>(compiler, 8);
-            Assert.That.IsExpectedOpCode(compiler, 9, elif2TestOp);
-            var jumpFromElif2 = Assert.That.IsOpCode<JumpIfFalse>(compiler, 10);
-            Assert.That.IsExpectedOpCode(compiler, 11, elif2SuiteOp);
+            var labelElif2 = Assert.That.IsOpCode<Label>(compiler, 9);
+            Assert.That.IsExpectedOpCode(compiler, 10, elif2TestOp);
+            var jumpToElse = Assert.That.IsOpCode<JumpIfFalse>(compiler, 11);
+            Assert.That.IsExpectedOpCode(compiler, 12, elif2SuiteOp);
+            // no jumpFromElif2 because it's the last one
+
             // end
-            var labelEnd = Assert.That.IsOpCode<Label>(compiler, 12);
+            var labelEnd = Assert.That.IsOpCode<Label>(compiler, 13);
 
             // assert labels
             Assert.AreSame(labelEnd, jumpFromIf.Label, "jump from if suite not match end label");
+            Assert.AreSame(labelEnd, jumpFromElif1.Label, "jump from elif1 suite not match end label");
             Assert.AreSame(labelElif1, jumpToElif1.Label, "jump from if test not match elif1 label");
-            Assert.AreSame(labelElif2, jumpFromElif1.Label, "jump from elif1 test not match elif2 label");
-            Assert.AreSame(labelEnd, jumpFromElif2.Label, "jump from elif2 test not match end label");
+            Assert.AreSame(labelElif2, jumpToElif2.Label, "jump from elif1 test not match elif2 label");
+            Assert.AreSame(labelEnd, jumpToElse.Label, "jump from elif2 test not match end label");
 
-            Assert.AreEqual(13, compiler.Count, "Too many op codes");
+            Assert.AreEqual(14, compiler.Count, "Too many op codes");
 
             testMock.Verify(o => o.Compile(compiler), Times.Once);
             suiteMock.Verify(o => o.Compile(compiler), Times.Once);
+            elif1TestMock.Verify(o => o.Compile(compiler), Times.Once);
+            elif1SuiteMock.Verify(o => o.Compile(compiler), Times.Once);
+            elif2TestMock.Verify(o => o.Compile(compiler), Times.Once);
+            elif2SuiteMock.Verify(o => o.Compile(compiler), Times.Once);
         }
 
         [TestMethod]
@@ -338,7 +349,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
             var elif = new IfStatement(SourceReference.ClrSource,
                 condition: elifTestMock.Object,
                 ifSuite: elifSuiteMock.Object,
-                elseSuite: elifSuiteMock.Object);
+                elseSuite: elseSuiteMock.Object);
 
             var stmt = new IfStatement(SourceReference.ClrSource,
                 condition: testMock.Object,
@@ -359,23 +370,28 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Compiler
             // elif
             var labelElif = Assert.That.IsOpCode<Label>(compiler, 4);
             Assert.That.IsExpectedOpCode(compiler, 5, elifTestOp);
-            var jumpFromElif = Assert.That.IsOpCode<JumpIfFalse>(compiler, 6);
+            var jumpToElse = Assert.That.IsOpCode<JumpIfFalse>(compiler, 6);
             Assert.That.IsExpectedOpCode(compiler, 7, elifSuiteOp);
+            var jumpFromElif = Assert.That.IsOpCode<Jump>(compiler, 8);
             // else
-            var labelElse = Assert.That.IsOpCode<Label>(compiler, 8);
-            Assert.That.IsExpectedOpCode(compiler, 9, elseSuiteOp);
+            var labelElse = Assert.That.IsOpCode<Label>(compiler, 9);
+            Assert.That.IsExpectedOpCode(compiler, 10, elseSuiteOp);
             // end
-            var labelEnd = Assert.That.IsOpCode<Label>(compiler, 10);
+            var labelEnd = Assert.That.IsOpCode<Label>(compiler, 11);
 
             // assert labels
             Assert.AreSame(labelEnd, jumpFromIf.Label, "jump from if suite not match end label");
+            Assert.AreSame(labelEnd, jumpFromElif.Label, "jump from elif suite not match end label");
             Assert.AreSame(labelElif, jumpToElif.Label, "jump from if test not match elif label");
-            Assert.AreSame(labelElse, jumpFromElif.Label, "jump from elif test not match else label");
+            Assert.AreSame(labelElse, jumpToElse.Label, "jump from elif test not match else label");
 
-            Assert.AreEqual(11, compiler.Count, "Too many op codes");
+            Assert.AreEqual(12, compiler.Count, "Too many op codes");
 
             testMock.Verify(o => o.Compile(compiler), Times.Once);
             suiteMock.Verify(o => o.Compile(compiler), Times.Once);
+            elifTestMock.Verify(o => o.Compile(compiler), Times.Once);
+            elifSuiteMock.Verify(o => o.Compile(compiler), Times.Once);
+            elseSuiteMock.Verify(o => o.Compile(compiler), Times.Once);
         }
     }
 }
