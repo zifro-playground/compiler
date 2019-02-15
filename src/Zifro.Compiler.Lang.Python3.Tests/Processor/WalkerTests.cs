@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Zifro.Compiler.Core.Entities;
@@ -133,10 +134,15 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
 
             // Assert
             Assert.AreEqual(3, processor.ValueStackCount);
-            Assert.AreEqual(3, processor.PopValue<PyInteger>().Value);
-            Assert.AreEqual(2, processor.PopValue<PyInteger>().Value);
-            Assert.AreEqual(1, processor.PopValue<PyInteger>().Value);
+            Assert.AreEqual(3, PopInteger().Value);
+            Assert.AreEqual(2, PopInteger().Value);
+            Assert.AreEqual(1, PopInteger().Value);
             Assert.AreEqual(ProcessState.Ended, processor.State);
+
+            PyInteger PopInteger()
+            {
+                return (PyInteger) processor.PopValue();
+            }
         }
 
         [TestMethod]

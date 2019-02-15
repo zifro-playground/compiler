@@ -17,7 +17,7 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
             if (Label.OpCodeIndex == -1)
                 throw new InvalidOperationException("Label was not assigned an index. Are you sure it was added to the processor?");
 
-            var value = processor.PopValue<IScriptType>();
+            var value = processor.PopValue();
 
             if (!value.IsTruthy())
             {

@@ -32,8 +32,8 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
 
         private IScriptType GetBinaryResult(PyProcessor processor)
         {
-            var rhs = processor.PopValue<IScriptType>();
-            var lhs = processor.PopValue<IScriptType>();
+            var rhs = processor.PopValue();
+            var lhs = processor.PopValue();
 
             switch (Code)
             {
@@ -77,7 +77,7 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
 
         private IScriptType GetUnaryResult(PyProcessor processor)
         {
-            var lhs = processor.PopValue<IScriptType>();
+            var lhs = processor.PopValue();
 
             switch (Code)
             {

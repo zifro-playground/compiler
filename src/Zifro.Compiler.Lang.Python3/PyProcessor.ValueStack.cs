@@ -8,26 +8,16 @@ namespace Zifro.Compiler.Lang.Python3
     {
         internal int ValueStackCount => _valueStack.Count;
 
-        internal TValue PopValue<TValue>()
-            where TValue : IScriptType
+        internal IScriptType PopValue()
         {
             if (_valueStack.Count == 0)
             {
                 throw new InternalException(
                     nameof(Localized_Python3_Interpreter.Ex_ValueStack_PopEmpty),
-                    Localized_Python3_Interpreter.Ex_ValueStack_PopEmpty,
-                    typeof(TValue).Name);
+                    Localized_Python3_Interpreter.Ex_ValueStack_PopEmpty);
             }
 
-            IScriptType value = _valueStack.Pop();
-
-            if (!(value is TValue type))
-                throw new InternalException(
-                    nameof(Localized_Python3_Interpreter.Ex_ValueStack_PopInvalidType),
-                    Localized_Python3_Interpreter.Ex_ValueStack_PopInvalidType,
-                    typeof(TValue).Name, value?.GetType().Name ?? "null");
-
-            return type;
+            return _valueStack.Pop();
         }
 
         internal void PushValue(IScriptType value)

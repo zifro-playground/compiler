@@ -130,7 +130,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.Processor
             // Act
             processor.WalkLine();
             int numOfValues = processor.ValueStackCount;
-            var result = processor.PopValue<IScriptType>();
+            var result = processor.PopValue();
 
             // Assert
             Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name, processor.LastError?.Message);

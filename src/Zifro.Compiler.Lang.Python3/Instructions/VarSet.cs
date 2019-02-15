@@ -18,7 +18,7 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
 
         public void Execute(PyProcessor processor)
         {
-            var value = processor.PopValue<IScriptType>();
+            var value = processor.PopValue();
             processor.SetVariable(Identifier, value);
         }
 
