@@ -6,7 +6,7 @@ using Zifro.Compiler.Lang.Python3.Syntax.Statements;
 
 namespace Zifro.Compiler.Lang.Python3.Syntax
 {
-    public class StatementList : SyntaxNode
+    public class StatementList : Statement
     {
         public IReadOnlyList<Statement> Statements { get; set; }
 
