@@ -123,7 +123,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
         public static ITerminalNode GetMissingTerminal(int symbol)
         {
             var mock = new Mock<ITerminalNode>();
-            mock.Setup(o => o.Symbol).Returns(GetSymbol(symbol));
+            mock.Setup(o => o.Symbol).Returns(GetMissingSymbol(symbol));
             return mock.Object;
         }
 
