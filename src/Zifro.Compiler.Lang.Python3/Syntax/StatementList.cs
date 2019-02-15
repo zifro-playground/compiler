@@ -18,7 +18,10 @@ namespace Zifro.Compiler.Lang.Python3.Syntax
 
         public override void Compile(PyCompiler compiler)
         {
-            throw new NotImplementedException();
+            foreach (Statement statement in Statements)
+            {
+                statement.Compile(compiler);
+            }
         }
     }
 }
