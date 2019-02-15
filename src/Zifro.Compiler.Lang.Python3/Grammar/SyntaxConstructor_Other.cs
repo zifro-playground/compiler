@@ -151,41 +151,6 @@ namespace Zifro.Compiler.Lang.Python3.Grammar
             throw context.NotYetImplementedException("nonlocal");
         }
 
-        public override SyntaxNode VisitAssert_stmt(Python3Parser.Assert_stmtContext context)
-        {
-            throw context.NotYetImplementedException("assert");
-        }
-
-        public override SyntaxNode VisitAsync_stmt(Python3Parser.Async_stmtContext context)
-        {
-            throw context.NotYetImplementedException("async");
-        }
-
-        public override SyntaxNode VisitIf_stmt(Python3Parser.If_stmtContext context)
-        {
-            throw context.NotYetImplementedException("if");
-        }
-
-        public override SyntaxNode VisitWhile_stmt(Python3Parser.While_stmtContext context)
-        {
-            throw context.NotYetImplementedException("while");
-        }
-
-        public override SyntaxNode VisitFor_stmt(Python3Parser.For_stmtContext context)
-        {
-            throw context.NotYetImplementedException("for");
-        }
-
-        public override SyntaxNode VisitTry_stmt(Python3Parser.Try_stmtContext context)
-        {
-            throw context.NotYetImplementedException("try");
-        }
-
-        public override SyntaxNode VisitWith_stmt(Python3Parser.With_stmtContext context)
-        {
-            throw context.NotYetImplementedException("with");
-        }
-
         public override SyntaxNode VisitWith_item(Python3Parser.With_itemContext context)
         {
             VisitChildren(context);

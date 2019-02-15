@@ -152,7 +152,7 @@
 {3} source end column</comment>
   </data>
   <data name="Ex_Syntax_If_Else_MissingColon" xml:space="preserve">
-    <value>Saknar ett kolon i slutet av din 'else' i 'if'-satsen.</value>
+    <value>Saknar ett kolon i slutet av din 'else' i din 'if'-sats.</value>
     <comment>Missing colon after else keyword in if-statement.
 {0} source start line
 {1} source start column
@@ -160,7 +160,7 @@
 {3} source end column</comment>
   </data>
   <data name="Ex_Syntax_If_MissingColon" xml:space="preserve">
-    <value>Saknar ett kolon i slutet av din 'if'-sats.</value>
+    <value>Saknar ett kolon efter villkoret i slutet av din 'if'-sats.</value>
     <comment>Missing colon after condition in if-statement.
 {0} source start line
 {1} source start column

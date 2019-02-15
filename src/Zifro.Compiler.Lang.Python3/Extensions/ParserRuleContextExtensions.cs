@@ -135,6 +135,18 @@ namespace Zifro.Compiler.Lang.Python3.Extensions
             return rule;
         }
 
+        public static void ThrowIfMissing(this ITerminalNode terminal,
+            string localizedPython3ParserKey)
+        {
+            if (terminal.Symbol.StartIndex == -1 ||
+                terminal.Symbol.StopIndex == -1)
+            {
+                throw new SyntaxException(terminal.GetSourceReference(),
+                    localizedPython3ParserKey,
+                    Localized_Python3_Parser.ResourceManager.GetString(localizedPython3ParserKey));
+            }
+        }
+
         public static ITerminalNode ExpectClosingParenthesis(this ParserRuleContext context, ITerminalNode opening,
             int closingType)
         {

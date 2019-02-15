@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Antlr4.Runtime.Tree;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Zifro.Compiler.Core.Exceptions;
 using Zifro.Compiler.Lang.Python3.Grammar;
@@ -357,11 +358,12 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             // Arrange
             var testMock = GetMockRule<Python3Parser.TestContext>();
             var suiteMock = GetMockRule<Python3Parser.SuiteContext>();
+            ITerminalNode missingColon = GetMissingTerminal(Python3Parser.COLON);
 
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.IF),
                 testMock.Object,
-                GetMissingTerminal(Python3Parser.COLON),
+                missingColon,
                 suiteMock.Object
             );
 
@@ -369,8 +371,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             // Assert
-            Assert.That.ErrorFormatArgsEqual(ex,
-                nameof(Localized_Python3_Parser.Ex_Syntax_If_MissingColon));
+            Assert.That.ErrorSyntaxFormatArgsEqual(ex,
+                nameof(Localized_Python3_Parser.Ex_Syntax_If_MissingColon),
+                missingColon);
 
             testMock.Verify();
             suiteMock.Verify();
@@ -388,6 +391,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
                 out Statement _);
 
             var elseSuiteMock = GetMockRule<Python3Parser.SuiteContext>();
+            ITerminalNode missingColon = GetMissingTerminal(Python3Parser.COLON);
 
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.IF),
@@ -395,7 +399,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
                 GetTerminal(Python3Parser.COLON),
                 suiteMock.Object,
                 GetTerminal(Python3Parser.ELSE),
-                GetMissingTerminal(Python3Parser.COLON),
+                missingColon,
                 elseSuiteMock.Object
             );
 
@@ -403,8 +407,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             // Assert
-            Assert.That.ErrorFormatArgsEqual(ex,
-                nameof(Localized_Python3_Parser.Ex_Syntax_If_Else_MissingColon));
+            Assert.That.ErrorSyntaxFormatArgsEqual(ex,
+                nameof(Localized_Python3_Parser.Ex_Syntax_If_Else_MissingColon),
+                missingColon);
 
             testMock.Verify();
             suiteMock.Verify();
@@ -423,6 +428,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
 
             var elifTestMock = GetMockRule<Python3Parser.TestContext>();
             var elifSuiteMock = GetMockRule<Python3Parser.SuiteContext>();
+            ITerminalNode missingColon = GetMissingTerminal(Python3Parser.COLON);
 
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.IF),
@@ -431,7 +437,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
                 suiteMock.Object,
                 GetTerminal(Python3Parser.ELIF),
                 elifTestMock.Object,
-                GetMissingTerminal(Python3Parser.COLON),
+                missingColon,
                 elifSuiteMock.Object
             );
 
@@ -439,8 +445,9 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             // Assert
-            Assert.That.ErrorFormatArgsEqual(ex,
-                nameof(Localized_Python3_Parser.Ex_Syntax_If_Elif_MissingColon));
+            Assert.That.ErrorSyntaxFormatArgsEqual(ex,
+                nameof(Localized_Python3_Parser.Ex_Syntax_If_Elif_MissingColon),
+                missingColon);
 
             testMock.Verify();
             suiteMock.Verify();

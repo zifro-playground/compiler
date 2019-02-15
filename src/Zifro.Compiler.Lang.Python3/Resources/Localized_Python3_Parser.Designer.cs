@@ -97,7 +97,7 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Saknar ett kolon i slutet av din &apos;else&apos; i &apos;if&apos;-satsen..
+        ///   Looks up a localized string similar to Saknar ett kolon i slutet av din &apos;else&apos; i din &apos;if&apos;-sats..
         /// </summary>
         internal static string Ex_Syntax_If_Else_MissingColon {
             get {
@@ -106,7 +106,7 @@ namespace Zifro.Compiler.Lang.Python3.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Saknar ett kolon i slutet av din &apos;if&apos;-sats..
+        ///   Looks up a localized string similar to Saknar ett kolon efter villkoret i slutet av din &apos;if&apos;-sats..
         /// </summary>
         internal static string Ex_Syntax_If_MissingColon {
             get {
