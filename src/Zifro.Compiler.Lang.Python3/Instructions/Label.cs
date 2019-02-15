@@ -8,9 +8,12 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
         public Label(SourceReference source)
         {
             Source = source;
+            OpCodeIndex = -1;
         }
 
         public SourceReference Source { get; }
+
+        public int OpCodeIndex { get; internal set; }
 
         public void Execute(PyProcessor processor)
         {
