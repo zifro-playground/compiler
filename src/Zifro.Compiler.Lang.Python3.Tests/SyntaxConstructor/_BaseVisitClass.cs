@@ -65,7 +65,8 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext,
                 message: $"expected throw for context `{Python3Parser.ruleNames[contextMock.Object.RuleIndex]}`");
 
-            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, unexpectedRule.Object);
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock,
+                unexpectedRule.Object);
             contextMock.VerifyLoopedChildren(1);
 
             unexpectedRule.Verify();
@@ -103,7 +104,7 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
         public static Mock<T> GetMockRule<T>() where T : ParserRuleContext
         {
-            return new Mock<T>(ParserRuleContext.EmptyContext, 0) { CallBase = true };
+            return new Mock<T>(ParserRuleContext.EmptyContext, 0) {CallBase = true};
         }
 
         public static ITerminalNode GetTerminal(int symbol)
@@ -149,9 +150,13 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
 
         public static IToken GetMissingSymbol(int symbol)
         {
+            string name = Python3Parser.DefaultVocabulary.GetLiteralName(symbol)
+                          ?? Python3Parser.DefaultVocabulary.GetSymbolicName(symbol)
+                              .ToLowerInvariant();
+
             var mock = new Mock<IToken>(MockBehavior.Strict);
             mock.SetupGet(o => o.Type).Returns(symbol);
-            mock.SetupGet(o => o.Text).Returns($"<missing {Python3Parser.DefaultVocabulary.GetDisplayName(symbol)}>");
+            mock.SetupGet(o => o.Text).Returns($"<missing {name}>");
             mock.SetupGet(o => o.Line).Returns(7);
             mock.SetupGet(o => o.Column).Returns(8);
             mock.SetupGet(o => o.StartIndex).Returns(-1); // !important
@@ -202,6 +207,5 @@ namespace Zifro.Compiler.Lang.Python3.Tests.SyntaxConstructor
             stopTokenMock.SetupGet(o => o.Line).Returns(3);
             stopTokenMock.SetupGet(o => o.Column).Returns(4);
         }
-
     }
 }
