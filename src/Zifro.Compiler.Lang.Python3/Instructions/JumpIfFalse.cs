@@ -24,5 +24,12 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
                 processor.JumpToInstruction(Label.OpCodeIndex);
             }
         }
+
+        public override string ToString()
+        {
+            return Label?.OpCodeIndex >= 0
+                ? $"jmpifn->#{Label.OpCodeIndex}"
+                : "jmpifn->{undefined}";
+        }
     }
 }
