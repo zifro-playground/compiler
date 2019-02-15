@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Antlr4.Runtime;
 using Zifro.Compiler.Core.Interfaces;
+using Zifro.Compiler.Lang.Python3.Extensions;
 using Zifro.Compiler.Lang.Python3.Grammar;
 using Zifro.Compiler.Lang.Python3.Interfaces;
+using Zifro.Compiler.Lang.Python3.Syntax;
 
 namespace Zifro.Compiler.Lang.Python3
 {
@@ -24,7 +26,23 @@ namespace Zifro.Compiler.Lang.Python3
 
         public IProcessor Compile(string code)
         {
-            throw new System.NotImplementedException();
+            var inputStream = new AntlrInputStream(code + "\n");
+
+            var lexer = new Python3Lexer(inputStream);
+            var tokenStream = new CommonTokenStream(lexer);
+            var parser = new Python3Parser(tokenStream);
+
+            var visitor = new SyntaxConstructor();
+
+            SyntaxNode result = visitor.VisitFile_input(parser.file_input());
+
+            if (result is null)
+                return new PyProcessor();
+
+            var statement = result.AsTypeOrThrow<Statement>();
+            statement.Compile(this);
+
+            return new PyProcessor(_opCodes.ToArray());
         }
 
         public void Push(IOpCode opCode)
