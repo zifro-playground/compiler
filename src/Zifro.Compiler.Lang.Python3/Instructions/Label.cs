@@ -19,5 +19,12 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
         {
             // do nothing
         }
+
+        public override string ToString()
+        {
+            if (OpCodeIndex != -1)
+                return $"label@{OpCodeIndex}";
+            return "label";
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace Zifro.Compiler.Lang.Python3.Instructions
         public override string ToString()
         {
             return Label?.OpCodeIndex >= 0
-                ? $"jmpifn->#{Label.OpCodeIndex}"
+                ? $"jmpifn->@{Label.OpCodeIndex}"
                 : "jmpifn->{undefined}";
         }
     }
