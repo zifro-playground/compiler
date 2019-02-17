@@ -1,0 +1,69 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>7.2</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mellis.Core\Mellis.Core.csproj" />
+    <ProjectReference Include="..\Mellis.Lang.Base\Mellis.Lang.Base.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Antlr4" Version="4.6.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Antlr4.Runtime" Version="4.6.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Antlr4 Update="Grammar\Python3.g4">
+      <Listener>false</Listener>
+    </Antlr4>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Localized_Python3_Interpreter.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Localized_Python3_Interpreter.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Localized_Python3_Parser.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Localized_Python3_Parser.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Localized_Python3_Runtime.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Localized_Python3_Runtime.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Localized_Python3_Syntax.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Localized_Python3_Syntax.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Localized_Python3_Interpreter.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localized_Python3_Interpreter.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Localized_Python3_Parser.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localized_Python3_Parser.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Localized_Python3_Runtime.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localized_Python3_Runtime.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Localized_Python3_Syntax.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localized_Python3_Syntax.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
