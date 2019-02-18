@@ -28,7 +28,6 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
 
         public abstract SyntaxNode VisitContext();
 
-
         [TestMethod]
         public virtual void Visit_InvalidToken_Test()
         {

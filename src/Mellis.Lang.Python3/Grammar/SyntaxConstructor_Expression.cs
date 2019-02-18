@@ -93,35 +93,44 @@ namespace Mellis.Lang.Python3.Grammar
         public override SyntaxNode VisitTestlist_star_expr(Python3Parser.Testlist_star_exprContext context)
         {
             // testlist_star_expr: (test|star_expr) (',' (test|star_expr))* [',']
-            var children = context.GetChildren()
-                .OfType<ParserRuleContext>();
 
-            SyntaxNode result = null;
+            ExpressionNode result = null;
 
-            foreach (ParserRuleContext child in children)
+            for (var i = 0; i < context.ChildCount; i+=2)
             {
-                switch (child)
+                var rule = context.GetChildOrThrow<ParserRuleContext>(i);
+
+                if (result == null)
+                    result = VisitTestOrStar(rule);
+                else
                 {
-                    case Python3Parser.TestContext test
-                        when result == null:
-                        result = VisitTest(test);
-                        break;
-
-                    case Python3Parser.TestContext test:
-                        throw test.NotYetImplementedException();
-
-                    case Python3Parser.Star_exprContext star:
-                        throw star.NotYetImplementedException();
-
-                    default:
-                        throw context.UnexpectedChildType(child);
+                    throw rule.NotYetImplementedException();
                 }
+
+                if (i + 1 < context.ChildCount)
+                    context.GetChildOrThrow(i + 1, Python3Parser.COMMA);
             }
 
             if (result == null)
                 throw context.ExpectedChild();
 
             return result;
+
+            ExpressionNode VisitTestOrStar(ParserRuleContext rule)
+            {
+                switch (rule)
+                {
+                    case Python3Parser.TestContext test:
+                        return VisitTest(test)
+                            .AsTypeOrThrow<ExpressionNode>();
+
+                    case Python3Parser.Star_exprContext star:
+                        throw star.NotYetImplementedException();
+
+                    default:
+                        throw context.UnexpectedChildType(rule);
+                }
+            }
         }
 
         public override SyntaxNode VisitAnnassign(Python3Parser.AnnassignContext context)
