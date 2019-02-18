@@ -1,0 +1,15 @@
+{
+	"name": "se.zifro.mellis",
+	"displayName": "Mellis Compiler",
+	"description": "A compiler for (to start with) Python with support for code walking and looking at variables.",
+	"version": "0.1.0",
+	"unity": "2018.3",
+	"license": "",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/zardan/compiler.git"
+	},
+	"author": "Zifro AB",
+	"dependencies": {
+	}
+}
