@@ -84,7 +84,6 @@ namespace Mellis.Lang.Python3.Instructions
             }
         }
 
-
         private IScriptType GetUnaryResult(PyProcessor processor)
         {
             var lhs = processor.PopValue();
