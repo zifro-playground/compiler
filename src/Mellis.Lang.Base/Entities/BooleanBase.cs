@@ -10,24 +10,18 @@ namespace Mellis.Lang.Base.Entities
     /// <summary>
     /// Basic functionality of a double value.
     /// </summary>
-    public abstract class BooleanBase : IScriptType
+    public abstract class BooleanBase : ScriptTypeBase
     {
-        /// <inheritdoc />
-        public abstract IScriptType GetTypeDef();
-
-        /// <inheritdoc />
-        public IProcessor Processor { get; }
-
         public bool Value { get; }
 
         protected BooleanBase(IProcessor processor, bool value)
+            : base(processor)
         {
-            Processor = processor;
             Value = value;
         }
 
         /// <inheritdoc />
-        public virtual string GetTypeName()
+        public override string GetTypeName()
         {
             return Localized_Base_Entities.Type_Boolean_Name;
         }
@@ -54,13 +48,13 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public virtual bool IsTruthy()
+        public override bool IsTruthy()
         {
             return Value;
         }
 
         /// <inheritdoc />
-        public virtual IScriptType Invoke(IScriptType[] arguments)
+        public override IScriptType Invoke(IScriptType[] arguments)
         {
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Boolean_Invoke),
@@ -69,7 +63,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public virtual IScriptType GetIndex(IScriptType index)
+        public override IScriptType GetIndex(IScriptType index)
         {
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Boolean_IndexGet),
@@ -78,7 +72,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public virtual IScriptType SetIndex(IScriptType index, IScriptType value)
+        public override IScriptType SetIndex(IScriptType index, IScriptType value)
         {
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Boolean_IndexSet),
@@ -87,7 +81,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public virtual IScriptType GetProperty(string property)
+        public override IScriptType GetProperty(string property)
         {
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Boolean_PropertyGet),
@@ -96,7 +90,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public virtual IScriptType SetProperty(string property, IScriptType value)
+        public override IScriptType SetProperty(string property, IScriptType value)
         {
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Boolean_PropertySet),
@@ -105,20 +99,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public bool TryConvert<T>(out T value)
-        {
-            if (TryConvert(typeof(T), out object boxed))
-            {
-                value = (T) boxed;
-                return true;
-            }
-
-            value = default;
-            return false;
-        }
-
-        /// <inheritdoc />
-        public bool TryConvert(Type type, out object value)
+        public override bool TryConvert(Type type, out object value)
         {
             if (type == typeof(bool))
             {
@@ -131,19 +112,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public IScriptType ArithmeticUnaryPositive()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType ArithmeticUnaryNegative()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType ArithmeticAdd(IScriptType rhs)
+        public override IScriptType ArithmeticAdd(IScriptType rhs)
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Boolean_AddInvalidOperation),
                 Localized_Base_Entities.Ex_Boolean_AddInvalidOperation,
@@ -151,7 +120,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public IScriptType ArithmeticSubtract(IScriptType rhs)
+        public override IScriptType ArithmeticSubtract(IScriptType rhs)
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Boolean_SubtractInvalidOperation),
                 Localized_Base_Entities.Ex_Boolean_SubtractInvalidOperation,
@@ -159,7 +128,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public IScriptType ArithmeticMultiply(IScriptType rhs)
+        public override IScriptType ArithmeticMultiply(IScriptType rhs)
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Boolean_MultiplyInvalidOperation),
                 Localized_Base_Entities.Ex_Boolean_MultiplyInvalidOperation,
@@ -167,7 +136,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public IScriptType ArithmeticDivide(IScriptType rhs)
+        public override IScriptType ArithmeticDivide(IScriptType rhs)
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Boolean_DivideInvalidOperation),
                 Localized_Base_Entities.Ex_Boolean_DivideInvalidOperation,
@@ -175,25 +144,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public IScriptType ArithmeticModulus(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType ArithmeticExponent(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType ArithmeticFloorDivide(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType CompareEqual(IScriptType rhs)
+        public override IScriptType CompareEqual(IScriptType rhs)
         {
             if (rhs is BooleanBase b && b.Value == Value)
                 return Processor.Factory.True;
@@ -202,7 +153,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public IScriptType CompareNotEqual(IScriptType rhs)
+        public override IScriptType CompareNotEqual(IScriptType rhs)
         {
             if (rhs is BooleanBase b && b.Value == Value)
                 return Processor.Factory.False;
@@ -210,88 +161,9 @@ namespace Mellis.Lang.Base.Entities
             return Processor.Factory.True;
         }
 
-        /// <inheritdoc />
-        public IScriptType CompareGreaterThan(IScriptType rhs)
+        public override string ToString()
         {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType CompareGreaterThanOrEqual(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType CompareLessThan(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType CompareLessThanOrEqual(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType BinaryNot()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType BinaryAnd(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType BinaryOr(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType BinaryXor(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType BinaryLeftShift(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType BinaryRightShift(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-        
-        /// <inheritdoc />
-        public IScriptType MemberIn(IScriptType lhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType MemberNotIn(IScriptType lhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType IdentityIs(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType IdentityIsNot(IScriptType rhs)
-        {
-            throw new NotImplementedException();
+            return Value ? bool.TrueString : bool.FalseString;
         }
     }
 }

@@ -293,4 +293,50 @@
     <value>falskt</value>
     <comment>False. Used in some errors, ex: Ex_Boolean_IndexGet</comment>
   </data>
+  <data name="Ex_Base_IndexGet" xml:space="preserve">
+    <value>Går inte att hämta värde från typen '{0}' via indexering.</value>
+    <comment>Generic fallback error used on when value get via index.
+Ex: myValue[x]
+{0} localized name of type</comment>
+  </data>
+  <data name="Ex_Base_IndexSet" xml:space="preserve">
+    <value>Går inte att sätta värde på typen '{0}' via indexering.</value>
+    <comment>Generic fallback error used on when value set via index.
+Ex: myValue[x] = y
+{0} localized name of type</comment>
+  </data>
+  <data name="Ex_Base_Invoke" xml:space="preserve">
+    <value>Typen '{0}' kan inte köras som en funktion.</value>
+    <comment>Generic fallback error used on when invoked.
+Ex: myValue()
+{0} localized name of type
+{0} localized name of type</comment>
+  </data>
+  <data name="Ex_Base_Operator" xml:space="preserve">
+    <value>Typen '{0}' stödjer inte '{1}'.</value>
+    <comment>Generic fallback error used on all operators that are not implemented.
+{0} localized name of type
+{1} operator keyword (ex: '==')</comment>
+  </data>
+  <data name="Ex_Base_PropertyGet" xml:space="preserve">
+    <value>Går inte att hämta egenskap från typen '{0}'.</value>
+    <comment>Generic fallback error used on when value get via property.
+Ex: myValue.x
+{0} localized name of type
+{1} property</comment>
+  </data>
+  <data name="Ex_Base_PropertySet" xml:space="preserve">
+    <value>Går inte att sätta egenskap på typen '{0}'.</value>
+    <comment>Generic fallback error used on when value get via property.
+Ex: myValue.x = y
+{0} localized name of type
+{1} property</comment>
+  </data>
+  <data name="Ex_Base_OperatorInvalidType" xml:space="preserve">
+    <value>Typen '{0}' stödjer inte '{2}' med typen '{1}'.</value>
+    <comment>Generic fallback error used when LHS does not support operator where RHS is of specific type.
+{0} localized name of self (LHS)
+{1} localized name of other (RHS)
+{2} operator keyword (ex: '==')</comment>
+  </data>
 </root>

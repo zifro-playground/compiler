@@ -10,29 +10,23 @@ namespace Mellis.Lang.Base.Entities
     /// <summary>
     /// Basic functionality of a string value.
     /// </summary>
-    public abstract class StringBase : IScriptType
+    public abstract class StringBase : ScriptTypeBase
     {
-        /// <inheritdoc/>
-        public abstract IScriptType GetTypeDef();
-
-        /// <inheritdoc/>
-        public IProcessor Processor { get; }
-
         public string Value { get; }
 
         protected StringBase(IProcessor processor, string value)
+            : base(processor)
         {
-            Processor = processor;
             Value = value ?? string.Empty;
         }
 
         /// <inheritdoc/>
-        public virtual string GetTypeName()
+        public override string GetTypeName()
         {
             return Localized_Base_Entities.Type_String_Name;
         }
 
-        public virtual bool IsTruthy()
+        public override bool IsTruthy()
         {
             return !string.IsNullOrEmpty(Value);
         }
@@ -48,7 +42,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc/>
-        public virtual IScriptType Invoke(IScriptType[] arguments)
+        public override IScriptType Invoke(IScriptType[] arguments)
         {
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_String_Invoke),
@@ -57,7 +51,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc/>
-        public virtual IScriptType GetIndex(IScriptType index)
+        public override IScriptType GetIndex(IScriptType index)
         {
             switch (index)
             {
@@ -80,7 +74,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc/>
-        public virtual IScriptType SetIndex(IScriptType index, IScriptType value)
+        public override IScriptType SetIndex(IScriptType index, IScriptType value)
         {
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_String_IndexSet),
@@ -89,7 +83,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc/>
-        public virtual IScriptType GetProperty(string property)
+        public override IScriptType GetProperty(string property)
         {
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_String_PropertyGet),
@@ -98,7 +92,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc/>
-        public virtual IScriptType SetProperty(string property, IScriptType value)
+        public override IScriptType SetProperty(string property, IScriptType value)
         {
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_String_PropertySet),
@@ -107,20 +101,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc/>
-        public bool TryConvert<T>(out T value)
-        {
-            if (TryConvert(typeof(T), out object boxed))
-            {
-                value = (T) boxed;
-                return true;
-            }
-
-            value = default;
-            return false;
-        }
-
-        /// <inheritdoc/>
-        public virtual bool TryConvert(Type type, out object value)
+        public override bool TryConvert(Type type, out object value)
         {
             if (type == typeof(string))
             {
@@ -139,19 +120,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc/>
-        public IScriptType ArithmeticUnaryPositive()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType ArithmeticUnaryNegative()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType ArithmeticAdd(IScriptType rhs)
+        public override IScriptType ArithmeticAdd(IScriptType rhs)
         {
             switch (rhs)
             {
@@ -165,7 +134,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc/>
-        public IScriptType ArithmeticSubtract(IScriptType rhs)
+        public override IScriptType ArithmeticSubtract(IScriptType rhs)
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_SubtractInvalidOperation),
                 Localized_Base_Entities.Ex_String_SubtractInvalidOperation,
@@ -173,7 +142,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc/>
-        public IScriptType ArithmeticMultiply(IScriptType rhs)
+        public override IScriptType ArithmeticMultiply(IScriptType rhs)
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_MultiplyInvalidOperation),
                 Localized_Base_Entities.Ex_String_MultiplyInvalidOperation,
@@ -181,125 +150,11 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc/>
-        public IScriptType ArithmeticDivide(IScriptType rhs)
+        public override IScriptType ArithmeticDivide(IScriptType rhs)
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_DivideInvalidOperation),
                 Localized_Base_Entities.Ex_String_DivideInvalidOperation,
                 formatArgs: GetErrorArgs(rhs.GetTypeName()));
-        }
-
-        /// <inheritdoc/>
-        public IScriptType ArithmeticModulus(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType ArithmeticExponent(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType ArithmeticFloorDivide(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType CompareEqual(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType CompareNotEqual(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType CompareGreaterThan(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType CompareGreaterThanOrEqual(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType CompareLessThan(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType CompareLessThanOrEqual(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType BinaryNot()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType BinaryAnd(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType BinaryOr(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType BinaryXor(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType BinaryLeftShift(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType BinaryRightShift(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType MemberIn(IScriptType lhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType MemberNotIn(IScriptType lhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType IdentityIs(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public IScriptType IdentityIsNot(IScriptType rhs)
-        {
-            throw new NotImplementedException();
         }
     }
 }

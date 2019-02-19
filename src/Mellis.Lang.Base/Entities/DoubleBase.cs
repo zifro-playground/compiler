@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Resources;
@@ -10,30 +11,24 @@ namespace Mellis.Lang.Base.Entities
     /// <summary>
     /// Basic functionality of a double value.
     /// </summary>
-    public abstract class DoubleBase : IScriptType
+    public abstract class DoubleBase : ScriptTypeBase
     {
-        /// <inheritdoc />
-        public abstract IScriptType GetTypeDef();
-
-        /// <inheritdoc />
-        public IProcessor Processor { get; }
-
         public double Value { get; }
 
         protected DoubleBase(IProcessor processor, double value)
+            : base(processor)
         {
-            Processor = processor;
             Value = value;
         }
 
         /// <inheritdoc />
-        public virtual string GetTypeName()
+        public override string GetTypeName()
         {
             return Localized_Base_Entities.Type_Double_Name;
         }
 
         /// <inheritdoc />
-        public virtual IScriptType Invoke(IScriptType[] arguments)
+        public override IScriptType Invoke(IScriptType[] arguments)
         {
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Double_Invoke),
@@ -42,7 +37,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public virtual IScriptType GetIndex(IScriptType index)
+        public override IScriptType GetIndex(IScriptType index)
         {
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Double_IndexGet),
@@ -51,7 +46,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public virtual IScriptType SetIndex(IScriptType index, IScriptType value)
+        public override IScriptType SetIndex(IScriptType index, IScriptType value)
         {
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Double_IndexSet),
@@ -60,7 +55,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public virtual IScriptType GetProperty(string property)
+        public override IScriptType GetProperty(string property)
         {
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Double_PropertyGet),
@@ -70,7 +65,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public virtual IScriptType SetProperty(string property, IScriptType value)
+        public override IScriptType SetProperty(string property, IScriptType value)
         {
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Double_PropertySet),
@@ -80,20 +75,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public bool TryConvert<T>(out T value)
-        {
-            if (TryConvert(typeof(T), out object boxed))
-            {
-                value = (T) boxed;
-                return true;
-            }
-
-            value = default;
-            return false;
-        }
-
-        /// <inheritdoc />
-        public bool TryConvert(Type type, out object value)
+        public override bool TryConvert(Type type, out object value)
         {
             if (type == typeof(double))
             {
@@ -112,25 +94,25 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public virtual bool IsTruthy()
+        public override bool IsTruthy()
         {
             return !Value.Equals(0d);
         }
 
         /// <inheritdoc />
-        public IScriptType ArithmeticUnaryPositive()
+        public override IScriptType ArithmeticUnaryPositive()
         {
-            throw new NotImplementedException();
+            return this;
         }
 
         /// <inheritdoc />
-        public IScriptType ArithmeticUnaryNegative()
+        public override IScriptType ArithmeticUnaryNegative()
         {
-            throw new NotImplementedException();
+            return Processor.Factory.Create(-Value);
         }
 
         /// <inheritdoc />
-        public IScriptType ArithmeticAdd(IScriptType rhs)
+        public override IScriptType ArithmeticAdd(IScriptType rhs)
         {
             switch (rhs)
             {
@@ -148,7 +130,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public IScriptType ArithmeticSubtract(IScriptType rhs)
+        public override IScriptType ArithmeticSubtract(IScriptType rhs)
         {
             switch (rhs)
             {
@@ -166,7 +148,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public IScriptType ArithmeticMultiply(IScriptType rhs)
+        public override IScriptType ArithmeticMultiply(IScriptType rhs)
         {
             switch (rhs)
             {
@@ -184,7 +166,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public IScriptType ArithmeticDivide(IScriptType rhs)
+        public override IScriptType ArithmeticDivide(IScriptType rhs)
         {
             switch (rhs)
             {
@@ -207,117 +189,134 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public IScriptType ArithmeticModulus(IScriptType rhs)
+        public override IScriptType ArithmeticModulus(IScriptType rhs)
         {
-            throw new NotImplementedException();
+            switch (rhs)
+            {
+                case IntegerBase rhsInteger:
+                    return Processor.Factory.Create(Value % rhsInteger.Value);
+                case DoubleBase rhsDouble:
+                    return Processor.Factory.Create(Value % rhsDouble.Value);
+                default:
+                    throw InvalidType(rhs, "%");
+            }
         }
 
         /// <inheritdoc />
-        public IScriptType ArithmeticExponent(IScriptType rhs)
+        public override IScriptType ArithmeticExponent(IScriptType rhs)
         {
-            throw new NotImplementedException();
+            switch (rhs)
+            {
+                case IntegerBase rhsInteger:
+                    return Processor.Factory.Create(Math.Pow(Value, rhsInteger.Value));
+                case DoubleBase rhsDouble:
+                    return Processor.Factory.Create(Math.Pow(Value, rhsDouble.Value));
+                default:
+                    throw InvalidType(rhs, "**");
+            }
         }
 
         /// <inheritdoc />
-        public IScriptType ArithmeticFloorDivide(IScriptType rhs)
+        public override IScriptType ArithmeticFloorDivide(IScriptType rhs)
         {
-            throw new NotImplementedException();
+            switch (rhs)
+            {
+                case IntegerBase rhsInteger:
+                    return Processor.Factory.Create((int) Math.Floor(Value / rhsInteger.Value));
+                case DoubleBase rhsDouble:
+                    return Processor.Factory.Create((int) Math.Floor(Value / rhsDouble.Value));
+                default:
+                    throw InvalidType(rhs, "//");
+            }
         }
 
         /// <inheritdoc />
-        public IScriptType CompareEqual(IScriptType rhs)
+        public override IScriptType CompareEqual(IScriptType rhs)
         {
-            throw new NotImplementedException();
+            switch (rhs)
+            {
+                case IntegerBase rhsInteger:
+                    return Processor.Factory.Create(Value.Equals(rhsInteger.Value));
+                case DoubleBase rhsDouble:
+                    return Processor.Factory.Create(Value.Equals(rhsDouble.Value));
+                default:
+                    return Processor.Factory.False;
+            }
         }
 
         /// <inheritdoc />
-        public IScriptType CompareNotEqual(IScriptType rhs)
+        public override IScriptType CompareNotEqual(IScriptType rhs)
         {
-            throw new NotImplementedException();
+            switch (rhs)
+            {
+                case IntegerBase rhsInteger:
+                    return Processor.Factory.Create(!Value.Equals(rhsInteger.Value));
+                case DoubleBase rhsDouble:
+                    return Processor.Factory.Create(!Value.Equals(rhsDouble.Value));
+                default:
+                    return Processor.Factory.True;
+            }
         }
 
         /// <inheritdoc />
-        public IScriptType CompareGreaterThan(IScriptType rhs)
+        public override IScriptType CompareGreaterThan(IScriptType rhs)
         {
-            throw new NotImplementedException();
+            switch (rhs)
+            {
+                case IntegerBase rhsInteger:
+                    return Processor.Factory.Create(Value > rhsInteger.Value);
+                case DoubleBase rhsDouble:
+                    return Processor.Factory.Create(Value > rhsDouble.Value);
+                default:
+                    throw InvalidType(rhs, ">");
+            }
         }
 
         /// <inheritdoc />
-        public IScriptType CompareGreaterThanOrEqual(IScriptType rhs)
+        public override IScriptType CompareGreaterThanOrEqual(IScriptType rhs)
         {
-            throw new NotImplementedException();
+            switch (rhs)
+            {
+                case IntegerBase rhsInteger:
+                    return Processor.Factory.Create(Value >= rhsInteger.Value);
+                case DoubleBase rhsDouble:
+                    return Processor.Factory.Create(Value >= rhsDouble.Value);
+                default:
+                    throw InvalidType(rhs, ">=");
+            }
         }
 
         /// <inheritdoc />
-        public IScriptType CompareLessThan(IScriptType rhs)
+        public override IScriptType CompareLessThan(IScriptType rhs)
         {
-            throw new NotImplementedException();
+            switch (rhs)
+            {
+                case IntegerBase rhsInteger:
+                    return Processor.Factory.Create(Value < rhsInteger.Value);
+                case DoubleBase rhsDouble:
+                    return Processor.Factory.Create(Value < rhsDouble.Value);
+                default:
+                    throw InvalidType(rhs, "<");
+            }
         }
 
         /// <inheritdoc />
-        public IScriptType CompareLessThanOrEqual(IScriptType rhs)
+        public override IScriptType CompareLessThanOrEqual(IScriptType rhs)
         {
-            throw new NotImplementedException();
+            switch (rhs)
+            {
+                case IntegerBase rhsInteger:
+                    return Processor.Factory.Create(Value <= rhsInteger.Value);
+                case DoubleBase rhsDouble:
+                    return Processor.Factory.Create(Value <= rhsDouble.Value);
+                default:
+                    throw InvalidType(rhs, "<=");
+            }
         }
 
-        /// <inheritdoc />
-        public IScriptType BinaryNot()
+        public override string ToString()
         {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType BinaryAnd(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType BinaryOr(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType BinaryXor(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType BinaryLeftShift(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType BinaryRightShift(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType MemberIn(IScriptType lhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType MemberNotIn(IScriptType lhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType IdentityIs(IScriptType rhs)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public IScriptType IdentityIsNot(IScriptType rhs)
-        {
-            throw new NotImplementedException();
+            return Value.ToString(CultureInfo.CurrentCulture);
         }
     }
 }
