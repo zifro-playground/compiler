@@ -79,6 +79,11 @@ namespace Mellis.Lang.Python3.Tests.Processor
         [DataRow(OperatorCode.CLt, "<", DisplayName = "nyi <")]
         [DataRow(OperatorCode.CLtEq, "<=", DisplayName = "nyi <=")]
 
+        [DataRow(OperatorCode.CIn, "in", DisplayName = "nyi in")]
+        [DataRow(OperatorCode.CNIn, "not in", DisplayName = "nyi not in")]
+        [DataRow(OperatorCode.CIs, "is", DisplayName = "nyi is")]
+        [DataRow(OperatorCode.CIsN, "is not", DisplayName = "nyi is not")]
+
         [DataRow(OperatorCode.LAnd, "&&", DisplayName = "nyi &&")]
         [DataRow(OperatorCode.LOr, "||", DisplayName = "nyi ||")]
 

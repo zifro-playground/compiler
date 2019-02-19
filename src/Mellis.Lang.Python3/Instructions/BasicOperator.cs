@@ -69,6 +69,16 @@ namespace Mellis.Lang.Python3.Instructions
                 case OperatorCode.LAnd: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "&&");
                 case OperatorCode.LOr: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "||");
 
+                case OperatorCode.CIn: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "in");
+                case OperatorCode.CNIn: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "not in");
+                case OperatorCode.CIs: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "is");
+                case OperatorCode.CIsN: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "is not");
+
+                case OperatorCode.ANeg: throw new SyntaxNotYetImplementedExceptionKeyword(Source, ToString());
+                case OperatorCode.APos: throw new SyntaxNotYetImplementedExceptionKeyword(Source, ToString());
+                case OperatorCode.BNot: throw new SyntaxNotYetImplementedExceptionKeyword(Source, ToString());
+                case OperatorCode.LNot: throw new SyntaxNotYetImplementedExceptionKeyword(Source, ToString());
+
                 default:
                     throw new InvalidEnumArgumentException(nameof(Code), (int)Code, typeof(OperatorCode));
             }
