@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
+
+    <Authors>Zifro AB</Authors>
+    <Company>Zifro AB</Company>
+    <Product>Zifro Playground Compiler</Product>
+    <NeutralLanguage>sv</NeutralLanguage>
+
+    <LangVersion>7.2</LangVersion>
+  </PropertyGroup>
+</Project>
