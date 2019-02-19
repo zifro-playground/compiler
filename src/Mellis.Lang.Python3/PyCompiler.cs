@@ -62,6 +62,22 @@ namespace Mellis.Lang.Python3
                 Push(opCode);
         }
 
+        /// <summary>
+        /// Get jump destination that targets the next op-code to be pushed.
+        /// </summary>
+        public int GetJumpTargetForNext()
+        {
+            return Count;
+        }
+
+        /// <summary>
+        /// Get jump destination that targets the most recent pushed op-code.
+        /// </summary>
+        public int GetJumpTargetForPrevious()
+        {
+            return Count - 1;
+        }
+
         public IEnumerator<IOpCode> GetEnumerator()
         {
             return _opCodes.GetEnumerator();

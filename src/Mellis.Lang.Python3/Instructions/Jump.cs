@@ -6,7 +6,7 @@ namespace Mellis.Lang.Python3.Instructions
 {
     public class Jump : IOpCode
     {
-        public Jump(SourceReference source, int target)
+        public Jump(SourceReference source, int target = -1)
         {
             Source = source;
             Target = target;
@@ -14,7 +14,7 @@ namespace Mellis.Lang.Python3.Instructions
 
         public SourceReference Source { get; }
 
-        public int Target { get; }
+        public int Target { get; set; }
 
         public virtual void Execute(PyProcessor processor)
         {

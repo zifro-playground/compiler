@@ -7,7 +7,7 @@ namespace Mellis.Lang.Python3.Instructions
 {
     public class JumpIfFalse : Jump
     {
-        public JumpIfFalse(SourceReference source, int target)
+        public JumpIfFalse(SourceReference source, int target = -1)
             : base(source, target)
         {
         }

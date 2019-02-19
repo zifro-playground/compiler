@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Mellis.Core.Entities;
 using Mellis.Lang.Python3.Instructions;
@@ -32,14 +33,18 @@ namespace Mellis.Lang.Python3.Syntax.Statements
 
         public override void Compile(PyCompiler compiler)
         {
-            var endLabel = new Label(Source.LastRow());
+            var jumpToEnd = new Collection<Jump>();
 
-            CompileWithEndLabel(compiler, endLabel);
+            CompileWithEndLabel(compiler, jumpToEnd);
 
-            compiler.Push(endLabel);
+            int endTarget = compiler.GetJumpTargetForNext();
+            foreach (Jump jump in jumpToEnd)
+            {
+                jump.Target = endTarget;
+            }
         }
 
-        private void CompileWithEndLabel(PyCompiler compiler, Label endLabel)
+        private void CompileWithEndLabel(PyCompiler compiler, ICollection<Jump> endJumps)
         {
             Condition.Compile(compiler);
 
@@ -49,28 +54,27 @@ namespace Mellis.Lang.Python3.Syntax.Statements
                 {
                     // Else is if statement
                     // Jump to inner-if if false
-                    var elifLabel = new Label(innerIf.Source);
-                    var jumpToElifIfFalse = new JumpIfFalse(Condition.Source, elifLabel);
+                    var jumpToElifIfFalse = new JumpIfFalse(Condition.Source);
                     compiler.Push(jumpToElifIfFalse);
 
                     IfSuite.Compile(compiler);
 
-                    var jumpToEnd = new Jump(IfSuite.Source.LastRow(), endLabel);
+                    var jumpToEnd = new Jump(IfSuite.Source.LastRow());
+                    endJumps.Add(jumpToEnd);
+
                     compiler.Push(jumpToEnd);
-                    compiler.Push(elifLabel);
 
-                    innerIf.CompileWithEndLabel(compiler, endLabel);
+                    jumpToElifIfFalse.Target = compiler.GetJumpTargetForNext();
+                    innerIf.CompileWithEndLabel(compiler, endJumps);
 
-                        if (innerIf.ElseSuite != null)
-                        {
-                        }
-                        break;
+                    break;
                 }
 
                 case null:
                 {
                     // No else, jump to end if false
-                    var jumpToEndIfFalse = new JumpIfFalse(Condition.Source, endLabel);
+                    var jumpToEndIfFalse = new JumpIfFalse(Condition.Source);
+                    endJumps.Add(jumpToEndIfFalse);
                     compiler.Push(jumpToEndIfFalse);
                     IfSuite.Compile(compiler);
                     break;
@@ -80,16 +84,16 @@ namespace Mellis.Lang.Python3.Syntax.Statements
                 {
                     // Else is any other statement
                     // Jump to else if false
-                    var elseLabel = new Label(ElseSuite.Source);
-                    var jumpToElseIfFalse = new JumpIfFalse(Condition.Source, elseLabel);
+                    var jumpToElseIfFalse = new JumpIfFalse(Condition.Source);
                     compiler.Push(jumpToElseIfFalse);
 
                     IfSuite.Compile(compiler);
 
-                    var jumpToEnd = new Jump(IfSuite.Source.LastRow(), endLabel);
+                    var jumpToEnd = new Jump(IfSuite.Source.LastRow());
+                    endJumps.Add(jumpToEnd);
                     compiler.Push(jumpToEnd);
-                    compiler.Push(elseLabel);
 
+                    jumpToElseIfFalse.Target = compiler.GetJumpTargetForNext();
                     ElseSuite.Compile(compiler);
                     break;
                 }
