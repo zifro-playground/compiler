@@ -90,6 +90,10 @@ namespace Mellis.Lang.Python3
                     State = ProcessState.Running;
                     break;
 
+                case ProcessState.Running when ProgramCounter < 0:
+                    ProgramCounter = 0;
+                    break;
+
                 case ProcessState.Running:
                     try
                     {
@@ -142,7 +146,14 @@ namespace Mellis.Lang.Python3
 
         internal void JumpToInstruction(int index)
         {
-            ProgramCounter = index - 1;
+            ProgramCounter = index;
+
+            if (ProgramCounter >= _opCodes.Length)
+            {
+                State = ProcessState.Ended;
+                OnProcessEnded(ProcessState.Ended);
+            }
+
             _numOfJumpsThisWalk++;
         }
     }

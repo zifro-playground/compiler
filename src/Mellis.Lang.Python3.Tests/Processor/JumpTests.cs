@@ -28,7 +28,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             // Assert
             Assert.AreEqual(ProcessState.Running, processor.State);
 
-            Assert.AreEqual(-1, processor.ProgramCounter);
+            Assert.AreEqual(0, processor.ProgramCounter);
         }
         
         [TestMethod]
@@ -47,7 +47,42 @@ namespace Mellis.Lang.Python3.Tests.Processor
             // Assert
             Assert.AreEqual(ProcessState.Running, processor.State);
 
-            Assert.AreEqual(-1, processor.ProgramCounter);
+            Assert.AreEqual(0, processor.ProgramCounter);
+        }
+
+        [TestMethod]
+        public void EvaluateJumpBeyondLastTest()
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new Jump(SourceReference.ClrSource, 5),
+                new NopOp()
+            );
+
+            // Act
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkInstruction(); // performed jump
+
+            // Assert
+            Assert.AreEqual(ProcessState.Ended, processor.State);
+        }
+
+        [TestMethod]
+        public void EvaluateJumpBeyondFirstTest()
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new Jump(SourceReference.ClrSource, -5)
+            );
+
+            // Act
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkInstruction(); // performed jump
+            processor.WalkInstruction(); // walk back to first
+
+            // Assert
+            Assert.AreEqual(ProcessState.Running, processor.State);
+            Assert.AreEqual(0, processor.ProgramCounter);
         }
 
         [TestMethod]

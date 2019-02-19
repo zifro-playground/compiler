@@ -106,9 +106,9 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             // end
 
             // assert labels
-            Assert.AreSame(3, jumpToEnd.Target);
+            Assert.AreEqual(3, jumpToEnd.Target);
 
-            Assert.AreEqual(4, compiler.Count, "Too many op codes");
+            Assert.AreEqual(3, compiler.Count, "Too many op codes");
 
             testMock.Verify(o => o.Compile(compiler), Times.Once);
             suiteMock.Verify(o => o.Compile(compiler), Times.Once);
@@ -153,8 +153,8 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             // end
 
             // assert labels
-            Assert.AreSame(5, jumpFromIf.Target, "jump from if suite not match end label");
-            Assert.AreSame(4, jumpToElse.Target, "jump from if test not match else label");
+            Assert.AreEqual(5, jumpFromIf.Target, "jump from if suite not match end label");
+            Assert.AreEqual(4, jumpToElse.Target, "jump from if test not match else label");
 
             Assert.AreEqual(5, compiler.Count, "Too many op codes");
 
@@ -212,9 +212,9 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             // end
 
             // assert labels
-            Assert.AreSame(4, jumpToElif.Target, "jump from if test not match elif label");
-            Assert.AreSame(7, jumpFromIf.Target, "jump from if suite not match end label");
-            Assert.AreSame(7, jumpFromElif.Target, "jump from elif test not match end label");
+            Assert.AreEqual(4, jumpToElif.Target, "jump from if test not match elif label");
+            Assert.AreEqual(7, jumpFromIf.Target, "jump from if suite not match end label");
+            Assert.AreEqual(7, jumpFromElif.Target, "jump from elif test not match end label");
 
             Assert.AreEqual(7, compiler.Count, "Too many op codes");
 
@@ -297,11 +297,11 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             //var labelEnd = Assert.That.IsOpCode<Label>(compiler, 13);
 
             // assert labels
-            Assert.AreSame(4, jumpToElif1.Target, "jump from if test not match elif1 label");
-            Assert.AreSame(11, jumpFromIf.Target, "jump from if suite not match end label");
-            Assert.AreSame(8, jumpToElif2.Target, "jump from elif1 test not match elif2 label");
-            Assert.AreSame(11, jumpFromElif1.Target, "jump from elif1 suite not match end label");
-            Assert.AreSame(11, jumpFromElif2.Target, "jump from elif2 test not match end label");
+            Assert.AreEqual(4, jumpToElif1.Target, "jump from if test not match elif1 label");
+            Assert.AreEqual(11, jumpFromIf.Target, "jump from if suite not match end label");
+            Assert.AreEqual(8, jumpToElif2.Target, "jump from elif1 test not match elif2 label");
+            Assert.AreEqual(11, jumpFromElif1.Target, "jump from elif1 suite not match end label");
+            Assert.AreEqual(11, jumpFromElif2.Target, "jump from elif2 test not match end label");
 
             Assert.AreEqual(11, compiler.Count, "Too many op codes");
 
@@ -370,10 +370,10 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             // end
 
             // assert labels
-            Assert.AreSame(4, jumpToElif.Target, "jump from if test not match elif label");
-            Assert.AreSame(9, jumpFromIf.Target, "jump from if suite not match end label");
-            Assert.AreSame(8, jumpToElse.Target, "jump from elif test not match else label");
-            Assert.AreSame(9, jumpFromElif.Target, "jump from elif suite not match end label");
+            Assert.AreEqual(4, jumpToElif.Target, "jump from if test not match elif label");
+            Assert.AreEqual(9, jumpFromIf.Target, "jump from if suite not match end label");
+            Assert.AreEqual(8, jumpToElse.Target, "jump from elif test not match else label");
+            Assert.AreEqual(9, jumpFromElif.Target, "jump from elif suite not match end label");
 
             Assert.AreEqual(9, compiler.Count, "Too many op codes");
 
