@@ -29,6 +29,14 @@ namespace Mellis.Lang.Base.Entities
                 GetTypeName(), keyword);
         }
 
+        protected RuntimeException InvalidType(IScriptType rhs, string keyword)
+        {
+            return new RuntimeException(
+                nameof(Localized_Base_Entities.Ex_Base_OperatorInvalidType),
+                Localized_Base_Entities.Ex_Base_OperatorInvalidType,
+                GetTypeName(), rhs.GetTypeName(), keyword);
+        }
+
         /// <inheritdoc/>
         public abstract bool IsTruthy();
 

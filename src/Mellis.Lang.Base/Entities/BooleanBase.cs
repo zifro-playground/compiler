@@ -160,5 +160,10 @@ namespace Mellis.Lang.Base.Entities
 
             return Processor.Factory.True;
         }
+
+        public override string ToString()
+        {
+            return Value ? bool.TrueString : bool.FalseString;
+        }
     }
 }

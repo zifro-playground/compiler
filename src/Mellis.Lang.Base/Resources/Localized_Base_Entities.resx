@@ -332,4 +332,11 @@ Ex: myValue.x = y
 {0} localized name of type
 {1} property</comment>
   </data>
+  <data name="Ex_Base_OperatorInvalidType" xml:space="preserve">
+    <value>Typen '{0}' stödjer inte '{2}' med typen '{1}'.</value>
+    <comment>Generic fallback error used when LHS does not support operator where RHS is of specific type.
+{0} localized name of self (LHS)
+{1} localized name of other (RHS)
+{2} operator keyword (ex: '==')</comment>
+  </data>
 </root>

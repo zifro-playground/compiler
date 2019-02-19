@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Resources;
@@ -182,6 +183,137 @@ namespace Mellis.Lang.Base.Entities
                         Localized_Base_Entities.Ex_Int_DivideInvalidType,
                         Value, rhs?.GetTypeName() ?? "null");
             }
+        }
+
+        /// <inheritdoc />
+        public override IScriptType ArithmeticModulus(IScriptType rhs)
+        {
+            switch (rhs)
+            {
+                case IntegerBase rhsInteger:
+                    return Processor.Factory.Create(Value % rhsInteger.Value);
+                case DoubleBase rhsDouble:
+                    return rhsDouble.ArithmeticModulus(this);
+                default:
+                    throw InvalidType(rhs, "%");
+            }
+        }
+
+        /// <inheritdoc />
+        public override IScriptType ArithmeticExponent(IScriptType rhs)
+        {
+            switch (rhs)
+            {
+                case IntegerBase rhsInteger:
+                    return Processor.Factory.Create(Math.Pow(Value, rhsInteger.Value));
+                case DoubleBase rhsDouble:
+                    return rhsDouble.ArithmeticExponent(this);
+                default:
+                    throw InvalidType(rhs, "**");
+            }
+        }
+
+        /// <inheritdoc />
+        public override IScriptType ArithmeticFloorDivide(IScriptType rhs)
+        {
+            switch (rhs)
+            {
+                case IntegerBase rhsInteger:
+                    return Processor.Factory.Create(Value / rhsInteger.Value);
+                case DoubleBase rhsDouble:
+                    return rhsDouble.ArithmeticFloorDivide(this);
+                default:
+                    throw InvalidType(rhs, "//");
+            }
+        }
+
+        /// <inheritdoc />
+        public override IScriptType CompareEqual(IScriptType rhs)
+        {
+            switch (rhs)
+            {
+                case IntegerBase rhsInteger:
+                    return Processor.Factory.Create(Value.Equals(rhsInteger.Value));
+                case DoubleBase rhsDouble:
+                    return rhsDouble.CompareEqual(this);
+                default:
+                    return Processor.Factory.False;
+            }
+        }
+
+        /// <inheritdoc />
+        public override IScriptType CompareNotEqual(IScriptType rhs)
+        {
+            switch (rhs)
+            {
+                case IntegerBase rhsInteger:
+                    return Processor.Factory.Create(!Value.Equals(rhsInteger.Value));
+                case DoubleBase rhsDouble:
+                    return rhsDouble.CompareNotEqual(this);
+                default:
+                    return Processor.Factory.True;
+            }
+        }
+
+        /// <inheritdoc />
+        public override IScriptType CompareGreaterThan(IScriptType rhs)
+        {
+            switch (rhs)
+            {
+                case IntegerBase rhsInteger:
+                    return Processor.Factory.Create(Value > rhsInteger.Value);
+                case DoubleBase rhsDouble:
+                    return rhsDouble.CompareGreaterThan(this);
+                default:
+                    throw InvalidType(rhs, ">");
+            }
+        }
+
+        /// <inheritdoc />
+        public override IScriptType CompareGreaterThanOrEqual(IScriptType rhs)
+        {
+            switch (rhs)
+            {
+                case IntegerBase rhsInteger:
+                    return Processor.Factory.Create(Value >= rhsInteger.Value);
+                case DoubleBase rhsDouble:
+                    return rhsDouble.CompareGreaterThanOrEqual(this);
+                default:
+                    throw InvalidType(rhs, ">=");
+            }
+        }
+
+        /// <inheritdoc />
+        public override IScriptType CompareLessThan(IScriptType rhs)
+        {
+            switch (rhs)
+            {
+                case IntegerBase rhsInteger:
+                    return Processor.Factory.Create(Value < rhsInteger.Value);
+                case DoubleBase rhsDouble:
+                    return rhsDouble.CompareLessThan(this);
+                default:
+                    throw InvalidType(rhs, "<");
+            }
+        }
+
+        /// <inheritdoc />
+        public override IScriptType CompareLessThanOrEqual(IScriptType rhs)
+        {
+            switch (rhs)
+            {
+                case IntegerBase rhsInteger:
+                    return Processor.Factory.Create(Value <= rhsInteger.Value);
+                case DoubleBase rhsDouble:
+                    return rhsDouble.CompareLessThanOrEqual(this);
+                default:
+                    throw InvalidType(rhs, "<=");
+            }
+        }
+
+        public override string ToString()
+        {
+            return Value.ToString(CultureInfo.CurrentCulture);
         }
     }
 }

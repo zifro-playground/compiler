@@ -97,6 +97,15 @@ namespace Mellis.Lang.Base.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Typen &apos;{0}&apos; stödjer inte &apos;{2}&apos; med typen &apos;{1}&apos;..
+        /// </summary>
+        public static string Ex_Base_OperatorInvalidType {
+            get {
+                return ResourceManager.GetString("Ex_Base_OperatorInvalidType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Går inte att hämta egenskap från typen &apos;{0}&apos;..
         /// </summary>
         public static string Ex_Base_PropertyGet {
