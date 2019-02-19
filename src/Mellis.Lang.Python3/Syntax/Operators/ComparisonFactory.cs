@@ -23,17 +23,25 @@ namespace Mellis.Lang.Python3.Syntax.Operators
             {
                 case ComparisonType.Equals:
                     return new CompareEquals(leftOperand, rightOperand);
-
                 case ComparisonType.LessThan:
+                    return new CompareLessThan(leftOperand, rightOperand);
                 case ComparisonType.LessThanOrEqual:
+                    return new CompareLessThanOrEqual(leftOperand, rightOperand);
                 case ComparisonType.GreaterThan:
+                    return new CompareGreaterThan(leftOperand, rightOperand);
                 case ComparisonType.GreaterThanOrEqual:
+                    return new CompareGreaterThanOrEqual(leftOperand, rightOperand);
                 case ComparisonType.NotEquals:
-                case ComparisonType.NotEqualsABC:
+                    return new CompareNotEquals(leftOperand, rightOperand);
                 case ComparisonType.In:
+                    return new CompareIn(leftOperand, rightOperand);
                 case ComparisonType.InNot:
+                    return new CompareInNot(leftOperand, rightOperand);
                 case ComparisonType.Is:
+                    return new CompareIs(leftOperand, rightOperand);
                 case ComparisonType.IsNot:
+                    return new CompareIsNot(leftOperand, rightOperand);
+                case ComparisonType.NotEqualsABC:
                     throw new SyntaxNotYetImplementedExceptionKeyword(
                         source: Source,
                         keyword: Keyword);

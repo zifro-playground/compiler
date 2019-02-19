@@ -53,7 +53,7 @@ namespace Mellis.Lang.Python3.Tests.Syntax.Operators
         }
 
         [DataTestMethod]
-        [DataRow("<>", DisplayName = "factory create <>")]
+        [DataRow("<>", ComparisonType.NotEqualsABC, DisplayName = "factory create <>")]
         public void FactoryCreateNYI_Test(string expectedKeyword, ComparisonType inputType)
         {
             // Arrange
