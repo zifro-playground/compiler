@@ -185,7 +185,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             processor.WalkInstruction();
 
             // Assert
-            Assert.AreEqual(3, processor.ProgramCounter);
+            Assert.AreEqual(1, processor.ProgramCounter);
             Assert.AreEqual(ProcessState.Running, processor.State);
         }
 
