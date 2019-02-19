@@ -703,7 +703,16 @@ namespace Mellis.Lang.Python3.Grammar
 
                 case Python3Parser.OPEN_PAREN:
                     context.ExpectClosingParenthesis(firstToken, Python3Parser.CLOSE_PAREN);
-                    throw firstToken.NotYetImplementedException("()");
+                    var secondRule = context.GetChildOrThrow<ParserRuleContext>(1);
+                    switch (secondRule)
+                    {
+                        case Python3Parser.Yield_exprContext yield:
+                            throw yield.NotYetImplementedException("yield");
+                        case Python3Parser.Testlist_compContext testListComp:
+                            return VisitTestlist_comp(testListComp);
+                        default:
+                            throw context.UnexpectedChildType(secondRule);
+                    }
 
                 case Python3Parser.OPEN_BRACE:
                     context.ExpectClosingParenthesis(firstToken, Python3Parser.CLOSE_BRACE);
