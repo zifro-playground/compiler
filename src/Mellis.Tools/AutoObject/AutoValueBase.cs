@@ -107,6 +107,18 @@ namespace Mellis.Tools.AutoObject
             return false;
         }
 
+        public bool TryConvert(Type type, out object value)
+        {
+            if (GetType().IsInstanceOfType(type))
+            {
+                value = this;
+                return true;
+            }
+
+            value = default;
+            return false;
+        }
+
         public bool IsTruthy()
         {
             throw new NotImplementedException();
