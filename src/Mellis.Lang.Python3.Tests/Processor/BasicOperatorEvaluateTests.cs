@@ -64,28 +64,110 @@ namespace Mellis.Lang.Python3.Tests.Processor
                 o => o.ArithmeticExponent(It.IsAny<IScriptType>()));
         }
 
-        [DataTestMethod]
-        // Binary operators (lhs op rhs)
-        [DataRow(OperatorCode.BAnd, "&", DisplayName = "nyi &")]
-        [DataRow(OperatorCode.BLsh, "<<", DisplayName = "nyi <<")]
-        [DataRow(OperatorCode.BRsh, ">>", DisplayName = "nyi >>")]
-        [DataRow(OperatorCode.BOr, "|", DisplayName = "nyi |")]
-        [DataRow(OperatorCode.BXor, "^", DisplayName = "nyi ^")]
+        [TestMethod]
+        public void EvaluateBinary_BAnd_Test()
+        {
+            EvaluateBinaryTestTemplate(OperatorCode.BAnd,
+                o => o.BinaryAnd(It.IsAny<IScriptType>()));
+        }
 
-        [DataRow(OperatorCode.CEq, "==", DisplayName = "nyi ==")]
-        [DataRow(OperatorCode.CNEq, "!=", DisplayName = "nyi !=")]
-        [DataRow(OperatorCode.CGt, ">", DisplayName = "nyi >")]
-        [DataRow(OperatorCode.CGtEq, ">=", DisplayName = "nyi >=")]
-        [DataRow(OperatorCode.CLt, "<", DisplayName = "nyi <")]
-        [DataRow(OperatorCode.CLtEq, "<=", DisplayName = "nyi <=")]
+        [TestMethod]
+        public void EvaluateBinary_BLsh_Test()
+        {
+            EvaluateBinaryTestTemplate(OperatorCode.BLsh,
+                o => o.BinaryLeftShift(It.IsAny<IScriptType>()));
+        }
 
-        [DataRow(OperatorCode.CIn, "in", DisplayName = "nyi in")]
-        [DataRow(OperatorCode.CNIn, "not in", DisplayName = "nyi not in")]
-        [DataRow(OperatorCode.CIs, "is", DisplayName = "nyi is")]
-        [DataRow(OperatorCode.CIsN, "is not", DisplayName = "nyi is not")]
+        [TestMethod]
+        public void EvaluateBinary_BRsh_Test()
+        {
+            EvaluateBinaryTestTemplate(OperatorCode.BRsh,
+                o => o.BinaryRightShift(It.IsAny<IScriptType>()));
+        }
 
-        [DataRow(OperatorCode.LAnd, "&&", DisplayName = "nyi &&")]
-        [DataRow(OperatorCode.LOr, "||", DisplayName = "nyi ||")]
+        [TestMethod]
+        public void EvaluateBinary_BOr_Test()
+        {
+            EvaluateBinaryTestTemplate(OperatorCode.BOr,
+                o => o.BinaryOr(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_BXor_Test()
+        {
+            EvaluateBinaryTestTemplate(OperatorCode.BXor,
+                o => o.BinaryXor(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_CEq_Test()
+        {
+            EvaluateBinaryTestTemplate(OperatorCode.CEq,
+                o => o.CompareEqual(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_CNEq_Test()
+        {
+            EvaluateBinaryTestTemplate(OperatorCode.CNEq,
+                o => o.CompareNotEqual(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_CGt_Test()
+        {
+            EvaluateBinaryTestTemplate(OperatorCode.CGt,
+                o => o.CompareGreaterThan(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_CGtEq_Test()
+        {
+            EvaluateBinaryTestTemplate(OperatorCode.CGtEq,
+                o => o.CompareGreaterThanOrEqual(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_CLt_Test()
+        {
+            EvaluateBinaryTestTemplate(OperatorCode.CLt,
+                o => o.CompareLessThan(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_CLtEq_Test()
+        {
+            EvaluateBinaryTestTemplate(OperatorCode.CLtEq,
+                o => o.CompareLessThanOrEqual(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_CIn_Test()
+        {
+            EvaluateBinaryTestTemplate(OperatorCode.CIn,
+                o => o.MemberIn(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_CNIn_Test()
+        {
+            EvaluateBinaryTestTemplate(OperatorCode.CNIn,
+                o => o.MemberNotIn(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_CIs_Test()
+        {
+            EvaluateBinaryTestTemplate(OperatorCode.CIs,
+                o => o.IdentityIs(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_CIsN_Test()
+        {
+            EvaluateBinaryTestTemplate(OperatorCode.CIsN,
+                o => o.IdentityIsNot(It.IsAny<IScriptType>()));
+        }
 
         // Unary operators (op rhs)
         [DataRow(OperatorCode.ANeg, "+", DisplayName = "nyi +")]

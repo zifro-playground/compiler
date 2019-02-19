@@ -74,10 +74,10 @@ namespace Mellis.Lang.Python3.Instructions
                 case OperatorCode.CIs: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "is");
                 case OperatorCode.CIsN: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "is not");
 
-                case OperatorCode.ANeg: throw new SyntaxNotYetImplementedExceptionKeyword(Source, ToString());
-                case OperatorCode.APos: throw new SyntaxNotYetImplementedExceptionKeyword(Source, ToString());
-                case OperatorCode.BNot: throw new SyntaxNotYetImplementedExceptionKeyword(Source, ToString());
-                case OperatorCode.LNot: throw new SyntaxNotYetImplementedExceptionKeyword(Source, ToString());
+                case OperatorCode.ANeg: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "-");
+                case OperatorCode.APos: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "+");
+                case OperatorCode.BNot: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "~");
+                case OperatorCode.LNot: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "not");
 
                 default:
                     throw new InvalidEnumArgumentException(nameof(Code), (int)Code, typeof(OperatorCode));
