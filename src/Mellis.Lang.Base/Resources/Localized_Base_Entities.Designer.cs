@@ -61,6 +61,60 @@ namespace Mellis.Lang.Base.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Går inte att hämta värde från typen &apos;{0}&apos; via indexering..
+        /// </summary>
+        public static string Ex_Base_IndexGet {
+            get {
+                return ResourceManager.GetString("Ex_Base_IndexGet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Går inte att sätta värde på typen &apos;{0}&apos; via indexering..
+        /// </summary>
+        public static string Ex_Base_IndexSet {
+            get {
+                return ResourceManager.GetString("Ex_Base_IndexSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Typen &apos;{0}&apos; kan inte köras som en funktion..
+        /// </summary>
+        public static string Ex_Base_Invoke {
+            get {
+                return ResourceManager.GetString("Ex_Base_Invoke", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Typen &apos;{0}&apos; stödjer inte &apos;{1}&apos;..
+        /// </summary>
+        public static string Ex_Base_Operator {
+            get {
+                return ResourceManager.GetString("Ex_Base_Operator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Går inte att hämta egenskap från typen &apos;{0}&apos;..
+        /// </summary>
+        public static string Ex_Base_PropertyGet {
+            get {
+                return ResourceManager.GetString("Ex_Base_PropertyGet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Går inte att sätta egenskap på typen &apos;{0}&apos;..
+        /// </summary>
+        public static string Ex_Base_PropertySet {
+            get {
+                return ResourceManager.GetString("Ex_Base_PropertySet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ett {1} boolean värde kan inte adderas med ett annat värde..
         /// </summary>
         public static string Ex_Boolean_AddInvalidOperation {
