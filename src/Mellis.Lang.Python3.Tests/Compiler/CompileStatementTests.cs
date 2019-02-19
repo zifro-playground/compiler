@@ -104,10 +104,9 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             // suite
             Assert.That.IsExpectedOpCode(compiler, 2, suiteOp);
             // end
-            var labelEnd = Assert.That.IsOpCode<Label>(compiler, 3);
 
             // assert labels
-            Assert.AreSame(labelEnd, jumpToEnd.Target);
+            Assert.AreSame(3, jumpToEnd.Target);
 
             Assert.AreEqual(4, compiler.Count, "Too many op codes");
 
@@ -144,22 +143,20 @@ namespace Mellis.Lang.Python3.Tests.Compiler
 
             // Assert
             // test
-            Assert.That.IsExpectedOpCode(compiler, 0, testOp);
-            var jumpToElse = Assert.That.IsOpCode<JumpIfFalse>(compiler, 1);
+            Assert.That.IsExpectedOpCode(compiler, 0, testOp);                  // 0 if test expr
+            var jumpToElse = Assert.That.IsOpCode<JumpIfFalse>(compiler, 1);    // 1 jumpif to else
             // suite
-            Assert.That.IsExpectedOpCode(compiler, 2, suiteOp);
-            var jumpFromIf = Assert.That.IsOpCode<Jump>(compiler, 3);
+            Assert.That.IsExpectedOpCode(compiler, 2, suiteOp);                 // 2 if suite
+            var jumpFromIf = Assert.That.IsOpCode<Jump>(compiler, 3);           // 3 jump to end
             // else
-            var labelElse = Assert.That.IsOpCode<Label>(compiler, 4);
-            Assert.That.IsExpectedOpCode(compiler, 5, elseOp);
+            Assert.That.IsExpectedOpCode(compiler, 4, elseOp);                  // 4 else suite
             // end
-            var labelEnd = Assert.That.IsOpCode<Label>(compiler, 6);
 
             // assert labels
-            Assert.AreSame(labelEnd, jumpFromIf.Target, "jump from if suite not match end label");
-            Assert.AreSame(labelElse, jumpToElse.Target, "jump from if test not match else label");
+            Assert.AreSame(5, jumpFromIf.Target, "jump from if suite not match end label");
+            Assert.AreSame(4, jumpToElse.Target, "jump from if test not match else label");
 
-            Assert.AreEqual(7, compiler.Count, "Too many op codes");
+            Assert.AreEqual(5, compiler.Count, "Too many op codes");
 
             testMock.Verify(o => o.Compile(compiler), Times.Once);
             suiteMock.Verify(o => o.Compile(compiler), Times.Once);
@@ -203,25 +200,23 @@ namespace Mellis.Lang.Python3.Tests.Compiler
 
             // Assert
             // test
-            Assert.That.IsExpectedOpCode(compiler, 0, testOp);
-            var jumpToElif = Assert.That.IsOpCode<JumpIfFalse>(compiler, 1);
+            Assert.That.IsExpectedOpCode(compiler, 0, testOp);                  // 0 if test expr
+            var jumpToElif = Assert.That.IsOpCode<JumpIfFalse>(compiler, 1);    // 1 jumpif to elif
             // suite
-            Assert.That.IsExpectedOpCode(compiler, 2, suiteOp);
-            var jumpFromIf = Assert.That.IsOpCode<Jump>(compiler, 3);
+            Assert.That.IsExpectedOpCode(compiler, 2, suiteOp);                 // 2 if suite
+            var jumpFromIf = Assert.That.IsOpCode<Jump>(compiler, 3);           // 3 jump to end
             // elif
-            var labelElif = Assert.That.IsOpCode<Label>(compiler, 4);
-            Assert.That.IsExpectedOpCode(compiler, 5, elifTestOp);
-            var jumpFromElif = Assert.That.IsOpCode<JumpIfFalse>(compiler, 6);
-            Assert.That.IsExpectedOpCode(compiler, 7, elifSuiteOp);
+            Assert.That.IsExpectedOpCode(compiler, 4, elifTestOp);              // 4 elif test expr
+            var jumpFromElif = Assert.That.IsOpCode<JumpIfFalse>(compiler, 5);  // 5 jumpif to end
+            Assert.That.IsExpectedOpCode(compiler, 6, elifSuiteOp);             // 6 elif suite
             // end
-            var labelEnd = Assert.That.IsOpCode<Label>(compiler, 8);
 
             // assert labels
-            Assert.AreSame(labelEnd, jumpFromIf.Target, "jump from if suite not match end label");
-            Assert.AreSame(labelElif, jumpToElif.Target, "jump from if test not match elif label");
-            Assert.AreSame(labelEnd, jumpFromElif.Target, "jump from elif test not match end label");
+            Assert.AreSame(4, jumpToElif.Target, "jump from if test not match elif label");
+            Assert.AreSame(7, jumpFromIf.Target, "jump from if suite not match end label");
+            Assert.AreSame(7, jumpFromElif.Target, "jump from elif test not match end label");
 
-            Assert.AreEqual(9, compiler.Count, "Too many op codes");
+            Assert.AreEqual(7, compiler.Count, "Too many op codes");
 
             testMock.Verify(o => o.Compile(compiler), Times.Once);
             suiteMock.Verify(o => o.Compile(compiler), Times.Once);
@@ -282,35 +277,33 @@ namespace Mellis.Lang.Python3.Tests.Compiler
 
             // Assert
             // test
-            Assert.That.IsExpectedOpCode(compiler, 0, testOp);
-            var jumpToElif1 = Assert.That.IsOpCode<JumpIfFalse>(compiler, 1);
+            Assert.That.IsExpectedOpCode(compiler, 0, testOp);                  // 0 if expr
+            var jumpToElif1 = Assert.That.IsOpCode<JumpIfFalse>(compiler, 1);   // 1 jumpif to elif1
             // suite
-            Assert.That.IsExpectedOpCode(compiler, 2, suiteOp);
-            var jumpFromIf = Assert.That.IsOpCode<Jump>(compiler, 3);
+            Assert.That.IsExpectedOpCode(compiler, 2, suiteOp);                 // 2 if suite
+            var jumpFromIf = Assert.That.IsOpCode<Jump>(compiler, 3);           // 3 jump to end
             // elif 1
-            var labelElif1 = Assert.That.IsOpCode<Label>(compiler, 4);
-            Assert.That.IsExpectedOpCode(compiler, 5, elif1TestOp);
-            var jumpToElif2 = Assert.That.IsOpCode<JumpIfFalse>(compiler, 6);
-            Assert.That.IsExpectedOpCode(compiler, 7, elif1SuiteOp);
-            var jumpFromElif1 = Assert.That.IsOpCode<Jump>(compiler, 8);
+            Assert.That.IsExpectedOpCode(compiler, 4, elif1TestOp);             // 4 elif1 expr
+            var jumpToElif2 = Assert.That.IsOpCode<JumpIfFalse>(compiler, 5);   // 5 jumpif to elif2
+            Assert.That.IsExpectedOpCode(compiler, 6, elif1SuiteOp);            // 6 elif1 suite
+            var jumpFromElif1 = Assert.That.IsOpCode<Jump>(compiler, 7);        // 7 jump to end
             // elif 2
-            var labelElif2 = Assert.That.IsOpCode<Label>(compiler, 9);
-            Assert.That.IsExpectedOpCode(compiler, 10, elif2TestOp);
-            var jumpToElse = Assert.That.IsOpCode<JumpIfFalse>(compiler, 11);
-            Assert.That.IsExpectedOpCode(compiler, 12, elif2SuiteOp);
+            Assert.That.IsExpectedOpCode(compiler, 8, elif2TestOp);             // 8 elif2 expr
+            var jumpFromElif2 = Assert.That.IsOpCode<JumpIfFalse>(compiler, 9); // 9 jumpif to end
+            Assert.That.IsExpectedOpCode(compiler, 10, elif2SuiteOp);           // 10 elif2 suite
             // no jumpFromElif2 because it's the last one
 
             // end
-            var labelEnd = Assert.That.IsOpCode<Label>(compiler, 13);
+            //var labelEnd = Assert.That.IsOpCode<Label>(compiler, 13);
 
             // assert labels
-            Assert.AreSame(labelEnd, jumpFromIf.Target, "jump from if suite not match end label");
-            Assert.AreSame(labelEnd, jumpFromElif1.Target, "jump from elif1 suite not match end label");
-            Assert.AreSame(labelElif1, jumpToElif1.Target, "jump from if test not match elif1 label");
-            Assert.AreSame(labelElif2, jumpToElif2.Target, "jump from elif1 test not match elif2 label");
-            Assert.AreSame(labelEnd, jumpToElse.Target, "jump from elif2 test not match end label");
+            Assert.AreSame(4, jumpToElif1.Target, "jump from if test not match elif1 label");
+            Assert.AreSame(11, jumpFromIf.Target, "jump from if suite not match end label");
+            Assert.AreSame(8, jumpToElif2.Target, "jump from elif1 test not match elif2 label");
+            Assert.AreSame(11, jumpFromElif1.Target, "jump from elif1 suite not match end label");
+            Assert.AreSame(11, jumpFromElif2.Target, "jump from elif2 test not match end label");
 
-            Assert.AreEqual(14, compiler.Count, "Too many op codes");
+            Assert.AreEqual(11, compiler.Count, "Too many op codes");
 
             testMock.Verify(o => o.Compile(compiler), Times.Once);
             suiteMock.Verify(o => o.Compile(compiler), Times.Once);
@@ -362,30 +355,27 @@ namespace Mellis.Lang.Python3.Tests.Compiler
 
             // Assert
             // test
-            Assert.That.IsExpectedOpCode(compiler, 0, testOp);
-            var jumpToElif = Assert.That.IsOpCode<JumpIfFalse>(compiler, 1);
+            Assert.That.IsExpectedOpCode(compiler, 0, testOp);                  // 0 if expr
+            var jumpToElif = Assert.That.IsOpCode<JumpIfFalse>(compiler, 1);    // 1 jumpif to elif
             // suite
-            Assert.That.IsExpectedOpCode(compiler, 2, suiteOp);
-            var jumpFromIf = Assert.That.IsOpCode<Jump>(compiler, 3);
+            Assert.That.IsExpectedOpCode(compiler, 2, suiteOp);                 // 2 if suite
+            var jumpFromIf = Assert.That.IsOpCode<Jump>(compiler, 3);           // 3 jump to end
             // elif
-            var labelElif = Assert.That.IsOpCode<Label>(compiler, 4);
-            Assert.That.IsExpectedOpCode(compiler, 5, elifTestOp);
-            var jumpToElse = Assert.That.IsOpCode<JumpIfFalse>(compiler, 6);
-            Assert.That.IsExpectedOpCode(compiler, 7, elifSuiteOp);
-            var jumpFromElif = Assert.That.IsOpCode<Jump>(compiler, 8);
+            Assert.That.IsExpectedOpCode(compiler, 4, elifTestOp);              // 4 elif expr
+            var jumpToElse = Assert.That.IsOpCode<JumpIfFalse>(compiler, 5);    // 5 jumpif to else
+            Assert.That.IsExpectedOpCode(compiler, 6, elifSuiteOp);             // 6 elif suite
+            var jumpFromElif = Assert.That.IsOpCode<Jump>(compiler, 7);         // 7 jump to end
             // else
-            var labelElse = Assert.That.IsOpCode<Label>(compiler, 9);
-            Assert.That.IsExpectedOpCode(compiler, 10, elseSuiteOp);
+            Assert.That.IsExpectedOpCode(compiler, 8, elseSuiteOp);             // 8 else suite
             // end
-            var labelEnd = Assert.That.IsOpCode<Label>(compiler, 11);
 
             // assert labels
-            Assert.AreSame(labelEnd, jumpFromIf.Target, "jump from if suite not match end label");
-            Assert.AreSame(labelEnd, jumpFromElif.Target, "jump from elif suite not match end label");
-            Assert.AreSame(labelElif, jumpToElif.Target, "jump from if test not match elif label");
-            Assert.AreSame(labelElse, jumpToElse.Target, "jump from elif test not match else label");
+            Assert.AreSame(4, jumpToElif.Target, "jump from if test not match elif label");
+            Assert.AreSame(9, jumpFromIf.Target, "jump from if suite not match end label");
+            Assert.AreSame(8, jumpToElse.Target, "jump from elif test not match else label");
+            Assert.AreSame(9, jumpFromElif.Target, "jump from elif suite not match end label");
 
-            Assert.AreEqual(12, compiler.Count, "Too many op codes");
+            Assert.AreEqual(9, compiler.Count, "Too many op codes");
 
             testMock.Verify(o => o.Compile(compiler), Times.Once);
             suiteMock.Verify(o => o.Compile(compiler), Times.Once);
