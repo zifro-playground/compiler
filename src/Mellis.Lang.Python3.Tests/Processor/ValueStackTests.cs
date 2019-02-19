@@ -10,8 +10,15 @@ namespace Mellis.Lang.Python3.Tests.Processor
 {
     [TestClass]
     [DoNotParallelize]
-    public class ValueStackTests : BaseProcessorTestClass
+    public class ValueStackTests
     {
+        protected PyProcessor processor;
+
+        protected PyInteger GetInteger(int value)
+        {
+            return new PyInteger(processor, value);
+        }
+
         [TestInitialize]
         public void TestInitialize()
         {
