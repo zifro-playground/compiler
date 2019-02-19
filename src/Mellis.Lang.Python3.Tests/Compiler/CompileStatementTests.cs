@@ -107,7 +107,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             var labelEnd = Assert.That.IsOpCode<Label>(compiler, 3);
 
             // assert labels
-            Assert.AreSame(labelEnd, jumpToEnd.Label);
+            Assert.AreSame(labelEnd, jumpToEnd.Target);
 
             Assert.AreEqual(4, compiler.Count, "Too many op codes");
 
@@ -156,8 +156,8 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             var labelEnd = Assert.That.IsOpCode<Label>(compiler, 6);
 
             // assert labels
-            Assert.AreSame(labelEnd, jumpFromIf.Label, "jump from if suite not match end label");
-            Assert.AreSame(labelElse, jumpToElse.Label, "jump from if test not match else label");
+            Assert.AreSame(labelEnd, jumpFromIf.Target, "jump from if suite not match end label");
+            Assert.AreSame(labelElse, jumpToElse.Target, "jump from if test not match else label");
 
             Assert.AreEqual(7, compiler.Count, "Too many op codes");
 
@@ -217,9 +217,9 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             var labelEnd = Assert.That.IsOpCode<Label>(compiler, 8);
 
             // assert labels
-            Assert.AreSame(labelEnd, jumpFromIf.Label, "jump from if suite not match end label");
-            Assert.AreSame(labelElif, jumpToElif.Label, "jump from if test not match elif label");
-            Assert.AreSame(labelEnd, jumpFromElif.Label, "jump from elif test not match end label");
+            Assert.AreSame(labelEnd, jumpFromIf.Target, "jump from if suite not match end label");
+            Assert.AreSame(labelElif, jumpToElif.Target, "jump from if test not match elif label");
+            Assert.AreSame(labelEnd, jumpFromElif.Target, "jump from elif test not match end label");
 
             Assert.AreEqual(9, compiler.Count, "Too many op codes");
 
@@ -304,11 +304,11 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             var labelEnd = Assert.That.IsOpCode<Label>(compiler, 13);
 
             // assert labels
-            Assert.AreSame(labelEnd, jumpFromIf.Label, "jump from if suite not match end label");
-            Assert.AreSame(labelEnd, jumpFromElif1.Label, "jump from elif1 suite not match end label");
-            Assert.AreSame(labelElif1, jumpToElif1.Label, "jump from if test not match elif1 label");
-            Assert.AreSame(labelElif2, jumpToElif2.Label, "jump from elif1 test not match elif2 label");
-            Assert.AreSame(labelEnd, jumpToElse.Label, "jump from elif2 test not match end label");
+            Assert.AreSame(labelEnd, jumpFromIf.Target, "jump from if suite not match end label");
+            Assert.AreSame(labelEnd, jumpFromElif1.Target, "jump from elif1 suite not match end label");
+            Assert.AreSame(labelElif1, jumpToElif1.Target, "jump from if test not match elif1 label");
+            Assert.AreSame(labelElif2, jumpToElif2.Target, "jump from elif1 test not match elif2 label");
+            Assert.AreSame(labelEnd, jumpToElse.Target, "jump from elif2 test not match end label");
 
             Assert.AreEqual(14, compiler.Count, "Too many op codes");
 
@@ -380,10 +380,10 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             var labelEnd = Assert.That.IsOpCode<Label>(compiler, 11);
 
             // assert labels
-            Assert.AreSame(labelEnd, jumpFromIf.Label, "jump from if suite not match end label");
-            Assert.AreSame(labelEnd, jumpFromElif.Label, "jump from elif suite not match end label");
-            Assert.AreSame(labelElif, jumpToElif.Label, "jump from if test not match elif label");
-            Assert.AreSame(labelElse, jumpToElse.Label, "jump from elif test not match else label");
+            Assert.AreSame(labelEnd, jumpFromIf.Target, "jump from if suite not match end label");
+            Assert.AreSame(labelEnd, jumpFromElif.Target, "jump from elif suite not match end label");
+            Assert.AreSame(labelElif, jumpToElif.Target, "jump from if test not match elif label");
+            Assert.AreSame(labelElse, jumpToElse.Target, "jump from elif test not match else label");
 
             Assert.AreEqual(12, compiler.Count, "Too many op codes");
 

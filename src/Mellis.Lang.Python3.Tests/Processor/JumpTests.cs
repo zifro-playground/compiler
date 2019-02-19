@@ -12,46 +12,16 @@ namespace Mellis.Lang.Python3.Tests.Processor
     public class JumpTests
     {
         [TestMethod]
-        public void EvaluateLabelsTest()
-        {
-            // Arrange
-            var label1 = new Label(SourceReference.ClrSource);
-            var label2 = new Label(SourceReference.ClrSource);
-            var label3 = new Label(SourceReference.ClrSource);
-
-            var processor = new PyProcessor(
-                new NopOp(),    // 0
-                label1,         // 1
-                label2,         // 2
-                new NopOp(),    // 3
-                label3          // 4
-            );
-
-            // Act
-            processor.WalkLine();
-
-            // Assert
-            Assert.AreEqual(ProcessState.Ended, processor.State);
-
-            Assert.AreEqual(1, label1.OpCodeIndex);
-            Assert.AreEqual(2, label2.OpCodeIndex);
-            Assert.AreEqual(4, label3.OpCodeIndex);
-        }
-
-        [TestMethod]
         public void EvaluateJumpUpwardsTest()
         {
             // Arrange
-            var label = new Label(SourceReference.ClrSource);
-
             var processor = new PyProcessor(
-                label,
                 new NopOp(),
-                new Jump(SourceReference.ClrSource, label)
+                new Jump(SourceReference.ClrSource, 0)
             );
             
             // Act
-            processor.WalkInstruction(); // stepped over label
+            processor.WalkInstruction(); // to enter first op
             processor.WalkInstruction();
             processor.WalkInstruction(); // performed jump
 
@@ -66,14 +36,12 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void EvaluateJumpLoopTimesOutTest()
         {
             // Arrange
-            var label = new Label(SourceReference.ClrSource);
-
             var processor = new PyProcessor(
-                label,
-                new Jump(SourceReference.ClrSource, label)
+                new Jump(SourceReference.ClrSource, 0)
             );
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             processor.WalkLine();
 
             // Assert
@@ -86,20 +54,17 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void EvaluateJumpDownwardsTest()
         {
             // Arrange
-            var label = new Label(SourceReference.ClrSource);
-
             var processor = new PyProcessor(
-                new Jump(SourceReference.ClrSource, label),
+                new Jump(SourceReference.ClrSource, 5),
                 new NopOp(),
                 new NopOp(),
                 new NopOp(),
-                new NopOp(),
-                label
+                new NopOp()
             );
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             processor.WalkInstruction(); // performed jump
-            processor.WalkInstruction(); // stepped over label
 
             // Assert
             Assert.AreEqual(ProcessState.Ended, processor.State);
@@ -131,22 +96,19 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void EvaluateJumpIfFalse_Falsy_Test(object value)
         {
             // Arrange
-            var label = new Label(SourceReference.ClrSource);
-
             var processor = new PyProcessor(
-                new JumpIfFalse(SourceReference.ClrSource, label),
+                new JumpIfFalse(SourceReference.ClrSource, 5),
                 new NopOp(),
                 new NopOp(),
                 new NopOp(),
-                new NopOp(),
-                label
+                new NopOp()
             );
 
             processor.PushValue(GetPyValue(value, processor));
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             processor.WalkInstruction(); // performed jump
-            processor.WalkInstruction(); // stepped over label
 
             // Assert
             Assert.AreEqual(ProcessState.Ended, processor.State);
@@ -165,22 +127,20 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void EvaluateJumpIfFalse_Truthy_Test(object value)
         {
             // Arrange
-            var label = new Label(SourceReference.ClrSource);
 
             var processor = new PyProcessor(
-                new JumpIfFalse(SourceReference.ClrSource, label),
+                new JumpIfFalse(SourceReference.ClrSource, 5),
                 new NopOp(),
                 new NopOp(),
                 new NopOp(),
-                new NopOp(),
-                label
+                new NopOp()
             );
 
             processor.PushValue(GetPyValue(value, processor));
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             processor.WalkInstruction(); // stepped over jump
-            processor.WalkInstruction();
 
             // Assert
             Assert.AreEqual(ProcessState.Running, processor.State);

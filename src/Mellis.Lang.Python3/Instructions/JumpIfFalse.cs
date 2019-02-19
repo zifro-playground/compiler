@@ -7,29 +7,24 @@ namespace Mellis.Lang.Python3.Instructions
 {
     public class JumpIfFalse : Jump
     {
-        public JumpIfFalse(SourceReference source, Label label)
-            : base(source, label)
+        public JumpIfFalse(SourceReference source, int target)
+            : base(source, target)
         {
         }
 
         public override void Execute(PyProcessor processor)
         {
-            if (Label.OpCodeIndex == -1)
-                throw new InvalidOperationException("Label was not assigned an index. Are you sure it was added to the processor?");
-
             var value = processor.PopValue();
 
             if (!value.IsTruthy())
             {
-                processor.JumpToInstruction(Label.OpCodeIndex);
+                processor.JumpToInstruction(Target);
             }
         }
 
         public override string ToString()
         {
-            return Label?.OpCodeIndex >= 0
-                ? $"jmpifn->@{Label.OpCodeIndex}"
-                : "jmpifn->{undefined}";
+            return $"jmpifn->@{Target}";
         }
     }
 }
