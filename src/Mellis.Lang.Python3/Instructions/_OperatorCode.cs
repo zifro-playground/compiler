@@ -2,35 +2,84 @@
 {
     public enum OperatorCode
     {
-        // Binary operators (lhs op rhs)
-        AAdd = 0x0, // a+b
-        ASub, // a-b
-        AMul, // a*b
-        ADiv, // a/b
-        AFlr, // a//b
-        AMod, // a%b
-        APow, // a**b
+        /*
+         * Binary arithmetic operators (lhs op rhs)
+         */
+        /// <summary>a+b</summary>
+        AAdd = 0x0,
+        /// <summary>a-b</summary>
+        ASub,
+        /// <summary>a*b</summary>
+        AMul,
+        /// <summary>a/b</summary>
+        ADiv,
+        /// <summary>a//b</summary>
+        AFlr,
+        /// <summary>a%b</summary>
+        AMod,
+        /// <summary>a**b</summary>
+        APow,
 
-        BAnd = 0x8, // a&b
-        BLsh, // a<<b
-        BRsh, // a>>b
-        BOr, // a|b
-        BXor, // a^b
+        /*
+         * Binary binary operators (lhs op rhs)
+         */
+        /// <summary>a&amp;b</summary>
+        BAnd = 0x8,
+        /// <summary>a&lt;&lt;b</summary>
+        BLsh,
+        /// <summary>a&gt;&gt;b</summary>
+        BRsh,
+        /// <summary>a|b</summary>
+        BOr,
+        /// <summary>a^b</summary>
+        BXor,
 
-        CEq = 0x10, // a==b
-        CNEq, // a!=b
-        CGt, // a>b
-        CGtEq, // a>=b
-        CLt, // a<b
-        CLtEq, // a<=b
+        /*
+         * Binary comparison operators (lhs op rhs)
+         */
+        /// <summary>a==b</summary>
+        CEq = 0x10,
+        /// <summary>a!=b</summary>
+        CNEq,
+        /// <summary>a&gt;b</summary>
+        CGt,
+        /// <summary>a&gt;=b</summary>
+        CGtEq,
+        /// <summary>a&lt;b</summary>
+        CLt,
+        /// <summary>a&lt;=b</summary>
+        CLtEq,
 
-        LAnd = 0x18, // a&&b
-        LOr, // a||b
+        /*
+         * Binary identity comparison operators (lhs op rhs)
+         */
+        /// <summary>a in b</summary>
+        CIn = 0x18,
+        /// <summary>a not in b</summary>
+        CNIn,
+        /// <summary>a is b</summary>
+        CIs,
+        /// <summary>a is not b</summary>
+        CIsN,
 
-        // Unary operators (op rhs)
-        ANeg = 0x20, // +a
-        APos, // -a
-        BNot, // ~a
-        LNot, // !a
+        /*
+         * Binary logical operators (lhs op rhs)
+         */
+        /// <summary>a&amp;&amp;b</summary>
+        LAnd = 0x20,
+        /// <summary>a||b</summary>
+        LOr,
+
+        /*
+         * Unary operators (op rhs)
+         */
+        /// <summary>+a</summary>
+        ANeg = 0x28,
+        /// <summary>-a</summary>
+        APos,
+        /// <summary>~a</summary>
+        BNot,
+        /// <summary>!a</summary>
+        LNot,
     }
 }

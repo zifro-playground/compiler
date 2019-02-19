@@ -14,7 +14,6 @@ using Mellis.Lang.Python3.Syntax.Literals;
 using Mellis.Lang.Python3.Syntax.Operators;
 using Mellis.Lang.Python3.Syntax.Operators.Arithmetics;
 using Mellis.Lang.Python3.Syntax.Operators.Binaries;
-using Mellis.Lang.Python3.Syntax.Operators.Comparisons;
 using Mellis.Lang.Python3.Syntax.Operators.Logicals;
 using Mellis.Lang.Python3.Syntax.Statements;
 

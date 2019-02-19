@@ -4,8 +4,9 @@ using Mellis.Core.Entities;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Syntax;
 using Mellis.Lang.Python3.Syntax.Operators;
-using Mellis.Lang.Python3.Syntax.Operators.Comparisons;
 using Mellis.Lang.Python3.Tests.SyntaxConstructor;
+using Mellis.Lang.Python3.Instructions;
+using Mellis.Lang.Python3.Syntax.Operators.Comparisons;
 
 namespace Mellis.Lang.Python3.Tests.Syntax.Operators
 {
@@ -13,45 +14,46 @@ namespace Mellis.Lang.Python3.Tests.Syntax.Operators
     public class ComparisonFactoryTests
     {
         [DataTestMethod]
-        [DataRow(typeof(CompareEquals), ComparisonType.Equals,
+        [DataRow(typeof(CompareEquals), ComparisonType.Equals, OperatorCode.CEq,
             DisplayName = "factory create ==")]
-        public void FactoryCreateValid_Test(Type expectedType, ComparisonType type)
+        [DataRow(typeof(CompareLessThan), ComparisonType.LessThan, OperatorCode.CLt,
+            DisplayName = "factory create <")]
+        [DataRow(typeof(CompareLessThanOrEqual), ComparisonType.LessThanOrEqual, OperatorCode.CLtEq,
+            DisplayName = "factory create <=")]
+        [DataRow(typeof(CompareGreaterThan), ComparisonType.GreaterThan, OperatorCode.CGt,
+            DisplayName = "factory create >")]
+        [DataRow(typeof(CompareGreaterThanOrEqual), ComparisonType.GreaterThanOrEqual, OperatorCode.CGtEq,
+            DisplayName = "factory create >=")]
+        [DataRow(typeof(CompareNotEquals), ComparisonType.NotEquals, OperatorCode.CNEq,
+            DisplayName = "factory create !=")]
+        [DataRow(typeof(CompareIn), ComparisonType.In, OperatorCode.CIn,
+            DisplayName = "factory create in")]
+        [DataRow(typeof(CompareInNot), ComparisonType.InNot, OperatorCode.CNIn,
+            DisplayName = "factory create not in")]
+        [DataRow(typeof(CompareIs), ComparisonType.Is, OperatorCode.CIs,
+            DisplayName = "factory create is")]
+        [DataRow(typeof(CompareIsNot), ComparisonType.IsNot, OperatorCode.CIsN,
+            DisplayName = "factory create is not")]
+        public void FactoryCreateValid_Test(Type expectedType, ComparisonType compType, OperatorCode opCode)
         {
             // Arrange
             ExpressionNode lhs = BaseVisitClass.GetExpressionMock();
             ExpressionNode rhs = BaseVisitClass.GetExpressionMock();
-            var factory = new ComparisonFactory(type);
+            var factory = new ComparisonFactory(compType);
 
             // Act
             Comparison result = factory.Create(lhs, rhs);
 
             // Assert
+            Assert.AreEqual(compType, result.Type, "ComparisonType did not match.");
+            Assert.AreEqual(opCode, result.OpCode, "OperatorCode did not match.");
             Assert.IsInstanceOfType(result, expectedType);
-            Assert.AreSame(lhs, result.LeftOperand);
-            Assert.AreSame(rhs, result.RightOperand);
+            Assert.AreSame(lhs, result.LeftOperand, "LHS did not match.");
+            Assert.AreSame(rhs, result.RightOperand, "RHS did not match.");
         }
 
         [DataTestMethod]
-        [DataRow("<", ComparisonType.LessThan,
-            DisplayName = "factory create <")]
-        [DataRow("<=", ComparisonType.LessThanOrEqual,
-            DisplayName = "factory create <=")]
-        [DataRow(">", ComparisonType.GreaterThan,
-            DisplayName = "factory create >")]
-        [DataRow(">=", ComparisonType.GreaterThanOrEqual,
-            DisplayName = "factory create >=")]
-        [DataRow("!=", ComparisonType.NotEquals,
-            DisplayName = "factory create !=")]
-        [DataRow("<>", ComparisonType.NotEqualsABC,
-            DisplayName = "factory create <>")]
-        [DataRow("in", ComparisonType.In,
-            DisplayName = "factory create in")]
-        [DataRow("not in", ComparisonType.InNot,
-            DisplayName = "factory create not in")]
-        [DataRow("is", ComparisonType.Is,
-            DisplayName = "factory create is")]
-        [DataRow("is not", ComparisonType.IsNot,
-            DisplayName = "factory create is not")]
+        [DataRow("<>", DisplayName = "factory create <>")]
         public void FactoryCreateNYI_Test(string expectedKeyword, ComparisonType inputType)
         {
             // Arrange
@@ -65,7 +67,7 @@ namespace Mellis.Lang.Python3.Tests.Syntax.Operators
             }
 
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action) GetResult);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action)GetResult);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, SourceReference.ClrSource, expectedKeyword);
             Assert.AreEqual(expectedKeyword, ex.Keyword);
