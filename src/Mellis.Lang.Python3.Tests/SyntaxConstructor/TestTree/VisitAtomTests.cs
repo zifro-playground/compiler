@@ -138,7 +138,6 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         }
 
         [DataTestMethod]
-        [DataRow(Python3Parser.OPEN_PAREN, Python3Parser.CLOSE_PAREN, "()", DisplayName = "nyi ()")]
         [DataRow(Python3Parser.OPEN_BRACK, Python3Parser.CLOSE_BRACK, "[]", DisplayName = "nyi []")]
         [DataRow(Python3Parser.OPEN_BRACE, Python3Parser.CLOSE_BRACE, "{}", DisplayName = "nyi {}")]
         public void Visit_GroupAllEmptyNotYetImplemented_Test(int openToken, int closeToken, string expectedKeyword)
@@ -179,6 +178,98 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             Assert.That.ErrorSyntaxFormatArgsEqual(ex, 
                 nameof(Localized_Python3_Parser.Ex_Parenthesis_NoClosing),
                 open, expectedEndingParenthesis);
+
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void Visit_ParenthesesEmpty_Test()
+        {
+            // Arrange
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+            contextMock.SetupChildren(
+                GetTerminal(Python3Parser.OPEN_PAREN),
+                GetTerminal(Python3Parser.CLOSE_PAREN)
+            );
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext,
+                message: $"expected throw for context `{Python3Parser.ruleNames[contextMock.Object.RuleIndex]}`");
+
+            Assert.That.ErrorExpectedChildFormatArgs(ex, startTokenMock, stopTokenMock, contextMock);
+
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void Visit_ParenthesesTestListComp_Test()
+        {
+            // Arrange
+            var expression = GetExpressionMock();
+            Mock<Python3Parser.Testlist_compContext> innerMock
+                = GetInnerMockWithSetup(expression);
+
+            contextMock.SetupChildren(
+                GetTerminal(Python3Parser.OPEN_PAREN),
+                innerMock.Object,
+                GetTerminal(Python3Parser.CLOSE_PAREN)
+            );
+
+            // Act
+            SyntaxNode result = VisitContext();
+
+            // Assert
+            Assert.AreSame(expression, result);
+
+            innerMock.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void Visit_ParenthesesYieldExpr_Test()
+        {
+            // Arrange
+            var innerMock = GetMockRule<Python3Parser.Yield_exprContext>();
+            innerMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            contextMock.SetupChildren(
+                GetTerminal(Python3Parser.OPEN_PAREN),
+                innerMock.Object,
+                GetTerminal(Python3Parser.CLOSE_PAREN)
+            );
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext,
+                message: $"expected throw for context `{Python3Parser.ruleNames[contextMock.Object.RuleIndex]}`");
+
+            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, "yield");
+
+            innerMock.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void Visit_ParenthesesInvalidRule_Test()
+        {
+            // Arrange
+            var unexpectedMock = GetMockRule<Python3Parser.File_inputContext>();
+            unexpectedMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            contextMock.SetupChildren(
+                GetTerminal(Python3Parser.OPEN_PAREN),
+                unexpectedMock.Object,
+                GetTerminal(Python3Parser.CLOSE_PAREN)
+            );
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext,
+                message: $"expected throw for context `{Python3Parser.ruleNames[contextMock.Object.RuleIndex]}`");
+
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, unexpectedMock.Object);
 
             contextMock.Verify();
             ctorMock.Verify();
