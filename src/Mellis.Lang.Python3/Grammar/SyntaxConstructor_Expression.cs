@@ -720,8 +720,78 @@ namespace Mellis.Lang.Python3.Grammar
 
         public override SyntaxNode VisitTestlist_comp(Python3Parser.Testlist_compContext context)
         {
-            VisitChildren(context);
-            throw context.NotYetImplementedException();
+            // testlist_comp: (test|star_expr)
+            //      (
+            //          comp_for |
+            //          (',' (test|star_expr))* [',']
+            //      )
+
+            var firstRule = context.GetChildOrThrow<ParserRuleContext>(0);
+            ExpressionNode result = VisitTestOrStar(firstRule);
+
+            if (context.ChildCount == 1)
+            {
+                return result;
+            }
+
+            // Check 2nd, comp_for or comma?
+            var second = context.GetChildOrThrow<IParseTree>(1);
+
+            switch (second)
+            {
+                case Python3Parser.Comp_forContext compFor:
+                    throw compFor.NotYetImplementedException("for");
+
+                case ITerminalNode term
+                    when term.Symbol.Type == Python3Parser.COMMA:
+                    // Continue the code
+                    break;
+
+                default:
+                    throw context.UnexpectedChildType(second);
+            }
+
+            // Start from the 3rd
+            for (var i = 2; i < context.ChildCount; i += 2)
+            {
+                var rule = context.GetChildOrThrow<ParserRuleContext>(i);
+
+                if (rule is Python3Parser.TestContext ||
+                    rule is Python3Parser.Star_exprContext)
+                {
+                    throw rule.NotYetImplementedException();
+                }
+                else
+                {
+                    throw context.UnexpectedChildType(rule);
+                }
+
+#pragma warning disable 162
+                if (i + 1 < context.ChildCount)
+                    context.GetChildOrThrow(i + 1, Python3Parser.COMMA);
+#pragma warning restore 162
+            }
+
+            if (result == null)
+                throw context.ExpectedChild();
+
+            return result;
+
+            ExpressionNode VisitTestOrStar(ParserRuleContext rule)
+            {
+                switch (rule)
+                {
+                    case Python3Parser.TestContext test:
+                        return VisitTest(test)
+                            .AsTypeOrThrow<ExpressionNode>();
+
+                    case Python3Parser.Star_exprContext star:
+                        throw star.NotYetImplementedException();
+
+                    default:
+                        throw context.UnexpectedChildType(rule);
+                }
+            }
         }
 
         public override SyntaxNode VisitTrailer(Python3Parser.TrailerContext context)

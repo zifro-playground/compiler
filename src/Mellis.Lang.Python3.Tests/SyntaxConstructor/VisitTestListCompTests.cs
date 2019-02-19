@@ -281,7 +281,10 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             var compForMock = GetMockRule<Python3Parser.Comp_forContext>();
 
             compForMock.SetupForSourceReference(startTokenMock, stopTokenMock);
-            
+
+            ctorMock.Setup(o => o.VisitTest(testMock.Object))
+                .Returns(GetExpressionMock).Verifiable();
+
             contextMock.SetupChildren(
                 testMock.Object,
                 compForMock.Object
@@ -301,29 +304,31 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void Visit_CompForTrailingCommaTest()
+        public void Visit_CompForWithCommaTest()
         {
             // Arrange
             var testMock = GetMockRule<Python3Parser.TestContext>();
-            var compForMock = GetMockRule<Python3Parser.Comp_forContext>();
+            var unexpectedMock = GetMockRule<Python3Parser.Comp_forContext>();
 
-            compForMock.SetupForSourceReference(startTokenMock, stopTokenMock);
-            var unexpected = GetTerminal(Python3Parser.COMMA);
+            unexpectedMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            ctorMock.Setup(o => o.VisitTest(testMock.Object))
+                .Returns(GetExpressionMock).Verifiable();
 
             contextMock.SetupChildren(
                 testMock.Object,
-                compForMock.Object,
-                unexpected
+                GetTerminal(Python3Parser.COMMA),
+                unexpectedMock.Object
             );
 
             // Act + Assert
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
-            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, unexpected);
-            contextMock.VerifyLoopedChildren(2);
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, unexpectedMock.Object);
+            contextMock.VerifyLoopedChildren(3);
 
             testMock.Verify();
-            compForMock.Verify();
+            unexpectedMock.Verify();
             contextMock.Verify();
             ctorMock.Verify();
         }
