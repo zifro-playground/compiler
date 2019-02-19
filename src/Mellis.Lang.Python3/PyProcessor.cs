@@ -22,13 +22,6 @@ namespace Mellis.Lang.Python3
             _scopesStack = new List<PyScope>();
             ProgramCounter = -1;
             _opCodes = opCodes ?? new IOpCode[0];
-
-            // Assign indexes to labels
-            for (var i = 0; i < _opCodes.Length; i++)
-            {
-                if (_opCodes[i] is Label label)
-                    label.OpCodeIndex = i;
-            }
         }
 
         public IScriptTypeFactory Factory { get; }

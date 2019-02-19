@@ -25,26 +25,35 @@ namespace Mellis.Lang.Python3
         {
             _numOfJumpsThisWalk = 0;
 
-            WalkInstruction();
+            // First walk? Only get on op [0]
+            if (State == ProcessState.NotStarted)
+            {
+                WalkInstruction();
+                return;
+            }
 
-            // Because counter starts at -1
             int? initialRow = GetRow(ProgramCounter);
 
             if (initialRow.HasValue)
             {
-                // Initial is row => walk until next is other row
-                while (!(GetRow(ProgramCounter + 1) > initialRow.Value) &&
-                       State == ProcessState.Running &&
-                       _numOfJumpsThisWalk < JUMPS_THRESHOLD)
+                // Initial is row => walk until current is different row
+                int? nextRow;
+                do
+                {
                     WalkInstruction();
+                    nextRow = GetRow(ProgramCounter);
+                } while ((nextRow == null || nextRow.Value == initialRow.Value) &&
+                       State == ProcessState.Running &&
+                       _numOfJumpsThisWalk < JUMPS_THRESHOLD);
             }
             else
             {
-                // Initial is clr => walk until next is line
-                while (GetRow(ProgramCounter + 1) == null &&
-                       State == ProcessState.Running &&
-                       _numOfJumpsThisWalk < JUMPS_THRESHOLD)
+                // Initial is clr => walk until current is not clr
+                do
                     WalkInstruction();
+                while (GetRow(ProgramCounter) == null &&
+                       State == ProcessState.Running &&
+                       _numOfJumpsThisWalk < JUMPS_THRESHOLD);
             }
 
             int? GetRow(int i)
@@ -77,13 +86,21 @@ namespace Mellis.Lang.Python3
                     break;
 
                 case ProcessState.NotStarted:
+                    ProgramCounter = 0;
+                    State = ProcessState.Running;
+                    break;
+
+                case ProcessState.Running when ProgramCounter < 0:
+                    ProgramCounter = 0;
+                    break;
+
                 case ProcessState.Running:
                     try
                     {
-                        ProgramCounter++;
-                        _opCodes[ProgramCounter].Execute(this);
+                        IOpCode opCode = _opCodes[ProgramCounter++];
+                        opCode.Execute(this);
 
-                        if (ProgramCounter + 1 < _opCodes.Length)
+                        if (ProgramCounter < _opCodes.Length)
                             State = ProcessState.Running;
                         else
                         {
@@ -129,7 +146,14 @@ namespace Mellis.Lang.Python3
 
         internal void JumpToInstruction(int index)
         {
-            ProgramCounter = index - 1;
+            ProgramCounter = index;
+
+            if (ProgramCounter >= _opCodes.Length)
+            {
+                State = ProcessState.Ended;
+                OnProcessEnded(ProcessState.Ended);
+            }
+
             _numOfJumpsThisWalk++;
         }
     }

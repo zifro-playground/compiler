@@ -52,6 +52,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             var thrownEx = Assert.ThrowsException<InternalException>((Action) processor.WalkInstruction);
 
             // Assert
@@ -71,6 +72,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             var thrownEx = Assert.ThrowsException<InterpreterLocalizedException>((Action) processor.WalkInstruction);
 
             // Assert
@@ -107,7 +109,8 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
-            Assert.ThrowsException<InternalException>((Action) processor.WalkInstruction);
+            processor.WalkInstruction(); // to enter first op
+            Assert.ThrowsException<InternalException>((Action)processor.WalkInstruction);
 
             var ex = Assert.ThrowsException<InternalException>((Action) processor.WalkInstruction);
 
@@ -128,6 +131,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             processor.WalkInstruction();
             processor.WalkInstruction();
             processor.WalkInstruction();
@@ -157,10 +161,11 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
+            processor.WalkLine(); // to enter first op
             processor.WalkLine();
 
             // Assert
-            Assert.AreEqual(2, processor.ProgramCounter);
+            Assert.AreEqual(3, processor.ProgramCounter);
             Assert.AreEqual(ProcessState.Running, processor.State);
         }
 
@@ -176,10 +181,11 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             processor.WalkInstruction();
 
             // Assert
-            Assert.AreEqual(0, processor.ProgramCounter);
+            Assert.AreEqual(1, processor.ProgramCounter);
             Assert.AreEqual(ProcessState.Running, processor.State);
         }
 
@@ -195,10 +201,11 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
+            processor.WalkLine(); // to enter first op
             processor.WalkLine();
 
             // Assert
-            Assert.AreEqual(0, processor.ProgramCounter);
+            Assert.AreEqual(1, processor.ProgramCounter);
             Assert.AreEqual(ProcessState.Running, processor.State);
         }
 
@@ -214,10 +221,11 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
+            processor.WalkLine(); // to enter first op
             processor.WalkLine();
 
             // Assert
-            Assert.AreEqual(2, processor.ProgramCounter);
+            Assert.AreEqual(3, processor.ProgramCounter);
             Assert.AreEqual(ProcessState.Running, processor.State);
         }
 
@@ -233,10 +241,11 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
+            processor.WalkLine(); // to enter first op
             processor.WalkLine();
 
             // Assert
-            Assert.AreEqual(0, processor.ProgramCounter);
+            Assert.AreEqual(1, processor.ProgramCounter);
             Assert.AreEqual(ProcessState.Running, processor.State);
         }
 
@@ -252,10 +261,11 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
+            processor.WalkLine(); // to enter first op
             processor.WalkLine();
 
             // Assert
-            Assert.AreEqual(3, processor.ProgramCounter);
+            Assert.AreEqual(4, processor.ProgramCounter);
             Assert.AreEqual(ProcessState.Ended, processor.State);
         }
     }

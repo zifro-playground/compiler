@@ -22,6 +22,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             var ex = Assert.ThrowsException<InternalException>((Action) processor.WalkLine);
 
             // Assert
@@ -46,6 +47,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             var ex = Assert.ThrowsException<InternalException>((Action)processor.WalkLine);
 
             // Assert
@@ -70,6 +72,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             var global = processor.GlobalScope;
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             processor.WalkInstruction();
             var scope = processor.CurrentScope;
             processor.WalkInstruction();
@@ -93,13 +96,14 @@ namespace Mellis.Lang.Python3.Tests.Processor
             var global = processor.GlobalScope;
 
             // Act
-            processor.WalkInstruction();
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkInstruction(); // push->$scope
             var scope1 = processor.CurrentScope;
-            processor.WalkInstruction();
+            processor.WalkInstruction(); // push->$scope
             var scope2 = processor.CurrentScope;
-            processor.WalkInstruction();
+            processor.WalkInstruction(); // pop->$scope
             var scope3 = processor.CurrentScope;
-            processor.WalkInstruction();
+            processor.WalkInstruction(); // pop->$scope
 
             // Assert
             Assert.AreEqual(ProcessState.Ended, processor.State);
@@ -121,6 +125,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             var ex = Assert.ThrowsException<InternalException>((Action)processor.WalkLine);
 
             // Assert
@@ -143,6 +148,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             var ex = Assert.ThrowsException<InternalException>((Action)processor.WalkLine);
 
             // Assert

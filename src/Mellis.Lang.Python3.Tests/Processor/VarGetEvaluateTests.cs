@@ -28,6 +28,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             globalScope.SetVariable(identifier, value);
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             processor.WalkLine();
             int numOfValues = processor.ValueStackCount;
 
@@ -55,6 +56,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             globalScope.SetVariable(identifier, value);
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             processor.WalkLine();
             int numOfValues = processor.ValueStackCount;
 
@@ -78,7 +80,8 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             var value = Mock.Of<IScriptType>();
 
-            processor.WalkInstruction();
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkInstruction(); // push->$scope
 
             var localScope = (PyScope)processor.CurrentScope;
             localScope.SetVariable(identifier, value);
@@ -106,6 +109,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             var ex = Assert.ThrowsException<RuntimeException>((Action) processor.WalkLine);
 
             // Assert

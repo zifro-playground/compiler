@@ -16,6 +16,7 @@ namespace Mellis.Lang.Python3.Tests
             var processor = (PyProcessor)new PyCompiler().Compile(code);
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             processor.WalkLine();
 
             // Assert
@@ -34,6 +35,7 @@ namespace Mellis.Lang.Python3.Tests
             var processor = (PyProcessor)new PyCompiler().Compile(code);
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             processor.WalkLine();
 
             // Assert
@@ -53,6 +55,7 @@ namespace Mellis.Lang.Python3.Tests
             var processor = (PyProcessor)new PyCompiler().Compile(code);
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             processor.WalkLine();
             processor.WalkLine();
 
@@ -78,6 +81,7 @@ namespace Mellis.Lang.Python3.Tests
             var processor = (PyProcessor)new PyCompiler().Compile(code);
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             processor.WalkLine();
             processor.WalkLine();
 
@@ -101,6 +105,7 @@ namespace Mellis.Lang.Python3.Tests
             var processor = (PyProcessor)new PyCompiler().Compile(code);
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             processor.WalkLine();
 
             // Assert
@@ -121,6 +126,7 @@ namespace Mellis.Lang.Python3.Tests
             var processor = (PyProcessor)new PyCompiler().Compile(code);
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             processor.WalkLine();
             processor.WalkLine();
             processor.WalkLine();
@@ -143,9 +149,9 @@ namespace Mellis.Lang.Python3.Tests
             var processor = (PyProcessor)new PyCompiler().Compile(code);
 
             // Act
-            processor.WalkLine();
-            processor.WalkLine();
-            processor.WalkLine();
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkLine(); // push->val
+            processor.WalkLine(); // jumpif->@4
 
             // Assert
             IScriptType variable = processor.GetVariable("val");

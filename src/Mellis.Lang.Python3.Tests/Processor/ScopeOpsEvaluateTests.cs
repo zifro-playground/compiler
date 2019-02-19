@@ -23,7 +23,8 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
-            processor.WalkInstruction();
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkInstruction(); // push->$scope
 
             // Assert
             Assert.AreNotSame(processor.GlobalScope, processor.CurrentScope);
@@ -40,9 +41,10 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
-            processor.WalkInstruction();
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkInstruction(); // push->$scope
             var scope = processor.CurrentScope;
-            processor.WalkInstruction();
+            processor.WalkInstruction(); // push->$scope
 
             // Assert
             Assert.AreNotSame(processor.CurrentScope, processor.GlobalScope);
@@ -61,11 +63,12 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
-            processor.WalkInstruction();
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkInstruction(); // push->$scope
             var scope1 = processor.CurrentScope;
-            processor.WalkInstruction();
+            processor.WalkInstruction(); // push->$scope
             var scope2 = processor.CurrentScope;
-            processor.WalkInstruction();
+            processor.WalkInstruction(); // pop->$scope
 
             // Assert
             Assert.AreNotSame(processor.CurrentScope, processor.GlobalScope);

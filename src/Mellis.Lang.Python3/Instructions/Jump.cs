@@ -6,29 +6,24 @@ namespace Mellis.Lang.Python3.Instructions
 {
     public class Jump : IOpCode
     {
-        public Jump(SourceReference source, Label label)
+        public Jump(SourceReference source, int target = -1)
         {
             Source = source;
-            Label = label;
+            Target = target;
         }
 
         public SourceReference Source { get; }
 
-        public Label Label { get; }
+        public int Target { get; set; }
 
         public virtual void Execute(PyProcessor processor)
         {
-            if (Label.OpCodeIndex == -1)
-                throw new InvalidOperationException("Label was not assigned an index. Are you sure it was added to the processor?");
-            
-            processor.JumpToInstruction(Label.OpCodeIndex);
+            processor.JumpToInstruction(Target);
         }
 
         public override string ToString()
         {
-            return Label?.OpCodeIndex >= 0
-                ? $"jmp->@{Label.OpCodeIndex}"
-                : "jmp->{undefined}";
+            return $"jmp->@{Target}";
         }
     }
 }
