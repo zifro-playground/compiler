@@ -271,6 +271,33 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, unexpectedMock.Object);
 
+            unexpectedMock.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void Visit_ParenthesesTooMany_Test()
+        {
+            // Arrange
+            Mock<Python3Parser.Testlist_compContext> innerMock = GetInnerMock();
+            var unexpectedMock = GetMockRule<Python3Parser.File_inputContext>();
+            unexpectedMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            contextMock.SetupChildren(
+                GetTerminal(Python3Parser.OPEN_PAREN),
+                innerMock.Object,
+                unexpectedMock.Object,
+                GetTerminal(Python3Parser.CLOSE_PAREN)
+            );
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext,
+                message: $"expected throw for context `{Python3Parser.ruleNames[contextMock.Object.RuleIndex]}`");
+
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, unexpectedMock.Object);
+
+            innerMock.Verify();
             contextMock.Verify();
             ctorMock.Verify();
         }

@@ -703,6 +703,19 @@ namespace Mellis.Lang.Python3.Grammar
 
                 case Python3Parser.OPEN_PAREN:
                     context.ExpectClosingParenthesis(firstToken, Python3Parser.CLOSE_PAREN);
+
+                    if (context.ChildCount == 2)
+                    {
+                        // <(>, <missing rule>, <)>
+                        throw context.ExpectedChild();
+                    }
+                    // <(>, <secondRule>, <unexpected>+, <)>
+                    else if (context.ChildCount > 3)
+                    {
+                        throw context.UnexpectedChildType(context.GetChild(2));
+                    }
+
+                    // <(>, <secondRule>, <)>
                     var secondRule = context.GetChildOrThrow<ParserRuleContext>(1);
                     switch (secondRule)
                     {
