@@ -167,6 +167,11 @@ namespace Mellis.Lang.Python3.Tests.Processor
         [DataRow(OperatorCode.CLt, DisplayName = "is bin op a<b")]
         [DataRow(OperatorCode.CLtEq, DisplayName = "is bin op a<=b")]
 
+        [DataRow(OperatorCode.CIn, DisplayName = "is bin op a in b")]
+        [DataRow(OperatorCode.CNIn, DisplayName = "is bin op a not in b")]
+        [DataRow(OperatorCode.CIs, DisplayName = "is bin op a is b")]
+        [DataRow(OperatorCode.CIsN, DisplayName = "is bin op a is not b")]
+
         [DataRow(OperatorCode.LAnd, DisplayName = "is bin op a&&b")]
         [DataRow(OperatorCode.LOr, DisplayName = "is bin op a||b")]
         public void IsBinaryTests(OperatorCode code)
