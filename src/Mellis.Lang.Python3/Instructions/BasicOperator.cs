@@ -53,21 +53,32 @@ namespace Mellis.Lang.Python3.Instructions
                     return lhs.ArithmeticExponent(rhs);
 
                 // Binary operators (lhs op rhs)
-                case OperatorCode.BAnd: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "&");
-                case OperatorCode.BLsh: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "<<");
-                case OperatorCode.BRsh: throw new SyntaxNotYetImplementedExceptionKeyword(Source, ">>");
-                case OperatorCode.BOr: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "|");
-                case OperatorCode.BXor: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "^");
+                case OperatorCode.BAnd:
+                    return lhs.BinaryAnd(rhs);
+                case OperatorCode.BLsh:
+                    return lhs.BinaryLeftShift(rhs);
+                case OperatorCode.BRsh:
+                    return lhs.BinaryRightShift(rhs);
+                case OperatorCode.BOr:
+                    return lhs.BinaryOr(rhs);
+                case OperatorCode.BXor:
+                    return lhs.BinaryXor(rhs);
 
-                case OperatorCode.CEq: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "==");
-                case OperatorCode.CNEq: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "!=");
-                case OperatorCode.CGt: throw new SyntaxNotYetImplementedExceptionKeyword(Source, ">");
-                case OperatorCode.CGtEq: throw new SyntaxNotYetImplementedExceptionKeyword(Source, ">=");
-                case OperatorCode.CLt: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "<");
-                case OperatorCode.CLtEq: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "<=");
+                case OperatorCode.CEq:
+                    return lhs.CompareEqual(rhs);
+                case OperatorCode.CNEq:
+                    return lhs.CompareNotEqual(rhs);
+                case OperatorCode.CGt:
+                    return lhs.CompareGreaterThan(rhs);
+                case OperatorCode.CGtEq:
+                    return lhs.CompareGreaterThanOrEqual(rhs);
+                case OperatorCode.CLt:
+                    return lhs.CompareLessThan(rhs);
+                case OperatorCode.CLtEq:
+                    return lhs.CompareLessThanOrEqual(rhs);
 
-                case OperatorCode.LAnd: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "&&");
-                case OperatorCode.LOr: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "||");
+                case OperatorCode.LAnd: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "and");
+                case OperatorCode.LOr: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "or");
 
                 case OperatorCode.CIn: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "in");
                 case OperatorCode.CNIn: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "not in");

@@ -65,9 +65,9 @@
         /*
          * Binary logical operators (lhs op rhs)
          */
-        /// <summary>a&amp;&amp;b</summary>
+        /// <summary>a and b</summary>
         LAnd = 0x20,
-        /// <summary>a||b</summary>
+        /// <summary>a or b</summary>
         LOr,
 
         /*

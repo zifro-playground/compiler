@@ -141,34 +141,14 @@ namespace Mellis.Lang.Python3.Tests.Processor
                 o => o.CompareLessThanOrEqual(It.IsAny<IScriptType>()));
         }
 
-        [TestMethod]
-        public void EvaluateBinary_CIn_Test()
-        {
-            EvaluateBinaryTestTemplate(OperatorCode.CIn,
-                o => o.MemberIn(It.IsAny<IScriptType>()));
-        }
-
-        [TestMethod]
-        public void EvaluateBinary_CNIn_Test()
-        {
-            EvaluateBinaryTestTemplate(OperatorCode.CNIn,
-                o => o.MemberNotIn(It.IsAny<IScriptType>()));
-        }
-
-        [TestMethod]
-        public void EvaluateBinary_CIs_Test()
-        {
-            EvaluateBinaryTestTemplate(OperatorCode.CIs,
-                o => o.IdentityIs(It.IsAny<IScriptType>()));
-        }
-
-        [TestMethod]
-        public void EvaluateBinary_CIsN_Test()
-        {
-            EvaluateBinaryTestTemplate(OperatorCode.CIsN,
-                o => o.IdentityIsNot(It.IsAny<IScriptType>()));
-        }
-
+        [DataTestMethod]
+        // Binary operators (lhs op rhs)
+        [DataRow(OperatorCode.LAnd, "and", DisplayName = "nyi and")]
+        [DataRow(OperatorCode.LOr, "or", DisplayName = "nyi or")]
+        [DataRow(OperatorCode.CIn, "in", DisplayName = "nyi in")]
+        [DataRow(OperatorCode.CNIn, "not in", DisplayName = "nyi not in")]
+        [DataRow(OperatorCode.CIs, "is", DisplayName = "nyi is")]
+        [DataRow(OperatorCode.CIsN, "is not", DisplayName = "nyi is not")]
         // Unary operators (op rhs)
         [DataRow(OperatorCode.ANeg, "+", DisplayName = "nyi +")]
         [DataRow(OperatorCode.APos, "-", DisplayName = "nyi -")]
