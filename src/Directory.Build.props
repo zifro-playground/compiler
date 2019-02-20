@@ -11,4 +11,7 @@
 
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <DebugType>Full</DebugType>
+  </PropertyGroup>
 </Project>
