@@ -1,15 +1,14 @@
 {
   "runtimeTarget": {
     "name": ".NETStandard,Version=v2.0/",
-    "signature": "91904d92c6043f70198c100b4097ad05b7dff67c"
+    "signature": "c424fc82929e7788502dc23cd484861bafd7d898"
   },
   "compilationOptions": {},
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "Mellis.Lang.Python3/0.2.1": {
+      "Mellis.Lang.Python3/0.2.3": {
         "dependencies": {
-          "Antlr4": "4.6.6",
           "Antlr4.Runtime": "4.6.6",
           "Mellis.Core": "0.1.1",
           "Mellis.Lang.Base": "0.1.1",
@@ -19,13 +18,6 @@
           "Mellis.Lang.Python3.dll": {}
         }
       },
-      "Antlr4/4.6.6": {
-        "dependencies": {
-          "Antlr4.CodeGenerator": "4.6.6",
-          "Antlr4.Runtime": "4.6.6"
-        }
-      },
-      "Antlr4.CodeGenerator/4.6.6": {},
       "Antlr4.Runtime/4.6.6": {
         "dependencies": {
           "NETStandard.Library": "2.0.3"
@@ -68,24 +60,10 @@
     }
   },
   "libraries": {
-    "Mellis.Lang.Python3/0.2.1": {
+    "Mellis.Lang.Python3/0.2.3": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
-    },
-    "Antlr4/4.6.6": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-mtHCpallXyZaWd2quDmR/sc7mBf18+nelxakWYpHVc9v0T0zM9SevzhUZxh2PKPsQbEKnDACfYHNJMqKkmTs1g==",
-      "path": "antlr4/4.6.6",
-      "hashPath": "antlr4.4.6.6.nupkg.sha512"
-    },
-    "Antlr4.CodeGenerator/4.6.6": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-AStoC8SCdU1TUSn5Bh0xZU9rlvaERwXkrgqc1jEFON3e/xBtapCuThYIzgXL9TOignWwHjLxlHH233D+DfH9LA==",
-      "path": "antlr4.codegenerator/4.6.6",
-      "hashPath": "antlr4.codegenerator.4.6.6.nupkg.sha512"
     },
     "Antlr4.Runtime/4.6.6": {
       "type": "package",
