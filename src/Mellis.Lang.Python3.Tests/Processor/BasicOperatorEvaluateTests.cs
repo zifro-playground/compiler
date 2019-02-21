@@ -152,7 +152,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         [DataRow(OperatorCode.ANeg, "+", DisplayName = "nyi +")]
         [DataRow(OperatorCode.APos, "-", DisplayName = "nyi -")]
         [DataRow(OperatorCode.BNot, "~", DisplayName = "nyi ~")]
-        [DataRow(OperatorCode.LNot, "!", DisplayName = "nyi !")]
+        [DataRow(OperatorCode.LNot, "not", DisplayName = "nyi not")]
         public void EvaluateBinary_NotYetImplemented_Tests(OperatorCode opCode, string expectedKeyword)
         {
             // Arrange
