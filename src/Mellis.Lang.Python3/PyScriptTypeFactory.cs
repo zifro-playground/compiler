@@ -77,7 +77,7 @@ namespace Mellis.Lang.Python3
 
         public IScriptType Create(IClrFunction value)
         {
-            throw new System.NotImplementedException();
+            return new PyClrFunction(_processor, value);
         }
     }
 }
