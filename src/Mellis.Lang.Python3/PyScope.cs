@@ -19,7 +19,7 @@ namespace Mellis.Lang.Python3
 
         internal void SetVariable(string key, IScriptType value)
         {
-            _variables[key] = value;
+            _variables[key] = value.Copy(key);
         }
 
         internal IScriptType GetVariable(string key)
