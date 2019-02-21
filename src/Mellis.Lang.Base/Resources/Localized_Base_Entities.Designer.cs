@@ -502,6 +502,15 @@ namespace Mellis.Lang.Base.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to funktion.
+        /// </summary>
+        public static string Type_Function_Name {
+            get {
+                return ResourceManager.GetString("Type_Function_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to heltal.
         /// </summary>
         public static string Type_Int_Name {

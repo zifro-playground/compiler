@@ -339,4 +339,8 @@ Ex: myValue.x = y
 {1} localized name of other (RHS)
 {2} operator keyword (ex: '==')</comment>
   </data>
+  <data name="Type_Function_Name" xml:space="preserve">
+    <value>funktion</value>
+    <comment>Name of function type. Used in some errors, ex: Ex_Int_AddInvalidType</comment>
+  </data>
 </root>
