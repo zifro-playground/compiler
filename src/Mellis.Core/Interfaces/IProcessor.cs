@@ -15,5 +15,7 @@ namespace Mellis.Core.Interfaces
 
         void ContinueYieldedValue(IScriptType value);
         void WalkLine();
+
+        void AddBuiltin(params IClrFunction[] builtinList);
     }
 }

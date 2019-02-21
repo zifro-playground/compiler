@@ -493,20 +493,29 @@ namespace Mellis.Lang.Base.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to funktion.
+        /// </summary>
+        public static string Type_ClrFunction_Name {
+            get {
+                return ResourceManager.GetString("Type_ClrFunction_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;inbyggd funktion &apos;{0}&apos;&gt;.
+        /// </summary>
+        public static string Type_ClrFunction_ToString {
+            get {
+                return ResourceManager.GetString("Type_ClrFunction_ToString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to decimaltal.
         /// </summary>
         public static string Type_Double_Name {
             get {
                 return ResourceManager.GetString("Type_Double_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to funktion.
-        /// </summary>
-        public static string Type_Function_Name {
-            get {
-                return ResourceManager.GetString("Type_Function_Name", resourceCulture);
             }
         }
         

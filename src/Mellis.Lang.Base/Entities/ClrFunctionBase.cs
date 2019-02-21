@@ -6,15 +6,18 @@ namespace Mellis.Lang.Base.Entities
 {
     public abstract class ClrFunctionBase : ScriptTypeBase
     {
-        protected ClrFunctionBase(IProcessor processor, string name = null)
+        public IClrFunction Definition { get; }
+
+        protected ClrFunctionBase(IProcessor processor, IClrFunction definition, string name = null)
             : base(processor, name)
         {
+            Definition = definition;
         }
 
         /// <inheritdoc />
         public override string GetTypeName()
         {
-            return Localized_Base_Entities.Type_Function_Name;
+            return Localized_Base_Entities.Type_ClrFunction_Name;
         }
 
         /// <inheritdoc />
@@ -42,10 +45,10 @@ namespace Mellis.Lang.Base.Entities
                 return true;
             }
 
-            // Invoke(arg1)
+            // Invoke(arg0)
             if (type == typeof(Action<IScriptType>))
             {
-                void Action1(IScriptType arg1) => Invoke(new[] {arg1});
+                void Action1(IScriptType arg0) => Invoke(new[] {arg0});
                 value = (Action<IScriptType>) Action1;
                 return true;
             }
@@ -66,16 +69,24 @@ namespace Mellis.Lang.Base.Entities
                 return true;
             }
 
-            // Invoke(arg1) => val
+            // Invoke(arg0) => val
             if (type == typeof(Func<IScriptType, IScriptType>))
             {
-                IScriptType Func1(IScriptType arg1) => Invoke(new[] {arg1});
+                IScriptType Func1(IScriptType arg0) => Invoke(new[] {arg0});
                 value = (Func<IScriptType, IScriptType>) Func1;
                 return true;
             }
 
             value = default;
             return false;
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+                format: Localized_Base_Entities.Type_ClrFunction_ToString,
+                arg0: Name
+            );
         }
     }
 }
