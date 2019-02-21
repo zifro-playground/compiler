@@ -42,7 +42,6 @@ namespace Mellis.Lang.Python3.Tests.Processor
                 o => o.ArithmeticDivide(It.IsAny<IScriptType>()));
         }
 
-
         [TestMethod]
         public void EvaluateBinary_Flr_Test()
         {
@@ -169,6 +168,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             processor.PushValue(rhsMock.Object);
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action) processor.WalkLine);
 
             // Assert
@@ -195,6 +195,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             processor.PushValue(rhsMock.Object);
 
             // Act
+            processor.WalkInstruction(); // to enter first op
             processor.WalkLine();
             int numOfValues = processor.ValueStackCount;
             var result = processor.PopValue();
