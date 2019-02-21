@@ -14,8 +14,8 @@ namespace Mellis.Lang.Base.Entities
     {
         public bool Value { get; }
 
-        protected BooleanBase(IProcessor processor, bool value)
-            : base(processor)
+        protected BooleanBase(IProcessor processor, bool value, string name = null)
+            : base(processor, name)
         {
             Value = value;
         }

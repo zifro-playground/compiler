@@ -16,6 +16,19 @@ namespace Mellis.Core.Interfaces
         IProcessor Processor { get; }
 
         /// <summary>
+        /// Name of this value.
+        /// Can be function name, variable name, or parameter name.
+        /// Null if undetermined (ex: equation result)
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
+        /// Creates a copy of this value with new name.
+        /// Used internally by the processor on variable assignment.
+        /// </summary>
+        IScriptType Copy(string newName);
+
+        /// <summary>
         /// <para>(Lua, Python) type(this)</para>
         /// <para>(JavaScript) typeof(this)</para>
         /// </summary>

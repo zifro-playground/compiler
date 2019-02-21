@@ -15,8 +15,8 @@ namespace Mellis.Lang.Base.Entities
     {
         public int Value { get; }
 
-        protected IntegerBase(IProcessor processor, int value)
-            : base(processor)
+        protected IntegerBase(IProcessor processor, int value, string name = null)
+            : base(processor, name)
         {
             Value = value;
         }

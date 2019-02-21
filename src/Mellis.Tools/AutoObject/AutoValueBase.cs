@@ -10,7 +10,18 @@ namespace Mellis.Tools.AutoObject
 {
     public abstract class AutoValueBase : IScriptType
     {
-        public IProcessor Processor { get; set; }
+
+        public IProcessor Processor { get; }
+
+        public string Name { get; }
+
+        protected AutoValueBase(IProcessor processor, string name)
+        {
+            Name = name;
+            Processor = processor;
+        }
+
+        public abstract IScriptType Copy(string newName);
 
         public abstract IScriptType GetTypeDef();
 
