@@ -6,9 +6,15 @@ namespace Mellis.Lang.Python3.Entities
 {
     public class PyInteger : IntegerBase
     {
-        public PyInteger(PyProcessor processor, int value)
-            : base(processor, value)
+        public PyInteger(IProcessor processor, int value, string name = null)
+            : base(processor, value, name)
         {
+        }
+
+        /// <inheritdoc />
+        public override IScriptType Copy(string newName)
+        {
+            return new PyInteger(Processor, Value, newName);
         }
 
         /// <inheritdoc />

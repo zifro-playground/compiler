@@ -6,9 +6,15 @@ namespace Mellis.Lang.Python3.Entities
 {
     public class PyDouble : DoubleBase
     {
-        public PyDouble(PyProcessor processor, double value)
-            : base(processor, value)
+        public PyDouble(IProcessor processor, double value, string name = null)
+            : base(processor, value, name)
         {
+        }
+
+        /// <inheritdoc />
+        public override IScriptType Copy(string newName)
+        {
+            return new PyDouble(Processor, Value, newName);
         }
 
         /// <inheritdoc />

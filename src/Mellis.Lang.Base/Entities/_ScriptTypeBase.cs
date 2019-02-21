@@ -11,12 +11,19 @@ namespace Mellis.Lang.Base.Entities
         public IProcessor Processor { get; }
 
         /// <inheritdoc/>
-        public abstract IScriptType GetTypeDef();
+        public string Name { get; }
 
-        protected ScriptTypeBase(IProcessor processor)
+        protected ScriptTypeBase(IProcessor processor, string name = null)
         {
             Processor = processor;
+            Name = name;
         }
+
+        /// <inheritdoc/>
+        public abstract IScriptType Copy(string newName);
+
+        /// <inheritdoc/>
+        public abstract IScriptType GetTypeDef();
 
         /// <inheritdoc/>
         public abstract string GetTypeName();

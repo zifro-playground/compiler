@@ -105,9 +105,9 @@ namespace Mellis.Tools.Tests
         {
             // Arrange
             factoryMock.Setup(o => o.Create(It.IsAny<double>()))
-                .Returns<double>(d => new Mock<DoubleBase>(null, d).Object);
+                .Returns<double>(d => new Mock<DoubleBase>(null, d, null).Object);
             factoryMock.Setup(o => o.Create(It.IsAny<int>()))
-                .Returns<int>(i => new Mock<IntegerBase>(null, i).Object);
+                .Returns<int>(i => new Mock<IntegerBase>(null, i, null).Object);
 
             // Act
             IScriptType result = factoryObject.CreateAppropriate(input);

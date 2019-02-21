@@ -10,6 +10,15 @@ namespace Mellis.Lang.Python3.Tests.Processor
     [TestClass]
     public class VarSetEvaluateTests
     {
+        protected static Mock<IScriptType> GetSetupScriptType(out IScriptType copy)
+        {
+            var mock = new Mock<IScriptType>(MockBehavior.Strict);
+            copy = new Mock<IScriptType>(MockBehavior.Strict).Object;
+            mock.Setup(o => o.Copy(It.IsAny<string>()))
+                .Returns(copy).Verifiable();
+            return mock;
+        }
+
         [TestMethod]
         public void EvaluateVarSetTest()
         {
@@ -19,7 +28,9 @@ namespace Mellis.Lang.Python3.Tests.Processor
                 new VarSet(SourceReference.ClrSource, identifier)
             );
 
-            var rhsMock = new Mock<IScriptType>(MockBehavior.Strict);
+            var rhsMock = GetSetupScriptType(
+                out IScriptType rhsCopy);
+
             processor.PushValue(rhsMock.Object);
 
             var globalScope = (PyScope) processor.GlobalScope;
@@ -31,7 +42,9 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Assert
             globalScope.Variables.TryGetValue(identifier, out IScriptType globalVar);
-            Assert.AreSame(rhsMock.Object, globalVar);
+            Assert.AreSame(rhsCopy, globalVar);
+            Assert.AreNotSame(rhsMock.Object, globalVar);
+            rhsMock.Verify();
 
             Assert.AreEqual(0, numOfValues, "Did not absorb value.");
         }
@@ -45,12 +58,14 @@ namespace Mellis.Lang.Python3.Tests.Processor
                 new VarSet(SourceReference.ClrSource, identifier)
             );
 
-            var rhs = Mock.Of<IScriptType>();
-            processor.PushValue(rhs);
+            var rhsMock = GetSetupScriptType(
+                out IScriptType rhsCopy);
+            processor.PushValue(rhsMock.Object);
 
-            var before = Mock.Of<IScriptType>();
+            var beforeMock = GetSetupScriptType(
+                out IScriptType beforeCopy);
             var globalScope = (PyScope)processor.GlobalScope;
-            globalScope.SetVariable(identifier, before);
+            globalScope.SetVariable(identifier, beforeMock.Object);
 
             // Act
             processor.WalkInstruction(); // to enter first op
@@ -59,8 +74,12 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Assert
             globalScope.Variables.TryGetValue(identifier, out IScriptType globalVar);
-            Assert.AreSame(rhs, globalVar);
-            Assert.AreNotSame(before, globalVar);
+            Assert.AreSame(rhsCopy, globalVar);
+            Assert.AreNotSame(rhsMock.Object, globalVar);
+            Assert.AreNotSame(beforeCopy, globalVar);
+            Assert.AreNotSame(beforeMock.Object, globalVar);
+            rhsMock.Verify();
+            beforeMock.Verify();
 
             Assert.AreEqual(0, numOfValues, "Did not absorb value.");
         }
@@ -76,8 +95,9 @@ namespace Mellis.Lang.Python3.Tests.Processor
                 new ScopePop(SourceReference.ClrSource)
             );
 
-            var rhs = Mock.Of<IScriptType>();
-            processor.PushValue(rhs);
+            var rhsMock = GetSetupScriptType(
+                out IScriptType rhsCopy);
+            processor.PushValue(rhsMock.Object);
 
             var globalScope = (PyScope)processor.GlobalScope;
 
@@ -93,7 +113,9 @@ namespace Mellis.Lang.Python3.Tests.Processor
             globalScope.Variables.TryGetValue(identifier, out IScriptType globalVar);
             localScope.Variables.TryGetValue(identifier, out IScriptType localVar);
             Assert.IsNull(globalVar);
-            Assert.AreSame(rhs, localVar);
+            Assert.AreSame(rhsCopy, localVar);
+            Assert.AreNotSame(rhsMock.Object, localVar);
+            rhsMock.Verify();
 
             Assert.AreEqual(0, numOfValues, "Did not absorb value.");
         }
@@ -109,15 +131,17 @@ namespace Mellis.Lang.Python3.Tests.Processor
                 new ScopePop(SourceReference.ClrSource)
             );
 
-            var rhs = Mock.Of<IScriptType>();
-            processor.PushValue(rhs);
+            var rhsMock = GetSetupScriptType(
+                out IScriptType rhsCopy);
+            processor.PushValue(rhsMock.Object);
 
             processor.WalkInstruction(); // to enter first op
             processor.WalkInstruction();
 
-            var before = Mock.Of<IScriptType>();
+            var beforeMock = GetSetupScriptType(
+                out IScriptType beforeCopy);
             var localScope = (PyScope)processor.CurrentScope;
-            localScope.SetVariable(identifier, before);
+            localScope.SetVariable(identifier, beforeMock.Object);
 
             // Act
             processor.WalkLine();
@@ -125,8 +149,11 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Assert
             localScope.Variables.TryGetValue(identifier, out IScriptType localVar);
-            Assert.AreSame(rhs, localVar);
-            Assert.AreNotSame(rhs, before);
+            Assert.AreSame(rhsCopy, localVar);
+            Assert.AreNotSame(rhsMock.Object, localVar);
+            Assert.AreNotSame(rhsMock.Object, beforeMock.Object);
+            Assert.AreNotSame(rhsCopy, beforeMock.Object);
+            Assert.AreNotSame(rhsCopy, beforeCopy);
 
             Assert.AreEqual(0, numOfValues, "Did not absorb value.");
         }

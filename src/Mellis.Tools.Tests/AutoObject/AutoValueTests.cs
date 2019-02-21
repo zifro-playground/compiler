@@ -37,9 +37,8 @@ namespace Mellis.Tools.Tests.AutoObject
         {
             // Arrange
             const string testString = "foo";
-            var model = new TestingClass
+            var model = new TestingClass(processorMock.Object)
             {
-                Processor = processorMock.Object,
                 PublicProperty = testString
             };
 
@@ -59,10 +58,8 @@ namespace Mellis.Tools.Tests.AutoObject
         {
             // Arrange
             const string testString = "foo";
-            var model = new TestingClass
-            {
-                Processor = processorMock.Object,
-            }.WithPrivateProperty(testString);
+            var model = new TestingClass(processorMock.Object)
+                .WithPrivateProperty(testString);
 
             factoryMock.Setup(o => o.Create(testString))
                 .Returns(valueMock.Object);
@@ -80,10 +77,8 @@ namespace Mellis.Tools.Tests.AutoObject
         {
             // Arrange
             const string testString = "foo";
-            var model = new TestingClass
-            {
-                Processor = processorMock.Object,
-            }.WithProtectedProperty(testString);
+            var model = new TestingClass(processorMock.Object)
+                .WithProtectedProperty(testString);
 
             factoryMock.Setup(o => o.Create(testString))
                 .Returns(valueMock.Object);
@@ -102,10 +97,8 @@ namespace Mellis.Tools.Tests.AutoObject
             const string testString = "foo";
 
             // Arrange
-            var model = new TestingDerivedClass
-            {
-                Processor = processorMock.Object,
-            }.WithProtectedProperty(testString);
+            var model = new TestingDerivedClass(processorMock.Object)
+                .WithProtectedProperty(testString);
 
             factoryMock.Setup(o => o.Create(testString))
                 .Returns(valueMock.Object);
@@ -123,9 +116,8 @@ namespace Mellis.Tools.Tests.AutoObject
         {
             // Arrange
             const string testString = null;
-            var model = new TestingClass
+            var model = new TestingClass(processorMock.Object)
             {
-                Processor = processorMock.Object,
                 PublicProperty = testString
             };
 
@@ -145,9 +137,8 @@ namespace Mellis.Tools.Tests.AutoObject
         {
             // Arrange
             const string testString = null;
-            var model = new TestingClass
+            var model = new TestingClass(processorMock.Object)
             {
-                Processor = processorMock.Object,
                 PublicFieldWithoutAttribute = testString
             };
 

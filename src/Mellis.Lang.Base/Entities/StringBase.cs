@@ -14,8 +14,8 @@ namespace Mellis.Lang.Base.Entities
     {
         public string Value { get; }
 
-        protected StringBase(IProcessor processor, string value)
-            : base(processor)
+        protected StringBase(IProcessor processor, string value, string name = null)
+            : base(processor, name)
         {
             Value = value ?? string.Empty;
         }
