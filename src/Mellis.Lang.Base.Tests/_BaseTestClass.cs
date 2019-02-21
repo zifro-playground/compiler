@@ -57,7 +57,7 @@ namespace Mellis.Lang.Base.Tests
         private TScriptType GetValue<TScriptType, TValue>(TValue value)
             where TScriptType : class, IScriptType
         {
-            return new Mock<TScriptType>(processorMock.Object, value) {CallBase = true}.Object;
+            return new Mock<TScriptType>(processorMock.Object, value, null) {CallBase = true}.Object;
         }
 
         protected IScriptType GetValue(object value)

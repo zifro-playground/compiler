@@ -46,6 +46,11 @@ namespace Mellis.Tools.Tests.AutoObject
             return this;
         }
 
+        public override IScriptType Copy(string newName)
+        {
+            return new TestingClass(Processor, newName);
+        }
+
         public override IScriptType GetTypeDef()
         {
             throw new System.NotImplementedException();
@@ -59,6 +64,10 @@ namespace Mellis.Tools.Tests.AutoObject
         public override IScriptType Invoke(IScriptType[] arguments)
         {
             throw new System.NotImplementedException();
+        }
+
+        public TestingClass(IProcessor processor, string name = null) : base(processor, name)
+        {
         }
     }
 }

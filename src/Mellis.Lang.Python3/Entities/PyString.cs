@@ -7,9 +7,15 @@ namespace Mellis.Lang.Python3.Entities
 {
     public class PyString : StringBase
     {
-        public PyString(PyProcessor processor, string value)
-            : base(processor, value)
+        public PyString(IProcessor processor, string value, string name = null)
+            : base(processor, value, name)
         {
+        }
+
+        /// <inheritdoc />
+        public override IScriptType Copy(string newName)
+        {
+            return new PyString(Processor, Value, newName);
         }
 
         /// <inheritdoc />
