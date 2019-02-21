@@ -817,13 +817,32 @@ namespace Mellis.Lang.Python3.Grammar
 
         public override SyntaxNode VisitTrailer(Python3Parser.TrailerContext context)
         {
-            if (context.GetToken(Python3Parser.OPEN_PAREN, 0) != null)
-                throw context.NotYetImplementedException("()");
-            if (context.GetToken(Python3Parser.OPEN_BRACK, 0) != null)
-                throw context.NotYetImplementedException("[]");
-            if (context.GetToken(Python3Parser.DOT, 0) != null)
-                throw context.NotYetImplementedException(".");
-            throw context.NotYetImplementedException();
+            // trailer: '(' [arglist] ')' | '[' subscriptlist ']' | '.' NAME
+
+            var firstTerm = context.GetChildOrThrow<ITerminalNode>(0);
+
+            switch (firstTerm.Symbol.Type)
+            {
+                case Python3Parser.OPEN_PAREN when context.ChildCount > 3:
+                case Python3Parser.OPEN_BRACK when context.ChildCount > 3:
+                    throw context.UnexpectedChildType(context.GetChild(3));
+
+                case Python3Parser.DOT when context.ChildCount > 2:
+                    throw context.UnexpectedChildType(context.GetChild(2));
+
+                case Python3Parser.OPEN_PAREN:
+                    context.ExpectClosingParenthesis(firstTerm, Python3Parser.CLOSE_PAREN);
+                    return new FunctionCall(context.GetSourceReference(), new List<ExpressionNode>());
+
+                case Python3Parser.OPEN_BRACK:
+                    throw firstTerm.NotYetImplementedException("[]");
+
+                case Python3Parser.DOT:
+                    throw firstTerm.NotYetImplementedException(".");
+
+                default:
+                    throw context.UnexpectedChildType(firstTerm);
+            }
         }
 
         public override SyntaxNode VisitSubscriptlist(Python3Parser.SubscriptlistContext context)

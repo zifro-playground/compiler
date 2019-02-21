@@ -152,7 +152,9 @@ namespace Mellis.Lang.Python3.Extensions
         {
             IParseTree last = context.GetChild(context.ChildCount - 1);
 
-            if (!(last is ITerminalNode node) || node.Symbol.Type != closingType)
+            if (!(last is ITerminalNode node) || // not terminal node
+                node.Symbol.Type != closingType || // wrong symbol
+                node.Symbol.StartIndex == -1) // missing
             {
                 throw new SyntaxException(opening.GetSourceReference(),
                     nameof(Localized_Python3_Parser.Ex_Parenthesis_NoClosing),

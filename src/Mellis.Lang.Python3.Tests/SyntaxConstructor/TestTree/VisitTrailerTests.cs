@@ -12,7 +12,7 @@ using Moq;
 namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
 {
     [TestClass]
-    public class VisitTrailerParenthesesTests : BaseVisitClass<
+    public class VisitTrailerTests : BaseVisitClass<
         Python3Parser.TrailerContext>
     {
         public override SyntaxNode VisitContext()
@@ -46,22 +46,13 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
         }
 
-        public ITerminalNode GetOpenTerminal()
-        {
-            return GetTerminal(Python3Parser.OPEN_PAREN);
-        }
-
-        public ITerminalNode GetCloseTerminal()
-        {
-            return GetTerminal(Python3Parser.CLOSE_PAREN);
-        }
-
         [TestMethod]
         public void TestNonClosingParentheses()
         {
             // Arrange
+            ITerminalNode opening = GetTerminal(Python3Parser.OPEN_PAREN);
             contextMock.SetupChildren(
-                GetOpenTerminal()
+                opening
             );
 
             // Act
@@ -70,7 +61,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Assert
             Assert.That.ErrorSyntaxFormatArgsEqual(ex,
                 nameof(Localized_Python3_Parser.Ex_Parenthesis_NoClosing),
-                startTokenMock.Object, stopTokenMock.Object,
+                opening,
                 ")"
             );
         }
@@ -80,8 +71,8 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         {
             // Arrange
             contextMock.SetupChildren(
-                GetOpenTerminal(),
-                GetCloseTerminal()
+                GetTerminal(Python3Parser.OPEN_PAREN),
+                GetTerminal(Python3Parser.CLOSE_PAREN)
             );
 
             // Act
@@ -106,9 +97,9 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             contextMock.SetupChildren(
-                GetOpenTerminal(),
+                GetTerminal(Python3Parser.OPEN_PAREN),
                 arglistMock.Object,
-                GetCloseTerminal()
+                GetTerminal(Python3Parser.CLOSE_PAREN)
             );
 
             // Act
@@ -116,7 +107,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(FunctionCall));
-            var call = ((FunctionCall) result);
+            var call = (FunctionCall) result;
             Assert.AreSame(arg1, call.Arguments[0]);
             Assert.AreSame(arg2, call.Arguments[1]);
             Assert.AreSame(arg3, call.Arguments[2]);
