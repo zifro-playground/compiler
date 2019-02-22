@@ -2,6 +2,7 @@
 using Mellis.Core.Entities;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Entities;
+using Moq;
 
 namespace Mellis.Lang.Python3.Tests
 {
@@ -202,6 +203,27 @@ namespace Mellis.Lang.Python3.Tests
             Assert.IsInstanceOfType(y, typeof(PyString));
             Assert.AreEqual("inge print än", ((PyString)y).Value);
 
+            Assert.AreEqual(ProcessState.Ended, processor.State);
+        }
+
+        [TestMethod]
+        public void ProcessCallClrTest()
+        {
+            // Arrange
+            const string code = "foo()";
+            var processor = (PyProcessor)new PyCompiler().Compile(code);
+
+            var clrMock = new Mock<IClrFunction>();
+            clrMock.SetupGet(o => o.FunctionName).Returns("foo");
+
+            processor.AddBuiltin(clrMock.Object);
+
+            // Act
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkLine(); // foo()
+
+            // Assert
+            clrMock.Verify(o => o.Invoke(It.IsAny<IScriptType[]>()));
             Assert.AreEqual(ProcessState.Ended, processor.State);
         }
     }
