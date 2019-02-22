@@ -7,7 +7,7 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "Mellis.Lang.Python3/0.2.7": {
+      "Mellis.Lang.Python3/0.2.8": {
         "dependencies": {
           "Antlr4.Runtime": "4.6.6",
           "Mellis.Core": "0.1.4",
@@ -60,7 +60,7 @@
     }
   },
   "libraries": {
-    "Mellis.Lang.Python3/0.2.7": {
+    "Mellis.Lang.Python3/0.2.8": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
