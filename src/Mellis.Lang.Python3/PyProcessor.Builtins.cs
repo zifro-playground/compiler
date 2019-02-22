@@ -10,7 +10,7 @@ namespace Mellis.Lang.Python3
         {
             foreach (IClrFunction function in builtinList)
             {
-                _builtins.SetVariable(function.Name, Factory.Create(function));
+                _builtins.SetVariable(function.FunctionName, Factory.Create(function));
             }
         }
     }

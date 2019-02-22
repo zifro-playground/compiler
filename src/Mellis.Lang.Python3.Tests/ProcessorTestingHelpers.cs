@@ -39,7 +39,7 @@ namespace Mellis.Lang.Python3.Tests
             Assert.IsNotNull(actual, "Expected CLR function variable, got null.");
             Assert.IsInstanceOfType(actual, typeof(ClrFunctionBase), $"Expected CLR function variable, got {actual.GetType().Name}.");
             IClrFunction actualDef = ((ClrFunctionBase)actual).Definition;
-            Assert.AreSame(expected, actualDef, $"CLR function definition was not same as expected.\nExpected: {expected.Name ?? "null"}\nActual: {actualDef.Name ?? "null"}");
+            Assert.AreSame(expected, actualDef, $"CLR function definition was not same as expected.\nExpected: {expected.FunctionName ?? "null"}\nActual: {actualDef.FunctionName ?? "null"}");
         }
     }
 }

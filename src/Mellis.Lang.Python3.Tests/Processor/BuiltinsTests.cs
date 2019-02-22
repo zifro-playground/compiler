@@ -13,7 +13,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             // Arrange
             var processor = new PyProcessor();
             var builtinMock = new Mock<IClrFunction>();
-            builtinMock.SetupGet(o => o.Name).Returns("foo");
+            builtinMock.SetupGet(o => o.FunctionName).Returns("foo");
 
             processor.AddBuiltin(
                 builtinMock.Object
@@ -32,9 +32,9 @@ namespace Mellis.Lang.Python3.Tests.Processor
             // Arrange
             var processor = new PyProcessor();
             var builtinMock1 = new Mock<IClrFunction>();
-            builtinMock1.SetupGet(o => o.Name).Returns("foo");
+            builtinMock1.SetupGet(o => o.FunctionName).Returns("foo");
             var builtinMock2 = new Mock<IClrFunction>();
-            builtinMock2.SetupGet(o => o.Name).Returns("foo");
+            builtinMock2.SetupGet(o => o.FunctionName).Returns("foo");
 
             // Act
             processor.AddBuiltin(
