@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mellis.Core.Entities;
+using Mellis.Lang.Python3.Instructions;
 
 namespace Mellis.Lang.Python3.Syntax
 {
@@ -20,7 +21,16 @@ namespace Mellis.Lang.Python3.Syntax
 
         public override void Compile(PyCompiler compiler)
         {
-            throw new System.NotImplementedException();
+            Operand.Compile(compiler);
+
+            foreach (ExpressionNode argument in Arguments)
+            {
+                argument.Compile(compiler);
+            }
+
+            int returnAddress = compiler.GetJumpTargetRelative(+2);
+            compiler.Push(new Call(Source, Arguments.Count, returnAddress));
+            compiler.Push(new CallStackPop(Source));
         }
     }
 }

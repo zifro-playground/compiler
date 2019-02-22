@@ -71,6 +71,15 @@ namespace Mellis.Lang.Python3
         }
 
         /// <summary>
+        /// Get jump destination that targets a relative jump,
+        /// where 0 targets the most recent pushed op-code.
+        /// </summary>
+        public int GetJumpTargetRelative(int offset)
+        {
+            return Count - 1 + offset;
+        }
+
+        /// <summary>
         /// Get jump destination that targets the most recent pushed op-code.
         /// </summary>
         public int GetJumpTargetForPrevious()

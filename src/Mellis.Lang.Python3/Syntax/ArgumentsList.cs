@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mellis.Core.Entities;
+using Mellis.Lang.Python3.Exceptions;
 
 namespace Mellis.Lang.Python3.Syntax
 {
@@ -23,7 +24,7 @@ namespace Mellis.Lang.Python3.Syntax
 
         public override void Compile(PyCompiler compiler)
         {
-            throw new System.NotImplementedException();
+            throw new SyntaxUncompilableException(Source, typeof(ArgumentsList));
         }
 
         public IEnumerator<ExpressionNode> GetEnumerator()

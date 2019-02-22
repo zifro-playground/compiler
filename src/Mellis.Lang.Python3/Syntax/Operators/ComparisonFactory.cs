@@ -86,7 +86,7 @@ namespace Mellis.Lang.Python3.Syntax.Operators
 
         public override void Compile(PyCompiler compiler)
         {
-            throw new System.NotImplementedException();
+            throw new SyntaxUncompilableException(Source, typeof(ComparisonFactory));
         }
     }
 }
