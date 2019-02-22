@@ -23,7 +23,8 @@ namespace Mellis.Lang.Python3.Grammar
     {
         public override SyntaxNode VisitExpr_stmt(Python3Parser.Expr_stmtContext context)
         {
-            // expr_stmt: testlist_star_expr
+            // expr_stmt:
+            // testlist_star_expr
             // (
             //    annassign |
             //    augassign (yield_expr|testlist) |
@@ -31,62 +32,73 @@ namespace Mellis.Lang.Python3.Grammar
             //       '=' (yield_expr | testlist_star_expr)
             //    ) *
             // )
-            var expressions = new List<ExpressionNode>();
-            var lastWasAssign = false;
+            var firstRule = context.GetChildOrThrow<Python3Parser.Testlist_star_exprContext>(0);
+            var firstExpr = VisitTestlist_star_expr(firstRule)
+                .AsTypeOrThrow<ExpressionNode>();
 
-            foreach (IParseTree child in context.GetChildren())
+            if (context.ChildCount == 1)
+                return firstExpr;
+
+            IParseTree second = context.GetChild(1);
+            switch (second)
             {
-                switch (child)
-                {
-                    case Python3Parser.Testlist_star_exprContext testListStarExpr
-                        when (expressions.Count == 1 && lastWasAssign) ||
-                             expressions.Count == 0:
-                        var expr = (ExpressionNode) VisitTestlist_star_expr(testListStarExpr);
-                        // Append expression
-                        expressions.Add(expr);
-                        break;
+                // testlist_star_expr ( '=' (yield_expr | testlist_star_expr) ) *
+                case ITerminalNode term when term.Symbol.Type == Python3Parser.ASSIGN:
+                    var expressions = new List<ExpressionNode>
+                    {
+                        firstExpr
+                    };
 
-                    case Python3Parser.Testlist_star_exprContext testListStarExpr:
-                        throw context.UnexpectedChildType(testListStarExpr);
+                    for (var i = 2; i < context.ChildCount; i += 2)
+                    {
+                        var rule = context.GetChildOrThrow<ParserRuleContext>(i);
 
-                    case ITerminalNode term
-                        when term.Symbol.Type == Python3Parser.ASSIGN:
-                        switch (expressions.Count)
+                        switch (rule)
                         {
-                            case 0: throw context.UnexpectedChildType(term);
-                            case 1:
-                                lastWasAssign = true;
-                                continue;
-                            default: throw term.NotYetImplementedException();
+                            case Python3Parser.Yield_exprContext _:
+                                throw rule.NotYetImplementedException("yield");
+
+                            case Python3Parser.Testlist_star_exprContext testListStar:
+                                var expr = VisitTestlist_star_expr(testListStar)
+                                    .AsTypeOrThrow<ExpressionNode>();
+
+                                expressions.Add(expr);
+                                break;
+
+                            default:
+                                throw context.UnexpectedChildType(rule);
                         }
 
-                    // These are all in name for custom error messages
-                    case ITerminalNode term:
-                        throw context.UnexpectedChildType(term);
+                        if (i + 1 < context.ChildCount)
+                        {
+                            // verify it's an assign token
+                            ITerminalNode assign = context.GetChildOrThrow(i + 1, Python3Parser.ASSIGN);
+                            // cant handle multiple assigns yet
+                            throw assign.NotYetImplementedException("=");
+                        }
+                    }
 
-                    case Python3Parser.AugassignContext augassign
-                        when augassign.ChildCount == 1 && augassign.GetChild(0) is ITerminalNode term:
-                        throw augassign.NotYetImplementedException(term.Symbol.Text);
+                    return new Assignment(
+                        context.GetSourceReference(),
+                        expressions[0],
+                        expressions[1]);
 
-                    case Python3Parser.AnnassignContext annassign:
-                        throw annassign.NotYetImplementedException(":");
+                // testlist_star_expr annassign
+                case Python3Parser.AnnassignContext _ when context.ChildCount > 2:
+                    throw context.UnexpectedChildType(context.GetChild(2));
+                case Python3Parser.AnnassignContext annAssign:
+                    throw annAssign.NotYetImplementedException(":");
 
-                    case Python3Parser.Yield_exprContext yield:
-                        throw yield.NotYetImplementedException("yield");
+                // testlist_star_expr augassign (yield_expr | testlist)
+                case Python3Parser.AugassignContext _ when context.ChildCount > 3:
+                    throw context.UnexpectedChildType(context.GetChild(3));
+                case Python3Parser.AugassignContext augAssign:
+                    string keyword = augAssign.GetChildOrThrow<ITerminalNode>(0).Symbol.Text;
+                    throw augAssign.NotYetImplementedException(keyword);
 
-                    case ParserRuleContext rule:
-                        throw context.UnexpectedChildType(rule);
-                }
-
-                lastWasAssign = false;
+                default:
+                    throw context.UnexpectedChildType(second);
             }
-
-            if (expressions.Count == 2)
-                return new Assignment(context.GetSourceReference(),
-                    leftOperand: expressions[0],
-                    rightOperand: expressions[1]);
-
-            throw context.ExpectedChild();
         }
 
         public override SyntaxNode VisitTestlist_star_expr(Python3Parser.Testlist_star_exprContext context)

@@ -189,7 +189,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void Visit_YieldExpression_Test()
+        public void Visit_YieldAssignExpression_Test()
         {
             // Arrange
             var testListStarMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
@@ -198,6 +198,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
 
             contextMock.SetupChildren(
                 testListStarMock.Object,
+                GetTerminal(Python3Parser.ASSIGN),
                 yieldExprMock.Object
             );
 
@@ -205,7 +206,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, "yield");
-            contextMock.VerifyLoopedChildren(2);
+            contextMock.VerifyLoopedChildren(3);
 
             contextMock.Verify();
             ctorMock.Verify();
