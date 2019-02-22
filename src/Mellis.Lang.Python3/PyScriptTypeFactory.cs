@@ -13,6 +13,7 @@ namespace Mellis.Lang.Python3
             _processor = processor;
             True = new PyBoolean(_processor, true);
             False = new PyBoolean(_processor, false);
+            Null = new PyNone(_processor);
         }
 
         public IScriptType Null { get; }
