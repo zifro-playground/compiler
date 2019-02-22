@@ -17,7 +17,7 @@ namespace Mellis.Core.Interfaces
         /// <para>Where <c>number</c> is <c>0-9</c></para>
         /// <para>Where <c>letter</c> is defined by all Unicode letter categories: UppercaseLetter, LowercaseLetter, TitlecaseLetter, ModifierLetter, and OtherLetter.</para>
         /// </summary>
-        string Name { get; }
+        string FunctionName { get; }
 
         /// <summary>
         /// Executed by the processor when the function is invoked in the script environment.

@@ -282,19 +282,6 @@ namespace Mellis.Lang.Base.Tests
             AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Double_PropertySet), expectedFormatArgs);
         }
 
-        [TestMethod]
-        public void DoubleInvoke()
-        {
-            // Arrange
-            DoubleBase a = GetDouble(5);
-            object[] expectedFormatArgs = {5d};
-
-            void Action() { a.Invoke(null); }
-
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Double_Invoke), expectedFormatArgs);
-        }
-
         [DataTestMethod]
         [DataRow(5D)]
         public void DoubleTryConvertValid(object expected)

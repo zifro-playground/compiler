@@ -191,19 +191,6 @@ namespace Mellis.Lang.Base.Tests
             AssertThrow(Action, nameof(Localized_Base_Entities.Ex_String_PropertySet), expectedFormatArgs);
         }
 
-        [TestMethod]
-        public void StringInvoke()
-        {
-            // Arrange
-            StringBase a = GetString("foo");
-            object[] expectedFormatArgs = { a.Value, a.Value.Length };
-
-            void Action() { a.Invoke(null); }
-
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_String_Invoke), expectedFormatArgs);
-        }
-
         [DataTestMethod]
         [DataRow("foo", "foo")]
         [DataRow("f", "f")]

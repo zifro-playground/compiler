@@ -32,7 +32,7 @@ namespace Mellis.Lang.Base.Entities
             // Invoke()
             if (type == typeof(Action))
             {
-                void Action() => Invoke(new IScriptType[0]);
+                void Action() => Definition.Invoke(new IScriptType[0]);
                 value = (Action) Action;
                 return true;
             }
@@ -40,7 +40,7 @@ namespace Mellis.Lang.Base.Entities
             // Invoke(arg[])
             if (type == typeof(Action<IScriptType[]>))
             {
-                void ActionN(IScriptType[] args) => Invoke(args);
+                void ActionN(IScriptType[] args) => Definition.Invoke(args);
                 value = (Action<IScriptType[]>) ActionN;
                 return true;
             }
@@ -48,7 +48,7 @@ namespace Mellis.Lang.Base.Entities
             // Invoke(arg0)
             if (type == typeof(Action<IScriptType>))
             {
-                void Action1(IScriptType arg0) => Invoke(new[] {arg0});
+                void Action1(IScriptType arg0) => Definition.Invoke(new[] {arg0});
                 value = (Action<IScriptType>) Action1;
                 return true;
             }
@@ -56,7 +56,7 @@ namespace Mellis.Lang.Base.Entities
             // Invoke() => val
             if (type == typeof(Func<IScriptType>))
             {
-                IScriptType Func() => Invoke(new IScriptType[0]);
+                IScriptType Func() => Definition.Invoke(new IScriptType[0]);
                 value = (Func<IScriptType>) Func;
                 return true;
             }
@@ -64,7 +64,7 @@ namespace Mellis.Lang.Base.Entities
             // Invoke(arg[]) => val
             if (type == typeof(Func<IScriptType[], IScriptType>))
             {
-                IScriptType FuncN(IScriptType[] args) => Invoke(args);
+                IScriptType FuncN(IScriptType[] args) => Definition.Invoke(args);
                 value = (Func<IScriptType[], IScriptType>) FuncN;
                 return true;
             }
@@ -72,7 +72,7 @@ namespace Mellis.Lang.Base.Entities
             // Invoke(arg0) => val
             if (type == typeof(Func<IScriptType, IScriptType>))
             {
-                IScriptType Func1(IScriptType arg0) => Invoke(new[] {arg0});
+                IScriptType Func1(IScriptType arg0) => Definition.Invoke(new[] {arg0});
                 value = (Func<IScriptType, IScriptType>) Func1;
                 return true;
             }

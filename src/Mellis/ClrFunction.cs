@@ -14,14 +14,14 @@ namespace Mellis
         /// </param>
         protected ClrFunction(string name)
         {
-            Name = name;
+            FunctionName = name;
         }
 
         /// <inheritdoc />
         public IProcessor Processor { get; set; }
 
         /// <inheritdoc />
-        public string Name { get; }
+        public string FunctionName { get; }
 
         /// <inheritdoc />
         public abstract IScriptType Invoke(IScriptType[] arguments);

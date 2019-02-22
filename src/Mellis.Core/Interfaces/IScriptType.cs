@@ -47,11 +47,6 @@ namespace Mellis.Core.Interfaces
         bool IsTruthy();
 
         /// <summary>
-        /// this(...<paramref name="arguments"/>)
-        /// </summary>
-        IScriptType Invoke(IScriptType[] arguments);
-
-        /// <summary>
         /// this[<paramref name="index"/>]
         /// </summary>
         IScriptType GetIndex(IScriptType index);
