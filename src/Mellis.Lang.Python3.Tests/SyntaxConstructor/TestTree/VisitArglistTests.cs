@@ -65,7 +65,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         [DataTestMethod]
         [DataRow(true, DisplayName = "With trailing comma")]
         [DataRow(false, DisplayName = "Without trailing comma")]
-        public void TestArgumentList(bool trailingComma)
+        public void Visit_ArgumentList_Test(bool trailingComma)
         {
             // Arrange
             var expr1 = GetExpressionMock();
@@ -98,7 +98,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         [DataTestMethod]
         [DataRow(true, DisplayName = "With trailing comma")]
         [DataRow(false, DisplayName = "Without trailing comma")]
-        public void TestSingleArgument(bool trailingComma)
+        public void Visit_SingleArgument_Test(bool trailingComma)
         {
             // Arrange
             var expr = GetExpressionMock();
@@ -123,7 +123,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         }
 
         [TestMethod]
-        public void TestTooManyCommas()
+        public void Visit_TooManyCommas_Test()
         {
             // Arrange
             var unexpected = GetTerminalForThisClass();
