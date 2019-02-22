@@ -14,6 +14,7 @@ using Mellis.Lang.Python3.Syntax.Operators.Arithmetics;
 using Mellis.Lang.Python3.Syntax.Operators.Binaries;
 using Mellis.Lang.Python3.Syntax.Operators.Comparisons;
 using Mellis.Lang.Python3.Syntax.Operators.Logicals;
+using Mellis.Lang.Python3.Syntax.Statements;
 using Mellis.Lang.Python3.Tests.TestingOps;
 
 namespace Mellis.Lang.Python3.Tests.Compiler
@@ -277,6 +278,32 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             Assert.AreEqual(5, callOp.ReturnAddress);
 
             Assert.That.IsOpCode<CallStackPop>(compiler, 5);
+        }
+
+        [TestMethod]
+        public void ExpressionStatementTest()
+        {
+            // Arrange
+            var compiler = new PyCompiler();
+
+            var nopOp = new NopOp();
+            var exprMock = new Mock<ExpressionNode>();
+            exprMock.SetupGet(o => o.Source)
+                .Returns(SourceReference.ClrSource);
+            exprMock.Setup(o => o.Compile(compiler))
+                .Callback(() => compiler.Push(nopOp))
+                .Verifiable();
+
+            var exprStmt = new ExpressionStatement(exprMock.Object);
+
+            // Act
+            exprStmt.Compile(compiler);
+
+            // Assert
+            Assert.That.IsExpectedOpCode(compiler, 0, nopOp);
+            Assert.That.IsOpCode<VarPop>(compiler, 1);
+            Assert.AreEqual(2, compiler.Count);
+            exprMock.Verify();
         }
     }
 }
