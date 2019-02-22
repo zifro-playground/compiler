@@ -161,6 +161,16 @@ namespace Mellis.Lang.Python3.Tests
             return assert.IsBinaryOperatorGetLhs(typeof(TOperator), expectedRhs, resultNode);
         }
 
+        public static ExpressionNode IsFunctionCall(this Assert assert,
+            SyntaxNode result,
+            ArgumentsList expectedArgumentsList)
+        {
+            Assert.IsInstanceOfType(result, typeof(FunctionCall));
+            var resultFunc = (FunctionCall)result;
+            Assert.AreSame(expectedArgumentsList, resultFunc.Arguments, "Function call arguments did not match.");
+            return resultFunc.Operand;
+        }
+
         /// <summary>
         /// Asserts the localized interpreter exception and uses the list of args
         /// when comparing formatting arguments.

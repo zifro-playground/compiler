@@ -125,7 +125,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
 
             var argListMock = GetMockRule<Python3Parser.ArglistContext>();
-            var funcArgs = GetFunctionArgumentsMock();
+            var funcArgs = GetArgumentsListMock();
             ctorMock.Setup(o => o.VisitArglist(argListMock.Object))
                 .Returns(funcArgs).Verifiable();
 
