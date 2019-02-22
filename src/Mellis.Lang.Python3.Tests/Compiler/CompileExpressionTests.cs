@@ -287,9 +287,8 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             var compiler = new PyCompiler();
 
             var nopOp = new NopOp();
-            var exprMock = new Mock<ExpressionNode>();
-            exprMock.SetupGet(o => o.Source)
-                .Returns(SourceReference.ClrSource);
+            var exprMock = new Mock<ExpressionNode>(SourceReference.ClrSource);
+
             exprMock.Setup(o => o.Compile(compiler))
                 .Callback(() => compiler.Push(nopOp))
                 .Verifiable();

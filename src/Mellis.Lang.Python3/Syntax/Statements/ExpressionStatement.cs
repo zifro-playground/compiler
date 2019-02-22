@@ -1,4 +1,5 @@
 ﻿using Mellis.Core.Entities;
+using Mellis.Lang.Python3.Instructions;
 
 namespace Mellis.Lang.Python3.Syntax.Statements
 {
@@ -14,7 +15,10 @@ namespace Mellis.Lang.Python3.Syntax.Statements
 
         public override void Compile(PyCompiler compiler)
         {
-            throw new System.NotImplementedException();
+            Expression.Compile(compiler);
+
+            // Pop it because it didn't use it
+            compiler.Push(new VarPop(Source));
         }
     }
 }
