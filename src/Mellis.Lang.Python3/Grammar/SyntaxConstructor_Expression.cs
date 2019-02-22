@@ -916,8 +916,72 @@ namespace Mellis.Lang.Python3.Grammar
 
         public override SyntaxNode VisitArgument(Python3Parser.ArgumentContext context)
         {
-            VisitChildren(context);
-            throw context.NotYetImplementedException();
+            // argument: (
+            //      test [comp_for] |
+            //      test '=' test |
+            //      '**' test |
+            //      '*' test
+            // )
+
+            var first = context.GetChildOrThrow<IParseTree>(0);
+            switch (first)
+            {
+                // test
+                case Python3Parser.TestContext test when context.ChildCount == 1:
+                {
+                    var expr = VisitTest(test)
+                        .AsTypeOrThrow<ExpressionNode>();
+
+                    return expr;
+                }
+
+                // test comp_for
+                case Python3Parser.TestContext test when context.ChildCount == 2:
+                {
+                    var compForRule = context.GetChildOrThrow<Python3Parser.Comp_forContext>(1);
+                    throw compForRule.NotYetImplementedException("for");
+                }
+
+                // test '=' test
+                case Python3Parser.TestContext _ when context.ChildCount > 3:
+                    throw context.UnexpectedChildType(context.GetChild(3));
+                case Python3Parser.TestContext test:
+                {
+                    var assign = context.GetChildOrThrow(1, Python3Parser.ASSIGN);
+                    context.GetChildOrThrow<Python3Parser.TestContext>(2);
+                    throw assign.NotYetImplementedException("=");
+                }
+
+                case ITerminalNode term:
+                {
+                    switch (term.Symbol.Type)
+                    {
+                        // '**' test
+                        case Python3Parser.POWER when context.ChildCount > 2:
+                            throw context.UnexpectedChildType(context.GetChild(2));
+                        case Python3Parser.POWER:
+                        {
+                            context.GetChildOrThrow<Python3Parser.TestContext>(1);
+                            throw term.NotYetImplementedException("**");
+                        }
+
+                        // '*' test
+                        case Python3Parser.STAR when context.ChildCount > 2:
+                            throw context.UnexpectedChildType(context.GetChild(2));
+                        case Python3Parser.STAR:
+                        {
+                            context.GetChildOrThrow<Python3Parser.TestContext>(1);
+                            throw term.NotYetImplementedException("*");
+                        }
+
+                        default:
+                            throw context.UnexpectedChildType(term);
+                    }
+                }
+
+                default:
+                    throw context.UnexpectedChildType(first);
+            }
         }
 
         public override SyntaxNode VisitSubscriptlist(Python3Parser.SubscriptlistContext context)

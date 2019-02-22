@@ -111,8 +111,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_KeywordArgTestNyi_Test()
         {
             // Arrange
-            var expr = GetExpressionMock();
-            var innerMock = GetInnerMockWithSetup(expr);
+            var innerMock = GetInnerMock();
             ITerminalNode unexpected = GetTerminal(Python3Parser.ASSIGN);
 
             contextMock.SetupChildren(
@@ -136,8 +135,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_KeywordUnpackingNyi_Test()
         {
             // Arrange
-            var expr = GetExpressionMock();
-            var innerMock = GetInnerMockWithSetup(expr);
+            var innerMock = GetInnerMock();
             ITerminalNode unexpected = GetTerminal(Python3Parser.POWER);
 
             contextMock.SetupChildren(
@@ -160,8 +158,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_IterableUnpackingNyi_Test()
         {
             // Arrange
-            var expr = GetExpressionMock();
-            var innerMock = GetInnerMockWithSetup(expr);
+            var innerMock = GetInnerMock();
             ITerminalNode unexpected = GetTerminal(Python3Parser.STAR);
 
             contextMock.SetupChildren(
