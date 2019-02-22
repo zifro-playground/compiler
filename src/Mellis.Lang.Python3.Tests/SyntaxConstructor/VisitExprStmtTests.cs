@@ -45,7 +45,9 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             SyntaxNode result = VisitContext();
 
             // Assert
-            Assert.AreSame(expr, result);
+            Assert.IsInstanceOfType(result, typeof(ExpressionStatement));
+            var resultExpr = (ExpressionStatement)result;
+            Assert.AreSame(expr, resultExpr.Expression);
 
             contextMock.VerifyLoopedChildren(1);
 

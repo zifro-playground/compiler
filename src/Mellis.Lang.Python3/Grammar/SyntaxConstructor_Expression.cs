@@ -37,7 +37,7 @@ namespace Mellis.Lang.Python3.Grammar
                 .AsTypeOrThrow<ExpressionNode>();
 
             if (context.ChildCount == 1)
-                return firstExpr;
+                return new ExpressionStatement(firstExpr);
 
             IParseTree second = context.GetChild(1);
             switch (second)
