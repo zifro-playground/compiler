@@ -14,7 +14,12 @@ namespace Mellis.Lang.Python3.Instructions
 
         public void Execute(PyProcessor processor)
         {
-            throw new System.NotImplementedException();
+            processor.PopCallStack();
+        }
+
+        public override string ToString()
+        {
+            return "pop->$stack";
         }
     }
 }

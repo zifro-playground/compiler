@@ -20,9 +20,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             // Arrange
             var processor = new PyProcessor();
             var callStack = new CallStack(
-                SourceReference.ClrSource,
-                (PyScope) processor.CurrentScope,
-                0
+                SourceReference.ClrSource, "foo", 0
             );
 
             for (var i = 0; i < PyProcessor.CALL_STACK_LIMIT; i++)
@@ -82,9 +80,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             var processor = new PyProcessor();
 
             processor.PushCallStack(new CallStack(
-                SourceReference.ClrSource,
-                (PyScope)processor.CurrentScope,
-                0)
+                SourceReference.ClrSource, "foo", 0)
             );
 
             void Action()

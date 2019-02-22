@@ -4,19 +4,17 @@ namespace Mellis.Lang.Python3.VM
 {
     public class CallStack
     {
-        public CallStack(
-            SourceReference source,
-            PyScope scope,
+        public CallStack(SourceReference source,
+            string functionName,
             int returnAddress)
         {
             Source = source;
-            Scope = scope;
             ReturnAddress = returnAddress;
+            FunctionName = functionName;
         }
 
-        public string FunctionName { get; set; }
+        public string FunctionName { get; }
         public SourceReference Source { get; }
-        public PyScope Scope { get; }
         public int ReturnAddress { get; }
     }
 }

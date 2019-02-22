@@ -25,6 +25,9 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             var defMock = new Mock<IClrFunction>();
+            defMock.Setup(o => o.Invoke(It.IsAny<IScriptType[]>()))
+                .Returns(Mock.Of<IScriptType>()).Verifiable();
+
             var function = new PyClrFunction(processor, defMock.Object);
 
             processor.PushValue(function);
@@ -147,6 +150,8 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             var defMock = new Mock<IClrFunction>();
+            defMock.Setup(o => o.Invoke(It.IsAny<IScriptType[]>()))
+                .Returns(Mock.Of<IScriptType>()).Verifiable();
 
             var function = new PyClrFunction(processor, defMock.Object);
             processor.PushValue(function);
@@ -154,7 +159,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             // Act
             processor.WalkInstruction(); // warmup
             int before = processor.CallStackCount;
-            processor.WalkLine();
+            processor.WalkInstruction();
 
             // Assert
             Assert.AreEqual(0, before);
