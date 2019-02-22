@@ -17,11 +17,27 @@ namespace Mellis.Lang.Python3
             ProcessEnded?.Invoke(this, e);
 
             // Only check on clean end, ignore if ended with error
-            if (e == ProcessState.Ended && GlobalScope != CurrentScope)
+            if (e == ProcessState.Error) return;
+
+            // Check if last scope was popped
+            if (GlobalScope != CurrentScope)
             {
                 var ex = new InternalException(
                     nameof(Localized_Python3_Interpreter.Ex_Scope_LastScopeNotPopped),
                     Localized_Python3_Interpreter.Ex_Scope_LastScopeNotPopped);
+
+                State = ProcessState.Error;
+                LastError = ex;
+                
+                throw ex;
+            }
+
+            // Check if last call stack was popped
+            if (CallStackCount > 0)
+            {
+                var ex = new InternalException(
+                    nameof(Localized_Python3_Interpreter.Ex_CallStack_LastStackNotPopped),
+                    Localized_Python3_Interpreter.Ex_CallStack_LastStackNotPopped);
 
                 State = ProcessState.Error;
                 LastError = ex;
