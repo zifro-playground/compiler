@@ -70,6 +70,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void TestFunctionCallIsCreated()
         {
             // Arrange
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.OPEN_PAREN),
                 GetTerminal(Python3Parser.CLOSE_PAREN)
@@ -79,8 +80,8 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             SyntaxNode result = VisitContext();
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(FunctionCall));
-            Assert.AreEqual(0, ((FunctionCall) result).Arguments.Count);
+            Assert.IsInstanceOfType(result, typeof(FunctionArguments));
+            Assert.AreEqual(0, ((FunctionArguments) result).Count);
         }
 
         [TestMethod]
@@ -96,6 +97,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
                 arg1, arg2, arg3
             );
 
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.OPEN_PAREN),
                 arglistMock.Object,
@@ -106,12 +108,12 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             SyntaxNode result = VisitContext();
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(FunctionCall));
-            var call = (FunctionCall) result;
-            Assert.AreSame(arg1, call.Arguments[0]);
-            Assert.AreSame(arg2, call.Arguments[1]);
-            Assert.AreSame(arg3, call.Arguments[2]);
-            Assert.AreEqual(3, call.Arguments.Count);
+            Assert.IsInstanceOfType(result, typeof(FunctionArguments));
+            var args = (FunctionArguments) result;
+            Assert.AreSame(arg1, args[0]);
+            Assert.AreSame(arg2, args[1]);
+            Assert.AreSame(arg3, args[2]);
+            Assert.AreEqual(3, args.Count);
         }
     }
 }

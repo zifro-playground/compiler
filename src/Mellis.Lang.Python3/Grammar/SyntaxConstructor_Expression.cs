@@ -832,7 +832,7 @@ namespace Mellis.Lang.Python3.Grammar
 
                 case Python3Parser.OPEN_PAREN:
                     context.ExpectClosingParenthesis(firstTerm, Python3Parser.CLOSE_PAREN);
-                    return new FunctionCall(context.GetSourceReference(), new List<ExpressionNode>());
+                    return new FunctionArguments(context.GetSourceReference(), new List<ExpressionNode>());
 
                 case Python3Parser.OPEN_BRACK:
                     throw firstTerm.NotYetImplementedException("[]");
