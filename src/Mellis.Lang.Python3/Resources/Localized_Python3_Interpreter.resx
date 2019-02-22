@@ -154,4 +154,8 @@
     <value>Internt fel. En operation försökte trycka på null på anrops stacken.</value>
     <comment>Occurs on processor call stack is pushed with null.</comment>
   </data>
+  <data name="Ex_CallStack_LastStackNotPopped" xml:space="preserve">
+    <value>Internt fel. Alla anrop i funktionsstacken (call stack) blev inte korrekt stängda.</value>
+    <comment>Occurs on process ended but all call stacks was popped (via op-codes).</comment>
+  </data>
 </root>

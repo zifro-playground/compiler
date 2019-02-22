@@ -74,5 +74,31 @@ namespace Mellis.Lang.Python3.Tests.Processor
             Assert.That.ErrorFormatArgsEqual(ex,
                 nameof(Localized_Python3_Interpreter.Ex_CallStack_PopEmpty));
         }
+
+        [TestMethod]
+        public void DidNotPopBeforeEndTest()
+        {
+            // Arrange
+            var processor = new PyProcessor();
+
+            processor.PushCallStack(new CallStack(
+                SourceReference.ClrSource,
+                (PyScope)processor.CurrentScope,
+                0)
+            );
+
+            void Action()
+            {
+                processor.WalkLine();
+            }
+
+            // Act
+            var ex = Assert.ThrowsException<InternalException>((Action)Action);
+
+            Assert.That.ErrorFormatArgsEqual(ex,
+                nameof(Localized_Python3_Interpreter.Ex_CallStack_LastStackNotPopped));
+
+            Assert.AreEqual(ProcessState.Error, processor.State);
+        }
     }
 }

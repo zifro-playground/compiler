@@ -43,7 +43,8 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new Call(SourceReference.ClrSource, 3, 3)
+                new Call(SourceReference.ClrSource, 3, 1),
+                new CallStackPop(SourceReference.ClrSource)
             );
 
             var value = Mock.Of<IScriptType>();
@@ -64,7 +65,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // warmup
-            processor.WalkInstruction();
+            processor.WalkLine();
 
             // Assert
             defMock.Verify(o => o.Invoke(new IScriptType[] {lit1, lit2, lit3}));
@@ -81,7 +82,8 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new Call(SourceReference.ClrSource, 0, 3)
+                new Call(SourceReference.ClrSource, 0, 1),
+                new CallStackPop(SourceReference.ClrSource)
             );
 
             var value = Mock.Of<IScriptType>();
@@ -95,7 +97,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // warmup
-            processor.WalkInstruction();
+            processor.WalkLine();
 
             // Assert
             defMock.Verify();
@@ -111,7 +113,8 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new Call(SourceReference.ClrSource, 0, 3)
+                new Call(SourceReference.ClrSource, 0, 1),
+                new CallStackPop(SourceReference.ClrSource)
             );
 
             var defMock = new Mock<IClrFunction>();
@@ -123,7 +126,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // warmup
-            processor.WalkInstruction();
+            processor.WalkLine();
 
             // Assert
             defMock.Verify();
@@ -132,6 +135,30 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             IScriptType actualValue = processor.PopValue();
             Assert.AreSame(processor.Factory.Null, actualValue);
+        }
+
+        [TestMethod]
+        public void ClrCallPushesCallScopeTest()
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new Call(SourceReference.ClrSource, 0, 1),
+                new CallStackPop(SourceReference.ClrSource)
+            );
+
+            var defMock = new Mock<IClrFunction>();
+
+            var function = new PyClrFunction(processor, defMock.Object);
+            processor.PushValue(function);
+
+            // Act
+            processor.WalkInstruction(); // warmup
+            int before = processor.CallStackCount;
+            processor.WalkLine();
+
+            // Assert
+            Assert.AreEqual(0, before);
+            Assert.AreEqual(1, processor.CallStackCount);
         }
 
     }

@@ -9,6 +9,8 @@ namespace Mellis.Lang.Python3
     {
         internal const int CALL_STACK_LIMIT = 255;
 
+        internal int CallStackCount => _callStacks.Count;
+
         public void PushCallStack(CallStack callStack)
         {
             if (callStack is null)
