@@ -188,7 +188,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             Assert.AreEqual("foo", foo.Identifier);
 
             var callOp = Assert.That.IsOpCode<Call>(compiler, 1);
-            Assert.AreEqual(0, callOp.ArgumentsCount);
+            Assert.AreEqual(0, callOp.ArgumentCount);
             Assert.AreEqual(2, callOp.ReturnAddress);
 
             Assert.That.IsOpCode<CallStackPop>(compiler, 2);
@@ -225,7 +225,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             Assert.AreEqual(expectedLiteral, numb.Literal.Value);
 
             var callOp = Assert.That.IsOpCode<Call>(compiler, 2);
-            Assert.AreEqual(1, callOp.ArgumentsCount);
+            Assert.AreEqual(1, callOp.ArgumentCount);
             Assert.AreEqual(3, callOp.ReturnAddress);
 
             Assert.That.IsOpCode<CallStackPop>(compiler, 3);
@@ -273,7 +273,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             Assert.AreEqual(expectedLiteral3, lit3.Literal.Value);
 
             var callOp = Assert.That.IsOpCode<Call>(compiler, 4);
-            Assert.AreEqual(3, callOp.ArgumentsCount);
+            Assert.AreEqual(3, callOp.ArgumentCount);
             Assert.AreEqual(5, callOp.ReturnAddress);
 
             Assert.That.IsOpCode<CallStackPop>(compiler, 5);
