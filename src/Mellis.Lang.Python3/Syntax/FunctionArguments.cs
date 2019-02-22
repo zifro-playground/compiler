@@ -13,7 +13,10 @@ namespace Mellis.Lang.Python3.Syntax
 
         public ExpressionNode this[int index] => _arguments[index];
 
-        public FunctionArguments(SourceReference source, IEnumerable<ExpressionNode> arguments) : base(source)
+        public FunctionArguments(
+            SourceReference source,
+            IEnumerable<ExpressionNode> arguments)
+            : base(source)
         {
             _arguments = arguments.ToArray();
         }

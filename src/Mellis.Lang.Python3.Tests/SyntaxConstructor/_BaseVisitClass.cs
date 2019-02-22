@@ -190,6 +190,15 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             return GetExpressionMock(SourceReference.ClrSource);
         }
 
+        public static FunctionArguments GetFunctionArgumentsMock(params ExpressionNode[] arguments)
+        {
+            return new Mock<FunctionArguments>(
+                    MockBehavior.Strict,
+                    SourceReference.ClrSource,
+                    arguments)
+                .Object;
+        }
+
         [TestInitialize]
         public virtual void TestInitialize()
         {

@@ -88,19 +88,16 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void TestFunctionCallWithArguments()
         {
             // Arrange
-            var arg1 = GetExpressionMock();
-            var arg2 = GetExpressionMock();
-            var arg3 = GetExpressionMock();
 
-            var arglistMock = GetArglistMock();
-            SetupForArglist(arglistMock,
-                arg1, arg2, arg3
-            );
+            var argListMock = GetMockRule<Python3Parser.ArglistContext>();
+            var funcArgs = GetFunctionArgumentsMock();
+            ctorMock.Setup(o => o.VisitArglist(argListMock.Object))
+                .Returns(funcArgs).Verifiable();
 
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.OPEN_PAREN),
-                arglistMock.Object,
+                argListMock.Object,
                 GetTerminal(Python3Parser.CLOSE_PAREN)
             );
 
@@ -109,11 +106,8 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(FunctionArguments));
-            var args = (FunctionArguments) result;
-            Assert.AreSame(arg1, args[0]);
-            Assert.AreSame(arg2, args[1]);
-            Assert.AreSame(arg3, args[2]);
-            Assert.AreEqual(3, args.Count);
+            var resultArgs = (FunctionArguments) result;
+            Assert.AreSame(funcArgs, resultArgs);
         }
     }
 }

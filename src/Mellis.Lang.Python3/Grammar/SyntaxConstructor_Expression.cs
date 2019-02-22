@@ -823,23 +823,39 @@ namespace Mellis.Lang.Python3.Grammar
 
             switch (firstTerm.Symbol.Type)
             {
+                // Throw if too many children
                 case Python3Parser.OPEN_PAREN when context.ChildCount > 3:
                 case Python3Parser.OPEN_BRACK when context.ChildCount > 3:
                     throw context.UnexpectedChildType(context.GetChild(3));
-
                 case Python3Parser.DOT when context.ChildCount > 2:
                     throw context.UnexpectedChildType(context.GetChild(2));
 
-                case Python3Parser.OPEN_PAREN:
+                // Function: No arguments
+                case Python3Parser.OPEN_PAREN when context.ChildCount == 2:
                     context.ExpectClosingParenthesis(firstTerm, Python3Parser.CLOSE_PAREN);
                     return new FunctionArguments(context.GetSourceReference(), new List<ExpressionNode>());
 
+                // Function: Arguments list
+                case Python3Parser.OPEN_PAREN:
+                    context.ExpectClosingParenthesis(firstTerm, Python3Parser.CLOSE_PAREN);
+
+                    var argsRule = context.GetChildOrThrow<Python3Parser.ArglistContext>(1);
+
+                    var argsNode = VisitArglist(argsRule)
+                        .AsTypeOrThrow<FunctionArguments>();
+
+                    return argsNode;
+
+                // List indexing
                 case Python3Parser.OPEN_BRACK:
+                    context.ExpectClosingParenthesis(firstTerm, Python3Parser.CLOSE_BRACK);
                     throw firstTerm.NotYetImplementedException("[]");
 
+                // Property accessing
                 case Python3Parser.DOT:
                     throw firstTerm.NotYetImplementedException(".");
 
+                // Who are you?
                 default:
                     throw context.UnexpectedChildType(firstTerm);
             }
