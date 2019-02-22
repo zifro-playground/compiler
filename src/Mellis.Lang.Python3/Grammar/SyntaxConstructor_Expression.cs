@@ -831,7 +831,7 @@ namespace Mellis.Lang.Python3.Grammar
                 // Function: No arguments
                 case Python3Parser.OPEN_PAREN when context.ChildCount == 2:
                     context.ExpectClosingParenthesis(firstTerm, Python3Parser.CLOSE_PAREN);
-                    return new FunctionArguments(context.GetSourceReference(), new List<ExpressionNode>());
+                    return new ArgumentsList(context.GetSourceReference(), new List<ExpressionNode>());
 
                 // Function: Arguments list
                 case Python3Parser.OPEN_PAREN:
@@ -840,7 +840,7 @@ namespace Mellis.Lang.Python3.Grammar
                     var argsRule = context.GetChildOrThrow<Python3Parser.ArglistContext>(1);
 
                     var argsNode = VisitArglist(argsRule)
-                        .AsTypeOrThrow<FunctionArguments>();
+                        .AsTypeOrThrow<ArgumentsList>();
 
                     return argsNode;
 
@@ -865,6 +865,36 @@ namespace Mellis.Lang.Python3.Grammar
                 default:
                     throw context.UnexpectedChildType(firstTerm);
             }
+        }
+
+        public override SyntaxNode VisitArglist(Python3Parser.ArglistContext context)
+        {
+            // arglist: argument (',' argument)*  [',']
+
+            var exprList = new List<ExpressionNode>();
+
+            if (context.ChildCount == 0)
+                throw context.ExpectedChild();
+
+            for (var i = 0; i < context.ChildCount; i+=2)
+            {
+                var argRule = context.GetChildOrThrow<Python3Parser.ArgumentContext>(i);
+                if (i + 1 < context.ChildCount)
+                    context.GetChildOrThrow(i + 1, Python3Parser.COMMA);
+
+                var argExpr = VisitArgument(argRule)
+                    .AsTypeOrThrow<ExpressionNode>();
+
+                exprList.Add(argExpr);
+            }
+
+            return new ArgumentsList(context.GetSourceReference(), exprList);
+        }
+
+        public override SyntaxNode VisitArgument(Python3Parser.ArgumentContext context)
+        {
+            VisitChildren(context);
+            throw context.NotYetImplementedException();
         }
 
         public override SyntaxNode VisitSubscriptlist(Python3Parser.SubscriptlistContext context)

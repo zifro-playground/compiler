@@ -115,8 +115,8 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             SyntaxNode result = VisitContext();
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(FunctionArguments));
-            Assert.AreEqual(0, ((FunctionArguments) result).Count);
+            Assert.IsInstanceOfType(result, typeof(ArgumentsList));
+            Assert.AreEqual(0, ((ArgumentsList) result).Count);
         }
 
         [TestMethod]
@@ -140,8 +140,8 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             SyntaxNode result = VisitContext();
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(FunctionArguments));
-            var resultArgs = (FunctionArguments) result;
+            Assert.IsInstanceOfType(result, typeof(ArgumentsList));
+            var resultArgs = (ArgumentsList) result;
             Assert.AreSame(funcArgs, resultArgs);
         }
 

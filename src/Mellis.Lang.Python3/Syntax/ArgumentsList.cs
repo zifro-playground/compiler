@@ -5,7 +5,7 @@ using Mellis.Core.Entities;
 
 namespace Mellis.Lang.Python3.Syntax
 {
-    public class FunctionArguments : SyntaxNode, IReadOnlyList<ExpressionNode>
+    public class ArgumentsList : SyntaxNode, IReadOnlyList<ExpressionNode>
     {
         private readonly IReadOnlyList<ExpressionNode> _arguments;
 
@@ -13,7 +13,7 @@ namespace Mellis.Lang.Python3.Syntax
 
         public ExpressionNode this[int index] => _arguments[index];
 
-        public FunctionArguments(
+        public ArgumentsList(
             SourceReference source,
             IEnumerable<ExpressionNode> arguments)
             : base(source)

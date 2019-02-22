@@ -6,12 +6,12 @@ namespace Mellis.Lang.Python3.Syntax
     public class FunctionCall : ExpressionNode
     {
         public ExpressionNode Operand { get; internal set; }
-        public FunctionArguments Arguments { get; }
+        public ArgumentsList Arguments { get; }
 
         public FunctionCall(
             SourceReference source,
             ExpressionNode operand,
-            FunctionArguments arguments)
+            ArgumentsList arguments)
             : base(source)
         {
             Operand = operand;
