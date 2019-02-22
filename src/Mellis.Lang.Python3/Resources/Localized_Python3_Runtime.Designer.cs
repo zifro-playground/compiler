@@ -61,6 +61,15 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gick inte att köra funktionen &apos;{0}&apos;. Nådde gränsen för staplade funktionsanrop ({1})..
+        /// </summary>
+        internal static string Ex_StackOverflow {
+            get {
+                return ResourceManager.GetString("Ex_StackOverflow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Finns ingen variabel med namn &apos;{0}&apos; definierad..
         /// </summary>
         internal static string Ex_Variable_NotDefined {

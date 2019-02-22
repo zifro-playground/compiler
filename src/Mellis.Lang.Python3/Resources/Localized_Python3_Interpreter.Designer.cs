@@ -61,6 +61,24 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Internt fel. Anrops stacken var oförväntat tom vid försök att stänga den..
+        /// </summary>
+        internal static string Ex_CallStack_PopEmpty {
+            get {
+                return ResourceManager.GetString("Ex_CallStack_PopEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internt fel. En operation försökte trycka på null på anrops stacken..
+        /// </summary>
+        internal static string Ex_CallStack_PushNull {
+            get {
+                return ResourceManager.GetString("Ex_CallStack_PushNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Koden har redan kört klart..
         /// </summary>
         internal static string Ex_Process_Ended {

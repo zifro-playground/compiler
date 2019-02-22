@@ -14,7 +14,7 @@ namespace Mellis.Lang.Python3
         private int _numOfJumpsThisWalk = 0;
 
         // Oliver & Fredrik approved ✔️
-        private const int JUMPS_THRESHOLD = 102+137;
+        internal const int JUMPS_THRESHOLD = 102+137;
 
         public void ContinueYieldedValue(IScriptType value)
         {

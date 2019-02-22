@@ -6,6 +6,7 @@ using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Interfaces;
+using Mellis.Lang.Python3.VM;
 
 namespace Mellis.Lang.Python3
 {
@@ -25,6 +26,7 @@ namespace Mellis.Lang.Python3
 
             _builtins = new PyScope(null);
             _globalScope = new PyScope(_builtins);
+            _callStacks = new Stack<CallStack>();
         }
 
         public IScriptTypeFactory Factory { get; }
@@ -47,5 +49,6 @@ namespace Mellis.Lang.Python3
         private readonly PyScope _globalScope;
         private readonly IOpCode[] _opCodes;
         private readonly PyScope _builtins;
+        private readonly Stack<CallStack> _callStacks;
     }
 }

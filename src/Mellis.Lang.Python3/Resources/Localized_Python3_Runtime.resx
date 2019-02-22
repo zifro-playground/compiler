@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Ex_StackOverflow" xml:space="preserve">
+    <value>Gick inte att köra funktionen '{0}'. Nådde gränsen för staplade funktionsanrop ({1}).</value>
+    <comment>Allocation of another call stack failed in an invokation due to too many calls already on the stack.
+{0} name of invoked function
+{1} call stack limit</comment>
+  </data>
   <data name="Ex_Variable_NotDefined" xml:space="preserve">
     <value>Finns ingen variabel med namn '{0}' definierad.</value>
     <comment>Variable not found in local or global scope.
