@@ -827,8 +827,6 @@ namespace Mellis.Lang.Python3.Grammar
                 case Python3Parser.OPEN_PAREN when context.ChildCount > 3:
                 case Python3Parser.OPEN_BRACK when context.ChildCount > 3:
                     throw context.UnexpectedChildType(context.GetChild(3));
-                case Python3Parser.DOT when context.ChildCount > 2:
-                    throw context.UnexpectedChildType(context.GetChild(2));
 
                 // Function: No arguments
                 case Python3Parser.OPEN_PAREN when context.ChildCount == 2:
@@ -849,11 +847,19 @@ namespace Mellis.Lang.Python3.Grammar
                 // List indexing
                 case Python3Parser.OPEN_BRACK:
                     context.ExpectClosingParenthesis(firstTerm, Python3Parser.CLOSE_BRACK);
-                    throw firstTerm.NotYetImplementedException("[]");
+                    // No inner subscription list
+                    if (context.ChildCount == 2)
+                        throw context.ExpectedChild();
+
+                    context.GetChildOrThrow<Python3Parser.SubscriptlistContext>(1);
+                    throw context.NotYetImplementedException("[]");
 
                 // Property accessing
+                case Python3Parser.DOT when context.ChildCount > 2:
+                    throw context.UnexpectedChildType(context.GetChild(2));
                 case Python3Parser.DOT:
-                    throw firstTerm.NotYetImplementedException(".");
+                    context.GetChildOrThrow(1, Python3Parser.NAME);
+                    throw context.NotYetImplementedException(".");
 
                 // Who are you?
                 default:

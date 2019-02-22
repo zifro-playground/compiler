@@ -136,14 +136,16 @@ namespace Mellis.Lang.Python3.Extensions
         }
 
         public static void ThrowIfMissing(this ITerminalNode terminal,
-            string localizedPython3ParserKey)
+            string localizedPython3ParserKey,
+            params object[] additionalFormatArgs)
         {
             if (terminal.Symbol.StartIndex == -1 ||
                 terminal.Symbol.StopIndex == -1)
             {
                 throw new SyntaxException(terminal.GetSourceReference(),
                     localizedPython3ParserKey,
-                    Localized_Python3_Parser.ResourceManager.GetString(localizedPython3ParserKey));
+                    Localized_Python3_Parser.ResourceManager.GetString(localizedPython3ParserKey),
+                    values: additionalFormatArgs);
             }
         }
 

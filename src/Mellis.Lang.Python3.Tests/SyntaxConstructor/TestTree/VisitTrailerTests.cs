@@ -2,6 +2,7 @@
 using System.Linq;
 using Antlr4.Runtime.Tree;
 using Mellis.Core.Exceptions;
+using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Extensions;
 using Mellis.Lang.Python3.Grammar;
 using Mellis.Lang.Python3.Resources;
@@ -67,6 +68,66 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         }
 
         [TestMethod]
+        public void TestNonClosingBrackets()
+        {
+            // Arrange
+            ITerminalNode opening = GetTerminal(Python3Parser.OPEN_BRACK);
+            contextMock.SetupChildren(
+                opening
+            );
+
+            // Act
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
+
+            // Assert
+            Assert.That.ErrorSyntaxFormatArgsEqual(ex,
+                nameof(Localized_Python3_Parser.Ex_Parenthesis_NoClosing),
+                opening,
+                "]"
+            );
+        }
+
+        [TestMethod]
+        public void TestNoSubscriptionListInBrackets()
+        {
+            // Arrange
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+            contextMock.SetupChildren(
+                GetTerminal(Python3Parser.OPEN_BRACK),
+                GetTerminal(Python3Parser.CLOSE_BRACK)
+            );
+
+            // Act
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
+
+            // Assert
+            Assert.That.ErrorExpectedChildFormatArgs(ex,
+                startTokenMock, stopTokenMock,
+                contextMock
+            );
+        }
+
+        [TestMethod]
+        public void TestNoNameAfterDot()
+        {
+            // Arrange
+            ITerminalNode dot = GetTerminal(Python3Parser.DOT);
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+            contextMock.SetupChildren(
+                dot
+            );
+
+            // Act
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
+
+            // Assert
+            Assert.That.ErrorExpectedChildFormatArgs(ex,
+                startTokenMock, stopTokenMock,
+                contextMock
+            );
+        }
+
+        [TestMethod]
         public void TestFunctionCallIsCreated()
         {
             // Arrange
@@ -108,6 +169,47 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             Assert.IsInstanceOfType(result, typeof(FunctionArguments));
             var resultArgs = (FunctionArguments) result;
             Assert.AreSame(funcArgs, resultArgs);
+        }
+
+        [TestMethod]
+        public void TestIndexingNotYetImplemented()
+        {
+            // Arrange
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+            contextMock.SetupChildren(
+                GetTerminal(Python3Parser.OPEN_BRACK),
+                GetMockRule<Python3Parser.SubscriptlistContext>().Object,
+                GetTerminal(Python3Parser.CLOSE_BRACK)
+            );
+
+            // Act
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext);
+
+            // Assert
+            Assert.That.ErrorNotYetImplFormatArgs(ex,
+                startTokenMock, stopTokenMock,
+                "[]"
+            );
+        }
+
+        [TestMethod]
+        public void TestPropertyNotYetImplemented()
+        {
+            // Arrange
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+            contextMock.SetupChildren(
+                GetTerminal(Python3Parser.DOT),
+                GetTerminal(Python3Parser.NAME, "foo")
+            );
+
+            // Act
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext);
+
+            // Assert
+            Assert.That.ErrorNotYetImplFormatArgs(ex,
+                startTokenMock, stopTokenMock,
+                "."
+            );
         }
     }
 }
