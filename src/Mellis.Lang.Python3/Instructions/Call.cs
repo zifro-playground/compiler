@@ -56,5 +56,10 @@ namespace Mellis.Lang.Python3.Instructions
                 throw new SyntaxNotYetImplementedExceptionKeyword(Source, "user function");
             }
         }
+
+        public override string ToString()
+        {
+            return $"call#{ArgumentCount}@{ReturnAddress}";
+        }
     }
 }

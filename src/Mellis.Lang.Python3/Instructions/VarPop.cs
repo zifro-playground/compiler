@@ -11,9 +11,15 @@ namespace Mellis.Lang.Python3.Instructions
         {
             Source = source;
         }
+
         public void Execute(PyProcessor processor)
         {
-            throw new System.NotImplementedException();
+            processor.PopValue();
+        }
+
+        public override string ToString()
+        {
+            return "pop";
         }
     }
 }
