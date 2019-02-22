@@ -10,7 +10,7 @@ namespace Mellis.Core.Exceptions
     /// </summary>
     public class SyntaxException : InterpreterLocalizedException
     {
-        public SourceReference SourceReference { get; set; }
+        public SourceReference SourceReference { get; }
 
         /// <summary>
         /// Creates a syntax exception based off the source code.
@@ -23,8 +23,8 @@ namespace Mellis.Core.Exceptions
         /// <para><c>{3}</c> source end column</para>
         /// </summary>
         public SyntaxException(SourceReference source, string localizeKey, 
-            string localizedMessageFormat, params object[] values)
-            : base(localizeKey, localizedMessageFormat, GetParams(source, values))
+            string localizedMessageFormat, params object[] additionalFormatValues)
+            : base(localizeKey, localizedMessageFormat, GetParams(source, additionalFormatValues))
         {
             SourceReference = source;
         }

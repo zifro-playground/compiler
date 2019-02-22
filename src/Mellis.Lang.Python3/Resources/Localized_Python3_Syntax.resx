@@ -120,7 +120,16 @@
   <data name="Ex_InvalidType" xml:space="preserve">
     <value>Internt fel vid syntaxläsningen. Förväntade nod av typ '{0}' men fick '{1}'.</value>
     <comment>Wrong SyntaxNode when validating syntax tree.
-{0} type name of expected
+{0} expected type name
 {1} actual type name</comment>
+  </data>
+  <data name="Ex_SyntaxNode_Uncompilable" xml:space="preserve">
+    <value>Internt fel. Ett objekt av typen '{4}' kan inte direkt kompileras.</value>
+    <comment>Syntax node does not support compilation. Ex: ArgumentList in a FunctionCall, where the FunctionCall should handle the compilation of the arguments.
+{0} source start line
+{1} source start column
+{2} source end line
+{3} source end column
+{4} type name</comment>
   </data>
 </root>
