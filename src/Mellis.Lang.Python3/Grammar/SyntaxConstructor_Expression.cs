@@ -95,7 +95,7 @@ namespace Mellis.Lang.Python3.Grammar
 
             ExpressionNode result = null;
 
-            for (var i = 0; i < context.ChildCount; i+=2)
+            for (var i = 0; i < context.ChildCount; i += 2)
             {
                 var rule = context.GetChildOrThrow<ParserRuleContext>(i);
 
@@ -630,13 +630,36 @@ namespace Mellis.Lang.Python3.Grammar
                 case ITerminalNode node:
                     throw context.UnexpectedChildType(node);
 
-                case Python3Parser.AtomContext atom
-                    when context.ChildCount == 1:
-                    return VisitAtom(atom).AsTypeOrThrow<ExpressionNode>();
-
                 case Python3Parser.AtomContext atom:
-                    var trailer = context.GetChildOrThrow<Python3Parser.TrailerContext>(1);
-                    throw trailer.NotYetImplementedException();
+                    var expr = VisitAtom(atom)
+                        .AsTypeOrThrow<ExpressionNode>();
+                    SourceReference atomSource = atom.GetSourceReference();
+
+                    for (var i = 1; i < context.ChildCount; i++)
+                    {
+                        var trailerRule = context.GetChildOrThrow<Python3Parser.TrailerContext>(i);
+                        var trailerExpr = VisitTrailer(trailerRule);
+
+                        switch (trailerExpr)
+                        {
+                            case ArgumentsList argList:
+                                var source = SourceReference.Merge(
+                                    atomSource,
+                                    trailerRule.GetSourceReference()
+                                );
+                                // Nests the expression deeper
+                                expr = new FunctionCall(source, expr, argList);
+                                break;
+                            default:
+                                throw trailerExpr.WrongTypeException(
+                                    typeof(ArgumentsList)
+                                    // TODO: add indexing list type
+                                    // TODO: add property get type
+                                );
+                        }
+                    }
+
+                    return expr;
 
                 default:
                     throw context.UnexpectedChildType(first);
@@ -876,7 +899,7 @@ namespace Mellis.Lang.Python3.Grammar
             if (context.ChildCount == 0)
                 throw context.ExpectedChild();
 
-            for (var i = 0; i < context.ChildCount; i+=2)
+            for (var i = 0; i < context.ChildCount; i += 2)
             {
                 var argRule = context.GetChildOrThrow<Python3Parser.ArgumentContext>(i);
                 if (i + 1 < context.ChildCount)

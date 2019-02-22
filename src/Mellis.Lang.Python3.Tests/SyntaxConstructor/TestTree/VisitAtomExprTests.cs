@@ -76,6 +76,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             ExpressionNode expr = GetExpressionMock();
             var innerMock = GetInnerMockWithSetup(expr);
+            innerMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             contextMock.SetupChildren(
                 innerMock.Object
@@ -99,11 +100,12 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var exprNode = GetExpressionMock();
             var innerMock = GetInnerMockWithSetup(exprNode);
+            innerMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             var argsNode = GetArgumentsListMock();
             var trailerMock = GetTrailerMockWithSetup(argsNode);
+            trailerMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
-            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
             contextMock.SetupChildren(
                 innerMock.Object,
                 trailerMock.Object
@@ -130,17 +132,20 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var exprNode = GetExpressionMock();
             var innerMock = GetInnerMockWithSetup(exprNode);
+            innerMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             var argsNode1 = GetArgumentsListMock();
             var trailerMock1 = GetTrailerMockWithSetup(argsNode1);
+            trailerMock1.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             var argsNode2 = GetArgumentsListMock();
             var trailerMock2 = GetTrailerMockWithSetup(argsNode2);
+            trailerMock2.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             var argsNode3 = GetArgumentsListMock();
             var trailerMock3 = GetTrailerMockWithSetup(argsNode3);
+            trailerMock3.SetupForSourceReference(startTokenMock, stopTokenMock);
 
-            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
             contextMock.SetupChildren(
                 innerMock.Object,
                 trailerMock1.Object,
