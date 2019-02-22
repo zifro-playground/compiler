@@ -529,6 +529,15 @@ namespace Mellis.Lang.Base.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to intet.
+        /// </summary>
+        public static string Type_Null_Name {
+            get {
+                return ResourceManager.GetString("Type_Null_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to textsträng.
         /// </summary>
         public static string Type_String_Name {

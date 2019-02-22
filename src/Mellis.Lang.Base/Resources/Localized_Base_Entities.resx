@@ -348,4 +348,8 @@ Ex: myValue.x = y
     <comment>Used as default tostring for ClrFunctions. In the Zifro UI the ToString is used for the variable preview window and the print function.
 {0} name of function: IClrFunction.Name</comment>
   </data>
+  <data name="Type_Null_Name" xml:space="preserve">
+    <value>intet</value>
+    <comment>Name of null type. Used in some errors, ex: Ex_Int_AddInvalidType.</comment>
+  </data>
 </root>
