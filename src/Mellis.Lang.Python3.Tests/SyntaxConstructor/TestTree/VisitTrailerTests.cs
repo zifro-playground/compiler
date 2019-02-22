@@ -21,32 +21,6 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             return ctor.VisitTrailer(contextMock.Object);
         }
 
-        protected Mock<Python3Parser.ArglistContext> GetArglistMock()
-        {
-            return GetMockRule<Python3Parser.ArglistContext>();
-        }
-
-        protected void SetupForArglist(Mock<Python3Parser.ArglistContext> innerMock, params ExpressionNode[] arguments)
-        {
-            var args = new IParseTree[arguments.Length * 2];
-
-            for (var i = 0; i < arguments.Length; i++)
-            {
-                ExpressionNode arg = arguments[i];
-                var argMock = GetMockRule<Python3Parser.ArgumentContext>();
-
-                ctorMock.Setup(o => o.VisitArgument(argMock.Object))
-                    .Returns(arg).Verifiable();
-
-                args[i * 2] = argMock.Object;
-                args[i * 2 + 1] = GetTerminal(Python3Parser.COMMA);
-            }
-
-            innerMock.SetupChildren(
-                args
-            );
-        }
-
         [TestMethod]
         public void TestNonClosingParentheses()
         {

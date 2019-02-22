@@ -31,5 +31,31 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             SyntaxNode returnValue);
 
         public abstract ITerminalNode GetTerminalForThisClass();
+
+
+        #region Inherited tests
+
+        // This is here due to some testing tools only look
+        // 1 in depth in hierarchy for tests
+
+        [TestMethod]
+        public override void Visit_InvalidRule_Test()
+        {
+            base.Visit_InvalidRule_Test();
+        }
+
+        [TestMethod]
+        public override void Visit_InvalidToken_Test()
+        {
+            base.Visit_InvalidToken_Test();
+        }
+
+        [TestMethod]
+        public override void Visit_NoChildren_Test()
+        {
+            base.Visit_NoChildren_Test();
+        }
+
+        #endregion
     }
 }
