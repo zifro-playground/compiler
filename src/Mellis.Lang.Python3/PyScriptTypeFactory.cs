@@ -78,6 +78,7 @@ namespace Mellis.Lang.Python3
 
         public IScriptType Create(IClrFunction value)
         {
+            value.Processor = _processor;
             return new PyClrFunction(_processor, value);
         }
     }

@@ -85,7 +85,7 @@ namespace Mellis.Lang.Base.Entities
         {
             return string.Format(
                 format: Localized_Base_Entities.Type_ClrFunction_ToString,
-                arg0: Name
+                arg0: Definition.FunctionName
             );
         }
     }

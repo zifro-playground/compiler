@@ -19,7 +19,7 @@ namespace Mellis.Lang.Python3.Instructions
 
         public override string ToString()
         {
-            return "pop->$stack";
+            return "pop->$call";
         }
     }
 }
