@@ -19,6 +19,7 @@
 // Ambiguous reference in cref attribute
 #pragma warning disable 419
 
+namespace Mellis.Lang.Python3.Grammar {
 using System;
 using System.IO;
 using System.Text;
@@ -7934,3 +7935,4 @@ public partial class Python3Parser : Parser {
 
 
 }
+} // namespace Mellis.Lang.Python3.Grammar

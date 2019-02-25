@@ -19,6 +19,7 @@
 // Ambiguous reference in cref attribute
 #pragma warning disable 419
 
+namespace Mellis.Lang.Python3.Grammar {
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using IToken = Antlr4.Runtime.IToken;
@@ -548,3 +549,4 @@ public interface IPython3Visitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitYield_arg([NotNull] Python3Parser.Yield_argContext context);
 }
+} // namespace Mellis.Lang.Python3.Grammar

@@ -19,6 +19,7 @@
 // Ambiguous reference in cref attribute
 #pragma warning disable 419
 
+namespace Mellis.Lang.Python3.Grammar {
 
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -1234,3 +1235,4 @@ public partial class Python3Lexer : Lexer {
 
 
 }
+} // namespace Mellis.Lang.Python3.Grammar
