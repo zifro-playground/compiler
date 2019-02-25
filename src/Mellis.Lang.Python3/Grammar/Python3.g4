@@ -58,9 +58,10 @@ using System.Text.RegularExpressions;
 
 	private CommonToken CommonToken(int type, string text)
 	{
-	    int stop = CharIndex - 1;
-	    int start = text.Length == 0 ? stop : stop - text.Length + 1;
-	    return new CommonToken(this._tokenFactorySourcePair, type, DefaultTokenChannel, start, stop);
+		return new CommonToken(type, text);
+	    //int stop = CharIndex - 1;
+	    //int start = text.Length == 0 ? stop : stop - text.Length + 1;
+	    //return new CommonToken(this._tokenFactorySourcePair, type, DefaultTokenChannel, start, stop);
 	}
 
 	private IToken CreateDedent()
@@ -73,7 +74,7 @@ using System.Text.RegularExpressions;
 	public override IToken NextToken()
 	{
 	    // Check if the end-of-file is ahead and there are still some DEDENTS expected.
-	    if (_input.La(1) == Eof && Indents.Count != 0)
+	    if (InputStream.LA(1) == Eof && Indents.Count != 0)
 	    {
             // Remove any trailing EOF tokens from our buffer.
             for (var node  = Tokens.First; node != null; )
@@ -353,7 +354,7 @@ NEWLINE
 		var newLine = (new Regex("[^\r\n\f]+")).Replace(Text, "");
 		var spaces = (new Regex("[\r\n\f]+")).Replace(Text, "");
 
-		int next = _input.La(1);
+		int next = InputStream.LA(1);
 		if (Opened > 0 || next == '\r' || next == '\n' || next == '\f' || next == '#')
 		{
 			// If we're inside a list or on a blank line, ignore all indents, 

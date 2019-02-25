@@ -1,4 +1,5 @@
-﻿using Antlr4.Runtime;
+﻿using System.IO;
+using Antlr4.Runtime;
 using Antlr4.Runtime.Atn;
 using Antlr4.Runtime.Dfa;
 using Antlr4.Runtime.Sharpen;
@@ -262,8 +263,8 @@ namespace Mellis.Lang.Python3.Tests
                 Assert.AreEqual(0, _reportContextSensitivities, "Received a context sensitivity report.");
             }
 
-            public void SyntaxError(IRecognizer recognizer, IToken offendingSymbol, int line, int charPositionInLine, string msg,
-                RecognitionException e)
+            public void SyntaxError(TextWriter output, IRecognizer recognizer, IToken offendingSymbol, int line, int charPositionInLine,
+                string msg, RecognitionException e)
             {
                 _syntaxErrors++;
             }
