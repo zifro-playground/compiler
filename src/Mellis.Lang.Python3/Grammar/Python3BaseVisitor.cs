@@ -32,7 +32,6 @@ using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 /// </summary>
 /// <typeparam name="Result">The return type of the visit operation.</typeparam>
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.7.2")]
-[System.CLSCompliant(false)]
 public partial class Python3BaseVisitor<Result> : AbstractParseTreeVisitor<Result>, IPython3Visitor<Result> {
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="Python3Parser.single_input"/>.
