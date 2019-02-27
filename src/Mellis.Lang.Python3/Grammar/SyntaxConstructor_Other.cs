@@ -183,18 +183,6 @@ namespace Mellis.Lang.Python3.Grammar
             throw context.NotYetImplementedException("class");
         }
 
-        public override SyntaxNode VisitArglist(Python3Parser.ArglistContext context)
-        {
-            VisitChildren(context);
-            throw context.NotYetImplementedException();
-        }
-
-        public override SyntaxNode VisitArgument(Python3Parser.ArgumentContext context)
-        {
-            VisitChildren(context);
-            throw context.NotYetImplementedException();
-        }
-
         public override SyntaxNode VisitComp_iter(Python3Parser.Comp_iterContext context)
         {
             VisitChildren(context);

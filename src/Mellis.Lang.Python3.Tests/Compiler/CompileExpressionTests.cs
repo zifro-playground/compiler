@@ -2,13 +2,19 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mellis.Core.Entities;
+using Mellis.Core.Exceptions;
+using Mellis.Lang.Base.Resources;
+using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Instructions;
+using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.Syntax;
+using Mellis.Lang.Python3.Syntax.Literals;
 using Mellis.Lang.Python3.Syntax.Operators;
 using Mellis.Lang.Python3.Syntax.Operators.Arithmetics;
 using Mellis.Lang.Python3.Syntax.Operators.Binaries;
 using Mellis.Lang.Python3.Syntax.Operators.Comparisons;
 using Mellis.Lang.Python3.Syntax.Operators.Logicals;
+using Mellis.Lang.Python3.Syntax.Statements;
 using Mellis.Lang.Python3.Tests.TestingOps;
 
 namespace Mellis.Lang.Python3.Tests.Compiler
@@ -113,6 +119,190 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             var varGet = Assert.That.IsOpCode<VarGet>(compiler, 0);
             Assert.AreEqual(1, compiler.Count);
             Assert.AreEqual("foo", varGet.Identifier);
+        }
+
+        [TestMethod]
+        public void ComparisonFactoryTest()
+        {
+            // Arrange
+            var factory = new ComparisonFactory(ComparisonType.Equals);
+
+            void Action()
+            {
+                factory.Compile(null);
+            }
+
+            // Act
+            var ex = Assert.ThrowsException<SyntaxUncompilableException>((Action)Action);
+
+            // Assert
+            Assert.That.ErrorSyntaxFormatArgsEqual(ex,
+                nameof(Localized_Python3_Syntax.Ex_SyntaxNode_Uncompilable),
+                SourceReference.ClrSource,
+                nameof(ComparisonFactory));
+
+            Assert.AreEqual(typeof(ComparisonFactory), ex.UncompilableType);
+        }
+
+        [TestMethod]
+        public void ArgumentListTest()
+        {
+            // Arrange
+            var argumentsList = new ArgumentsList(SourceReference.ClrSource, new ExpressionNode[0]);
+
+            void Action()
+            {
+                argumentsList.Compile(null);
+            }
+
+            // Act
+            var ex = Assert.ThrowsException<SyntaxUncompilableException>((Action) Action);
+
+            // Assert
+            Assert.That.ErrorSyntaxFormatArgsEqual(ex,
+                nameof(Localized_Python3_Syntax.Ex_SyntaxNode_Uncompilable),
+                SourceReference.ClrSource,
+                nameof(ArgumentsList));
+
+            Assert.AreEqual(typeof(ArgumentsList), ex.UncompilableType);
+        }
+
+        [TestMethod]
+        public void FunctionCallEmptyArgsTest()
+        {
+            // Arrange
+            var compiler = new PyCompiler();
+
+            var args = new ExpressionNode[0];
+
+            var callNode = new FunctionCall(
+                SourceReference.ClrSource,
+                new Identifier(SourceReference.ClrSource, "foo"),
+                new ArgumentsList(SourceReference.ClrSource, args)
+            );
+
+            // Act
+            callNode.Compile(compiler);
+
+            // Assert
+            var foo = Assert.That.IsOpCode<VarGet>(compiler, 0);
+            Assert.AreEqual("foo", foo.Identifier);
+
+            var callOp = Assert.That.IsOpCode<Call>(compiler, 1);
+            Assert.AreEqual(0, callOp.ArgumentCount);
+            Assert.AreEqual(2, callOp.ReturnAddress);
+
+            Assert.That.IsOpCode<CallStackPop>(compiler, 2);
+        }
+
+        [TestMethod]
+        public void FunctionCallSingleArgTest()
+        {
+            // Arrange
+            var compiler = new PyCompiler();
+
+            const int expectedLiteral = 5;
+            const string expectedIdentifier = "foo";
+
+            var args = new []
+            {
+                new LiteralInteger(SourceReference.ClrSource, expectedLiteral), 
+            };
+
+            var callNode = new FunctionCall(
+                SourceReference.ClrSource,
+                new Identifier(SourceReference.ClrSource, expectedIdentifier),
+                new ArgumentsList(SourceReference.ClrSource, args)
+            );
+
+            // Act
+            callNode.Compile(compiler);
+
+            // Assert
+            var foo = Assert.That.IsOpCode<VarGet>(compiler, 0);
+            Assert.AreEqual(expectedIdentifier, foo.Identifier);
+
+            var numb = Assert.That.IsOpCode<PushLiteral<int>>(compiler, 1);
+            Assert.AreEqual(expectedLiteral, numb.Literal.Value);
+
+            var callOp = Assert.That.IsOpCode<Call>(compiler, 2);
+            Assert.AreEqual(1, callOp.ArgumentCount);
+            Assert.AreEqual(3, callOp.ReturnAddress);
+
+            Assert.That.IsOpCode<CallStackPop>(compiler, 3);
+        }
+
+        [TestMethod]
+        public void FunctionCallMultipleArgsTest()
+        {
+            // Arrange
+            var compiler = new PyCompiler();
+
+            const int expectedLiteral1 = 5;
+            const string expectedLiteral2 = "bar";
+            const bool expectedLiteral3 = true;
+
+            const string expectedIdentifier = "foo";
+
+            var args = new ExpressionNode[]
+            {
+                new LiteralInteger(SourceReference.ClrSource, expectedLiteral1),
+                new LiteralString(SourceReference.ClrSource, expectedLiteral2), 
+                new LiteralBoolean(SourceReference.ClrSource, expectedLiteral3),
+            };
+
+            var callNode = new FunctionCall(
+                SourceReference.ClrSource,
+                new Identifier(SourceReference.ClrSource, expectedIdentifier),
+                new ArgumentsList(SourceReference.ClrSource, args)
+            );
+
+            // Act
+            callNode.Compile(compiler);
+
+            // Assert
+            var foo = Assert.That.IsOpCode<VarGet>(compiler, 0);
+            Assert.AreEqual(expectedIdentifier, foo.Identifier);
+
+            var lit1 = Assert.That.IsOpCode<PushLiteral<int>>(compiler, 1);
+            Assert.AreEqual(expectedLiteral1, lit1.Literal.Value);
+
+            var lit2 = Assert.That.IsOpCode<PushLiteral<string>>(compiler, 2);
+            Assert.AreEqual(expectedLiteral2, lit2.Literal.Value);
+
+            var lit3 = Assert.That.IsOpCode<PushLiteral<bool>>(compiler, 3);
+            Assert.AreEqual(expectedLiteral3, lit3.Literal.Value);
+
+            var callOp = Assert.That.IsOpCode<Call>(compiler, 4);
+            Assert.AreEqual(3, callOp.ArgumentCount);
+            Assert.AreEqual(5, callOp.ReturnAddress);
+
+            Assert.That.IsOpCode<CallStackPop>(compiler, 5);
+        }
+
+        [TestMethod]
+        public void ExpressionStatementTest()
+        {
+            // Arrange
+            var compiler = new PyCompiler();
+
+            var nopOp = new NopOp();
+            var exprMock = new Mock<ExpressionNode>(SourceReference.ClrSource);
+
+            exprMock.Setup(o => o.Compile(compiler))
+                .Callback(() => compiler.Push(nopOp))
+                .Verifiable();
+
+            var exprStmt = new ExpressionStatement(exprMock.Object);
+
+            // Act
+            exprStmt.Compile(compiler);
+
+            // Assert
+            Assert.That.IsExpectedOpCode(compiler, 0, nopOp);
+            Assert.That.IsOpCode<VarPop>(compiler, 1);
+            Assert.AreEqual(2, compiler.Count);
+            exprMock.Verify();
         }
     }
 }

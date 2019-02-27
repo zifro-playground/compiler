@@ -241,19 +241,6 @@ namespace Mellis.Lang.Base.Tests
             AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_PropertySet), expectedFormatArgs);
         }
 
-        [TestMethod]
-        public void IntInvoke()
-        {
-            // Arrange
-            IntegerBase a = GetInteger(5);
-            object[] expectedFormatArgs = {5};
-
-            void Action() { a.Invoke(null); }
-
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_Invoke), expectedFormatArgs);
-        }
-
         [DataTestMethod]
         [DataRow(5)]
         [DataRow(5L)]

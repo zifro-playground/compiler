@@ -68,5 +68,14 @@ namespace Mellis.Lang.Python3.Resources {
                 return ResourceManager.GetString("Ex_InvalidType", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internt fel. Ett objekt av typen &apos;{4}&apos; kan inte direkt kompileras..
+        /// </summary>
+        internal static string Ex_SyntaxNode_Uncompilable {
+            get {
+                return ResourceManager.GetString("Ex_SyntaxNode_Uncompilable", resourceCulture);
+            }
+        }
     }
 }

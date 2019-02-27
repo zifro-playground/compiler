@@ -18,8 +18,8 @@ namespace Mellis.Core.Exceptions
         }
 
         protected SyntaxNotYetImplementedException(SourceReference source,
-            string localizedKey, string localizedMessageFormat, params object[] values)
-            : base(source, localizedKey, localizedMessageFormat, values: values)
+            string localizedKey, string localizedMessageFormat, params object[] additionalFormatValues)
+            : base(source, localizedKey, localizedMessageFormat, additionalFormatValues: additionalFormatValues)
         {
 
         }

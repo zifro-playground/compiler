@@ -48,15 +48,6 @@ namespace Mellis.Lang.Base.Entities
         public abstract bool IsTruthy();
 
         /// <inheritdoc/>
-        public virtual IScriptType Invoke(IScriptType[] arguments)
-        {
-            throw new RuntimeException(
-                nameof(Localized_Base_Entities.Ex_Base_Invoke),
-                Localized_Base_Entities.Ex_Base_Invoke,
-                GetTypeName());
-        }
-
-        /// <inheritdoc/>
         public virtual IScriptType GetIndex(IScriptType index)
         {
             throw new RuntimeException(

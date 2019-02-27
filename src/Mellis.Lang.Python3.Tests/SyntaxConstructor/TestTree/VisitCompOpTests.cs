@@ -19,22 +19,6 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         }
 
         [TestMethod]
-        public void Visit_NoChildren_Test()
-        {
-            // Arrange
-            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
-            contextMock.SetupChildren();
-
-            // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
-
-            Assert.That.ErrorExpectedChildFormatArgs(ex, startTokenMock, stopTokenMock, contextMock);
-
-            contextMock.Verify();
-            ctorMock.Verify();
-        }
-
-        [TestMethod]
         public void Visit_TooManyChildren_Test()
         {
             // Arrange
@@ -51,27 +35,6 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, excess);
 
-            contextMock.Verify();
-            ctorMock.Verify();
-        }
-
-        [TestMethod]
-        public void Visit_InvalidRule_Test()
-        {
-            // Arrange
-            var unexpectedMock = GetMockRule<Python3Parser.File_inputContext>();
-            unexpectedMock.SetupForSourceReference(startTokenMock, stopTokenMock);
-
-            contextMock.SetupChildren(
-                unexpectedMock.Object
-            );
-
-            // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
-
-            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, unexpectedMock.Object);
-
-            unexpectedMock.Verify();
             contextMock.Verify();
             ctorMock.Verify();
         }

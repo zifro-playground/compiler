@@ -30,6 +30,22 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             return GetTerminal(Python3Parser.AWAIT);
         }
 
+        protected void SetupForTrailerMock(
+            Mock<Python3Parser.TrailerContext> trailerMock,
+            SyntaxNode returnValue)
+        {
+            ctorMock.Setup(o => o.VisitTrailer(trailerMock.Object))
+                .Returns(returnValue).Verifiable();
+        }
+
+        protected Mock<Python3Parser.TrailerContext> GetTrailerMockWithSetup(
+            SyntaxNode returnValue)
+        {
+            var trailerMock = GetMockRule<Python3Parser.TrailerContext>();
+            SetupForTrailerMock(trailerMock, returnValue);
+            return trailerMock;
+        }
+
         [TestMethod]
         public void Visit_AwaitAtom_Test()
         {
@@ -60,6 +76,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             ExpressionNode expr = GetExpressionMock();
             var innerMock = GetInnerMockWithSetup(expr);
+            innerMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             contextMock.SetupChildren(
                 innerMock.Object
@@ -81,8 +98,12 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_AtomSingleTrailer_Test()
         {
             // Arrange
-            var innerMock = GetInnerMock();
-            var trailerMock = GetMockRule<Python3Parser.TrailerContext>();
+            var exprNode = GetExpressionMock();
+            var innerMock = GetInnerMockWithSetup(exprNode);
+            innerMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            var argsNode = GetArgumentsListMock();
+            var trailerMock = GetTrailerMockWithSetup(argsNode);
             trailerMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             contextMock.SetupChildren(
@@ -90,10 +111,13 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
                 trailerMock.Object
             );
 
-            // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(VisitContext);
+            // Act
+            SyntaxNode result = VisitContext();
+            
+            // Assert
+            ExpressionNode result2 = Assert.That.IsFunctionCall(result, argsNode);
+            Assert.AreSame(exprNode, result2);
 
-            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock);
             contextMock.VerifyLoopedChildren(2);
 
             innerMock.Verify();
@@ -106,30 +130,46 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_AtomMultipleTrailer_Test()
         {
             // Arrange
-            var innerMock = GetInnerMock();
-            var trailerMock = GetMockRule<Python3Parser.TrailerContext>();
-            trailerMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+            var exprNode = GetExpressionMock();
+            var innerMock = GetInnerMockWithSetup(exprNode);
+            innerMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
-            var extraTrailerMock = GetMockRule<Python3Parser.TrailerContext>();
+            var argsNode1 = GetArgumentsListMock();
+            var trailerMock1 = GetTrailerMockWithSetup(argsNode1);
+            trailerMock1.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            var argsNode2 = GetArgumentsListMock();
+            var trailerMock2 = GetTrailerMockWithSetup(argsNode2);
+            trailerMock2.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            var argsNode3 = GetArgumentsListMock();
+            var trailerMock3 = GetTrailerMockWithSetup(argsNode3);
+            trailerMock3.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             contextMock.SetupChildren(
                 innerMock.Object,
-                trailerMock.Object,
-                extraTrailerMock.Object,
-                extraTrailerMock.Object
+                trailerMock1.Object,
+                trailerMock2.Object,
+                trailerMock3.Object
             );
 
-            // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(VisitContext);
+            // Act
+            SyntaxNode result = VisitContext();
 
-            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock);
-            contextMock.VerifyLoopedChildren(2);
+            // Assert
+            // Expect last-in, first-out
+            ExpressionNode result2 = Assert.That.IsFunctionCall(result, argsNode3);
+            ExpressionNode result3 = Assert.That.IsFunctionCall(result2, argsNode2);
+            ExpressionNode result4 = Assert.That.IsFunctionCall(result3, argsNode1);
+            Assert.AreSame(exprNode, result4);
+
+            contextMock.VerifyLoopedChildren(4);
 
             innerMock.Verify();
-            trailerMock.Verify();
-            extraTrailerMock.Verify();
+            trailerMock1.Verify();
             contextMock.Verify();
             ctorMock.Verify();
+
         }
 
         [TestMethod]

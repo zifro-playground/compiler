@@ -28,15 +28,6 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public override IScriptType Invoke(IScriptType[] arguments)
-        {
-            throw new RuntimeException(
-                nameof(Localized_Base_Entities.Ex_Double_Invoke),
-                Localized_Base_Entities.Ex_Double_Invoke,
-                Value);
-        }
-
-        /// <inheritdoc />
         public override IScriptType GetIndex(IScriptType index)
         {
             throw new RuntimeException(

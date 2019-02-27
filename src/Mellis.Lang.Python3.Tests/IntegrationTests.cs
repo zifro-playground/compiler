@@ -1,19 +1,33 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.IO;
+using Antlr4.Runtime;
+using Antlr4.Runtime.Atn;
+using Antlr4.Runtime.Dfa;
+using Antlr4.Runtime.Sharpen;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mellis.Core.Entities;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Entities;
+using Moq;
 
 namespace Mellis.Lang.Python3.Tests
 {
     [TestClass]
     public class IntegrationTests
     {
+        private ErrorCatcher errorCatcher;
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            errorCatcher = new ErrorCatcher();
+        }
+
         [TestMethod]
         public void ProcessAssignIntegerTest()
         {
             // Arrange
             const string code = "myInt = 10";
-            var processor = (PyProcessor)new PyCompiler().Compile(code);
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
 
             // Act
             processor.WalkInstruction(); // to enter first op
@@ -25,6 +39,7 @@ namespace Mellis.Lang.Python3.Tests
             Assert.AreEqual(10, ((PyInteger)variable).Value);
 
             Assert.AreEqual(ProcessState.Ended, processor.State);
+            errorCatcher.AssertNoErrors();
         }
 
         [TestMethod]
@@ -32,7 +47,7 @@ namespace Mellis.Lang.Python3.Tests
         {
             // Arrange
             const string code = "myString = 'hello world'";
-            var processor = (PyProcessor)new PyCompiler().Compile(code);
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
 
             // Act
             processor.WalkInstruction(); // to enter first op
@@ -44,6 +59,7 @@ namespace Mellis.Lang.Python3.Tests
             Assert.AreEqual("hello world", ((PyString)variable).Value);
 
             Assert.AreEqual(ProcessState.Ended, processor.State);
+            errorCatcher.AssertNoErrors();
         }
 
         [TestMethod]
@@ -52,7 +68,7 @@ namespace Mellis.Lang.Python3.Tests
             // Arrange
             const string code = "x = 88\n" +
                                 "y = 255";
-            var processor = (PyProcessor)new PyCompiler().Compile(code);
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
 
             // Act
             processor.WalkInstruction(); // to enter first op
@@ -69,8 +85,8 @@ namespace Mellis.Lang.Python3.Tests
             Assert.AreEqual(255, ((PyInteger)y).Value);
 
             Assert.AreEqual(ProcessState.Ended, processor.State);
+            errorCatcher.AssertNoErrors();
         }
-
 
         [TestMethod]
         public void ProcessAssignVariableToVariableTest()
@@ -78,7 +94,7 @@ namespace Mellis.Lang.Python3.Tests
             // Arrange
             const string code = "a = 64\n" +
                                 "b = a";
-            var processor = (PyProcessor)new PyCompiler().Compile(code);
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
 
             // Act
             processor.WalkInstruction(); // to enter first op
@@ -95,6 +111,7 @@ namespace Mellis.Lang.Python3.Tests
             Assert.AreEqual(64, ((PyInteger)y).Value);
 
             Assert.AreEqual(ProcessState.Ended, processor.State);
+            errorCatcher.AssertNoErrors();
         }
 
         [TestMethod]
@@ -102,7 +119,7 @@ namespace Mellis.Lang.Python3.Tests
         {
             // Arrange
             const string code = "myMath = 1024 + 999";
-            var processor = (PyProcessor)new PyCompiler().Compile(code);
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
 
             // Act
             processor.WalkInstruction(); // to enter first op
@@ -114,6 +131,7 @@ namespace Mellis.Lang.Python3.Tests
             Assert.AreEqual(1024+999, ((PyInteger)variable).Value);
 
             Assert.AreEqual(ProcessState.Ended, processor.State);
+            errorCatcher.AssertNoErrors();
         }
 
         [TestMethod]
@@ -123,7 +141,7 @@ namespace Mellis.Lang.Python3.Tests
             const string code = "val = 5\n" +
                                 "if True:\n" +
                                 "   val = 200";
-            var processor = (PyProcessor)new PyCompiler().Compile(code);
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
 
             // Act
             processor.WalkInstruction(); // to enter first op
@@ -137,6 +155,7 @@ namespace Mellis.Lang.Python3.Tests
             Assert.AreEqual(200, ((PyInteger)variable).Value);
 
             Assert.AreEqual(ProcessState.Ended, processor.State);
+            errorCatcher.AssertNoErrors();
         }
 
         [TestMethod]
@@ -146,7 +165,7 @@ namespace Mellis.Lang.Python3.Tests
             const string code = "val = 5\n" +
                                 "if False:\n" +
                                 "   val = 200";
-            var processor = (PyProcessor)new PyCompiler().Compile(code);
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
 
             // Act
             processor.WalkInstruction(); // to enter first op
@@ -159,6 +178,7 @@ namespace Mellis.Lang.Python3.Tests
             Assert.AreEqual(5, ((PyInteger)variable).Value);
 
             Assert.AreEqual(ProcessState.Ended, processor.State);
+            errorCatcher.AssertNoErrors();
         }
 
         [TestMethod]
@@ -185,7 +205,7 @@ namespace Mellis.Lang.Python3.Tests
                                 "if x < 50:\n" +
                                 "    y = \"inge print än\"";
 
-            var processor = (PyProcessor)new PyCompiler().Compile(code);
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
 
             // Act
             do
@@ -203,6 +223,69 @@ namespace Mellis.Lang.Python3.Tests
             Assert.AreEqual("inge print än", ((PyString)y).Value);
 
             Assert.AreEqual(ProcessState.Ended, processor.State);
+            errorCatcher.AssertNoErrors();
+        }
+
+        [TestMethod]
+        public void ProcessCallClrTest()
+        {
+            // Arrange
+            const string code = "foo()";
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
+
+            var clrMock = new Mock<IClrFunction>();
+            clrMock.SetupGet(o => o.FunctionName).Returns("foo");
+
+            processor.AddBuiltin(clrMock.Object);
+
+            // Act
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkLine(); // foo()
+
+            // Assert
+            clrMock.Verify(o => o.Invoke(It.IsAny<IScriptType[]>()));
+            Assert.AreEqual(ProcessState.Ended, processor.State);
+            errorCatcher.AssertNoErrors();
+        }
+
+        private class ErrorCatcher : IParserErrorListener
+        {
+            private int _syntaxErrors;
+            private int _reportAmbiguities;
+            private int _reportAttemptingFullContexts;
+            private int _reportContextSensitivities;
+
+            public void AssertNoErrors()
+            {
+                Assert.AreEqual(0, _syntaxErrors, "Received a syntax error.");
+                Assert.AreEqual(0, _reportAmbiguities, "Received an ambiguity report.");
+                Assert.AreEqual(0, _reportAttemptingFullContexts, "Received a full context attempt report.");
+                Assert.AreEqual(0, _reportContextSensitivities, "Received a context sensitivity report.");
+            }
+
+            public void SyntaxError(TextWriter output, IRecognizer recognizer, IToken offendingSymbol, int line, int charPositionInLine,
+                string msg, RecognitionException e)
+            {
+                _syntaxErrors++;
+            }
+
+            public void ReportAmbiguity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, bool exact, BitSet ambigAlts,
+                ATNConfigSet configs)
+            {
+                _reportAmbiguities++;
+            }
+
+            public void ReportAttemptingFullContext(Parser recognizer, DFA dfa, int startIndex, int stopIndex, BitSet conflictingAlts,
+                SimulatorState conflictState)
+            {
+                _reportAttemptingFullContexts++;
+            }
+
+            public void ReportContextSensitivity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, int prediction,
+                SimulatorState acceptState)
+            {
+                _reportContextSensitivities++;
+            }
         }
     }
 }

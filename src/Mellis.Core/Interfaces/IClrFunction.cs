@@ -2,7 +2,7 @@
 
 namespace Mellis.Core.Interfaces
 {
-    public interface IFunction
+    public interface IClrFunction
     {
         /// <summary>
         /// The assigned processor environment.
@@ -17,17 +17,7 @@ namespace Mellis.Core.Interfaces
         /// <para>Where <c>number</c> is <c>0-9</c></para>
         /// <para>Where <c>letter</c> is defined by all Unicode letter categories: UppercaseLetter, LowercaseLetter, TitlecaseLetter, ModifierLetter, and OtherLetter.</para>
         /// </summary>
-        string Name { get; }
-
-        /// <summary>
-        /// Get the description of this function. Used primarily in exceptions.
-        /// </summary>
-        string Description { get; }
-
-        /// <summary>
-        /// Get the source of where the variable was declared.
-        /// </summary>
-        SourceReference Source { get; }
+        string FunctionName { get; }
 
         /// <summary>
         /// Executed by the processor when the function is invoked in the script environment.

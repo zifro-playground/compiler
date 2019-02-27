@@ -23,7 +23,8 @@ namespace Mellis.Lang.Python3.Grammar
     {
         public override SyntaxNode VisitExpr_stmt(Python3Parser.Expr_stmtContext context)
         {
-            // expr_stmt: testlist_star_expr
+            // expr_stmt:
+            // testlist_star_expr
             // (
             //    annassign |
             //    augassign (yield_expr|testlist) |
@@ -31,62 +32,73 @@ namespace Mellis.Lang.Python3.Grammar
             //       '=' (yield_expr | testlist_star_expr)
             //    ) *
             // )
-            var expressions = new List<ExpressionNode>();
-            var lastWasAssign = false;
+            var firstRule = context.GetChildOrThrow<Python3Parser.Testlist_star_exprContext>(0);
+            var firstExpr = VisitTestlist_star_expr(firstRule)
+                .AsTypeOrThrow<ExpressionNode>();
 
-            foreach (IParseTree child in context.GetChildren())
+            if (context.ChildCount == 1)
+                return new ExpressionStatement(firstExpr);
+
+            IParseTree second = context.GetChild(1);
+            switch (second)
             {
-                switch (child)
-                {
-                    case Python3Parser.Testlist_star_exprContext testListStarExpr
-                        when (expressions.Count == 1 && lastWasAssign) ||
-                             expressions.Count == 0:
-                        var expr = (ExpressionNode) VisitTestlist_star_expr(testListStarExpr);
-                        // Append expression
-                        expressions.Add(expr);
-                        break;
+                // testlist_star_expr ( '=' (yield_expr | testlist_star_expr) ) *
+                case ITerminalNode term when term.Symbol.Type == Python3Parser.ASSIGN:
+                    var expressions = new List<ExpressionNode>
+                    {
+                        firstExpr
+                    };
 
-                    case Python3Parser.Testlist_star_exprContext testListStarExpr:
-                        throw context.UnexpectedChildType(testListStarExpr);
+                    for (var i = 2; i < context.ChildCount; i += 2)
+                    {
+                        var rule = context.GetChildOrThrow<ParserRuleContext>(i);
 
-                    case ITerminalNode term
-                        when term.Symbol.Type == Python3Parser.ASSIGN:
-                        switch (expressions.Count)
+                        switch (rule)
                         {
-                            case 0: throw context.UnexpectedChildType(term);
-                            case 1:
-                                lastWasAssign = true;
-                                continue;
-                            default: throw term.NotYetImplementedException();
+                            case Python3Parser.Yield_exprContext _:
+                                throw rule.NotYetImplementedException("yield");
+
+                            case Python3Parser.Testlist_star_exprContext testListStar:
+                                var expr = VisitTestlist_star_expr(testListStar)
+                                    .AsTypeOrThrow<ExpressionNode>();
+
+                                expressions.Add(expr);
+                                break;
+
+                            default:
+                                throw context.UnexpectedChildType(rule);
                         }
 
-                    // These are all in name for custom error messages
-                    case ITerminalNode term:
-                        throw context.UnexpectedChildType(term);
+                        if (i + 1 < context.ChildCount)
+                        {
+                            // verify it's an assign token
+                            ITerminalNode assign = context.GetChildOrThrow(i + 1, Python3Parser.ASSIGN);
+                            // cant handle multiple assigns yet
+                            throw assign.NotYetImplementedException("=");
+                        }
+                    }
 
-                    case Python3Parser.AugassignContext augassign
-                        when augassign.ChildCount == 1 && augassign.GetChild(0) is ITerminalNode term:
-                        throw augassign.NotYetImplementedException(term.Symbol.Text);
+                    return new Assignment(
+                        context.GetSourceReference(),
+                        expressions[0],
+                        expressions[1]);
 
-                    case Python3Parser.AnnassignContext annassign:
-                        throw annassign.NotYetImplementedException(":");
+                // testlist_star_expr annassign
+                case Python3Parser.AnnassignContext _ when context.ChildCount > 2:
+                    throw context.UnexpectedChildType(context.GetChild(2));
+                case Python3Parser.AnnassignContext annAssign:
+                    throw annAssign.NotYetImplementedException(":");
 
-                    case Python3Parser.Yield_exprContext yield:
-                        throw yield.NotYetImplementedException("yield");
+                // testlist_star_expr augassign (yield_expr | testlist)
+                case Python3Parser.AugassignContext _ when context.ChildCount > 3:
+                    throw context.UnexpectedChildType(context.GetChild(3));
+                case Python3Parser.AugassignContext augAssign:
+                    string keyword = augAssign.GetChildOrThrow<ITerminalNode>(0).Symbol.Text;
+                    throw augAssign.NotYetImplementedException(keyword);
 
-                    case ParserRuleContext rule:
-                        throw context.UnexpectedChildType(rule);
-                }
-
-                lastWasAssign = false;
+                default:
+                    throw context.UnexpectedChildType(second);
             }
-
-            if (expressions.Count == 2)
-                return new Assignment(context.GetSourceReference(),
-                    leftOperand: expressions[0],
-                    rightOperand: expressions[1]);
-
-            throw context.ExpectedChild();
         }
 
         public override SyntaxNode VisitTestlist_star_expr(Python3Parser.Testlist_star_exprContext context)
@@ -95,7 +107,7 @@ namespace Mellis.Lang.Python3.Grammar
 
             ExpressionNode result = null;
 
-            for (var i = 0; i < context.ChildCount; i+=2)
+            for (var i = 0; i < context.ChildCount; i += 2)
             {
                 var rule = context.GetChildOrThrow<ParserRuleContext>(i);
 
@@ -630,13 +642,36 @@ namespace Mellis.Lang.Python3.Grammar
                 case ITerminalNode node:
                     throw context.UnexpectedChildType(node);
 
-                case Python3Parser.AtomContext atom
-                    when context.ChildCount == 1:
-                    return VisitAtom(atom).AsTypeOrThrow<ExpressionNode>();
-
                 case Python3Parser.AtomContext atom:
-                    var trailer = context.GetChildOrThrow<Python3Parser.TrailerContext>(1);
-                    throw trailer.NotYetImplementedException();
+                    var expr = VisitAtom(atom)
+                        .AsTypeOrThrow<ExpressionNode>();
+                    SourceReference atomSource = atom.GetSourceReference();
+
+                    for (var i = 1; i < context.ChildCount; i++)
+                    {
+                        var trailerRule = context.GetChildOrThrow<Python3Parser.TrailerContext>(i);
+                        var trailerExpr = VisitTrailer(trailerRule);
+
+                        switch (trailerExpr)
+                        {
+                            case ArgumentsList argList:
+                                var source = SourceReference.Merge(
+                                    atomSource,
+                                    trailerRule.GetSourceReference()
+                                );
+                                // Nests the expression deeper
+                                expr = new FunctionCall(source, expr, argList);
+                                break;
+                            default:
+                                throw trailerExpr.WrongTypeException(
+                                    typeof(ArgumentsList)
+                                    // TODO: add indexing list type
+                                    // TODO: add property get type
+                                );
+                        }
+                    }
+
+                    return expr;
 
                 default:
                     throw context.UnexpectedChildType(first);
@@ -817,13 +852,148 @@ namespace Mellis.Lang.Python3.Grammar
 
         public override SyntaxNode VisitTrailer(Python3Parser.TrailerContext context)
         {
-            if (context.GetToken(Python3Parser.OPEN_PAREN, 0) != null)
-                throw context.NotYetImplementedException("()");
-            if (context.GetToken(Python3Parser.OPEN_BRACK, 0) != null)
-                throw context.NotYetImplementedException("[]");
-            if (context.GetToken(Python3Parser.DOT, 0) != null)
-                throw context.NotYetImplementedException(".");
-            throw context.NotYetImplementedException();
+            // trailer: '(' [arglist] ')' | '[' subscriptlist ']' | '.' NAME
+
+            var firstTerm = context.GetChildOrThrow<ITerminalNode>(0);
+
+            switch (firstTerm.Symbol.Type)
+            {
+                // Throw if too many children
+                case Python3Parser.OPEN_PAREN when context.ChildCount > 3:
+                case Python3Parser.OPEN_BRACK when context.ChildCount > 3:
+                    throw context.UnexpectedChildType(context.GetChild(3));
+
+                // Function: No arguments
+                case Python3Parser.OPEN_PAREN when context.ChildCount == 2:
+                    context.ExpectClosingParenthesis(firstTerm, Python3Parser.CLOSE_PAREN);
+                    return new ArgumentsList(context.GetSourceReference(), new List<ExpressionNode>());
+
+                // Function: Arguments list
+                case Python3Parser.OPEN_PAREN:
+                    context.ExpectClosingParenthesis(firstTerm, Python3Parser.CLOSE_PAREN);
+
+                    var argsRule = context.GetChildOrThrow<Python3Parser.ArglistContext>(1);
+
+                    var argsNode = VisitArglist(argsRule)
+                        .AsTypeOrThrow<ArgumentsList>();
+
+                    return argsNode;
+
+                // List indexing
+                case Python3Parser.OPEN_BRACK:
+                    context.ExpectClosingParenthesis(firstTerm, Python3Parser.CLOSE_BRACK);
+                    // No inner subscription list
+                    if (context.ChildCount == 2)
+                        throw context.ExpectedChild();
+
+                    context.GetChildOrThrow<Python3Parser.SubscriptlistContext>(1);
+                    throw context.NotYetImplementedException("[]");
+
+                // Property accessing
+                case Python3Parser.DOT when context.ChildCount > 2:
+                    throw context.UnexpectedChildType(context.GetChild(2));
+                case Python3Parser.DOT:
+                    context.GetChildOrThrow(1, Python3Parser.NAME);
+                    throw context.NotYetImplementedException(".");
+
+                // Who are you?
+                default:
+                    throw context.UnexpectedChildType(firstTerm);
+            }
+        }
+
+        public override SyntaxNode VisitArglist(Python3Parser.ArglistContext context)
+        {
+            // arglist: argument (',' argument)*  [',']
+
+            var exprList = new List<ExpressionNode>();
+
+            if (context.ChildCount == 0)
+                throw context.ExpectedChild();
+
+            for (var i = 0; i < context.ChildCount; i += 2)
+            {
+                var argRule = context.GetChildOrThrow<Python3Parser.ArgumentContext>(i);
+                if (i + 1 < context.ChildCount)
+                    context.GetChildOrThrow(i + 1, Python3Parser.COMMA);
+
+                var argExpr = VisitArgument(argRule)
+                    .AsTypeOrThrow<ExpressionNode>();
+
+                exprList.Add(argExpr);
+            }
+
+            return new ArgumentsList(context.GetSourceReference(), exprList);
+        }
+
+        public override SyntaxNode VisitArgument(Python3Parser.ArgumentContext context)
+        {
+            // argument: (
+            //      test [comp_for] |
+            //      test '=' test |
+            //      '**' test |
+            //      '*' test
+            // )
+
+            var first = context.GetChildOrThrow<IParseTree>(0);
+            switch (first)
+            {
+                // test
+                case Python3Parser.TestContext test when context.ChildCount == 1:
+                {
+                    var expr = VisitTest(test)
+                        .AsTypeOrThrow<ExpressionNode>();
+
+                    return expr;
+                }
+
+                // test comp_for
+                case Python3Parser.TestContext test when context.ChildCount == 2:
+                {
+                    var compForRule = context.GetChildOrThrow<Python3Parser.Comp_forContext>(1);
+                    throw compForRule.NotYetImplementedException("for");
+                }
+
+                // test '=' test
+                case Python3Parser.TestContext _ when context.ChildCount > 3:
+                    throw context.UnexpectedChildType(context.GetChild(3));
+                case Python3Parser.TestContext test:
+                {
+                    var assign = context.GetChildOrThrow(1, Python3Parser.ASSIGN);
+                    context.GetChildOrThrow<Python3Parser.TestContext>(2);
+                    throw assign.NotYetImplementedException("=");
+                }
+
+                case ITerminalNode term:
+                {
+                    switch (term.Symbol.Type)
+                    {
+                        // '**' test
+                        case Python3Parser.POWER when context.ChildCount > 2:
+                            throw context.UnexpectedChildType(context.GetChild(2));
+                        case Python3Parser.POWER:
+                        {
+                            context.GetChildOrThrow<Python3Parser.TestContext>(1);
+                            throw term.NotYetImplementedException("**");
+                        }
+
+                        // '*' test
+                        case Python3Parser.STAR when context.ChildCount > 2:
+                            throw context.UnexpectedChildType(context.GetChild(2));
+                        case Python3Parser.STAR:
+                        {
+                            context.GetChildOrThrow<Python3Parser.TestContext>(1);
+                            throw term.NotYetImplementedException("*");
+                        }
+
+                        default:
+                            throw context.UnexpectedChildType(term);
+                    }
+                }
+
+                default:
+                    throw context.UnexpectedChildType(first);
+            }
         }
 
         public override SyntaxNode VisitSubscriptlist(Python3Parser.SubscriptlistContext context)

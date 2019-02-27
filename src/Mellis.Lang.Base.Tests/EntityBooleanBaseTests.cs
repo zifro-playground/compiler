@@ -145,19 +145,6 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [TestMethod]
-        public void BooleanInvoke()
-        {
-            // Arrange
-            BooleanBase a = GetBoolean(true);
-            object[] expectedFormatArgs = { a.Value, LocalizedBool(a.Value) };
-
-            void Action() { a.Invoke(null); }
-
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_Invoke), expectedFormatArgs);
-        }
-
-        [TestMethod]
         public void BooleanTryConvertValid()
         {
             // Arrange

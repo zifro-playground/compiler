@@ -53,7 +53,7 @@ namespace Mellis.Tools.Extensions
                     scriptTypeValue = factory.Create(v);
                     return true;
 
-                case IFunction v:
+                case IClrFunction v:
                     scriptTypeValue = factory.Create(v);
                     return true;
 

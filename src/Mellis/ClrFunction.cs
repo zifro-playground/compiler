@@ -3,24 +3,27 @@ using Mellis.Core.Interfaces;
 
 namespace Mellis
 {
-    public abstract class ClrFunctionBase : IFunction
+    public abstract class ClrFunction : IClrFunction
     {
-        #region Predefined properties
+        /// <param name="name">
+        /// The name of this function.
+        /// Used to identify it in the script environment and should therefore be a valid identifier.
+        /// <para>Name rules: <code>(letter | '_') (letter | '_' | number)*</code></para>
+        /// <para>Where <c>number</c> is <c>0-9</c></para>
+        /// <para>Where <c>letter</c> is defined by all Unicode letter categories: UppercaseLetter, LowercaseLetter, TitlecaseLetter, ModifierLetter, and OtherLetter.</para>
+        /// </param>
+        protected ClrFunction(string name)
+        {
+            FunctionName = name;
+        }
 
+        /// <inheritdoc />
         public IProcessor Processor { get; set; }
 
-        public SourceReference Source { get; } = SourceReference.ClrSource;
+        /// <inheritdoc />
+        public string FunctionName { get; }
 
-        #endregion
-
-        #region Abstract properties
-
-        public abstract string Name { get; }
-
-        public abstract string Description { get; }
-
+        /// <inheritdoc />
         public abstract IScriptType Invoke(IScriptType[] arguments);
-
-        #endregion
     }
 }

@@ -26,11 +26,18 @@ namespace Mellis.Lang.Python3
 
         public IProcessor Compile(string code)
         {
+            return Compile(code, null);
+        }
+
+        internal IProcessor Compile(string code, IParserErrorListener errorListener)
+        {
             var inputStream = new AntlrInputStream(code + "\n");
 
             var lexer = new Python3Lexer(inputStream);
             var tokenStream = new CommonTokenStream(lexer);
             var parser = new Python3Parser(tokenStream);
+            if (errorListener != null)
+                parser.AddErrorListener(errorListener);
 
             var visitor = new SyntaxConstructor();
 
@@ -68,6 +75,15 @@ namespace Mellis.Lang.Python3
         public int GetJumpTargetForNext()
         {
             return Count;
+        }
+
+        /// <summary>
+        /// Get jump destination that targets a relative jump,
+        /// where 0 targets the most recent pushed op-code.
+        /// </summary>
+        public int GetJumpTargetRelative(int offset)
+        {
+            return Count - 1 + offset;
         }
 
         /// <summary>

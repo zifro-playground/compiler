@@ -13,6 +13,7 @@ namespace Mellis.Lang.Python3
             _processor = processor;
             True = new PyBoolean(_processor, true);
             False = new PyBoolean(_processor, false);
+            Null = new PyNone(_processor);
         }
 
         public IScriptType Null { get; }
@@ -75,9 +76,10 @@ namespace Mellis.Lang.Python3
             throw new System.NotImplementedException();
         }
 
-        public IScriptType Create(IFunction value)
+        public IScriptType Create(IClrFunction value)
         {
-            throw new System.NotImplementedException();
+            value.Processor = _processor;
+            return new PyClrFunction(_processor, value);
         }
     }
 }

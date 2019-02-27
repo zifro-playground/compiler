@@ -14,8 +14,13 @@ using Mellis.Lang.Python3.Syntax.Statements;
 namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
 {
     [TestClass]
-    public class VisitExprStmtTests : BaseVisitClass
+    public class VisitExprStmtTests : BaseVisitClass<Python3Parser.Expr_stmtContext>
     {
+        public override SyntaxNode VisitContext()
+        {
+            return ctor.VisitExpr_stmt(contextMock.Object);
+        }
+
         [TestInitialize]
         public void TestInitializeExprStmt()
         {
@@ -24,10 +29,37 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
+        public void Visit_SingleTestListStarExpr_Test()
+        {
+            // Arrange
+            var expr = GetExpressionMock();
+            var innerMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
+            ctorMock.Setup(o => o.VisitTestlist_star_expr(innerMock.Object))
+                .Returns(expr).Verifiable();
+
+            contextMock.SetupChildren(
+                innerMock.Object
+            );
+
+            // Act
+            SyntaxNode result = VisitContext();
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(ExpressionStatement));
+            var resultExpr = (ExpressionStatement)result;
+            Assert.AreSame(expr, resultExpr.Expression);
+
+            contextMock.VerifyLoopedChildren(1);
+
+            innerMock.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
         public void Visit_BasicAssignment_Test()
         {
             // Arrange
-            var contextMock = GetMockRule<Python3Parser.Expr_stmtContext>();
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             var lhsMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
@@ -40,7 +72,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             );
 
             // Act
-            SyntaxNode result = ctor.VisitExpr_stmt(contextMock.Object);
+            SyntaxNode result = VisitContext();
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(Assignment));
@@ -57,8 +89,6 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
         public void Visit_MultiAssignment_Test()
         {
             // Arrange
-            var contextMock = GetMockRule<Python3Parser.Expr_stmtContext>();
-
             var testListMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
 
             ITerminalNode secondEqual = GetTerminal(Python3Parser.ASSIGN);
@@ -70,11 +100,9 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
                 secondEqual,
                 testListMock.Object
             );
-
-            void Action() { ctor.VisitExpr_stmt(contextMock.Object); }
-
+            
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action) Action);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, secondEqual, "=");
             // Should throw at 4th
@@ -85,31 +113,9 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void Visit_Empty_Test()
-        {
-            // Arrange
-            var contextMock = GetMockRule<Python3Parser.Expr_stmtContext>();
-            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
-            contextMock.SetupChildren();
-
-            void Action() { ctor.VisitExpr_stmt(contextMock.Object); }
-
-            // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>((Action) Action);
-
-            Assert.That.ErrorExpectedChildFormatArgs(ex, startTokenMock, stopTokenMock, contextMock);
-            contextMock.VerifyLoopedChildren(0);
-
-            contextMock.Verify();
-            ctorMock.Verify();
-        }
-
-        [TestMethod]
         public void Visit_InvalidOrdering_Test()
         {
             // Arrange
-            var contextMock = GetMockRule<Python3Parser.Expr_stmtContext>();
-
             var testListMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
             var secondTestListMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
             secondTestListMock.SetupForSourceReference(startTokenMock, stopTokenMock);
@@ -120,10 +126,8 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
                 GetTerminal(Python3Parser.ASSIGN)
             );
 
-            void Action() { ctor.VisitExpr_stmt(contextMock.Object); }
-
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>((Action) Action);
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock,
                 secondTestListMock.Object);
@@ -138,8 +142,6 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
         public void Visit_AugmentedAssignment_Test()
         {
             // Arrange
-            var contextMock = GetMockRule<Python3Parser.Expr_stmtContext>();
-
             var testListStarMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
             var augAssignMock = GetMockRule<Python3Parser.AugassignContext>();
             var testListMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
@@ -153,11 +155,9 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
                 augAssignMock.Object,
                 testListMock.Object
             );
-
-            void Action() { ctor.VisitExpr_stmt(contextMock.Object); }
-
+            
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action) Action);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, "+=");
             // Should throw at 2nd
@@ -171,8 +171,6 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
         public void Visit_AnnotatedAssignment_Test()
         {
             // Arrange
-            var contextMock = GetMockRule<Python3Parser.Expr_stmtContext>();
-
             var testListStarMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
             var annAssignMock = GetMockRule<Python3Parser.AnnassignContext>();
             annAssignMock.SetupForSourceReference(startTokenMock, stopTokenMock);
@@ -182,10 +180,8 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
                 annAssignMock.Object
             );
 
-            void Action() { ctor.VisitExpr_stmt(contextMock.Object); }
-
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action) Action);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, ":");
             contextMock.VerifyLoopedChildren(2);
@@ -195,27 +191,24 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void Visit_YieldExpression_Test()
+        public void Visit_YieldAssignExpression_Test()
         {
             // Arrange
-            var contextMock = GetMockRule<Python3Parser.Expr_stmtContext>();
-
             var testListStarMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
             var yieldExprMock = GetMockRule<Python3Parser.Yield_exprContext>();
             yieldExprMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             contextMock.SetupChildren(
                 testListStarMock.Object,
+                GetTerminal(Python3Parser.ASSIGN),
                 yieldExprMock.Object
             );
 
-            void Action() { ctor.VisitExpr_stmt(contextMock.Object); }
-
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action) Action);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext);
 
             Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, "yield");
-            contextMock.VerifyLoopedChildren(2);
+            contextMock.VerifyLoopedChildren(3);
 
             contextMock.Verify();
             ctorMock.Verify();
@@ -225,69 +218,16 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
         public void Visit_OnlyAssignmentToken_Test()
         {
             // Arrange
-            var contextMock = GetMockRule<Python3Parser.Expr_stmtContext>();
-
             ITerminalNode assignNode = GetTerminal(Python3Parser.ASSIGN);
 
             contextMock.SetupChildren(
                 assignNode
             );
 
-            void Action() { ctor.VisitExpr_stmt(contextMock.Object); }
-
             // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>((Action) Action);
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, assignNode);
-            contextMock.VerifyLoopedChildren(1);
-
-            contextMock.Verify();
-            ctorMock.Verify();
-        }
-
-        [TestMethod]
-        public void Visit_InvalidToken_Test()
-        {
-            // Arrange
-            var contextMock = GetMockRule<Python3Parser.Expr_stmtContext>();
-
-            ITerminalNode assignNode = GetTerminal(Python3Parser.ASYNC);
-
-            contextMock.SetupChildren(
-                assignNode
-            );
-
-            void Action() { ctor.VisitExpr_stmt(contextMock.Object); }
-
-            // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>((Action) Action);
-
-            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, assignNode);
-            contextMock.VerifyLoopedChildren(1);
-
-            contextMock.Verify();
-            ctorMock.Verify();
-        }
-
-        [TestMethod]
-        public void Visit_InvalidContext_Test()
-        {
-            // Arrange
-            var contextMock = GetMockRule<Python3Parser.Expr_stmtContext>();
-
-            var innerMocker = GetMockRule<Python3Parser.File_inputContext>();
-            innerMocker.SetupForSourceReference(startTokenMock, stopTokenMock);
-
-            contextMock.SetupChildren(
-                innerMocker.Object
-            );
-
-            void Action() { ctor.VisitExpr_stmt(contextMock.Object); }
-
-            // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxException>((Action) Action);
-
-            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, innerMocker.Object);
             contextMock.VerifyLoopedChildren(1);
 
             contextMock.Verify();
