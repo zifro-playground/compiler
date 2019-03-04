@@ -4,19 +4,20 @@ using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Syntax.Literals;
 using Mellis.Lang.Python3.Tests.TestingOps;
+using Mellis.Lang.Python3.VM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 namespace Mellis.Lang.Python3.Tests.Processor
 {
     [TestClass]
-    public class CallEvaluateTests
+    public class CallClrEvaluateTests
     {
         [TestMethod]
         public void ClrCallInvokesMethodTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new Call(SourceReference.ClrSource, 0, 1),
                 new NopOp()
             );
@@ -42,7 +43,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             const int returnAddress = 3;
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new Call(SourceReference.ClrSource, 0, returnAddress),
                 new NopOp(),
                 new NopOp(),
@@ -70,7 +71,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ClrCallLoadsArgumentsTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new Call(SourceReference.ClrSource, 3, 1),
                 new CallStackPop(SourceReference.ClrSource)
             );
@@ -109,7 +110,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ClrCallPushesResultToValueStackTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new Call(SourceReference.ClrSource, 0, 1),
                 new CallStackPop(SourceReference.ClrSource)
             );
@@ -140,7 +141,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ClrCallConvertsNullTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new Call(SourceReference.ClrSource, 0, 1),
                 new CallStackPop(SourceReference.ClrSource)
             );
@@ -169,7 +170,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ClrCallPushesCallScopeTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new Call(SourceReference.ClrSource, 0, 1),
                 new CallStackPop(SourceReference.ClrSource)
             );
