@@ -158,4 +158,12 @@
     <value>Internt fel. Alla anrop i funktionsstacken (call stack) blev inte korrekt stängda.</value>
     <comment>Occurs on process ended but all call stacks was popped (via op-codes).</comment>
   </data>
+  <data name="Ex_Yield_ResolveWhenNotYielded" xml:space="preserve">
+    <value>Internt fel. En operation försökte återuppta en funktion, men det är ingen som kör just nu.</value>
+    <comment>Occurs on processor ResolveYield executes but processor is not in yielded state.</comment>
+  </data>
+  <data name="Ex_Yield_ResolveNoYieldData" xml:space="preserve">
+    <value>Internt fel. Saknade information för att återuppta funktionen.</value>
+    <comment>Occurs when processor ResolveYield is invoked but there's yield data missing about the invoked CLR function. Data containing reference to the function, jump address and it's arguments.</comment>
+  </data>
 </root>

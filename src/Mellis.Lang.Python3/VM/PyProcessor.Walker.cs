@@ -25,6 +25,11 @@ namespace Mellis.Lang.Python3.VM
             throw new System.NotImplementedException();
         }
 
+        internal void Yield(YieldData yieldData)
+        {
+
+        }
+
         public void WalkLine()
         {
             _numOfJumpsThisWalk = 0;
