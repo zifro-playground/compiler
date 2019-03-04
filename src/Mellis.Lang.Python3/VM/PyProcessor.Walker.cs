@@ -35,7 +35,7 @@ namespace Mellis.Lang.Python3.VM
                 );
             }
 
-            var callStack = PopCallStack();
+            var callStack = PeekCallStack();
 
             // Perform the exit invoke & return transformation
             returnValue = _currentYield.Definition.InvokeExit(_currentYield.Arguments,
@@ -45,6 +45,7 @@ namespace Mellis.Lang.Python3.VM
             PushValue(returnValue);
 
             // Return to sender
+            PopCallStack();
             State = ProcessState.Running;
             JumpToInstruction(callStack.ReturnAddress);
             _currentYield = null;
@@ -137,15 +138,24 @@ namespace Mellis.Lang.Python3.VM
                 case ProcessState.Running:
                     try
                     {
+                        int startCounter = ProgramCounter;
+
                         IOpCode opCode = _opCodes[ProgramCounter++];
                         opCode.Execute(this);
 
-                        if (ProgramCounter < _opCodes.Length)
-                            State = ProcessState.Running;
+                        if (State == ProcessState.Yielded)
+                        {
+                            ProgramCounter = startCounter;
+                        }
                         else
                         {
-                            State = ProcessState.Ended;
-                            OnProcessEnded(State);
+                            if (ProgramCounter < _opCodes.Length)
+                                State = ProcessState.Running;
+                            else
+                            {
+                                State = ProcessState.Ended;
+                                OnProcessEnded(State);
+                            }
                         }
                     }
                     catch (InterpreterException ex)

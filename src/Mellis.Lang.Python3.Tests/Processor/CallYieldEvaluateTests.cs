@@ -203,100 +203,15 @@ namespace Mellis.Lang.Python3.Tests.Processor
             processor.WalkInstruction(); // warmup
             processor.WalkLine();
             processor.ResolveYield(value);
+
+            int stackCount = processor.ValueStackCount;
             IScriptType actualValue = processor.PopValue();
 
             // Assert
             defMock.Verify();
 
             Assert.AreSame(value, actualValue);
-            Assert.AreEqual(1, processor.ValueStackCount);
-        }
-
-        [TestMethod]
-        public void YieldCallConvertsResolveNullTest()
-        {
-            // Arrange
-            var processor = new PyProcessor(
-                new Call(SourceReference.ClrSource, 0, 1)
-            );
-
-            var defMock = new Mock<IClrYieldingFunction>();
-            defMock.Setup(o => o.InvokeExit(It.IsAny<IScriptType[]>(), It.IsAny<IScriptType>()))
-                .Returns<IScriptType[], IScriptType>((args, ret) => ret).Verifiable();
-
-            var function = new PyClrFunction(processor, defMock.Object);
-            processor.PushValue(function);
-
-            // Act
-            processor.WalkInstruction(); // warmup
-            processor.WalkLine();
-            processor.ResolveYield(null);
-
-            // Assert
-            defMock.Verify();
-
-            Assert.AreEqual(1, processor.ValueStackCount);
-
-            IScriptType actualValue = processor.PopValue();
-            Assert.AreSame(processor.Factory.Null, actualValue);
-        }
-
-        [TestMethod]
-        public void YieldCallConvertsExitNullTest()
-        {
-            // Arrange
-            var processor = new PyProcessor(
-                new Call(SourceReference.ClrSource, 0, 1)
-            );
-
-            var defMock = new Mock<IClrYieldingFunction>();
-            defMock.Setup(o => o.InvokeExit(It.IsAny<IScriptType[]>(), It.IsAny<IScriptType>()))
-                .Returns((IScriptType) null).Verifiable();
-
-            var function = new PyClrFunction(processor, defMock.Object);
-            processor.PushValue(function);
-
-            // Act
-            processor.WalkInstruction(); // warmup
-            processor.WalkLine();
-            processor.ResolveYield(Mock.Of<IScriptType>());
-
-            // Assert
-            defMock.Verify();
-
-            Assert.AreEqual(1, processor.ValueStackCount);
-
-            IScriptType actualValue = processor.PopValue();
-            Assert.AreSame(processor.Factory.Null, actualValue);
-        }
-
-        [TestMethod]
-        public void YieldCallResolveFillsWithNullTest()
-        {
-            // Arrange
-            var processor = new PyProcessor(
-                new Call(SourceReference.ClrSource, 0, 1)
-            );
-
-            var defMock = new Mock<IClrYieldingFunction>();
-            defMock.Setup(o => o.InvokeExit(It.IsAny<IScriptType[]>(), It.IsAny<IScriptType>()))
-                .Returns<IScriptType[], IScriptType>((args, ret) => ret).Verifiable();
-
-            var function = new PyClrFunction(processor, defMock.Object);
-            processor.PushValue(function);
-
-            // Act
-            processor.WalkInstruction(); // warmup
-            processor.WalkLine();
-            processor.ResolveYield();
-
-            // Assert
-            defMock.Verify();
-
-            Assert.AreEqual(1, processor.ValueStackCount);
-
-            IScriptType actualValue = processor.PopValue();
-            Assert.AreSame(processor.Factory.Null, actualValue);
+            Assert.AreEqual(1, stackCount);
         }
 
         [TestMethod]
@@ -307,7 +222,14 @@ namespace Mellis.Lang.Python3.Tests.Processor
                 new Call(SourceReference.ClrSource, 0, 1)
             );
 
+            int inside = -1;
             var defMock = new Mock<IClrYieldingFunction>();
+            defMock.Setup(o => o.InvokeExit(It.IsAny<IScriptType[]>(), It.IsAny<IScriptType>()))
+                .Returns<IScriptType[], IScriptType>((args, ret) =>
+                {
+                    inside = processor.CallStackCount;
+                    return ret;
+                });
 
             var function = new PyClrFunction(processor, defMock.Object);
             processor.PushValue(function);
@@ -319,12 +241,12 @@ namespace Mellis.Lang.Python3.Tests.Processor
             int during = processor.CallStackCount;
             processor.ResolveYield();
             int afterResolve = processor.CallStackCount;
-            processor.WalkInstruction();
 
             // Assert
             Assert.AreEqual(0, before, "Before call op.");
             Assert.AreEqual(1, during, "After yield invoke enter.");
-            Assert.AreEqual(1, afterResolve, "After yield resolved.");
+            Assert.AreEqual(1, inside, "Inside invoke exit.");
+            Assert.AreEqual(0, afterResolve, "After yield resolved.");
         }
     }
 }

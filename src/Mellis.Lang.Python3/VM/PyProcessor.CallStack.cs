@@ -40,5 +40,18 @@ namespace Mellis.Lang.Python3.VM
 
             return _callStacks.Pop();
         }
+
+        internal CallStack PeekCallStack()
+        {
+            if (_callStacks.Count == 0)
+            {
+                throw new InternalException(
+                    nameof(Localized_Python3_Interpreter.Ex_CallStack_PopEmpty),
+                    Localized_Python3_Interpreter.Ex_CallStack_PopEmpty
+                );
+            }
+
+            return _callStacks.Peek();
+        }
     }
 }
