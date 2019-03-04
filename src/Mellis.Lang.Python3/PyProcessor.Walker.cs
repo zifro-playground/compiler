@@ -16,7 +16,7 @@ namespace Mellis.Lang.Python3
         // Oliver & Fredrik approved ✔️
         internal const int JUMPS_THRESHOLD = 102+137;
 
-        public void ContinueYieldedValue(IScriptType value)
+        public void ResolveYield(IScriptType value)
         {
             throw new System.NotImplementedException();
         }
