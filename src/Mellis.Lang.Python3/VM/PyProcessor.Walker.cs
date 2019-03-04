@@ -20,6 +20,11 @@ namespace Mellis.Lang.Python3.VM
             throw new System.NotImplementedException();
         }
 
+        public void ResolveYield()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void WalkLine()
         {
             _numOfJumpsThisWalk = 0;
