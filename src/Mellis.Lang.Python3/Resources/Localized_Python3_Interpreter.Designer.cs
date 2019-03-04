@@ -149,5 +149,23 @@ namespace Mellis.Lang.Python3.Resources {
                 return ResourceManager.GetString("Ex_ValueStack_PushNull", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internt fel. Saknade information för att återuppta funktionen..
+        /// </summary>
+        internal static string Ex_Yield_ResolveNoYieldData {
+            get {
+                return ResourceManager.GetString("Ex_Yield_ResolveNoYieldData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internt fel. En operation försökte återuppta en funktion, men det är ingen som kör just nu..
+        /// </summary>
+        internal static string Ex_Yield_ResolveWhenNotYielded {
+            get {
+                return ResourceManager.GetString("Ex_Yield_ResolveWhenNotYielded", resourceCulture);
+            }
+        }
     }
 }

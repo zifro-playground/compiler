@@ -27,7 +27,7 @@ namespace Mellis.Lang.Python3.Syntax.Literals
             }
         }
 
-        public override IScriptType ToScriptType(PyProcessor processor)
+        public override IScriptType ToScriptType(VM.PyProcessor processor)
         {
             return new PyBoolean(processor, Value);
         }

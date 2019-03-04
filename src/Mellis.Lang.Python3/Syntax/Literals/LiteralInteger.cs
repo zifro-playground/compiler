@@ -54,7 +54,7 @@ namespace Mellis.Lang.Python3.Syntax.Literals
             throw new SyntaxLiteralFormatException(source);
         }
 
-        public override IScriptType ToScriptType(PyProcessor processor)
+        public override IScriptType ToScriptType(VM.PyProcessor processor)
         {
             return new PyInteger(processor, Value);
         }

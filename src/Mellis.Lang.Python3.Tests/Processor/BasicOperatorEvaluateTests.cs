@@ -157,7 +157,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var source = new SourceReference(1,2,3,4);
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new BasicOperator(source, opCode)
             );
 
@@ -181,7 +181,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         protected void EvaluateBinaryTestTemplate(OperatorCode opCode, Expression<Func<IScriptType, IScriptType>> method)
         {
             // Arrange
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new BasicOperator(SourceReference.ClrSource, opCode)
             );
 

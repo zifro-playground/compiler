@@ -21,7 +21,7 @@ namespace Mellis.Lang.Python3.Instructions
             Code = code;
         }
 
-        public void Execute(PyProcessor processor)
+        public void Execute(VM.PyProcessor processor)
         {
             IScriptType result = Code.IsBinary()
                 ? GetBinaryResult(processor)
@@ -30,7 +30,7 @@ namespace Mellis.Lang.Python3.Instructions
             processor.PushValue(result);
         }
 
-        private IScriptType GetBinaryResult(PyProcessor processor)
+        private IScriptType GetBinaryResult(VM.PyProcessor processor)
         {
             var rhs = processor.PopValue();
             var lhs = processor.PopValue();
@@ -89,7 +89,7 @@ namespace Mellis.Lang.Python3.Instructions
             }
         }
 
-        private IScriptType GetUnaryResult(PyProcessor processor)
+        private IScriptType GetUnaryResult(VM.PyProcessor processor)
         {
             var lhs = processor.PopValue();
 

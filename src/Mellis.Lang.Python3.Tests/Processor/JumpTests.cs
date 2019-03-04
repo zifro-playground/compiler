@@ -15,7 +15,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void EvaluateJumpUpwardsTest()
         {
             // Arrange
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new NopOp(),
                 new Jump(SourceReference.ClrSource, 0)
             );
@@ -36,7 +36,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void EvaluateJumpLoopTimesOutTest()
         {
             // Arrange
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new Jump(SourceReference.ClrSource, 0)
             );
 
@@ -54,7 +54,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void EvaluateJumpBeyondLastTest()
         {
             // Arrange
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new Jump(SourceReference.ClrSource, 5),
                 new NopOp()
             );
@@ -71,7 +71,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void EvaluateJumpBeyondFirstTest()
         {
             // Arrange
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new Jump(SourceReference.ClrSource, -5)
             );
 
@@ -89,7 +89,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void EvaluateJumpDownwardsTest()
         {
             // Arrange
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new Jump(SourceReference.ClrSource, 5),
                 new NopOp(),
                 new NopOp(),
@@ -105,7 +105,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             Assert.AreEqual(ProcessState.Ended, processor.State);
         }
 
-        protected static IScriptType GetPyValue(object value, PyProcessor processor)
+        protected static IScriptType GetPyValue(object value, VM.PyProcessor processor)
         {
             switch (value)
             {
@@ -131,7 +131,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void EvaluateJumpIfFalse_Falsy_Test(object value)
         {
             // Arrange
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new JumpIfFalse(SourceReference.ClrSource, 5),
                 new NopOp(),
                 new NopOp(),
@@ -163,7 +163,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
 
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new JumpIfFalse(SourceReference.ClrSource, 5),
                 new NopOp(),
                 new NopOp(),

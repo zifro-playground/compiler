@@ -7,6 +7,9 @@ namespace Mellis.Core.Interfaces
         /// <summary>
         /// The assigned processor environment.
         /// Set by the processor when function is created via the processors <see cref="IScriptTypeFactory"/> factory.
+        /// <para>
+        /// This can be turned into a value via <seealso cref="IScriptTypeFactory.Create(IClrFunction)"/>.
+        /// </para>
         /// </summary>
         IProcessor Processor { set; }
 

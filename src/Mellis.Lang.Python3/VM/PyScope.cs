@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mellis.Core.Interfaces;
 
-namespace Mellis.Lang.Python3
+namespace Mellis.Lang.Python3.VM
 {
     public class PyScope : IScopeContext
     {

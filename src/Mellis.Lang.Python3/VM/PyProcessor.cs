@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
-using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Interfaces;
-using Mellis.Lang.Python3.VM;
 
-namespace Mellis.Lang.Python3
+namespace Mellis.Lang.Python3.VM
 {
     public partial class PyProcessor : IProcessor
     {

@@ -6,6 +6,6 @@ namespace Mellis.Lang.Python3.Interfaces
     {
         SourceReference Source { get; }
 
-        void Execute(PyProcessor processor);
+        void Execute(VM.PyProcessor processor);
     }
 }

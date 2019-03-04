@@ -11,7 +11,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void GetDeclaredBuiltinTest()
         {
             // Arrange
-            var processor = new PyProcessor();
+            var processor = new VM.PyProcessor();
             var builtinMock = new Mock<IClrFunction>();
             builtinMock.SetupGet(o => o.FunctionName).Returns("foo");
 
@@ -30,7 +30,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void DeclareSameNameTwiceOverridesTest()
         {
             // Arrange
-            var processor = new PyProcessor();
+            var processor = new VM.PyProcessor();
             var builtinMock1 = new Mock<IClrFunction>();
             builtinMock1.SetupGet(o => o.FunctionName).Returns("foo");
             var builtinMock2 = new Mock<IClrFunction>();

@@ -36,25 +36,49 @@ namespace Mellis.Lang.Python3.Instructions
             // Get value to call
             IScriptType function = processor.PopValue();
 
-
             if (function is PyClrFunction clrFunction)
             {
-                // Push stack
-                processor.PushCallStack(new CallStack(Source, clrFunction.Definition.FunctionName, ReturnAddress));
-
-                // Invoke it
-                IScriptType result = clrFunction.Definition.Invoke(arguments);
-
-                // Push value
-                processor.PushValue(result ?? processor.Factory.Null);
-
-                // Return
-                processor.JumpToInstruction(ReturnAddress);
+                if (clrFunction.Definition is IClrYieldingFunction yielding)
+                    CallYieldingClr(processor, arguments, yielding);
+                else
+                    CallClr(processor, arguments, clrFunction.Definition);
             }
             else
             {
                 throw new SyntaxNotYetImplementedExceptionKeyword(Source, "user function");
             }
+        }
+
+        private void CallClr(PyProcessor processor, IScriptType[] arguments, IClrFunction clrFunction)
+        {
+            // Push stack
+            processor.PushCallStack(new CallStack(Source, clrFunction.FunctionName, ReturnAddress));
+
+            // Invoke it
+            IScriptType result = clrFunction.Invoke(arguments);
+
+            // Push value
+            processor.PushValue(result ?? processor.Factory.Null);
+
+            // Pop stack
+            processor.PopCallStack();
+
+            // Return
+            processor.JumpToInstruction(ReturnAddress);
+        }
+
+        private void CallYieldingClr(PyProcessor processor, IScriptType[] arguments, IClrYieldingFunction clrFunction)
+        {
+            // Push stack
+            processor.PushCallStack(new CallStack(Source, clrFunction.FunctionName, ReturnAddress));
+
+            // Yield the processor
+            processor.Yield(new YieldData(
+                arguments, clrFunction
+            ));
+
+            // Invoke start
+            clrFunction.InvokeEnter(arguments);
         }
 
         public override string ToString()

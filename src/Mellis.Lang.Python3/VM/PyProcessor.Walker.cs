@@ -3,22 +3,63 @@ using System.ComponentModel;
 using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
-using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Interfaces;
 using Mellis.Lang.Python3.Resources;
 
-namespace Mellis.Lang.Python3
+namespace Mellis.Lang.Python3.VM
 {
     public partial class PyProcessor
     {
         private int _numOfJumpsThisWalk = 0;
 
-        // Oliver & Fredrik approved ✔️
-        internal const int JUMPS_THRESHOLD = 102+137;
+        private YieldData _currentYield;
 
-        public void ContinueYieldedValue(IScriptType value)
+        // Oliver & Fredrik approved ✔️
+        internal const int JUMPS_THRESHOLD = 102 + 137;
+
+        public void ResolveYield(IScriptType returnValue)
         {
-            throw new System.NotImplementedException();
+            if (State != ProcessState.Yielded)
+            {
+                throw new InternalException(
+                    nameof(Localized_Python3_Interpreter.Ex_Yield_ResolveWhenNotYielded),
+                    Localized_Python3_Interpreter.Ex_Yield_ResolveWhenNotYielded
+                );
+            }
+
+            if (_currentYield is null)
+            {
+                throw new InternalException(
+                    nameof(Localized_Python3_Interpreter.Ex_Yield_ResolveNoYieldData),
+                    Localized_Python3_Interpreter.Ex_Yield_ResolveNoYieldData
+                );
+            }
+
+            var callStack = PeekCallStack();
+
+            // Perform the exit invoke & return transformation
+            returnValue = _currentYield.Definition.InvokeExit(_currentYield.Arguments,
+                              returnValue ?? Factory.Null)
+                          ?? Factory.Null;
+
+            PushValue(returnValue);
+
+            // Return to sender
+            PopCallStack();
+            State = ProcessState.Running;
+            JumpToInstruction(callStack.ReturnAddress);
+            _currentYield = null;
+        }
+
+        public void ResolveYield()
+        {
+            ResolveYield(Factory.Null);
+        }
+
+        internal void Yield(YieldData yieldData)
+        {
+            _currentYield = yieldData;
+            State = ProcessState.Yielded;
         }
 
         public void WalkLine()
@@ -43,8 +84,8 @@ namespace Mellis.Lang.Python3
                     WalkInstruction();
                     nextRow = GetRow(ProgramCounter);
                 } while ((nextRow == null || nextRow.Value == initialRow.Value) &&
-                       State == ProcessState.Running &&
-                       _numOfJumpsThisWalk < JUMPS_THRESHOLD);
+                         State == ProcessState.Running &&
+                         _numOfJumpsThisWalk < JUMPS_THRESHOLD);
             }
             else
             {
@@ -97,15 +138,24 @@ namespace Mellis.Lang.Python3
                 case ProcessState.Running:
                     try
                     {
+                        int startCounter = ProgramCounter;
+
                         IOpCode opCode = _opCodes[ProgramCounter++];
                         opCode.Execute(this);
 
-                        if (ProgramCounter < _opCodes.Length)
-                            State = ProcessState.Running;
+                        if (State == ProcessState.Yielded)
+                        {
+                            ProgramCounter = startCounter;
+                        }
                         else
                         {
-                            State = ProcessState.Ended;
-                            OnProcessEnded(State);
+                            if (ProgramCounter < _opCodes.Length)
+                                State = ProcessState.Running;
+                            else
+                            {
+                                State = ProcessState.Ended;
+                                OnProcessEnded(State);
+                            }
                         }
                     }
                     catch (InterpreterException ex)
@@ -132,7 +182,7 @@ namespace Mellis.Lang.Python3
                     break;
 
                 default:
-                    throw new InvalidEnumArgumentException(nameof(State), (int)State, typeof(ProcessState));
+                    throw new InvalidEnumArgumentException(nameof(State), (int) State, typeof(ProcessState));
             }
         }
 

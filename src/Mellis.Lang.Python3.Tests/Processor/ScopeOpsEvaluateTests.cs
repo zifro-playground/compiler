@@ -17,7 +17,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ScopePushTest()
         {
             // Arrange
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new ScopePush(SourceReference.ClrSource),
                 new NopOp()
             );
@@ -34,7 +34,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ScopePush2Test()
         {
             // Arrange
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new ScopePush(SourceReference.ClrSource),
                 new ScopePush(SourceReference.ClrSource),
                 new NopOp()
@@ -55,7 +55,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ScopePush2Pop1Test()
         {
             // Arrange
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new ScopePush(SourceReference.ClrSource),
                 new ScopePush(SourceReference.ClrSource),
                 new ScopePop(SourceReference.ClrSource),

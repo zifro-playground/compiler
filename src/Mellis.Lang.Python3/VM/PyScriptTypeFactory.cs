@@ -2,7 +2,7 @@
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Entities;
 
-namespace Mellis.Lang.Python3
+namespace Mellis.Lang.Python3.VM
 {
     public class PyScriptTypeFactory : IScriptTypeFactory
     {

@@ -13,7 +13,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void EvaluateVarPopTest()
         {
             // Arrange
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new VarPop(SourceReference.ClrSource)    
             );
 

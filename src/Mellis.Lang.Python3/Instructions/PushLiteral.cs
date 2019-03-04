@@ -17,7 +17,7 @@ namespace Mellis.Lang.Python3.Instructions
             Source = literal.Source;
         }
 
-        public void Execute(PyProcessor processor)
+        public void Execute(VM.PyProcessor processor)
         {
             processor.PushValue(Literal.ToScriptType(processor));
         }

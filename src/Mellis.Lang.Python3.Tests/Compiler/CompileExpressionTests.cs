@@ -192,7 +192,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             Assert.AreEqual(0, callOp.ArgumentCount);
             Assert.AreEqual(2, callOp.ReturnAddress);
 
-            Assert.That.IsOpCode<CallStackPop>(compiler, 2);
+            Assert.AreEqual(2, compiler.Count);
         }
 
         [TestMethod]
@@ -229,7 +229,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             Assert.AreEqual(1, callOp.ArgumentCount);
             Assert.AreEqual(3, callOp.ReturnAddress);
 
-            Assert.That.IsOpCode<CallStackPop>(compiler, 3);
+            Assert.AreEqual(3, compiler.Count);
         }
 
         [TestMethod]
@@ -277,7 +277,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             Assert.AreEqual(3, callOp.ArgumentCount);
             Assert.AreEqual(5, callOp.ReturnAddress);
 
-            Assert.That.IsOpCode<CallStackPop>(compiler, 5);
+            Assert.AreEqual(5, compiler.Count);
         }
 
         [TestMethod]

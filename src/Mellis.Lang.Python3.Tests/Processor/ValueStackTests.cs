@@ -12,7 +12,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
     [DoNotParallelize]
     public class ValueStackTests
     {
-        protected PyProcessor processor;
+        protected VM.PyProcessor processor;
 
         protected PyInteger GetInteger(int value)
         {
@@ -22,7 +22,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         [TestInitialize]
         public void TestInitialize()
         {
-            processor = new PyProcessor();
+            processor = new VM.PyProcessor();
         }
 
         [TestMethod]

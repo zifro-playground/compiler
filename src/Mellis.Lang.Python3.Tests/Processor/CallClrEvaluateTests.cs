@@ -4,14 +4,40 @@ using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Syntax.Literals;
 using Mellis.Lang.Python3.Tests.TestingOps;
+using Mellis.Lang.Python3.VM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 namespace Mellis.Lang.Python3.Tests.Processor
 {
     [TestClass]
-    public class CallEvaluateTests
+    public class CallClrEvaluateTests
     {
+        [TestMethod]
+        public void ClrCallInvokesMethodTest()
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new Call(SourceReference.ClrSource, 0, 1),
+                new NopOp()
+            );
+
+            var defMock = new Mock<IClrFunction>();
+            defMock.Setup(o => o.Invoke(It.IsAny<IScriptType[]>()))
+                .Returns(Mock.Of<IScriptType>());
+
+            var function = new PyClrFunction(processor, defMock.Object);
+
+            processor.PushValue(function);
+
+            // Act
+            processor.WalkInstruction(); // warmup
+            processor.WalkInstruction();
+
+            // Assert
+            defMock.Verify(o => o.Invoke(It.IsAny<IScriptType[]>()));
+        }
+
         [TestMethod]
         public void ClrCallJumpsAfterInvokeTest()
         {
@@ -46,8 +72,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new Call(SourceReference.ClrSource, 3, 1),
-                new CallStackPop(SourceReference.ClrSource)
+                new Call(SourceReference.ClrSource, 3, 1)
             );
 
             var value = Mock.Of<IScriptType>();
@@ -85,8 +110,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new Call(SourceReference.ClrSource, 0, 1),
-                new CallStackPop(SourceReference.ClrSource)
+                new Call(SourceReference.ClrSource, 0, 1)
             );
 
             var value = Mock.Of<IScriptType>();
@@ -116,8 +140,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new Call(SourceReference.ClrSource, 0, 1),
-                new CallStackPop(SourceReference.ClrSource)
+                new Call(SourceReference.ClrSource, 0, 1)
             );
 
             var defMock = new Mock<IClrFunction>();
@@ -145,13 +168,18 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new Call(SourceReference.ClrSource, 0, 1),
-                new CallStackPop(SourceReference.ClrSource)
+                new Call(SourceReference.ClrSource, 0, 1)
             );
+
+            int callStackCount = -1;
 
             var defMock = new Mock<IClrFunction>();
             defMock.Setup(o => o.Invoke(It.IsAny<IScriptType[]>()))
-                .Returns(Mock.Of<IScriptType>()).Verifiable();
+                .Returns<IScriptType[]>(args =>
+                {
+                    callStackCount = processor.CallStackCount;
+                    return null;
+                });
 
             var function = new PyClrFunction(processor, defMock.Object);
             processor.PushValue(function);
@@ -162,8 +190,10 @@ namespace Mellis.Lang.Python3.Tests.Processor
             processor.WalkInstruction();
 
             // Assert
+            defMock.Verify(o => o.Invoke(It.IsAny<IScriptType[]>()), Times.Once);
             Assert.AreEqual(0, before);
-            Assert.AreEqual(1, processor.CallStackCount);
+            Assert.AreEqual(1, callStackCount);
+            Assert.AreEqual(0, processor.CallStackCount);
         }
 
     }
