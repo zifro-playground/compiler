@@ -4,6 +4,7 @@ using Mellis.Core.Entities;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Tests.TestingOps;
+using Mellis.Lang.Python3.VM;
 
 namespace Mellis.Lang.Python3.Tests.Processor
 {
@@ -24,7 +25,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             const string identifier = "foo";
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new VarSet(SourceReference.ClrSource, identifier)
             );
 
@@ -54,7 +55,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             const string identifier = "foo";
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new VarSet(SourceReference.ClrSource, identifier)
             );
 
@@ -89,7 +90,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             const string identifier = "foo";
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new ScopePush(SourceReference.ClrSource),
                 new VarSet(SourceReference.ClrSource, identifier),
                 new ScopePop(SourceReference.ClrSource)
@@ -125,7 +126,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             const string identifier = "foo";
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new ScopePush(SourceReference.ClrSource),
                 new VarSet(SourceReference.ClrSource, identifier),
                 new ScopePop(SourceReference.ClrSource)

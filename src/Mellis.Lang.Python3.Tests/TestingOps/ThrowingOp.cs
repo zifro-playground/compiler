@@ -10,7 +10,7 @@ namespace Mellis.Lang.Python3.Tests.TestingOps
 
         public ThrowingOp(Exception exception)
         {
-            this.Exception = exception;
+            Exception = exception;
         }
 
         public SourceReference Source { get; } = SourceReference.ClrSource;

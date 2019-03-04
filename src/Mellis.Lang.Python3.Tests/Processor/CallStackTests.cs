@@ -18,12 +18,12 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ReachStackOverflowTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor();
+            var processor = new PyProcessor();
             var callStack = new CallStack(
                 SourceReference.ClrSource, "foo", 0
             );
 
-            for (var i = 0; i < VM.PyProcessor.CALL_STACK_LIMIT; i++)
+            for (var i = 0; i < PyProcessor.CALL_STACK_LIMIT; i++)
             {
                 processor.PushCallStack(callStack);
             }
@@ -41,7 +41,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void AddNullTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor();
+            var processor = new PyProcessor();
 
             void Action()
             {
@@ -59,7 +59,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void PopEmptyTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor();
+            var processor = new PyProcessor();
 
             void Action()
             {
@@ -77,7 +77,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void DidNotPopBeforeEndTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor();
+            var processor = new PyProcessor();
 
             processor.PushCallStack(new CallStack(
                 SourceReference.ClrSource, "foo", 0)

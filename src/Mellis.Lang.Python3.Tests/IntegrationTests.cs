@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mellis.Core.Entities;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Entities;
+using Mellis.Lang.Python3.VM;
 using Moq;
 
 namespace Mellis.Lang.Python3.Tests
@@ -27,7 +28,7 @@ namespace Mellis.Lang.Python3.Tests
         {
             // Arrange
             const string code = "myInt = 10";
-            var processor = (VM.PyProcessor)new PyCompiler().Compile(code, errorCatcher);
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
 
             // Act
             processor.WalkInstruction(); // to enter first op
@@ -47,7 +48,7 @@ namespace Mellis.Lang.Python3.Tests
         {
             // Arrange
             const string code = "myString = 'hello world'";
-            var processor = (VM.PyProcessor)new PyCompiler().Compile(code, errorCatcher);
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
 
             // Act
             processor.WalkInstruction(); // to enter first op
@@ -68,7 +69,7 @@ namespace Mellis.Lang.Python3.Tests
             // Arrange
             const string code = "x = 88\n" +
                                 "y = 255";
-            var processor = (VM.PyProcessor)new PyCompiler().Compile(code, errorCatcher);
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
 
             // Act
             processor.WalkInstruction(); // to enter first op
@@ -94,7 +95,7 @@ namespace Mellis.Lang.Python3.Tests
             // Arrange
             const string code = "a = 64\n" +
                                 "b = a";
-            var processor = (VM.PyProcessor)new PyCompiler().Compile(code, errorCatcher);
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
 
             // Act
             processor.WalkInstruction(); // to enter first op
@@ -119,7 +120,7 @@ namespace Mellis.Lang.Python3.Tests
         {
             // Arrange
             const string code = "myMath = 1024 + 999";
-            var processor = (VM.PyProcessor)new PyCompiler().Compile(code, errorCatcher);
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
 
             // Act
             processor.WalkInstruction(); // to enter first op
@@ -141,7 +142,7 @@ namespace Mellis.Lang.Python3.Tests
             const string code = "val = 5\n" +
                                 "if True:\n" +
                                 "   val = 200";
-            var processor = (VM.PyProcessor)new PyCompiler().Compile(code, errorCatcher);
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
 
             // Act
             processor.WalkInstruction(); // to enter first op
@@ -165,7 +166,7 @@ namespace Mellis.Lang.Python3.Tests
             const string code = "val = 5\n" +
                                 "if False:\n" +
                                 "   val = 200";
-            var processor = (VM.PyProcessor)new PyCompiler().Compile(code, errorCatcher);
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
 
             // Act
             processor.WalkInstruction(); // to enter first op
@@ -205,7 +206,7 @@ namespace Mellis.Lang.Python3.Tests
                                 "if x < 50:\n" +
                                 "    y = \"inge print än\"";
 
-            var processor = (VM.PyProcessor)new PyCompiler().Compile(code, errorCatcher);
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
 
             // Act
             do
@@ -231,7 +232,7 @@ namespace Mellis.Lang.Python3.Tests
         {
             // Arrange
             const string code = "foo()";
-            var processor = (VM.PyProcessor)new PyCompiler().Compile(code, errorCatcher);
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
 
             var clrMock = new Mock<IClrFunction>();
             clrMock.SetupGet(o => o.FunctionName).Returns("foo");

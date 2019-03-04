@@ -2,13 +2,13 @@
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Entities;
 
-namespace Mellis.Lang.Python3
+namespace Mellis.Lang.Python3.VM
 {
     public class PyScriptTypeFactory : IScriptTypeFactory
     {
-        private readonly VM.PyProcessor _processor;
+        private readonly PyProcessor _processor;
 
-        public PyScriptTypeFactory(VM.PyProcessor processor)
+        public PyScriptTypeFactory(PyProcessor processor)
         {
             _processor = processor;
             True = new PyBoolean(_processor, true);

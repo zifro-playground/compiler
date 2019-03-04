@@ -7,6 +7,7 @@ using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.Tests.TestingOps;
+using Mellis.Lang.Python3.VM;
 
 namespace Mellis.Lang.Python3.Tests.Processor
 {
@@ -25,7 +26,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void PushRunFullNoPopTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new ScopePush(SourceReference.ClrSource)
             );
 
@@ -48,7 +49,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void Push2RunFull1PopTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new ScopePush(SourceReference.ClrSource),
                 new ScopePush(SourceReference.ClrSource),
                 new ScopePop(SourceReference.ClrSource)
@@ -73,7 +74,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void Push1RunFull1PopTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new ScopePush(SourceReference.ClrSource),
                 new ScopePop(SourceReference.ClrSource)
             );
@@ -95,7 +96,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void Push2RunFull2PopTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new ScopePush(SourceReference.ClrSource),
                 new ScopePush(SourceReference.ClrSource),
                 new ScopePop(SourceReference.ClrSource),
@@ -126,7 +127,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void Push1RunFull2PopTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new ScopePush(SourceReference.ClrSource),
                 new ScopePop(SourceReference.ClrSource),
                 new ScopePop(SourceReference.ClrSource)
@@ -151,7 +152,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void PopGlobalScopeTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new ScopePop(SourceReference.ClrSource)
             );
 
@@ -175,7 +176,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var value = GetSetupCopy();
-            var processor = new VM.PyProcessor();
+            var processor = new PyProcessor();
             var globalScope = (PyScope)processor.GlobalScope;
 
             // Act
@@ -192,7 +193,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var value = GetSetupCopy();
-            var processor = new VM.PyProcessor();
+            var processor = new PyProcessor();
             var globalScope = (PyScope)processor.GlobalScope;
             processor.PushScope();
             var localScope = (PyScope)processor.CurrentScope;
@@ -215,7 +216,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var value = GetSetupCopy();
-            var processor = new VM.PyProcessor();
+            var processor = new PyProcessor();
             var globalScope = (PyScope)processor.GlobalScope;
 
             // Act
@@ -233,7 +234,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var value = GetSetupCopy();
-            var processor = new VM.PyProcessor();
+            var processor = new PyProcessor();
             var globalScope = (PyScope)processor.GlobalScope;
             processor.PushScope();
             var localScope = (PyScope) processor.CurrentScope;
@@ -256,7 +257,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             // Arrange
             var valueBefore = GetSetupCopy();
             var valueAfter = GetSetupCopy();
-            var processor = new VM.PyProcessor();
+            var processor = new PyProcessor();
             var globalScope = (PyScope)processor.GlobalScope;
             globalScope.SetVariable("foo", valueBefore);
 
@@ -276,7 +277,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var value = GetSetupCopy();
-            var processor = new VM.PyProcessor();
+            var processor = new PyProcessor();
             var globalScope = (PyScope)processor.GlobalScope;
             processor.PushScope();
             globalScope.SetVariable("foo", value);
@@ -294,7 +295,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var value = GetSetupCopy();
-            var processor = new VM.PyProcessor();
+            var processor = new PyProcessor();
             var globalScope = (PyScope)processor.GlobalScope;
             globalScope.SetVariable("foo", value);
 
@@ -311,7 +312,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var value = GetSetupCopy();
-            var processor = new VM.PyProcessor();
+            var processor = new PyProcessor();
             processor.PushScope();
             var localScope = (PyScope)processor.CurrentScope;
             localScope.SetVariable("foo", value);
@@ -328,7 +329,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void GetNonExistingTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor();
+            var processor = new PyProcessor();
 
             processor.PushScope();
 
@@ -351,7 +352,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var value = Mock.Of<IScriptType>();
-            var processor = new VM.PyProcessor();
+            var processor = new PyProcessor();
 
             processor.PushScope();
             processor.SetVariable("foo", value);
