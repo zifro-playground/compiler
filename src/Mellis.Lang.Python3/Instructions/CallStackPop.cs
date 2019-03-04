@@ -12,7 +12,7 @@ namespace Mellis.Lang.Python3.Instructions
             Source = source;
         }
 
-        public void Execute(PyProcessor processor)
+        public void Execute(VM.PyProcessor processor)
         {
             processor.PopCallStack();
         }

@@ -1,9 +1,8 @@
 ﻿using Mellis.Core.Exceptions;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Resources;
-using Mellis.Lang.Python3.VM;
 
-namespace Mellis.Lang.Python3
+namespace Mellis.Lang.Python3.VM
 {
     public partial class PyProcessor
     {

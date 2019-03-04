@@ -16,7 +16,7 @@ namespace Mellis.Lang.Python3.Instructions
 
         public string Identifier { get; }
 
-        public void Execute(PyProcessor processor)
+        public void Execute(VM.PyProcessor processor)
         {
             IScriptType value = processor.GetVariable(Identifier);
             processor.PushValue(value);

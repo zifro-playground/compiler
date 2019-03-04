@@ -24,7 +24,7 @@ namespace Mellis.Lang.Python3.Instructions
             ReturnAddress = returnAddress;
         }
 
-        public void Execute(PyProcessor processor)
+        public void Execute(VM.PyProcessor processor)
         {
             // Load arguments in reverse because of popping
             var arguments = new IScriptType[ArgumentCount];

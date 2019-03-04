@@ -3,11 +3,10 @@ using System.ComponentModel;
 using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
-using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Interfaces;
 using Mellis.Lang.Python3.Resources;
 
-namespace Mellis.Lang.Python3
+namespace Mellis.Lang.Python3.VM
 {
     public partial class PyProcessor
     {

@@ -17,7 +17,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             const int returnAddress = 3;
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new Call(SourceReference.ClrSource, 0, returnAddress),
                 new NopOp(),
                 new NopOp(),
@@ -45,7 +45,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ClrCallLoadsArgumentsTest()
         {
             // Arrange
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new Call(SourceReference.ClrSource, 3, 1),
                 new CallStackPop(SourceReference.ClrSource)
             );
@@ -84,7 +84,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ClrCallPushesResultToValueStackTest()
         {
             // Arrange
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new Call(SourceReference.ClrSource, 0, 1),
                 new CallStackPop(SourceReference.ClrSource)
             );
@@ -115,7 +115,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ClrCallConvertsNullTest()
         {
             // Arrange
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new Call(SourceReference.ClrSource, 0, 1),
                 new CallStackPop(SourceReference.ClrSource)
             );
@@ -144,7 +144,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ClrCallPushesCallScopeTest()
         {
             // Arrange
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new Call(SourceReference.ClrSource, 0, 1),
                 new CallStackPop(SourceReference.ClrSource)
             );

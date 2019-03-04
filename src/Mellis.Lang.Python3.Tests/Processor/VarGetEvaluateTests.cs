@@ -26,7 +26,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             const string identifier = "foo";
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new VarGet(SourceReference.ClrSource, identifier)
             );
 
@@ -52,7 +52,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             const string identifier = "foo";
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new ScopePush(SourceReference.ClrSource),
                 new VarGet(SourceReference.ClrSource, identifier),
                 new ScopePop(SourceReference.ClrSource)
@@ -80,7 +80,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             const string identifier = "foo";
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new ScopePush(SourceReference.ClrSource),
                 new VarGet(SourceReference.ClrSource, identifier),
                 new ScopePop(SourceReference.ClrSource)
@@ -110,7 +110,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             const string identifier = "foo";
-            var processor = new PyProcessor(
+            var processor = new VM.PyProcessor(
                 new ScopePush(SourceReference.ClrSource),
                 new VarGet(SourceReference.ClrSource, identifier),
                 new ScopePop(SourceReference.ClrSource)

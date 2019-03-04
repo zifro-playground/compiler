@@ -44,12 +44,12 @@ namespace Mellis.Lang.Python3
             SyntaxNode result = visitor.VisitFile_input(parser.file_input());
 
             if (result is null)
-                return new PyProcessor();
+                return new VM.PyProcessor();
 
             var statement = result.AsTypeOrThrow<Statement>();
             statement.Compile(this);
 
-            return new PyProcessor(_opCodes.ToArray());
+            return new VM.PyProcessor(_opCodes.ToArray());
         }
 
         public void Push(IOpCode opCode)

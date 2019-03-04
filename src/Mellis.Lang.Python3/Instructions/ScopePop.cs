@@ -12,7 +12,7 @@ namespace Mellis.Lang.Python3.Instructions
 
         public SourceReference Source { get; }
 
-        public void Execute(PyProcessor processor)
+        public void Execute(VM.PyProcessor processor)
         {
             processor.PopScope();
         }

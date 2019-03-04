@@ -16,7 +16,7 @@ namespace Mellis.Lang.Python3.Instructions
 
         public int Target { get; set; }
 
-        public virtual void Execute(PyProcessor processor)
+        public virtual void Execute(VM.PyProcessor processor)
         {
             processor.JumpToInstruction(Target);
         }

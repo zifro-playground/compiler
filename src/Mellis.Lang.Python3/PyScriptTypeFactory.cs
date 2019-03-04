@@ -6,9 +6,9 @@ namespace Mellis.Lang.Python3
 {
     public class PyScriptTypeFactory : IScriptTypeFactory
     {
-        private readonly PyProcessor _processor;
+        private readonly VM.PyProcessor _processor;
 
-        public PyScriptTypeFactory(PyProcessor processor)
+        public PyScriptTypeFactory(VM.PyProcessor processor)
         {
             _processor = processor;
             True = new PyBoolean(_processor, true);
