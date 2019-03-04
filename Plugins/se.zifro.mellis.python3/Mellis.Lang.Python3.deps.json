@@ -1,31 +1,31 @@
 {
   "runtimeTarget": {
     "name": ".NETStandard,Version=v2.0/",
-    "signature": "c424fc82929e7788502dc23cd484861bafd7d898"
+    "signature": "dfc1788138745de46283ec7160394ce1bfddf3e4"
   },
   "compilationOptions": {},
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "Mellis.Lang.Python3/0.2.8": {
+      "Mellis.Lang.Python3/0.3.0": {
         "dependencies": {
-          "Antlr4.Runtime": "4.6.6",
-          "Mellis.Core": "0.1.4",
-          "Mellis.Lang.Base": "0.1.4",
+          "Antlr4.Runtime.Standard": "4.7.2",
+          "Mellis.Core": "0.1.5",
+          "Mellis.Lang.Base": "0.1.5",
           "NETStandard.Library": "2.0.3"
         },
         "runtime": {
           "Mellis.Lang.Python3.dll": {}
         }
       },
-      "Antlr4.Runtime/4.6.6": {
+      "Antlr4.Runtime.Standard/4.7.2": {
         "dependencies": {
           "NETStandard.Library": "2.0.3"
         },
         "runtime": {
-          "lib/netstandard1.1/Antlr4.Runtime.dll": {
-            "assemblyVersion": "4.6.0.0",
-            "fileVersion": "4.6.6.0"
+          "lib/netstandard1.3/Antlr4.Runtime.Standard.dll": {
+            "assemblyVersion": "4.7.2.0",
+            "fileVersion": "4.7.2.0"
           }
         }
       },
@@ -35,23 +35,23 @@
           "Microsoft.NETCore.Platforms": "1.1.0"
         }
       },
-      "Mellis.Core/0.1.4": {
+      "Mellis.Core/0.1.5": {
         "runtime": {
           "Mellis.Core.dll": {}
         }
       },
-      "Mellis.Lang.Base/0.1.4": {
+      "Mellis.Lang.Base/0.1.5": {
         "dependencies": {
-          "Mellis.Core": "0.1.4",
-          "Mellis.Tools": "0.1.4"
+          "Mellis.Core": "0.1.5",
+          "Mellis.Tools": "0.1.5"
         },
         "runtime": {
           "Mellis.Lang.Base.dll": {}
         }
       },
-      "Mellis.Tools/0.1.4": {
+      "Mellis.Tools/0.1.5": {
         "dependencies": {
-          "Mellis.Core": "0.1.4"
+          "Mellis.Core": "0.1.5"
         },
         "runtime": {
           "Mellis.Tools.dll": {}
@@ -60,17 +60,17 @@
     }
   },
   "libraries": {
-    "Mellis.Lang.Python3/0.2.8": {
+    "Mellis.Lang.Python3/0.3.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Antlr4.Runtime/4.6.6": {
+    "Antlr4.Runtime.Standard/4.7.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-NlbRjkTCidRh1QeWvGfFPKq0sqpPZrAwGaSTV0X2jL8buZxTf9/aQ7PehFAmc7erXLUQ3YMZEVZU86aQwma2+w==",
-      "path": "antlr4.runtime/4.6.6",
-      "hashPath": "antlr4.runtime.4.6.6.nupkg.sha512"
+      "sha512": "sha512-vT7inRjayVvSQ+tvm9h9Ovygz5Nh9DgvTkt5w6G6M8Wpsqz6rQpou/pLsShwrrZTOjHgCiizbWjO3G/NzMihyw==",
+      "path": "antlr4.runtime.standard/4.7.2",
+      "hashPath": "antlr4.runtime.standard.4.7.2.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/1.1.0": {
       "type": "package",
@@ -86,17 +86,17 @@
       "path": "netstandard.library/2.0.3",
       "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
     },
-    "Mellis.Core/0.1.4": {
+    "Mellis.Core/0.1.5": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Mellis.Lang.Base/0.1.4": {
+    "Mellis.Lang.Base/0.1.5": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Mellis.Tools/0.1.4": {
+    "Mellis.Tools/0.1.5": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
