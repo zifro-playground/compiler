@@ -13,6 +13,31 @@ namespace Mellis.Lang.Python3.Tests.Processor
     public class CallEvaluateTests
     {
         [TestMethod]
+        public void ClrCallInvokesMethodTest()
+        {
+            // Arrange
+            var processor = new VM.PyProcessor(
+                new Call(SourceReference.ClrSource, 0, 1),
+                new NopOp()
+            );
+
+            var defMock = new Mock<IClrFunction>();
+            defMock.Setup(o => o.Invoke(It.IsAny<IScriptType[]>()))
+                .Returns(Mock.Of<IScriptType>());
+
+            var function = new PyClrFunction(processor, defMock.Object);
+
+            processor.PushValue(function);
+
+            // Act
+            processor.WalkInstruction(); // warmup
+            processor.WalkInstruction();
+
+            // Assert
+            defMock.Verify(o => o.Invoke(It.IsAny<IScriptType[]>()));
+        }
+
+        [TestMethod]
         public void ClrCallJumpsAfterInvokeTest()
         {
             // Arrange
