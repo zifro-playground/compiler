@@ -12,22 +12,53 @@ namespace Mellis.Lang.Python3.VM
     {
         private int _numOfJumpsThisWalk = 0;
 
-        // Oliver & Fredrik approved ✔️
-        internal const int JUMPS_THRESHOLD = 102+137;
+        private YieldData _currentYield;
 
-        public void ResolveYield(IScriptType value)
+        // Oliver & Fredrik approved ✔️
+        internal const int JUMPS_THRESHOLD = 102 + 137;
+
+        public void ResolveYield(IScriptType returnValue)
         {
-            throw new System.NotImplementedException();
+            if (State != ProcessState.Yielded)
+            {
+                throw new InternalException(
+                    nameof(Localized_Python3_Interpreter.Ex_Yield_ResolveWhenNotYielded),
+                    Localized_Python3_Interpreter.Ex_Yield_ResolveWhenNotYielded
+                );
+            }
+
+            if (_currentYield is null)
+            {
+                throw new InternalException(
+                    nameof(Localized_Python3_Interpreter.Ex_Yield_ResolveNoYieldData),
+                    Localized_Python3_Interpreter.Ex_Yield_ResolveNoYieldData
+                );
+            }
+
+            var callStack = PopCallStack();
+
+            // Perform the exit invoke & return transformation
+            returnValue = _currentYield.Definition.InvokeExit(_currentYield.Arguments,
+                              returnValue ?? Factory.Null)
+                          ?? Factory.Null;
+
+            PushValue(returnValue);
+
+            // Return to sender
+            State = ProcessState.Running;
+            JumpToInstruction(callStack.ReturnAddress);
+            _currentYield = null;
         }
 
         public void ResolveYield()
         {
-            throw new System.NotImplementedException();
+            ResolveYield(Factory.Null);
         }
 
         internal void Yield(YieldData yieldData)
         {
-
+            _currentYield = yieldData;
+            State = ProcessState.Yielded;
         }
 
         public void WalkLine()
@@ -52,8 +83,8 @@ namespace Mellis.Lang.Python3.VM
                     WalkInstruction();
                     nextRow = GetRow(ProgramCounter);
                 } while ((nextRow == null || nextRow.Value == initialRow.Value) &&
-                       State == ProcessState.Running &&
-                       _numOfJumpsThisWalk < JUMPS_THRESHOLD);
+                         State == ProcessState.Running &&
+                         _numOfJumpsThisWalk < JUMPS_THRESHOLD);
             }
             else
             {
@@ -141,7 +172,7 @@ namespace Mellis.Lang.Python3.VM
                     break;
 
                 default:
-                    throw new InvalidEnumArgumentException(nameof(State), (int)State, typeof(ProcessState));
+                    throw new InvalidEnumArgumentException(nameof(State), (int) State, typeof(ProcessState));
             }
         }
 

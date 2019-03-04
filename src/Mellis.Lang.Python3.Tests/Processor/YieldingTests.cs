@@ -153,6 +153,106 @@ namespace Mellis.Lang.Python3.Tests.Processor
             // Assert
             Assert.AreEqual(ProcessState.Running, processor.State);
         }
+        
+        [TestMethod]
+        public void ResolveEmptyUsesNullTest()
+        {
+            // Arrange
+            PyProcessor processor = DummyProcessor();
+            processor.PushCallStack(new CallStack(
+                SourceReference.ClrSource, "foo", 1
+            ));
+
+            var defMock = new Mock<IClrYieldingFunction>();
+
+            var arguments = new IScriptType[0];
+            processor.Yield(new YieldData(arguments, defMock.Object));
+
+            // Act
+            processor.ResolveYield();
+
+            // Assert
+            Assert.AreEqual(ProcessState.Running, processor.State);
+
+            defMock.Verify(o => o.InvokeExit(arguments, processor.Factory.Null), Times.Once);
+        }
+
+        [TestMethod]
+        public void ResolveNullConvertsToNullTest()
+        {
+            // Arrange
+            PyProcessor processor = DummyProcessor();
+            processor.PushCallStack(new CallStack(
+                SourceReference.ClrSource, "foo", 1
+            ));
+
+            var defMock = new Mock<IClrYieldingFunction>();
+
+            var arguments = new IScriptType[0];
+            processor.Yield(new YieldData(arguments, defMock.Object));
+
+            // Act
+            processor.ResolveYield(null);
+
+            // Assert
+            Assert.AreEqual(ProcessState.Running, processor.State);
+
+            defMock.Verify(o => o.InvokeExit(arguments, processor.Factory.Null), Times.Once);
+        }
+
+        [TestMethod]
+        public void ResolveArgumentIsPassedTest()
+        {
+            // Arrange
+            PyProcessor processor = DummyProcessor();
+            processor.PushCallStack(new CallStack(
+                SourceReference.ClrSource, "foo", 1
+            ));
+
+            var defMock = new Mock<IClrYieldingFunction>();
+
+            var arguments = new IScriptType[0];
+            processor.Yield(new YieldData(arguments, defMock.Object));
+
+            var ret = Mock.Of<IScriptType>();
+
+            // Act
+            processor.ResolveYield(ret);
+
+            // Assert
+            Assert.AreEqual(ProcessState.Running, processor.State);
+
+            defMock.Verify(o => o.InvokeExit(arguments, ret), Times.Once);
+        }
+
+        [TestMethod]
+        public void ResolvePushesAlteredValueTest()
+        {
+            // Arrange
+            PyProcessor processor = DummyProcessor();
+            processor.PushCallStack(new CallStack(
+                SourceReference.ClrSource, "foo", 1
+            ));
+
+            var defMock = new Mock<IClrYieldingFunction>();
+
+            var ret1 = Mock.Of<IScriptType>();
+            var ret2 = Mock.Of<IScriptType>();
+            var arguments = new IScriptType[0];
+            processor.Yield(new YieldData(arguments, defMock.Object));
+
+            defMock.Setup(o => o.InvokeExit(arguments, ret1))
+                .Returns(ret2);
+
+            // Act
+            processor.ResolveYield(ret1);
+
+            // Assert
+            var actual = processor.PopValue();
+            Assert.AreSame(ret2, actual);
+            Assert.AreNotSame(ret1, actual);
+            Assert.AreNotSame(ret1, ret2);
+        }
 
         [TestMethod]
         public void YieldChangesStateTest()

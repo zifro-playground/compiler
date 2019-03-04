@@ -28,7 +28,7 @@ namespace Mellis.Lang.Python3.VM
             _callStacks.Push(callStack);
         }
 
-        public void PopCallStack()
+        public CallStack PopCallStack()
         {
             if (_callStacks.Count == 0)
             {
@@ -38,7 +38,7 @@ namespace Mellis.Lang.Python3.VM
                 );
             }
 
-            _callStacks.Pop();
+            return _callStacks.Pop();
         }
     }
 }
