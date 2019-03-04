@@ -14,13 +14,21 @@ namespace Mellis.Core.Interfaces
     public interface IClrYieldingFunction : IClrFunction
     {
         /// <summary>
-        /// Executed by the processor when the function is invoked in the script environment.
+        /// Executed by the processor when the yielding function is entered in the script environment.
         /// <para>
         /// It is expected that the executing environment invokes the processors continue function
         /// <see cref="IProcessor.ResolveYield()"/>
         /// to resume execution.
         /// </para>
         /// </summary>
-        new void Invoke(IScriptType[] arguments);
+        void InvokeEnter(IScriptType[] arguments);
+
+        /// <summary>
+        /// Called after <see cref="IProcessor.ResolveYield()"/> has been executed.
+        /// Allows modifications to the returned value.
+        /// </summary>
+        /// <param name="arguments">The arguments from the original start call <see cref="InvokeEnter"/>.</param>
+        /// <param name="returnValue">The returned value from <see cref="IProcessor.ResolveYield()"/>.</param>
+        IScriptType InvokeExit(IScriptType[] arguments, IScriptType returnValue);
     }
 }

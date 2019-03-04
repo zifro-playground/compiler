@@ -25,17 +25,31 @@ namespace Mellis
         public string FunctionName { get; }
 
         /// <inheritdoc />
-        public abstract void Invoke(IScriptType[] arguments);
+        public abstract void InvokeEnter(IScriptType[] arguments);
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Called after <see cref="IProcessor.ResolveYield()"/> has been executed.
+        /// Allows modifications to the returned value.
+        /// <para>
+        /// Default implementation in the base class <see cref="ClrYieldingFunction"/>
+        /// is to just forward the returned value.
+        /// </para>
+        /// </summary>
+        public virtual IScriptType InvokeExit(IScriptType[] arguments, IScriptType returnValue)
+        {
+            return returnValue;
+        }
 
         /// <inheritdoc />
         /// <summary>
         /// Should not be used.
-        /// You must call the yielding invoke <see cref="Invoke"/> on yielding functions.
+        /// Processor must call the yielding invoke <see cref="InvokeEnter"/> on yielding functions.
         /// </summary>
-        [Obsolete("You must call the yielding invoke on yielding functions.", true)]
+        [Obsolete("Processor must call the yielding invoke on yielding functions.", true)]
         IScriptType IClrFunction.Invoke(IScriptType[] arguments)
         {
-            throw new NotSupportedException("You must call the yielding invoke on yielding functions.");
+            throw new NotSupportedException("Processor must call the yielding invoke on yielding functions.");
         }
     }
 }
