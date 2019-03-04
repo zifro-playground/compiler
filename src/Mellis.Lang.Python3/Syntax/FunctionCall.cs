@@ -6,7 +6,7 @@ namespace Mellis.Lang.Python3.Syntax
 {
     public class FunctionCall : ExpressionNode
     {
-        public ExpressionNode Operand { get; internal set; }
+        public ExpressionNode Operand { get; }
         public ArgumentsList Arguments { get; }
 
         public FunctionCall(
@@ -30,7 +30,6 @@ namespace Mellis.Lang.Python3.Syntax
 
             int returnAddress = compiler.GetJumpTargetRelative(+2);
             compiler.Push(new Call(Source, Arguments.Count, returnAddress));
-            compiler.Push(new CallStackPop(Source));
         }
     }
 }

@@ -48,6 +48,9 @@ namespace Mellis.Lang.Python3.Instructions
                 // Push value
                 processor.PushValue(result ?? processor.Factory.Null);
 
+                // Pop stack
+                processor.PopCallStack();
+
                 // Return
                 processor.JumpToInstruction(ReturnAddress);
             }

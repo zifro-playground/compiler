@@ -150,8 +150,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new Call(SourceReference.ClrSource, 3, 1),
-                new CallStackPop(SourceReference.ClrSource)
+                new Call(SourceReference.ClrSource, 3, 1)
             );
 
             var retVal = Mock.Of<IScriptType>();
@@ -188,8 +187,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new Call(SourceReference.ClrSource, 0, 1),
-                new CallStackPop(SourceReference.ClrSource)
+                new Call(SourceReference.ClrSource, 0, 1)
             );
 
             var value = Mock.Of<IScriptType>();
@@ -219,8 +217,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new Call(SourceReference.ClrSource, 0, 1),
-                new CallStackPop(SourceReference.ClrSource)
+                new Call(SourceReference.ClrSource, 0, 1)
             );
 
             var defMock = new Mock<IClrYieldingFunction>();
@@ -249,8 +246,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new Call(SourceReference.ClrSource, 0, 1),
-                new CallStackPop(SourceReference.ClrSource)
+                new Call(SourceReference.ClrSource, 0, 1)
             );
 
             var defMock = new Mock<IClrYieldingFunction>();
@@ -279,8 +275,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new Call(SourceReference.ClrSource, 0, 1),
-                new CallStackPop(SourceReference.ClrSource)
+                new Call(SourceReference.ClrSource, 0, 1)
             );
 
             var defMock = new Mock<IClrYieldingFunction>();
@@ -309,8 +304,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new Call(SourceReference.ClrSource, 0, 1),
-                new CallStackPop(SourceReference.ClrSource)
+                new Call(SourceReference.ClrSource, 0, 1)
             );
 
             var defMock = new Mock<IClrYieldingFunction>();
@@ -326,13 +320,11 @@ namespace Mellis.Lang.Python3.Tests.Processor
             processor.ResolveYield();
             int afterResolve = processor.CallStackCount;
             processor.WalkInstruction();
-            int afterPop = processor.CallStackCount;
 
             // Assert
             Assert.AreEqual(0, before, "Before call op.");
             Assert.AreEqual(1, during, "After yield invoke enter.");
-            Assert.AreEqual(1, afterResolve, "After yield resolved, pre- call stack pop op.");
-            Assert.AreEqual(0, afterPop, "After call stack pop op.");
+            Assert.AreEqual(1, afterResolve, "After yield resolved.");
         }
     }
 }
