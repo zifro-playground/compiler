@@ -1,16 +1,75 @@
 version: 2
+defaults: &defaults
+  working-directory: ~/repo
+
 jobs:
-  build:
+  build-test:
+    <<: *defaults
     docker:
-      - image: debian:stretch
+      # - image: mcr.microsoft.com/dotnet/core/sdk:2.2
+      - image: applejag/mellis-testrunner
 
     steps:
+      # Checkout repo -> ~/repo
       - checkout
 
+      # Restore NuGet packages
       - run:
-          name: Greeting
-          command: echo Hello, world.
+          name: dotnet restore `Mellis.all.sln`
+          command: dotnet restore src/Mellis.all.sln
 
+      # Build dlls -> ~/bin
       - run:
-          name: Print the Current Time
-          command: date
+          name: dotnet build `Mellis.all.sln` → ~/bin
+          command: dotnet build src/Mellis.all.sln -c Debug -o ~/bin --no-restore
+
+      # Test results -> ~/tests/trx
+      - run:
+          name: dotnet test `Mellis.all.sln` → ~/tests/trx
+          command: dotnet test -c Debug -r ~/tests/trx -o ~/bin --logger:trx src/Mellis.all.sln --no-build --no-restore
+
+      # Convert tests results, .trx -> .xml
+      - run:
+          name: trx2junit -> ~/tests/xml
+          command: find ~/tests/trx -name *.trx -exec trx2junit --output ~/tests/xml {} +
+
+      # Store test result xmls
+      - test-results-store:
+          name: store test results -> ~/tests/xml
+          path: ~/tests/xml
+
+  # deploy-github:
+  #   <<: *defaults
+  #   docker:
+  #     - image: mcr.microsoft.com/dotnet/core/sdk:2.2
+
+  #   steps:
+  #     # Checkout repo -> ~/repo
+  #     - checkout
+
+  #     # Restore NuGet packages
+  #     - run:
+  #         name: dotnet restore `Mellis.no-tests.sln`
+  #         command: dotnet restore src/Mellis.all.sln
+
+  #     # Publish dlls -> ~/publish
+  #     - run:
+  #         name: dotnet publish `Mellis.no-tests.sln` → ~/publish
+  #         command: dotnet build src/Mellis.no-tests.sln -c Release -o ~/publish --no-restore
+
+  #     # TODO: checkout upm branch -> ~/upm
+  #     # TODO: generate .mdb files -> ~/publish
+  #     # TODO: replace files -> ~/upm/Plugins/*/*.dll
+  #     # TODO: generate .meta files -> ~/upm
+  #     # TODO: git tag
+  #     # TODO: git commit
+  #     # TODO: git push
+
+workflows:
+  version: 2
+  build-test-deploy:
+    jobs:
+      - build-test
+      # - deploy-github:
+      #   requires:
+      #     - build-test
