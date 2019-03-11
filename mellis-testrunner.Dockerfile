@@ -8,4 +8,4 @@ ENV PATH="$PATH:/root/.dotnet/tools"
 
 # Install git
 RUN apt-get update && \
-    apt-get install git
+    apt-get install git -y

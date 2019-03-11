@@ -1,10 +1,9 @@
 version: 2
-defaults: &defaults
-  working-directory: ~/repo
 
 jobs:
   build-test:
-    <<: *defaults
+    working-directory: ~/repo
+
     docker:
       # - image: mcr.microsoft.com/dotnet/core/sdk:2.2
       - image: applejag/mellis-testrunner
@@ -15,22 +14,22 @@ jobs:
 
       # Restore NuGet packages
       - run:
-          name: dotnet restore `Mellis.all.sln`
+          name: Restore NuGet packages
           command: dotnet restore src/Mellis.all.sln
 
       # Build dlls -> ~/bin
       - run:
-          name: dotnet build `Mellis.all.sln` → ~/bin
+          name: Build all projects
           command: dotnet build src/Mellis.all.sln -c Debug -o ~/bin --no-restore
 
       # Test results -> ~/tests/trx
       - run:
-          name: dotnet test `Mellis.all.sln` → ~/tests/trx
+          name: Test projects
           command: dotnet test -c Debug -r ~/tests/trx -o ~/bin --logger:trx src/Mellis.all.sln --no-build --no-restore
 
       # Convert tests results, .trx -> .xml
       - run:
-          name: trx2junit -> ~/tests/xml
+          name: Convert test results (vs.trx→junit.xml)
           command: find ~/tests/trx -name *.trx -exec trx2junit --output ~/tests/xml {} +
 
       # Store test result xmls
@@ -38,38 +37,87 @@ jobs:
           name: store test results -> ~/tests/xml
           path: ~/tests/xml
 
-  # deploy-github:
-  #   <<: *defaults
-  #   docker:
-  #     - image: mcr.microsoft.com/dotnet/core/sdk:2.2
+  deploy-github:
+    working-directory: ~/repo
 
-  #   steps:
-  #     # Checkout repo -> ~/repo
-  #     - checkout
+    docker:
+      # - image: mcr.microsoft.com/dotnet/core/sdk:2.2
+      - image: applejag/mellis-upm
 
-  #     # Restore NuGet packages
-  #     - run:
-  #         name: dotnet restore `Mellis.no-tests.sln`
-  #         command: dotnet restore src/Mellis.all.sln
+    steps:
+      
+      # Checkout repo -> ~/repo
+      - checkout
 
-  #     # Publish dlls -> ~/publish
-  #     - run:
-  #         name: dotnet publish `Mellis.no-tests.sln` → ~/publish
-  #         command: dotnet build src/Mellis.no-tests.sln -c Release -o ~/publish --no-restore
+      # Restore NuGet packages
+      - run:
+          name: Restore NuGet packages for Mellis.no-tests
+          command: dotnet restore src/Mellis.no-tests.sln
 
-  #     # TODO: checkout upm branch -> ~/upm
-  #     # TODO: generate .mdb files -> ~/publish
-  #     # TODO: replace files -> ~/upm/Plugins/*/*.dll
-  #     # TODO: generate .meta files -> ~/upm
-  #     # TODO: git tag
-  #     # TODO: git commit
-  #     # TODO: git push
+      # Publish dlls -> ~/publish
+      - run:
+          name: Publish all non-test projects (→ ~/publish)
+          command: |
+            dotnet publish src/Mellis.no-tests.sln -c Release -o ~/publish --no-restore
+
+            # Get versions
+            MELLIS_VERSION=$(get_dll_version.sh ~/publish/Mellis.dll)
+            MELLIS_PYTHON3_VERSION=$(get_dll_version.sh ~/publish/Mellis.Lang.Python3.dll)
+            echo ">>> Built Mellis v$MELLIS_VERSION, and Python3 module v$MELLIS_PYTHON3_VERSION"
+
+            # Save to env
+            echo 'export MELLIS_VERSION="$MELLIS_VERSION"' >> $BASH_ENV
+            echo 'export MELLIS_PYTHON3_VERSION="$MELLIS_PYTHON3_VERSION"' >> $BASH_ENV
+      - run:
+          name: Login to git
+          command: |
+            set -o errexit
+
+            # Variables used in git_login.sh
+            : ${GITHUB_USER_NAME?}
+            : ${GITHUB_USER_EMAIL?}
+            : ${GITHUB_GPG_ID?}
+            if [ -n "${LOCAL:-}" ]; then
+              : ${GITHUB_SSH_KEY_B64?}
+              export SSH_PRIVATE_B64="$GITHUB_SSH_KEY_B64"
+            fi
+            git_login.sh
+
+      - run:
+          name: Checkout publish branch (→ ~/upm)
+          command: |
+            : ${GITHUB_PUBLISH_BRANCH:=upm}
+            : ${CIRCLE_REPOSITORY_URL?}
+
+            git clone $CIRCLE_REPOSITORY_URL --single-branch --branch $GITHUB_PUBLISH_BRANCH ~/upm
+
+      # TODO: generate .mdb files -> ~/publish
+
+      - run:
+          name: Prepare files for publish
+          command: |
+            move_upm_files.sh ~/publish ~/upm
+            generate_metafiles.sh ~/upm
+
+      - run:
+          name: Push files
+          command: |
+            # Variables used in commit_upm.sh
+            : ${MELLIS_VERSION?}
+            : ${MELLIS_PYTHON3_VERSION?}
+            : ${CIRCLE_REPOSITORY_URL?}
+            : ${CIRCLE_BUILD_URL?}
+            : ${CIRCLE_SHA1?}
+            : ${CIRCLE_PROJECT_USERNAME?}
+            : ${CIRCLE_PROJECT_REPONAME?}
+
+            commit_upm.sh ~/upm
 
 workflows:
   version: 2
   build-test-deploy:
     jobs:
       - build-test
-      # - deploy-github:
-      #   requires:
-      #     - build-test
+      - deploy-github:
+        requires:
+          - build-test
