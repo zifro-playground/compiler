@@ -2,7 +2,7 @@ version: 2.1
 
 jobs:
   build-test:
-    working-directory: ~/repo
+    working_directory: ~/repo
 
     docker:
       # - image: mcr.microsoft.com/dotnet/core/sdk:2.2
@@ -33,12 +33,12 @@ jobs:
           command: find ~/tests/trx -name *.trx -exec trx2junit --output ~/tests/xml {} +
 
       # Store test result xmls
-      - test-results-store:
+      - store_test_results:
           name: store test results -> ~/tests/xml
           path: ~/tests/xml
 
   deploy-github:
-    working-directory: ~/repo
+    working_directory: ~/repo
 
     docker:
       # - image: mcr.microsoft.com/dotnet/core/sdk:2.2
@@ -114,7 +114,7 @@ jobs:
             commit_upm.sh ~/upm
 
 workflows:
-  version: 2
+  version: 2.1
   build-test-deploy:
     jobs:
       - build-test:
