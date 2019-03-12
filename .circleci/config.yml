@@ -66,8 +66,8 @@ jobs:
             echo ">>> Built Mellis v$MELLIS_VERSION, and Python3 module v$MELLIS_PYTHON3_VERSION"
 
             # Save to env
-            echo 'export MELLIS_VERSION="$MELLIS_VERSION"' >> $BASH_ENV
-            echo 'export MELLIS_PYTHON3_VERSION="$MELLIS_PYTHON3_VERSION"' >> $BASH_ENV
+            echo "export MELLIS_VERSION=\"$MELLIS_VERSION\"" >> $BASH_ENV
+            echo "export MELLIS_PYTHON3_VERSION=\"$MELLIS_PYTHON3_VERSION\"" >> $BASH_ENV
       - run:
           name: Login to git
           command: |

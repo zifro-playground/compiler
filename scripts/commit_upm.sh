@@ -25,13 +25,27 @@ then
     echo "(Signing commit using key $(git config --get user.signingKey))"
 fi
 
-git add .
+git add . -v
+echo
+set +e
 git commit -m ":heavy_check_mark: [CircleCI] Mellis $MELLIS_VERSION, Python3 module $MELLIS_PYTHON3_VERSION
 This commit was created autonomously by a script in the CircleCI workflow.
 
 :shipit: $CIRCLE_BUILD_URL
 :octocat: https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1"
+if [ $? -eq 1 ]
+then
+    # Nothing to commit.
+    echo
+    echo "<<< Nothing to commit. Aborting push."
+    exit
+fi
+set -e
 # TODO: tag
+echo
+
+echo ">>> Commit summary"
+git --no-pager show --show-signature --name-status
 echo
 
 echo ">>> Pushing to $CIRCLE_REPOSITORY_URL"
