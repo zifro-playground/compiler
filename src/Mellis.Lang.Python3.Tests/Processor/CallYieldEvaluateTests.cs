@@ -25,7 +25,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             var defMock = new Mock<IClrYieldingFunction>();
             defMock.Setup(o => o.InvokeEnter(It.IsAny<IScriptType[]>()));
 
-            var function = new PyClrFunction(processor, defMock.Object);
+            var function = new PyEmbeddedClrYieldingFunction(processor, defMock.Object);
 
             processor.PushValue(function);
 
@@ -35,7 +35,6 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Assert
             defMock.Verify(o => o.InvokeEnter(It.IsAny<IScriptType[]>()), Times.Once);
-            defMock.Verify(o => o.Invoke(It.IsAny<IScriptType[]>()), Times.Never);
         }
 
         [TestMethod]
@@ -49,7 +48,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             var defMock = new Mock<IClrYieldingFunction>();
 
-            var function = new PyClrFunction(processor, defMock.Object);
+            var function = new PyEmbeddedClrYieldingFunction(processor, defMock.Object);
 
             processor.PushValue(function);
 
@@ -74,7 +73,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             var defMock = new Mock<IClrYieldingFunction>();
 
-            var function = new PyClrFunction(processor, defMock.Object);
+            var function = new PyEmbeddedClrYieldingFunction(processor, defMock.Object);
 
             processor.PushValue(function);
 
@@ -102,7 +101,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             defMock.Setup(o => o.InvokeExit(It.IsAny<IScriptType[]>(), It.IsAny<IScriptType>()))
                 .Returns<IScriptType[], IScriptType>((args, ret) => ret);
 
-            var function = new PyClrFunction(processor, defMock.Object);
+            var function = new PyEmbeddedClrYieldingFunction(processor, defMock.Object);
 
             processor.PushValue(function);
 
@@ -113,7 +112,6 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Assert
             defMock.Verify(o => o.InvokeExit(It.IsAny<IScriptType[]>(), retValue), Times.Once);
-            defMock.Verify(o => o.Invoke(It.IsAny<IScriptType[]>()), Times.Never);
         }
 
         [TestMethod]
@@ -130,7 +128,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             var defMock = new Mock<IClrYieldingFunction>();
 
-            var function = new PyClrFunction(processor, defMock.Object);
+            var function = new PyEmbeddedClrYieldingFunction(processor, defMock.Object);
 
             processor.PushValue(function);
 
@@ -159,7 +157,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             defMock.Setup(o => o.InvokeExit(It.IsAny<IScriptType[]>(), retVal))
                 .Returns(retVal);
 
-            var function = new PyClrFunction(processor, defMock.Object);
+            var function = new PyEmbeddedClrYieldingFunction(processor, defMock.Object);
             processor.PushValue(function);
 
             var lit1 = new PyInteger(processor, 5);
@@ -196,7 +194,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             defMock.Setup(o => o.InvokeExit(It.IsAny<IScriptType[]>(), It.IsAny<IScriptType>()))
                 .Returns(value).Verifiable();
 
-            var function = new PyClrFunction(processor, defMock.Object);
+            var function = new PyEmbeddedClrYieldingFunction(processor, defMock.Object);
             processor.PushValue(function);
 
             // Act
@@ -231,7 +229,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
                     return ret;
                 });
 
-            var function = new PyClrFunction(processor, defMock.Object);
+            var function = new PyEmbeddedClrYieldingFunction(processor, defMock.Object);
             processor.PushValue(function);
 
             // Act

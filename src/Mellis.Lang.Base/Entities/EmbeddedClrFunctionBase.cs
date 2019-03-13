@@ -4,11 +4,14 @@ using Mellis.Lang.Base.Resources;
 
 namespace Mellis.Lang.Base.Entities
 {
-    public abstract class ClrFunctionBase : ScriptTypeBase
+    public abstract class EmbeddedClrFunctionBase : ScriptTypeBase, IClrFunction
     {
         public IClrFunction Definition { get; }
 
-        protected ClrFunctionBase(IProcessor processor, IClrFunction definition, string name = null)
+        protected EmbeddedClrFunctionBase(
+            IProcessor processor,
+            IClrFunction definition,
+            string name = null)
             : base(processor, name)
         {
             Definition = definition;
@@ -88,5 +91,20 @@ namespace Mellis.Lang.Base.Entities
                 arg0: Definition.FunctionName
             );
         }
+
+        #region IClrFunction implementation
+
+        IProcessor IEmbeddedType.Processor {
+            set => Processor = value;
+        }
+
+        public string FunctionName => Definition.FunctionName;
+
+        public IScriptType Invoke(IScriptType[] arguments)
+        {
+            return Definition.Invoke(arguments);
+        }
+
+        #endregion
     }
 }

@@ -37,8 +37,8 @@ namespace Mellis.Lang.Python3.Tests
         public static void ScriptTypeEqual(this Assert assert, IClrFunction expected, IScriptType actual)
         {
             Assert.IsNotNull(actual, "Expected CLR function variable, got null.");
-            Assert.IsInstanceOfType(actual, typeof(ClrFunctionBase), $"Expected CLR function variable, got {actual.GetType().Name}.");
-            IClrFunction actualDef = ((ClrFunctionBase)actual).Definition;
+            Assert.IsInstanceOfType(actual, typeof(EmbeddedClrFunctionBase), $"Expected CLR function variable, got {actual.GetType().Name}.");
+            IClrFunction actualDef = ((EmbeddedClrFunctionBase)actual).Definition;
             Assert.AreSame(expected, actualDef, $"CLR function definition was not same as expected.\nExpected: {expected.FunctionName ?? "null"}\nActual: {actualDef.FunctionName ?? "null"}");
         }
     }

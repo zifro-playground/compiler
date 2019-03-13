@@ -79,7 +79,13 @@ namespace Mellis.Lang.Python3.VM
         public IScriptType Create(IClrFunction value)
         {
             value.Processor = _processor;
-            return new PyClrFunction(_processor, value);
+            return new PyEmbeddedClrFunction(_processor, value);
+        }
+
+        public IScriptType Create(IClrYieldingFunction value)
+        {
+            value.Processor = _processor;
+            return new PyEmbeddedClrYieldingFunction(_processor, value);
         }
     }
 }

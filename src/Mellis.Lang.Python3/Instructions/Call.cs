@@ -36,7 +36,7 @@ namespace Mellis.Lang.Python3.Instructions
             // Get value to call
             IScriptType function = processor.PopValue();
 
-            if (function is PyClrFunction clrFunction)
+            if (function is PyEmbeddedClrFunction clrFunction)
             {
                 if (clrFunction.Definition is IClrYieldingFunction yielding)
                     CallYieldingClr(processor, arguments, yielding);

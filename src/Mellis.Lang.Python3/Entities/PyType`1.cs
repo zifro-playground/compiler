@@ -7,7 +7,7 @@ using Mellis.Lang.Python3.Resources;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyType<T> : PyClrFunction
+    public class PyType<T> : PyEmbeddedClrFunction
     {
         public string ClassName { get; }
         public Construct Constructor { get; }
