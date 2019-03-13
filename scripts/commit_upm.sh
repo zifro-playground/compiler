@@ -50,27 +50,56 @@ else
 fi
 echo
 
-echo ">>> Tagging"
-TAG="m$MELLIS_VERSION-p$MELLIS_PYTHON3_VERSION"
-echo "Using tag \"$TAG\""
-if [ "$(git tag -l "$TAG")" ]
-then
-    # Tag duplication.
-    echo "<<< Tag already existed. Continuing without tag"
-else
-    set +e
-    git tag "$TAG" -m "Mellis $MELLIS_VERSION, Python3 module $MELLIS_PYTHON3_VERSION"
-    TAG_STATUS=$?
-    set -e
-    if [ $TAG_STATUS -ne 0 ]
+function tag {
+    local TAG=${1?}
+    local MESSAGE=${2?}
+    if [ "$(git tag -l "$TAG")" ]
     then
-        echo "<<< Unexpected error during tagging. Aborting."
-        exit 1
+        # Tag duplication.
+        echo "Tag \"$TAG\" already existed. Continuing without tag"
+        return 2
     else
-        echo ">>> Tag summary"
-        git --no-pager show $(git describe --tags) --show-signature --name-status
+        git tag "$TAG" -m "$MESSAGE"
+        local TAG_STATUS=$?
+        if [ $TAG_STATUS -ne 0 ]
+        then
+            echo "<<< Unexpected error during tagging \"$TAG\". Aborting."
+            return 1
+        else
+            echo "Added tag \"$TAG\", message \"$MESSAGE\""
+        #     echo ">>> Tag summary"
+        #     git --no-pager show $(git describe --tags) --show-signature --name-status
+        fi
     fi
-fi
+    return 0
+}
+
+echo ">>> Tagging"
+set +e
+TAG_COUNT=$((0))
+
+tag "m$MELLIS_VERSION" \
+    "Mellis $MELLIS_VERSION"
+TAG_STATUS=$?
+if [ $TAG_STATUS -eq 1 ]; then exit 1
+elif [ $TAG_STATUS -eq 0 ]; then ((TAG_COUNT++)); fi
+
+sleep 1s
+tag "p$MELLIS_PYTHON3_VERSION" \
+    "Python3 module $MELLIS_PYTHON3_VERSION"
+TAG_STATUS=$?
+if [ $TAG_STATUS -eq 1 ]; then exit 1
+elif [ $TAG_STATUS -eq 0 ]; then ((TAG_COUNT++)); fi
+
+sleep 1s
+tag "m$MELLIS_VERSION-p$MELLIS_PYTHON3_VERSION" \
+    "Mellis $MELLIS_VERSION, Python3 module $MELLIS_PYTHON3_VERSION"
+TAG_STATUS=$?
+if [ $TAG_STATUS -eq 1 ]; then exit 1
+elif [ $TAG_STATUS -eq 0 ]; then ((TAG_COUNT++)); fi
+
+set -e
+echo "<<< Added $TAG_COUNT tags"
 echo
 
 echo ">>> Pushing to $CIRCLE_REPOSITORY_URL"

@@ -12,11 +12,14 @@ $ gpg --full-generate-key
 #   email: /your github.com email/
 #   comment: /must be first 3 words of shakespeare's 15th piece/
 
-$ gpg --armor --export KEY_ID | clip
+$ gpg --list-keys --keyid-format LONG
+# to find the key id
+
+$ gpg --armor --export $KEY_ID | clip
 # paste gpg key at https://github.com/settings/keys
 
-$ gpg --export-secret-keys --armor KEY_ID | base64 | clip
-# paste into GITHUB_GPG_KEY_B64 env var in circleci
+$ gpg --armor --export-secret-keys $KEY_ID | base64 | clip
+# paste into GITHUB_GPG_SEC_B64 env var in circleci
 
 # paste KEY_ID into GITHUB_GPG_ID
 ```
@@ -79,7 +82,7 @@ List of all environment variables, to check if one is missing in CircleCI
 Key                  | Description
 -------------------- | -----------
 `GITHUB_GPG_ID`      | ID of GPG key.
-`GITHUB_GPG_KEY_B64` | GPG private key, base64 encoded.
+`GITHUB_GPG_SEC_B64` | GPG private key, base64 encoded.
 `GITHUB_USER_EMAIL`  | Your github email, same as used in GPG and SSH key.
 `GITHUB_USER_NAME`   | Your github display name (not username).
 

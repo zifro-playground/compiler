@@ -9,10 +9,11 @@ set -o pipefail
 : ${GITHUB_USER_NAME?}
 : ${GITHUB_USER_EMAIL?}
 : ${GITHUB_GPG_ID?}
+: ${GITHUB_GPG_SEC_B64?}
 
-# Load GPG key
-GITHUB_GPG_KEY=$(base64 -d - <<< "$GITHUB_GPG_KEY_B64")
-gpg --import - <<< "$GITHUB_GPG_KEY"
+# Load GPG keys
+GITHUB_GPG_SEC=$(base64 -d - <<< "$GITHUB_GPG_SEC_B64")
+gpg --import - <<< "$GITHUB_GPG_SEC"
 
 # Git settings
 git config --global user.name $GITHUB_USER_NAME
@@ -30,8 +31,8 @@ if [ -n "${LOCAL:-}" ]; then
 
     # Add ssh key
     eval `ssh-agent` # create the process
-    GITHUB_SSH_KEY=$(base64 -d - <<< "${GITHUB_SSH_KEY_B64?}")
-    echo "${GITHUB_SSH_KEY?}" > ~/.ssh/id_rsa
+    GITHUB_SSH_SEC=$(base64 -d - <<< "${GITHUB_SSH_SEC_B64?}")
+    echo "${GITHUB_SSH_SEC?}" > ~/.ssh/id_rsa
     chmod 600 ~/.ssh/id_rsa
     ssh-add ~/.ssh/id_rsa
 

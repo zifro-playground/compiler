@@ -77,9 +77,9 @@ jobs:
             : ${GITHUB_USER_NAME?}
             : ${GITHUB_USER_EMAIL?}
             : ${GITHUB_GPG_ID?}
+            : ${GITHUB_GPG_SEC_B64?}
             if [ -n "${LOCAL:-}" ]; then
-              : ${GITHUB_SSH_KEY_B64?}
-              export SSH_PRIVATE_B64="$GITHUB_SSH_KEY_B64"
+              : ${GITHUB_SSH_SEC_B64?}
             fi
             git_login.sh
 
