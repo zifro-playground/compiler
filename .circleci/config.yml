@@ -26,6 +26,7 @@ jobs:
       - run:
           name: Test projects
           command: |
+            set +o errexit
             set +x
             dotnet test -c Debug -r ~/tests/trx -o ~/bin --logger:trx src/Mellis.all.sln --no-build --no-restore
 
