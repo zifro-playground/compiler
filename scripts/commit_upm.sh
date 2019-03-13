@@ -33,24 +33,49 @@ This commit was created autonomously by a script in the CircleCI workflow.
 
 :shipit: $CIRCLE_BUILD_URL
 :octocat: https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1"
-if [ $? -eq 1 ]
+COMMIT_STATUS=$?
+set -e
+
+if [ $COMMIT_STATUS -eq 1 ]
 then
     # Nothing to commit.
-    echo
-    echo "<<< Nothing to commit. Aborting push."
-    exit
+    echo "<<< Nothing to commit."
+elif [ $COMMIT_STATUS -ne 0 ]
+then
+    echo "<<< Unexpected error during commit. Aborting."
+    exit 1
+else
+    echo ">>> Commit summary"
+    git --no-pager show --show-signature --name-status
 fi
-set -e
-# TODO: tag
 echo
 
-echo ">>> Commit summary"
-git --no-pager show --show-signature --name-status
+echo ">>> Tagging"
+TAG="m$MELLIS_VERSION-p$MELLIS_PYTHON3_VERSION"
+echo "Using tag \"$TAG\""
+if [ "$(git tag -l "$TAG")" ]
+then
+    # Tag duplication.
+    echo "<<< Tag already existed. Continuing without tag"
+else
+    set +e
+    git tag "$TAG" -m "Mellis $MELLIS_VERSION, Python3 module $MELLIS_PYTHON3_VERSION"
+    TAG_STATUS=$?
+    set -e
+    if [ $TAG_STATUS -ne 0 ]
+    then
+        echo "<<< Unexpected error during tagging. Aborting."
+        exit 1
+    else
+        echo ">>> Tag summary"
+        git --no-pager show $(git describe --tags) --show-signature --name-status
+    fi
+fi
 echo
 
 echo ">>> Pushing to $CIRCLE_REPOSITORY_URL"
 if [ -n "${LOCAL:-}" ]; then
     echo "(not pushing because local dev environment)"
 else
-    git push
+    git push --follow-tags
 fi
