@@ -29,11 +29,11 @@ jobs:
             set +o errexit
             set +x
             dotnet test -c Debug -r ~/tests/trx -o ~/bin --logger:trx src/Mellis.all.sln --no-build --no-restore
-
-      # Convert tests results, .trx -> .xml
-      - run:
-          name: Convert test results (vs.trx→junit.xml)
-          command: find ~/tests/trx -name *.trx -exec trx2junit --output ~/tests/xml {} +
+            echo "<<< Testing complete"
+            echo
+            echo "Converting test results"
+            find ~/tests/trx -name *.trx -exec trx2junit --output ~/tests/xml {} +
+            echo
 
       # Store test result xmls
       - store_test_results:
