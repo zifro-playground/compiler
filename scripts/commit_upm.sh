@@ -79,20 +79,20 @@ set +e
 TAG_COUNT=$((0))
 
 tag "m$MELLIS_VERSION" \
-    "Mellis $MELLIS_VERSION"
+    "Mellis $MELLIS_VERSION, Python3 module $MELLIS_PYTHON3_VERSION"
 TAG_STATUS=$?
 if [ $TAG_STATUS -eq 1 ]; then exit 1
 elif [ $TAG_STATUS -eq 0 ]; then ((TAG_COUNT++)); fi
 
-sleep 1s
+sleep 5s
 tag "p$MELLIS_PYTHON3_VERSION" \
-    "Python3 module $MELLIS_PYTHON3_VERSION"
+    "Mellis $MELLIS_VERSION, Python3 module $MELLIS_PYTHON3_VERSION"
 TAG_STATUS=$?
 if [ $TAG_STATUS -eq 1 ]; then exit 1
 elif [ $TAG_STATUS -eq 0 ]; then ((TAG_COUNT++)); fi
 
-sleep 1s
-tag "m$MELLIS_VERSION-p$MELLIS_PYTHON3_VERSION" \
+sleep 5s
+tag "(m$MELLIS_VERSION-p$MELLIS_PYTHON3_VERSION)" \
     "Mellis $MELLIS_VERSION, Python3 module $MELLIS_PYTHON3_VERSION"
 TAG_STATUS=$?
 if [ $TAG_STATUS -eq 1 ]; then exit 1
