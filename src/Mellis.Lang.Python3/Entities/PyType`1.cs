@@ -32,5 +32,19 @@ namespace Mellis.Lang.Python3.Entities
                 /* {0} */ ClassName
             );
         }
+
+        #region Comparison implementations
+
+        public override IScriptType CompareEqual(IScriptType rhs)
+        {
+            return Processor.Factory.Create(rhs is PyType<T>);
+        }
+
+        public override IScriptType CompareNotEqual(IScriptType rhs)
+        {
+            return Processor.Factory.Create(!(rhs is PyType<T>));
+        }
+
+        #endregion
     }
 }
