@@ -25,7 +25,9 @@ jobs:
       # Test results -> ~/tests/trx
       - run:
           name: Test projects
-          command: dotnet test -c Debug -r ~/tests/trx -o ~/bin --logger:trx src/Mellis.all.sln --no-build --no-restore
+          command: |
+            set +x
+            dotnet test -c Debug -r ~/tests/trx -o ~/bin --logger:trx src/Mellis.all.sln --no-build --no-restore
 
       # Convert tests results, .trx -> .xml
       - run:
