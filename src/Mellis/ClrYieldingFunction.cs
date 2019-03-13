@@ -40,16 +40,5 @@ namespace Mellis
         {
             return returnValue;
         }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Should not be used.
-        /// Processor must call the yielding invoke <see cref="InvokeEnter"/> on yielding functions.
-        /// </summary>
-        [Obsolete("Processor must call the yielding invoke on yielding functions.", true)]
-        IScriptType IClrFunction.Invoke(IScriptType[] arguments)
-        {
-            throw new NotSupportedException("Processor must call the yielding invoke on yielding functions.");
-        }
     }
 }

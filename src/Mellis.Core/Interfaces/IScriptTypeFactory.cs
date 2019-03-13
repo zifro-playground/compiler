@@ -77,8 +77,13 @@ namespace Mellis.Core.Interfaces
         IScriptType Create(IDictionary<IScriptType, IScriptType> value);
 
         /// <summary>
-        /// Creates a <see cref="IScriptType"/> from a function specific to the current <seealso cref="IProcessor"/> context.
+        /// Creates a <see cref="IScriptType"/> from an embedded CLR function specific to the current <seealso cref="IProcessor"/> context.
         /// </summary>
         IScriptType Create(IClrFunction value);
+
+        /// <summary>
+        /// Creates a <see cref="IScriptType"/> from an embedded CLR yielding function specific to the current <seealso cref="IProcessor"/> context.
+        /// </summary>
+        IScriptType Create(IClrYieldingFunction value);
     }
 }
