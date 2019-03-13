@@ -27,21 +27,6 @@ namespace Mellis.Lang.Python3.Entities
             Constructor = constructor;
         }
 
-        private static IScriptType BaseTypeConstructor(IProcessor processor, IScriptType[] arguments)
-        {
-            if (arguments.Length > 1)
-                throw new RuntimeTooManyArgumentsException(
-                    Localized_Python3_Entities.Type_Type_Name,
-                    1, arguments.Length);
-
-            if (arguments.Length < 1)
-                throw new RuntimeTooFewArgumentsException(
-                    Localized_Python3_Entities.Type_Type_Name,
-                    1, arguments.Length);
-
-            return arguments[0].GetTypeDef();
-        }
-
         public override IScriptType Copy(string newName)
         {
             return new PyType<T>(Processor, ClassName, Constructor, newName);
@@ -49,10 +34,7 @@ namespace Mellis.Lang.Python3.Entities
 
         public override IScriptType GetTypeDef()
         {
-            return new PyType<object>(
-                Processor,
-                Localized_Python3_Entities.Type_Type_Name,
-                BaseTypeConstructor);
+            return new PyType(Processor);
         }
 
         public override string GetTypeName()
