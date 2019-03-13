@@ -12,7 +12,7 @@ set -o pipefail
 : ${GITHUB_GPG_SEC_B64?}
 
 # Load GPG keys
-GITHUB_GPG_SEC=$(base64 -d - <<< "$GITHUB_GPG_SEC_B64")
+GITHUB_GPG_SEC=$(base64 -di - <<< "$GITHUB_GPG_SEC_B64")
 gpg --import - <<< "$GITHUB_GPG_SEC"
 
 # Git settings
@@ -31,7 +31,7 @@ if [ -n "${LOCAL:-}" ]; then
 
     # Add ssh key
     eval `ssh-agent` # create the process
-    GITHUB_SSH_SEC=$(base64 -d - <<< "${GITHUB_SSH_SEC_B64?}")
+    GITHUB_SSH_SEC=$(base64 -di - <<< "${GITHUB_SSH_SEC_B64?}")
     echo "${GITHUB_SSH_SEC?}" > ~/.ssh/id_rsa
     chmod 600 ~/.ssh/id_rsa
     ssh-add ~/.ssh/id_rsa

@@ -59,11 +59,11 @@ set -o errexit
 set -o pipefail
 
 # Load GPG key
-GITHUB_GPG_KEY=$(base64 -d - <<< "$GITHUB_GPG_KEY_B64")
+GITHUB_GPG_KEY=$(base64 -di - <<< "$GITHUB_GPG_KEY_B64")
 gpg --import - <<< "$GITHUB_GPG_KEY"
 
 # # Load SSH key
-# GITHUB_SSH_KEY=$(base64 -d - <<< "$GITHUB_SSH_KEY_B64")
+# GITHUB_SSH_KEY=$(base64 -di - <<< "$GITHUB_SSH_KEY_B64")
 # eval $(ssh-agent -s)
 # ssh-add - <<< "$GITHUB_SSH_KEY"
 
