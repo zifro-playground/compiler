@@ -21,7 +21,7 @@ namespace Mellis.Lang.Python3.Entities
         /// <inheritdoc />
         public override IScriptType GetTypeDef()
         {
-            throw new System.NotImplementedException();
+            return new PyType<PyString>(Processor, GetTypeName());
         }
 
         public override IScriptType ArithmeticMultiply(IScriptType rhs)

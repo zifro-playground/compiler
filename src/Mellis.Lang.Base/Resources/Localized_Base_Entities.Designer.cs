@@ -493,7 +493,7 @@ namespace Mellis.Lang.Base.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to funktion.
+        ///   Looks up a localized string similar to inbyggd funktion.
         /// </summary>
         public static string Type_ClrFunction_Name {
             get {

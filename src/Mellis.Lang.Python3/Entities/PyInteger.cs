@@ -20,7 +20,7 @@ namespace Mellis.Lang.Python3.Entities
         /// <inheritdoc />
         public override IScriptType GetTypeDef()
         {
-            throw new System.NotImplementedException();
+            return new PyType<PyInteger>(Processor, GetTypeName());
         }
 
         public override string ToString()

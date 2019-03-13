@@ -17,7 +17,7 @@ namespace Mellis.Lang.Python3.Entities
 
         public override IScriptType GetTypeDef()
         {
-            throw new System.NotImplementedException();
+            return new PyType<PyClrFunction>(Processor, GetTypeName());
         }
     }
 }

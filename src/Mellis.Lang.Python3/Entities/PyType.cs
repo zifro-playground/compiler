@@ -20,7 +20,7 @@ namespace Mellis.Lang.Python3.Entities
         public override IScriptType GetTypeDef()
         {
             return string.IsNullOrEmpty(Name)
-                ? this : Copy(null);
+                ? this : new PyType(Processor);
         }
 
         public override string GetTypeName()
@@ -43,6 +43,37 @@ namespace Mellis.Lang.Python3.Entities
         {
             return string.Format(Localized_Python3_Entities.Type_Type_ToString,
                 /* {0} */ GetTypeName()
+            );
+        }
+    }
+
+    public class PyType<T> : PyType
+    {
+        public string ClassName { get; }
+
+        public PyType(
+            IProcessor processor,
+            string className,
+            string name = null)
+            : base(processor, name)
+        {
+            ClassName = className;
+        }
+
+        public override IScriptType Copy(string newName)
+        {
+            return new PyType<T>(Processor, newName);
+        }
+
+        public override IScriptType GetTypeDef()
+        {
+            return new PyType(Processor);
+        }
+
+        public override string ToString()
+        {
+            return string.Format(Localized_Python3_Entities.Type_Type_ToString,
+                /* {0} */ ClassName
             );
         }
     }
