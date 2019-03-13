@@ -1,6 +1,9 @@
 ﻿using System.Globalization;
+using Mellis.Core.Entities;
+using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Entities;
+using Mellis.Lang.Python3.Exceptions;
 
 namespace Mellis.Lang.Python3.Entities
 {
@@ -20,7 +23,19 @@ namespace Mellis.Lang.Python3.Entities
         /// <inheritdoc />
         public override IScriptType GetTypeDef()
         {
-            return new PyType<PyDouble>(Processor, GetTypeName());
+            return new PyType<PyDouble>(Processor, GetTypeName(), DoubleConstructor);
+        }
+
+        private IScriptType DoubleConstructor(IProcessor processor, IScriptType[] arguments)
+        {
+            if (arguments.Length > 1)
+                throw new RuntimeTooManyArgumentsException(
+                    GetTypeName(), 1, arguments.Length);
+
+            if (arguments.Length == 0)
+                return new PyDouble(Processor, 0);
+
+            throw new SyntaxNotYetImplementedException(SourceReference.ClrSource);
         }
 
         public override string ToString()

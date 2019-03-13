@@ -1,5 +1,7 @@
-﻿using Mellis.Core.Interfaces;
+﻿using System.Linq;
+using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Entities;
+using Mellis.Lang.Python3.Exceptions;
 
 namespace Mellis.Lang.Python3.Entities
 {
@@ -19,7 +21,20 @@ namespace Mellis.Lang.Python3.Entities
         /// <inheritdoc />
         public override IScriptType GetTypeDef()
         {
-            return new PyType<PyBoolean>(Processor, GetTypeName());
+            return new PyType<PyBoolean>(Processor, GetTypeName(), BooleanConstructor);
+        }
+
+        private IScriptType BooleanConstructor(IProcessor processor, IScriptType[] arguments)
+        {
+            if (arguments.Length == 0)
+                return processor.Factory.True;
+
+            if (arguments.Length > 1)
+                throw new RuntimeTooManyArgumentsException(GetTypeName(), 1, arguments.Length);
+
+            return arguments[0].IsTruthy()
+                ? Processor.Factory.True
+                : Processor.Factory.False;
         }
 
         public override string ToString()

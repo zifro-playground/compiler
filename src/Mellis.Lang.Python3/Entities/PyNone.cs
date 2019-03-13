@@ -1,5 +1,7 @@
-﻿using Mellis.Core.Interfaces;
+﻿using Mellis.Core.Exceptions;
+using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Entities;
+using Mellis.Lang.Python3.Resources;
 
 namespace Mellis.Lang.Python3.Entities
 {
@@ -17,7 +19,15 @@ namespace Mellis.Lang.Python3.Entities
 
         public override IScriptType GetTypeDef()
         {
-            return new PyType<PyNone>(Processor, GetTypeName());
+            return new PyType<PyNone>(Processor, GetTypeName(), NoneConstructor);
+        }
+
+        private IScriptType NoneConstructor(IProcessor processor, IScriptType[] arguments)
+        {
+            throw new RuntimeException(
+                nameof(Localized_Python3_Runtime.Ex_Type_CannotInstantiate),
+                Localized_Python3_Runtime.Ex_Type_CannotInstantiate,
+                GetTypeName());
         }
 
         public override string ToString()

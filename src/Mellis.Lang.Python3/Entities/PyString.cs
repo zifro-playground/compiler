@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Entities;
+using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Syntax.Literals;
 
 namespace Mellis.Lang.Python3.Entities
@@ -21,7 +22,19 @@ namespace Mellis.Lang.Python3.Entities
         /// <inheritdoc />
         public override IScriptType GetTypeDef()
         {
-            return new PyType<PyString>(Processor, GetTypeName());
+            return new PyType<PyString>(Processor, GetTypeName(), StringConstructor);
+        }
+
+        private IScriptType StringConstructor(IProcessor processor, IScriptType[] arguments)
+        {
+            if (arguments.Length > 1)
+                throw new RuntimeTooManyArgumentsException(
+                    GetTypeName(), 1, arguments.Length);
+
+            if (arguments.Length == 0)
+                return Processor.Factory.Create(string.Empty);
+
+            return new PyString(Processor, arguments[0].ToString());
         }
 
         public override IScriptType ArithmeticMultiply(IScriptType rhs)

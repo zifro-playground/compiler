@@ -1,29 +1,74 @@
-﻿using Mellis.Core.Interfaces;
+﻿using System;
+using System.Linq;
+using Mellis.Core.Interfaces;
+using Mellis.Lang.Base.Entities;
+using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Resources;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyType<T> : PyType
+    public class PyType<T> : PyClrFunction
     {
         public string ClassName { get; }
+        public Construct Constructor { get; }
+
+        public delegate IScriptType Construct(IProcessor processor, IScriptType[] arguments);
 
         public PyType(
             IProcessor processor,
             string className,
+            Construct constructor,
             string name = null)
-            : base(processor, name)
+            : base(processor,
+                new TypeConstructorFunction(processor, className, constructor),
+                name)
         {
             ClassName = className;
+            Constructor = constructor;
+        }
+
+        private static IScriptType BaseTypeConstructor(IProcessor processor, IScriptType[] arguments)
+        {
+            if (arguments.Length > 1)
+                throw new RuntimeTooManyArgumentsException(
+                    Localized_Python3_Entities.Type_Type_Name,
+                    1, arguments.Length);
+
+            if (arguments.Length < 1)
+                throw new RuntimeTooFewArgumentsException(
+                    Localized_Python3_Entities.Type_Type_Name,
+                    1, arguments.Length);
+
+            return arguments[0].GetTypeDef();
         }
 
         public override IScriptType Copy(string newName)
         {
-            return new PyType<T>(Processor, newName);
+            return new PyType<T>(Processor, ClassName, Constructor, newName);
         }
 
         public override IScriptType GetTypeDef()
         {
-            return new PyType(Processor);
+            return new PyType<object>(
+                Processor,
+                Localized_Python3_Entities.Type_Type_Name,
+                BaseTypeConstructor);
+        }
+
+        public override string GetTypeName()
+        {
+            return Localized_Python3_Entities.Type_Type_Name;
+        }
+
+        public override bool IsTruthy()
+        {
+            return true;
+        }
+
+        public override bool TryConvert(Type type, out object value)
+        {
+            value = default;
+            return false;
         }
 
         public override string ToString()
@@ -46,5 +91,27 @@ namespace Mellis.Lang.Python3.Entities
         }
 
         #endregion
+
+        private class TypeConstructorFunction : IClrFunction
+        {
+            public IProcessor Processor { private get; set; }
+            public string FunctionName { get; }
+            private readonly Construct _constructor;
+
+            public TypeConstructorFunction(
+                IProcessor processor,
+                string className,
+                Construct constructor)
+            {
+                Processor = processor;
+                FunctionName = className;
+                _constructor = constructor;
+            }
+
+            public IScriptType Invoke(IScriptType[] arguments)
+            {
+                return _constructor(Processor, arguments);
+            }
+        }
     }
 }
