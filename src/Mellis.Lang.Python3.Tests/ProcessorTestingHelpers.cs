@@ -1,11 +1,18 @@
 ﻿using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Entities;
+using Mellis.Lang.Python3.VM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Mellis.Lang.Python3.Tests
 {
     public static class ProcessorTestingHelpers
     {
+        public static void PushMockValue(this PyProcessor processor)
+        {
+            processor.PushValue(Mock.Of<IScriptType>());
+        }
+
         public static void ScriptTypeEqual(this Assert assert, int expected, IScriptType actual)
         {
             Assert.IsNotNull(actual, "Expected integer variable, got null.");

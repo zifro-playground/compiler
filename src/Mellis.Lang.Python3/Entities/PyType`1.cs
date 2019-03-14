@@ -1,35 +1,23 @@
 ﻿using System;
-using System.Linq;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Entities;
-using Mellis.Lang.Python3.Exceptions;
+using Mellis.Lang.Python3.Entities.Classes;
 using Mellis.Lang.Python3.Resources;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyType<T> : PyEmbeddedClrFunction
+    public abstract class PyType<T> : ClrFunctionBase
+        where T : IScriptType
     {
         public string ClassName { get; }
-        public Construct Constructor { get; }
-
-        public delegate IScriptType Construct(IProcessor processor, IScriptType[] arguments);
 
         public PyType(
             IProcessor processor,
             string className,
-            Construct constructor,
             string name = null)
-            : base(processor,
-                new TypeConstructorFunction(processor, className, constructor),
-                name)
+            : base(processor, className, name)
         {
             ClassName = className;
-            Constructor = constructor;
-        }
-
-        public override IScriptType Copy(string newName)
-        {
-            return new PyType<T>(Processor, ClassName, Constructor, newName);
         }
 
         public override IScriptType GetTypeDef()
@@ -74,26 +62,5 @@ namespace Mellis.Lang.Python3.Entities
 
         #endregion
 
-        private class TypeConstructorFunction : IClrFunction
-        {
-            public IProcessor Processor { private get; set; }
-            public string FunctionName { get; }
-            private readonly Construct _constructor;
-
-            public TypeConstructorFunction(
-                IProcessor processor,
-                string className,
-                Construct constructor)
-            {
-                Processor = processor;
-                FunctionName = className;
-                _constructor = constructor;
-            }
-
-            public IScriptType Invoke(IScriptType[] arguments)
-            {
-                return _constructor(Processor, arguments);
-            }
-        }
     }
 }
