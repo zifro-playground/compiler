@@ -23,6 +23,16 @@ namespace Mellis.Lang.Python3.Tests.Entities
         }
 
         [TestMethod]
+        public void ClassNameTest()
+        {
+            // Act
+            var entity = CreateEntity();
+
+            // Assert
+            Assert.AreEqual(entity.ClassName, Localized_Base_Entities.Type_Boolean_Name);
+        }
+
+        [TestMethod]
         public void CtorEmptyArgsTest()
         {
             // Arrange
