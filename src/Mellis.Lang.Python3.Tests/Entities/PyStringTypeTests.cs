@@ -16,13 +16,13 @@ using Moq;
 namespace Mellis.Lang.Python3.Tests.Entities
 {
     [TestClass]
-    public class PyBooleanTypeTests : BaseEntityTypeTester<PyBooleanType, PyBoolean>
+    public class PyStringTypeTests : BaseEntityTypeTester<PyStringType, PyString>
     {
-        protected override string ExpectedClassName => Localized_Base_Entities.Type_Boolean_Name;
+        protected override string ExpectedClassName => Localized_Base_Entities.Type_String_Name;
 
-        protected override PyBooleanType CreateEntity(PyProcessor processor)
+        protected override PyStringType CreateEntity(PyProcessor processor)
         {
-            return new PyBooleanType(processor);
+            return new PyStringType(processor);
         }
 
         [TestMethod]
@@ -35,7 +35,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
             var result = entity.Invoke(new IScriptType[0]);
 
             // Assert
-            Assert.That.ScriptTypeEqual(expected: false, actual: result);
+            Assert.That.ScriptTypeEqual(expected: string.Empty, actual: result);
         }
 
         [TestMethod]
@@ -60,15 +60,13 @@ namespace Mellis.Lang.Python3.Tests.Entities
                 /* actual */ 2);
         }
 
-        [DataTestMethod]
-        [DataRow(true, DisplayName = "arg0.isTruthy=>true")]
-        [DataRow(false, DisplayName = "arg0.isTruthy=>false")]
-        public void CtorOneTruthy(bool truthy)
+        [TestMethod]
+        public void CtorOneArgToStrings()
         {
             // Arrange
             var argMock = new Mock<IScriptType>();
-            argMock.Setup(o => o.IsTruthy())
-                .Returns(truthy).Verifiable();
+            argMock.Setup(o => o.ToString())
+                .Returns("foo").Verifiable();
 
             var entity = CreateEntity();
 
@@ -76,7 +74,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
             var result = entity.Invoke(new[] {argMock.Object});
 
             // Assert
-            Assert.That.ScriptTypeEqual(expected: truthy, actual: result);
+            Assert.That.ScriptTypeEqual(expected: "foo", actual: result);
             argMock.Verify();
         }
     }
