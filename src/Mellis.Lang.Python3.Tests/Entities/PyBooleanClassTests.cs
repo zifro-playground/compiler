@@ -15,28 +15,23 @@ using Moq;
 namespace Mellis.Lang.Python3.Tests.Entities
 {
     [TestClass]
-    public class PyBooleanClassTests
+    public class PyBooleanClassTests : BaseEntityTester<PyBooleanType>
     {
-        private static PyProcessor ProcessorWithCall(int numArgs = 0)
+        protected override PyBooleanType CreateEntity(PyProcessor processor)
         {
-            return new PyProcessor(
-                new Call(SourceReference.ClrSource, numArgs, 1)
-            );
+            return new PyBooleanType(processor);
         }
 
         [TestMethod]
         public void CtorEmptyArgsTest()
         {
             // Arrange
-            var processor = ProcessorWithCall();
-            processor.PushValue(new PyBooleanType(processor));
+            var entity = CreateEntity();
 
             // Act
-            processor.WalkInstruction(); // warmup
-            processor.WalkInstruction();
+            var result = entity.Invoke(new IScriptType[0]);
 
             // Assert
-            var result = processor.PopValue();
             Assert.That.ScriptTypeEqual(expected: false, actual: result);
         }
 
@@ -44,14 +39,15 @@ namespace Mellis.Lang.Python3.Tests.Entities
         public void CtorTooManyArgs()
         {
             // Arrange
-            var processor = ProcessorWithCall(numArgs: 2);
-            processor.PushValue(new PyBooleanType(processor));
-            processor.PushMockValue(); // arg 1
-            processor.PushMockValue(); // arg 2
+            var entity = CreateEntity();
+
+            void Action()
+            {
+                entity.Invoke(new IScriptType[2]);
+            }
 
             // Act
-            processor.WalkInstruction(); // warmup
-            var ex = Assert.ThrowsException<RuntimeTooManyArgumentsException>((Action) processor.WalkInstruction);
+            var ex = Assert.ThrowsException<RuntimeTooManyArgumentsException>((Action) Action);
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
@@ -71,16 +67,12 @@ namespace Mellis.Lang.Python3.Tests.Entities
             argMock.Setup(o => o.IsTruthy())
                 .Returns(truthy).Verifiable();
 
-            var processor = ProcessorWithCall(numArgs: 1);
-            processor.PushValue(new PyBooleanType(processor));
-            processor.PushValue(argMock.Object); // arg 1
+            var entity = CreateEntity();
 
             // Act
-            processor.WalkInstruction(); // warmup
-            processor.WalkInstruction();
+            var result = entity.Invoke(new[] {argMock.Object});
 
             // Assert
-            var result = processor.PopValue();
             Assert.That.ScriptTypeEqual(expected: truthy, actual: result);
         }
     }
