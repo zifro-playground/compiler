@@ -15,7 +15,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
         }
 
         [TestMethod]
-        public void CopyGivesRightType()
+        public virtual void CopyGivesRightType()
         {
             // Arrange
             var entity = CreateEntity();

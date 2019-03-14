@@ -3,6 +3,7 @@ using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Resources;
+using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Entities.Classes;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Instructions;
@@ -15,21 +16,13 @@ using Moq;
 namespace Mellis.Lang.Python3.Tests.Entities
 {
     [TestClass]
-    public class PyBooleanClassTests : BaseEntityTester<PyBooleanType>
+    public class PyBooleanTypeTests : BaseEntityTypeTester<PyBooleanType, PyBoolean>
     {
+        protected override string ExpectedClassName => Localized_Base_Entities.Type_Boolean_Name;
+
         protected override PyBooleanType CreateEntity(PyProcessor processor)
         {
             return new PyBooleanType(processor);
-        }
-
-        [TestMethod]
-        public void ClassNameTest()
-        {
-            // Act
-            var entity = CreateEntity();
-
-            // Assert
-            Assert.AreEqual(entity.ClassName, Localized_Base_Entities.Type_Boolean_Name);
         }
 
         [TestMethod]
@@ -62,7 +55,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
                 nameof(Localized_Python3_Runtime.Ex_Invoke_TooManyArguments),
-                /* func name */ Localized_Base_Entities.Type_Boolean_Name,
+                /* func name */ ExpectedClassName,
                 /* maximum */ 1,
                 /* actual */ 2);
         }
