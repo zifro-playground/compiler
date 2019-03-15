@@ -35,7 +35,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
             var result = entity.Invoke(new IScriptType[0]);
 
             // Assert
-            Assert.That.ScriptTypeEqual(expected: false, actual: result);
+            Assert.That.ScriptTypeEqual(expectedBool: false, actual: result);
         }
 
         [TestMethod]
@@ -76,7 +76,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
             var result = entity.Invoke(new[] {argMock.Object});
 
             // Assert
-            Assert.That.ScriptTypeEqual(expected: truthy, actual: result);
+            Assert.That.ScriptTypeEqual(expectedBool: truthy, actual: result);
             argMock.Verify();
         }
     }

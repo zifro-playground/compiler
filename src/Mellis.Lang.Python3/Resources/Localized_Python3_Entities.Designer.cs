@@ -61,6 +61,105 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kan inte i &apos;float()&apos; omvandla en tom text sträng till decimaltal..
+        /// </summary>
+        internal static string Ex_DoubleType_Ctor_Arg1_EmptyString {
+            get {
+                return ResourceManager.GetString("Ex_DoubleType_Ctor_Arg1_EmptyString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kan inte i &apos;float()&apos; omvandla följande text sträng till decimaltal: {0}.
+        /// </summary>
+        internal static string Ex_DoubleType_Ctor_Arg1_InvalidString {
+            get {
+                return ResourceManager.GetString("Ex_DoubleType_Ctor_Arg1_InvalidString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Första värdet till &apos;float()&apos; måste vara en text sträng, nummer eller boolean..
+        /// </summary>
+        internal static string Ex_DoubleType_Ctor_Arg1_Type {
+            get {
+                return ResourceManager.GetString("Ex_DoubleType_Ctor_Arg1_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kan inte i &apos;int()&apos; omvandla en tom text sträng till heltal..
+        /// </summary>
+        internal static string Ex_IntegerType_Ctor_Arg1_EmptyString {
+            get {
+                return ResourceManager.GetString("Ex_IntegerType_Ctor_Arg1_EmptyString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kan inte i &apos;int()&apos; omvandla följande text sträng till heltal: {0}.
+        /// </summary>
+        internal static string Ex_IntegerType_Ctor_Arg1_InvalidString {
+            get {
+                return ResourceManager.GetString("Ex_IntegerType_Ctor_Arg1_InvalidString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kan inte i &apos;int()&apos; omvandla värdetypen &apos;inte-ett-tal&apos; till heltal..
+        /// </summary>
+        internal static string Ex_IntegerType_Ctor_Arg1_NaN {
+            get {
+                return ResourceManager.GetString("Ex_IntegerType_Ctor_Arg1_NaN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kan inte i &apos;int()&apos; omvandla negativ oändlighet till heltal..
+        /// </summary>
+        internal static string Ex_IntegerType_Ctor_Arg1_NegInf {
+            get {
+                return ResourceManager.GetString("Ex_IntegerType_Ctor_Arg1_NegInf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kan inte i &apos;int()&apos; omvandla oändlighet till heltal..
+        /// </summary>
+        internal static string Ex_IntegerType_Ctor_Arg1_PosInf {
+            get {
+                return ResourceManager.GetString("Ex_IntegerType_Ctor_Arg1_PosInf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Första värdet till &apos;int()&apos; måste vara en text sträng, nummer eller boolean..
+        /// </summary>
+        internal static string Ex_IntegerType_Ctor_Arg1_Type {
+            get {
+                return ResourceManager.GetString("Ex_IntegerType_Ctor_Arg1_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Andra värdet till `int()` måste vara 0 eller mellan 2 och 36..
+        /// </summary>
+        internal static string Ex_IntegerType_Ctor_Arg2_OutOfRange {
+            get {
+                return ResourceManager.GetString("Ex_IntegerType_Ctor_Arg2_OutOfRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Andra värdet till &apos;int()&apos; måste vara ett heltal, inte &apos;{0}&apos;..
+        /// </summary>
+        internal static string Ex_IntegerType_Ctor_Arg2_Type {
+            get {
+                return ResourceManager.GetString("Ex_IntegerType_Ctor_Arg2_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to typ.
         /// </summary>
         internal static string Type_Type_Name {

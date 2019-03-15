@@ -117,6 +117,56 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Ex_DoubleType_Ctor_Arg1_EmptyString" xml:space="preserve">
+    <value>Kan inte i 'float()' omvandla en tom text sträng till decimaltal.</value>
+    <comment>Triggers on arg1 is only whitespace or empty. Ex: float("")</comment>
+  </data>
+  <data name="Ex_DoubleType_Ctor_Arg1_InvalidString" xml:space="preserve">
+    <value>Kan inte i 'float()' omvandla följande text sträng till decimaltal: {0}</value>
+    <comment>Ex: float("foo")
+{0} quoted &amp; escaped string</comment>
+  </data>
+  <data name="Ex_DoubleType_Ctor_Arg1_Type" xml:space="preserve">
+    <value>Första värdet till 'float()' måste vara en text sträng, nummer eller boolean.</value>
+    <comment>Ex: float(None)
+{0} argument type name</comment>
+  </data>
+  <data name="Ex_IntegerType_Ctor_Arg1_EmptyString" xml:space="preserve">
+    <value>Kan inte i 'int()' omvandla en tom text sträng till heltal.</value>
+    <comment>Triggers on arg1 is only whitespace or empty. Ex: int("")</comment>
+  </data>
+  <data name="Ex_IntegerType_Ctor_Arg1_InvalidString" xml:space="preserve">
+    <value>Kan inte i 'int()' omvandla följande text sträng till heltal: {0}</value>
+    <comment>Ex: int("foo")
+{0} quoted &amp; escaped string</comment>
+  </data>
+  <data name="Ex_IntegerType_Ctor_Arg1_NaN" xml:space="preserve">
+    <value>Kan inte i 'int()' omvandla värdetypen 'inte-ett-tal' till heltal.</value>
+    <comment>Ex: int(float("nan"))</comment>
+  </data>
+  <data name="Ex_IntegerType_Ctor_Arg1_NegInf" xml:space="preserve">
+    <value>Kan inte i 'int()' omvandla negativ oändlighet till heltal.</value>
+    <comment>Ex: int(float("-inf"))</comment>
+  </data>
+  <data name="Ex_IntegerType_Ctor_Arg1_PosInf" xml:space="preserve">
+    <value>Kan inte i 'int()' omvandla oändlighet till heltal.</value>
+    <comment>Ex: int(float("+inf"))</comment>
+  </data>
+  <data name="Ex_IntegerType_Ctor_Arg1_Type" xml:space="preserve">
+    <value>Första värdet till 'int()' måste vara en text sträng, nummer eller boolean.</value>
+    <comment>Ex: int(None)
+{0} argument type name</comment>
+  </data>
+  <data name="Ex_IntegerType_Ctor_Arg2_OutOfRange" xml:space="preserve">
+    <value>Andra värdet till `int()` måste vara 0 eller mellan 2 och 36.</value>
+    <comment>Ex: int(x, -5)
+{0} actual value of 2nd argument</comment>
+  </data>
+  <data name="Ex_IntegerType_Ctor_Arg2_Type" xml:space="preserve">
+    <value>Andra värdet till 'int()' måste vara ett heltal, inte '{0}'.</value>
+    <comment>Ex: int(x, None)
+{0} argument type name</comment>
+  </data>
   <data name="Type_Type_Name" xml:space="preserve">
     <value>typ</value>
     <comment>Name of class 'type'.</comment>

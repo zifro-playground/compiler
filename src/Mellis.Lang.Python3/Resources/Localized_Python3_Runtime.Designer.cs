@@ -61,6 +61,15 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Metoden &apos;{0}&apos; tar inga argument..
+        /// </summary>
+        internal static string Ex_Invoke_TakesNoArguments {
+            get {
+                return ResourceManager.GetString("Ex_Invoke_TakesNoArguments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Metoden &apos;{0}&apos; kan som minst ta emot {1}st argument men fick {2}st..
         /// </summary>
         internal static string Ex_Invoke_TooFewArguments {

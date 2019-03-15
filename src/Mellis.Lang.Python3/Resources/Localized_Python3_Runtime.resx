@@ -117,6 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Ex_Invoke_TakesNoArguments" xml:space="preserve">
+    <value>Metoden '{0}' tar inga argument.</value>
+    <comment>Invokation on method that takes no positional arguments.
+{0} function name</comment>
+  </data>
   <data name="Ex_Invoke_TooFewArguments" xml:space="preserve">
     <value>Metoden '{0}' kan som minst ta emot {1}st argument men fick {2}st.</value>
     <comment>Invokation was met with not enough arguments.

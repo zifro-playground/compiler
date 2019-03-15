@@ -13,40 +13,40 @@ namespace Mellis.Lang.Python3.Tests
             processor.PushValue(Mock.Of<IScriptType>());
         }
 
-        public static void ScriptTypeEqual(this Assert assert, int expected, IScriptType actual)
+        public static void ScriptTypeEqual(this Assert assert, int expectedInt, IScriptType actual)
         {
             Assert.IsNotNull(actual, "Expected integer variable, got null.");
             Assert.IsInstanceOfType(actual, typeof(IntegerBase), $"Expected integer variable, got {actual.GetType().Name}.");
-            Assert.AreEqual(expected, ((IntegerBase)actual).Value);
+            Assert.AreEqual(expectedInt, ((IntegerBase)actual).Value);
         }
 
-        public static void ScriptTypeEqual(this Assert assert, double expected, IScriptType actual)
+        public static void ScriptTypeEqual(this Assert assert, double expectedDouble, IScriptType actual)
         {
             Assert.IsNotNull(actual, "Expected double variable, got null.");
             Assert.IsInstanceOfType(actual, typeof(DoubleBase), $"Expected double variable, got {actual.GetType().Name}.");
-            Assert.AreEqual(expected, ((DoubleBase)actual).Value);
+            Assert.AreEqual(expectedDouble, ((DoubleBase)actual).Value);
         }
 
-        public static void ScriptTypeEqual(this Assert assert, string expected, IScriptType actual)
+        public static void ScriptTypeEqual(this Assert assert, string expectedString, IScriptType actual)
         {
             Assert.IsNotNull(actual, "Expected string variable, got null.");
             Assert.IsInstanceOfType(actual, typeof(StringBase), $"Expected string variable, got {actual.GetType().Name}.");
-            Assert.AreEqual(expected, ((StringBase)actual).Value);
+            Assert.AreEqual(expectedString, ((StringBase)actual).Value);
         }
 
-        public static void ScriptTypeEqual(this Assert assert, bool expected, IScriptType actual)
+        public static void ScriptTypeEqual(this Assert assert, bool expectedBool, IScriptType actual)
         {
             Assert.IsNotNull(actual, "Expected boolean variable, got null.");
             Assert.IsInstanceOfType(actual, typeof(BooleanBase), $"Expected boolean variable, got {actual.GetType().Name}.");
-            Assert.AreEqual(expected, ((BooleanBase)actual).Value);
+            Assert.AreEqual(expectedBool, ((BooleanBase)actual).Value);
         }
 
-        public static void ScriptTypeEqual(this Assert assert, IClrFunction expected, IScriptType actual)
+        public static void ScriptTypeEqual(this Assert assert, IClrFunction expectedClrFunction, IScriptType actual)
         {
             Assert.IsNotNull(actual, "Expected CLR function variable, got null.");
             Assert.IsInstanceOfType(actual, typeof(EmbeddedClrFunctionBase), $"Expected CLR function variable, got {actual.GetType().Name}.");
             IClrFunction actualDef = ((EmbeddedClrFunctionBase)actual).Definition;
-            Assert.AreSame(expected, actualDef, $"CLR function definition was not same as expected.\nExpected: {expected.FunctionName ?? "null"}\nActual: {actualDef.FunctionName ?? "null"}");
+            Assert.AreSame(expectedClrFunction, actualDef, $"CLR function definition was not same as expected.\nExpected: {expectedClrFunction.FunctionName ?? "null"}\nActual: {actualDef.FunctionName ?? "null"}");
         }
     }
 }
