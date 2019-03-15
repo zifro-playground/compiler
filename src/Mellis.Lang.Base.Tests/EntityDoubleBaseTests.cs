@@ -371,5 +371,24 @@ namespace Mellis.Lang.Base.Tests
             processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }
+
+        [TestMethod]
+        public void DoubleToStringSpecial()
+        {
+            // Arrange
+            DoubleBase posInf = GetDouble(double.PositiveInfinity);
+            DoubleBase negInf = GetDouble(double.NegativeInfinity);
+            DoubleBase nan = GetDouble(double.NaN);
+
+            // Act
+            string posInfStr = posInf.ToString();
+            string negInfStr = negInf.ToString();
+            string nanStr = nan.ToString();
+
+            // Assert
+            Assert.AreEqual(Localized_Base_Entities.Type_Double_PosInfinity, posInfStr);
+            Assert.AreEqual(Localized_Base_Entities.Type_Double_NegInfinity, negInfStr);
+            Assert.AreEqual(Localized_Base_Entities.Type_Double_NaN, nanStr);
+        }
     }
 }

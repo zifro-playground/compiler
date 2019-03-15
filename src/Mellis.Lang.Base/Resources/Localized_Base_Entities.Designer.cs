@@ -520,6 +520,33 @@ namespace Mellis.Lang.Base.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &apos;inte-ett-tal&apos;.
+        /// </summary>
+        public static string Type_Double_NaN {
+            get {
+                return ResourceManager.GetString("Type_Double_NaN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -∞.
+        /// </summary>
+        public static string Type_Double_NegInfinity {
+            get {
+                return ResourceManager.GetString("Type_Double_NegInfinity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ∞.
+        /// </summary>
+        public static string Type_Double_PosInfinity {
+            get {
+                return ResourceManager.GetString("Type_Double_PosInfinity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to heltal.
         /// </summary>
         public static string Type_Int_Name {

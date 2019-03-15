@@ -352,4 +352,16 @@ Ex: myValue.x = y
     <value>intet</value>
     <comment>Name of null type. Used in some errors, ex: Ex_Int_AddInvalidType.</comment>
   </data>
+  <data name="Type_Double_NaN" xml:space="preserve">
+    <value>'inte-ett-tal'</value>
+    <comment>ToString name upon using double.NaN</comment>
+  </data>
+  <data name="Type_Double_NegInfinity" xml:space="preserve">
+    <value>-∞</value>
+    <comment>ToString name upon using double.NegativeInfinity</comment>
+  </data>
+  <data name="Type_Double_PosInfinity" xml:space="preserve">
+    <value>∞</value>
+    <comment>ToString name upon using double.PositiveInfinity.</comment>
+  </data>
 </root>

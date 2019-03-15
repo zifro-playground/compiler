@@ -307,7 +307,18 @@ namespace Mellis.Lang.Base.Entities
 
         public override string ToString()
         {
-            return Value.ToString(CultureInfo.CurrentCulture);
+            switch (Value)
+            {
+                case double.PositiveInfinity:
+                    return Localized_Base_Entities.Type_Double_PosInfinity;
+                case double.NegativeInfinity:
+                    return Localized_Base_Entities.Type_Double_NegInfinity;
+                case double.NaN:
+                    return Localized_Base_Entities.Type_Double_NaN;
+
+                default:
+                    return Value.ToString(CultureInfo.CurrentCulture).ToLower();
+            }
         }
     }
 }
