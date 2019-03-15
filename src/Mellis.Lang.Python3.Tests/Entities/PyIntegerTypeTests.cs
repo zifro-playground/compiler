@@ -102,8 +102,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
         [DataTestMethod]
         [DataRow("2147483648", DisplayName = "int.MaxValue+1")]
-        [DataRow("-2147483646", DisplayName = "int.MinValue-1")]
-        [DataRow("1e300")]
+        [DataRow("-2147483649", DisplayName = "int.MinValue-1")]
         public void CtorInvalidStringOverflow(string input)
         {
             // Arrange
@@ -120,7 +119,8 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
-                nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_StringOutOfBounds)
+                nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_StringOutOfBounds),
+                tooBig.ToString()
             );
         }
 
@@ -168,6 +168,8 @@ namespace Mellis.Lang.Python3.Tests.Entities
         [DataRow("10", 2, 2)]
         [DataRow("101010", 2, 0b101010)]
         [DataRow("abc123", 13, 4053663)]
+        [DataRow("+123jkl", 25, 10606146)]
+        [DataRow("-123jkl", 25, -10606146)]
         [DataRow("10", 36, 36)]
         [DataRow("Z", 36, 35)] // Uppercase
         [DataRow("y", 36, 34)] // Lowercase
@@ -212,7 +214,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
         [DataRow("0x10", "'0x10'")]
         [DataRow("inf", "'inf'")]
         [DataRow("'", "\"'\"")]
-        [DataRow("\n", "'\\n'")]
+        [DataRow("\nx", "'\\nx'")]
         public void CtorInvalidArg1String(string input, string expectedFormatArg)
         {
             // Arrange
@@ -312,7 +314,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
             void Action()
             {
-                entity.Invoke(new IScriptType[] { new PyInteger(entity.Processor, 0), numBaseArg });
+                entity.Invoke(new IScriptType[] { new PyString(entity.Processor, ""), numBaseArg });
             }
 
             // Act

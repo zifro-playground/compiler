@@ -69,21 +69,40 @@ namespace Mellis.Lang.Python3.Entities.Classes
             // One arg: int(x)
             switch (arg1)
             {
-                case PyDouble doubleType:
+                case PyDouble posInf when double.IsPositiveInfinity(posInf.Value):
+                    throw new RuntimeException(
+                        nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg1_PosInf),
+                        Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg1_PosInf
+                    );
+
+                case PyDouble negInf when double.IsNegativeInfinity(negInf.Value):
+                    throw new RuntimeException(
+                        nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg1_NegInf),
+                        Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg1_NegInf
+                    );
+
+                case PyDouble nan when double.IsNaN(nan.Value):
+                    throw new RuntimeException(
+                        nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg1_NaN),
+                        Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg1_NaN
+                    );
+
+                case PyDouble arg1Double:
                     try
                     {
-                        return new PyInteger(Processor, checked((int) doubleType.Value));
+                        return new PyInteger(Processor, checked((int) arg1Double.Value));
                     }
                     catch (OverflowException)
                     {
                         throw new RuntimeException(
                             nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_DoubleOutOfBounds),
                             Localized_Python3_Entities.Ex_IntegerType_Ctor_DoubleOutOfBounds,
-                            doubleType.ToString()
+                            arg1Double.ToString()
                         );
                     }
 
-
+                case PyString arg1Str:
+                    return new PyInteger(Processor, ParseWithNonZeroBase(arg1Str, 10));
 
                 default:
                     throw new RuntimeException(
@@ -129,9 +148,9 @@ namespace Mellis.Lang.Python3.Entities.Classes
 
         private static int ParseWithNonZeroBase(PyString strType, int numBase)
         {
-            const string charset = "0123456789abcdefghijklmnopqrstuvwxyz";
+            const string fullCharset = "0123456789abcdefghijklmnopqrstuvwxyz";
 
-            if (numBase > charset.Length || numBase < 2)
+            if (numBase > fullCharset.Length || numBase < 2)
             {
                 throw new RuntimeException(
                     nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg2_OutOfRange),
@@ -140,6 +159,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
                 );
             }
 
+            string charset = fullCharset.Substring(0, numBase);
             string trimmed = strType.Value.Trim().ToLowerInvariant();
 
             // Empty string?
