@@ -115,7 +115,7 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kan inte i &apos;int()&apos; omvandla negativ oändlighet till heltal..
+        ///   Looks up a localized string similar to Kan inte i &apos;int()&apos; omvandla -∞ till heltal..
         /// </summary>
         internal static string Ex_IntegerType_Ctor_Arg1_NegInf {
             get {
@@ -124,7 +124,7 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kan inte i &apos;int()&apos; omvandla oändlighet till heltal..
+        ///   Looks up a localized string similar to Kan inte i &apos;int()&apos; omvandla ∞ till heltal..
         /// </summary>
         internal static string Ex_IntegerType_Ctor_Arg1_PosInf {
             get {

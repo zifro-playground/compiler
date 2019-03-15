@@ -353,7 +353,7 @@ Ex: myValue.x = y
     <comment>Name of null type. Used in some errors, ex: Ex_Int_AddInvalidType.</comment>
   </data>
   <data name="Type_Double_NaN" xml:space="preserve">
-    <value>'inte-ett-tal'</value>
+    <value>inte-ett-tal</value>
     <comment>ToString name upon using double.NaN</comment>
   </data>
   <data name="Type_Double_NegInfinity" xml:space="preserve">

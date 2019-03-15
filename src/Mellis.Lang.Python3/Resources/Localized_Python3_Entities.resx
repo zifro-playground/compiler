@@ -145,11 +145,11 @@
     <comment>Ex: int(float("nan"))</comment>
   </data>
   <data name="Ex_IntegerType_Ctor_Arg1_NegInf" xml:space="preserve">
-    <value>Kan inte i 'int()' omvandla negativ oändlighet till heltal.</value>
+    <value>Kan inte i 'int()' omvandla -∞ till heltal.</value>
     <comment>Ex: int(float("-inf"))</comment>
   </data>
   <data name="Ex_IntegerType_Ctor_Arg1_PosInf" xml:space="preserve">
-    <value>Kan inte i 'int()' omvandla oändlighet till heltal.</value>
+    <value>Kan inte i 'int()' omvandla ∞ till heltal.</value>
     <comment>Ex: int(float("+inf"))</comment>
   </data>
   <data name="Ex_IntegerType_Ctor_Arg1_Type" xml:space="preserve">

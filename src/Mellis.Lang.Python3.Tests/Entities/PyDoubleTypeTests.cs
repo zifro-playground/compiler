@@ -86,10 +86,34 @@ namespace Mellis.Lang.Python3.Tests.Entities
             var entity = CreateEntity();
 
             // Act
-            IScriptType result = entity.Invoke(new IScriptType[] {new PyString(entity.Processor, input)});
+            IScriptType result = entity.Invoke(new IScriptType[] { new PyString(entity.Processor, input) });
 
             // Assert
             Assert.That.ScriptTypeEqual(expected, result);
+        }
+
+        [DataTestMethod]
+        [DataRow(nameof(Localized_Base_Entities.Type_Double_PosInfinity), double.PositiveInfinity)]
+        [DataRow(nameof(Localized_Base_Entities.Type_Double_NegInfinity), double.NegativeInfinity)]
+        [DataRow(nameof(Localized_Base_Entities.Type_Double_NaN), double.NaN)]
+        public void CtorConvertBaseStringRepresentation(string key, double expected)
+        {
+            // Arrange
+            var entity = CreateEntity();
+            string inputWithPlus = "+" + Localized_Base_Entities.ResourceManager.GetString(key);
+            string inputWithoutPlus = Localized_Base_Entities.ResourceManager.GetString(key);
+
+            // Act
+            IScriptType result1 = entity.Invoke(
+                new IScriptType[] { new PyString(entity.Processor, inputWithPlus) }
+            );
+            IScriptType result2 = entity.Invoke(
+                new IScriptType[] { new PyString(entity.Processor, inputWithoutPlus) }
+            );
+
+            // Assert
+            Assert.That.ScriptTypeEqual(expected, result1);
+            Assert.That.ScriptTypeEqual(expected, result2);
         }
 
         [TestMethod]

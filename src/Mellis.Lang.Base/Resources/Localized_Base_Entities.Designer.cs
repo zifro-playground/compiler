@@ -520,7 +520,7 @@ namespace Mellis.Lang.Base.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;inte-ett-tal&apos;.
+        ///   Looks up a localized string similar to inte-ett-tal.
         /// </summary>
         public static string Type_Double_NaN {
             get {
