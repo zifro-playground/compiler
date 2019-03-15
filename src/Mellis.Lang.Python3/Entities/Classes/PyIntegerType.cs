@@ -148,9 +148,11 @@ namespace Mellis.Lang.Python3.Entities.Classes
 
         private static int ParseWithNonZeroBase(PyString strType, int numBase)
         {
-            const string fullCharset = "0123456789abcdefghijklmnopqrstuvwxyz";
-
-            if (numBase > fullCharset.Length || numBase < 2)
+            try
+            {
+                return LiteralInteger.ParseWithNonZeroBase(strType.Value, numBase);
+            }
+            catch (ArgumentOutOfRangeException e) when (e.ParamName == "numBase")
             {
                 throw new RuntimeException(
                     nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg2_OutOfRange),
@@ -158,73 +160,29 @@ namespace Mellis.Lang.Python3.Entities.Classes
                     numBase
                 );
             }
-
-            string charset = fullCharset.Substring(0, numBase);
-            string trimmed = strType.Value.Trim().ToLowerInvariant();
-
-            // Empty string?
-            if (trimmed.Length == 0)
+            catch (ArgumentException e) when (e.ParamName == "text")
             {
                 throw new RuntimeException(
                     nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg1_EmptyString),
                     Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg1_EmptyString
                 );
             }
-
-            string withoutSign;
-            bool positive;
-
-            switch (trimmed[0])
+            catch (FormatException)
             {
-                case '+':
-                    positive = true;
-                    withoutSign = trimmed.Substring(1);
-                    break;
-                case '-':
-                    positive = false;
-                    withoutSign = trimmed.Substring(1);
-                    break;
-                default:
-                    positive = true;
-                    withoutSign = trimmed;
-                    break;
+                throw new RuntimeException(
+                    nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg1_InvalidString),
+                    Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg1_InvalidString,
+                    strType.ToString()
+                );
             }
-
-            var output = 0;
-            foreach (char c in withoutSign)
+            catch (OverflowException)
             {
-                int digit = charset.IndexOf(c);
-                if (digit == -1)
-                {
-                    throw new RuntimeException(
-                        nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg1_InvalidString),
-                        Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg1_InvalidString,
-                        strType.ToString()
-                    );
-                }
-
-                try
-                {
-                    checked
-                    {
-                        output *= numBase;
-                        output += positive
-                            ? +digit
-                            : -digit;
-                    }
-                }
-                catch (OverflowException)
-                {
-                    throw new RuntimeException(
-                        nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_StringOutOfBounds),
-                        Localized_Python3_Entities.Ex_IntegerType_Ctor_StringOutOfBounds,
-                        strType.ToString()
-                    );
-                }
+                throw new RuntimeException(
+                    nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_StringOutOfBounds),
+                    Localized_Python3_Entities.Ex_IntegerType_Ctor_StringOutOfBounds,
+                    strType.ToString()
+                );
             }
-
-            return output;
         }
-        
     }
 }

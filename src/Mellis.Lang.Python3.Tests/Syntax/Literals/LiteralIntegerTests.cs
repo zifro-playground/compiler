@@ -16,6 +16,8 @@ namespace Mellis.Lang.Python3.Tests.Syntax.Literals
         [DataRow("0", 0)]
         [DataRow("10", 10)]
         [DataRow("0x10", 0x10)]
+        [DataRow("0b10", 0b10)]
+        [DataRow("0o10", 8)]
         public override void ParseValidTest(string input, int expectedValue)
         {
             base.ParseValidTest(input, expectedValue);
@@ -29,14 +31,6 @@ namespace Mellis.Lang.Python3.Tests.Syntax.Literals
         public override void ParseInvalidTest(string input)
         {
             base.ParseInvalidTest(input);
-        }
-
-        [DataTestMethod]
-        [DataRow("0b1")]
-        [DataRow("0o1")]
-        public override void ParseNotYetImplementedTest(string input)
-        {
-            base.ParseNotYetImplementedTest(input);
         }
     }
 }
