@@ -148,6 +148,11 @@
     <value>Kan inte i 'int()' omvandla -∞ till heltal.</value>
     <comment>Ex: int(float("-inf"))</comment>
   </data>
+  <data name="Ex_IntegerType_Ctor_Arg1_NotString_Arg2_Int" xml:space="preserve">
+    <value>Första värdet till 'int()' måste vara en text sträng och inte av typen '{0}' när du även ger talbas som andra värde.</value>
+    <comment>If there's a second argument, the first argument needs to be a string. Ex: int(1.0, 2)
+{0} type name of arg 0</comment>
+  </data>
   <data name="Ex_IntegerType_Ctor_Arg1_PosInf" xml:space="preserve">
     <value>Kan inte i 'int()' omvandla ∞ till heltal.</value>
     <comment>Ex: int(float("+inf"))</comment>
@@ -158,14 +163,24 @@
 {0} argument type name</comment>
   </data>
   <data name="Ex_IntegerType_Ctor_Arg2_OutOfRange" xml:space="preserve">
-    <value>Andra värdet till `int()` måste vara 0 eller mellan 2 och 36.</value>
+    <value>Talbasen som andra värde till `int()` måste vara 0 eller mellan 2 och 36.</value>
     <comment>Ex: int(x, -5)
 {0} actual value of 2nd argument</comment>
   </data>
   <data name="Ex_IntegerType_Ctor_Arg2_Type" xml:space="preserve">
-    <value>Andra värdet till 'int()' måste vara ett heltal, inte '{0}'.</value>
+    <value>Talbasen som andra värde till 'int()' måste vara ett heltal, inte '{0}'.</value>
     <comment>Ex: int(x, None)
 {0} argument type name</comment>
+  </data>
+  <data name="Ex_IntegerType_Ctor_DoubleOutOfBounds" xml:space="preserve">
+    <value>Kan inte i 'int()' omvandla följande decimaltal till heltal: {0}. Heltal måste vara mindre än 2 147 483 647 och större än -2 147 483 648.</value>
+    <comment>Ex: int(1e300)
+{0} biggo number, tostring'ed</comment>
+  </data>
+  <data name="Ex_IntegerType_Ctor_StringOutOfBounds" xml:space="preserve">
+    <value>Kan inte i 'int()' omvandla följande textsträng till heltal:: {0}. Heltal måste vara mindre än 2 147 483 647 och större än -2 147 483 648.</value>
+    <comment>Ex: int("2147483648"), also true for neg numbers.
+{0} quoted &amp; escaped string</comment>
   </data>
   <data name="Type_Type_Name" xml:space="preserve">
     <value>typ</value>

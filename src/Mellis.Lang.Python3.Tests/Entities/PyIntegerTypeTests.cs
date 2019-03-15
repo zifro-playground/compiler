@@ -90,7 +90,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
             void Action()
             {
-                entity.Invoke(new IScriptType[] { new PyDouble(entity.Processor, input) });
+                entity.Invoke(new IScriptType[] {new PyDouble(entity.Processor, input)});
             }
 
             // Act
@@ -98,6 +98,54 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex, expectedError);
+        }
+
+        [DataTestMethod]
+        [DataRow("2147483648", DisplayName = "int.MaxValue+1")]
+        [DataRow("-2147483646", DisplayName = "int.MinValue-1")]
+        [DataRow("1e300")]
+        public void CtorInvalidStringOverflow(string input)
+        {
+            // Arrange
+            var entity = CreateEntity();
+            var tooBig = new PyString(entity.Processor, input);
+
+            void Action()
+            {
+                entity.Invoke(new IScriptType[] {tooBig});
+            }
+
+            // Act
+            var ex = Assert.ThrowsException<RuntimeException>((Action) Action);
+
+            // Assert
+            Assert.That.ErrorFormatArgsEqual(ex,
+                nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_StringOutOfBounds)
+            );
+        }
+
+        [DataTestMethod]
+        [DataRow(1e300)]
+        [DataRow(-1e300)]
+        public void CtorInvalidDoubleOverflow(double input)
+        {
+            // Arrange
+            var entity = CreateEntity();
+            var tooBig = new PyDouble(entity.Processor, input);
+
+            void Action()
+            {
+                entity.Invoke(new IScriptType[] {tooBig});
+            }
+
+            // Act
+            var ex = Assert.ThrowsException<RuntimeException>((Action) Action);
+
+            // Assert
+            Assert.That.ErrorFormatArgsEqual(ex,
+                nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_DoubleOutOfBounds),
+                tooBig.ToString()
+            );
         }
 
         [DataTestMethod]
@@ -118,6 +166,8 @@ namespace Mellis.Lang.Python3.Tests.Entities
         [DataTestMethod]
         [DataRow("123", 10, 123)]
         [DataRow("10", 2, 2)]
+        [DataRow("101010", 2, 0b101010)]
+        [DataRow("abc123", 13, 4053663)]
         [DataRow("10", 36, 36)]
         [DataRow("Z", 36, 35)] // Uppercase
         [DataRow("y", 36, 34)] // Lowercase
@@ -170,11 +220,11 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
             void Action()
             {
-                entity.Invoke(new IScriptType[] { new PyString(entity.Processor, input), });
+                entity.Invoke(new IScriptType[] {new PyString(entity.Processor, input)});
             }
 
             // Act
-            var ex = Assert.ThrowsException<RuntimeException>((Action)Action);
+            var ex = Assert.ThrowsException<RuntimeException>((Action) Action);
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
@@ -194,11 +244,11 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
             void Action()
             {
-                entity.Invoke(new IScriptType[] { new PyString(entity.Processor, input), });
+                entity.Invoke(new IScriptType[] {new PyString(entity.Processor, input)});
             }
 
             // Act
-            var ex = Assert.ThrowsException<RuntimeException>((Action)Action);
+            var ex = Assert.ThrowsException<RuntimeException>((Action) Action);
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
@@ -215,7 +265,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
             void Action()
             {
-                entity.Invoke(new IScriptType[] {unexpected,});
+                entity.Invoke(new IScriptType[] {unexpected});
             }
 
             // Act
@@ -237,7 +287,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
             void Action()
             {
-                entity.Invoke(new IScriptType[] {new PyInteger(entity.Processor, 0), unexpected,});
+                entity.Invoke(new IScriptType[] {new PyInteger(entity.Processor, 0), unexpected});
             }
 
             // Act
@@ -247,6 +297,54 @@ namespace Mellis.Lang.Python3.Tests.Entities
             Assert.That.ErrorFormatArgsEqual(ex,
                 nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg2_Type),
                 unexpected.GetTypeName()
+            );
+        }
+
+        [DataTestMethod]
+        [DataRow(-1)]
+        [DataRow(1)]
+        [DataRow(37)]
+        public void CtorInvalidArg2OutOfRange(int numBase)
+        {
+            // Arrange
+            var entity = CreateEntity();
+            var numBaseArg = new PyInteger(entity.Processor, numBase);
+
+            void Action()
+            {
+                entity.Invoke(new IScriptType[] { new PyInteger(entity.Processor, 0), numBaseArg });
+            }
+
+            // Act
+            var ex = Assert.ThrowsException<RuntimeException>((Action)Action);
+
+            // Assert
+            Assert.That.ErrorFormatArgsEqual(ex,
+                nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg2_OutOfRange),
+                numBase
+            );
+        }
+
+        [TestMethod]
+        public void CtorInvalidArg1TypeWithIntAtArg2()
+        {
+            // Arrange
+            var entity = CreateEntity();
+            var unexpected1 = new PyDouble(entity.Processor, 0);
+            var unexpected2 = new PyInteger(entity.Processor, 0);
+
+            void Action()
+            {
+                entity.Invoke(new IScriptType[] {unexpected1, unexpected2});
+            }
+
+            // Act
+            var ex = Assert.ThrowsException<RuntimeException>((Action) Action);
+
+            // Assert
+            Assert.That.ErrorFormatArgsEqual(ex,
+                nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg1_NotString_Arg2_Int),
+                unexpected1.GetTypeName()
             );
         }
     }

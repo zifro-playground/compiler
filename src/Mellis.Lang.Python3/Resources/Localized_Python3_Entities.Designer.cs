@@ -124,6 +124,15 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Första värdet till &apos;int()&apos; måste vara en text sträng och inte av typen &apos;{0}&apos; när du även ger talbas som andra värde..
+        /// </summary>
+        internal static string Ex_IntegerType_Ctor_Arg1_NotString_Arg2_Int {
+            get {
+                return ResourceManager.GetString("Ex_IntegerType_Ctor_Arg1_NotString_Arg2_Int", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kan inte i &apos;int()&apos; omvandla ∞ till heltal..
         /// </summary>
         internal static string Ex_IntegerType_Ctor_Arg1_PosInf {
@@ -142,7 +151,7 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Andra värdet till `int()` måste vara 0 eller mellan 2 och 36..
+        ///   Looks up a localized string similar to Talbasen som andra värde till `int()` måste vara 0 eller mellan 2 och 36..
         /// </summary>
         internal static string Ex_IntegerType_Ctor_Arg2_OutOfRange {
             get {
@@ -151,11 +160,29 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Andra värdet till &apos;int()&apos; måste vara ett heltal, inte &apos;{0}&apos;..
+        ///   Looks up a localized string similar to Talbasen som andra värde till &apos;int()&apos; måste vara ett heltal, inte &apos;{0}&apos;..
         /// </summary>
         internal static string Ex_IntegerType_Ctor_Arg2_Type {
             get {
                 return ResourceManager.GetString("Ex_IntegerType_Ctor_Arg2_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kan inte i &apos;int()&apos; omvandla följande decimaltal till heltal: {0}. Heltal måste vara mindre än 2 147 483 647 och större än -2 147 483 648..
+        /// </summary>
+        internal static string Ex_IntegerType_Ctor_DoubleOutOfBounds {
+            get {
+                return ResourceManager.GetString("Ex_IntegerType_Ctor_DoubleOutOfBounds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kan inte i &apos;int()&apos; omvandla följande textsträng till heltal:: {0}. Heltal måste vara mindre än 2 147 483 647 och större än -2 147 483 648..
+        /// </summary>
+        internal static string Ex_IntegerType_Ctor_StringOutOfBounds {
+            get {
+                return ResourceManager.GetString("Ex_IntegerType_Ctor_StringOutOfBounds", resourceCulture);
             }
         }
         

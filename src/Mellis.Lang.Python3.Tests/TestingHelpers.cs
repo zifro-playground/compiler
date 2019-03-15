@@ -181,11 +181,11 @@ namespace Mellis.Lang.Python3.Tests
         {
             Assert.AreEqual(expectedLocalizedKey, exception.LocalizeKey);
 
-            Assert.AreEqual(expectedArgs.Length, exception.FormatArgs.Length, $"relevant key: {expectedLocalizedKey}");
             for (var i = 0; i < expectedArgs.Length; i++)
             {
                 Assert.AreEqual(expectedArgs[i], exception.FormatArgs[i], $"index: {i}");
             }
+            Assert.AreEqual(expectedArgs.Length, exception.FormatArgs.Length, $"Format args count differs. Relevant key: {expectedLocalizedKey}");
         }
 
         /// <summary>
