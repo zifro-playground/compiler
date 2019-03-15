@@ -100,20 +100,15 @@ namespace Mellis.Lang.Python3.Tests.Entities
         {
             // Arrange
             var entity = CreateEntity();
-            string inputWithPlus = "+" + Localized_Base_Entities.ResourceManager.GetString(key);
-            string inputWithoutPlus = Localized_Base_Entities.ResourceManager.GetString(key);
+            string input = Localized_Base_Entities.ResourceManager.GetString(key);
 
             // Act
-            IScriptType result1 = entity.Invoke(
-                new IScriptType[] { new PyString(entity.Processor, inputWithPlus) }
-            );
-            IScriptType result2 = entity.Invoke(
-                new IScriptType[] { new PyString(entity.Processor, inputWithoutPlus) }
+            IScriptType result = entity.Invoke(
+                new IScriptType[] { new PyString(entity.Processor, input) }
             );
 
             // Assert
-            Assert.That.ScriptTypeEqual(expected, result1);
-            Assert.That.ScriptTypeEqual(expected, result2);
+            Assert.That.ScriptTypeEqual(expected, result);
         }
 
         [TestMethod]
@@ -125,10 +120,26 @@ namespace Mellis.Lang.Python3.Tests.Entities
             var entity = CreateEntity();
 
             // Act
-            IScriptType result = entity.Invoke(new IScriptType[] {new PyInteger(entity.Processor, input),});
+            IScriptType result = entity.Invoke(new IScriptType[] { new PyInteger(entity.Processor, input), });
 
             // Assert
             Assert.That.ScriptTypeEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void CtorConvertDouble()
+        {
+            // Arrange
+            const double input = 10d;
+            const double expected = 10d;
+            var entity = CreateEntity();
+
+            // Act
+            IScriptType result = entity.Invoke(new IScriptType[] { new PyDouble(entity.Processor, input), });
+
+            // Assert
+            Assert.That.ScriptTypeEqual(expected, result);
+            Assert.AreNotSame(entity, result);
         }
 
         [DataTestMethod]
@@ -172,7 +183,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
         [DataRow("zero", "'zero'")]
         [DataRow("infinite", "'infinite'")]
         [DataRow("'", "\"'\"")]
-        [DataRow("\n", "'\\n'")]
+        [DataRow("\nx", "'\\nx'")]
         public void CtorInvalidString(string input, string expectedFormatArg)
         {
             // Arrange
@@ -197,7 +208,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
         [DataRow("")]
         [DataRow("             ")]
         [DataRow("\n\r \t\t \n")]
-        public void CtorEmptyString(string input)
+        public void CtorInvalidEmptyString(string input)
         {
             // Arrange
             var entity = CreateEntity();
