@@ -317,7 +317,7 @@ namespace Mellis.Lang.Base.Entities
                     return Localized_Base_Entities.Type_Double_NaN;
 
                 default:
-                    return Value.ToString(CultureInfo.CurrentCulture).ToLower();
+                    return Value.ToString(CultureInfo.InvariantCulture).ToLower();
             }
         }
     }
