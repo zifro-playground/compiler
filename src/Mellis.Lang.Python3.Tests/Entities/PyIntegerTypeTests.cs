@@ -19,7 +19,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
         protected override PyIntegerType CreateEntity(PyProcessor processor)
         {
-            return new PyIntegerType(processor);
+            return new PyIntegerType(processor, nameof(PyIntegerTypeTests));
         }
 
         [TestMethod]

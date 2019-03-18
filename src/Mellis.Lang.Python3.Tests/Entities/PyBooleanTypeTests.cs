@@ -22,7 +22,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
         protected override PyBooleanType CreateEntity(PyProcessor processor)
         {
-            return new PyBooleanType(processor);
+            return new PyBooleanType(processor, nameof(PyBooleanTypeTests));
         }
 
         [TestMethod]

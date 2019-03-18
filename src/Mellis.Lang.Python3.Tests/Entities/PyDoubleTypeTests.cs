@@ -22,7 +22,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
         protected override PyDoubleType CreateEntity(PyProcessor processor)
         {
-            return new PyDoubleType(processor);
+            return new PyDoubleType(processor, nameof(PyDoubleTypeTests));
         }
 
         [TestMethod]

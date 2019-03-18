@@ -22,7 +22,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
         protected override PyStringType CreateEntity(PyProcessor processor)
         {
-            return new PyStringType(processor);
+            return new PyStringType(processor, nameof(PyStringTypeTests));
         }
 
         [TestMethod]

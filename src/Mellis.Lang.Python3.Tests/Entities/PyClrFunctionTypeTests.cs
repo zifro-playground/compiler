@@ -22,7 +22,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
         protected override PyClrFunctionType CreateEntity(PyProcessor processor)
         {
-            return new PyClrFunctionType(processor);
+            return new PyClrFunctionType(processor, nameof(PyClrFunctionTypeTests));
         }
 
         [TestMethod]

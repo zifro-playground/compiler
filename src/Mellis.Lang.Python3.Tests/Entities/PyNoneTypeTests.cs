@@ -21,7 +21,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
         protected override PyNoneType CreateEntity(PyProcessor processor)
         {
-            return new PyNoneType(processor);
+            return new PyNoneType(processor, nameof(PyNoneTypeTests));
         }
 
         [TestMethod]
