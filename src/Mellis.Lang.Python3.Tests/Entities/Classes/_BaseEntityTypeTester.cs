@@ -1,5 +1,7 @@
-﻿using Mellis.Core.Interfaces;
+﻿using System;
+using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Entities;
+using Mellis.Lang.Python3.Entities.Classes;
 using Mellis.Lang.Python3.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -9,6 +11,7 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
         where T : PyType<TInner>
         where TInner : IScriptType
     {
+        protected override Type ExpectedTypeDef => typeof(PyType);
         protected override string ExpectedTypeName => Localized_Python3_Entities.Type_Type_Name;
         protected abstract string ExpectedClassName { get; }
 
