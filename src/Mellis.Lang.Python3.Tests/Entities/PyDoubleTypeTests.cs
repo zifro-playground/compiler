@@ -77,7 +77,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
         [DataRow("inf", double.PositiveInfinity)]
         [DataRow("infinity", double.PositiveInfinity)]
         [DataRow("-inf", double.NegativeInfinity)]
-        [DataRow("-InFiNiTy", double.NegativeInfinity)]
+        [DataRow("-InFiNiTy", double.NegativeInfinity)] // case insensitive
         [DataRow("1e500", double.PositiveInfinity)]
         [DataRow("-1e500", double.NegativeInfinity)]
         public void CtorConvertString(string input, double expected)
