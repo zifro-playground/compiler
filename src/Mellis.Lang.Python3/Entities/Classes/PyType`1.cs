@@ -1,10 +1,9 @@
 ﻿using System;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Entities;
-using Mellis.Lang.Python3.Entities.Classes;
 using Mellis.Lang.Python3.Resources;
 
-namespace Mellis.Lang.Python3.Entities
+namespace Mellis.Lang.Python3.Entities.Classes
 {
     public abstract class PyType<T> : ClrFunctionBase
         where T : IScriptType
@@ -28,11 +27,6 @@ namespace Mellis.Lang.Python3.Entities
         public override string GetTypeName()
         {
             return Localized_Python3_Entities.Type_Type_Name;
-        }
-
-        public override bool IsTruthy()
-        {
-            return true;
         }
 
         public override bool TryConvert(Type type, out object value)
