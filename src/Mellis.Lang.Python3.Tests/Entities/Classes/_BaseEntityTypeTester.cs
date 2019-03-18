@@ -1,9 +1,8 @@
 ﻿using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Entities;
-using Mellis.Lang.Python3.VM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Mellis.Lang.Python3.Tests.Entities
+namespace Mellis.Lang.Python3.Tests.Entities.Classes
 {
     public abstract class BaseEntityTypeTester<T, TInner> : BaseEntityTester<T>
         where T : PyType<TInner>

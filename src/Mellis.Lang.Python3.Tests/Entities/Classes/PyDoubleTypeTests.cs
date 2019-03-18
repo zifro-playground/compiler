@@ -1,19 +1,15 @@
 ﻿using System;
-using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Entities.Classes;
 using Mellis.Lang.Python3.Exceptions;
-using Mellis.Lang.Python3.Instructions;
-using Mellis.Lang.Python3.Interfaces;
 using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.VM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
-namespace Mellis.Lang.Python3.Tests.Entities
+namespace Mellis.Lang.Python3.Tests.Entities.Classes
 {
     [TestClass]
     public class PyDoubleTypeTests : BaseEntityTypeTester<PyDoubleType, PyDouble>

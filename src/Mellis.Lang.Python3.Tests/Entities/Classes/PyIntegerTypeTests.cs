@@ -1,5 +1,4 @@
 ﻿using System;
-using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Resources;
@@ -10,7 +9,7 @@ using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.VM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Mellis.Lang.Python3.Tests.Entities
+namespace Mellis.Lang.Python3.Tests.Entities.Classes
 {
     [TestClass]
     public class PyIntegerTypeTests : BaseEntityTypeTester<PyIntegerType, PyInteger>

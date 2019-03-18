@@ -1,28 +1,24 @@
 ﻿using System;
-using Mellis.Core.Entities;
-using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Entities.Classes;
 using Mellis.Lang.Python3.Exceptions;
-using Mellis.Lang.Python3.Instructions;
-using Mellis.Lang.Python3.Interfaces;
 using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.VM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace Mellis.Lang.Python3.Tests.Entities
+namespace Mellis.Lang.Python3.Tests.Entities.Classes
 {
     [TestClass]
-    public class PyBooleanTypeTests : BaseEntityTypeTester<PyBooleanType, PyBoolean>
+    public class PyStringTypeTests : BaseEntityTypeTester<PyStringType, PyString>
     {
-        protected override string ExpectedClassName => Localized_Base_Entities.Type_Boolean_Name;
+        protected override string ExpectedClassName => Localized_Base_Entities.Type_String_Name;
 
-        protected override PyBooleanType CreateEntity(PyProcessor processor)
+        protected override PyStringType CreateEntity(PyProcessor processor)
         {
-            return new PyBooleanType(processor, nameof(PyBooleanTypeTests));
+            return new PyStringType(processor, nameof(PyStringTypeTests));
         }
 
         [TestMethod]
@@ -35,7 +31,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
             var result = entity.Invoke(new IScriptType[0]);
 
             // Assert
-            Assert.That.ScriptTypeEqual(expectedBool: false, actual: result);
+            Assert.That.ScriptTypeEqual(expectedString: string.Empty, actual: result);
         }
 
         [TestMethod]
@@ -60,15 +56,13 @@ namespace Mellis.Lang.Python3.Tests.Entities
                 /* actual */ 2);
         }
 
-        [DataTestMethod]
-        [DataRow(true, DisplayName = "arg0.isTruthy=>true")]
-        [DataRow(false, DisplayName = "arg0.isTruthy=>false")]
-        public void CtorOneTruthy(bool truthy)
+        [TestMethod]
+        public void CtorOneArgToStrings()
         {
             // Arrange
             var argMock = new Mock<IScriptType>();
-            argMock.Setup(o => o.IsTruthy())
-                .Returns(truthy).Verifiable();
+            argMock.Setup(o => o.ToString())
+                .Returns("foo").Verifiable();
 
             var entity = CreateEntity();
 
@@ -76,7 +70,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
             var result = entity.Invoke(new[] {argMock.Object});
 
             // Assert
-            Assert.That.ScriptTypeEqual(expectedBool: truthy, actual: result);
+            Assert.That.ScriptTypeEqual(expectedString: "foo", actual: result);
             argMock.Verify();
         }
     }
