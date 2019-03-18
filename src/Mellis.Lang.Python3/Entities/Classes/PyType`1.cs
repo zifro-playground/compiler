@@ -43,7 +43,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
         }
 
         #region Comparison implementations
-
+        
         public override IScriptType CompareEqual(IScriptType rhs)
         {
             return Processor.Factory.Create(rhs is PyType<T>);
