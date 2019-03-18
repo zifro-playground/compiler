@@ -18,7 +18,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
         }
 
         [TestMethod]
-        public void GetTypeDefTypeTest()
+        public virtual void GetTypeDefTypeTest()
         {
             // Arrange
             var entity = CreateEntity();
@@ -32,7 +32,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
         }
 
         [TestMethod]
-        public void TypeNameTest()
+        public virtual void TypeNameTest()
         {
             // Act
             var entity = CreateEntity();
@@ -40,7 +40,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
             // Assert
             Assert.AreEqual(entity.GetTypeName(), ExpectedTypeName, "Entity type name did not match.");
         }
-
+        
         [TestMethod]
         public virtual void CopyGivesRightType()
         {
