@@ -7,11 +7,22 @@ namespace Mellis.Lang.Python3.Tests.Entities
     public abstract class BaseEntityTester<T>
         where T : IScriptType
     {
+        protected abstract string ExpectedTypeName { get; }
         protected abstract T CreateEntity(PyProcessor processor);
 
         protected T CreateEntity()
         {
             return CreateEntity(new PyProcessor());
+        }
+
+        [TestMethod]
+        public void TypeNameTest()
+        {
+            // Act
+            var entity = CreateEntity();
+
+            // Assert
+            Assert.AreEqual(entity.GetTypeName(), ExpectedTypeName, "Entity type name did not match.");
         }
 
         [TestMethod]
