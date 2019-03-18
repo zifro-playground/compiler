@@ -25,6 +25,23 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
             Assert.AreEqual(entity.ClassName, ExpectedClassName, "Entity class name did not match.");
         }
 
+        [TestMethod]
+        public void ToStringTest()
+        {
+            // Arrange
+            var entity = CreateEntity();
+
+            string expected = string.Format(Localized_Python3_Entities.Type_Type_ToString,
+                /* {0} */ ExpectedClassName
+            );
+
+            // Act
+            var result = entity.ToString();
+
+            // Assert
+            Assert.AreEqual(expected, result, $"From: {typeof(T).Name}.ToString()");
+        }
+
         #region Redefine tests
 
         // Some testing libraries only check 1 deep in inheritance for tests
