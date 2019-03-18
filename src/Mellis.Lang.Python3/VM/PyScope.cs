@@ -17,6 +17,11 @@ namespace Mellis.Lang.Python3.VM
 
         public IReadOnlyDictionary<string, IScriptType> Variables => _variables;
 
+        internal void SetVariableNoCopyUsingName(IScriptType value)
+        {
+            _variables[value.Name] = value;
+        }
+
         internal void SetVariable(string key, IScriptType value)
         {
             _variables[key] = value.Copy(key);

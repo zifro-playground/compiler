@@ -6,7 +6,9 @@ using Antlr4.Runtime.Sharpen;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mellis.Core.Entities;
 using Mellis.Core.Interfaces;
+using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Entities;
+using Mellis.Lang.Python3.Entities.Classes;
 using Mellis.Lang.Python3.VM;
 using Moq;
 
@@ -222,6 +224,55 @@ namespace Mellis.Lang.Python3.Tests
             IScriptType y = processor.GetVariable("y");
             Assert.IsInstanceOfType(y, typeof(PyString));
             Assert.AreEqual("inge print än", ((PyString)y).Value);
+
+            Assert.AreEqual(ProcessState.Ended, processor.State);
+            errorCatcher.AssertNoErrors();
+        }
+
+        [TestMethod]
+        public void ProcessP5Test()
+        {
+            /*
+                x = "NaN"
+                y = x * int("5")
+                z = y + " " + str(float(x))
+
+                a = type(z)
+                b = a(float(1))
+
+             */
+
+            // Arrange
+            const string code = "x = 'NaN'\n" +
+                                "y = x * int('5')\n" +
+                                "z = y + ' ' + str(float(x))\n" +
+                                "a = type(z)\n" +
+                                "b = a(float(1))";
+
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
+
+            // Act
+            do
+            {
+                processor.WalkLine();
+            } while (processor.State == ProcessState.Running);
+
+            // Assert
+            IScriptType x = processor.GetVariable("x");
+            Assert.That.ScriptTypeEqual("NaN", x);
+
+            IScriptType y = processor.GetVariable("y");
+            Assert.That.ScriptTypeEqual("NaNNaNNaNNaNNaN", y);
+
+            string nan = Localized_Base_Entities.Type_Double_NaN;
+            IScriptType z = processor.GetVariable("z");
+            Assert.That.ScriptTypeEqual("NaNNaNNaNNaNNaN " + nan, z);
+
+            IScriptType a = processor.GetVariable("a");
+            Assert.IsInstanceOfType(a, typeof(PyStringType));
+
+            IScriptType b = processor.GetVariable("b");
+            Assert.That.ScriptTypeEqual("1.0", b);
 
             Assert.AreEqual(ProcessState.Ended, processor.State);
             errorCatcher.AssertNoErrors();
