@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Entities;
@@ -6,7 +7,7 @@ using Mellis.Lang.Python3.Resources;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyEnumeratorWrapper : ScriptTypeBase
+    public class PyEnumeratorWrapper : ScriptTypeBase, IEnumerator<IScriptType>
     {
         public IScriptType SourceType { get; }
         public IEnumerator<IScriptType> Enumerator { get; }
@@ -55,5 +56,28 @@ namespace Mellis.Lang.Python3.Entities
                 SourceType.GetTypeName()
             );
         }
+
+        #region IEnumerator<IScriptType> delegation
+
+        void IDisposable.Dispose()
+        {
+            Enumerator.Dispose();
+        }
+        
+        bool IEnumerator.MoveNext()
+        {
+            return Enumerator.MoveNext();
+        }
+
+        void IEnumerator.Reset()
+        {
+            Enumerator.Reset();
+        }
+
+        IScriptType IEnumerator<IScriptType>.Current => Enumerator.Current;
+
+        object IEnumerator.Current => ((IEnumerator)Enumerator).Current;
+
+        #endregion
     }
 }

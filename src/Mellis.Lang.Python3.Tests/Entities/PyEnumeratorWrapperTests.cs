@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Entities;
@@ -59,6 +60,98 @@ namespace Mellis.Lang.Python3.Tests.Entities
                 Localized_Python3_Entities.Type_Enumerator_ToString,
                 sourceTypeName
             ));
+        }
+
+        [TestMethod]
+        public void WrapsEnumMoveNext()
+        {
+            // Arrange
+            var enumMock = new Mock<IEnumerator<IScriptType>>();
+            enumMock.Setup(o => o.MoveNext())
+                .Returns(false).Verifiable();
+
+            var entity = (IEnumerator)CreateEntity(enumMock.Object);
+
+            // Act
+            entity.MoveNext();
+
+            // Assert
+            enumMock.Verify();
+        }
+
+        [TestMethod]
+        public void WrapsEnumCurrentGeneric()
+        {
+            // Arrange
+            var current = Mock.Of<IScriptType>();
+
+            var enumMock = new Mock<IEnumerator<IScriptType>>();
+            enumMock.SetupGet(o => o.Current)
+                .Returns(current).Verifiable();
+
+            var entity = (IEnumerator<IScriptType>)CreateEntity(enumMock.Object);
+
+            // Act
+            var result = entity.Current;
+
+            // Assert
+            Assert.AreSame(current, result);
+            enumMock.Verify();
+        }
+
+        [TestMethod]
+        public void WrapsEnumCurrent()
+        {
+            // Arrange
+            var current = Mock.Of<IScriptType>();
+
+            var enumMock = new Mock<IEnumerator<IScriptType>>();
+
+            enumMock.As<IEnumerator>().SetupGet(o => o.Current)
+                .Returns(current).Verifiable();
+
+            var entity = (IEnumerator)CreateEntity(enumMock.Object);
+
+            // Act
+            var result = entity.Current;
+
+            // Assert
+            Assert.AreSame(current, result);
+            enumMock.Verify();
+        }
+
+        [TestMethod]
+        public void WrapsEnumDispose()
+        {
+            // Arrange
+            var enumMock = new Mock<IEnumerator<IScriptType>>();
+            enumMock.Setup(o => o.Dispose())
+                .Verifiable();
+
+            var entity = (IEnumerator<IScriptType>)CreateEntity(enumMock.Object);
+
+            // Act
+            entity.Dispose();
+
+            // Assert
+            enumMock.Verify();
+        }
+
+        [TestMethod]
+        public void WrapsEnumReset()
+        {
+            // Arrange
+            var enumMock = new Mock<IEnumerator<IScriptType>>();
+            enumMock.Setup(o => o.Reset())
+                .Verifiable();
+
+            var entity = (IEnumerator)CreateEntity(enumMock.Object);
+
+            // Act
+            entity.Reset();
+
+            // Assert
+            enumMock.Verify();
         }
     }
 }
