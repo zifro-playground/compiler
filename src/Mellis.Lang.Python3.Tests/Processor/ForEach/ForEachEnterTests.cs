@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
+using Mellis.Lang.Base.Resources;
+using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Instructions;
+using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.VM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -92,9 +95,10 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
 
             // Assert
             var result = processor.PopValue();
-            Assert.IsInstanceOfType(result, typeof(IEnumerator<IScriptType>));
-
-            // TODO: Check that {result} is wrapper of {setup.EnumeratorMock.Object}
+            Assert.IsInstanceOfType(result, typeof(PyEnumeratorWrapper));
+            var resultWrapper = (PyEnumeratorWrapper)result;
+            Assert.AreSame(setup.ValueMock.Object, resultWrapper.SourceType);
+            Assert.AreSame(setup.EnumeratorMock.Object, resultWrapper.Enumerator);
 
             setup.Verify();
         }
@@ -123,7 +127,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
-                "todo: add key",
+                nameof(Localized_Python3_Runtime.Ex_ForEach_NotIterable),
                 typeName);
 
             setup.Verify();

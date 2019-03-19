@@ -61,6 +61,15 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Värdetypen &apos;{0}&apos; kan inte itereras..
+        /// </summary>
+        internal static string Ex_ForEach_NotIterable {
+            get {
+                return ResourceManager.GetString("Ex_ForEach_NotIterable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Metoden &apos;{0}&apos; tar inga argument..
         /// </summary>
         internal static string Ex_Invoke_TakesNoArguments {
