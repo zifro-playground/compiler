@@ -7,10 +7,10 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "Mellis.Lang.Base/0.1.7": {
+      "Mellis.Lang.Base/0.1.7.1": {
         "dependencies": {
-          "Mellis.Core": "0.1.7",
-          "Mellis.Tools": "0.1.7",
+          "Mellis.Core": "0.1.7.1",
+          "Mellis.Tools": "0.1.7.1",
           "NETStandard.Library": "2.0.3"
         },
         "runtime": {
@@ -23,14 +23,14 @@
           "Microsoft.NETCore.Platforms": "1.1.0"
         }
       },
-      "Mellis.Core/0.1.7": {
+      "Mellis.Core/0.1.7.1": {
         "runtime": {
           "Mellis.Core.dll": {}
         }
       },
-      "Mellis.Tools/0.1.7": {
+      "Mellis.Tools/0.1.7.1": {
         "dependencies": {
-          "Mellis.Core": "0.1.7"
+          "Mellis.Core": "0.1.7.1"
         },
         "runtime": {
           "Mellis.Tools.dll": {}
@@ -39,7 +39,7 @@
     }
   },
   "libraries": {
-    "Mellis.Lang.Base/0.1.7": {
+    "Mellis.Lang.Base/0.1.7.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -58,12 +58,12 @@
       "path": "netstandard.library/2.0.3",
       "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
     },
-    "Mellis.Core/0.1.7": {
+    "Mellis.Core/0.1.7.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Mellis.Tools/0.1.7": {
+    "Mellis.Tools/0.1.7.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
