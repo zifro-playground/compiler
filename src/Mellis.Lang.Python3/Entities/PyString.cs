@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Entities;
+using Mellis.Lang.Python3.Entities.Classes;
 using Mellis.Lang.Python3.Syntax.Literals;
 
 namespace Mellis.Lang.Python3.Entities
@@ -21,7 +22,7 @@ namespace Mellis.Lang.Python3.Entities
         /// <inheritdoc />
         public override IScriptType GetTypeDef()
         {
-            throw new System.NotImplementedException();
+            return new PyStringType(Processor);
         }
 
         public override IScriptType ArithmeticMultiply(IScriptType rhs)

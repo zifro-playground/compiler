@@ -11,7 +11,7 @@ namespace Mellis.Core.Interfaces
     /// This can be turned into a value via <seealso cref="IScriptTypeFactory.Create(IClrYieldingFunction)"/>.
     /// </para>
     /// </summary>
-    public interface IClrYieldingFunction : IClrFunction
+    public interface IClrYieldingFunction : IEmbeddedType
     {
         /// <summary>
         /// Executed by the processor when the yielding function is entered in the script environment.

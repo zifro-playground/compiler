@@ -24,6 +24,8 @@ namespace Mellis.Lang.Python3.VM
             _builtins = new PyScope(null);
             _globalScope = new PyScope(_builtins);
             _callStacks = new Stack<CallStack>();
+
+            AddBuiltinsInternal();
         }
 
         public IScriptTypeFactory Factory { get; }

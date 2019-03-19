@@ -8,7 +8,7 @@ namespace Mellis.Lang.Base.Entities
     public abstract class ScriptTypeBase : IScriptType
     {
         /// <inheritdoc/>
-        public IProcessor Processor { get; }
+        public IProcessor Processor { get; internal set; }
 
         /// <inheritdoc/>
         public string Name { get; }

@@ -117,11 +117,35 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Ex_Invoke_TakesNoArguments" xml:space="preserve">
+    <value>Metoden '{0}' tar inga argument.</value>
+    <comment>Invokation on method that takes no positional arguments.
+{0} function name</comment>
+  </data>
+  <data name="Ex_Invoke_TooFewArguments" xml:space="preserve">
+    <value>Metoden '{0}' kan som minst ta emot {1}st argument men fick {2}st.</value>
+    <comment>Invokation was met with not enough arguments.
+{0} function name
+{1} minimum number of args
+{2} actual number of args</comment>
+  </data>
+  <data name="Ex_Invoke_TooManyArguments" xml:space="preserve">
+    <value>Metoden '{0}' kan som mest ta emot {1}st argument men fick {2}st.</value>
+    <comment>Invokation was met with too many arguments.
+{0} function name
+{1} maximum number of args
+{2} actual number of args</comment>
+  </data>
   <data name="Ex_StackOverflow" xml:space="preserve">
     <value>Gick inte att köra funktionen '{0}'. Nådde gränsen för staplade funktionsanrop ({1}).</value>
     <comment>Allocation of another call stack failed in an invokation due to too many calls already on the stack.
 {0} name of invoked function
 {1} call stack limit</comment>
+  </data>
+  <data name="Ex_Type_CannotInstantiate" xml:space="preserve">
+    <value>Kan inte skapa '{0}' instanser.</value>
+    <comment>Constructor of type that cannot be instantiated was invoked. Typical example is the function type.
+{0} type name</comment>
   </data>
   <data name="Ex_Variable_NotDefined" xml:space="preserve">
     <value>Finns ingen variabel med namn '{0}' definierad.</value>

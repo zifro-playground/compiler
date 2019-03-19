@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
+using System.Linq;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Entities;
+using Mellis.Lang.Python3.Entities.Classes;
 
 namespace Mellis.Lang.Python3.Entities
 {
@@ -20,12 +22,16 @@ namespace Mellis.Lang.Python3.Entities
         /// <inheritdoc />
         public override IScriptType GetTypeDef()
         {
-            throw new System.NotImplementedException();
+            return new PyDoubleType(Processor);
         }
 
         public override string ToString()
         {
-            return Value.ToString(CultureInfo.InvariantCulture);
+            string s = base.ToString();
+            
+            return s.All(char.IsDigit)
+                ? s + ".0"
+                : s;
         }
     }
 }

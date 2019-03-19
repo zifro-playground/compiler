@@ -493,7 +493,7 @@ namespace Mellis.Lang.Base.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to funktion.
+        ///   Looks up a localized string similar to inbyggd funktion.
         /// </summary>
         public static string Type_ClrFunction_Name {
             get {
@@ -516,6 +516,33 @@ namespace Mellis.Lang.Base.Resources {
         public static string Type_Double_Name {
             get {
                 return ResourceManager.GetString("Type_Double_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to inte-ett-tal.
+        /// </summary>
+        public static string Type_Double_NaN {
+            get {
+                return ResourceManager.GetString("Type_Double_NaN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -∞.
+        /// </summary>
+        public static string Type_Double_NegInfinity {
+            get {
+                return ResourceManager.GetString("Type_Double_NegInfinity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ∞.
+        /// </summary>
+        public static string Type_Double_PosInfinity {
+            get {
+                return ResourceManager.GetString("Type_Double_PosInfinity", resourceCulture);
             }
         }
         

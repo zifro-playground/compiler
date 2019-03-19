@@ -2,6 +2,7 @@
 using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
+using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Interfaces;
@@ -36,16 +37,21 @@ namespace Mellis.Lang.Python3.Instructions
             // Get value to call
             IScriptType function = processor.PopValue();
 
-            if (function is PyClrFunction clrFunction)
+            if (function is IClrYieldingFunction yielding)
             {
-                if (clrFunction.Definition is IClrYieldingFunction yielding)
-                    CallYieldingClr(processor, arguments, yielding);
-                else
-                    CallClr(processor, arguments, clrFunction.Definition);
+                CallYieldingClr(processor, arguments, yielding);
+            }
+            else if (function is IClrFunction clrFunction)
+            {
+                CallClr(processor, arguments, clrFunction);
             }
             else
             {
-                throw new SyntaxNotYetImplementedExceptionKeyword(Source, "user function");
+                throw new RuntimeException(
+                    nameof(Localized_Base_Entities.Ex_Base_Invoke),
+                    Localized_Base_Entities.Ex_Base_Invoke,
+                    function.GetTypeName()
+                );
             }
         }
 

@@ -166,7 +166,7 @@ namespace Mellis.Lang.Python3.Tests
             ArgumentsList expectedArgumentsList)
         {
             Assert.IsInstanceOfType(result, typeof(FunctionCall));
-            var resultFunc = (FunctionCall)result;
+            var resultFunc = (FunctionCall) result;
             Assert.AreSame(expectedArgumentsList, resultFunc.Arguments, "Function call arguments did not match.");
             return resultFunc.Operand;
         }
@@ -179,13 +179,15 @@ namespace Mellis.Lang.Python3.Tests
             InterpreterLocalizedException exception, string expectedLocalizedKey,
             params object[] expectedArgs)
         {
-            Assert.AreEqual(expectedLocalizedKey, exception.LocalizeKey);
+            Assert.AreEqual(expectedLocalizedKey, exception.LocalizeKey, "\n\n" + exception);
 
-            Assert.AreEqual(expectedArgs.Length, exception.FormatArgs.Length, $"relevant key: {expectedLocalizedKey}");
             for (var i = 0; i < expectedArgs.Length; i++)
             {
-                Assert.AreEqual(expectedArgs[i], exception.FormatArgs[i], $"index: {i}");
+                Assert.AreEqual(expectedArgs[i], exception.FormatArgs[i], $"index: {i}\n\n{exception}");
             }
+
+            Assert.AreEqual(expectedArgs.Length, exception.FormatArgs.Length,
+                $"Format args count differs. Relevant key: {expectedLocalizedKey}\n\n{exception}");
         }
 
         /// <summary>

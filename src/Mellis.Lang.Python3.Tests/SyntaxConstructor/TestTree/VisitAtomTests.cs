@@ -38,6 +38,8 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         [DataRow(Python3Parser.NUMBER, "3.14", typeof(LiteralDouble))]
         [DataRow(Python3Parser.NUMBER, "0x10", typeof(LiteralInteger))] // hex
         [DataRow(Python3Parser.NUMBER, "1e10", typeof(LiteralDouble))] // sci-notation
+        [DataRow(Python3Parser.NUMBER, "0o10", typeof(LiteralInteger))] // oct
+        [DataRow(Python3Parser.NUMBER, "0b10", typeof(LiteralInteger))] // bin
         [DataRow(Python3Parser.STRING, "\"foo\"", typeof(LiteralString))]
         [DataRow(Python3Parser.STRING, "'foo'", typeof(LiteralString))]
         [DataRow(Python3Parser.STRING, "'foo\\'bar'", typeof(LiteralString))]
@@ -88,8 +90,6 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         }
 
         [DataTestMethod]
-        [DataRow(Python3Parser.NUMBER, "0o10")] // oct
-        [DataRow(Python3Parser.NUMBER, "0b10")] // bin
         [DataRow(Python3Parser.NUMBER, "1j")] // complex
         [DataRow(Python3Parser.STRING, "u'foo'")] // unicode
         [DataRow(Python3Parser.STRING, "b'foo'")] // bytes

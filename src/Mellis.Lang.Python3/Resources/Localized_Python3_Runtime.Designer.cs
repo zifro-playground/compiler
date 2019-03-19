@@ -61,11 +61,47 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Metoden &apos;{0}&apos; tar inga argument..
+        /// </summary>
+        internal static string Ex_Invoke_TakesNoArguments {
+            get {
+                return ResourceManager.GetString("Ex_Invoke_TakesNoArguments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Metoden &apos;{0}&apos; kan som minst ta emot {1}st argument men fick {2}st..
+        /// </summary>
+        internal static string Ex_Invoke_TooFewArguments {
+            get {
+                return ResourceManager.GetString("Ex_Invoke_TooFewArguments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Metoden &apos;{0}&apos; kan som mest ta emot {1}st argument men fick {2}st..
+        /// </summary>
+        internal static string Ex_Invoke_TooManyArguments {
+            get {
+                return ResourceManager.GetString("Ex_Invoke_TooManyArguments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gick inte att köra funktionen &apos;{0}&apos;. Nådde gränsen för staplade funktionsanrop ({1})..
         /// </summary>
         internal static string Ex_StackOverflow {
             get {
                 return ResourceManager.GetString("Ex_StackOverflow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kan inte skapa &apos;{0}&apos; instanser..
+        /// </summary>
+        internal static string Ex_Type_CannotInstantiate {
+            get {
+                return ResourceManager.GetString("Ex_Type_CannotInstantiate", resourceCulture);
             }
         }
         
