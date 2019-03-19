@@ -1,6 +1,7 @@
 # _ZIFRO_ Mellis compiler
 
-[![CircleCI](https://circleci.com/gh/zardan/compiler.svg?style=shield&circle-token=090fd143127fcca28aafb97937154c875e7dab5c)](https://circleci.com/gh/zardan/compiler)
+[![CircleCI branch: rework](https://img.shields.io/circleci/token/32eed7ac8019c96700eeb31e7feacc00b57d3899/project/github/zardan/compiler/rework.svg?label=%2Frework&logo=circleci)](https://circleci.com/gh/zardan/compiler)
+[![CircleCI branch: all](https://img.shields.io/circleci/token/32eed7ac8019c96700eeb31e7feacc00b57d3899/project/github/zardan/compiler.svg?label=%2Fall&logo=circleci)](https://circleci.com/gh/zardan/compiler)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ce4b06e6b3c243d29cb25ed8462980ae?branch=rework)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=zardan/compiler&amp;utm_campaign=Badge_Grade)
 
 Mellis is a code library to allow compilation and code-walking of scripting languages such as Python.
