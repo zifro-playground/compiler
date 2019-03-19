@@ -39,6 +39,7 @@ namespace Mellis.Lang.Python3.Instructions
             }
 
             processor.PushValue(enumeratorScriptType);
+            processor.PushDisposable(enumerator);
         }
 
         public override string ToString()

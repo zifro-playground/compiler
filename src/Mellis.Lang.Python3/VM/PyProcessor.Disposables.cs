@@ -40,7 +40,7 @@ namespace Mellis.Lang.Python3.VM
             }
         }
 
-        public int DisposablesCount => _disposables.Count;
+        internal int DisposablesCount => _disposables.Count;
 
         internal void PushDisposable(IDisposable disposable)
         {

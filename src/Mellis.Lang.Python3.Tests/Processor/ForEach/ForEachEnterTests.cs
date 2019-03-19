@@ -6,6 +6,7 @@ using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Resources;
+using Mellis.Lang.Python3.Tests.TestingOps;
 using Mellis.Lang.Python3.VM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -98,13 +99,30 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
         }
 
         [TestMethod]
-        public void CallsDisposeOnError()
+        public void EnterAddsToDisposables()
         {
             // Arrange
-            
+            var processor = new PyProcessor(
+                new ForEachEnter(SourceReference.ClrSource),
+                new NopOp()
+            );
+
+            var setup = new IteratorSetup();
+            setup.SetupEnumeratorIsIScriptType();
+            setup.SetupGetEnumerator();
+
+            processor.PushValue(setup.ValueMock.Object);
+
             // Act
+            processor.WalkInstruction(); // warmup
+            processor.WalkInstruction();
 
             // Assert
+            Assert.AreEqual(1, processor.DisposablesCount);
+            var disposable = processor.PopDisposable();
+            Assert.AreSame(setup.EnumeratorMock.Object, disposable);
+
+            setup.VerifyAll();
         }
     }
 }
