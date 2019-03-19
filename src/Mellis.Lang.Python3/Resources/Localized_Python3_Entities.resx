@@ -182,6 +182,15 @@
     <comment>Ex: int("2147483648"), also true for neg numbers.
 {0} quoted &amp; escaped string</comment>
   </data>
+  <data name="Type_Enumerator_Name" xml:space="preserve">
+    <value>iterator</value>
+    <comment>Name of IEnumerator wrapper.</comment>
+  </data>
+  <data name="Type_Enumerator_ToString" xml:space="preserve">
+    <value>&lt;iterator för klass '{0}'&gt;</value>
+    <comment>String representation of a 'IEnumerator' wrapper.
+{0} localized type name of wrapped type, ex: `Type_String_Name`</comment>
+  </data>
   <data name="Type_Type_Name" xml:space="preserve">
     <value>typ</value>
     <comment>Name of class 'type'.</comment>

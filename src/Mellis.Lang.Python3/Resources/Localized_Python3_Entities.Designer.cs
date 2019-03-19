@@ -187,6 +187,24 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to iterator.
+        /// </summary>
+        internal static string Type_Enumerator_Name {
+            get {
+                return ResourceManager.GetString("Type_Enumerator_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;iterator för klass &apos;{0}&apos;&gt;.
+        /// </summary>
+        internal static string Type_Enumerator_ToString {
+            get {
+                return ResourceManager.GetString("Type_Enumerator_ToString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to typ.
         /// </summary>
         internal static string Type_Type_Name {
