@@ -97,6 +97,15 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Internt fel. Det låg fel iterator på släng högen..
+        /// </summary>
+        internal static string Ex_ForEach_ExitNotSameDisposable {
+            get {
+                return ResourceManager.GetString("Ex_ForEach_ExitNotSameDisposable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Koden har redan kört klart..
         /// </summary>
         internal static string Ex_Process_Ended {

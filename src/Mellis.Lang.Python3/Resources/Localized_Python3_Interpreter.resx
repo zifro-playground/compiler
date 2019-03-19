@@ -170,4 +170,8 @@
     <value>Internt fel. Sista värdet efter iterationen var av fel typ.</value>
     <comment>Occurs on op-code ForEachExit but top value on value stack is not of type IEnumerator.</comment>
   </data>
+  <data name="Ex_ForEach_ExitNotSameDisposable" xml:space="preserve">
+    <value>Internt fel. Det låg fel iterator på släng högen.</value>
+    <comment>Occurs on op-code ForEachExit that pops top disposable, expecting same as IEnumerator, but was not.</comment>
+  </data>
 </root>

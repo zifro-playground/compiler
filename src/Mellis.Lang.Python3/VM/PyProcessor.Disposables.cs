@@ -51,5 +51,10 @@ namespace Mellis.Lang.Python3.VM
         {
             return _disposables.Pop();
         }
+
+        internal IDisposable PeekDisposable()
+        {
+            return _disposables.Peek();
+        }
     }
 }
