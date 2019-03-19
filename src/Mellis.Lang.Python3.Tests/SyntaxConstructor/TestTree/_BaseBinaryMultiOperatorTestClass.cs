@@ -8,10 +8,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Moq.Language.Flow;
 using Mellis.Core.Exceptions;
-using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Grammar;
 using Mellis.Lang.Python3.Syntax;
-using Mellis.Lang.Python3.Syntax.Operators;
 
 // ReSharper disable ConvertToLocalFunction
 // ReSharper disable SuggestVarOrType_Elsewhere

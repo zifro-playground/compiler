@@ -1,11 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mellis.Core.Entities;
-using Mellis.Core.Exceptions;
-using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Instructions;
-using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.Tests.TestingOps;
 
 namespace Mellis.Lang.Python3.Tests.Processor

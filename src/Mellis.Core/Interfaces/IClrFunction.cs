@@ -1,6 +1,4 @@
-﻿using Mellis.Core.Entities;
-
-namespace Mellis.Core.Interfaces
+﻿namespace Mellis.Core.Interfaces
 {
     public interface IClrFunction : IEmbeddedType
     {

@@ -4,7 +4,6 @@ using Moq;
 using Mellis.Core.Exceptions;
 using Mellis.Lang.Python3.Grammar;
 using Mellis.Lang.Python3.Syntax;
-using Mellis.Lang.Python3.Syntax.Operators;
 using Mellis.Lang.Python3.Syntax.Operators.Logicals;
 
 // ReSharper disable SuggestVarOrType_SimpleTypes

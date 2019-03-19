@@ -1,5 +1,4 @@
-﻿using System;
-using Mellis.Core.Entities;
+﻿using Mellis.Core.Entities;
 using Mellis.Core.Resources;
 
 namespace Mellis.Core.Exceptions

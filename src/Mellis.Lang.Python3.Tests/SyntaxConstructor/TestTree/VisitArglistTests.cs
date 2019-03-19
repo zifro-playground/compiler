@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Antlr4.Runtime.Tree;
 using Mellis.Core.Exceptions;
 using Mellis.Lang.Python3.Grammar;

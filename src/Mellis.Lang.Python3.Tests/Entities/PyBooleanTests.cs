@@ -2,7 +2,6 @@
 using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Entities.Classes;
-using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.VM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

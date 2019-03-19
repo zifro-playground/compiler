@@ -1,7 +1,4 @@
-﻿using System;
-using Mellis.Core.Entities;
-using Mellis.Core.Interfaces;
-using Mellis.Lang.Python3.Interfaces;
+﻿using Mellis.Core.Entities;
 
 namespace Mellis.Lang.Python3.Instructions
 {

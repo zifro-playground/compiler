@@ -2,7 +2,6 @@
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Instructions;
-using Mellis.Lang.Python3.Syntax.Literals;
 using Mellis.Lang.Python3.Tests.TestingOps;
 using Mellis.Lang.Python3.VM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

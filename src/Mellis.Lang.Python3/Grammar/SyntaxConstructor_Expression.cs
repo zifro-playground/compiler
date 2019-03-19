@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Extensions;
-using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.Syntax;
 using Mellis.Lang.Python3.Syntax.Literals;
 using Mellis.Lang.Python3.Syntax.Operators;

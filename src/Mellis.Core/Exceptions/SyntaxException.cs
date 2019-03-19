@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Mellis.Core.Entities;
 
 namespace Mellis.Core.Exceptions

@@ -1,5 +1,4 @@
-﻿using System;
-using Antlr4.Runtime.Tree;
+﻿using Antlr4.Runtime.Tree;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mellis.Core.Exceptions;
 using Mellis.Lang.Python3.Exceptions;

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
-using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Resources;

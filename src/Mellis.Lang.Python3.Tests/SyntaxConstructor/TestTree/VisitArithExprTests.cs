@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Antlr4.Runtime.Tree;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Moq.Language.Flow;
 using Mellis.Lang.Python3.Grammar;
 using Mellis.Lang.Python3.Syntax;
-using Mellis.Lang.Python3.Syntax.Operators;
 using Mellis.Lang.Python3.Syntax.Operators.Arithmetics;
-using Mellis.Lang.Python3.Syntax.Operators.Binaries;
 
 namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
 {

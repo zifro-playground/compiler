@@ -1,5 +1,4 @@
-﻿using Mellis.Core.Entities;
-using Mellis.Lang.Python3.Instructions;
+﻿using Mellis.Lang.Python3.Instructions;
 
 namespace Mellis.Lang.Python3.Syntax.Statements
 {

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Mellis.Core.Entities;
+﻿using Mellis.Core.Entities;
 using Mellis.Lang.Python3.Instructions;
 
 namespace Mellis.Lang.Python3.Syntax

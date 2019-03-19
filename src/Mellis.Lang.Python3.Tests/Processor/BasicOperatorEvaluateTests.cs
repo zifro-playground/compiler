@@ -3,7 +3,6 @@ using System.Linq.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mellis.Core.Entities;
-using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Extensions;

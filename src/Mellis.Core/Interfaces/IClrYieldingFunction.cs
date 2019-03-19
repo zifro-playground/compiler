@@ -1,6 +1,4 @@
-﻿using Mellis.Core.Entities;
-
-namespace Mellis.Core.Interfaces
+﻿namespace Mellis.Core.Interfaces
 {
     /// <summary>
     /// Used to define function calls that yields the execution mid-function,

@@ -1,5 +1,4 @@
-﻿using Mellis.Core.Entities;
-using Mellis.Core.Interfaces;
+﻿using Mellis.Core.Interfaces;
 
 namespace Mellis
 {

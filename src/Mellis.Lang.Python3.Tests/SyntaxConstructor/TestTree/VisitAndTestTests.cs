@@ -1,13 +1,9 @@
-﻿using System;
-using Antlr4.Runtime.Tree;
+﻿using Antlr4.Runtime.Tree;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Moq.Language.Flow;
-using Mellis.Core.Exceptions;
-using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Grammar;
 using Mellis.Lang.Python3.Syntax;
-using Mellis.Lang.Python3.Syntax.Operators;
 using Mellis.Lang.Python3.Syntax.Operators.Logicals;
 
 // ReSharper disable ConvertToLocalFunction

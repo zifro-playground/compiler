@@ -1,5 +1,4 @@
-﻿using System;
-using Mellis.Core.Interfaces;
+﻿using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.VM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

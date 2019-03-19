@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Antlr4.Runtime.Tree;
+﻿using Antlr4.Runtime.Tree;
 using Mellis.Core.Exceptions;
 using Mellis.Lang.Python3.Exceptions;
-using Mellis.Lang.Python3.Extensions;
 using Mellis.Lang.Python3.Grammar;
 using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.Syntax;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
 namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
 {

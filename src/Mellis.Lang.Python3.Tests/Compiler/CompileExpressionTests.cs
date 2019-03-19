@@ -2,8 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mellis.Core.Entities;
-using Mellis.Core.Exceptions;
-using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Resources;
