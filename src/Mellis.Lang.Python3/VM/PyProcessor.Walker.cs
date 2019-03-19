@@ -162,22 +162,11 @@ namespace Mellis.Lang.Python3.VM
                             }
                         }
                     }
-                    catch (InterpreterException ex)
-                    {
-                        State = ProcessState.Error;
-                        LastError = ex;
-
-                        OnProcessEnded(State);
-                        throw;
-                    }
                     catch (Exception ex)
                     {
                         State = ProcessState.Error;
 
-                        LastError = new InterpreterLocalizedException(
-                            nameof(Localized_Python3_Interpreter.Ex_Unknown_Error),
-                            Localized_Python3_Interpreter.Ex_Unknown_Error,
-                            ex, ex.Message);
+                        LastError = ConvertException(ex);
 
                         OnProcessEnded(State);
                         throw LastError;

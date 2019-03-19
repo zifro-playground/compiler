@@ -19,7 +19,7 @@ namespace Mellis.Lang.Python3.Instructions
 
         public void Execute(PyProcessor processor)
         {
-            var value = processor.PopValue();
+            IScriptType value = processor.PopValue();
 
             if (!(value is IEnumerator<IScriptType> enumerator))
             {

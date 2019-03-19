@@ -96,5 +96,15 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
 
             valueMock.Verify();
         }
+
+        [TestMethod]
+        public void CallsDisposeOnError()
+        {
+            // Arrange
+            
+            // Act
+
+            // Assert
+        }
     }
 }

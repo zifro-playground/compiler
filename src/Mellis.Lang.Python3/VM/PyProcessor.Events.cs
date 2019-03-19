@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
@@ -15,6 +17,22 @@ namespace Mellis.Lang.Python3.VM
         protected virtual void OnProcessEnded(ProcessState e)
         {
             ProcessEnded?.Invoke(this, e);
+            
+            CheckForExitErrors(e);
+        }
+
+        private void CheckForExitErrors(ProcessState e)
+        {
+            try
+            {
+                DisposeAllDisposables();
+            }
+            catch (Exception ex)
+            {
+                State = ProcessState.Error;
+                LastError = ConvertException(ex);
+                throw LastError;
+            }
 
             // Only check on clean end, ignore if ended with error
             if (e == ProcessState.Error)
@@ -31,7 +49,7 @@ namespace Mellis.Lang.Python3.VM
 
                 State = ProcessState.Error;
                 LastError = ex;
-                
+
                 throw ex;
             }
 
@@ -53,5 +71,6 @@ namespace Mellis.Lang.Python3.VM
         {
             ScopeChanged?.Invoke(this, e);
         }
+
     }
 }

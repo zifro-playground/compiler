@@ -7,6 +7,8 @@ using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.Syntax.Literals;
 using Mellis.Lang.Python3.Tests.TestingOps;
+using Mellis.Lang.Python3.VM;
+using Moq;
 
 namespace Mellis.Lang.Python3.Tests.Processor
 {
@@ -17,7 +19,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void NoOpCodesNotStartedTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor();
+            var processor = new PyProcessor();
 
             // Assert
             Assert.AreEqual(ProcessState.NotStarted, processor.State);
@@ -28,7 +30,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void NoOpCodesStartedTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor();
+            var processor = new PyProcessor();
 
             // Act
             processor.WalkInstruction();
@@ -44,7 +46,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var expectedEx = new InternalException("", "");
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new ThrowingOp(expectedEx)
             );
 
@@ -64,7 +66,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var expectedEx = new Exception();
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new ThrowingOp(expectedEx)
             );
 
@@ -84,7 +86,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ErrorWalkAfterEndedTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor();
+            var processor = new PyProcessor();
 
             // Act
             processor.WalkInstruction();
@@ -101,7 +103,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ErrorWalkAfterErrorTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new ThrowingOp(new InternalException("", ""))
             );
 
@@ -121,7 +123,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void PushValuesTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new PushLiteral<int>(new LiteralInteger(SourceReference.ClrSource, 1)),
                 new PushLiteral<int>(new LiteralInteger(SourceReference.ClrSource, 2)),
                 new PushLiteral<int>(new LiteralInteger(SourceReference.ClrSource, 3))
@@ -150,7 +152,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void WalkLineManySameLineTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new NopOp {Source = new SourceReference(1, 1, 0, 0)},
                 new NopOp {Source = new SourceReference(1, 1, 1, 1)},
                 new NopOp {Source = new SourceReference(1, 1, 2, 2)},
@@ -170,7 +172,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void WalkInstructionManySameLineTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new NopOp {Source = new SourceReference(1, 1, 0, 0)},
                 new NopOp {Source = new SourceReference(1, 1, 1, 1)},
                 new NopOp {Source = new SourceReference(1, 1, 2, 2)},
@@ -190,7 +192,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void WalkLineOneSameLineTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new NopOp {Source = new SourceReference(1, 1, 0, 0)},
                 new NopOp {Source = new SourceReference(2, 2, 1, 1)},
                 new NopOp {Source = new SourceReference(2, 2, 2, 2)},
@@ -210,7 +212,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void WalkLineOneFollowedByClrTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new NopOp {Source = new SourceReference(1, 1, 0, 0)},
                 new NopOp {Source = SourceReference.ClrSource},
                 new NopOp {Source = SourceReference.ClrSource},
@@ -230,7 +232,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void WalkLineOneFirstIsClrTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new NopOp {Source = SourceReference.ClrSource},
                 new NopOp {Source = new SourceReference(1, 1, 1, 1)},
                 new NopOp {Source = new SourceReference(1, 1, 2, 2)},
@@ -250,7 +252,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void WalkLineAllSameLineTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new NopOp {Source = new SourceReference(2, 1, 0, 0)},
                 new NopOp {Source = new SourceReference(2, 2, 1, 1)},
                 new NopOp {Source = new SourceReference(2, 2, 2, 2)},
