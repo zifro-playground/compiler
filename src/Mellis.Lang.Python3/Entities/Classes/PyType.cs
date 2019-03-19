@@ -24,14 +24,18 @@ namespace Mellis.Lang.Python3.Entities.Classes
         public override IScriptType Invoke(IScriptType[] arguments)
         {
             if (arguments.Length > 1)
+            {
                 throw new RuntimeTooManyArgumentsException(
                     Localized_Python3_Entities.Type_Type_Name,
                     1, arguments.Length);
+            }
 
             if (arguments.Length < 1)
+            {
                 throw new RuntimeTooFewArgumentsException(
                     Localized_Python3_Entities.Type_Type_Name,
                     1, arguments.Length);
+            }
 
             return arguments[0].GetTypeDef();
         }

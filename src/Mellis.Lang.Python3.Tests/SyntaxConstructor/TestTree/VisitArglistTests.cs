@@ -50,7 +50,9 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
                 args[i * 2] = argMock.Object;
 
                 if (i < arguments.Length - 1 || trailingComma)
+                {
                     args[i * 2 + 1] = GetTerminal(Python3Parser.COMMA);
+                }
 
                 argMocks[i] = argMock;
             }

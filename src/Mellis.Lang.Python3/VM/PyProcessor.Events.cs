@@ -17,7 +17,10 @@ namespace Mellis.Lang.Python3.VM
             ProcessEnded?.Invoke(this, e);
 
             // Only check on clean end, ignore if ended with error
-            if (e == ProcessState.Error) return;
+            if (e == ProcessState.Error)
+            {
+                return;
+            }
 
             // Check if last scope was popped
             if (GlobalScope != CurrentScope)

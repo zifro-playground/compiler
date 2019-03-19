@@ -24,10 +24,14 @@ namespace Mellis.Lang.Python3.Entities.Classes
         public override IScriptType Invoke(IScriptType[] arguments)
         {
             if (arguments.Length == 0)
+            {
                 return Processor.Factory.False;
+            }
 
             if (arguments.Length > 1)
+            {
                 throw new RuntimeTooManyArgumentsException(ClassName, 1, arguments.Length);
+            }
 
             return arguments[0].IsTruthy()
                 ? Processor.Factory.True

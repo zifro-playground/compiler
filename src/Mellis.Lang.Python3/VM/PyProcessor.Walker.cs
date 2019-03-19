@@ -35,7 +35,7 @@ namespace Mellis.Lang.Python3.VM
                 );
             }
 
-            var callStack = PeekCallStack();
+            CallStack callStack = PeekCallStack();
 
             // Perform the exit invoke & return transformation
             returnValue = _currentYield.Definition.InvokeExit(_currentYield.Arguments,
@@ -91,7 +91,9 @@ namespace Mellis.Lang.Python3.VM
             {
                 // Initial is clr => walk until current is not clr
                 do
+                {
                     WalkInstruction();
+                }
                 while (GetRow(ProgramCounter) == null &&
                        State == ProcessState.Running &&
                        _numOfJumpsThisWalk < JUMPS_THRESHOLD);
@@ -99,7 +101,7 @@ namespace Mellis.Lang.Python3.VM
 
             int? GetRow(int i)
             {
-                var source = GetSourceReference(i);
+                SourceReference source = GetSourceReference(i);
                 return source.IsFromClr
                     ? (int?) null
                     : source.FromRow;
@@ -150,8 +152,10 @@ namespace Mellis.Lang.Python3.VM
                         else
                         {
                             if (ProgramCounter < _opCodes.Length)
-                                State = ProcessState.Running;
-                            else
+                        {
+                            State = ProcessState.Running;
+                        }
+                        else
                             {
                                 State = ProcessState.Ended;
                                 OnProcessEnded(State);
@@ -189,7 +193,9 @@ namespace Mellis.Lang.Python3.VM
         private SourceReference GetSourceReference(int opCodeIndex)
         {
             if (opCodeIndex >= 0 && opCodeIndex < _opCodes.Length)
+            {
                 return _opCodes[opCodeIndex].Source;
+            }
 
             return SourceReference.ClrSource;
         }

@@ -37,7 +37,9 @@ namespace Mellis.Lang.Python3.Grammar
                 .AsTypeOrThrow<ExpressionNode>();
 
             if (context.ChildCount == 1)
+            {
                 return new ExpressionStatement(firstExpr);
+            }
 
             IParseTree second = context.GetChild(1);
             switch (second)
@@ -112,18 +114,24 @@ namespace Mellis.Lang.Python3.Grammar
                 var rule = context.GetChildOrThrow<ParserRuleContext>(i);
 
                 if (result == null)
+                {
                     result = VisitTestOrStar(rule);
+                }
                 else
                 {
                     throw rule.NotYetImplementedException();
                 }
 
                 if (i + 1 < context.ChildCount)
+                {
                     context.GetChildOrThrow(i + 1, Python3Parser.COMMA);
+                }
             }
 
             if (result == null)
+            {
                 throw context.ExpectedChild();
+            }
 
             return result;
 
@@ -155,7 +163,10 @@ namespace Mellis.Lang.Python3.Grammar
             VisitChildren(context);
             var child = context.GetChild<ITerminalNode>(0);
             if (child != null)
+            {
                 throw context.NotYetImplementedException(child.Symbol.Text);
+            }
+
             throw context.NotYetImplementedException();
         }
 
@@ -164,7 +175,9 @@ namespace Mellis.Lang.Python3.Grammar
             // test: or_test ['if' or_test 'else' test] | lambdef
 
             if (context.ChildCount == 0)
+            {
                 throw context.ExpectedChild();
+            }
 
             var orTestOrLambda = context.GetChild(0);
             switch (orTestOrLambda)
@@ -189,10 +202,14 @@ namespace Mellis.Lang.Python3.Grammar
             SyntaxNode HandleOrTest(Python3Parser.Or_testContext orTest)
             {
                 if (context.ChildCount == 1)
+                {
                     return VisitOr_test(orTest);
+                }
 
                 if (context.ChildCount > 5)
+                {
                     throw context.UnexpectedChildType(context.GetChild(5));
+                }
 
                 // expecting: or_test 'if' or_test 'else' test
                 ITerminalNode ifNode = context.GetChildOrThrow(1, Python3Parser.IF);
@@ -263,9 +280,11 @@ namespace Mellis.Lang.Python3.Grammar
                     var nested = context.GetChildOrThrow<Python3Parser.Not_testContext>(1);
 
                     if (context.ChildCount > 2)
-                        throw context.UnexpectedChildType(context.GetChild(2));
+                {
+                    throw context.UnexpectedChildType(context.GetChild(2));
+                }
 
-                    var nestedExpr = VisitNot_test(nested)
+                var nestedExpr = VisitNot_test(nested)
                         .AsTypeOrThrow<ExpressionNode>();
 
                     return new LogicalNot(context.GetSourceReference(), nestedExpr);
@@ -313,25 +332,35 @@ namespace Mellis.Lang.Python3.Grammar
             IParseTree first = context.GetChild(0);
 
             if (first == null)
+            {
                 throw context.ExpectedChild();
+            }
 
             if (!(first is ITerminalNode term))
+            {
                 throw context.UnexpectedChildType(first);
+            }
 
             ComparisonType type = GetType(term.Symbol.Type);
 
             if (type == ComparisonType.InNot ||
                 type == ComparisonType.IsNot)
+            {
                 ThrowIfMoreThan(2);
+            }
             else
+            {
                 ThrowIfMoreThan(1);
+            }
 
             return new ComparisonFactory(type);
 
             void ThrowIfMoreThan(int count)
             {
                 if (context.ChildCount > count)
+                {
                     throw context.UnexpectedChildType(context.GetChild(count));
+                }
             }
 
             ComparisonType GetType(int symbolType)
@@ -610,13 +639,17 @@ namespace Mellis.Lang.Python3.Grammar
                 .AsTypeOrThrow<ExpressionNode>();
 
             if (context.ChildCount == 1)
+            {
                 return expr;
+            }
 
             context.GetChildOrThrow(1, Python3Parser.POWER);
             var factor = context.GetChildOrThrow<Python3Parser.FactorContext>(2);
 
             if (context.ChildCount > 3)
+            {
                 throw context.UnexpectedChildType(context.GetChild(3));
+            }
 
             var factorExpr = VisitFactor(factor)
                 .AsTypeOrThrow<ExpressionNode>();
@@ -824,12 +857,16 @@ namespace Mellis.Lang.Python3.Grammar
 
 #pragma warning disable 162
                 if (i + 1 < context.ChildCount)
+                {
                     context.GetChildOrThrow(i + 1, Python3Parser.COMMA);
+                }
 #pragma warning restore 162
             }
 
             if (result == null)
+            {
                 throw context.ExpectedChild();
+            }
 
             return result;
 
@@ -884,9 +921,11 @@ namespace Mellis.Lang.Python3.Grammar
                     context.ExpectClosingParenthesis(firstTerm, Python3Parser.CLOSE_BRACK);
                     // No inner subscription list
                     if (context.ChildCount == 2)
-                        throw context.ExpectedChild();
+                {
+                    throw context.ExpectedChild();
+                }
 
-                    context.GetChildOrThrow<Python3Parser.SubscriptlistContext>(1);
+                context.GetChildOrThrow<Python3Parser.SubscriptlistContext>(1);
                     throw context.NotYetImplementedException("[]");
 
                 // Property accessing
@@ -909,13 +948,17 @@ namespace Mellis.Lang.Python3.Grammar
             var exprList = new List<ExpressionNode>();
 
             if (context.ChildCount == 0)
+            {
                 throw context.ExpectedChild();
+            }
 
             for (var i = 0; i < context.ChildCount; i += 2)
             {
                 var argRule = context.GetChildOrThrow<Python3Parser.ArgumentContext>(i);
                 if (i + 1 < context.ChildCount)
+                {
                     context.GetChildOrThrow(i + 1, Python3Parser.COMMA);
+                }
 
                 var argExpr = VisitArgument(argRule)
                     .AsTypeOrThrow<ExpressionNode>();

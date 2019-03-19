@@ -66,7 +66,9 @@ namespace Mellis.Tools.Extensions
         public static IScriptType CreateAppropriate(this IScriptTypeFactory factory, double value)
         {
             if (Math.Abs(value) % 1 <= 1e-10)
+            {
                 return factory.Create((int)Math.Round(value));
+            }
 
             return factory.Create(value);
         }

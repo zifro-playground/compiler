@@ -45,10 +45,12 @@ namespace Mellis.Lang.Python3.VM
             PyScope scope = GetScopeWithVariableOrNull(key);
 
             if (scope == null)
+            {
                 throw new RuntimeException(
                     nameof(Localized_Python3_Runtime.Ex_Variable_NotDefined),
                     Localized_Python3_Runtime.Ex_Variable_NotDefined,
                     key);
+            }
 
             return scope.GetVariable(key);
         }
@@ -61,7 +63,9 @@ namespace Mellis.Lang.Python3.VM
             while (scope != null)
             {
                 if (scope.HasVariable(key))
+                {
                     return scope;
+                }
 
                 scope = (PyScope)scope.ParentScope;
             }

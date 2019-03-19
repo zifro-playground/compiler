@@ -28,17 +28,18 @@ namespace Mellis.Lang.Python3.Grammar
             {
                 SyntaxNode result = VisitStmt(child);
                 if (result is StatementList list)
+                {
                     statements.AddRange(list.Statements);
+                }
                 else
+                {
                     statements.Add((Statement) result);
+                }
             }
 
-            if (statements.Count == 1)
-            {
-                return statements[0];
-            }
-
-            return new StatementList(context.GetSourceReference(), statements);
+            return statements.Count == 1
+                ? statements[0]
+                : new StatementList(context.GetSourceReference(), statements);
         }
 
         public override SyntaxNode VisitEval_input(Python3Parser.Eval_inputContext context)

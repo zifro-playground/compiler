@@ -138,7 +138,9 @@ namespace Mellis.Lang.Base.Entities
         public override IScriptType CompareEqual(IScriptType rhs)
         {
             if (rhs is BooleanBase b && b.Value == Value)
+            {
                 return Processor.Factory.True;
+            }
 
             return Processor.Factory.False;
         }
@@ -147,7 +149,9 @@ namespace Mellis.Lang.Base.Entities
         public override IScriptType CompareNotEqual(IScriptType rhs)
         {
             if (rhs is BooleanBase b && b.Value == Value)
+            {
                 return Processor.Factory.False;
+            }
 
             return Processor.Factory.True;
         }

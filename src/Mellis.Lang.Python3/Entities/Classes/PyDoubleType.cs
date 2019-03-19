@@ -29,11 +29,15 @@ namespace Mellis.Lang.Python3.Entities.Classes
         public override IScriptType Invoke(IScriptType[] arguments)
         {
             if (arguments.Length > 1)
+            {
                 throw new RuntimeTooManyArgumentsException(
                     ClassName, 1, arguments.Length);
+            }
 
             if (arguments.Length == 0)
+            {
                 return new PyDouble(Processor, 0);
+            }
 
             IScriptType arg1 = arguments[0];
             switch (arg1)

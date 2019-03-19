@@ -15,8 +15,8 @@ namespace Mellis.Tools.Tests
     [TestClass]
     public class ScriptTypeFactoryExtensionsTests
     {
-        Mock<IScriptTypeFactory> factoryMock;
-        IScriptTypeFactory factoryObject;
+        private Mock<IScriptTypeFactory> factoryMock;
+        private IScriptTypeFactory factoryObject;
 
         [TestInitialize]
         public void TestInitialize()
@@ -116,9 +116,14 @@ namespace Mellis.Tools.Tests
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, expectedType);
             if (result is DoubleBase db)
+            {
                 Assert.AreEqual(expectedValue, db.Value, 1e-10);
+            }
+
             if (result is IntegerBase ib)
+            {
                 Assert.AreEqual(expectedValue, ib.Value);
+            }
         }
     }
 }

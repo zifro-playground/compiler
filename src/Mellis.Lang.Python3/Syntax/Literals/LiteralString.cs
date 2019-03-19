@@ -82,10 +82,12 @@ namespace Mellis.Lang.Python3.Syntax.Literals
             string GetQuotes()
             {
                 if (withoutModifiers.Length == 0)
+                {
                     throw new SyntaxLiteralFormatException(source);
+                }
 
                 char quote = withoutModifiers[0];
-                var longStringQuotes = new string(quote, 3);
+                string longStringQuotes = new string(quote, 3);
                 return withoutModifiers.StartsWith(longStringQuotes)
                     ? longStringQuotes
                     : quote.ToString();
@@ -98,7 +100,9 @@ namespace Mellis.Lang.Python3.Syntax.Literals
                 foreach (char c in text)
                 {
                     if (c == '"' || c == '\'')
+                    {
                         return builder.ToString();
+                    }
 
                     builder.Append(c);
                 }
@@ -115,7 +119,7 @@ namespace Mellis.Lang.Python3.Syntax.Literals
         {
             var builder = new StringBuilder(value.Length);
 
-            for (var i = 0; i < value.Length; i++)
+            for (int i = 0; i < value.Length; i++)
             {
                 char c = value[i];
                 if (c == '\\')
@@ -208,9 +212,13 @@ namespace Mellis.Lang.Python3.Syntax.Literals
                 {
                     char v = value[i];
                     if (v >= '0' && v <= '7')
+                    {
                         b.Append(v);
+                    }
                     else
+                    {
                         break;
+                    }
                 }
 
                 if (b.Length > 0)
@@ -238,12 +246,16 @@ namespace Mellis.Lang.Python3.Syntax.Literals
                     for (; i < value.Length && b.Length < 2; i++)
                     {
                         char v = value[i];
-                        if (v >= '0' && v <= '9' ||
-                            v >= 'a' && v <= 'f' ||
-                            v >= 'A' && v <= 'F')
+                        if ((v >= '0' && v <= '9') ||
+                            (v >= 'a' && v <= 'f') ||
+                            (v >= 'A' && v <= 'F'))
+                        {
                             b.Append(v);
+                        }
                         else
+                        {
                             break;
+                        }
                     }
 
                     if (b.Length > 0)
@@ -272,7 +284,7 @@ namespace Mellis.Lang.Python3.Syntax.Literals
 
             builder.Append(quote);
 
-            for (var i = 0; i < value.Length; i++)
+            for (int i = 0; i < value.Length; i++)
             {
                 char c = value[i];
 

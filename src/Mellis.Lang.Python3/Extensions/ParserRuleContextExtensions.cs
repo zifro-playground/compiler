@@ -25,9 +25,14 @@ namespace Mellis.Lang.Python3.Extensions
         {
 #if DEBUG
             if (context.Start == null)
+            {
                 throw new InterpreterException($"{Python3Parser.ruleNames[context.RuleIndex]}.Start == null");
+            }
+
             if (context.Stop == null)
+            {
                 throw new InterpreterException($"{Python3Parser.ruleNames[context.RuleIndex]}.Stop == null");
+            }
 #endif
             return new SourceReference(
                 fromRow: context.Start.Line, toRow: context.Stop.Line,
@@ -113,13 +118,21 @@ namespace Mellis.Lang.Python3.Extensions
         public static ITerminalNode GetChildOrThrow(this ParserRuleContext context, int index, int expectedType)
         {
             if (index >= context.ChildCount)
+            {
                 throw context.ExpectedChild();
+            }
 
             IParseTree parseTree = context.GetChild(index);
             if (!(parseTree is ITerminalNode terminal))
+            {
                 throw context.UnexpectedChildType((ParserRuleContext) parseTree);
+            }
+
             if (terminal.Symbol.Type != expectedType)
+            {
                 throw context.UnexpectedChildType(terminal);
+            }
+
             return terminal;
         }
 
@@ -127,11 +140,16 @@ namespace Mellis.Lang.Python3.Extensions
             where T : IParseTree
         {
             if (index >= context.ChildCount)
+            {
                 throw context.ExpectedChild();
+            }
 
             IParseTree parseTree = context.GetChild(index);
             if (!(parseTree is T rule))
+            {
                 throw context.UnexpectedChildType(parseTree);
+            }
+
             return rule;
         }
 

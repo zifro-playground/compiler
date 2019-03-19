@@ -94,23 +94,31 @@ namespace Mellis.Lang.Python3.Grammar
             {
                 // This ignores newlines and semicolons atm
                 if (!(child is ParserRuleContext ruleContext))
+                {
                     continue;
+                }
 
                 if (!(ruleContext is Python3Parser.Small_stmtContext smallStmt))
+                {
                     throw context.UnexpectedChildType(ruleContext);
+                }
 
                 allRules.Add(smallStmt);
             }
 
             if (allRules.Count == 0)
+            {
                 throw context.ExpectedChild();
+            }
 
             var firstRule = allRules[0];
             var firstStmt = VisitSmall_stmt(firstRule)
                 .AsTypeOrThrow<Statement>();
 
             if (allRules.Count == 1)
+            {
                 return firstStmt;
+            }
 
             // but wait, there's more!
             var statements = new Statement[allRules.Count];
@@ -162,7 +170,9 @@ namespace Mellis.Lang.Python3.Grammar
             var first = context.GetChildOrThrow<ParserRuleContext>(0);
 
             if (context.ChildCount > 1)
+            {
                 throw context.UnexpectedChildType(context.GetChild(1));
+            }
 
             switch (first)
             {

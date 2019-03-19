@@ -37,14 +37,18 @@ namespace Mellis.Lang.Python3
             var tokenStream = new CommonTokenStream(lexer);
             var parser = new Python3Parser(tokenStream);
             if (errorListener != null)
+            {
                 parser.AddErrorListener(errorListener);
+            }
 
             var visitor = new SyntaxConstructor();
 
             SyntaxNode result = visitor.VisitFile_input(parser.file_input());
 
             if (result is null)
+            {
                 return new VM.PyProcessor();
+            }
 
             var statement = result.AsTypeOrThrow<Statement>();
             statement.Compile(this);
@@ -55,7 +59,9 @@ namespace Mellis.Lang.Python3
         public void Push(IOpCode opCode)
         {
             if (opCode is null)
+            {
                 throw new ArgumentNullException(nameof(opCode));
+            }
 
             _opCodes.Add(opCode);
         }
@@ -63,10 +69,14 @@ namespace Mellis.Lang.Python3
         public void PushRange(IEnumerable<IOpCode> opCodes)
         {
             if (opCodes is null)
+            {
                 throw new ArgumentNullException(nameof(opCodes));
+            }
 
             foreach (IOpCode opCode in opCodes)
+            {
                 Push(opCode);
+            }
         }
 
         /// <summary>
