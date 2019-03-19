@@ -88,6 +88,15 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Internt fel. Sista värdet efter iterationen var av fel typ..
+        /// </summary>
+        internal static string Ex_ForEach_ExitNotEnumerator {
+            get {
+                return ResourceManager.GetString("Ex_ForEach_ExitNotEnumerator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Koden har redan kört klart..
         /// </summary>
         internal static string Ex_Process_Ended {

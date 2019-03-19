@@ -166,4 +166,8 @@
     <value>Internt fel. Saknade information för att återuppta funktionen.</value>
     <comment>Occurs when processor ResolveYield is invoked but there's yield data missing about the invoked CLR function. Data containing reference to the function, jump address and it's arguments.</comment>
   </data>
+  <data name="Ex_ForEach_ExitNotEnumerator" xml:space="preserve">
+    <value>Internt fel. Sista värdet efter iterationen var av fel typ.</value>
+    <comment>Occurs on op-code ForEachExit but top value on value stack is not of type IEnumerator.</comment>
+  </data>
 </root>
