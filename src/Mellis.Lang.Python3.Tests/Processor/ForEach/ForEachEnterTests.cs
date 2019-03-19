@@ -31,7 +31,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
                 ValueEnumerableMock = ValueMock.As<IEnumerable<IScriptType>>();
             }
 
-            public void SetupGetEnumerable()
+            public void SetupGetEnumerator()
             {
                 ValueEnumerableMock.Setup(o => o.GetEnumerator())
                     .Returns(EnumeratorMock.Object).Verifiable();
@@ -42,7 +42,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
                 EnumeratorMock.As<IScriptType>();
             }
 
-            public void Verify()
+            public void VerifyAll()
             {
                 ValueMock.Verify();
                 EnumeratorMock.Verify();
@@ -60,7 +60,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
 
             var setup = new IteratorSetup();
             setup.SetupEnumeratorIsIScriptType();
-            setup.SetupGetEnumerable();
+            setup.SetupGetEnumerator();
 
             processor.PushValue(setup.ValueMock.Object);
 
@@ -72,7 +72,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
             var result = processor.PopValue();
             Assert.AreSame(setup.EnumeratorMock.Object, result);
 
-            setup.Verify();
+            setup.VerifyAll();
         }
 
         [TestMethod]
@@ -85,7 +85,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
 
             var setup = new IteratorSetup();
             //setup.SetupEnumeratorIsIScriptType(); // intentionally left out
-            setup.SetupGetEnumerable();
+            setup.SetupGetEnumerator();
 
             processor.PushValue(setup.ValueMock.Object);
 
@@ -100,7 +100,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
             Assert.AreSame(setup.ValueMock.Object, resultWrapper.SourceType);
             Assert.AreSame(setup.EnumeratorMock.Object, resultWrapper.Enumerator);
 
-            setup.Verify();
+            setup.VerifyAll();
         }
 
         [TestMethod]
@@ -111,14 +111,12 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
                 new ForEachEnter(SourceReference.ClrSource)
             );
 
-            var setup = new IteratorSetup();
-            //setup.SetupGetEnumerable(); // intentionally left out
-            //setup.SetupEnumeratorIsIScriptType(); // intentionally left out
+            var valueMock = new Mock<IScriptType>();
 
-            processor.PushValue(setup.ValueMock.Object);
+            processor.PushValue(valueMock.Object);
 
             const string typeName = "foo";
-            setup.ValueMock.Setup(o => o.GetTypeName())
+            valueMock.Setup(o => o.GetTypeName())
                 .Returns(typeName).Verifiable();
 
             // Act
@@ -130,7 +128,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
                 nameof(Localized_Python3_Runtime.Ex_ForEach_NotIterable),
                 typeName);
 
-            setup.Verify();
+            valueMock.Verify();
         }
     }
 }
