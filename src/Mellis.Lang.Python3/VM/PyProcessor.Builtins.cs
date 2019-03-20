@@ -2,6 +2,7 @@
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Entities.Classes;
+using Mellis.Lang.Python3.Entities.Functions;
 
 namespace Mellis.Lang.Python3.VM
 {
@@ -34,7 +35,7 @@ namespace Mellis.Lang.Python3.VM
 
         private void AddBuiltinsInternal()
         {
-            IScriptType[] builtins = {
+            IScriptType[] builtinVariables = {
                 // Base types
                 new PyDoubleType(this, "float"),
                 new PyIntegerType(this, "int"),
@@ -46,10 +47,17 @@ namespace Mellis.Lang.Python3.VM
                 new PyString(this, "__main__", "__name__"),
             };
 
-            foreach (IScriptType builtin in builtins)
+            foreach (IScriptType builtin in builtinVariables)
             {
                 _builtins.SetVariableNoCopyUsingName(builtin);
             }
+
+            IEmbeddedType[] builtinFunctions = {
+                /* next */ new Next(), 
+                /* iter */ new Iter(), 
+            };
+            
+            AddBuiltin(builtinFunctions);
         }
     }
 }
