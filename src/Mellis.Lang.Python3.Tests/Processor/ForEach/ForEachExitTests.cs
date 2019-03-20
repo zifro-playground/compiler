@@ -62,7 +62,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
         }
 
         [TestMethod]
-        public void NotIEnumeratorThrows()
+        public void ThrowsOnNotIEnumerator()
         {
             // Arrange
             var processor = new PyProcessor(
