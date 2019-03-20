@@ -129,7 +129,7 @@ workflows:
               only:
                 - /feature.*/
 
-  work-deploy:
+  work-build-test-deploy:
     jobs:
       - build-test:
           filters:
