@@ -30,7 +30,7 @@ namespace Mellis.Lang.Python3.Entities.Functions
                 );
             }
 
-            var value = arguments[0];
+            IScriptType value = arguments[0];
 
             if (!(value is IEnumerable<IScriptType> enumerable))
             {

@@ -18,16 +18,13 @@ namespace Mellis.Lang.Python3.Entities.Functions
             {
                 throw new RuntimeTooManyArgumentsException(FunctionName, 2, arguments.Length);
             }
+
             if (arguments.Length == 0)
             {
                 throw new RuntimeTooFewArgumentsException(FunctionName, 1, arguments.Length);
             }
 
-            if (arguments.Length == 2)
-            {
-            }
-
-            var value = arguments[0];
+            IScriptType value = arguments[0];
 
             if (!(value is IEnumerator<IScriptType> enumerator))
             {
