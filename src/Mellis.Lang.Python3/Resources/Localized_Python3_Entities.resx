@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Builtin_Iter_Arg1_NotIterable" xml:space="preserve">
+    <value>Typen '{0}' kan inte itereras.</value>
+    <comment>Ex: iter(None)
+{0} argument type name</comment>
+  </data>
+  <data name="Builtin_Iter_Arg2_NotYetImplemented" xml:space="preserve">
+    <value>Funktionen 'iter' har inte stöd för 2st argument än.</value>
+    <comment>Ex: iter(f, None)</comment>
+  </data>
   <data name="Ex_DoubleType_Ctor_Arg1_EmptyString" xml:space="preserve">
     <value>Kan inte i 'float()' omvandla en tom text sträng till decimaltal.</value>
     <comment>Triggers on arg1 is only whitespace or empty. Ex: float("")</comment>

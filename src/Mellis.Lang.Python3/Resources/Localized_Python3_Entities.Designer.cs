@@ -61,6 +61,24 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Typen &apos;{0}&apos; kan inte itereras..
+        /// </summary>
+        internal static string Builtin_Iter_Arg1_NotIterable {
+            get {
+                return ResourceManager.GetString("Builtin_Iter_Arg1_NotIterable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Funktionen &apos;iter&apos; har inte stöd för 2st argument än..
+        /// </summary>
+        internal static string Builtin_Iter_Arg2_NotYetImplemented {
+            get {
+                return ResourceManager.GetString("Builtin_Iter_Arg2_NotYetImplemented", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kan inte i &apos;float()&apos; omvandla en tom text sträng till decimaltal..
         /// </summary>
         internal static string Ex_DoubleType_Ctor_Arg1_EmptyString {
