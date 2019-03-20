@@ -120,14 +120,22 @@ jobs:
 
 workflows:
   version: 2.1
-  build-test-deploy:
+
+  work-build-test:
+    jobs:
+      - build-test:
+          filters:
+            branches:
+              only:
+                - /feature.*/
+
+  work-deploy:
     jobs:
       - build-test:
           filters:
             branches:
               only:
                 - rework
-                - /feature.*/
 
       - deploy-github:
           requires:
