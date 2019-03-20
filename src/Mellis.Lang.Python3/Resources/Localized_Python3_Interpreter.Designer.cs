@@ -106,6 +106,15 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Internt fel. Värdet överst på värde högen är inte en iterator..
+        /// </summary>
+        internal static string Ex_ForEach_NextNotEnumerator {
+            get {
+                return ResourceManager.GetString("Ex_ForEach_NextNotEnumerator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Koden har redan kört klart..
         /// </summary>
         internal static string Ex_Process_Ended {

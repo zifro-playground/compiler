@@ -8,9 +8,12 @@ namespace Mellis.Lang.Python3.Instructions
     {
         public SourceReference Source { get; }
 
-        public ForEachNext(SourceReference source)
+        public int JumpTarget { get; }
+
+        public ForEachNext(SourceReference source, int jumpTarget)
         {
             Source = source;
+            JumpTarget = jumpTarget;
         }
 
         public void Execute(PyProcessor processor)

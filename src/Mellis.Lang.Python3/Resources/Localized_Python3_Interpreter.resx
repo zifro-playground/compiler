@@ -174,4 +174,8 @@
     <value>Internt fel. Det låg fel iterator på släng högen.</value>
     <comment>Occurs on op-code ForEachExit that pops top disposable, expecting same as IEnumerator, but was not.</comment>
   </data>
+  <data name="Ex_ForEach_NextNotEnumerator" xml:space="preserve">
+    <value>Internt fel. Värdet överst på värde högen är inte en iterator.</value>
+    <comment>Occurs on op-code ForEachNext but top value on value stack is not 'IEnumerator'.</comment>
+  </data>
 </root>
