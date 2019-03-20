@@ -153,5 +153,39 @@ namespace Mellis.Lang.Python3.Tests.Entities
             // Assert
             enumMock.Verify();
         }
+
+        [TestMethod]
+        public void GetEnumeratorGenericReturnsSelf()
+        {
+            // Arrange
+            var enumMock = new Mock<IEnumerator<IScriptType>>();
+            enumMock.Setup(o => o.Reset())
+                .Verifiable();
+
+            var entity = (IEnumerable<IScriptType>)CreateEntity(enumMock.Object);
+
+            // Act
+            var result = entity.GetEnumerator();
+
+            // Assert
+            Assert.AreSame(entity, result);
+        }
+
+        [TestMethod]
+        public void GetEnumeratorReturnsSelf()
+        {
+            // Arrange
+            var enumMock = new Mock<IEnumerator<IScriptType>>();
+            enumMock.Setup(o => o.Reset())
+                .Verifiable();
+
+            var entity = (IEnumerable)CreateEntity(enumMock.Object);
+
+            // Act
+            var result = entity.GetEnumerator();
+
+            // Assert
+            Assert.AreSame(entity, result);
+        }
     }
 }
