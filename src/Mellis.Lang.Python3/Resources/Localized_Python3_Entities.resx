@@ -205,6 +205,15 @@
     <comment>Ex: int("2147483648"), also true for neg numbers.
 {0} quoted &amp; escaped string</comment>
   </data>
+  <data name="Ex_RangeType_Ctor_Arg3_Zero" xml:space="preserve">
+    <value>Det tredje värdet, spannets steglängd, du ger 'range()' kan inte vara noll.</value>
+    <comment>Ex: range(1, 10, 0)</comment>
+  </data>
+  <data name="Ex_RangeType_Ctor_Arg_NotInteger" xml:space="preserve">
+    <value>De värden du ger 'range()' måste vara heltal, inte '{0}'.</value>
+    <comment>Ex: range(True)
+{0} invalid argument type name</comment>
+  </data>
   <data name="Type_Enumerator_Name" xml:space="preserve">
     <value>iterator</value>
     <comment>Name of IEnumerator wrapper.</comment>

@@ -232,6 +232,24 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to De värden du ger &apos;range()&apos; måste vara heltal, inte &apos;{0}&apos;..
+        /// </summary>
+        internal static string Ex_RangeType_Ctor_Arg_NotInteger {
+            get {
+                return ResourceManager.GetString("Ex_RangeType_Ctor_Arg_NotInteger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Det tredje värdet, spannets steglängd, du ger &apos;range()&apos; kan inte vara noll..
+        /// </summary>
+        internal static string Ex_RangeType_Ctor_Arg3_Zero {
+            get {
+                return ResourceManager.GetString("Ex_RangeType_Ctor_Arg3_Zero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to iterator.
         /// </summary>
         internal static string Type_Enumerator_Name {

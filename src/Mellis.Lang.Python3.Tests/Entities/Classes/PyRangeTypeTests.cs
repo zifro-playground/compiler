@@ -121,7 +121,7 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
-                "error key",
+                nameof(Localized_Python3_Entities.Ex_RangeType_Ctor_Arg_NotInteger),
                 "foo1_1"
             );
         }
@@ -144,7 +144,7 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
-                "error key",
+                nameof(Localized_Python3_Entities.Ex_RangeType_Ctor_Arg_NotInteger),
                 "foo2_1"
             );
         }
@@ -167,7 +167,7 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
-                "error key",
+                nameof(Localized_Python3_Entities.Ex_RangeType_Ctor_Arg_NotInteger),
                 "foo2_2"
             );
         }
@@ -191,8 +191,27 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
-                "error key",
+                nameof(Localized_Python3_Entities.Ex_RangeType_Ctor_Arg_NotInteger),
                 "foo3_3"
+            );
+        }
+
+        [TestMethod]
+        public void CtorThrows_3Args_Arg3Zero()
+        {
+            // Arrange
+            var entity = CreateEntity();
+
+            // Act
+            var ex = Assert.That.Throws(entity,
+                CreateConvertibleInteger(0),
+                CreateConvertibleInteger(1),
+                CreateConvertibleInteger(0)
+            );
+
+            // Assert
+            Assert.That.ErrorFormatArgsEqual(ex,
+                nameof(Localized_Python3_Entities.Ex_RangeType_Ctor_Arg3_Zero)
             );
         }
     }
