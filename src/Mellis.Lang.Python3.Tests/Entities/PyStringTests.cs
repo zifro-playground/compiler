@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Mellis.Core.Exceptions;
+using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Entities.Classes;
@@ -94,6 +96,31 @@ namespace Mellis.Lang.Python3.Tests.Entities
                 /* type name */ ExpectedTypeName,
                 /* other type name */ other.GetTypeName(),
                 /* operation */ "*");
+        }
+
+        [TestMethod]
+        public void EnumerateCharacters()
+        {
+            // Arrange
+            const string str = "foo bar";
+            var entity = CreateEntity(str);
+            var values = new List<IScriptType>();
+
+            // Act
+            foreach (IScriptType scriptType in entity)
+            {
+                values.Add(scriptType);
+            }
+
+            // Assert
+            var minLength = Math.Min(values.Count, str.Length);
+            for (int i = 0; i < minLength; i++)
+            {
+                Assert.That.ScriptTypeEqual(str[i].ToString(), values[i],
+                    message: $"Character index {i} ('{str[i]}')");
+            }
+            
+            Assert.AreEqual(str.Length, values.Count);
         }
     }
 }

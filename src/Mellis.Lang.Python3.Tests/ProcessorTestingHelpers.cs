@@ -27,11 +27,11 @@ namespace Mellis.Lang.Python3.Tests
             Assert.AreEqual(expectedDouble, ((DoubleBase)actual).Value);
         }
 
-        public static void ScriptTypeEqual(this Assert assert, string expectedString, IScriptType actual)
+        public static void ScriptTypeEqual(this Assert assert, string expectedString, IScriptType actual, string message = null)
         {
-            Assert.IsNotNull(actual, "Expected string variable, got null.");
-            Assert.IsInstanceOfType(actual, typeof(StringBase), $"Expected string variable, got {actual.GetType().Name}.");
-            Assert.AreEqual(expectedString, ((StringBase)actual).Value);
+            Assert.IsNotNull(actual, $"Expected string variable, got null.\n{message}");
+            Assert.IsInstanceOfType(actual, typeof(StringBase), $"Expected string variable, got {actual.GetType().Name}.\n{message}");
+            Assert.AreEqual(expectedString, ((StringBase)actual).Value, message);
         }
 
         public static void ScriptTypeEqual(this Assert assert, bool expectedBool, IScriptType actual)
