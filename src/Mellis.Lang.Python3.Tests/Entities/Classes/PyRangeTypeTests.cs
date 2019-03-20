@@ -20,10 +20,13 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
             return new PyRangeType(processor, nameof(PyRangeTypeTests));
         }
 
-        private static IScriptType CreateConvertibleInteger(object value)
+        private static IScriptType CreateConvertibleInteger(int value)
         {
             var mock = new Mock<IScriptType>();
-            mock.Setup(o => o.TryConvert(typeof(int), out value));
+            object boxed = value;
+            mock.Setup(o => o.TryConvert(typeof(int), out boxed)).Returns(true);
+            mock.Setup(o => o.TryConvert(out value)).Returns(true);
+            mock.Setup(o => o.GetTypeName()).Returns($"fake<{value}>");
             return mock.Object;
         }
 
