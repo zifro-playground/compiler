@@ -36,12 +36,15 @@ namespace Mellis.Lang.Python3.VM
         private void AddBuiltinsInternal()
         {
             IScriptType[] builtinVariables = {
-                // Base types
+                // Literal types
                 new PyDoubleType(this, "float"),
                 new PyIntegerType(this, "int"),
                 new PyStringType(this, "str"),
                 new PyBooleanType(this, "bool"),
+
+                // Special objects
                 new PyType(this, "type"),
+                new PyRangeType(this, "range"),
 
                 // Special variables
                 new PyString(this, "__main__", "__name__"),
