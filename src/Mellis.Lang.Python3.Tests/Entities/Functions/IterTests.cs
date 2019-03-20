@@ -19,6 +19,9 @@ namespace Mellis.Lang.Python3.Tests.Entities.Functions
             return new Iter();
         }
 
+        protected override int MaximumArguments => 2;
+        protected override int MinimumArguments => 1;
+
         [TestMethod]
         public void GetsIEnumerator()
         {
@@ -65,26 +68,6 @@ namespace Mellis.Lang.Python3.Tests.Entities.Functions
         }
 
         [TestMethod]
-        public void ThrowsOnNoArguments()
-        {
-            // Arrange
-            var func = CreateInitializedFunction();
-
-            // Act
-            Assert.That.ThrowsTooFewArguments(func, minimum: 1);
-        }
-
-        [TestMethod]
-        public void ThrowsOnTooManyArguments()
-        {
-            // Arrange
-            var func = CreateInitializedFunction();
-
-            // Act
-            Assert.That.ThrowsTooManyArguments(func, maximum: 2);
-        }
-
-        [TestMethod]
         public void ThrowsOnTwoArguments_NotYetImplemented()
         {
             // Arrange
@@ -96,6 +79,17 @@ namespace Mellis.Lang.Python3.Tests.Entities.Functions
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
                 nameof(Localized_Python3_Entities.Builtin_Iter_Arg2_NotYetImplemented));
+        }
+
+        [TestMethod]
+        public void ThrowsIfNotIEnumerable()
+        {
+            // Arrange
+            // TODO
+
+            // Act
+
+            // Assert
         }
     }
 }

@@ -8,6 +8,8 @@ namespace Mellis.Lang.Python3.Tests.Entities.Functions
         where T : IClrFunction
     {
         protected abstract T CreateFunction();
+        protected abstract int MaximumArguments { get; }
+        protected abstract int MinimumArguments { get; }
 
         protected PyProcessor Processor;
 
@@ -22,6 +24,26 @@ namespace Mellis.Lang.Python3.Tests.Entities.Functions
             var function = CreateFunction();
             function.Processor = Processor;
             return function;
+        }
+
+        [TestMethod]
+        public virtual void ThrowsOnTooFewArguments()
+        {
+            // Arrange
+            var func = CreateInitializedFunction();
+
+            // Act
+            Assert.That.ThrowsTooFewArguments(func, MinimumArguments);
+        }
+
+        [TestMethod]
+        public virtual void ThrowsOnTooManyArguments()
+        {
+            // Arrange
+            var func = CreateInitializedFunction();
+
+            // Act
+            Assert.That.ThrowsTooManyArguments(func, MaximumArguments);
         }
     }
 }
