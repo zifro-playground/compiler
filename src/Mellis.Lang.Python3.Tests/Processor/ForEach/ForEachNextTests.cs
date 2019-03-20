@@ -32,7 +32,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
             setup.EnumeratorMock.Setup(o => o.MoveNext())
                 .Returns(true).Verifiable();
 
-            processor.PushValue((IScriptType) setup.EnumeratorMock.Object);
+            processor.PushValue((IScriptType)setup.EnumeratorMock.Object);
 
             // Act
             processor.WalkInstruction(); // warmup
@@ -40,6 +40,36 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
 
             // Assert
             setup.EnumeratorMock.Verify(o => o.MoveNext());
+        }
+
+        [TestMethod]
+        public void NextKeepsEnumeratorOnStack()
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new ForEachNext(SourceReference.ClrSource, 1),
+                new NopOp()
+            );
+
+            var setup = new IteratorSetup();
+            setup.SetupEnumeratorIsIScriptType();
+
+            setup.EnumeratorMock.SetupGet(o => o.Current)
+                .Returns(Mock.Of<IScriptType>());
+
+            setup.EnumeratorMock.Setup(o => o.MoveNext())
+                .Returns(false).Verifiable();
+
+            processor.PushValue((IScriptType)setup.EnumeratorMock.Object);
+
+            // Act
+            processor.WalkInstruction(); // warmup
+            processor.WalkInstruction();
+
+            // Assert
+            Assert.AreEqual(1, processor.ValueStackCount);
+            var topValue = processor.PopValue();
+            Assert.AreSame(setup.EnumeratorMock.Object, topValue);
         }
 
         [TestMethod]
@@ -171,6 +201,13 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
 
             // Assert
             Assert.AreEqual(expectedProgramCounter, processor.ProgramCounter);
+
+            // `Current` value
+            processor.PopValue();
+
+            // Should not push current if jumps
+            var resultEnum = processor.PopValue();
+            Assert.AreSame(setup.EnumeratorMock.Object, resultEnum);
         }
 
         [TestMethod]
