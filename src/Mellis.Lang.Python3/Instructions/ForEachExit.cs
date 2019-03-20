@@ -29,15 +29,6 @@ namespace Mellis.Lang.Python3.Instructions
                 );
             }
 
-            if (!ReferenceEquals(processor.PeekDisposable(), enumerator))
-            {
-                throw new InternalException(
-                    nameof(Localized_Python3_Interpreter.Ex_ForEach_ExitNotSameDisposable),
-                    Localized_Python3_Interpreter.Ex_ForEach_ExitNotSameDisposable
-                );
-            }
-
-            processor.PopDisposable();
             enumerator.Dispose();
         }
 

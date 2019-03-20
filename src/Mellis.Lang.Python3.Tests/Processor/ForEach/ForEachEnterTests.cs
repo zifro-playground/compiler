@@ -97,32 +97,5 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
 
             valueMock.Verify();
         }
-
-        [TestMethod]
-        public void EnterAddsToDisposables()
-        {
-            // Arrange
-            var processor = new PyProcessor(
-                new ForEachEnter(SourceReference.ClrSource),
-                new NopOp()
-            );
-
-            var setup = new IteratorSetup();
-            setup.SetupEnumeratorIsIScriptType();
-            setup.SetupGetEnumerator();
-
-            processor.PushValue(setup.ValueMock.Object);
-
-            // Act
-            processor.WalkInstruction(); // warmup
-            processor.WalkInstruction();
-
-            // Assert
-            Assert.AreEqual(1, processor.DisposablesCount);
-            var disposable = processor.PopDisposable();
-            Assert.AreSame(setup.EnumeratorMock.Object, disposable);
-
-            setup.VerifyAll();
-        }
     }
 }
