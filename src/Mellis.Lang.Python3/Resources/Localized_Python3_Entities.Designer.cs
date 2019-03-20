@@ -250,6 +250,15 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to spann.
+        /// </summary>
+        internal static string Type_Range_Name {
+            get {
+                return ResourceManager.GetString("Type_Range_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to typ.
         /// </summary>
         internal static string Type_Type_Name {

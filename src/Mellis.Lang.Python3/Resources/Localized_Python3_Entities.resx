@@ -214,6 +214,10 @@
     <comment>String representation of a 'IEnumerator' wrapper.
 {0} localized type name of wrapped type, ex: `Type_String_Name`</comment>
   </data>
+  <data name="Type_Range_Name" xml:space="preserve">
+    <value>spann</value>
+    <comment>Name of class 'range'</comment>
+  </data>
   <data name="Type_Type_Name" xml:space="preserve">
     <value>typ</value>
     <comment>Name of class 'type'.</comment>
