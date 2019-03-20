@@ -35,6 +35,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mellis.Lang.Python3.Tests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mellis.Core.Tests", "Mellis.Core.Tests\Mellis.Core.Tests.csproj", "{F7A039FB-830D-4201-B289-EAAC2D766DC8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".circleci", ".circleci", "{BAC25CE5-49EA-42FE-81B2-B7F19D0D6B73}"
+	ProjectSection(SolutionItems) = preProject
+		..\.circleci\config.yml = ..\.circleci\config.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +93,7 @@ Global
 		{F5A86ED3-9A20-4FD8-A400-12CB242FC525} = {CED85FF5-60E1-48F7-B5CC-CBB5D71C50E6}
 		{DFFAA98E-A73D-470F-A00C-0DC0588F83CD} = {CED85FF5-60E1-48F7-B5CC-CBB5D71C50E6}
 		{F7A039FB-830D-4201-B289-EAAC2D766DC8} = {9DAE76BF-ADDC-4A2B-9CE9-035C924E23BA}
+		{BAC25CE5-49EA-42FE-81B2-B7F19D0D6B73} = {6F01D6A2-95D0-427D-93F5-377B3A07BFC5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FA74885F-76C3-4E43-9A4C-C83A58CD986B}

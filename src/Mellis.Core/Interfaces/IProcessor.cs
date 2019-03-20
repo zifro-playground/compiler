@@ -36,6 +36,6 @@ namespace Mellis.Core.Interfaces
 
         void WalkLine();
 
-        void AddBuiltin(params IClrFunction[] builtinList);
+        void AddBuiltin(params IEmbeddedType[] builtinList);
     }
 }
