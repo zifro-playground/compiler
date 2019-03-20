@@ -35,8 +35,8 @@ namespace Mellis.Lang.Python3.Entities.Functions
             if (!(value is IEnumerable<IScriptType> enumerable))
             {
                 throw new RuntimeException(
-                    nameof(Localized_Python3_Runtime.Ex_ForEach_NotIterable),
-                    Localized_Python3_Runtime.Ex_ForEach_NotIterable,
+                    nameof(Localized_Python3_Entities.Builtin_Iter_Arg1_NotIterable),
+                    Localized_Python3_Entities.Builtin_Iter_Arg1_NotIterable,
                     value.GetTypeName()
                 );
             }

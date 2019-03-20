@@ -85,11 +85,20 @@ namespace Mellis.Lang.Python3.Tests.Entities.Functions
         public void ThrowsIfNotIEnumerable()
         {
             // Arrange
-            // TODO
+            var func = CreateInitializedFunction();
+
+            var argMock = new Mock<IScriptType>();
+            argMock.Setup(o => o.GetTypeName())
+                .Returns("foo");
 
             // Act
+            var ex = Assert.That.Throws(func, argMock.Object);
 
             // Assert
+            Assert.That.ErrorFormatArgsEqual(ex,
+                nameof(Localized_Python3_Entities.Builtin_Iter_Arg1_NotIterable),
+                "foo"
+            );
         }
     }
 }
