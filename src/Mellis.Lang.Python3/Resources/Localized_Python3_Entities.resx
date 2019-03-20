@@ -117,6 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Builtin_Iter_Arg1_NotIterable" xml:space="preserve">
+    <value>Typen '{0}' kan inte itereras.</value>
+    <comment>Ex: iter(None)
+{0} argument type name</comment>
+  </data>
+  <data name="Builtin_Iter_Arg2_NotYetImplemented" xml:space="preserve">
+    <value>Funktionen 'iter' har inte stöd för 2st argument än.</value>
+    <comment>Ex: iter(f, None)</comment>
+  </data>
+  <data name="Builtin_Next_Arg1_NotIterator" xml:space="preserve">
+    <value>Typen '{0}' är inte en iterator.</value>
+    <comment>Ex: next(None)
+{0} argument type name</comment>
+  </data>
+  <data name="Builtin_Next_StopIteration" xml:space="preserve">
+    <value>Iteratorn har tagit slut.</value>
+    <comment>Ex: next(x), when x is exhausted, and x is unnamed.</comment>
+  </data>
+  <data name="Builtin_Next_StopIteration_Named" xml:space="preserve">
+    <value>Iteratorn '{0}' har tagit slut.</value>
+    <comment>Ex: next(x), when x is exhausted, and x is named variable.
+{0} name of arg1 variable</comment>
+  </data>
   <data name="Ex_DoubleType_Ctor_Arg1_EmptyString" xml:space="preserve">
     <value>Kan inte i 'float()' omvandla en tom text sträng till decimaltal.</value>
     <comment>Triggers on arg1 is only whitespace or empty. Ex: float("")</comment>
@@ -181,6 +204,41 @@
     <value>Kan inte i 'int()' omvandla följande textsträng till heltal:: {0}. Heltal måste vara mindre än 2 147 483 647 och större än -2 147 483 648.</value>
     <comment>Ex: int("2147483648"), also true for neg numbers.
 {0} quoted &amp; escaped string</comment>
+  </data>
+  <data name="Ex_RangeType_Ctor_Arg3_Zero" xml:space="preserve">
+    <value>Det tredje värdet, spannets steglängd, du ger 'range()' kan inte vara noll.</value>
+    <comment>Ex: range(1, 10, 0)</comment>
+  </data>
+  <data name="Ex_RangeType_Ctor_Arg_NotInteger" xml:space="preserve">
+    <value>De värden du ger 'range()' måste vara heltal, inte '{0}'.</value>
+    <comment>Ex: range(True)
+{0} invalid argument type name</comment>
+  </data>
+  <data name="Type_Enumerator_Name" xml:space="preserve">
+    <value>iterator</value>
+    <comment>Name of IEnumerator wrapper.</comment>
+  </data>
+  <data name="Type_Enumerator_ToString" xml:space="preserve">
+    <value>&lt;iterator för klass '{0}'&gt;</value>
+    <comment>String representation of a 'IEnumerator' wrapper.
+{0} localized type name of wrapped type, ex: `Type_String_Name`</comment>
+  </data>
+  <data name="Type_Range_Name" xml:space="preserve">
+    <value>intervall</value>
+    <comment>Name of class 'range'</comment>
+  </data>
+  <data name="Type_Range_ToString" xml:space="preserve">
+    <value>&lt;intervall {0} till {1}&gt;</value>
+    <comment>String representation of a 'Range' with default step 1.
+{0} from integer
+{1} to integer</comment>
+  </data>
+  <data name="Type_Range_ToString_Step" xml:space="preserve">
+    <value>&lt;intervall {0} till {1}, steg {2}&gt;</value>
+    <comment>String representation of a 'Range' with specified step.
+{0} from integer
+{1} to integer
+{2} step integer</comment>
   </data>
   <data name="Type_Type_Name" xml:space="preserve">
     <value>typ</value>

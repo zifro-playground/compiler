@@ -22,7 +22,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
             return new PyNoneType(Processor, newName);
         }
 
-        public override IScriptType Invoke(IScriptType[] arguments)
+        public override IScriptType Invoke(params IScriptType[] arguments)
         {
             throw new RuntimeException(
                 nameof(Localized_Python3_Runtime.Ex_Type_CannotInstantiate),

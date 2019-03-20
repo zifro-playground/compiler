@@ -23,6 +23,6 @@ namespace Mellis
         public string FunctionName { get; }
 
         /// <inheritdoc />
-        public abstract IScriptType Invoke(IScriptType[] arguments);
+        public abstract IScriptType Invoke(params IScriptType[] arguments);
     }
 }

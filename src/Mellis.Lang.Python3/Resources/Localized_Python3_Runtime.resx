@@ -117,6 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Ex_ForEach_NotIterable" xml:space="preserve">
+    <value>Värdetypen '{0}' kan inte itereras.</value>
+    <comment>When non-IEnumerable type is used in a for-in loop.
+{0} type name</comment>
+  </data>
   <data name="Ex_Invoke_TakesNoArguments" xml:space="preserve">
     <value>Metoden '{0}' tar inga argument.</value>
     <comment>Invokation on method that takes no positional arguments.

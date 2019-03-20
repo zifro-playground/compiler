@@ -61,6 +61,51 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Typen &apos;{0}&apos; kan inte itereras..
+        /// </summary>
+        internal static string Builtin_Iter_Arg1_NotIterable {
+            get {
+                return ResourceManager.GetString("Builtin_Iter_Arg1_NotIterable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Funktionen &apos;iter&apos; har inte stöd för 2st argument än..
+        /// </summary>
+        internal static string Builtin_Iter_Arg2_NotYetImplemented {
+            get {
+                return ResourceManager.GetString("Builtin_Iter_Arg2_NotYetImplemented", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Typen &apos;{0}&apos; är inte en iterator..
+        /// </summary>
+        internal static string Builtin_Next_Arg1_NotIterator {
+            get {
+                return ResourceManager.GetString("Builtin_Next_Arg1_NotIterator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Iteratorn har tagit slut..
+        /// </summary>
+        internal static string Builtin_Next_StopIteration {
+            get {
+                return ResourceManager.GetString("Builtin_Next_StopIteration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Iteratorn &apos;{0}&apos; har tagit slut..
+        /// </summary>
+        internal static string Builtin_Next_StopIteration_Named {
+            get {
+                return ResourceManager.GetString("Builtin_Next_StopIteration_Named", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kan inte i &apos;float()&apos; omvandla en tom text sträng till decimaltal..
         /// </summary>
         internal static string Ex_DoubleType_Ctor_Arg1_EmptyString {
@@ -183,6 +228,69 @@ namespace Mellis.Lang.Python3.Resources {
         internal static string Ex_IntegerType_Ctor_StringOutOfBounds {
             get {
                 return ResourceManager.GetString("Ex_IntegerType_Ctor_StringOutOfBounds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to De värden du ger &apos;range()&apos; måste vara heltal, inte &apos;{0}&apos;..
+        /// </summary>
+        internal static string Ex_RangeType_Ctor_Arg_NotInteger {
+            get {
+                return ResourceManager.GetString("Ex_RangeType_Ctor_Arg_NotInteger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Det tredje värdet, spannets steglängd, du ger &apos;range()&apos; kan inte vara noll..
+        /// </summary>
+        internal static string Ex_RangeType_Ctor_Arg3_Zero {
+            get {
+                return ResourceManager.GetString("Ex_RangeType_Ctor_Arg3_Zero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to iterator.
+        /// </summary>
+        internal static string Type_Enumerator_Name {
+            get {
+                return ResourceManager.GetString("Type_Enumerator_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;iterator för klass &apos;{0}&apos;&gt;.
+        /// </summary>
+        internal static string Type_Enumerator_ToString {
+            get {
+                return ResourceManager.GetString("Type_Enumerator_ToString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to intervall.
+        /// </summary>
+        internal static string Type_Range_Name {
+            get {
+                return ResourceManager.GetString("Type_Range_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;intervall {0} till {1}&gt;.
+        /// </summary>
+        internal static string Type_Range_ToString {
+            get {
+                return ResourceManager.GetString("Type_Range_ToString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;intervall {0} till {1}, steg {2}&gt;.
+        /// </summary>
+        internal static string Type_Range_ToString_Step {
+            get {
+                return ResourceManager.GetString("Type_Range_ToString_Step", resourceCulture);
             }
         }
         

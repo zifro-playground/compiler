@@ -172,6 +172,10 @@ namespace Mellis.Core.Entities
 
             if (FromRow == ToRow)
             {
+                if (FromColumn == ToColumn)
+                {
+                    return $"ln{FromRow} col{FromColumn}";
+                }
                 return $"ln{FromRow} col{FromColumn}-{ToColumn}";
             }
 

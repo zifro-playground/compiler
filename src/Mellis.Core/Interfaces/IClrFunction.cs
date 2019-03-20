@@ -5,6 +5,6 @@
         /// <summary>
         /// Executed by the processor when the function is invoked in the script environment.
         /// </summary>
-        IScriptType Invoke(IScriptType[] arguments);
+        IScriptType Invoke(params IScriptType[] arguments);
     }
 }

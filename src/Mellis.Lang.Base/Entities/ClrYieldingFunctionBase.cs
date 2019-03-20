@@ -36,7 +36,7 @@ namespace Mellis.Lang.Base.Entities
 
         public string FunctionName { get; }
 
-        public abstract void InvokeEnter(IScriptType[] arguments);
+        public abstract void InvokeEnter(params IScriptType[] arguments);
 
         public abstract IScriptType InvokeExit(IScriptType[] arguments, IScriptType returnValue);
     }

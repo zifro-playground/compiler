@@ -20,6 +20,18 @@ namespace Mellis.Lang.Python3.VM
             return _valueStack.Pop();
         }
 
+        internal IScriptType PeekValue()
+        {
+            if (_valueStack.Count == 0)
+            {
+                throw new InternalException(
+                    nameof(Localized_Python3_Interpreter.Ex_ValueStack_PopEmpty),
+                    Localized_Python3_Interpreter.Ex_ValueStack_PopEmpty);
+            }
+
+            return _valueStack.Peek();
+        }
+
         internal void PushValue(IScriptType value)
         {
             if (value is null)

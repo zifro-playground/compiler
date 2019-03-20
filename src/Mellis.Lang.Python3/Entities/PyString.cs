@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Text;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Entities;
 using Mellis.Lang.Python3.Entities.Classes;
@@ -6,7 +8,7 @@ using Mellis.Lang.Python3.Syntax.Literals;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyString : StringBase
+    public class PyString : StringBase, IEnumerable<IScriptType>
     {
         public PyString(IProcessor processor, string value, string name = null)
             : base(processor, value, name)
@@ -34,7 +36,7 @@ namespace Mellis.Lang.Python3.Entities
 
                 case IntegerBase rhsInteger:
                     var builder = new StringBuilder(Value.Length * rhsInteger.Value);
-                    for (var i = 0; i < rhsInteger.Value; i++)
+                    for (int i = 0; i < rhsInteger.Value; i++)
                     {
                         builder.Append(Value);
                     }
@@ -49,6 +51,19 @@ namespace Mellis.Lang.Python3.Entities
         public override string ToString()
         {
             return LiteralString.Escape(Value);
+        }
+
+        public IEnumerator<IScriptType> GetEnumerator()
+        {
+            foreach (char c in Value)
+            {
+                yield return Processor.Factory.Create(c);
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

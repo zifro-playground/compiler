@@ -1,8 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mellis.Core.Exceptions;
+using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Resources;
+using Moq;
 
 namespace Mellis.Lang.Python3.Tests.Processor
 {
@@ -116,6 +118,24 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             Assert.That.ErrorFormatArgsEqual(ex,
                 nameof(Localized_Python3_Interpreter.Ex_ValueStack_PopEmpty));
+        }
+
+        [TestMethod]
+        public void PeekKeepsItemOnStack()
+        {
+            // Arrange
+            var value = Mock.Of<IScriptType>();
+            processor.PushValue(value);
+
+            // Act
+            int before = processor.ValueStackCount;
+            var result = processor.PeekValue();
+            int after = processor.ValueStackCount;
+
+            // Assert
+            Assert.AreEqual(1, before);
+            Assert.AreEqual(1, after);
+            Assert.AreSame(value, result);
         }
     }
 }
