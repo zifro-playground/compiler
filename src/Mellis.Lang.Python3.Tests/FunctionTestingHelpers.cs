@@ -28,7 +28,7 @@ namespace Mellis.Lang.Python3.Tests
                 nameof(Localized_Python3_Runtime.Ex_Invoke_TooFewArguments),
                 function.FunctionName,
                 minimum,
-                minimum + 1
+                minimum - 1
             );
 
             return ex;
