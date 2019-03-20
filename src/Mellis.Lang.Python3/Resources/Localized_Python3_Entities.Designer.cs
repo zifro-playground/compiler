@@ -268,11 +268,29 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to spann.
+        ///   Looks up a localized string similar to intervall.
         /// </summary>
         internal static string Type_Range_Name {
             get {
                 return ResourceManager.GetString("Type_Range_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;intervall {0} till {1}&gt;.
+        /// </summary>
+        internal static string Type_Range_ToString {
+            get {
+                return ResourceManager.GetString("Type_Range_ToString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;intervall {0} till {1}, steg {2}&gt;.
+        /// </summary>
+        internal static string Type_Range_ToString_Step {
+            get {
+                return ResourceManager.GetString("Type_Range_ToString_Step", resourceCulture);
             }
         }
         

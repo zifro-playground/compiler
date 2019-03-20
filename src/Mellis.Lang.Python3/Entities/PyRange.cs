@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Entities;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyRange : ScriptTypeBase
+    public class PyRange : ScriptTypeBase, IEnumerable<IScriptType>
     {
         public int RangeFrom { get; }
         public int RangeTo { get; }
@@ -46,6 +48,16 @@ namespace Mellis.Lang.Python3.Entities
         public override bool TryConvert(Type type, out object value)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerator<IScriptType> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
