@@ -95,7 +95,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             processor.WalkLine();
 
             // Assert
-            defMock.Verify(o => o.Invoke(new IScriptType[] {lit1, lit2, lit3}));
+            defMock.Verify(o => o.Invoke(lit1, lit2, lit3));
             defMock.Verify();
 
             Assert.AreEqual(1, processor.ValueStackCount);

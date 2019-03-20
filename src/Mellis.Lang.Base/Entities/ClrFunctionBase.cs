@@ -88,6 +88,6 @@ namespace Mellis.Lang.Base.Entities
 
         public string FunctionName { get; }
 
-        public abstract IScriptType Invoke(IScriptType[] arguments);
+        public abstract IScriptType Invoke(params IScriptType[] arguments);
     }
 }

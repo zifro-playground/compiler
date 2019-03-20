@@ -37,7 +37,7 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
 
             void Action()
             {
-                entity.Invoke(new IScriptType[0]);
+                entity.Invoke();
             }
 
             // Act
@@ -85,7 +85,7 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
             var entity = CreateEntity();
 
             // Act
-            var result = entity.Invoke(new[] {argMock.Object});
+            var result = entity.Invoke(argMock.Object);
 
             // Assert
             Assert.AreSame(defMock, result, "Did not return type definition of first argument.");

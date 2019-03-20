@@ -28,7 +28,7 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
             var entity = CreateEntity();
 
             // Act
-            var result = entity.Invoke(new IScriptType[0]);
+            var result = entity.Invoke();
 
             // Assert
             Assert.That.ScriptTypeEqual(expectedString: string.Empty, actual: result);
@@ -67,7 +67,7 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
             var entity = CreateEntity();
 
             // Act
-            var result = entity.Invoke(new[] {argMock.Object});
+            var result = entity.Invoke(argMock.Object);
 
             // Assert
             Assert.That.ScriptTypeEqual(expectedString: "foo", actual: result);

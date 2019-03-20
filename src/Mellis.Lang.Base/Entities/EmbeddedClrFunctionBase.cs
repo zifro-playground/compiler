@@ -17,7 +17,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public override IScriptType Invoke(IScriptType[] arguments)
+        public override IScriptType Invoke(params IScriptType[] arguments)
         {
             return Definition.Invoke(arguments);
         }

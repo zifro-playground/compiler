@@ -28,7 +28,7 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
 
             void Action()
             {
-                entity.Invoke(new IScriptType[0]);
+                entity.Invoke();
             }
 
             // Act

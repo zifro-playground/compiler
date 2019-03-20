@@ -52,7 +52,7 @@ namespace Mellis.Lang.Base.Entities
 
         public string FunctionName => Definition.FunctionName;
 
-        public void InvokeEnter(IScriptType[] arguments)
+        public void InvokeEnter(params IScriptType[] arguments)
         {
             Definition.InvokeEnter(arguments);
         }

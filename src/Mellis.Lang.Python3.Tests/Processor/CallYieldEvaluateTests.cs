@@ -173,7 +173,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             processor.ResolveYield(retVal);
 
             // Assert
-            defMock.Verify(o => o.InvokeEnter(new IScriptType[] {lit1, lit2, lit3}));
+            defMock.Verify(o => o.InvokeEnter(lit1, lit2, lit3));
             defMock.Verify(o => o.InvokeExit(new IScriptType[] {lit1, lit2, lit3}, retVal));
 
             Assert.AreEqual(1, processor.ValueStackCount);

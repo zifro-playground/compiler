@@ -19,7 +19,7 @@
         /// to resume execution.
         /// </para>
         /// </summary>
-        void InvokeEnter(IScriptType[] arguments);
+        void InvokeEnter(params IScriptType[] arguments);
 
         /// <summary>
         /// Called after <see cref="IProcessor.ResolveYield()"/> has been executed.

@@ -26,7 +26,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
             return new PyIntegerType(Processor, newName);
         }
 
-        public override IScriptType Invoke(IScriptType[] arguments)
+        public override IScriptType Invoke(params IScriptType[] arguments)
         {
             if (arguments.Length > 2)
             {

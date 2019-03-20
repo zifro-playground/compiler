@@ -23,7 +23,7 @@ namespace Mellis
         public string FunctionName { get; }
 
         /// <inheritdoc />
-        public abstract void InvokeEnter(IScriptType[] arguments);
+        public abstract void InvokeEnter(params IScriptType[] arguments);
 
         /// <inheritdoc />
         /// <summary>
