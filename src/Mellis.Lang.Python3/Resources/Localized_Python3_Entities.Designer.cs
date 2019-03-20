@@ -79,6 +79,33 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Typen &apos;{0}&apos; är inte en iterator..
+        /// </summary>
+        internal static string Builtin_Next_Arg1_NotIterator {
+            get {
+                return ResourceManager.GetString("Builtin_Next_Arg1_NotIterator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Iteratorn har tagit slut..
+        /// </summary>
+        internal static string Builtin_Next_StopIteration {
+            get {
+                return ResourceManager.GetString("Builtin_Next_StopIteration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Iteratorn &apos;{0}&apos; har tagit slut..
+        /// </summary>
+        internal static string Builtin_Next_StopIteration_Named {
+            get {
+                return ResourceManager.GetString("Builtin_Next_StopIteration_Named", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kan inte i &apos;float()&apos; omvandla en tom text sträng till decimaltal..
         /// </summary>
         internal static string Ex_DoubleType_Ctor_Arg1_EmptyString {

@@ -126,6 +126,20 @@
     <value>Funktionen 'iter' har inte stöd för 2st argument än.</value>
     <comment>Ex: iter(f, None)</comment>
   </data>
+  <data name="Builtin_Next_Arg1_NotIterator" xml:space="preserve">
+    <value>Typen '{0}' är inte en iterator.</value>
+    <comment>Ex: next(None)
+{0} argument type name</comment>
+  </data>
+  <data name="Builtin_Next_StopIteration" xml:space="preserve">
+    <value>Iteratorn har tagit slut.</value>
+    <comment>Ex: next(x), when x is exhausted, and x is unnamed.</comment>
+  </data>
+  <data name="Builtin_Next_StopIteration_Named" xml:space="preserve">
+    <value>Iteratorn '{0}' har tagit slut.</value>
+    <comment>Ex: next(x), when x is exhausted, and x is named variable.
+{0} name of arg1 variable</comment>
+  </data>
   <data name="Ex_DoubleType_Ctor_Arg1_EmptyString" xml:space="preserve">
     <value>Kan inte i 'float()' omvandla en tom text sträng till decimaltal.</value>
     <comment>Triggers on arg1 is only whitespace or empty. Ex: float("")</comment>
