@@ -76,5 +76,10 @@ namespace Mellis.Lang.Python3.VM
                 }
             }
         }
+
+        ~PyProcessor()
+        {
+            DisposeAllDisposables();
+        }
     }
 }
