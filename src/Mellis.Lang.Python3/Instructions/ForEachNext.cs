@@ -37,9 +37,6 @@ namespace Mellis.Lang.Python3.Instructions
             if (next)
             {
                 processor.PushValue(enumerator.Current ?? processor.Factory.Null);
-            }
-            else
-            {
                 processor.JumpToInstruction(JumpTarget);
             }
         }

@@ -37,7 +37,7 @@ namespace Mellis.Lang.Python3.Tests
             processor.WalkLine();
 
             // Assert
-            IScriptType variable = processor.GetVariable("myInt");
+            var variable = processor.GetVariable("myInt");
             Assert.IsInstanceOfType(variable, typeof(PyInteger));
             Assert.AreEqual(10, ((PyInteger)variable).Value);
 
@@ -57,7 +57,7 @@ namespace Mellis.Lang.Python3.Tests
             processor.WalkLine();
 
             // Assert
-            IScriptType variable = processor.GetVariable("myString");
+            var variable = processor.GetVariable("myString");
             Assert.IsInstanceOfType(variable, typeof(PyString));
             Assert.AreEqual("hello world", ((PyString)variable).Value);
 
@@ -79,11 +79,11 @@ namespace Mellis.Lang.Python3.Tests
             processor.WalkLine();
 
             // Assert
-            IScriptType x = processor.GetVariable("x");
+            var x = processor.GetVariable("x");
             Assert.IsInstanceOfType(x, typeof(PyInteger));
             Assert.AreEqual(88, ((PyInteger)x).Value);
 
-            IScriptType y = processor.GetVariable("y");
+            var y = processor.GetVariable("y");
             Assert.IsInstanceOfType(y, typeof(PyInteger));
             Assert.AreEqual(255, ((PyInteger)y).Value);
 
@@ -105,11 +105,11 @@ namespace Mellis.Lang.Python3.Tests
             processor.WalkLine();
 
             // Assert
-            IScriptType variable = processor.GetVariable("a");
+            var variable = processor.GetVariable("a");
             Assert.IsInstanceOfType(variable, typeof(PyInteger));
             Assert.AreEqual(64, ((PyInteger)variable).Value);
 
-            IScriptType y = processor.GetVariable("b");
+            var y = processor.GetVariable("b");
             Assert.IsInstanceOfType(y, typeof(PyInteger));
             Assert.AreEqual(64, ((PyInteger)y).Value);
 
@@ -129,7 +129,7 @@ namespace Mellis.Lang.Python3.Tests
             processor.WalkLine();
 
             // Assert
-            IScriptType variable = processor.GetVariable("myMath");
+            var variable = processor.GetVariable("myMath");
             Assert.IsInstanceOfType(variable, typeof(PyInteger));
             Assert.AreEqual(1024+999, ((PyInteger)variable).Value);
 
@@ -153,7 +153,7 @@ namespace Mellis.Lang.Python3.Tests
             processor.WalkLine();
 
             // Assert
-            IScriptType variable = processor.GetVariable("val");
+            var variable = processor.GetVariable("val");
             Assert.IsInstanceOfType(variable, typeof(PyInteger));
             Assert.AreEqual(200, ((PyInteger)variable).Value);
 
@@ -176,7 +176,7 @@ namespace Mellis.Lang.Python3.Tests
             processor.WalkLine(); // jumpif->@4
 
             // Assert
-            IScriptType variable = processor.GetVariable("val");
+            var variable = processor.GetVariable("val");
             Assert.IsInstanceOfType(variable, typeof(PyInteger));
             Assert.AreEqual(5, ((PyInteger)variable).Value);
 
@@ -217,11 +217,11 @@ namespace Mellis.Lang.Python3.Tests
             } while (processor.State == ProcessState.Running);
 
             // Assert
-            IScriptType x = processor.GetVariable("x");
+            var x = processor.GetVariable("x");
             Assert.IsInstanceOfType(x, typeof(PyInteger));
             Assert.AreEqual(35, ((PyInteger)x).Value);
 
-            IScriptType y = processor.GetVariable("y");
+            var y = processor.GetVariable("y");
             Assert.IsInstanceOfType(y, typeof(PyString));
             Assert.AreEqual("inge print än", ((PyString)y).Value);
 
@@ -258,22 +258,52 @@ namespace Mellis.Lang.Python3.Tests
             } while (processor.State == ProcessState.Running);
 
             // Assert
-            IScriptType x = processor.GetVariable("x");
+            var x = processor.GetVariable("x");
             Assert.That.ScriptTypeEqual("NaN", x);
 
-            IScriptType y = processor.GetVariable("y");
+            var y = processor.GetVariable("y");
             Assert.That.ScriptTypeEqual("NaNNaNNaNNaNNaN", y);
 
             string nan = Localized_Base_Entities.Type_Double_NaN;
-            IScriptType z = processor.GetVariable("z");
+            var z = processor.GetVariable("z");
             Assert.That.ScriptTypeEqual("NaNNaNNaNNaNNaN " + nan, z);
 
-            IScriptType a = processor.GetVariable("a");
+            var a = processor.GetVariable("a");
             Assert.IsInstanceOfType(a, typeof(PyStringType));
 
-            IScriptType b = processor.GetVariable("b");
+            var b = processor.GetVariable("b");
             Assert.That.ScriptTypeEqual("1.0", b);
 
+            Assert.AreEqual(ProcessState.Ended, processor.State);
+            errorCatcher.AssertNoErrors();
+        }
+        [TestMethod]
+        public void ProcessP7Test()
+        {
+            /*
+                x = 1
+                for i in range(1, 10):
+                    x = x * i
+
+             */
+
+            // Arrange
+            const string code = "x = 1\n" +
+                                "for i in range(1, 10):\n" +
+                                "    x = x * i";
+
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
+
+            // Act
+            do
+            {
+                processor.WalkLine();
+            } while (processor.State == ProcessState.Running);
+
+            // Assert
+            var x = processor.GetVariable("x");
+            Assert.That.ScriptTypeEqual(362880, x);
+            
             Assert.AreEqual(ProcessState.Ended, processor.State);
             errorCatcher.AssertNoErrors();
         }

@@ -124,9 +124,9 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new PushLiteral<int>(new LiteralInteger(SourceReference.ClrSource, 1)),
-                new PushLiteral<int>(new LiteralInteger(SourceReference.ClrSource, 2)),
-                new PushLiteral<int>(new LiteralInteger(SourceReference.ClrSource, 3))
+                new PushLiteral(new LiteralInteger(SourceReference.ClrSource, 1)),
+                new PushLiteral(new LiteralInteger(SourceReference.ClrSource, 2)),
+                new PushLiteral(new LiteralInteger(SourceReference.ClrSource, 3))
             );
 
             // Act

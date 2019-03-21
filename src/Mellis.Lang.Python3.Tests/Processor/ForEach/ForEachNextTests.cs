@@ -138,10 +138,10 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
         }
 
         [TestMethod]
-        public void MoveNextFalseJumps()
+        public void MoveNextTrueJumps()
         {
             // Arrange
-            const bool moveNextReturnValue = false;
+            const bool moveNextReturnValue = true;
             const int expectedProgramCounter = 2;
 
             var processor = new PyProcessor(
@@ -154,8 +154,9 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
             var setup = new IteratorSetup();
             setup.SetupEnumeratorIsIScriptType();
 
+            var current = Mock.Of<IScriptType>();
             setup.EnumeratorMock.SetupGet(o => o.Current)
-                .Returns(Mock.Of<IScriptType>());
+                .Returns(current);
 
             setup.EnumeratorMock.Setup(o => o.MoveNext())
                 .Returns(moveNextReturnValue);
@@ -168,13 +169,20 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
 
             // Assert
             Assert.AreEqual(expectedProgramCounter, processor.ProgramCounter);
+
+            // Should push `Current` value
+            var topValue = processor.PopValue();
+            Assert.AreSame(current, topValue);
+
+            var resultEnum = processor.PopValue();
+            Assert.AreSame(setup.EnumeratorMock.Object, resultEnum);
         }
 
         [TestMethod]
-        public void MoveNextTrueDoesNothing()
+        public void MoveNextFalseDoesNothing()
         {
             // Arrange
-            const bool moveNextReturnValue = true;
+            const bool moveNextReturnValue = false;
             const int expectedProgramCounter = 1;
 
             var processor = new PyProcessor(
@@ -187,9 +195,6 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
             var setup = new IteratorSetup();
             setup.SetupEnumeratorIsIScriptType();
 
-            setup.EnumeratorMock.SetupGet(o => o.Current)
-                .Returns(Mock.Of<IScriptType>());
-
             setup.EnumeratorMock.Setup(o => o.MoveNext())
                 .Returns(moveNextReturnValue);
 
@@ -202,10 +207,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
             // Assert
             Assert.AreEqual(expectedProgramCounter, processor.ProgramCounter);
 
-            // `Current` value
-            processor.PopValue();
-
-            // Should not push current if jumps
+            // Should not push
             var resultEnum = processor.PopValue();
             Assert.AreSame(setup.EnumeratorMock.Object, resultEnum);
         }

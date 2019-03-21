@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Antlr4.Runtime.Tree;
 using Mellis.Core.Entities;
+using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Extensions;
 using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.Syntax;
@@ -122,7 +123,37 @@ namespace Mellis.Lang.Python3.Grammar
 
         public override SyntaxNode VisitFor_stmt(Python3Parser.For_stmtContext context)
         {
-            throw context.NotYetImplementedException("for");
+            // for_stmt: 'for' exprlist 'in' testlist ':' suite ['else' ':' suite]
+            context.GetChildOrThrow(0, Python3Parser.FOR);
+            var operandNode = context.GetChildOrThrow<Python3Parser.ExprlistContext>(1);
+            context.GetChildOrThrow(2, Python3Parser.IN);
+            var iterNode = context.GetChildOrThrow<Python3Parser.TestlistContext>(3);
+            context.GetChildOrThrow(4, Python3Parser.COLON);
+            var suiteNode = context.GetChildOrThrow<Python3Parser.SuiteContext>(5);
+
+            if (context.ChildCount > 6)
+            {
+                ITerminalNode elseTerm = context.GetChildOrThrow(6, Python3Parser.ELSE);
+                context.GetChildOrThrow(7, Python3Parser.COLON);
+                context.GetChildOrThrow<Python3Parser.SuiteContext>(8);
+
+                if (context.ChildCount > 9)
+                {
+                    throw context.UnexpectedChildType(context.GetChild(9));
+                }
+
+                throw elseTerm.NotYetImplementedException("for..else");
+            }
+
+            ExpressionNode operandExpr = VisitExprlist(operandNode)
+                .AsTypeOrThrow<ExpressionNode>();
+            ExpressionNode iterExpr = VisitTestlist(iterNode)
+                .AsTypeOrThrow<ExpressionNode>();
+
+            Statement suiteStmt = VisitSuite(suiteNode)
+                .AsTypeOrThrow<Statement>();
+
+            return new ForStatement(context.GetSourceReference(), operandExpr, iterExpr, suiteStmt);
         }
 
         public override SyntaxNode VisitTry_stmt(Python3Parser.Try_stmtContext context)

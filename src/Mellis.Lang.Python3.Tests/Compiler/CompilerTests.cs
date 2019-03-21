@@ -130,8 +130,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
 
             // Assert
             Assert.AreNotEqual(0, compiler.Count, "Did not produce any op codes.");
-            var literal = Assert.That.IsOpCode<PushLiteral<int>>(compiler, 0);
-            Assert.AreEqual(5, literal.Literal.Value);
+            Assert.That.IsPushLiteralOpCode(5, compiler, 0);
             var varSet = Assert.That.IsOpCode<VarSet>(compiler, 1);
             Assert.AreEqual("x", varSet.Identifier);
         }

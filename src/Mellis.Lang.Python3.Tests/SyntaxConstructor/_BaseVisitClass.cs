@@ -189,6 +189,16 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             return GetExpressionMock(SourceReference.ClrSource);
         }
 
+        public static Identifier GetIdentifierMock(string name, SourceReference source)
+        {
+            return new Mock<Identifier>(MockBehavior.Strict, source, name).Object;
+        }
+
+        public static Identifier GetIdentifierMock(string name)
+        {
+            return GetIdentifierMock(name, SourceReference.ClrSource);
+        }
+
         public static ArgumentsList GetArgumentsListMock(params ExpressionNode[] arguments)
         {
             return new Mock<ArgumentsList>(

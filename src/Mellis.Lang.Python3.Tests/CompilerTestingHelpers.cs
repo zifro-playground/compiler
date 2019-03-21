@@ -1,22 +1,28 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Interfaces;
+using Mellis.Lang.Python3.Syntax;
 
 namespace Mellis.Lang.Python3.Tests
 {
     public static class CompilerTestingHelpers
     {
-        public static void IsPushLiteralOpCode<TValue>(this Assert assert, int expectedValue, PyCompiler compiler, int index)
+        public static Literal<TValue> IsPushLiteralOpCode<TValue>(
+            this Assert assert,
+            TValue expectedValue,
+            PyCompiler compiler,
+            int index)
         {
             if (index >= compiler.Count)
             {
                 throw new AssertFailedException($"Expected PushLiteral<{typeof(TValue).Name}> op code at index {index} but compiler only contains {compiler.Count} op codes.");
             }
 
-            IOpCode opCode = compiler[index];
-            Assert.IsInstanceOfType(opCode, typeof(PushLiteral<TValue>));
-            var pushLiteral = (PushLiteral<TValue>) opCode;
-            Assert.AreEqual(expectedValue, pushLiteral.Literal.Value, $"Value not matched for Literal<{typeof(TValue).Name}>");
+            var opCode = compiler[index];
+            Assert.IsInstanceOfType(opCode, typeof(PushLiteral));
+            var literal = (Literal<TValue>)((PushLiteral) opCode).Literal;
+            Assert.AreEqual(expectedValue, literal.Value, $"Value not matched for Literal<{typeof(TValue).Name}>");
+            return literal;
         }
 
         public static void IsBinaryOpCode(this Assert assert, OperatorCode expectedCode, PyCompiler compiler, int index)

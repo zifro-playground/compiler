@@ -220,8 +220,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             var foo = Assert.That.IsOpCode<VarGet>(compiler, 0);
             Assert.AreEqual(expectedIdentifier, foo.Identifier);
 
-            var numb = Assert.That.IsOpCode<PushLiteral<int>>(compiler, 1);
-            Assert.AreEqual(expectedLiteral, numb.Literal.Value);
+            Assert.That.IsPushLiteralOpCode(expectedLiteral, compiler, 1);
 
             var callOp = Assert.That.IsOpCode<Call>(compiler, 2);
             Assert.AreEqual(1, callOp.ArgumentCount);
@@ -261,15 +260,10 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             // Assert
             var foo = Assert.That.IsOpCode<VarGet>(compiler, 0);
             Assert.AreEqual(expectedIdentifier, foo.Identifier);
-
-            var lit1 = Assert.That.IsOpCode<PushLiteral<int>>(compiler, 1);
-            Assert.AreEqual(expectedLiteral1, lit1.Literal.Value);
-
-            var lit2 = Assert.That.IsOpCode<PushLiteral<string>>(compiler, 2);
-            Assert.AreEqual(expectedLiteral2, lit2.Literal.Value);
-
-            var lit3 = Assert.That.IsOpCode<PushLiteral<bool>>(compiler, 3);
-            Assert.AreEqual(expectedLiteral3, lit3.Literal.Value);
+            
+            Assert.That.IsPushLiteralOpCode(expectedLiteral1, compiler, 1);
+            Assert.That.IsPushLiteralOpCode(expectedLiteral2, compiler, 2);
+            Assert.That.IsPushLiteralOpCode(expectedLiteral3, compiler, 3);
 
             var callOp = Assert.That.IsOpCode<Call>(compiler, 4);
             Assert.AreEqual(3, callOp.ArgumentCount);
