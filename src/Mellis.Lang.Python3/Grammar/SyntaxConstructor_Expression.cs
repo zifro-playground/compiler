@@ -1056,8 +1056,33 @@ namespace Mellis.Lang.Python3.Grammar
 
         public override SyntaxNode VisitExprlist(Python3Parser.ExprlistContext context)
         {
-            VisitChildren(context);
-            throw context.NotYetImplementedException();
+            // exprlist: (expr|star_expr) (',' (expr|star_expr))* [',']
+
+            var rule = context.GetChildOrThrow<ParserRuleContext>(0);
+            ExpressionNode expr;
+            if (rule is Python3Parser.ExprContext exprRule)
+            {
+                expr = VisitExpr(exprRule)
+                    .AsTypeOrThrow<ExpressionNode>();
+            }
+            else if (rule is Python3Parser.Star_exprContext starRule)
+            {
+                throw starRule.NotYetImplementedException("*");
+            }
+            else
+            {
+                throw context.UnexpectedChildType(rule);
+            }
+
+            if (context.ChildCount == 1)
+            {
+                // Only single test
+                return expr;
+            }
+
+            // Multiple expr => construct tuple
+            ITerminalNode firstComma = context.GetChildOrThrow(1, Python3Parser.COMMA);
+            throw firstComma.NotYetImplementedException();
         }
 
         public override SyntaxNode VisitTestlist(Python3Parser.TestlistContext context)
@@ -1076,20 +1101,6 @@ namespace Mellis.Lang.Python3.Grammar
             // Multiple tests => construct tuple
             ITerminalNode firstComma = context.GetChildOrThrow(1, Python3Parser.COMMA);
             throw firstComma.NotYetImplementedException();
-
-#pragma warning disable 162
-            for (int i = 2; i < context.ChildCount; i += 2)
-            {
-                var secondRule = context.GetChildOrThrow<Python3Parser.TestContext>(i);
-
-                throw secondRule.NotYetImplementedException();
-
-                if (i == context.ChildCount - 1)
-                {
-                    context.GetChildOrThrow(i + 1, Python3Parser.COMMA);
-                }
-            }
-#pragma warning restore 162
         }
 
         public override SyntaxNode VisitDictorsetmaker(Python3Parser.DictorsetmakerContext context)
