@@ -761,9 +761,10 @@ namespace Mellis.Lang.Python3.Grammar
                 return LiteralString.Parse(firstToken.GetSourceReference(),
                     firstToken.Symbol.Text);
 
-            case Python3Parser.ELLIPSIS:
             case Python3Parser.NONE:
-                // TODO: Implement correct error if used in Assignment
+                return new LiteralNone(firstToken.GetSourceReference());
+
+            case Python3Parser.ELLIPSIS:
                 throw firstToken.NotYetImplementedException();
 
             case Python3Parser.OPEN_PAREN:

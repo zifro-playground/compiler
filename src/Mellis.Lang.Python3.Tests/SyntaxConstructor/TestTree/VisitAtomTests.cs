@@ -49,6 +49,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         [DataRow(Python3Parser.TRUE, "True", typeof(LiteralBoolean))]
         [DataRow(Python3Parser.FALSE, "False", typeof(LiteralBoolean))]
         [DataRow(Python3Parser.NAME, "x", typeof(Identifier))]
+        [DataRow(Python3Parser.NONE, "None", typeof(LiteralNone))]
         public void Visit_LiteralTypes_Test(int token, string text, Type expectedType)
         {
             // Arrange
@@ -117,7 +118,6 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         }
 
         [DataTestMethod]
-        [DataRow(Python3Parser.NONE, "None", "None")]
         [DataRow(Python3Parser.ELLIPSIS, "...", "...")]
         public void Visit_LiteralsNotYetImplementedKeyword_Test(int token, string text, string expectedKeyword)
         {
