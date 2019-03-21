@@ -134,6 +134,24 @@
 {3} source end column
 {4} missing parenthesis char</comment>
   </data>
+  <data name="Ex_Syntax_Assign_Boolean" xml:space="preserve">
+    <value>Kan inte skriva över betydelsen för '{0}'.</value>
+    <comment>Assignment on boolean literal.
+{0} localized value. Type_Boolean_True or Type_Boolean_False</comment>
+  </data>
+  <data name="Ex_Syntax_Assign_Expression" xml:space="preserve">
+    <value>Kan inte sätta värdet på ett uttryck.</value>
+    <comment>Assignment on expression. Ex: (1 + 2) = 3</comment>
+  </data>
+  <data name="Ex_Syntax_Assign_Literal" xml:space="preserve">
+    <value>Kan inte sätta värdet på faktiskt '{0}' värde.</value>
+    <comment>Assignment on literal.
+{0} name of literal type.</comment>
+  </data>
+  <data name="Ex_Syntax_Assign_None" xml:space="preserve">
+    <value>Kan inte skriva över betydelsen för 'intet'.</value>
+    <comment>Assignment on None literal.</comment>
+  </data>
   <data name="Ex_Syntax_ExpectedChild" xml:space="preserve">
     <value>Förväntar en regel men det var tomt efter '{4}'.</value>
     <comment>If child is null in the compiling algo. Which should never happen.

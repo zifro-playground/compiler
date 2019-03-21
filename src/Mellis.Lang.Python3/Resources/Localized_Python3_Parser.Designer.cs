@@ -79,6 +79,42 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kan inte skriva över betydelsen för &apos;{0}&apos;..
+        /// </summary>
+        internal static string Ex_Syntax_Assign_Boolean {
+            get {
+                return ResourceManager.GetString("Ex_Syntax_Assign_Boolean", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kan inte sätta värdet på ett uttryck..
+        /// </summary>
+        internal static string Ex_Syntax_Assign_Expression {
+            get {
+                return ResourceManager.GetString("Ex_Syntax_Assign_Expression", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kan inte sätta värdet på faktiskt &apos;{0}&apos; värde..
+        /// </summary>
+        internal static string Ex_Syntax_Assign_Literal {
+            get {
+                return ResourceManager.GetString("Ex_Syntax_Assign_Literal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kan inte skriva över betydelsen för &apos;intet&apos;..
+        /// </summary>
+        internal static string Ex_Syntax_Assign_None {
+            get {
+                return ResourceManager.GetString("Ex_Syntax_Assign_None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Förväntar en regel men det var tomt efter &apos;{4}&apos;..
         /// </summary>
         internal static string Ex_Syntax_ExpectedChild {

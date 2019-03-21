@@ -2,6 +2,7 @@
 using System.Globalization;
 using Mellis.Core.Entities;
 using Mellis.Core.Interfaces;
+using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Instructions;
@@ -67,6 +68,11 @@ namespace Mellis.Lang.Python3.Syntax.Literals
             }
 
             throw new SyntaxLiteralFormatException(source);
+        }
+
+        public override string GetTypeName()
+        {
+            return Localized_Base_Entities.Type_Int_Name;
         }
 
         public override IScriptType ToScriptType(VM.PyProcessor processor)

@@ -763,6 +763,7 @@ namespace Mellis.Lang.Python3.Grammar
 
             case Python3Parser.ELLIPSIS:
             case Python3Parser.NONE:
+                // TODO: Implement correct error if used in Assignment
                 throw firstToken.NotYetImplementedException();
 
             case Python3Parser.OPEN_PAREN:

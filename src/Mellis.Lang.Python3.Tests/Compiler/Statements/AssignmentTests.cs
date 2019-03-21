@@ -1,7 +1,9 @@
 ﻿using System;
 using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
+using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Instructions;
+using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.Syntax;
 using Mellis.Lang.Python3.Syntax.Literals;
 using Mellis.Lang.Python3.Syntax.Statements;
@@ -45,20 +47,46 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
         }
 
         [TestMethod]
-        public void CompileAssignmentOnLiteralTest()
+        public void AssignLiteralIntegerTest()
+        {
+            var source = new SourceReference(3, 5, 5, 1);
+            var literalMock = new Mock<LiteralInteger>(source, 5);
+
+            _AssignLiteralIntegerTest<LiteralInteger, int>(source, literalMock);
+        }
+
+        [TestMethod]
+        public void AssignLiteralDoubleTest()
+        {
+            var source = new SourceReference(3, 5, 5, 1);
+            var literalMock = new Mock<LiteralDouble>(source, 10d);
+
+            _AssignLiteralIntegerTest<LiteralDouble, double>(source, literalMock);
+        }
+
+        [TestMethod]
+        public void AssignLiteralStringTest()
+        {
+            var source = new SourceReference(3, 5, 5, 1);
+            var literalMock = new Mock<LiteralString>(source, "foo");
+
+            _AssignLiteralIntegerTest<LiteralString, string>(source, literalMock);
+        }
+
+        private static void _AssignLiteralIntegerTest<TLiteral, TValue>(
+            SourceReference source,
+            Mock<TLiteral> literalMock)
+            where TLiteral : Literal<TValue>
         {
             // Arrange
             var compiler = new PyCompiler();
-
-            var source = new SourceReference(3, 5, 5, 1);
-            var intLhsMock = new Mock<LiteralInteger>(source, 5);
 
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> exprRhsMock,
                 out NopOp exprRhsOp);
 
             var stmt = new Assignment(SourceReference.ClrSource,
-                leftOperand: intLhsMock.Object,
+                leftOperand: literalMock.Object,
                 rightOperand: exprRhsMock.Object);
 
             void Action()
@@ -67,14 +95,127 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
             }
 
             // Act
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>((Action)Action);
+            var ex = Assert.ThrowsException<SyntaxException>((Action)Action);
 
             // Assert
-            Assert.That.ErrorNotYetImplFormatArgs(ex, source);
+            Assert.That.ErrorSyntaxFormatArgsEqual(ex,
+                nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Literal),
+                source,
+                literalMock.Object.GetTypeName()
+            );
 
-            intLhsMock.Verify(o => o.Compile(compiler), Times.Never);
+            literalMock.Verify(o => o.Compile(compiler), Times.Never);
             exprRhsMock.Verify(o => o.Compile(compiler), Times.Never);
         }
+
+        [DataTestMethod]
+        [DataRow(true, nameof(Localized_Base_Entities.Type_Boolean_True))]
+        [DataRow(false, nameof(Localized_Base_Entities.Type_Boolean_False))]
+        public void AssignBooleanTest(bool value, string nameKey)
+        {
+            // Arrange
+            var compiler = new PyCompiler();
+
+            var source = new SourceReference(3, 5, 5, 1);
+            var literalMock = new Mock<LiteralBoolean>(source, value);
+
+            compiler.CreateAndSetup(
+                out Mock<ExpressionNode> exprRhsMock,
+                out NopOp exprRhsOp);
+
+            var stmt = new Assignment(SourceReference.ClrSource,
+                leftOperand: literalMock.Object,
+                rightOperand: exprRhsMock.Object);
+
+            void Action()
+            {
+                stmt.Compile(compiler);
+            }
+
+            // Act
+            var ex = Assert.ThrowsException<SyntaxException>((Action)Action);
+
+            // Assert
+            Assert.That.ErrorSyntaxFormatArgsEqual(ex,
+                nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Boolean),
+                source,
+                Localized_Base_Entities.ResourceManager.GetString(nameKey)
+            );
+
+            literalMock.Verify(o => o.Compile(compiler), Times.Never);
+            exprRhsMock.Verify(o => o.Compile(compiler), Times.Never);
+        }
+
+        [TestMethod]
+        public void AssignExpression()
+        {
+            // Arrange
+            var compiler = new PyCompiler();
+
+            var source = new SourceReference(3, 5, 5, 1);
+            var literalMock = new Mock<ExpressionNode>(source);
+
+            compiler.CreateAndSetup(
+                out Mock<ExpressionNode> exprRhsMock,
+                out NopOp exprRhsOp);
+
+            var stmt = new Assignment(SourceReference.ClrSource,
+                leftOperand: literalMock.Object,
+                rightOperand: exprRhsMock.Object);
+
+            void Action()
+            {
+                stmt.Compile(compiler);
+            }
+
+            // Act
+            var ex = Assert.ThrowsException<SyntaxException>((Action)Action);
+
+            // Assert
+            Assert.That.ErrorSyntaxFormatArgsEqual(ex,
+                nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Expression),
+                source
+            );
+
+            literalMock.Verify(o => o.Compile(compiler), Times.Never);
+            exprRhsMock.Verify(o => o.Compile(compiler), Times.Never);
+        }
+
+        //[TestMethod]
+        //public void AssignNoneTest()
+        //{
+        //    // Arrange
+        //    var compiler = new PyCompiler();
+
+        //    var source = new SourceReference(3, 5, 5, 1);
+        //    var literalMock = new Mock<liter>(source, value);
+
+        //    compiler.CreateAndSetup(
+        //        out Mock<ExpressionNode> exprRhsMock,
+        //        out NopOp exprRhsOp);
+
+        //    var stmt = new Assignment(SourceReference.ClrSource,
+        //        leftOperand: literalMock.Object,
+        //        rightOperand: exprRhsMock.Object);
+
+        //    void Action()
+        //    {
+        //        stmt.Compile(compiler);
+        //    }
+
+        //    // Act
+        //    var ex = Assert.ThrowsException<SyntaxException>((Action)Action);
+
+        //    // Assert
+        //    Assert.That.ErrorSyntaxFormatArgsEqual(ex,
+        //        nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Boolean),
+        //        source,
+        //        Localized_Python3_Entities.ResourceManager.GetString(nameKey)
+        //    );
+
+        //    literalMock.Verify(o => o.Compile(compiler), Times.Never);
+        //    exprRhsMock.Verify(o => o.Compile(compiler), Times.Never);
+        //}
 
     }
 }

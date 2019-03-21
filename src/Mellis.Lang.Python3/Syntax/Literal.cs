@@ -11,7 +11,9 @@ namespace Mellis.Lang.Python3.Syntax
             Value = value;
         }
 
-        public T Value { get; set; }
+        public T Value { get; }
+
+        public abstract string GetTypeName();
 
         public abstract IScriptType ToScriptType(VM.PyProcessor processor);
     }
