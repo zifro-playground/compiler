@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  slack: circleci/slack@2.0.0
+
 jobs:
   build-test:
     working_directory: ~/repo
@@ -41,6 +44,8 @@ jobs:
       - store_test_results:
           name: store test results -> ~/tests/xml
           path: ~/tests/xml
+
+      - slack/status
 
   deploy-github:
     working_directory: ~/repo
@@ -117,6 +122,9 @@ jobs:
             : ${CIRCLE_PROJECT_REPONAME?}
 
             commit_upm.sh ~/upm
+
+      - slack/status
+
 
 workflows:
   version: 2.1
