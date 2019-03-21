@@ -6,13 +6,13 @@ namespace Mellis.Lang.Python3.Syntax.Statements
     {
         public ExpressionNode Operand { get; }
         public ExpressionNode Iterator { get; }
-        public Statement Suite { get; set; }
+        public Statement Suite { get; }
 
         public ForStatement(
+            SourceReference source,
             ExpressionNode operand,
             ExpressionNode iterator,
-            Statement suite,
-            SourceReference source) : base(source)
+            Statement suite) : base(source)
         {
             Operand = operand;
             Iterator = iterator;

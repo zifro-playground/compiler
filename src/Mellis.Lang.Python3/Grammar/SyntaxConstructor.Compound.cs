@@ -153,7 +153,7 @@ namespace Mellis.Lang.Python3.Grammar
             Statement suiteStmt = VisitSuite(suiteNode)
                 .AsTypeOrThrow<Statement>();
 
-            return new ForStatement(operandExpr, iterExpr, suiteStmt, context.GetSourceReference());
+            return new ForStatement(context.GetSourceReference(), operandExpr, iterExpr, suiteStmt);
         }
 
         public override SyntaxNode VisitTry_stmt(Python3Parser.Try_stmtContext context)
