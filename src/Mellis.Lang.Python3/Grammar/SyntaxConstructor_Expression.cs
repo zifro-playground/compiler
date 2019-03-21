@@ -14,6 +14,8 @@ using Mellis.Lang.Python3.Syntax.Operators.Binaries;
 using Mellis.Lang.Python3.Syntax.Operators.Logicals;
 using Mellis.Lang.Python3.Syntax.Statements;
 
+#pragma warning disable IDE0008 // Use explicit type
+
 namespace Mellis.Lang.Python3.Grammar
 {
     public partial class SyntaxConstructor
@@ -1062,8 +1064,29 @@ namespace Mellis.Lang.Python3.Grammar
 
         public override SyntaxNode VisitTestlist(Python3Parser.TestlistContext context)
         {
-            VisitChildren(context);
-            throw context.NotYetImplementedException();
+            // testlist: test (',' test)* [',']
+            var rule = context.GetChildOrThrow<Python3Parser.TestContext>(0);
+
+            var expr = VisitTest(rule)
+                .AsTypeOrThrow<ExpressionNode>();
+
+            for (var i = 1; i < context.ChildCount; i += 2)
+            {
+                context.GetChildOrThrow(i, Python3Parser.COMMA);
+                if (i == context.ChildCount - 1)
+                {
+                    break;
+                }
+
+                var secondRule = context.GetChildOrThrow<Python3Parser.TestContext>(i + 1);
+
+                throw secondRule.NotYetImplementedException();
+                // TODO:
+                //var secondExpr = VisitTest(secondRule)
+                //    .AsTypeOrThrow<ExpressionNode>();
+            }
+
+            return expr;
         }
 
         public override SyntaxNode VisitDictorsetmaker(Python3Parser.DictorsetmakerContext context)

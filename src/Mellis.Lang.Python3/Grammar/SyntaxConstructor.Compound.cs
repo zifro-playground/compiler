@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Antlr4.Runtime.Tree;
 using Mellis.Core.Entities;
+using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Extensions;
 using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.Syntax;
@@ -122,6 +123,27 @@ namespace Mellis.Lang.Python3.Grammar
 
         public override SyntaxNode VisitFor_stmt(Python3Parser.For_stmtContext context)
         {
+            // for_stmt: 'for' exprlist 'in' testlist ':' suite ['else' ':' suite]
+            context.GetChildOrThrow(0, Python3Parser.FOR);
+            var varListNode = context.GetChildOrThrow<Python3Parser.ExprlistContext>(1);
+            context.GetChildOrThrow(2, Python3Parser.IN);
+            var iterNode = context.GetChildOrThrow<Python3Parser.TestlistContext>(3);
+            context.GetChildOrThrow(4, Python3Parser.COLON);
+            var suiteNode = context.GetChildOrThrow<Python3Parser.SuiteContext>(5);
+
+            if (context.ChildCount > 6)
+            {
+                context.GetChildOrThrow(6, Python3Parser.ELSE);
+                context.GetChildOrThrow(7, Python3Parser.COLON);
+                var elseNode = context.GetChildOrThrow<Python3Parser.SuiteContext>(8);
+
+                if (context.ChildCount > 9)
+                {
+                    throw context.UnexpectedChildType(context.GetChild(9));
+                }
+
+            }
+
             throw context.NotYetImplementedException("for");
         }
 
