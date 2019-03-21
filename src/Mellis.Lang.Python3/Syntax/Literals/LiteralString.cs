@@ -30,7 +30,7 @@ namespace Mellis.Lang.Python3.Syntax.Literals
 
         public override void Compile(PyCompiler compiler)
         {
-            compiler.Push(new PushLiteral<string>(this));
+            compiler.Push(new PushLiteral(this));
         }
 
         public override string ToString()

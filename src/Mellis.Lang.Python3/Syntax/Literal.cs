@@ -3,7 +3,19 @@ using Mellis.Core.Interfaces;
 
 namespace Mellis.Lang.Python3.Syntax
 {
-    public abstract class Literal<T> : ExpressionNode
+    public abstract class Literal : ExpressionNode
+    {
+        protected Literal(SourceReference source)
+            : base(source)
+        {
+        }
+
+        public abstract string GetTypeName();
+
+        public abstract IScriptType ToScriptType(VM.PyProcessor processor);
+    }
+
+    public abstract class Literal<T> : Literal
     {
         protected Literal(SourceReference source, T value)
             : base(source)
@@ -12,9 +24,5 @@ namespace Mellis.Lang.Python3.Syntax
         }
 
         public T Value { get; }
-
-        public abstract string GetTypeName();
-
-        public abstract IScriptType ToScriptType(VM.PyProcessor processor);
     }
 }

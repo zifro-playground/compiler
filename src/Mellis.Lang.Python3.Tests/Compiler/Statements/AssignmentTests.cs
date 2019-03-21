@@ -181,41 +181,40 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
             exprRhsMock.Verify(o => o.Compile(compiler), Times.Never);
         }
 
-        //[TestMethod]
-        //public void AssignNoneTest()
-        //{
-        //    // Arrange
-        //    var compiler = new PyCompiler();
+        [TestMethod]
+        public void AssignNoneTest()
+        {
+            // Arrange
+            var compiler = new PyCompiler();
 
-        //    var source = new SourceReference(3, 5, 5, 1);
-        //    var literalMock = new Mock<liter>(source, value);
+            var source = new SourceReference(3, 5, 5, 1);
+            var literalMock = new Mock<LiteralNone>(source);
 
-        //    compiler.CreateAndSetup(
-        //        out Mock<ExpressionNode> exprRhsMock,
-        //        out NopOp exprRhsOp);
+            compiler.CreateAndSetup(
+                out Mock<ExpressionNode> exprRhsMock,
+                out NopOp exprRhsOp);
 
-        //    var stmt = new Assignment(SourceReference.ClrSource,
-        //        leftOperand: literalMock.Object,
-        //        rightOperand: exprRhsMock.Object);
+            var stmt = new Assignment(SourceReference.ClrSource,
+                leftOperand: literalMock.Object,
+                rightOperand: exprRhsMock.Object);
 
-        //    void Action()
-        //    {
-        //        stmt.Compile(compiler);
-        //    }
+            void Action()
+            {
+                stmt.Compile(compiler);
+            }
 
-        //    // Act
-        //    var ex = Assert.ThrowsException<SyntaxException>((Action)Action);
+            // Act
+            var ex = Assert.ThrowsException<SyntaxException>((Action)Action);
 
-        //    // Assert
-        //    Assert.That.ErrorSyntaxFormatArgsEqual(ex,
-        //        nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Boolean),
-        //        source,
-        //        Localized_Python3_Entities.ResourceManager.GetString(nameKey)
-        //    );
+            // Assert
+            Assert.That.ErrorSyntaxFormatArgsEqual(ex,
+                nameof(Localized_Python3_Parser.Ex_Syntax_Assign_None),
+                source
+            );
 
-        //    literalMock.Verify(o => o.Compile(compiler), Times.Never);
-        //    exprRhsMock.Verify(o => o.Compile(compiler), Times.Never);
-        //}
+            literalMock.Verify(o => o.Compile(compiler), Times.Never);
+            exprRhsMock.Verify(o => o.Compile(compiler), Times.Never);
+        }
 
     }
 }

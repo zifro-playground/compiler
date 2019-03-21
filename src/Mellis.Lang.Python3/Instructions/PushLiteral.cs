@@ -4,13 +4,13 @@ using Mellis.Lang.Python3.Syntax;
 
 namespace Mellis.Lang.Python3.Instructions
 {
-    public class PushLiteral<TValue> : IOpCode
+    public class PushLiteral : IOpCode
     {
         public SourceReference Source { get; }
 
-        public Literal<TValue> Literal { get; }
+        public Literal Literal { get; }
 
-        public PushLiteral(Literal<TValue> literal)
+        public PushLiteral(Literal literal)
         {
             Literal = literal;
             Source = literal.Source;
