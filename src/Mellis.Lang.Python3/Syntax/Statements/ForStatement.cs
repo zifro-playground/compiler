@@ -1,4 +1,5 @@
 ﻿using Mellis.Core.Entities;
+using Mellis.Lang.Python3.Instructions;
 
 namespace Mellis.Lang.Python3.Syntax.Statements
 {
@@ -21,7 +22,27 @@ namespace Mellis.Lang.Python3.Syntax.Statements
 
         public override void Compile(PyCompiler compiler)
         {
-            throw new System.NotImplementedException();
+            VarSet operandOpCode = Assignment.GetOpCodeForAssignmentOrThrow(Operand.Source, Operand);
+
+            Iterator.Compile(compiler);
+
+            compiler.Push(new ForEachEnter(Source));
+
+            var jumpToNext = new Jump(Source);
+            compiler.Push(jumpToNext);
+            int jumpTargetToAssign = compiler.GetJumpTargetForNext();
+
+            compiler.Push(operandOpCode);
+
+            Suite.Compile(compiler);
+
+            jumpToNext.Target = compiler.GetJumpTargetForNext();
+
+            compiler.Push(
+                new ForEachNext(Iterator.Source, jumpTargetToAssign)
+            );
+
+            compiler.Push(new ForEachExit(Iterator.Source));
         }
     }
 }

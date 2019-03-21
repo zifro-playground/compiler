@@ -24,7 +24,7 @@ namespace Mellis.Lang.Python3.Syntax.Statements
 
         public override void Compile(PyCompiler compiler)
         {
-            var op = GetOpCodeForAssignmentOrThrow(Source, LeftOperand);
+            VarSet op = GetOpCodeForAssignmentOrThrow(Source, LeftOperand);
 
             RightOperand.Compile(compiler);
             compiler.Push(op);

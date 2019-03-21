@@ -2,6 +2,7 @@
 using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
 using Mellis.Lang.Base.Resources;
+using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.Syntax;
 using Mellis.Lang.Python3.Syntax.Literals;
@@ -21,7 +22,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
             // Arrange
             var compiler = new PyCompiler();
 
-            var id = new Identifier(SourceReference.ClrSource, "foo");
+            var id = new Identifier(SourceReference.ClrSource, "fool");
 
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> iterMock,
@@ -40,14 +41,26 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
 
             // Assert
 
-            /*
-             * nop "iter"
-             * iter->prep
-             * iter->next
-             * set->foo
-             * nop "suite"
-             * iter->end
+            /* 
+             0 nop "iter"
+             1 iter->prep
+             2 jmp->@5 (iter->next)
+             3 set->foo
+             4 nop "suite"
+             5 iter->next->@3 (set->foo)
+             6 iter->end
              */
+            Assert.That.IsExpectedOpCode(compiler, 0, iterOp);
+            Assert.That.IsOpCode<ForEachEnter>(compiler, 1);
+            var jumpToNext = Assert.That.IsOpCode<Jump>(compiler, 2);
+            var varSet = Assert.That.IsOpCode<VarSet>(compiler, 3);
+            Assert.That.IsExpectedOpCode(compiler, 4, suiteOp);
+            var iterNext = Assert.That.IsOpCode<ForEachNext>(compiler, 5);
+            Assert.That.IsOpCode<ForEachExit>(compiler, 6);
+
+            Assert.AreSame("fool", varSet.Identifier);
+            Assert.AreEqual(jumpToNext.Target, 5);
+            Assert.AreEqual(iterNext.JumpTarget, 3);
         }
 
         private static void _ThrowAssignLiteralIntegerTest<TLiteral>(
