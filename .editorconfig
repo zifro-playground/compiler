@@ -12,6 +12,12 @@ guidelines = 80
 indent_style = space
 indent_size = 4
 
+# === All files ===
+[*.yml]
+
+indent_style = space
+indent_size = 2
+
 # === C# files ===
 
 [*.cs]
