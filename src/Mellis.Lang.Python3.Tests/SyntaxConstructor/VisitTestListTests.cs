@@ -1,4 +1,5 @@
 ﻿using Mellis.Core.Exceptions;
+using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Grammar;
 using Mellis.Lang.Python3.Syntax;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -38,37 +39,31 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
         }
 
         [TestMethod]
-        public void Visit_MultipleTests()
+        public void Visit_SingleTrailingComma_BecomesTuple()
         {
             // Arrange
-            var testMock1 = GetMockRule<Python3Parser.TestContext>();
-            var testMock2 = GetMockRule<Python3Parser.TestContext>();
-            var testMock3 = GetMockRule<Python3Parser.TestContext>();
+            var testMock = GetMockRule<Python3Parser.TestContext>();
+            var expected = GetExpressionMock();
+
+            var unexpected = GetTerminal(Python3Parser.COMMA);
 
             contextMock.SetupChildren(
-                testMock1.Object,
-                GetTerminal(Python3Parser.COMMA),
-                testMock2.Object,
-                GetTerminal(Python3Parser.COMMA),
-                testMock3.Object
+                testMock.Object,
+                unexpected
             );
 
-            ctorMock.Setup(o => o.VisitTest(testMock1.Object))
-                .Returns(GetExpressionMock).Verifiable();
-
-            testMock2.SetupForSourceReference(startTokenMock, stopTokenMock);
+            ctorMock.Setup(o => o.VisitTest(testMock.Object))
+                .Returns(expected).Verifiable();
 
             // Act
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedException>(VisitContext);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext);
 
             // Assert
-            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock);
-
-            testMock2.Verify();
+            Assert.That.ErrorNotYetImplFormatArgs(ex, unexpected, ",");
         }
 
         [TestMethod]
-        public void Visit_MultipleTestsTooManyCommas()
+        public void Visit_MultipleTests()
         {
             // Arrange
             var testMock1 = GetMockRule<Python3Parser.TestContext>();
@@ -78,7 +73,6 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             var unexpected = GetTerminal(Python3Parser.COMMA);
             contextMock.SetupChildren(
                 testMock1.Object,
-                GetTerminal(Python3Parser.COMMA),
                 unexpected,
                 testMock2.Object,
                 GetTerminal(Python3Parser.COMMA),
@@ -89,11 +83,41 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
                 .Returns(GetExpressionMock).Verifiable();
 
             // Act
-            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext);
 
             // Assert
-            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, unexpected);
+            Assert.That.ErrorNotYetImplFormatArgs(ex, unexpected, ",");
+
+            testMock2.Verify();
         }
+
+        //[TestMethod]
+        //public void Visit_MultipleTestsTooManyCommas()
+        //{
+        //    // Arrange
+        //    var testMock1 = GetMockRule<Python3Parser.TestContext>();
+        //    var testMock2 = GetMockRule<Python3Parser.TestContext>();
+        //    var testMock3 = GetMockRule<Python3Parser.TestContext>();
+
+        //    var unexpected = GetTerminal(Python3Parser.COMMA);
+        //    contextMock.SetupChildren(
+        //        testMock1.Object,
+        //        GetTerminal(Python3Parser.COMMA),
+        //        unexpected,
+        //        testMock2.Object,
+        //        GetTerminal(Python3Parser.COMMA),
+        //        testMock3.Object
+        //    );
+
+        //    ctorMock.Setup(o => o.VisitTest(testMock1.Object))
+        //        .Returns(GetExpressionMock).Verifiable();
+
+        //    // Act
+        //    var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
+
+        //    // Assert
+        //    Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, unexpected);
+        //}
 
         [TestMethod]
         public void Visit_MultipleTestsNoCommas()
@@ -120,7 +144,6 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
 
             // Assert
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, startTokenMock, stopTokenMock, contextMock, testMock2.Object);
-            contextMock.VerifyLoopedChildren(2);
         }
 
         [TestMethod]
@@ -139,7 +162,6 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
 
             // Assert
             Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, unexpected);
-            contextMock.VerifyLoopedChildren(1);
         }
     }
 }
