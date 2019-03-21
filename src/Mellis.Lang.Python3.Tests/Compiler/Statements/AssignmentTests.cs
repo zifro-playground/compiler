@@ -17,7 +17,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
     public class AssignmentTests
     {
         [TestMethod]
-        public void CompileAssignmentOnIdentifierTest()
+        public void AssignIdentifierTest()
         {
             // Arrange
             const string identifier = "foo";
