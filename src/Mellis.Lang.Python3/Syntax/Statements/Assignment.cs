@@ -24,8 +24,6 @@ namespace Mellis.Lang.Python3.Syntax.Statements
 
         public override void Compile(PyCompiler compiler)
         {
-            string literalName;
-
             switch (LeftOperand)
             {
             case Identifier id:
@@ -42,15 +40,18 @@ namespace Mellis.Lang.Python3.Syntax.Statements
                         : Localized_Base_Entities.Type_Boolean_False
                 );
 
-            case LiteralInteger i:
-                literalName = i.GetTypeName();
-                goto Literal;
-            case LiteralDouble d:
-                literalName = d.GetTypeName();
-                goto Literal;
-            case LiteralString s:
-                literalName = s.GetTypeName();
-                goto Literal;
+            case LiteralNone _:
+                throw new SyntaxException(LeftOperand.Source,
+                    nameof(Localized_Python3_Parser.Ex_Syntax_Assign_None),
+                    Localized_Python3_Parser.Ex_Syntax_Assign_None
+                );
+
+            case Literal lit:
+                throw new SyntaxException(LeftOperand.Source,
+                    nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Literal),
+                    Localized_Python3_Parser.Ex_Syntax_Assign_Literal,
+                    lit.GetTypeName()
+                );
 
             default:
                 throw new SyntaxException(LeftOperand.Source,
@@ -58,13 +59,6 @@ namespace Mellis.Lang.Python3.Syntax.Statements
                     Localized_Python3_Parser.Ex_Syntax_Assign_Expression
                 );
             }
-
-            Literal:
-            throw new SyntaxException(LeftOperand.Source,
-                nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Literal),
-                Localized_Python3_Parser.Ex_Syntax_Assign_Literal,
-                literalName
-            );
         }
     }
 }
