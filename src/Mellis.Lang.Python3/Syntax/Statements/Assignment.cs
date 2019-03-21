@@ -24,15 +24,21 @@ namespace Mellis.Lang.Python3.Syntax.Statements
 
         public override void Compile(PyCompiler compiler)
         {
-            switch (LeftOperand)
+            var op = GetOpCodeForAssignmentOrThrow(Source, LeftOperand);
+
+            RightOperand.Compile(compiler);
+            compiler.Push(op);
+        }
+
+        public static VarSet GetOpCodeForAssignmentOrThrow(SourceReference source, ExpressionNode leftOperand)
+        {
+            switch (leftOperand)
             {
             case Identifier id:
-                RightOperand.Compile(compiler);
-                compiler.Push(new VarSet(Source, id.Name));
-                return;
+                return new VarSet(source, id.Name);
 
             case LiteralBoolean b:
-                throw new SyntaxException(LeftOperand.Source,
+                throw new SyntaxException(leftOperand.Source,
                     nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Boolean),
                     Localized_Python3_Parser.Ex_Syntax_Assign_Boolean,
                     b.Value
@@ -41,20 +47,20 @@ namespace Mellis.Lang.Python3.Syntax.Statements
                 );
 
             case LiteralNone _:
-                throw new SyntaxException(LeftOperand.Source,
+                throw new SyntaxException(leftOperand.Source,
                     nameof(Localized_Python3_Parser.Ex_Syntax_Assign_None),
                     Localized_Python3_Parser.Ex_Syntax_Assign_None
                 );
 
             case Literal lit:
-                throw new SyntaxException(LeftOperand.Source,
+                throw new SyntaxException(leftOperand.Source,
                     nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Literal),
                     Localized_Python3_Parser.Ex_Syntax_Assign_Literal,
                     lit.GetTypeName()
                 );
 
             default:
-                throw new SyntaxException(LeftOperand.Source,
+                throw new SyntaxException(leftOperand.Source,
                     nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Expression),
                     Localized_Python3_Parser.Ex_Syntax_Assign_Expression
                 );
