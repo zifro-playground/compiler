@@ -125,7 +125,7 @@ namespace Mellis.Lang.Python3.Grammar
         {
             // for_stmt: 'for' exprlist 'in' testlist ':' suite ['else' ':' suite]
             context.GetChildOrThrow(0, Python3Parser.FOR);
-            var varListNode = context.GetChildOrThrow<Python3Parser.ExprlistContext>(1);
+            var operandNode = context.GetChildOrThrow<Python3Parser.ExprlistContext>(1);
             context.GetChildOrThrow(2, Python3Parser.IN);
             var iterNode = context.GetChildOrThrow<Python3Parser.TestlistContext>(3);
             context.GetChildOrThrow(4, Python3Parser.COLON);
@@ -133,18 +133,27 @@ namespace Mellis.Lang.Python3.Grammar
 
             if (context.ChildCount > 6)
             {
-                context.GetChildOrThrow(6, Python3Parser.ELSE);
+                ITerminalNode elseTerm = context.GetChildOrThrow(6, Python3Parser.ELSE);
                 context.GetChildOrThrow(7, Python3Parser.COLON);
-                var elseNode = context.GetChildOrThrow<Python3Parser.SuiteContext>(8);
+                context.GetChildOrThrow<Python3Parser.SuiteContext>(8);
 
                 if (context.ChildCount > 9)
                 {
                     throw context.UnexpectedChildType(context.GetChild(9));
                 }
 
+                throw elseTerm.NotYetImplementedException("for..else");
             }
 
-            throw context.NotYetImplementedException("for");
+            ExpressionNode operandExpr = VisitExprlist(operandNode)
+                .AsTypeOrThrow<ExpressionNode>();
+            ExpressionNode iterExpr = VisitTestlist(iterNode)
+                .AsTypeOrThrow<ExpressionNode>();
+
+            Statement suiteStmt = VisitSuite(suiteNode)
+                .AsTypeOrThrow<Statement>();
+
+            return new ForStatement(operandExpr, iterExpr, suiteStmt, context.GetSourceReference());
         }
 
         public override SyntaxNode VisitTry_stmt(Python3Parser.Try_stmtContext context)

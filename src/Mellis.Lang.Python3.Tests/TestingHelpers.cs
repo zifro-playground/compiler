@@ -70,6 +70,17 @@ namespace Mellis.Lang.Python3.Tests
             return expr;
         }
 
+        public static Identifier SetupIdentifier(this Mock<Grammar.SyntaxConstructor> ctorMock,
+            Expression<Func<Grammar.SyntaxConstructor, SyntaxNode>> setupExpression,
+            string identifierName)
+        {
+            var id = new Identifier(SourceReference.ClrSource, identifierName);
+
+            ctorMock.Setup(setupExpression).Returns(id).Verifiable();
+
+            return id;
+        }
+
         public static Statement SetupStatementMock(this Mock<Grammar.SyntaxConstructor> ctorMock,
             Expression<Func<Grammar.SyntaxConstructor, SyntaxNode>> setupExpression)
         {
