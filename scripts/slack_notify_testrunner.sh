@@ -25,7 +25,7 @@ function quoteNotFirst {
     done <<< "$1"
 }
 
-if [ "$BUILD_STATUS" -eq "success" ]
+if [ "$BUILD_STATUS" == "success" ]
 then
     # Success
     color="#1CBF43" # green
@@ -56,7 +56,6 @@ fi
 
 : ${errorsField:=}
 
-cd $CIRCLE_WORKING_DIRECTORY
 commitMessage="$(quoteNotFirst "$(git log --pretty=%B -n 1)")"
 
 commitMessage=${commitMessage//\\/\\\\} # \ 
