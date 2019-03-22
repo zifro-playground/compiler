@@ -9,3 +9,6 @@ ENV PATH="$PATH:/root/.dotnet/tools"
 # Install git
 RUN apt-get update && \
     apt-get install git -y
+
+# Utility scripts
+COPY scripts/dotnet_test.sh /usr/local/bin/dotnet_test.sh

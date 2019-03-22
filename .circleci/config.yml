@@ -28,24 +28,34 @@ jobs:
       # Test results -> ~/tests/trx
       - run:
           name: Test projects
+          # this is using custom script dotnet_test.sh
           command: |
-            set +o errexit
-            set +x
-            dotnet test -c Debug -r ~/tests/trx -o ~/bin --logger:trx src/Mellis.all.sln --no-build --no-restore
-            TEST_STATUS=$?
-            echo "Testing complete"
-            echo
+            . dotnet_test -c Debug src/Mellis.all.sln -o ~/bin -r ~/tests/trx
+
+      - run:
+          name: Convert test results, ~/tests/trx -> ~/tests/xml
+          when: always
+          command: |
             echo "Converting test results"
             find ~/tests/trx -name *.trx -exec trx2junit --output ~/tests/xml {} +
-            echo
-            exit $TEST_STATUS
 
       # Store test result xmls
       - store_test_results:
           name: store test results -> ~/tests/xml
           path: ~/tests/xml
 
-      - slack/status
+      - slack/notify:
+          when: on_success
+          color: "#1CBF43"
+          title: "BUILD SUCCEEDED"
+          message: "[TESTS] Passed: ${TEST_PASSED}, Failed: ${TEST_FAILED}, Skipped: ${TEST_SKIPPED}"
+
+      - slack/notify:
+          when: on_fail
+          color: "#ed5c5c"
+          title: "BUILD FAILED"
+          message: "[TESTS] Passed: ${TEST_PASSED}, Failed: ${TEST_FAILED}, Skipped: ${TEST_SKIPPED}"
+          footer: "${TEST_ERRORS}"
 
   deploy-github:
     working_directory: ~/repo
