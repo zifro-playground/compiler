@@ -52,7 +52,7 @@ echo "export TEST_PASSED=$(($passed))" >> $BASH_ENV
 echo "export TEST_FAILED=$(($failed))" >> $BASH_ENV
 echo "export TEST_SKIPPED=$(($skipped))" >> $BASH_ENV
 echo "export TEST_TOTAL=$(($total))" >> $BASH_ENV
-echo "read -rd '' TEST_ERRORS <<'ERROR_STRINGS'\n$errors\nERROR_STRINGS\n" >> $BASH_ENV
+echo -e "read -rd '' TEST_ERRORS <<'ERROR_STRINGS'\n$errors\nERROR_STRINGS\n" >> $BASH_ENV
 echo "export TEST_ERRORS" >> $BASH_ENV
 
 echo "<<<<<< Testing complete"

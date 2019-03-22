@@ -25,14 +25,17 @@ function quoteNotFirst {
     done <<< "$1"
 }
 
+echo "BUILD_STATUS=$BUILD_STATUS"
 if [ "$BUILD_STATUS" == "success" ]
 then
+    echo "Build successful, adjusing message accordingly"
     # Success
     color="#1CBF43" # green
     title=":tada: BUILD COMPLETED SUCCESSFULLY"
     fallback="Build completed successfully ($CIRCLE_JOB#$CIRCLE_BUILD_NUM)"
 
 else
+    echo "Build failed, adjusing message accordingly"
     # Fail
     color="#ed5c5c" # red
     title=":no_entry_sign: BUILD FAILED"
