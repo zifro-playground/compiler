@@ -55,6 +55,7 @@ then
     title=":tada: BUILD COMPLETED SUCCESSFULLY"
     fallback="Build completed successfully ($CIRCLE_JOB#$CIRCLE_BUILD_NUM)"
     testResults="Passed: $TEST_PASSED :heavy_check_mark:, Failed: $TEST_FAILED, Skipped: $TEST_SKIPPED"
+    visitJobActionStyle="primary"
 else
     echo "Build failed, adjusing message accordingly"
     # Fail
@@ -62,6 +63,7 @@ else
     title=":no_entry_sign: BUILD FAILED"
     fallback="Build failed ($CIRCLE_JOB#$CIRCLE_BUILD_NUM)"
     testResults="Passed: $TEST_PASSED, Failed: $TEST_FAILED :exclamation:, Skipped: $TEST_SKIPPED"
+    visitJobActionStyle="danger"
 
     if [ "$TEST_FAILED" -gt 0 ]
     then
@@ -157,7 +159,7 @@ curl -X POST -H 'Content-type: application/json' \
         ], \
         \"actions\": [ \
             { \
-                \"style\": \"primary\", \
+                \"style\": \"$visitJobActionStyle\", \
                 \"type\": \"button\", \
                 \"text\": \"Visit Job #$CIRCLE_BUILD_NUM ($CIRCLE_STAGE)\", \
                 \"url\": \"$CIRCLE_BUILD_URL\" \
