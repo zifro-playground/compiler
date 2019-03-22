@@ -7,5 +7,9 @@ RUN dotnet tool install -g trx2junit
 ENV PATH="$PATH:/root/.dotnet/tools"
 
 # Install git
-RUN apt-get update && \
-    apt-get install git -y
+RUN apt update && \
+    apt install git -y
+
+# Utility scripts
+COPY scripts/dotnet_test.sh /usr/local/bin/dotnet_test.sh
+COPY scripts/slack_notify_testrunner.sh /usr/local/bin/slack_notify_testrunner.sh
