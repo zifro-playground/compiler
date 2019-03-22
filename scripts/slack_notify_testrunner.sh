@@ -121,7 +121,7 @@ curl -X POST -H 'Content-type: application/json' \
         \"fallback\": \"$fallback\", \
         \"title\": \"$title\", \
         \"footer\": \"$footer\", \
-        \"text\": \"$text\", \
+        \"text\": \"Commits _(oldest first):_\\n$text\", \
         \"mrkdwn_in\": [\"fields\", \"text\"], 
         \"color\": \"$color\" ,\
         \"fields\": [ \
