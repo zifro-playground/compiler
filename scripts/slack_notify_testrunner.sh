@@ -109,7 +109,7 @@ do
     text="$(getTextForCommit $commit)\\n$text"
 done < <(git log --pretty=%h $commitRange)
 
-footer="$(git log --shortstat -n 1 | tail -n1)"
+footer="$(git diff --shortstat $commitRange)"
 
 curl -X POST -H 'Content-type: application/json' \
 --data " { \
