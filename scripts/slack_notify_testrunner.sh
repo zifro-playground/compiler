@@ -46,6 +46,7 @@ function getTextForCommit {
 }
 
 echo "BUILD_STATUS=$BUILD_STATUS"
+
 if [ "$BUILD_STATUS" == "success" ]
 then
     echo "Build successful, adjusing message accordingly"
@@ -53,13 +54,14 @@ then
     color="#1CBF43" # green
     title=":tada: BUILD COMPLETED SUCCESSFULLY"
     fallback="Build completed successfully ($CIRCLE_JOB#$CIRCLE_BUILD_NUM)"
-
+    testResults="Passed: $TEST_PASSED :heavy_check_mark:, Failed: $TEST_FAILED, Skipped: $TEST_SKIPPED"
 else
     echo "Build failed, adjusing message accordingly"
     # Fail
     color="#ed5c5c" # red
     title=":no_entry_sign: BUILD FAILED"
     fallback="Build failed ($CIRCLE_JOB#$CIRCLE_BUILD_NUM)"
+    testResults="Passed: $TEST_PASSED, Failed: $TEST_FAILED :exclamation:, Skipped: $TEST_SKIPPED"
 
     if [ "$TEST_FAILED" -gt 0 ]
     then
@@ -95,7 +97,7 @@ then
     then
         commitPrevSHA=${BASH_REMATCH[1]}
         echo "Found commit '$commitPrevSHA'"
-        commitRange="$commitPrevSHA^...$CIRCLE_SHA1"
+        commitRange="$commitPrevSHA...$CIRCLE_SHA1"
         echo "Instead looking at range $commitRange"
     else
         echo "No match for previous commit."
@@ -110,6 +112,7 @@ do
 done < <(git log --pretty=%h $commitRange)
 
 footer="$(git diff --shortstat $commitRange)"
+testPercent=$((100*TEST_PASSED/TEST_TOTAL))
 
 curl -X POST -H 'Content-type: application/json' \
 --data " { \
@@ -120,10 +123,11 @@ curl -X POST -H 'Content-type: application/json' \
         \"footer\": \"$footer\", \
         \"text\": \"$text\", \
         \"mrkdwn_in\": [\"fields\", \"text\"], 
+        \"color\": \"$color\" ,\
         \"fields\": [ \
             { \
-                \"title\": \"Test results\",\
-                \"value\": \"Passed: $TEST_PASSED, Failed: $TEST_FAILED, Skipped: $TEST_SKIPPED\", \
+                \"title\": \"Test results: $testPercent %\",\
+                \"value\": \"$testResults\", \
                 \"short\": true \
             }, \
             $errorsField\
@@ -135,9 +139,7 @@ curl -X POST -H 'Content-type: application/json' \
                 \"text\": \"Visit Job #$CIRCLE_BUILD_NUM ($CIRCLE_STAGE)\", \
                 \"url\": \"$CIRCLE_BUILD_URL\" \
             } \
-        ], \
-        \"color\": \"$color\" ,\
-        \"ts\": $(date +%s) \
+        ] \
     } \
 ] } " $SLACK_WEBHOOK
 
@@ -145,6 +147,7 @@ echo "Job completed successfully. Alert sent."
 
 # Unused project/branch fields
 
+        # \"ts\": $(date +%s) \
     # \"footer\": \"Branch: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BRANCH\", \
 
             # { \
