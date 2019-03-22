@@ -7,7 +7,8 @@
 : ${TEST_SKIPPED?}
 : ${TEST_TOTAL?}
 
-: ${TEST_ERROR:-}
+: ${TEST_ERROR:=}
+: ${BUILD_STATUS:="fail"}
 
 if [ -z "$SLACK_WEBHOOK" ]; then
     echo "NO SLACK WEBHOOK SET"
@@ -24,30 +25,33 @@ function quoteNotFirst {
     done <<< "$1"
 }
 
-if [ "$TEST_FAILED" -eq 0 ]
+if [ "$BUILD_STATUS" -eq "success" ]
 then
     # Success
-    color="#1CBF43" # green$m
+    color="#1CBF43" # green
     title=":tada: BUILD COMPLETED SUCCESSFULLY"
     fallback="Build completed successfully ($CIRCLE_JOB#$CIRCLE_BUILD_NUM)"
 
 else
     # Fail
-    errors=${TEST_ERROR//\n/\\n}
-    errors=${errors//\"/\\\"}
-    errors=${errors//\'/\\\'}
-    errors=${errors//\`/\\\`}
-
-    errorsField=", \
-    { \
-        \"title\": \"Failed tests\",\
-        \"value\": \"\`\`\`\\n$errors\\n\`\`\`\", \
-        \"short\": false \
-    }"
-
     color="#ed5c5c" # red
     title=":no_entry_sign: BUILD FAILED"
     fallback="Build failed ($CIRCLE_JOB#$CIRCLE_BUILD_NUM)"
+
+    if [ "$TEST_FAILED" -gt 0 ]
+    then
+        errors=${TEST_ERROR//\n/\\n}
+        errors=${errors//\"/\\\"}
+        errors=${errors//\'/\\\'}
+        errors=${errors//\`/\\\`}
+
+        errorsField=", \
+        { \
+            \"title\": \"Failed tests\",\
+            \"value\": \"\`\`\`\\n$errors\\n\`\`\`\", \
+            \"short\": false \
+        }"
+    fi
 fi
 
 : ${errorsField:=}
@@ -82,7 +86,7 @@ curl -X POST -H 'Content-type: application/json' \
         \"mrkdwn_in\": [\"fields\", \"text\"], 
         \"fields\": [ \
             { \
-                \"title\": \"Tests\",\
+                \"title\": \"Test results\",\
                 \"value\": \"Passed: $TEST_PASSED, Failed: $TEST_FAILED, Skipped: $TEST_SKIPPED\", \
                 \"short\": true \
             }, \
@@ -103,11 +107,10 @@ curl -X POST -H 'Content-type: application/json' \
 
 echo "Job completed successfully. Alert sent."
 
-
 # Unused project/branch fields
 
     # \"footer\": \"Branch: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BRANCH\", \
-    
+
             # { \
             #     \"title\": \"Project\", \
             #     \"value\": \"$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME\", \
