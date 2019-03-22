@@ -15,39 +15,13 @@ if [ -z "$SLACK_WEBHOOK" ]; then
     exit 1
 fi
 
-function escape {    
-local JSON_TOPIC_RAW=${1//\\/\\\\} # \ 
-JSON_TOPIC_RAW=${JSON_TOPIC_RAW//\//\\\/} # / 
-JSON_TOPIC_RAW=${JSON_TOPIC_RAW//\'/\\\'} # ' (not strictly needed ?)
-JSON_TOPIC_RAW=${JSON_TOPIC_RAW//\"/\\\"} # " 
-JSON_TOPIC_RAW=${JSON_TOPIC_RAW//	/\\t} # \t (tab)
-JSON_TOPIC_RAW=${JSON_TOPIC_RAW//
-/\\\n} # \n (newline)
-JSON_TOPIC_RAW=${JSON_TOPIC_RAW//^M/\\\r} # \r (carriage return)
-JSON_TOPIC_RAW=${JSON_TOPIC_RAW//^L/\\\f} # \f (form feed)
-JSON_TOPIC_RAW=${JSON_TOPIC_RAW//^H/\\\b} # \b (backspace)
-    printf "%s\n" $JSON_TOPIC_RAW
-}
-
-function quote {
-    local output=""
-    local newline=""
+function quoteNotFirst {
+    local quoteSymbol=""
     while read -r line
     do
-        # line=${line//$"\""/$"\\\""}
-        # line=${line//$"\'"/$"\\'"}
-        # line=${line//$"\`"/$"\\\`"}
-        printf "%s" $line$newline
-        # if [ "$output" ]
-        # then
-        #     output="$output\\n> ${line}"
-        # else
-        #     output="> ${line}"
-        # fi
-        newline=${newline:-"\\n"}
-    done
-    # printf $output
-    printf "\n"
+        printf "$quoteSymbol%s\n" "$line"
+        quoteSymbol="> "
+    done <<< "$1"
 }
 
 if [ "$TEST_FAILED" -eq 0 ]
@@ -78,6 +52,23 @@ fi
 
 : ${errorsField:=}
 
+cd $CIRCLE_WORKING_DIRECTORY
+commitMessage="$(quoteNotFirst "$(git log --pretty=%B -n 1)")"
+
+commitMessage=${commitMessage//\\/\\\\} # \ 
+commitMessage=${commitMessage//\//\\\/} # / 
+commitMessage=${commitMessage//\'/\\\'} # ' (not strictly needed ?)
+commitMessage=${commitMessage//\"/\\\"} # " 
+commitMessage=${commitMessage//	/\\t} # \t (tab)
+commitMessage=${commitMessage//
+/\\\n} # \n (newline)
+commitMessage=${commitMessage//^M/\\\r} # \r (carriage return)
+commitMessage=${commitMessage//^L/\\\f} # \f (form feed)
+commitMessage=${commitMessage//^H/\\\b} # \b (backspace)
+
+commitShortSHA="$(git log --pretty=%h -n 1)"
+text="> <https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$commitShortSHA|$commitShortSHA> $commitMessage"
+
 curl -X POST -H 'Content-type: application/json' \
 --data " { \
 \"attachments\": [ \
@@ -86,7 +77,8 @@ curl -X POST -H 'Content-type: application/json' \
         \"title\": \"$title\", \
         \"title_link\": \"$CIRCLE_BUILD_URL\", \
         \"footer\": \"Branch: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BRANCH\", \
-        \"mrkdwn_in\": [\"fields\"], 
+        \"text\": \"$text\", \
+        \"mrkdwn_in\": [\"fields\", \"text\"], 
         \"fields\": [ \
             { \
                 \"title\": \"Project\", \
