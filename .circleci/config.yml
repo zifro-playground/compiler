@@ -44,18 +44,10 @@ jobs:
           name: store test results -> ~/tests/xml
           path: ~/tests/xml
 
-      - slack/notify:
-          when: on_success
-          color: "#1CBF43"
-          title: "BUILD SUCCEEDED"
-          message: "[TESTS] Passed: ${TEST_PASSED}, Failed: ${TEST_FAILED}, Skipped: ${TEST_SKIPPED}"
-
-      - slack/notify:
-          when: on_fail
-          color: "#ed5c5c"
-          title: "BUILD FAILED"
-          message: "[TESTS] Passed: ${TEST_PASSED}, Failed: ${TEST_FAILED}, Skipped: ${TEST_SKIPPED}"
-          footer: "${TEST_ERRORS}"
+      - run:
+          name: Send Slack notification
+          when: always
+          command: slack_notify_testrunner
 
   deploy-github:
     working_directory: ~/repo

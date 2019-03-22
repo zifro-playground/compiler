@@ -48,10 +48,10 @@ do
 #done < <(dotnet test -c Debug -r ~/tests/trx -o ~/bin --logger:trx src/Mellis.all.sln --no-build --no-restore)
 done < <(dotnet test --logger:trx --no-build --no-restore "$@")
 
-echo "export TEST_PASSED=$passed" >> $BASH_ENV
-echo "export TEST_FAILED=$failed" >> $BASH_ENV
-echo "export TEST_SKIPPED=$skipped" >> $BASH_ENV
-echo "export TEST_TOTAL=$total" >> $BASH_ENV
+echo "export TEST_PASSED=$(($passed))" >> $BASH_ENV
+echo "export TEST_FAILED=$(($failed))" >> $BASH_ENV
+echo "export TEST_SKIPPED=$(($skipped))" >> $BASH_ENV
+echo "export TEST_TOTAL=$(($total))" >> $BASH_ENV
 echo "export TEST_ERRORS=<<ERROR_STRINGS\n$errors\nERROR_STRINGS" >> $BASH_ENV
 
 echo "<<<<<< Testing complete"

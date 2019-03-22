@@ -12,3 +12,4 @@ RUN apt-get update && \
 
 # Utility scripts
 COPY scripts/dotnet_test.sh /usr/local/bin/dotnet_test.sh
+COPY scripts/slack_notify_testrunner.sh /usr/local/bin/slack_notify_testrunner.sh
