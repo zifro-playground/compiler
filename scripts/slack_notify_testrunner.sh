@@ -25,7 +25,7 @@ then
         \"fallback\": \"$CIRCLE_BUILD_URL\", \
         \"title\": \":tada: BUILD COMPLETED SUCCESSFULLY\", \
         \"title_link\": \"$CIRCLE_BUILD_URL\", \
-        \"footer\": \"Stage: $CIRCLE_STAGE\", \
+        \"footer\": \"Job: $CIRCLE_JOB\", \
         \"fields\": [ \
             { \
                 \"title\": \"Project\", \
@@ -46,7 +46,7 @@ then
         \"actions\": [ \
             { \
                 \"type\": \"button\", \
-                \"text\": \"Visit Job #$CIRCLE_BUILD_NUM\", \
+                \"text\": \"Visit Job #$CIRCLE_BUILD_NUM ($CIRCLE_STAGE)\", \
                 \"url\": \"$CIRCLE_BUILD_URL\", \
                 \"style\": \"primary\" \
             }, \
@@ -78,7 +78,7 @@ else
             \"fallback\": \"$CIRCLE_BUILD_URL\", \
             \"title\": \":no_entry_sign: BUILD FAILED\", \
             \"title_link\": \"$CIRCLE_BUILD_URL\", \
-            \"footer\": \"Stage: $CIRCLE_STAGE\", \
+            \"footer\": \"Job: $CIRCLE_JOB\", \
             \"mrkdwn_in\": [\"fields\"], 
             \"fields\": [ \
                 { \
@@ -105,7 +105,7 @@ else
             \"actions\": [ \
                 { \
                     \"type\": \"button\", \
-                    \"text\": \"Visit Job #$CIRCLE_BUILD_NUM\", \
+                    \"text\": \"Visit Job #$CIRCLE_BUILD_NUM ($CIRCLE_STAGE)\", \
                     \"url\": \"$CIRCLE_BUILD_URL\" \
                 }, \
                 { \
@@ -128,7 +128,7 @@ else
             \"fallback\": \"$CIRCLE_BUILD_URL\", \
             \"title\": \":no_entry_sign: BUILD FAILED\", \
             \"title_link\": \"$CIRCLE_BUILD_URL\", \
-            \"footer\": \"Stage: $CIRCLE_STAGE\", \
+            \"footer\": \"Job: $CIRCLE_JOB\", \
             \"fields\": [ \
                 { \
                     \"title\": \"Project\", \
@@ -149,7 +149,7 @@ else
             \"actions\": [ \
                 { \
                     \"type\": \"button\", \
-                    \"text\": \"Visit Job #$CIRCLE_BUILD_NUM\", \
+                    \"text\": \"Visit Job #$CIRCLE_BUILD_NUM ($CIRCLE_STAGE)\", \
                     \"url\": \"$CIRCLE_BUILD_URL\" \
                 }, \
                 { \
