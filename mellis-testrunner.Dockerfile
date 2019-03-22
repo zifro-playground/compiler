@@ -11,6 +11,5 @@ RUN apt update && \
     apt install git -y
 
 # Utility scripts
-ENV PATH="$PATH:/usr/local/bin"
 COPY scripts/dotnet_test.sh /usr/local/bin/dotnet_test.sh
 COPY scripts/slack_notify_testrunner.sh /usr/local/bin/slack_notify_testrunner.sh

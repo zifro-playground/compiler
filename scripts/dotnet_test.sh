@@ -55,13 +55,13 @@ echo "export TEST_TOTAL=$(($total))" >> $BASH_ENV
 echo "export TEST_ERRORS=<<ERROR_STRINGS\n$errors\nERROR_STRINGS" >> $BASH_ENV
 
 echo "<<<<<< Testing complete"
-echo "Total passed: $TEST_PASSED"
-echo "Total failed: $TEST_FAILED"
-echo "Total skipped: $TEST_SKIPPED"
-echo "Total num of tests: $TEST_TOTAL"
+echo "Total passed: $passed"
+echo "Total failed: $failed"
+echo "Total skipped: $skipped"
+echo "Total num of tests: $total"
 echo
 echo "Found errors:"
-echo "$TEST_ERRORS"
+echo "$errors"
 echo
 
-exit $TEST_FAILED
+exit $failed
