@@ -69,31 +69,28 @@ commitMessage=${commitMessage//^H/\\\b} # \b (backspace)
 commitShortSHA="$(git log --pretty=%h -n 1)"
 text="> <https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$commitShortSHA|$commitShortSHA> $commitMessage"
 
+footer="$(git log --shortstat -n 1 | tail -n1)"
+
 curl -X POST -H 'Content-type: application/json' \
 --data " { \
 \"attachments\": [ \
     { \
         \"fallback\": \"$fallback\", \
         \"title\": \"$title\", \
-        \"title_link\": \"$CIRCLE_BUILD_URL\", \
-        \"footer\": \"Branch: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BRANCH\", \
+        \"footer\": \"$footer\", \
         \"text\": \"$text\", \
         \"mrkdwn_in\": [\"fields\", \"text\"], 
         \"fields\": [ \
             { \
-                \"title\": \"Project\", \
-                \"value\": \"$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME\", \
+                \"title\": \"Tests\",\
+                \"value\": \"Passed: $TEST_PASSED, Failed: $TEST_FAILED, Skipped: $TEST_SKIPPED\", \
                 \"short\": true \
             }, \
-            { \
-                \"title\": \"Branch\", \
-                \"value\": \"$CIRCLE_BRANCH\", \
-                \"short\": true \
-            } \
             $errorsField\
         ], \
         \"actions\": [ \
             { \
+                \"style\": \"primary\", \
                 \"type\": \"button\", \
                 \"text\": \"Visit Job #$CIRCLE_BUILD_NUM ($CIRCLE_STAGE)\", \
                 \"url\": \"$CIRCLE_BUILD_URL\" \
@@ -105,3 +102,26 @@ curl -X POST -H 'Content-type: application/json' \
 ] } " $SLACK_WEBHOOK
 
 echo "Job completed successfully. Alert sent."
+
+
+# Unused project/branch fields
+
+    # \"footer\": \"Branch: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BRANCH\", \
+    
+            # { \
+            #     \"title\": \"Project\", \
+            #     \"value\": \"$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME\", \
+            #     \"short\": true \
+            # }, \
+            # { \
+            #     \"title\": \"Branch\", \
+            #     \"value\": \"$CIRCLE_BRANCH\", \
+            #     \"short\": true \
+            # } \
+
+            
+            # { \
+            #     \"type\": \"button\", \
+            #     \"text\": \"Visit GitHub commit\", \
+            #     \"url\": \"https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$commitShortSHA\" \
+            # } \
