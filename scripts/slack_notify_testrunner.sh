@@ -25,6 +25,7 @@ then
         \"fallback\": \"$CIRCLE_BUILD_URL\", \
         \"title\": \":tada: BUILD COMPLETED SUCCESSFULLY\", \
         \"title_link\": \"$CIRCLE_BUILD_URL\", \
+        \"footer\": \"Stage: $CIRCLE_STAGE\", \
         \"fields\": [ \
             { \
                 \"title\": \"Project\", \
@@ -77,6 +78,7 @@ else
             \"fallback\": \"$CIRCLE_BUILD_URL\", \
             \"title\": \":no_entry_sign: BUILD FAILED\", \
             \"title_link\": \"$CIRCLE_BUILD_URL\", \
+            \"footer\": \"Stage: $CIRCLE_STAGE\", \
             \"mrkdwn_in\": [\"fields\"], 
             \"fields\": [ \
                 { \
@@ -126,6 +128,7 @@ else
             \"fallback\": \"$CIRCLE_BUILD_URL\", \
             \"title\": \":no_entry_sign: BUILD FAILED\", \
             \"title_link\": \"$CIRCLE_BUILD_URL\", \
+            \"footer\": \"Stage: $CIRCLE_STAGE\", \
             \"fields\": [ \
                 { \
                     \"title\": \"Project\", \
