@@ -104,6 +104,28 @@ then
     fi
 fi
 
+author=""
+if [[ $CIRCLE_USERNAME ]]
+then
+    echo "Looking up commit author $CIRCLE_USERNAME on github..."
+
+    curlResult="$(curl -s https://api.github.com/users/$CIRCLE_USERNAME \
+    | grep "\"avatar_url\":")"
+    curlRegex='avatar_url.*"(.+)"'
+
+    if [[ $curlResult =~ $curlRegex ]] && [[ "${BASH_REMATCH[1]:-}" ]]
+    then
+        authorIcon=${BASH_REMATCH[1]}
+        echo "Found author profile picture: $authorIcon"
+
+        author="
+            \"author_name\": \"$CIRCLE_USERNAME\", \
+            \"author_icon\": \"$authorIcon\", \
+            \"author_link\": \"https://github.com/$CIRCLE_USERNAME\", \
+        "
+    fi
+fi
+
 text=""
 while read commit
 do
@@ -118,6 +140,7 @@ curl -X POST -H 'Content-type: application/json' \
 --data " { \
 \"attachments\": [ \
     { \
+        $author \
         \"fallback\": \"$fallback\", \
         \"title\": \"$title\", \
         \"footer\": \"$footer\", \
