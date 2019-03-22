@@ -29,8 +29,7 @@ jobs:
       - run:
           name: Test projects
           # this is using custom script dotnet_test.sh
-          command: |
-            . dotnet_test -c Debug src/Mellis.all.sln -o ~/bin -r ~/tests/trx
+          command: dotnet_test -c Debug src/Mellis.all.sln -o ~/bin -r ~/tests/trx
 
       - run:
           name: Convert test results, ~/tests/trx -> ~/tests/xml
