@@ -15,17 +15,78 @@ if [ -z "$SLACK_WEBHOOK" ]; then
     exit 1
 fi
 
+function escape {    
+local JSON_TOPIC_RAW=${1//\\/\\\\} # \ 
+JSON_TOPIC_RAW=${JSON_TOPIC_RAW//\//\\\/} # / 
+JSON_TOPIC_RAW=${JSON_TOPIC_RAW//\'/\\\'} # ' (not strictly needed ?)
+JSON_TOPIC_RAW=${JSON_TOPIC_RAW//\"/\\\"} # " 
+JSON_TOPIC_RAW=${JSON_TOPIC_RAW//	/\\t} # \t (tab)
+JSON_TOPIC_RAW=${JSON_TOPIC_RAW//
+/\\\n} # \n (newline)
+JSON_TOPIC_RAW=${JSON_TOPIC_RAW//^M/\\\r} # \r (carriage return)
+JSON_TOPIC_RAW=${JSON_TOPIC_RAW//^L/\\\f} # \f (form feed)
+JSON_TOPIC_RAW=${JSON_TOPIC_RAW//^H/\\\b} # \b (backspace)
+    printf "%s\n" $JSON_TOPIC_RAW
+}
+
+function quote {
+    local output=""
+    local newline=""
+    while read -r line
+    do
+        # line=${line//$"\""/$"\\\""}
+        # line=${line//$"\'"/$"\\'"}
+        # line=${line//$"\`"/$"\\\`"}
+        printf "%s" $line$newline
+        # if [ "$output" ]
+        # then
+        #     output="$output\\n> ${line}"
+        # else
+        #     output="> ${line}"
+        # fi
+        newline=${newline:-"\\n"}
+    done
+    # printf $output
+    printf "\n"
+}
+
 if [ "$TEST_FAILED" -eq 0 ]
 then
     # Success
-    curl -X POST -H 'Content-type: application/json' \
-    --data " { \
+    color="#1CBF43" # green$m
+    title=":tada: BUILD COMPLETED SUCCESSFULLY"
+    fallback="Build completed successfully ($CIRCLE_JOB#$CIRCLE_BUILD_NUM)"
+
+else
+    # Fail
+    errors=${TEST_ERROR//\n/\\n}
+    errors=${errors//\"/\\\"}
+    errors=${errors//\'/\\\'}
+    errors=${errors//\`/\\\`}
+
+    errorsField=", \
+    { \
+        \"title\": \"Failed tests\",\
+        \"value\": \"\`\`\`\\n$errors\\n\`\`\`\", \
+        \"short\": false \
+    }"
+
+    color="#ed5c5c" # red
+    title=":no_entry_sign: BUILD FAILED"
+    fallback="Build failed ($CIRCLE_JOB#$CIRCLE_BUILD_NUM)"
+fi
+
+: ${errorsField:=}
+
+curl -X POST -H 'Content-type: application/json' \
+--data " { \
 \"attachments\": [ \
     { \
-        \"fallback\": \"$CIRCLE_BUILD_URL\", \
-        \"title\": \":tada: BUILD COMPLETED SUCCESSFULLY\", \
+        \"fallback\": \"$fallback\", \
+        \"title\": \"$title\", \
         \"title_link\": \"$CIRCLE_BUILD_URL\", \
-        \"footer\": \"Job: $CIRCLE_JOB\", \
+        \"footer\": \"Branch: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BRANCH\", \
+        \"mrkdwn_in\": [\"fields\"], 
         \"fields\": [ \
             { \
                 \"title\": \"Project\", \
@@ -36,135 +97,19 @@ then
                 \"title\": \"Branch\", \
                 \"value\": \"$CIRCLE_BRANCH\", \
                 \"short\": true \
-            } , \
-            { \
-                \"title\": \"Tests\",\
-                \"value\": \"Passed: $TEST_PASSED, Failed: $TEST_FAILED, Skipped: $TEST_SKIPPED\", \
-                \"short\": true\
             } \
+            $errorsField\
         ], \
         \"actions\": [ \
             { \
                 \"type\": \"button\", \
                 \"text\": \"Visit Job #$CIRCLE_BUILD_NUM ($CIRCLE_STAGE)\", \
-                \"url\": \"$CIRCLE_BUILD_URL\", \
-                \"style\": \"primary\" \
-            }, \
-            { \
-                \"type\": \"button\", \
-                \"text\": \"Visit GitHub commit\", \
-                \"url\": \"https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1\" \
+                \"url\": \"$CIRCLE_BUILD_URL\" \
             } \
         ], \
-        \"color\": \"#1CBF43\" ,\
+        \"color\": \"$color\" ,\
         \"ts\": $(date +%s) \
     } \
 ] } " $SLACK_WEBHOOK
-
-else
-    # Fail
-    errors=${TEST_ERROR//\n/\\n}
-    errors=${errors//\r/\\r}
-    errors=${errors//\"/\\\"}
-    errors=${errors//\'/\\\'}
-
-    if [ "$errors" ]
-    then
-
-        curl -X POST -H 'Content-type: application/json' \
-        --data " { \
-    \"attachments\": [ \
-        { \
-            \"fallback\": \"$CIRCLE_BUILD_URL\", \
-            \"title\": \":no_entry_sign: BUILD FAILED\", \
-            \"title_link\": \"$CIRCLE_BUILD_URL\", \
-            \"footer\": \"Job: $CIRCLE_JOB\", \
-            \"mrkdwn_in\": [\"fields\"], 
-            \"fields\": [ \
-                { \
-                    \"title\": \"Project\", \
-                    \"value\": \"$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME\", \
-                    \"short\": true \
-                }, \
-                { \
-                    \"title\": \"Branch\", \
-                    \"value\": \"$CIRCLE_BRANCH\", \
-                    \"short\": true \
-                } , \
-                { \
-                    \"title\": \"Tests\",\
-                    \"value\": \"Passed: $TEST_PASSED, Failed: $TEST_FAILED, Skipped: $TEST_SKIPPED\", \
-                    \"short\": true\
-                }, \
-                { \
-                    \"title\": \"Failed tests\",\
-                    \"value\": \"```\n$errors\n```\", \
-                    \"short\": false \
-                } \
-            ], \
-            \"actions\": [ \
-                { \
-                    \"type\": \"button\", \
-                    \"text\": \"Visit Job #$CIRCLE_BUILD_NUM ($CIRCLE_STAGE)\", \
-                    \"url\": \"$CIRCLE_BUILD_URL\" \
-                }, \
-                { \
-                    \"type\": \"button\", \
-                    \"text\": \"Visit GitHub commit\", \
-                    \"url\": \"https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1\" \
-                } \
-            ], \
-            \"color\": \"#ed5c5c\" ,\
-            \"ts\": $(date +%s) \
-        } \
-    ] } " $SLACK_WEBHOOK
-
-    else
-
-        curl -X POST -H 'Content-type: application/json' \
-        --data " { \
-    \"attachments\": [ \
-        { \
-            \"fallback\": \"$CIRCLE_BUILD_URL\", \
-            \"title\": \":no_entry_sign: BUILD FAILED\", \
-            \"title_link\": \"$CIRCLE_BUILD_URL\", \
-            \"footer\": \"Job: $CIRCLE_JOB\", \
-            \"fields\": [ \
-                { \
-                    \"title\": \"Project\", \
-                    \"value\": \"$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME\", \
-                    \"short\": true \
-                }, \
-                { \
-                    \"title\": \"Branch\", \
-                    \"value\": \"$CIRCLE_BRANCH\", \
-                    \"short\": true \
-                } , \
-                { \
-                    \"title\": \"Tests\",\
-                    \"value\": \"Passed: $TEST_PASSED, Failed: $TEST_FAILED, Skipped: $TEST_SKIPPED\", \
-                    \"short\": true\
-                } \
-            ], \
-            \"actions\": [ \
-                { \
-                    \"type\": \"button\", \
-                    \"text\": \"Visit Job #$CIRCLE_BUILD_NUM ($CIRCLE_STAGE)\", \
-                    \"url\": \"$CIRCLE_BUILD_URL\" \
-                }, \
-                { \
-                    \"type\": \"button\", \
-                    \"text\": \"Visit GitHub commit\", \
-                    \"url\": \"https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1\" \
-                } \
-            ], \
-            \"color\": \"#ed5c5c\" ,\
-            \"ts\": $(date +%s) \
-        } \
-    ] } " $SLACK_WEBHOOK
-
-    fi
-
-fi
 
 echo "Job completed successfully. Alert sent."
