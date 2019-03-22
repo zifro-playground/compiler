@@ -25,6 +25,26 @@ function quoteNotFirst {
     done <<< "$1"
 }
 
+function getTextForCommit {
+    local commitSHA=${1?}
+    # local commitSHA="$(git show --pretty=%H --quiet ${1?})"
+    local commitShortSHA="$(git show --pretty=%h --quiet $commitSHA)"
+    local commitMessage="$(quoteNotFirst "$(git show --quiet --pretty=%B $commitShortSHA)")"
+
+    commitMessage=${commitMessage//\\/\\\\} # \ 
+    commitMessage=${commitMessage//\//\\\/} # / 
+    commitMessage=${commitMessage//\'/\\\'} # ' (not strictly needed ?)
+    commitMessage=${commitMessage//\"/\\\"} # " 
+    commitMessage=${commitMessage//	/\\t} # \t (tab)
+    commitMessage=${commitMessage//
+/\\\n} # \n (newline)
+    commitMessage=${commitMessage//^M/\\\r} # \r (carriage return)
+    commitMessage=${commitMessage//^L/\\\f} # \f (form feed)
+    commitMessage=${commitMessage//^H/\\\b} # \b (backspace)
+
+    echo "> <https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$commitSHA|$commitShortSHA> $commitMessage"
+}
+
 echo "BUILD_STATUS=$BUILD_STATUS"
 if [ "$BUILD_STATUS" == "success" ]
 then
@@ -59,21 +79,35 @@ fi
 
 : ${errorsField:=}
 
-commitMessage="$(quoteNotFirst "$(git log --pretty=%B -n 1)")"
+commitRange="$CIRCLE_SHA1^...$CIRCLE_SHA1"
+echo "Looking at range $commitRange"
 
-commitMessage=${commitMessage//\\/\\\\} # \ 
-commitMessage=${commitMessage//\//\\\/} # / 
-commitMessage=${commitMessage//\'/\\\'} # ' (not strictly needed ?)
-commitMessage=${commitMessage//\"/\\\"} # " 
-commitMessage=${commitMessage//	/\\t} # \t (tab)
-commitMessage=${commitMessage//
-/\\\n} # \n (newline)
-commitMessage=${commitMessage//^M/\\\r} # \r (carriage return)
-commitMessage=${commitMessage//^L/\\\f} # \f (form feed)
-commitMessage=${commitMessage//^H/\\\b} # \b (backspace)
+if [ "${CIRCLE_API_KEY:-}" ] && [ "${CIRCLE_PREVIOUS_BUILD_NUM:-}" ]
+then
+    echo "Got CircleCI API key and previous build. Let's find out the SHA1 of last commit..."
+    curlResult="$(curl -su $CIRCLE_API_KEY: \
+    https://circleci.com/api/v1.1/project/github/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_PREVIOUS_BUILD_NUM \
+    | grep "\"vcs_revision\" :")"
+    # $   "vcs_revision" : "c727a7309ff289d7c38465d7f07d7011658aa4b2",
+    curlRegex='vcs_revision.*"(.+)"'
+    
+    if [[ $curlResult =~ $curlRegex ]] && [[ "${BASH_REMATCH[1]:-}" ]]
+    then
+        commitPrevSHA=${BASH_REMATCH[1]}
+        echo "Found commit '$commitPrevSHA'"
+        commitRange="$commitPrevSHA^...$CIRCLE_SHA1"
+        echo "Instead looking at range $commitRange"
+    else
+        echo "No match for previous commit."
+    fi
+fi
 
-commitShortSHA="$(git log --pretty=%h -n 1)"
-text="> <https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$commitShortSHA|$commitShortSHA> $commitMessage"
+text=""
+while read commit
+do
+    echo "Collecting commit: $commit"
+    text="$(getTextForCommit $commit)\\n$text"
+done < <(git log --pretty=%h $commitRange)
 
 footer="$(git log --shortstat -n 1 | tail -n1)"
 
