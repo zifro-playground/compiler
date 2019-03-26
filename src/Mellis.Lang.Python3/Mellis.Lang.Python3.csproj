@@ -14,7 +14,6 @@
     <Product>Python 3 for Mellis</Product>
     <NeutralLanguage>sv</NeutralLanguage>
 
-    <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Mellis-signature.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
