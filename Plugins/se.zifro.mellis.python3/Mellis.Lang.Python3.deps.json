@@ -10,9 +10,9 @@
       "Mellis.Lang.Python3/0.4.1": {
         "dependencies": {
           "Antlr4.Runtime.Standard": "4.7.2",
-          "Mellis": "0.1.7.2",
-          "Mellis.Core": "0.1.7.2",
-          "Mellis.Lang.Base": "0.1.7.2",
+          "Mellis": "0.1.7.3",
+          "Mellis.Core": "0.1.7.3",
+          "Mellis.Lang.Base": "0.1.7.3",
           "NETStandard.Library": "2.0.3"
         },
         "runtime": {
@@ -36,31 +36,31 @@
           "Microsoft.NETCore.Platforms": "1.1.0"
         }
       },
-      "Mellis/0.1.7.2": {
+      "Mellis/0.1.7.3": {
         "dependencies": {
-          "Mellis.Core": "0.1.7.2"
+          "Mellis.Core": "0.1.7.3"
         },
         "runtime": {
           "Mellis.dll": {}
         }
       },
-      "Mellis.Core/0.1.7.2": {
+      "Mellis.Core/0.1.7.3": {
         "runtime": {
           "Mellis.Core.dll": {}
         }
       },
-      "Mellis.Lang.Base/0.1.7.2": {
+      "Mellis.Lang.Base/0.1.7.3": {
         "dependencies": {
-          "Mellis.Core": "0.1.7.2",
-          "Mellis.Tools": "0.1.7.2"
+          "Mellis.Core": "0.1.7.3",
+          "Mellis.Tools": "0.1.7.3"
         },
         "runtime": {
           "Mellis.Lang.Base.dll": {}
         }
       },
-      "Mellis.Tools/0.1.7.2": {
+      "Mellis.Tools/0.1.7.3": {
         "dependencies": {
-          "Mellis.Core": "0.1.7.2"
+          "Mellis.Core": "0.1.7.3"
         },
         "runtime": {
           "Mellis.Tools.dll": {}
@@ -95,22 +95,22 @@
       "path": "netstandard.library/2.0.3",
       "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
     },
-    "Mellis/0.1.7.2": {
+    "Mellis/0.1.7.3": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Mellis.Core/0.1.7.2": {
+    "Mellis.Core/0.1.7.3": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Mellis.Lang.Base/0.1.7.2": {
+    "Mellis.Lang.Base/0.1.7.3": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Mellis.Tools/0.1.7.2": {
+    "Mellis.Tools/0.1.7.3": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
