@@ -1,4 +1,5 @@
 ﻿using Mellis.Core.Entities;
+using Mellis.Lang.Python3.Instructions;
 
 namespace Mellis.Lang.Python3.Syntax.Statements
 {
@@ -18,7 +19,16 @@ namespace Mellis.Lang.Python3.Syntax.Statements
 
         public override void Compile(PyCompiler compiler)
         {
-            throw new System.NotImplementedException();
+            var jumpToCondition = new Jump(Source);
+            compiler.Push(jumpToCondition);
+
+            int jumpToSuitePos = compiler.GetJumpTargetForNext();
+            Suite.Compile(compiler);
+
+            jumpToCondition.Target = compiler.GetJumpTargetForNext();
+            Condition.Compile(compiler);
+
+            compiler.Push(new JumpIfTrue(Condition.Source, jumpToSuitePos));
         }
     }
 }
