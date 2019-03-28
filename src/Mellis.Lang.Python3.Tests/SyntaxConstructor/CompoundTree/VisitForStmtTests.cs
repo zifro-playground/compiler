@@ -1,4 +1,5 @@
-﻿using Mellis.Lang.Python3.Exceptions;
+﻿using Mellis.Core.Exceptions;
+using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Grammar;
 using Mellis.Lang.Python3.Syntax;
 using Mellis.Lang.Python3.Syntax.Statements;
@@ -110,6 +111,34 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
 
             // Assert
             Assert.That.ErrorNotYetImplFormatArgs(ex, elseTerm, "for..else");
+        }
+
+        [TestMethod]
+        public void Visit_MissingSuite()
+        {
+            // Arrange
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            CreateAndSetupExprList(
+                out var idRuleMock,
+                out var idExpr);
+            CreateAndSetupTestList(
+                out var iterRuleMock,
+                out var iter);
+
+            contextMock.SetupChildren(
+                GetTerminal(Python3Parser.FOR),
+                idRuleMock.Object,
+                GetTerminal(Python3Parser.IN),
+                iterRuleMock.Object,
+                GetTerminal(Python3Parser.COLON)
+            );
+
+            // Act
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
+
+            // Assert
+            Assert.That.ErrorExpectedChildFormatArgs(ex, startTokenMock, stopTokenMock, contextMock);
         }
     }
 }
