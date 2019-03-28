@@ -20,8 +20,24 @@ regexResults='^Results File: (.*)$'
 
 errors=""
 
+function escape {
+    : ${1?}
+    local val=${1//\\/\\\\} # \ 
+    val=${val//\//\\\/} # / 
+    val=${val//\'/\\\'} # ' (not strictly needed ?)
+    val=${val//\"/\\\"} # " 
+    val=${val//	/\\t} # \t (tab)
+    val=${val//
+/\\\n} # \n (newline)
+    val=${val//^M/\\\r} # \r (carriage return)
+    val=${val//^L/\\\f} # \f (form feed)
+    val=${val//^H/\\\b} # \b (backspace)
+    echo "$val"
+}
+
 while read x
 do
+    echo $x
     case "$x" in
         'Total tests:'*)
             [[ $x =~ $regexTests ]]
@@ -32,19 +48,24 @@ do
             echo "<<< found $total tests"
         ;;
         'Failed '*)
-            if [ $errors ]
+            if [ "$errors" ]
             then
-                errors="$errors\n$x"
+                errors="$errors\n> :small_red_triangle: $x"
             else
-                errors="$x"
+                errors="> :small_red_triangle: $x"
             fi
+            read x # discard "Error Message:" line
+            echo $x
+            read x # the error message
+            echo $x
+
+            errors="$errors\n\`\`\`\n$(escape "$x")\n\`\`\`"
         ;;
         # 'Results File:'*)
         #     [[ $x =~ $regexResults ]]
         #     echo "Results in file: ${BASH_REMATCH[1]}"
         # ;;
     esac
-    echo $x
 #done < <(dotnet test -c Debug -r ~/tests/trx -o ~/bin --logger:trx src/Mellis.all.sln --no-build --no-restore)
 done < <(dotnet test --logger:trx --no-build --no-restore "$@")
 
@@ -62,7 +83,7 @@ echo "Total skipped: $skipped"
 echo "Total num of tests: $total"
 echo
 echo "Found errors:"
-echo "$errors"
+echo -e "$errors"
 echo
 
 exit $failed

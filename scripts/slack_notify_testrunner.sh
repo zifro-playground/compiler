@@ -7,7 +7,7 @@
 : ${TEST_SKIPPED?}
 : ${TEST_TOTAL?}
 
-: ${TEST_ERROR:=}
+: ${TEST_ERRORS:=}
 : ${BUILD_STATUS:="fail"}
 
 if [ -z "$SLACK_WEBHOOK" ]; then
@@ -25,24 +25,35 @@ function quoteNotFirst {
     done <<< "$1"
 }
 
+function quote {
+    while read -r line
+    do
+        printf "> %s\n" "$line"
+    done <<< "$1"
+}
+
+function escape {
+    : ${1?}
+    local val=${1//\\/\\\\} # \ 
+    val=${val//\//\\\/} # / 
+    val=${val//\'/\\\'} # ' (not strictly needed ?)
+    val=${val//\"/\\\"} # " 
+    val=${val//	/\\t} # \t (tab)
+    val=${val//
+/\\\n} # \n (newline)
+    val=${val//^M/\\\r} # \r (carriage return)
+    val=${val//^L/\\\f} # \f (form feed)
+    val=${val//^H/\\\b} # \b (backspace)
+    echo "$val"
+}
+
 function getTextForCommit {
     local commitSHA=${1?}
     # local commitSHA="$(git show --pretty=%H --quiet ${1?})"
     local commitShortSHA="$(git show --pretty=%h --quiet $commitSHA)"
     local commitMessage="$(quoteNotFirst "$(git show --quiet --pretty=%B $commitShortSHA)")"
 
-    commitMessage=${commitMessage//\\/\\\\} # \ 
-    commitMessage=${commitMessage//\//\\\/} # / 
-    commitMessage=${commitMessage//\'/\\\'} # ' (not strictly needed ?)
-    commitMessage=${commitMessage//\"/\\\"} # " 
-    commitMessage=${commitMessage//	/\\t} # \t (tab)
-    commitMessage=${commitMessage//
-/\\\n} # \n (newline)
-    commitMessage=${commitMessage//^M/\\\r} # \r (carriage return)
-    commitMessage=${commitMessage//^L/\\\f} # \f (form feed)
-    commitMessage=${commitMessage//^H/\\\b} # \b (backspace)
-
-    echo "> <https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$commitSHA|$commitShortSHA> $commitMessage"
+    echo "> <https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$commitSHA|$commitShortSHA> $(escape "$commitMessage")"
 }
 
 echo "BUILD_STATUS=$BUILD_STATUS"
@@ -65,19 +76,9 @@ else
     testResults="Passed: $TEST_PASSED, Failed: $TEST_FAILED :exclamation:, Skipped: $TEST_SKIPPED"
     visitJobActionStyle="danger"
 
-    if [ "$TEST_FAILED" -gt 0 ]
+    if [ "$TEST_FAILED" -gt 0 ] && [ "$TEST_ERRORS" ]
     then
-        errors=${TEST_ERROR//\n/\\n}
-        errors=${errors//\"/\\\"}
-        errors=${errors//\'/\\\'}
-        errors=${errors//\`/\\\`}
-
-        errorsField=", \
-        { \
-            \"title\": \"Failed tests\",\
-            \"value\": \"\`\`\`\\n$errors\\n\`\`\`\", \
-            \"short\": false \
-        }"
+        errorsField="*Errors:*\\n\\n$(escape "$TEST_ERRORS")"
     fi
 fi
 
@@ -99,8 +100,13 @@ then
     then
         commitPrevSHA=${BASH_REMATCH[1]}
         echo "Found commit '$commitPrevSHA'"
-        commitRange="$commitPrevSHA...$CIRCLE_SHA1"
-        echo "Instead looking at range $commitRange"
+        if [ "$commitPrevSHA" == "$CIRCLE_SHA1" ]
+        then
+            echo "Oh wait, it's the same commit. Leaving range as-is."
+        else
+            commitRange="$commitPrevSHA...$CIRCLE_SHA1"
+            echo "Instead looking at range $commitRange"
+        fi
     else
         echo "No match for previous commit."
     fi
@@ -146,7 +152,7 @@ curl -X POST -H 'Content-type: application/json' \
         \"fallback\": \"$fallback\", \
         \"title\": \"$title\", \
         \"footer\": \"$footer\", \
-        \"text\": \"Commits _(oldest first):_\\n$text\", \
+        \"text\": \"Commits _(oldest first):_\\n$text\\n$errorsField\", \
         \"mrkdwn_in\": [\"fields\", \"text\"], 
         \"color\": \"$color\" ,\
         \"fields\": [ \
@@ -154,8 +160,7 @@ curl -X POST -H 'Content-type: application/json' \
                 \"title\": \"Test results: $testPercent %\",\
                 \"value\": \"$testResults\", \
                 \"short\": true \
-            }, \
-            $errorsField\
+            } \
         ], \
         \"actions\": [ \
             { \
