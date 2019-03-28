@@ -330,6 +330,54 @@ namespace Mellis.Lang.Python3.Tests
             errorCatcher.AssertNoErrors();
         }
 
+        [TestMethod]
+        public void ProcessP8Test()
+        {
+            /*
+                
+                dt = 7.23
+                t = 0.01
+                sum = 0.01
+
+                while t < 100:
+                    sum = sum + t
+                    dt = dt * 1.01
+                    t = t + dt
+
+
+             */
+
+            // Arrange
+            const string code = "dt = 7.23\n" +
+                                "t = 0.01\n" +
+                                "sum = 0.01\n" +
+                                "\n" +
+                                "while t < 100:\n" +
+                                "    sum = sum + t\n" +
+                                "    dt = dt * 1.01\n" +
+                                "    t = t + dt";
+
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
+
+            // Act
+            do
+            {
+                processor.WalkLine();
+            } while (processor.State == ProcessState.Running);
+
+            // Assert
+            var t = processor.GetVariable("t");
+            var tDouble = (PyDouble)t;
+            Assert.IsTrue(tDouble.Value >= 100);
+
+            var sum = processor.GetVariable("sum");
+            var sumDouble = (PyDouble)sum;
+            Assert.AreEqual(591, (int)sumDouble.Value);
+
+            Assert.AreEqual(ProcessState.Ended, processor.State);
+            errorCatcher.AssertNoErrors();
+        }
+
         private class ErrorCatcher : IParserErrorListener
         {
             private int _syntaxErrors;
