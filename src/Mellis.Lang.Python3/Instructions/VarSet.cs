@@ -17,7 +17,7 @@ namespace Mellis.Lang.Python3.Instructions
 
         public void Execute(VM.PyProcessor processor)
         {
-            var value = processor.PopValue();
+            Core.Interfaces.IScriptType value = processor.PopValue();
             processor.SetVariable(Identifier, value);
         }
 

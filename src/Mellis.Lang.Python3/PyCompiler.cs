@@ -50,7 +50,7 @@ namespace Mellis.Lang.Python3
                 return new VM.PyProcessor();
             }
 
-            var statement = result.AsTypeOrThrow<Statement>();
+            Statement statement = result.AsTypeOrThrow<Statement>();
             statement.Compile(this);
 
             return new VM.PyProcessor(_opCodes.ToArray());

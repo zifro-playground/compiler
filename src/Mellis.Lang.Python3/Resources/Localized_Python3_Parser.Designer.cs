@@ -124,6 +124,33 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saknar ett kolon i slutet av din &apos;else&apos; i din &apos;for&apos;-loop..
+        /// </summary>
+        internal static string Ex_Syntax_For_Else_MissingColon {
+            get {
+                return ResourceManager.GetString("Ex_Syntax_For_Else_MissingColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saknar ett kolon i slutet av din &apos;for&apos;-loop..
+        /// </summary>
+        internal static string Ex_Syntax_For_MissingColon {
+            get {
+                return ResourceManager.GetString("Ex_Syntax_For_MissingColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saknar nyckelordet &apos;in&apos; i din &apos;for&apos;-loop..
+        /// </summary>
+        internal static string Ex_Syntax_For_MissingIn {
+            get {
+                return ResourceManager.GetString("Ex_Syntax_For_MissingIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Saknar ett kolon i slutet av villkoret efter din &apos;elif&apos;..
         /// </summary>
         internal static string Ex_Syntax_If_Elif_MissingColon {
@@ -165,6 +192,24 @@ namespace Mellis.Lang.Python3.Resources {
         internal static string Ex_Syntax_UnexpectedChildType {
             get {
                 return ResourceManager.GetString("Ex_Syntax_UnexpectedChildType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saknar ett kolon i slutet av din &apos;else&apos; i din &apos;while&apos;-loop..
+        /// </summary>
+        internal static string Ex_Syntax_While_Else_MissingColon {
+            get {
+                return ResourceManager.GetString("Ex_Syntax_While_Else_MissingColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saknar ett kolon i slutet av din &apos;while&apos;-loop..
+        /// </summary>
+        internal static string Ex_Syntax_While_MissingColon {
+            get {
+                return ResourceManager.GetString("Ex_Syntax_While_MissingColon", resourceCulture);
             }
         }
     }
