@@ -5,6 +5,7 @@ using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Tests.TestingOps;
+using Mellis.Lang.Python3.VM;
 
 namespace Mellis.Lang.Python3.Tests.Processor
 {
@@ -15,7 +16,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void EvaluateJumpUpwardsTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new NopOp(),
                 new Jump(SourceReference.ClrSource, 0)
             );
@@ -36,7 +37,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void EvaluateJumpLoopTimesOutTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new Jump(SourceReference.ClrSource, 0)
             );
 
@@ -54,7 +55,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void EvaluateJumpBeyondLastTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new Jump(SourceReference.ClrSource, 5),
                 new NopOp()
             );
@@ -71,7 +72,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void EvaluateJumpBeyondFirstTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new Jump(SourceReference.ClrSource, -5)
             );
 
@@ -89,7 +90,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void EvaluateJumpDownwardsTest()
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new Jump(SourceReference.ClrSource, 5),
                 new NopOp(),
                 new NopOp(),
@@ -105,7 +106,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             Assert.AreEqual(ProcessState.Ended, processor.State);
         }
 
-        protected static IScriptType GetPyValue(object value, VM.PyProcessor processor)
+        protected static IScriptType GetPyValue(object value, PyProcessor processor)
         {
             switch (value)
             {
@@ -131,7 +132,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void EvaluateJumpIfFalse_Falsy_Test(object value)
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new JumpIfFalse(SourceReference.ClrSource, 5),
                 new NopOp(),
                 new NopOp(),
@@ -163,7 +164,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
 
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new JumpIfFalse(SourceReference.ClrSource, 5),
                 new NopOp(),
                 new NopOp(),
@@ -180,6 +181,65 @@ namespace Mellis.Lang.Python3.Tests.Processor
             // Assert
             Assert.AreEqual(ProcessState.Running, processor.State);
             Assert.AreEqual(1, processor.ProgramCounter);
+        }
+
+        [DataTestMethod]
+        [DataRow(0, DisplayName = "int 0")]
+        [DataRow(0d, DisplayName = "double 0")]
+        [DataRow(false, DisplayName = "bool false")]
+        [DataRow("", DisplayName = "string \"\"")]
+        public void EvaluateJumpIfTrue_Falsy_Test(object value)
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new JumpIfTrue(SourceReference.ClrSource, 5),
+                new NopOp(),
+                new NopOp(),
+                new NopOp(),
+                new NopOp()
+            );
+
+            processor.PushValue(GetPyValue(value, processor));
+
+            // Act
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkInstruction(); // performed jump
+
+            // Assert
+            Assert.AreEqual(ProcessState.Running, processor.State);
+            Assert.AreEqual(1, processor.ProgramCounter);
+        }
+
+        [DataTestMethod]
+        [DataRow(1, DisplayName = "int 1")]
+        [DataRow(int.MinValue, DisplayName = "int -2147483648")]
+        [DataRow(int.MaxValue, DisplayName = "int 2147483647")]
+        [DataRow(1.0d, DisplayName = "double 1")]
+        [DataRow(0.0001d, DisplayName = "double 0.0001")]
+        [DataRow(double.NaN, DisplayName = "double NaN")]
+        [DataRow(double.PositiveInfinity, DisplayName = "double +inf")]
+        [DataRow(true, DisplayName = "bool true")]
+        [DataRow("foo", DisplayName = "string \"foo\"")]
+        public void EvaluateJumpIfTrue_Truthy_Test(object value)
+        {
+            // Arrange
+
+            var processor = new PyProcessor(
+                new JumpIfTrue(SourceReference.ClrSource, 5),
+                new NopOp(),
+                new NopOp(),
+                new NopOp(),
+                new NopOp()
+            );
+
+            processor.PushValue(GetPyValue(value, processor));
+
+            // Act
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkInstruction(); // stepped over jump
+
+            // Assert
+            Assert.AreEqual(ProcessState.Ended, processor.State);
         }
     }
 }

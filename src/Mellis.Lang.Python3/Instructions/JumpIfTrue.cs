@@ -1,12 +1,13 @@
 ﻿using Mellis.Core.Entities;
 using Mellis.Core.Interfaces;
+using Mellis.Lang.Python3.Interfaces;
 using Mellis.Lang.Python3.VM;
 
 namespace Mellis.Lang.Python3.Instructions
 {
-    public class JumpIfFalse : Jump
+    public class JumpIfTrue : Jump
     {
-        public JumpIfFalse(SourceReference source, int target = -1)
+        public JumpIfTrue(SourceReference source, int target = -1)
             : base(source, target)
         {
         }
@@ -15,7 +16,7 @@ namespace Mellis.Lang.Python3.Instructions
         {
             IScriptType value = processor.PopValue();
 
-            if (!value.IsTruthy())
+            if (value.IsTruthy())
             {
                 processor.JumpToInstruction(Target);
             }
@@ -23,7 +24,7 @@ namespace Mellis.Lang.Python3.Instructions
 
         public override string ToString()
         {
-            return $"jmpifn->@{Target}";
+            return $"jmpif->@{Target}";
         }
     }
 }
