@@ -14,7 +14,7 @@ namespace Mellis.Lang.Python3.VM
 
         private YieldData _currentYield;
 
-        // Oliver & Fredrik approved ✔️
+        // Oliver & Fredrik approved ✔
         internal const int JUMPS_THRESHOLD = 102 + 137;
 
         public void ResolveYield(IScriptType returnValue)
