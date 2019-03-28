@@ -1,5 +1,0 @@
-read -rd '' TEST_ERRORS <<'ERROR_STRINGS'
-
-ERROR_STRINGS
-
-
