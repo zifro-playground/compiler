@@ -13,7 +13,7 @@ namespace Mellis.Lang.Python3.Extensions
     {
         public static IEnumerable<IParseTree> GetChildren(this ParserRuleContext context)
         {
-            for (var i = 0; i < context.ChildCount; i++)
+            for (int i = 0; i < context.ChildCount; i++)
             {
                 yield return context.GetChild(i);
             }

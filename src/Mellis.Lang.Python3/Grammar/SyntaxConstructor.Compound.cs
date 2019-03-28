@@ -27,14 +27,14 @@ namespace Mellis.Lang.Python3.Grammar
             //      ('elif' test ':' suite)*
             //      ['else' ':' suite]
             context.GetChildOrThrow(0, Python3Parser.IF);
-            var testRule = context.GetChildOrThrow<Python3Parser.TestContext>(1);
+            Python3Parser.TestContext testRule = context.GetChildOrThrow<Python3Parser.TestContext>(1);
             context.GetChildOrThrow(2, Python3Parser.COLON)
                 .ThrowIfMissing(nameof(Localized_Python3_Parser.Ex_Syntax_If_MissingColon));
-            var suiteRule = context.GetChildOrThrow<Python3Parser.SuiteContext>(3);
+            Python3Parser.SuiteContext suiteRule = context.GetChildOrThrow<Python3Parser.SuiteContext>(3);
 
-            var testExpr = VisitTest(testRule)
+            ExpressionNode testExpr = VisitTest(testRule)
                 .AsTypeOrThrow<ExpressionNode>();
-            var suiteStmt = VisitSuite(suiteRule)
+            Statement suiteStmt = VisitSuite(suiteRule)
                 .AsTypeOrThrow<Statement>();
 
             Statement elseStmt = null;
@@ -43,54 +43,55 @@ namespace Mellis.Lang.Python3.Grammar
                 SourceReference source,
                 ExpressionNode testExpr,
                 Statement suite
-            )>();
+                )>();
 
             // note: increment by 4
-            for (var i = 4; i < context.ChildCount; i += 4)
+            for (int i = 4; i < context.ChildCount; i += 4)
             {
-                var elseOrElif = context.GetChildOrThrow<ITerminalNode>(i);
+                ITerminalNode elseOrElif = context.GetChildOrThrow<ITerminalNode>(i);
                 switch (elseOrElif.Symbol.Type)
                 {
-                    case Python3Parser.ELSE when elseStmt != null:
-                    case Python3Parser.ELIF when elseStmt != null:
-                        throw context.UnexpectedChildType(elseOrElif);
+                case Python3Parser.ELSE when elseStmt != null:
+                case Python3Parser.ELIF when elseStmt != null:
+                    throw context.UnexpectedChildType(elseOrElif);
 
-                    case Python3Parser.ELIF:
-                        var elifTestRule = context.GetChildOrThrow<Python3Parser.TestContext>(i + 1);
+                case Python3Parser.ELIF:
+                    Python3Parser.TestContext elifTestRule = context.GetChildOrThrow<Python3Parser.TestContext>(i + 1);
 
-                        context.GetChildOrThrow(i + 2, Python3Parser.COLON)
-                            .ThrowIfMissing(nameof(Localized_Python3_Parser.Ex_Syntax_If_Elif_MissingColon));
+                    context.GetChildOrThrow(i + 2, Python3Parser.COLON)
+                        .ThrowIfMissing(nameof(Localized_Python3_Parser.Ex_Syntax_If_Elif_MissingColon));
 
-                        var elifSuiteRule = context.GetChildOrThrow<Python3Parser.SuiteContext>(i + 3);
+                    Python3Parser.SuiteContext elifSuiteRule =
+                        context.GetChildOrThrow<Python3Parser.SuiteContext>(i + 3);
 
-                        var elifExpr = VisitTest(elifTestRule)
-                            .AsTypeOrThrow<ExpressionNode>();
-                        var elifStmt = VisitSuite(elifSuiteRule)
-                            .AsTypeOrThrow<Statement>();
+                    ExpressionNode elifExpr = VisitTest(elifTestRule)
+                        .AsTypeOrThrow<ExpressionNode>();
+                    Statement elifStmt = VisitSuite(elifSuiteRule)
+                        .AsTypeOrThrow<Statement>();
 
-                        SourceReference source = SourceReference.Merge(
-                            elseOrElif.GetSourceReference(),
-                            elifSuiteRule.GetSourceReference()
-                        );
+                    var source = SourceReference.Merge(
+                        elseOrElif.GetSourceReference(),
+                        elifSuiteRule.GetSourceReference()
+                    );
 
-                        elIfStatements.Add((
-                            source,
-                            elifExpr,
-                            elifStmt
-                        ));
-                        break;
+                    elIfStatements.Add((
+                        source,
+                        elifExpr,
+                        elifStmt
+                    ));
+                    break;
 
-                    case Python3Parser.ELSE:
-                        context.GetChildOrThrow(i + 1, Python3Parser.COLON)
-                            .ThrowIfMissing(nameof(Localized_Python3_Parser.Ex_Syntax_If_Else_MissingColon));
+                case Python3Parser.ELSE:
+                    context.GetChildOrThrow(i + 1, Python3Parser.COLON)
+                        .ThrowIfMissing(nameof(Localized_Python3_Parser.Ex_Syntax_If_Else_MissingColon));
 
-                        var elseRule = context.GetChildOrThrow<Python3Parser.SuiteContext>(i + 2);
-                        elseStmt = VisitSuite(elseRule)
-                            .AsTypeOrThrow<Statement>();
-                        break;
+                    Python3Parser.SuiteContext elseRule = context.GetChildOrThrow<Python3Parser.SuiteContext>(i + 2);
+                    elseStmt = VisitSuite(elseRule)
+                        .AsTypeOrThrow<Statement>();
+                    break;
 
-                    default:
-                        throw context.UnexpectedChildType(elseOrElif);
+                default:
+                    throw context.UnexpectedChildType(elseOrElif);
                 }
             }
 
@@ -125,11 +126,11 @@ namespace Mellis.Lang.Python3.Grammar
         {
             // for_stmt: 'for' exprlist 'in' testlist ':' suite ['else' ':' suite]
             context.GetChildOrThrow(0, Python3Parser.FOR);
-            var operandNode = context.GetChildOrThrow<Python3Parser.ExprlistContext>(1);
+            Python3Parser.ExprlistContext operandNode = context.GetChildOrThrow<Python3Parser.ExprlistContext>(1);
             context.GetChildOrThrow(2, Python3Parser.IN);
-            var iterNode = context.GetChildOrThrow<Python3Parser.TestlistContext>(3);
+            Python3Parser.TestlistContext iterNode = context.GetChildOrThrow<Python3Parser.TestlistContext>(3);
             context.GetChildOrThrow(4, Python3Parser.COLON);
-            var suiteNode = context.GetChildOrThrow<Python3Parser.SuiteContext>(5);
+            Python3Parser.SuiteContext suiteNode = context.GetChildOrThrow<Python3Parser.SuiteContext>(5);
 
             if (context.ChildCount > 6)
             {

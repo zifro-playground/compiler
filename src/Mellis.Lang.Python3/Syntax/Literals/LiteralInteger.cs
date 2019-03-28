@@ -128,7 +128,7 @@ namespace Mellis.Lang.Python3.Syntax.Literals
                     break;
             }
 
-            var output = 0;
+            int output = 0;
             foreach (char c in withoutSign)
             {
                 int digit = charset.IndexOf(c);

@@ -30,8 +30,8 @@ namespace Mellis.Lang.Python3.Instructions
 
         private IScriptType GetBinaryResult(VM.PyProcessor processor)
         {
-            var rhs = processor.PopValue();
-            var lhs = processor.PopValue();
+            IScriptType rhs = processor.PopValue();
+            IScriptType lhs = processor.PopValue();
 
             switch (Code)
             {
@@ -89,7 +89,7 @@ namespace Mellis.Lang.Python3.Instructions
 
         private IScriptType GetUnaryResult(VM.PyProcessor processor)
         {
-            var lhs = processor.PopValue();
+            IScriptType lhs = processor.PopValue();
 
             switch (Code)
             {

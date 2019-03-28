@@ -11,7 +11,7 @@ namespace Mellis.Lang.Python3.Grammar
         public override SyntaxNode VisitSuite(Python3Parser.SuiteContext context)
         {
             // suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT
-            var first = context.GetChildOrThrow<IParseTree>(0);
+            IParseTree first = context.GetChildOrThrow<IParseTree>(0);
 
             switch (first)
             {
@@ -31,10 +31,10 @@ namespace Mellis.Lang.Python3.Grammar
                     context.GetChildOrThrow(context.ChildCount - 1, Python3Parser.DEDENT);
 
                     var statements = new List<Statement>();
-                    for (var i = 2; i < context.ChildCount - 1; i++)
+                    for (int i = 2; i < context.ChildCount - 1; i++)
                     {
-                        var rule = context.GetChildOrThrow<Python3Parser.StmtContext>(i);
-                        var stmt = VisitStmt(rule).AsTypeOrThrow<Statement>();
+                    Python3Parser.StmtContext rule = context.GetChildOrThrow<Python3Parser.StmtContext>(i);
+                    Statement stmt = VisitStmt(rule).AsTypeOrThrow<Statement>();
 
                         if (stmt is StatementList list)
                         {
@@ -66,7 +66,7 @@ namespace Mellis.Lang.Python3.Grammar
         public override SyntaxNode VisitStmt(Python3Parser.StmtContext context)
         {
             // stmt: simple_stmt | compound_stmt
-            var child = context.GetChildOrThrow<ParserRuleContext>(0);
+            ParserRuleContext child = context.GetChildOrThrow<ParserRuleContext>(0);
 
             switch (child)
             {
@@ -107,8 +107,8 @@ namespace Mellis.Lang.Python3.Grammar
                 throw context.ExpectedChild();
             }
 
-            var firstRule = allRules[0];
-            var firstStmt = VisitSmall_stmt(firstRule)
+            Python3Parser.Small_stmtContext firstRule = allRules[0];
+            Statement firstStmt = VisitSmall_stmt(firstRule)
                 .AsTypeOrThrow<Statement>();
 
             if (allRules.Count == 1)
@@ -120,10 +120,10 @@ namespace Mellis.Lang.Python3.Grammar
             var statements = new Statement[allRules.Count];
             statements[0] = firstStmt;
 
-            for (var i = 1; i < allRules.Count; i++)
+            for (int i = 1; i < allRules.Count; i++)
             {
-                var rule = allRules[i];
-                var stmt = VisitSmall_stmt(rule).AsTypeOrThrow<Statement>();
+                Python3Parser.Small_stmtContext rule = allRules[i];
+                Statement stmt = VisitSmall_stmt(rule).AsTypeOrThrow<Statement>();
 
                 statements[i] = stmt;
             }
@@ -135,7 +135,7 @@ namespace Mellis.Lang.Python3.Grammar
         {
             // small_stmt: (expr_stmt | del_stmt | pass_stmt | flow_stmt |
             //    import_stmt | global_stmt | nonlocal_stmt | assert_stmt)
-            var child = context.GetChildOrThrow<ParserRuleContext>(0);
+            ParserRuleContext child = context.GetChildOrThrow<ParserRuleContext>(0);
 
             switch (child)
             {
@@ -163,7 +163,7 @@ namespace Mellis.Lang.Python3.Grammar
             //    | try_stmt | with_stmt | funcdef | classdef
             //    | decorated | async_stmt
 
-            var first = context.GetChildOrThrow<ParserRuleContext>(0);
+            ParserRuleContext first = context.GetChildOrThrow<ParserRuleContext>(0);
 
             if (context.ChildCount > 1)
             {

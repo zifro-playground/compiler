@@ -11,7 +11,7 @@ namespace Mellis.Lang.Python3.Instructions
 
         public override void Execute(VM.PyProcessor processor)
         {
-            var value = processor.PopValue();
+            Core.Interfaces.IScriptType value = processor.PopValue();
 
             if (!value.IsTruthy())
             {
