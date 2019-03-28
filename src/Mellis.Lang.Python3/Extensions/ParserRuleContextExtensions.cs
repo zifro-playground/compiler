@@ -155,14 +155,19 @@ namespace Mellis.Lang.Python3.Extensions
             string localizedPython3ParserKey,
             params object[] additionalFormatArgs)
         {
-            if (terminal.Symbol.StartIndex == -1 ||
-                terminal.Symbol.StopIndex == -1)
+            if (terminal.IsMissing())
             {
                 throw new SyntaxException(terminal.GetSourceReference(),
                     localizedPython3ParserKey,
                     Localized_Python3_Parser.ResourceManager.GetString(localizedPython3ParserKey),
                     additionalFormatValues: additionalFormatArgs);
             }
+        }
+
+        public static bool IsMissing(this ITerminalNode terminal)
+        {
+            return terminal.Symbol.StartIndex == -1 ||
+                            terminal.Symbol.StopIndex == -1;
         }
 
         public static ITerminalNode ExpectClosingParenthesis(this ParserRuleContext context, ITerminalNode opening,

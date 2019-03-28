@@ -161,6 +161,14 @@
 {3} source end column
 {4} context rule name</comment>
   </data>
+  <data name="Ex_Syntax_For_Else_MissingColon" xml:space="preserve">
+    <value>Saknar ett kolon i slutet av din 'else' i din 'for'-loop.</value>
+    <comment>Missing colon after else keyword in for-loop.</comment>
+  </data>
+  <data name="Ex_Syntax_For_MissingColon" xml:space="preserve">
+    <value>Saknar ett kolon i slutet av din 'for'-loop.</value>
+    <comment>Missing colon after condition in for-loop.</comment>
+  </data>
   <data name="Ex_Syntax_If_Elif_MissingColon" xml:space="preserve">
     <value>Saknar ett kolon i slutet av villkoret efter din 'elif'.</value>
     <comment>Missing colon after elif condition in if-statement.
@@ -203,5 +211,13 @@
 {3} source end column
 {4} context rule name
 {5} child rule name</comment>
+  </data>
+  <data name="Ex_Syntax_While_Else_MissingColon" xml:space="preserve">
+    <value>Saknar ett kolon i slutet av din 'else' i din 'while'-loop.</value>
+    <comment>Missing colon after else keyword in while-loop.</comment>
+  </data>
+  <data name="Ex_Syntax_While_MissingColon" xml:space="preserve">
+    <value>Saknar ett kolon i slutet av din 'while'-loop.</value>
+    <comment>Missing colon after condition in while-loop.</comment>
   </data>
 </root>

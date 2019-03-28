@@ -1,6 +1,7 @@
 ﻿using Mellis.Core.Exceptions;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Grammar;
+using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.Syntax;
 using Mellis.Lang.Python3.Syntax.Statements;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -50,6 +51,8 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
                 GetTerminal(Python3Parser.COLON),
                 suiteMock.Object
             );
+
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             // Act
             var result = VisitContext();
@@ -111,10 +114,11 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
                 out _
             );
 
+            var unexpected = GetTerminal(Python3Parser.COLON);
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.WHILE),
                 //testMock.Object,
-                GetTerminal(Python3Parser.COLON),
+                unexpected,
                 suiteMock.Object
             );
 
@@ -124,9 +128,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             // Assert
-            Assert.That.ErrorExpectedChildFormatArgs(ex,
-                startTokenMock, stopTokenMock, contextMock
-            );
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, unexpected);
         }
 
         [TestMethod]
@@ -177,14 +179,14 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
                 suiteMock.Object
             );
 
-            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+            testMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             // Act
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             // Assert
-            Assert.That.ErrorExpectedChildFormatArgs(ex,
-                startTokenMock, stopTokenMock, contextMock
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex,
+                startTokenMock, stopTokenMock, contextMock, testMock.Object
             );
         }
 
@@ -202,21 +204,21 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
                 out _
             );
 
+            var missingTerminal = GetMissingTerminal(Python3Parser.COLON);
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.WHILE),
                 testMock.Object,
-                //GetTerminal(Python3Parser.COLON),
+                missingTerminal,
                 suiteMock.Object
             );
-
-            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             // Act
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             // Assert
-            Assert.That.ErrorExpectedChildFormatArgs(ex,
-                startTokenMock, stopTokenMock, contextMock
+            Assert.That.ErrorSyntaxFormatArgsEqual(ex,
+                nameof(Localized_Python3_Parser.Ex_Syntax_While_MissingColon),
+                missingTerminal
             );
         }
 
@@ -239,24 +241,23 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
                 out _
             );
 
+            var unexpected = GetTerminal(Python3Parser.COLON);
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.WHILE),
                 testMock.Object,
                 GetTerminal(Python3Parser.COLON),
                 suiteMock.Object,
                 //GetTerminal(Python3Parser.ELSE),
-                GetTerminal(Python3Parser.COLON),
+                unexpected,
                 elseMock.Object
             );
-
-            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             // Act
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             // Assert
-            Assert.That.ErrorExpectedChildFormatArgs(ex,
-                startTokenMock, stopTokenMock, contextMock
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex,
+                contextMock, unexpected
             );
         }
 
@@ -279,13 +280,14 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
                 out _
             );
 
+            var missingTerminal = GetMissingTerminal(Python3Parser.COLON);
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.WHILE),
                 testMock.Object,
                 GetTerminal(Python3Parser.COLON),
                 suiteMock.Object,
                 GetTerminal(Python3Parser.ELSE),
-                //GetTerminal(Python3Parser.COLON),
+                missingTerminal,
                 elseMock.Object
             );
 
@@ -295,8 +297,9 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
 
             // Assert
-            Assert.That.ErrorExpectedChildFormatArgs(ex,
-                startTokenMock, stopTokenMock, contextMock
+            Assert.That.ErrorSyntaxFormatArgsEqual(ex,
+                nameof(Localized_Python3_Parser.Ex_Syntax_While_Else_MissingColon),
+                missingTerminal
             );
         }
 

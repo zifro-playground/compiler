@@ -119,7 +119,35 @@ namespace Mellis.Lang.Python3.Grammar
 
         public override SyntaxNode VisitWhile_stmt(Python3Parser.While_stmtContext context)
         {
-            throw context.NotYetImplementedException("while");
+            // while_stmt: 'while' test ':' suite ['else' ':' suite]
+            context.GetChildOrThrow(0, Python3Parser.WHILE);
+            Python3Parser.TestContext testNode = context.GetChildOrThrow<Python3Parser.TestContext>(1);
+            context.GetChildOrThrow(2, Python3Parser.COLON)
+                .ThrowIfMissing(nameof(Localized_Python3_Parser.Ex_Syntax_While_MissingColon));
+            Python3Parser.SuiteContext suiteNode = context.GetChildOrThrow<Python3Parser.SuiteContext>(3);
+
+            if (context.ChildCount > 4)
+            {
+                ITerminalNode elseTerm = context.GetChildOrThrow(4, Python3Parser.ELSE);
+                context.GetChildOrThrow(5, Python3Parser.COLON)
+                    .ThrowIfMissing(nameof(Localized_Python3_Parser.Ex_Syntax_While_Else_MissingColon));
+                context.GetChildOrThrow<Python3Parser.SuiteContext>(6);
+
+                if (context.ChildCount > 7)
+                {
+                    throw context.UnexpectedChildType(context.GetChild(7));
+                }
+
+                throw elseTerm.NotYetImplementedException("while..else");
+            }
+
+            ExpressionNode testExpr = VisitTest(testNode)
+                .AsTypeOrThrow<ExpressionNode>();
+
+            Statement suiteStmt = VisitSuite(suiteNode)
+                .AsTypeOrThrow<Statement>();
+
+            return new WhileStatement(context.GetSourceReference(), testExpr, suiteStmt);
         }
 
         public override SyntaxNode VisitFor_stmt(Python3Parser.For_stmtContext context)
