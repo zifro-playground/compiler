@@ -1,6 +1,7 @@
 ﻿using Mellis.Core.Exceptions;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Grammar;
+using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.Syntax;
 using Mellis.Lang.Python3.Syntax.Statements;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -73,6 +74,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             Assert.AreSame(suiteStmt, forStmt.Suite);
         }
 
+
         [TestMethod]
         public void Visit_WithElseStatement()
         {
@@ -81,16 +83,16 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
 
             CreateAndSetupExprList(
                 out var idRuleMock,
-                out var idExpr);
+                out _);
             CreateAndSetupTestList(
                 out var iterRuleMock,
-                out var iter);
+                out _);
             CreateAndSetupSuite(
                 out var suiteRuleMock,
-                out var suiteStmt);
+                out _);
             CreateAndSetupSuite(
                 out var elseRuleMock,
-                out var elseSuiteStmt);
+                out _);
 
             var elseTerm = GetTerminal(Python3Parser.ELSE);
 
@@ -139,6 +141,120 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
 
             // Assert
             Assert.That.ErrorExpectedChildFormatArgs(ex, startTokenMock, stopTokenMock, contextMock);
+        }
+
+        [TestMethod]
+        public void Visit_MissingInTerminal()
+        {
+            // Arrange
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            CreateAndSetupExprList(
+                out var idRuleMock,
+                out _);
+            CreateAndSetupTestList(
+                out var iterRuleMock,
+                out _);
+            CreateAndSetupSuite(
+                out var suiteMock,
+                out _);
+
+            var missingTerminal = GetMissingTerminal(Python3Parser.IN);
+            contextMock.SetupChildren(
+                GetTerminal(Python3Parser.FOR),
+                idRuleMock.Object,
+                missingTerminal,
+                iterRuleMock.Object,
+                GetTerminal(Python3Parser.COLON),
+                suiteMock.Object
+            );
+
+            // Act
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
+
+            // Assert
+            Assert.That.ErrorSyntaxFormatArgsEqual(ex,
+                nameof(Localized_Python3_Parser.Ex_Syntax_For_MissingIn),
+                missingTerminal
+            );
+        }
+
+        [TestMethod]
+        public void Visit_MissingColonTerminal()
+        {
+            // Arrange
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            CreateAndSetupExprList(
+                out var idRuleMock,
+                out _);
+            CreateAndSetupTestList(
+                out var iterRuleMock,
+                out _);
+            CreateAndSetupSuite(
+                out var suiteMock,
+                out _);
+
+            var missingTerminal = GetMissingTerminal(Python3Parser.COLON);
+            contextMock.SetupChildren(
+                GetTerminal(Python3Parser.FOR),
+                idRuleMock.Object,
+                GetTerminal(Python3Parser.IN),
+                iterRuleMock.Object,
+                missingTerminal,
+                suiteMock.Object
+            );
+
+            // Act
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
+
+            // Assert
+            Assert.That.ErrorSyntaxFormatArgsEqual(ex,
+                nameof(Localized_Python3_Parser.Ex_Syntax_For_MissingColon),
+                missingTerminal
+            );
+        }
+
+        [TestMethod]
+        public void Visit_MissingElseColonTerminal()
+        {
+            // Arrange
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+
+            CreateAndSetupExprList(
+                out var idRuleMock,
+                out _);
+            CreateAndSetupTestList(
+                out var iterRuleMock,
+                out _);
+            CreateAndSetupSuite(
+                out var suiteMock,
+                out _);
+            CreateAndSetupTestList(
+                out var elseMock,
+                out _);
+
+            var missingTerminal = GetMissingTerminal(Python3Parser.COLON);
+            contextMock.SetupChildren(
+                GetTerminal(Python3Parser.FOR),
+                idRuleMock.Object,
+                GetTerminal(Python3Parser.IN),
+                iterRuleMock.Object,
+                GetTerminal(Python3Parser.COLON),
+                suiteMock.Object,
+                GetTerminal(Python3Parser.ELSE),
+                missingTerminal,
+                elseMock.Object
+            );
+
+            // Act
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
+
+            // Assert
+            Assert.That.ErrorSyntaxFormatArgsEqual(ex,
+                nameof(Localized_Python3_Parser.Ex_Syntax_For_Else_MissingColon),
+                missingTerminal
+            );
         }
     }
 }

@@ -155,15 +155,18 @@ namespace Mellis.Lang.Python3.Grammar
             // for_stmt: 'for' exprlist 'in' testlist ':' suite ['else' ':' suite]
             context.GetChildOrThrow(0, Python3Parser.FOR);
             Python3Parser.ExprlistContext operandNode = context.GetChildOrThrow<Python3Parser.ExprlistContext>(1);
-            context.GetChildOrThrow(2, Python3Parser.IN);
+            context.GetChildOrThrow(2, Python3Parser.IN)
+                .ThrowIfMissing(nameof(Localized_Python3_Parser.Ex_Syntax_For_MissingIn));
             Python3Parser.TestlistContext iterNode = context.GetChildOrThrow<Python3Parser.TestlistContext>(3);
-            context.GetChildOrThrow(4, Python3Parser.COLON);
+            context.GetChildOrThrow(4, Python3Parser.COLON)
+                .ThrowIfMissing(nameof(Localized_Python3_Parser.Ex_Syntax_For_MissingColon));
             Python3Parser.SuiteContext suiteNode = context.GetChildOrThrow<Python3Parser.SuiteContext>(5);
 
             if (context.ChildCount > 6)
             {
                 ITerminalNode elseTerm = context.GetChildOrThrow(6, Python3Parser.ELSE);
-                context.GetChildOrThrow(7, Python3Parser.COLON);
+                context.GetChildOrThrow(7, Python3Parser.COLON)
+                    .ThrowIfMissing(nameof(Localized_Python3_Parser.Ex_Syntax_For_Else_MissingColon));
                 context.GetChildOrThrow<Python3Parser.SuiteContext>(8);
 
                 if (context.ChildCount > 9)

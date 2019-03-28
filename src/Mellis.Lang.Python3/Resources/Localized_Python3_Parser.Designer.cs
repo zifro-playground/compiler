@@ -142,6 +142,15 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saknar nyckelordet &apos;in&apos; i din &apos;for&apos;-loop..
+        /// </summary>
+        internal static string Ex_Syntax_For_MissingIn {
+            get {
+                return ResourceManager.GetString("Ex_Syntax_For_MissingIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Saknar ett kolon i slutet av villkoret efter din &apos;elif&apos;..
         /// </summary>
         internal static string Ex_Syntax_If_Elif_MissingColon {
