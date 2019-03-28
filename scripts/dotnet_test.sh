@@ -50,16 +50,16 @@ do
         'Failed '*)
             if [ "$errors" ]
             then
-                errors="$errors\n> :small_red_triangle: $x"
+                errors="$errors\n> :small_red_triangle_down: $x"
             else
-                errors="> :small_red_triangle: $x"
+                errors="> :small_red_triangle_down: $x"
             fi
             read x # discard "Error Message:" line
             echo $x
             read x # the error message
             echo $x
 
-            errors="$errors\n\`\`\`\n$(escape "$x")\n\`\`\`"
+            errors="$errors\n> \`\`\`\n$(escape "$x")\n\`\`\`"
         ;;
         # 'Results File:'*)
         #     [[ $x =~ $regexResults ]]
