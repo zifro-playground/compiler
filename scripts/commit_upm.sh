@@ -64,7 +64,7 @@ function tag {
         if [ $TAG_STATUS -ne 0 ]
         then
             echo "<<< Unexpected error during tagging \"$TAG\". Aborting."
-            return 1
+            exit 1
         else
             echo "Added tag \"$TAG\", message \"$MESSAGE\""
         #     echo ">>> Tag summary"
@@ -78,33 +78,38 @@ echo ">>> Tagging"
 set +e
 TAG_COUNT=$((0))
 
-tag "m$MELLIS_VERSION" \
-    "Mellis $MELLIS_VERSION, Python3 module $MELLIS_PYTHON3_VERSION"
+tagMessage="Mellis $MELLIS_VERSION, Python3 module $MELLIS_PYTHON3_VERSION
+This tag was created autonomously by a script in the CircleCI workflow.
+
+:shipit: $CIRCLE_BUILD_URL
+:octocat: https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1"
+
+tag "m$MELLIS_VERSION" "$tagMessage"
 TAG_STATUS=$?
-if [ $TAG_STATUS -eq 1 ]; then exit 1
-elif [ $TAG_STATUS -eq 0 ]; then ((TAG_COUNT++)); fi
+if [ $TAG_STATUS -eq 0 ]; then ((TAG_COUNT++)); fi
 
 sleep 5s
-tag "p$MELLIS_PYTHON3_VERSION" \
-    "Mellis $MELLIS_VERSION, Python3 module $MELLIS_PYTHON3_VERSION"
+tag "p$MELLIS_PYTHON3_VERSION" "$tagMessage"
 TAG_STATUS=$?
-if [ $TAG_STATUS -eq 1 ]; then exit 1
-elif [ $TAG_STATUS -eq 0 ]; then ((TAG_COUNT++)); fi
+if [ $TAG_STATUS -eq 0 ]; then ((TAG_COUNT++)); fi
 
 sleep 5s
-tag "(m$MELLIS_VERSION-p$MELLIS_PYTHON3_VERSION)" \
-    "Mellis $MELLIS_VERSION, Python3 module $MELLIS_PYTHON3_VERSION"
+tag "(m$MELLIS_VERSION-p$MELLIS_PYTHON3_VERSION)" "$tagMessage"
 TAG_STATUS=$?
-if [ $TAG_STATUS -eq 1 ]; then exit 1
-elif [ $TAG_STATUS -eq 0 ]; then ((TAG_COUNT++)); fi
+if [ $TAG_STATUS -eq 0 ]; then ((TAG_COUNT++)); fi
 
 set -e
 echo "<<< Added $TAG_COUNT tags"
 echo
 
-echo ">>> Pushing to $CIRCLE_REPOSITORY_URL"
-if [ -n "${LOCAL:-}" ]; then
-    echo "(not pushing because local dev environment)"
+if [ $TAG_COUNT -eq 0 ]
+then
+    echo ">>> No new tags, not pushing."
 else
-    git push --follow-tags
+    echo ">>> Pushing to $CIRCLE_REPOSITORY_URL"
+    if [ -n "${LOCAL:-}" ]; then
+        echo "(not pushing because local dev environment)"
+    else
+        git push --follow-tags
+    fi
 fi
