@@ -32,19 +32,20 @@ function quote {
     done <<< "$1"
 }
 
-function escape {
+function escapeJson {
     : ${1?}
     local val=${1//\\/\\\\} # \ 
     val=${val//\//\\\/} # / 
-    val=${val//\'/\\\'} # ' (not strictly needed ?)
+    # val=${val//\'/\\\'} # ' (not strictly needed ?)
     val=${val//\"/\\\"} # " 
     val=${val//	/\\t} # \t (tab)
+    # val=${val//^M/\\\r} # \r (carriage return)
+    val="$(echo "$val" | tr -d '\r')"
     val=${val//
 /\\\n} # \n (newline)
-    val=${val//^M/\\\r} # \r (carriage return)
     val=${val//^L/\\\f} # \f (form feed)
     val=${val//^H/\\\b} # \b (backspace)
-    echo "$val"
+    echo -n "$val"
 }
 
 function getTextForCommit {
@@ -53,7 +54,7 @@ function getTextForCommit {
     local commitShortSHA="$(git show --pretty=%h --quiet $commitSHA)"
     local commitMessage="$(quoteNotFirst "$(git show --quiet --pretty=%B $commitShortSHA)")"
 
-    echo "> <https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$commitSHA|$commitShortSHA> $(escape "$commitMessage")"
+    echo "> <https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$commitSHA|$commitShortSHA> $(escapeJson "$commitMessage")"
 }
 
 echo "BUILD_STATUS=$BUILD_STATUS"
@@ -78,9 +79,10 @@ else
 
     if [ "$TEST_FAILED" -gt 0 ] && [ "$TEST_ERRORS" ]
     then
-        errorsField="*Errors:*\\n\\n$(escape "$TEST_ERRORS")"
+        errorsField="*Errors:*\\n\\n$(escapeJson "$TEST_ERRORS")"
     fi
 fi
+echo
 
 : ${errorsField:=}
 
@@ -108,9 +110,11 @@ then
             else
                 commitRange="$commitPrevSHA...$CIRCLE_SHA1"
                 echo "Instead looking at range '$commitRange'"
+                echo
             fi
         else
             echo "No match for previous commit."
+            echo
         fi
     else
         echo "No previous build. Assuming new branch..."
@@ -123,6 +127,7 @@ then
         echo "Found base branch '$baseBranch'"
         commitRange="$baseBranch...$CIRCLE_SHA1"
         echo "Instead looking at range '$commitRange'"
+        echo
     fi
 fi
 
@@ -141,13 +146,14 @@ then
         echo "Found author profile picture: $authorIcon"
 
         author="
-            \"author_name\": \"$CIRCLE_USERNAME\", \
-            \"author_icon\": \"$authorIcon\", \
-            \"author_link\": \"https://github.com/$CIRCLE_USERNAME\", \
+        \"author_name\": \"$CIRCLE_USERNAME\",
+        \"author_icon\": \"$authorIcon\",
+        \"author_link\": \"https://github.com/$CIRCLE_USERNAME\",
         "
     fi
 fi
 
+echo
 text=""
 while read commit
 do
@@ -157,37 +163,45 @@ done < <(git log --pretty=%h $commitRange)
 
 footer="$(git diff --shortstat $commitRange)"
 testPercent=$((100*TEST_PASSED/TEST_TOTAL))
-
-curl -X POST -H 'Content-type: application/json' \
---data " { \
-\"attachments\": [ \
-    { \
-        $author \
-        \"fallback\": \"$fallback\", \
-        \"title\": \"$title\", \
-        \"footer\": \"$footer\", \
-        \"text\": \"Commits _(oldest first):_\\n$text\\n$errorsField\", \
+data=" {
+\"attachments\": [
+    {
+        $author
+        \"fallback\": \"$fallback\",
+        \"title\": \"$title\",
+        \"footer\": \"$footer\",
+        \"text\": \"Commits _(oldest first):_\\n$text\\n$errorsField\",
         \"mrkdwn_in\": [\"fields\", \"text\"], 
-        \"color\": \"$color\" ,\
-        \"fields\": [ \
-            { \
-                \"title\": \"Test results: $testPercent %\",\
-                \"value\": \"$testResults\", \
-                \"short\": true \
-            } \
-        ], \
-        \"actions\": [ \
-            { \
-                \"style\": \"$visitJobActionStyle\", \
-                \"type\": \"button\", \
-                \"text\": \"Visit Job #$CIRCLE_BUILD_NUM ($CIRCLE_STAGE)\", \
-                \"url\": \"$CIRCLE_BUILD_URL\" \
-            } \
-        ] \
-    } \
-] } " $SLACK_WEBHOOK
+        \"color\": \"$color\",
+        \"fields\": [
+            {
+                \"title\": \"Test results: $testPercent %\",
+                \"value\": \"$testResults\",
+                \"short\": true
+            }
+        ],
+        \"actions\": [
+            {
+                \"style\": \"$visitJobActionStyle\",
+                \"type\": \"button\",
+                \"text\": \"Visit Job #$CIRCLE_BUILD_NUM ($CIRCLE_STAGE)\",
+                \"url\": \"$CIRCLE_BUILD_URL\"
+            }
+        ]
+    }
+] }"
 
-echo "Job completed successfully. Alert sent."
+echo
+response="$(curl -X POST -H 'Content-type: application/json' --data "$data" $SLACK_WEBHOOK)"
+if [[ "$response" == "ok" ]]
+then
+    echo "Job completed successfully. Alert sent."
+else
+    echo "Something went wrong in the webhook..."
+    echo "Payload:"
+    echo
+    echo "$data"
+fi
 
 # Unused project/branch fields
 

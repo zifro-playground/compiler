@@ -20,19 +20,20 @@ regexResults='^Results File: (.*)$'
 
 errors=""
 
-function escape {
+function escapeJson {
     : ${1?}
     local val=${1//\\/\\\\} # \ 
     val=${val//\//\\\/} # / 
-    val=${val//\'/\\\'} # ' (not strictly needed ?)
+    # val=${val//\'/\\\'} # ' (not strictly needed ?)
     val=${val//\"/\\\"} # " 
     val=${val//	/\\t} # \t (tab)
+    # val=${val//^M/\\\r} # \r (carriage return)
+    val="$(echo "$val" | tr -d '\r')"
     val=${val//
 /\\\n} # \n (newline)
-    val=${val//^M/\\\r} # \r (carriage return)
     val=${val//^L/\\\f} # \f (form feed)
     val=${val//^H/\\\b} # \b (backspace)
-    echo "$val"
+    echo -n "$val"
 }
 
 while read x
@@ -59,7 +60,7 @@ do
             read x # the error message
             echo $x
 
-            errors="$errors\n> \`\`\`\n$(escape "$x")\n\`\`\`"
+            errors="$errors\n> \`\`\`\n$(escapeJson "$x")\n\`\`\`"
         ;;
         # 'Results File:'*)
         #     [[ $x =~ $regexResults ]]
