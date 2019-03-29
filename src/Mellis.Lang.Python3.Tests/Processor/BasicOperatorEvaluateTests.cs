@@ -9,7 +9,7 @@ using Mellis.Lang.Python3.VM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace Mellis.Lang.Python3.Tests.Processor.Operators
+namespace Mellis.Lang.Python3.Tests.Processor
 {
     [TestClass]
     public class BasicOperatorEvaluateTests
@@ -139,8 +139,6 @@ namespace Mellis.Lang.Python3.Tests.Processor.Operators
             EvaluateBinaryTestTemplate(BasicOperatorCode.CLtEq,
                 o => o.CompareLessThanOrEqual(It.IsAny<IScriptType>()));
         }
-
-        // TODO: Test non-basic AND & OR
 
         [DataTestMethod]
         // Binary operators (lhs op rhs)
