@@ -46,7 +46,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
         // TODO: add compilation tests
         //[DataRow(typeof(LogicalAnd), BasicOperatorCode.LAnd, DisplayName = "comp op a&&b")]
         //[DataRow(typeof(LogicalOr), BasicOperatorCode.LOr, DisplayName = "comp op a||b")]
-        public void CompileBinaryTests(Type operatorType, BasicOperatorCode expectedCode)
+        public void CompileBasicBinaryTests(Type operatorType, BasicOperatorCode expectedCode)
         {
             // Arrange
             var compiler = new PyCompiler();
@@ -79,7 +79,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
         [DataRow(typeof(ArithmeticPositive), BasicOperatorCode.APos, DisplayName = "comp op -b")]
         [DataRow(typeof(BinaryNot), BasicOperatorCode.BNot, DisplayName = "comp op ~b")]
         [DataRow(typeof(LogicalNot), BasicOperatorCode.LNot, DisplayName = "comp op !b")]
-        public void CompileUnaryTests(Type operatorType, BasicOperatorCode expectedCode)
+        public void CompileBasicUnaryTests(Type operatorType, BasicOperatorCode expectedCode)
         {
             // Arrange
             var compiler = new PyCompiler();
