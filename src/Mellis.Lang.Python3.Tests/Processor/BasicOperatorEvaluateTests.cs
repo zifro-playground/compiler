@@ -223,7 +223,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void EvaluateBinary_BNot_Test()
         {
             EvaluateUnaryTestTemplate(BasicOperatorCode.BNot,
-                o => o.ArithmeticUnaryPositive());
+                o => o.BinaryNot());
         }
 
         private static void EvaluateUnaryTestTemplate(BasicOperatorCode opCode, Expression<Func<IScriptType, IScriptType>> method)

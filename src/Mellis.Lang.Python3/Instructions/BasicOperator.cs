@@ -94,9 +94,13 @@ namespace Mellis.Lang.Python3.Instructions
             switch (Code)
             {
                 // Unary operators (op rhs)
-                case BasicOperatorCode.ANeg: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "+");
-                case BasicOperatorCode.APos: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "-");
-                case BasicOperatorCode.BNot: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "~");
+                case BasicOperatorCode.ANeg:
+                    return lhs.ArithmeticUnaryNegative();
+                case BasicOperatorCode.APos:
+                    return lhs.ArithmeticUnaryPositive();
+                case BasicOperatorCode.BNot:
+                    return lhs.BinaryNot();
+
                 case BasicOperatorCode.LNot: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "not");
 
                 default:
