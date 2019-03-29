@@ -7,14 +7,19 @@ namespace Mellis.Lang.Python3.Instructions
 {
     public class JumpIfTrue : Jump
     {
-        public JumpIfTrue(SourceReference source, int target = -1)
+        public bool Peek { get; }
+
+        public JumpIfTrue(SourceReference source, int target = -1, bool peek = false)
             : base(source, target)
         {
+            Peek = peek;
         }
 
         public override void Execute(PyProcessor processor)
         {
-            IScriptType value = processor.PopValue();
+            IScriptType value = Peek 
+                ? processor.PeekValue()
+                : processor.PopValue();
 
             if (value.IsTruthy())
             {
@@ -24,7 +29,7 @@ namespace Mellis.Lang.Python3.Instructions
 
         public override string ToString()
         {
-            return $"jmpif->@{Target}";
+            return $"jmpif[{(Peek ? "peek" : "pop")}]->@{Target}";
         }
     }
 }
