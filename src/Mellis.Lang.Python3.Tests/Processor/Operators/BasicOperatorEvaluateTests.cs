@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using Mellis.Core.Entities;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Extensions;
 using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.VM;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
-namespace Mellis.Lang.Python3.Tests.Processor
+namespace Mellis.Lang.Python3.Tests.Processor.Operators
 {
     [TestClass]
     public class BasicOperatorEvaluateTests
