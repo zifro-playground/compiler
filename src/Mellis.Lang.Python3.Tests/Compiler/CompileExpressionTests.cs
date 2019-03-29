@@ -43,9 +43,6 @@ namespace Mellis.Lang.Python3.Tests.Compiler
         [DataRow(typeof(CompareInNot), BasicOperatorCode.CNIn, DisplayName = "comp op a not in b")]
         [DataRow(typeof(CompareIs), BasicOperatorCode.CIs, DisplayName = "comp op a is b")]
         [DataRow(typeof(CompareIsNot), BasicOperatorCode.CIsN, DisplayName = "comp op a is not b")]
-        // TODO: add compilation tests
-        //[DataRow(typeof(LogicalAnd), BasicOperatorCode.LAnd, DisplayName = "comp op a&&b")]
-        //[DataRow(typeof(LogicalOr), BasicOperatorCode.LOr, DisplayName = "comp op a||b")]
         public void CompileBasicBinaryTests(Type operatorType, BasicOperatorCode expectedCode)
         {
             // Arrange
@@ -58,7 +55,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
                 out Mock<ExpressionNode> exprRhsMock,
                 out NopOp exprRhsOp);
 
-            var opNode = (BinaryOperator) Activator.CreateInstance(operatorType,
+            var opNode = (BinaryOperator)Activator.CreateInstance(operatorType,
                 exprLhsMock.Object, exprRhsMock.Object);
 
             // Act
@@ -88,7 +85,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
                 out Mock<ExpressionNode> exprMock,
                 out NopOp exprOp);
 
-            var opNode = (UnaryOperator) Activator.CreateInstance(operatorType,
+            var opNode = (UnaryOperator)Activator.CreateInstance(operatorType,
                 SourceReference.ClrSource,
                 exprMock.Object);
 
@@ -101,6 +98,51 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             Assert.AreSame(exprOp, compiler[0]);
 
             exprMock.Verify(o => o.Compile(compiler), Times.Once);
+        }
+
+        [DataTestMethod]
+        [DataRow(typeof(LogicalAnd), false, DisplayName = "comp a and b, jumpifn")]
+        [DataRow(typeof(LogicalOr), true, DisplayName = "comp a or b, jumpif")]
+        public void CompileShortCircuit(Type operatorType, bool jumpOverRhsIfTrue)
+        {
+            // Arrange
+            var compiler = new PyCompiler();
+            compiler.CreateAndSetup(
+                out Mock<ExpressionNode> exprLhsMock,
+                out NopOp exprLhsOp);
+
+            compiler.CreateAndSetup(
+                out Mock<ExpressionNode> exprRhsMock,
+                out NopOp exprRhsOp);
+
+            var opNode = (BinaryOperator)Activator.CreateInstance(operatorType,
+                exprLhsMock.Object, exprRhsMock.Object);
+
+            // Act
+            opNode.Compile(compiler);
+
+            // Assert
+            Assert.That.IsExpectedOpCode(compiler, 0, exprLhsOp);
+            Assert.That.IsOpCode<VarPop>(compiler, 2);
+            Assert.That.IsExpectedOpCode(compiler, 3, exprRhsOp);
+
+            Assert.AreEqual(4, compiler.Count);
+
+            if (jumpOverRhsIfTrue)
+            {
+                var jump = Assert.That.IsOpCode<JumpIfTrue>(compiler, 1);
+                Assert.IsTrue(jump.Peek);
+                Assert.AreEqual(4, jump.Target);
+            }
+            else
+            {
+                var jump = Assert.That.IsOpCode<JumpIfFalse>(compiler, 1);
+                Assert.IsTrue(jump.Peek);
+                Assert.AreEqual(4, jump.Target);
+            }
+
+            exprLhsMock.Verify(o => o.Compile(compiler), Times.Once);
+            exprRhsMock.Verify(o => o.Compile(compiler), Times.Once);
         }
 
         [TestMethod]
@@ -155,7 +197,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             }
 
             // Act
-            var ex = Assert.ThrowsException<SyntaxUncompilableException>((Action) Action);
+            var ex = Assert.ThrowsException<SyntaxUncompilableException>((Action)Action);
 
             // Assert
             Assert.That.ErrorSyntaxFormatArgsEqual(ex,
@@ -203,9 +245,8 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             const int expectedLiteral = 5;
             const string expectedIdentifier = "foo";
 
-            var args = new []
-            {
-                new LiteralInteger(SourceReference.ClrSource, expectedLiteral), 
+            var args = new[] {
+                new LiteralInteger(SourceReference.ClrSource, expectedLiteral),
             };
 
             var callNode = new FunctionCall(
@@ -242,10 +283,9 @@ namespace Mellis.Lang.Python3.Tests.Compiler
 
             const string expectedIdentifier = "foo";
 
-            var args = new ExpressionNode[]
-            {
+            var args = new ExpressionNode[] {
                 new LiteralInteger(SourceReference.ClrSource, expectedLiteral1),
-                new LiteralString(SourceReference.ClrSource, expectedLiteral2), 
+                new LiteralString(SourceReference.ClrSource, expectedLiteral2),
                 new LiteralBoolean(SourceReference.ClrSource, expectedLiteral3),
             };
 
@@ -261,7 +301,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             // Assert
             var foo = Assert.That.IsOpCode<VarGet>(compiler, 0);
             Assert.AreEqual(expectedIdentifier, foo.Identifier);
-            
+
             Assert.That.IsPushLiteralOpCode(expectedLiteral1, compiler, 1);
             Assert.That.IsPushLiteralOpCode(expectedLiteral2, compiler, 2);
             Assert.That.IsPushLiteralOpCode(expectedLiteral3, compiler, 3);
