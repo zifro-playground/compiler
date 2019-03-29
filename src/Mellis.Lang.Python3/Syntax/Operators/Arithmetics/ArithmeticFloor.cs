@@ -2,7 +2,7 @@
 
 namespace Mellis.Lang.Python3.Syntax.Operators.Arithmetics
 {
-    public class ArithmeticFloor : BinaryOperator
+    public class ArithmeticFloor : BasicBinaryOperator
     {
         public override BasicOperatorCode OpCode => BasicOperatorCode.AFlr;
 

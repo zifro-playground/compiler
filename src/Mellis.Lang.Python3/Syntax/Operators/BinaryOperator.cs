@@ -8,8 +8,6 @@ namespace Mellis.Lang.Python3.Syntax.Operators
     /// </summary>
     public abstract class BinaryOperator : ExpressionNode
     {
-        public abstract BasicOperatorCode OpCode { get; }
-
         protected BinaryOperator(SourceReference source,
             ExpressionNode leftOperand, ExpressionNode rightOperand)
             : base(source)
@@ -31,12 +29,5 @@ namespace Mellis.Lang.Python3.Syntax.Operators
 
         public ExpressionNode LeftOperand { get; }
         public ExpressionNode RightOperand { get; }
-
-        public override void Compile(PyCompiler compiler)
-        {
-            LeftOperand.Compile(compiler);
-            RightOperand.Compile(compiler);
-            compiler.Push(new BasicOperator(Source, OpCode));
-        }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Mellis.Lang.Python3.Syntax.Operators.Binaries
 {
-    public class BinaryXor : BinaryOperator
+    public class BinaryXor : BasicBinaryOperator
     {
         public override BasicOperatorCode OpCode => BasicOperatorCode.BXor;
 

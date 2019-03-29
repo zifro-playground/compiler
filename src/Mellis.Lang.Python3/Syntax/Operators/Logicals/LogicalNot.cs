@@ -3,7 +3,7 @@ using Mellis.Lang.Python3.Instructions;
 
 namespace Mellis.Lang.Python3.Syntax.Operators.Logicals
 {
-    public class LogicalNot : UnaryOperator
+    public class LogicalNot : BasicUnaryOperator
     {
         public override BasicOperatorCode OpCode => BasicOperatorCode.LNot;
 

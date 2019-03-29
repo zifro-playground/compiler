@@ -63,14 +63,6 @@
         CIsN,
 
         /*
-         * Binary logical operators (lhs op rhs)
-         */
-        /// <summary>a and b</summary>
-        LAnd = 0x20,
-        /// <summary>a or b</summary>
-        LOr,
-
-        /*
          * Unary operators (op rhs)
          */
         /// <summary>+a</summary>

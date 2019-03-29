@@ -43,8 +43,9 @@ namespace Mellis.Lang.Python3.Tests.Compiler
         [DataRow(typeof(CompareInNot), BasicOperatorCode.CNIn, DisplayName = "comp op a not in b")]
         [DataRow(typeof(CompareIs), BasicOperatorCode.CIs, DisplayName = "comp op a is b")]
         [DataRow(typeof(CompareIsNot), BasicOperatorCode.CIsN, DisplayName = "comp op a is not b")]
-        [DataRow(typeof(LogicalAnd), BasicOperatorCode.LAnd, DisplayName = "comp op a&&b")]
-        [DataRow(typeof(LogicalOr), BasicOperatorCode.LOr, DisplayName = "comp op a||b")]
+        // TODO: add compilation tests
+        //[DataRow(typeof(LogicalAnd), BasicOperatorCode.LAnd, DisplayName = "comp op a&&b")]
+        //[DataRow(typeof(LogicalOr), BasicOperatorCode.LOr, DisplayName = "comp op a||b")]
         public void CompileBinaryTests(Type operatorType, BasicOperatorCode expectedCode)
         {
             // Arrange

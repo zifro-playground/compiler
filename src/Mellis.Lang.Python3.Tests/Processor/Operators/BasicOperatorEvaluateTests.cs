@@ -140,10 +140,10 @@ namespace Mellis.Lang.Python3.Tests.Processor.Operators
                 o => o.CompareLessThanOrEqual(It.IsAny<IScriptType>()));
         }
 
+        // TODO: Test non-basic AND & OR
+
         [DataTestMethod]
         // Binary operators (lhs op rhs)
-        [DataRow(BasicOperatorCode.LAnd, "and", DisplayName = "nyi and")]
-        [DataRow(BasicOperatorCode.LOr, "or", DisplayName = "nyi or")]
         [DataRow(BasicOperatorCode.CIn, "in", DisplayName = "nyi in")]
         [DataRow(BasicOperatorCode.CNIn, "not in", DisplayName = "nyi not in")]
         [DataRow(BasicOperatorCode.CIs, "is", DisplayName = "nyi is")]
@@ -151,7 +151,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.Operators
         public void EvaluateBinary_NotYetImplemented_Tests(BasicOperatorCode opCode, string expectedKeyword)
         {
             // Arrange
-            var source = new SourceReference(1,2,3,4);
+            var source = new SourceReference(1, 2, 3, 4);
             var processor = new PyProcessor(
                 new BasicOperator(source, opCode)
             );
@@ -164,7 +164,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.Operators
 
             // Act
             processor.WalkInstruction(); // to enter first op
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action) processor.WalkLine);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action)processor.WalkLine);
 
             // Assert
             Assert.IsNotNull(processor.LastError);
@@ -173,7 +173,9 @@ namespace Mellis.Lang.Python3.Tests.Processor.Operators
             Assert.That.ErrorNotYetImplFormatArgs(ex, source, expectedKeyword);
         }
 
-        private static void EvaluateBinaryTestTemplate(BasicOperatorCode opCode, Expression<Func<IScriptType, IScriptType>> method)
+        private static void EvaluateBinaryTestTemplate(
+            BasicOperatorCode opCode,
+            Expression<Func<IScriptType, IScriptType>> method)
         {
             // Arrange
             var processor = new PyProcessor(
@@ -196,11 +198,22 @@ namespace Mellis.Lang.Python3.Tests.Processor.Operators
             var result = processor.PopValue();
 
             // Assert
-            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name, processor.LastError?.Message);
+            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name,
+                processor.LastError?.Message);
 
             Assert.AreEqual(1, numOfValues, "Did not absorb values.");
             Assert.AreSame(resultMock.Object, result, "Did not produce result.");
             lhsMock.Verify(method);
+        }
+
+        [TestMethod]
+        public void EvaluateShortCircuit_NotBasicOperator()
+        {
+            // Arrange
+
+            // Act
+
+            // Assert
         }
 
         [TestMethod]
@@ -224,7 +237,9 @@ namespace Mellis.Lang.Python3.Tests.Processor.Operators
                 o => o.BinaryNot());
         }
 
-        private static void EvaluateUnaryTestTemplate(BasicOperatorCode opCode, Expression<Func<IScriptType, IScriptType>> method)
+        private static void EvaluateUnaryTestTemplate(
+            BasicOperatorCode opCode,
+            Expression<Func<IScriptType, IScriptType>> method)
         {
             // Arrange
             var processor = new PyProcessor(
@@ -245,7 +260,8 @@ namespace Mellis.Lang.Python3.Tests.Processor.Operators
             var result = processor.PopValue();
 
             // Assert
-            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name, processor.LastError?.Message);
+            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name,
+                processor.LastError?.Message);
 
             Assert.AreEqual(1, numOfValues, "Did not absorb value.");
             Assert.AreSame(resultMock.Object, result, "Did not produce result.");
@@ -277,7 +293,8 @@ namespace Mellis.Lang.Python3.Tests.Processor.Operators
             var result = processor.PopValue();
 
             // Assert
-            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name, processor.LastError?.Message);
+            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name,
+                processor.LastError?.Message);
 
             Assert.AreEqual(1, numOfValues, "Did not absorb value.");
             Assert.That.ScriptTypeEqual(expectedResult, result);
@@ -292,27 +309,21 @@ namespace Mellis.Lang.Python3.Tests.Processor.Operators
         [DataRow(BasicOperatorCode.AFlr, DisplayName = "is bin op a//b")]
         [DataRow(BasicOperatorCode.AMod, DisplayName = "is bin op a%b")]
         [DataRow(BasicOperatorCode.APow, DisplayName = "is bin op a**b")]
-
         [DataRow(BasicOperatorCode.BAnd, DisplayName = "is bin op a&b")]
         [DataRow(BasicOperatorCode.BLsh, DisplayName = "is bin op a<<b")]
         [DataRow(BasicOperatorCode.BRsh, DisplayName = "is bin op a>>b")]
         [DataRow(BasicOperatorCode.BOr, DisplayName = "is bin op a|b")]
         [DataRow(BasicOperatorCode.BXor, DisplayName = "is bin op a^b")]
-
         [DataRow(BasicOperatorCode.CEq, DisplayName = "is bin op a==b")]
         [DataRow(BasicOperatorCode.CNEq, DisplayName = "is bin op a!=b")]
         [DataRow(BasicOperatorCode.CGt, DisplayName = "is bin op a>b")]
         [DataRow(BasicOperatorCode.CGtEq, DisplayName = "is bin op a>=b")]
         [DataRow(BasicOperatorCode.CLt, DisplayName = "is bin op a<b")]
         [DataRow(BasicOperatorCode.CLtEq, DisplayName = "is bin op a<=b")]
-
         [DataRow(BasicOperatorCode.CIn, DisplayName = "is bin op a in b")]
         [DataRow(BasicOperatorCode.CNIn, DisplayName = "is bin op a not in b")]
         [DataRow(BasicOperatorCode.CIs, DisplayName = "is bin op a is b")]
         [DataRow(BasicOperatorCode.CIsN, DisplayName = "is bin op a is not b")]
-
-        [DataRow(BasicOperatorCode.LAnd, DisplayName = "is bin op a&&b")]
-        [DataRow(BasicOperatorCode.LOr, DisplayName = "is bin op a||b")]
         public void IsBinaryTests(BasicOperatorCode code)
         {
             // Act
@@ -320,8 +331,8 @@ namespace Mellis.Lang.Python3.Tests.Processor.Operators
             bool isUnary = code.IsUnary();
 
             // Assert
-            Assert.IsTrue(isBinary, $"OperatorCode.{code}.IsBinary() was false");
-            Assert.IsFalse(isUnary, $"OperatorCode.{code}.IsUnary() was true");
+            Assert.IsTrue(isBinary, $"{nameof(BasicOperatorCode)}.{code}.IsBinary() was false");
+            Assert.IsFalse(isUnary, $"{nameof(BasicOperatorCode)}.{code}.IsUnary() was true");
         }
 
         [DataTestMethod]
@@ -336,8 +347,8 @@ namespace Mellis.Lang.Python3.Tests.Processor.Operators
             bool isUnary = code.IsUnary();
 
             // Assert
-            Assert.IsFalse(isBinary, $"OperatorCode.{code}.IsBinary() was true");
-            Assert.IsTrue(isUnary, $"OperatorCode.{code}.IsUnary() was false");
+            Assert.IsFalse(isBinary, $"{nameof(BasicOperatorCode)}.{code}.IsBinary() was true");
+            Assert.IsTrue(isUnary, $"{nameof(BasicOperatorCode)}.{code}.IsUnary() was false");
         }
     }
 }

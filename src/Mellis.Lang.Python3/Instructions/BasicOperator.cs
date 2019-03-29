@@ -75,9 +75,6 @@ namespace Mellis.Lang.Python3.Instructions
                 case BasicOperatorCode.CLtEq:
                     return lhs.CompareLessThanOrEqual(rhs);
 
-                case BasicOperatorCode.LAnd: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "and");
-                case BasicOperatorCode.LOr: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "or");
-
                 case BasicOperatorCode.CIn: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "in");
                 case BasicOperatorCode.CNIn: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "not in");
                 case BasicOperatorCode.CIs: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "is");
