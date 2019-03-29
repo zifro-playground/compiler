@@ -13,7 +13,15 @@ namespace Mellis.Lang.Python3.Syntax.Operators.Logicals
 
         public override void Compile(PyCompiler compiler)
         {
-            throw new System.NotImplementedException();
+            LeftOperand.Compile(compiler);
+
+            var jump = new JumpIfTrue(Source, peek: true);
+            compiler.Push(jump);
+            compiler.Push(new VarPop(Source));
+
+            RightOperand.Compile(compiler);
+
+            jump.Target = compiler.GetJumpTargetForNext();
         }
     }
 }

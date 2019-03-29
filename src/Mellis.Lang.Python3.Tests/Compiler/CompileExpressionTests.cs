@@ -100,10 +100,19 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             exprMock.Verify(o => o.Compile(compiler), Times.Once);
         }
 
-        [DataTestMethod]
-        [DataRow(typeof(LogicalAnd), false, DisplayName = "comp a and b, jumpifn")]
-        [DataRow(typeof(LogicalOr), true, DisplayName = "comp a or b, jumpif")]
-        public void CompileShortCircuit(Type operatorType, bool jumpOverRhsIfTrue)
+        [TestMethod]
+        public void CompileShortCircuitAnd()
+        {
+            CompileShortCircuit(typeof(LogicalAnd), jumpOverRhsIfTrue: false);
+        }
+
+        [TestMethod]
+        public void CompileShortCircuitOr()
+        {
+            CompileShortCircuit(typeof(LogicalOr), jumpOverRhsIfTrue: true);
+        }
+
+        private static void CompileShortCircuit(Type operatorType, bool jumpOverRhsIfTrue)
         {
             // Arrange
             var compiler = new PyCompiler();
