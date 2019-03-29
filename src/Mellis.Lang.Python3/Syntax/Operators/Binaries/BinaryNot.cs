@@ -5,7 +5,7 @@ namespace Mellis.Lang.Python3.Syntax.Operators.Binaries
 {
     public class BinaryNot : UnaryOperator
     {
-        public override OperatorCode OpCode => OperatorCode.BNot;
+        public override BasicOperatorCode OpCode => BasicOperatorCode.BNot;
 
         public BinaryNot(SourceReference source,
             ExpressionNode operand)

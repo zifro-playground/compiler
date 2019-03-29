@@ -9,11 +9,11 @@ namespace Mellis.Lang.Python3.Instructions
 {
     public class BasicOperator : IOpCode
     {
-        public OperatorCode Code { get; }
+        public BasicOperatorCode Code { get; }
 
         public SourceReference Source { get; }
 
-        public BasicOperator(SourceReference source, OperatorCode code)
+        public BasicOperator(SourceReference source, BasicOperatorCode code)
         {
             Source = source;
             Code = code;
@@ -35,55 +35,55 @@ namespace Mellis.Lang.Python3.Instructions
 
             switch (Code)
             {
-                case OperatorCode.AAdd:
+                case BasicOperatorCode.AAdd:
                     return lhs.ArithmeticAdd(rhs);
-                case OperatorCode.ASub:
+                case BasicOperatorCode.ASub:
                     return lhs.ArithmeticSubtract(rhs);
-                case OperatorCode.AMul:
+                case BasicOperatorCode.AMul:
                     return lhs.ArithmeticMultiply(rhs);
-                case OperatorCode.ADiv:
+                case BasicOperatorCode.ADiv:
                     return lhs.ArithmeticDivide(rhs);
-                case OperatorCode.AFlr:
+                case BasicOperatorCode.AFlr:
                     return lhs.ArithmeticFloorDivide(rhs);
-                case OperatorCode.AMod:
+                case BasicOperatorCode.AMod:
                     return lhs.ArithmeticModulus(rhs);
-                case OperatorCode.APow:
+                case BasicOperatorCode.APow:
                     return lhs.ArithmeticExponent(rhs);
 
-                case OperatorCode.BAnd:
+                case BasicOperatorCode.BAnd:
                     return lhs.BinaryAnd(rhs);
-                case OperatorCode.BLsh:
+                case BasicOperatorCode.BLsh:
                     return lhs.BinaryLeftShift(rhs);
-                case OperatorCode.BRsh:
+                case BasicOperatorCode.BRsh:
                     return lhs.BinaryRightShift(rhs);
-                case OperatorCode.BOr:
+                case BasicOperatorCode.BOr:
                     return lhs.BinaryOr(rhs);
-                case OperatorCode.BXor:
+                case BasicOperatorCode.BXor:
                     return lhs.BinaryXor(rhs);
 
-                case OperatorCode.CEq:
+                case BasicOperatorCode.CEq:
                     return lhs.CompareEqual(rhs);
-                case OperatorCode.CNEq:
+                case BasicOperatorCode.CNEq:
                     return lhs.CompareNotEqual(rhs);
-                case OperatorCode.CGt:
+                case BasicOperatorCode.CGt:
                     return lhs.CompareGreaterThan(rhs);
-                case OperatorCode.CGtEq:
+                case BasicOperatorCode.CGtEq:
                     return lhs.CompareGreaterThanOrEqual(rhs);
-                case OperatorCode.CLt:
+                case BasicOperatorCode.CLt:
                     return lhs.CompareLessThan(rhs);
-                case OperatorCode.CLtEq:
+                case BasicOperatorCode.CLtEq:
                     return lhs.CompareLessThanOrEqual(rhs);
 
-                case OperatorCode.LAnd: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "and");
-                case OperatorCode.LOr: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "or");
+                case BasicOperatorCode.LAnd: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "and");
+                case BasicOperatorCode.LOr: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "or");
 
-                case OperatorCode.CIn: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "in");
-                case OperatorCode.CNIn: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "not in");
-                case OperatorCode.CIs: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "is");
-                case OperatorCode.CIsN: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "is not");
+                case BasicOperatorCode.CIn: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "in");
+                case BasicOperatorCode.CNIn: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "not in");
+                case BasicOperatorCode.CIs: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "is");
+                case BasicOperatorCode.CIsN: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "is not");
 
                 default:
-                    throw new InvalidEnumArgumentException(nameof(Code), (int)Code, typeof(OperatorCode));
+                    throw new InvalidEnumArgumentException(nameof(Code), (int)Code, typeof(BasicOperatorCode));
             }
         }
 
@@ -94,25 +94,25 @@ namespace Mellis.Lang.Python3.Instructions
             switch (Code)
             {
                 // Unary operators (op rhs)
-                case OperatorCode.ANeg: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "+");
-                case OperatorCode.APos: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "-");
-                case OperatorCode.BNot: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "~");
-                case OperatorCode.LNot: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "not");
+                case BasicOperatorCode.ANeg: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "+");
+                case BasicOperatorCode.APos: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "-");
+                case BasicOperatorCode.BNot: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "~");
+                case BasicOperatorCode.LNot: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "not");
 
                 default:
-                    throw new InvalidEnumArgumentException(nameof(Code), (int)Code, typeof(OperatorCode));
+                    throw new InvalidEnumArgumentException(nameof(Code), (int)Code, typeof(BasicOperatorCode));
             }
         }
 
         public override string ToString()
         {
-            // BAnd => band
-            // AAdd => add
-            // CEq => eq
+            // BAnd => op->band
+            // AAdd => op->add
+            // CEq => op->eq
             string name = Code.ToString().ToLowerInvariant();
-            return name[0] != 'b'
+            return "op->"+(name[0] != 'b'
                 ? name.Substring(1)
-                : name;
+                : name);
         }
     }
 }

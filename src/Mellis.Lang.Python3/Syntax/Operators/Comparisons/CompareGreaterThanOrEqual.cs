@@ -6,7 +6,7 @@ namespace Mellis.Lang.Python3.Syntax.Operators.Comparisons
     {
         public override ComparisonType Type => ComparisonType.GreaterThanOrEqual;
 
-        public override OperatorCode OpCode => OperatorCode.CGtEq;
+        public override BasicOperatorCode OpCode => BasicOperatorCode.CGtEq;
 
         public CompareGreaterThanOrEqual(ExpressionNode leftOperand, ExpressionNode rightOperand)
             : base(leftOperand, rightOperand)

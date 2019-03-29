@@ -1,6 +1,6 @@
 ﻿namespace Mellis.Lang.Python3.Instructions
 {
-    public enum OperatorCode
+    public enum BasicOperatorCode
     {
         /*
          * Binary arithmetic operators (lhs op rhs)
@@ -79,7 +79,7 @@
         APos,
         /// <summary>~a</summary>
         BNot,
-        /// <summary>!a</summary>
+        /// <summary>not a</summary>
         LNot,
     }
 }

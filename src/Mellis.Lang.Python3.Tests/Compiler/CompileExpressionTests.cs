@@ -21,31 +21,31 @@ namespace Mellis.Lang.Python3.Tests.Compiler
     public class CompileExpressionTests
     {
         [DataTestMethod]
-        [DataRow(typeof(ArithmeticAdd), OperatorCode.AAdd, DisplayName = "comp op +")]
-        [DataRow(typeof(ArithmeticSubtract), OperatorCode.ASub, DisplayName = "comp op -")]
-        [DataRow(typeof(ArithmeticMultiply), OperatorCode.AMul, DisplayName = "comp op *")]
-        [DataRow(typeof(ArithmeticDivide), OperatorCode.ADiv, DisplayName = "comp op /")]
-        [DataRow(typeof(ArithmeticFloor), OperatorCode.AFlr, DisplayName = "comp op //")]
-        [DataRow(typeof(ArithmeticModulus), OperatorCode.AMod, DisplayName = "comp op %")]
-        [DataRow(typeof(ArithmeticPower), OperatorCode.APow, DisplayName = "comp op **")]
-        [DataRow(typeof(BinaryAnd), OperatorCode.BAnd, DisplayName = "comp op a&b")]
-        [DataRow(typeof(BinaryLeftShift), OperatorCode.BLsh, DisplayName = "comp op a<<b")]
-        [DataRow(typeof(BinaryRightShift), OperatorCode.BRsh, DisplayName = "comp op a>>b")]
-        [DataRow(typeof(BinaryOr), OperatorCode.BOr, DisplayName = "comp op a|b")]
-        [DataRow(typeof(BinaryXor), OperatorCode.BXor, DisplayName = "comp op a^b")]
-        [DataRow(typeof(CompareEquals), OperatorCode.CEq, DisplayName = "comp op a==b")]
-        [DataRow(typeof(CompareNotEquals), OperatorCode.CNEq, DisplayName = "comp op a!=b")]
-        [DataRow(typeof(CompareGreaterThan), OperatorCode.CGt, DisplayName = "comp op a>b")]
-        [DataRow(typeof(CompareGreaterThanOrEqual), OperatorCode.CGtEq, DisplayName = "comp op a>=b")]
-        [DataRow(typeof(CompareLessThan), OperatorCode.CLt, DisplayName = "comp op a<b")]
-        [DataRow(typeof(CompareLessThanOrEqual), OperatorCode.CLtEq, DisplayName = "comp op a<=b")]
-        [DataRow(typeof(CompareIn), OperatorCode.CIn, DisplayName = "comp op a in b")]
-        [DataRow(typeof(CompareInNot), OperatorCode.CNIn, DisplayName = "comp op a not in b")]
-        [DataRow(typeof(CompareIs), OperatorCode.CIs, DisplayName = "comp op a is b")]
-        [DataRow(typeof(CompareIsNot), OperatorCode.CIsN, DisplayName = "comp op a is not b")]
-        [DataRow(typeof(LogicalAnd), OperatorCode.LAnd, DisplayName = "comp op a&&b")]
-        [DataRow(typeof(LogicalOr), OperatorCode.LOr, DisplayName = "comp op a||b")]
-        public void CompileBinaryTests(Type operatorType, OperatorCode expectedCode)
+        [DataRow(typeof(ArithmeticAdd), BasicOperatorCode.AAdd, DisplayName = "comp op +")]
+        [DataRow(typeof(ArithmeticSubtract), BasicOperatorCode.ASub, DisplayName = "comp op -")]
+        [DataRow(typeof(ArithmeticMultiply), BasicOperatorCode.AMul, DisplayName = "comp op *")]
+        [DataRow(typeof(ArithmeticDivide), BasicOperatorCode.ADiv, DisplayName = "comp op /")]
+        [DataRow(typeof(ArithmeticFloor), BasicOperatorCode.AFlr, DisplayName = "comp op //")]
+        [DataRow(typeof(ArithmeticModulus), BasicOperatorCode.AMod, DisplayName = "comp op %")]
+        [DataRow(typeof(ArithmeticPower), BasicOperatorCode.APow, DisplayName = "comp op **")]
+        [DataRow(typeof(BinaryAnd), BasicOperatorCode.BAnd, DisplayName = "comp op a&b")]
+        [DataRow(typeof(BinaryLeftShift), BasicOperatorCode.BLsh, DisplayName = "comp op a<<b")]
+        [DataRow(typeof(BinaryRightShift), BasicOperatorCode.BRsh, DisplayName = "comp op a>>b")]
+        [DataRow(typeof(BinaryOr), BasicOperatorCode.BOr, DisplayName = "comp op a|b")]
+        [DataRow(typeof(BinaryXor), BasicOperatorCode.BXor, DisplayName = "comp op a^b")]
+        [DataRow(typeof(CompareEquals), BasicOperatorCode.CEq, DisplayName = "comp op a==b")]
+        [DataRow(typeof(CompareNotEquals), BasicOperatorCode.CNEq, DisplayName = "comp op a!=b")]
+        [DataRow(typeof(CompareGreaterThan), BasicOperatorCode.CGt, DisplayName = "comp op a>b")]
+        [DataRow(typeof(CompareGreaterThanOrEqual), BasicOperatorCode.CGtEq, DisplayName = "comp op a>=b")]
+        [DataRow(typeof(CompareLessThan), BasicOperatorCode.CLt, DisplayName = "comp op a<b")]
+        [DataRow(typeof(CompareLessThanOrEqual), BasicOperatorCode.CLtEq, DisplayName = "comp op a<=b")]
+        [DataRow(typeof(CompareIn), BasicOperatorCode.CIn, DisplayName = "comp op a in b")]
+        [DataRow(typeof(CompareInNot), BasicOperatorCode.CNIn, DisplayName = "comp op a not in b")]
+        [DataRow(typeof(CompareIs), BasicOperatorCode.CIs, DisplayName = "comp op a is b")]
+        [DataRow(typeof(CompareIsNot), BasicOperatorCode.CIsN, DisplayName = "comp op a is not b")]
+        [DataRow(typeof(LogicalAnd), BasicOperatorCode.LAnd, DisplayName = "comp op a&&b")]
+        [DataRow(typeof(LogicalOr), BasicOperatorCode.LOr, DisplayName = "comp op a||b")]
+        public void CompileBinaryTests(Type operatorType, BasicOperatorCode expectedCode)
         {
             // Arrange
             var compiler = new PyCompiler();
@@ -74,11 +74,11 @@ namespace Mellis.Lang.Python3.Tests.Compiler
         }
 
         [DataTestMethod]
-        [DataRow(typeof(ArithmeticNegative), OperatorCode.ANeg, DisplayName = "comp op +b")]
-        [DataRow(typeof(ArithmeticPositive), OperatorCode.APos, DisplayName = "comp op -b")]
-        [DataRow(typeof(BinaryNot), OperatorCode.BNot, DisplayName = "comp op ~b")]
-        [DataRow(typeof(LogicalNot), OperatorCode.LNot, DisplayName = "comp op !b")]
-        public void CompileUnaryTests(Type operatorType, OperatorCode expectedCode)
+        [DataRow(typeof(ArithmeticNegative), BasicOperatorCode.ANeg, DisplayName = "comp op +b")]
+        [DataRow(typeof(ArithmeticPositive), BasicOperatorCode.APos, DisplayName = "comp op -b")]
+        [DataRow(typeof(BinaryNot), BasicOperatorCode.BNot, DisplayName = "comp op ~b")]
+        [DataRow(typeof(LogicalNot), BasicOperatorCode.LNot, DisplayName = "comp op !b")]
+        public void CompileUnaryTests(Type operatorType, BasicOperatorCode expectedCode)
         {
             // Arrange
             var compiler = new PyCompiler();

@@ -4,7 +4,7 @@ namespace Mellis.Lang.Python3.Syntax.Operators.Arithmetics
 {
     public class ArithmeticFloor : BinaryOperator
     {
-        public override OperatorCode OpCode => OperatorCode.AFlr;
+        public override BasicOperatorCode OpCode => BasicOperatorCode.AFlr;
 
         public ArithmeticFloor(
             ExpressionNode leftOperand,

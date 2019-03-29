@@ -5,7 +5,7 @@ namespace Mellis.Lang.Python3.Syntax.Operators.Logicals
 {
     public class LogicalNot : UnaryOperator
     {
-        public override OperatorCode OpCode => OperatorCode.LNot;
+        public override BasicOperatorCode OpCode => BasicOperatorCode.LNot;
 
         public LogicalNot(SourceReference source,
             ExpressionNode operand)

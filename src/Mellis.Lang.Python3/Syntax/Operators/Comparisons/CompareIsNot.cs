@@ -6,7 +6,7 @@ namespace Mellis.Lang.Python3.Syntax.Operators.Comparisons
     {
         public override ComparisonType Type => ComparisonType.IsNot;
 
-        public override OperatorCode OpCode => OperatorCode.CIsN;
+        public override BasicOperatorCode OpCode => BasicOperatorCode.CIsN;
 
         public CompareIsNot(ExpressionNode leftOperand, ExpressionNode rightOperand)
             : base(leftOperand, rightOperand)

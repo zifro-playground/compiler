@@ -25,7 +25,7 @@ namespace Mellis.Lang.Python3.Tests
             return literal;
         }
 
-        public static void IsBinaryOpCode(this Assert assert, OperatorCode expectedCode, PyCompiler compiler, int index)
+        public static void IsBinaryOpCode(this Assert assert, BasicOperatorCode expectedCode, PyCompiler compiler, int index)
         {
             if (index >= compiler.Count)
             {

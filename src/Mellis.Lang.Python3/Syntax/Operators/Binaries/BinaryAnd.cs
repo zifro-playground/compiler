@@ -4,7 +4,7 @@ namespace Mellis.Lang.Python3.Syntax.Operators.Binaries
 {
     public class BinaryAnd : BinaryOperator
     {
-        public override OperatorCode OpCode => OperatorCode.BAnd;
+        public override BasicOperatorCode OpCode => BasicOperatorCode.BAnd;
 
         public BinaryAnd(
             ExpressionNode leftOperand,

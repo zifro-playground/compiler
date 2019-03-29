@@ -6,7 +6,7 @@ namespace Mellis.Lang.Python3.Syntax.Operators.Comparisons
     {
         public override ComparisonType Type => ComparisonType.InNot;
 
-        public override OperatorCode OpCode => OperatorCode.CNIn;
+        public override BasicOperatorCode OpCode => BasicOperatorCode.CNIn;
 
         public CompareInNot(ExpressionNode leftOperand, ExpressionNode rightOperand)
             : base(leftOperand, rightOperand)

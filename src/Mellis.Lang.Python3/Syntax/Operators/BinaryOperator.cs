@@ -8,7 +8,7 @@ namespace Mellis.Lang.Python3.Syntax.Operators
     /// </summary>
     public abstract class BinaryOperator : ExpressionNode
     {
-        public abstract OperatorCode OpCode { get; }
+        public abstract BasicOperatorCode OpCode { get; }
 
         protected BinaryOperator(SourceReference source,
             ExpressionNode leftOperand, ExpressionNode rightOperand)
