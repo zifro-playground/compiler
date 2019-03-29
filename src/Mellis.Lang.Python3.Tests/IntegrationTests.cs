@@ -138,6 +138,54 @@ namespace Mellis.Lang.Python3.Tests
         }
 
         [TestMethod]
+        public void ProcessLogicAndTest()
+        {
+            // Arrange
+            const string code = "a = 1024 and 999\n" +
+                                "b = '' and 42";
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
+
+            // Act
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkLine();
+            processor.WalkLine();
+
+            // Assert
+            var a = processor.GetVariable("a");
+            Assert.That.ScriptTypeEqual(999, a);
+
+            var b = processor.GetVariable("b");
+            Assert.That.ScriptTypeEqual("", b);
+
+            Assert.AreEqual(ProcessState.Ended, processor.State);
+            errorCatcher.AssertNoErrors();
+        }
+
+        [TestMethod]
+        public void ProcessLogicOrTest()
+        {
+            // Arrange
+            const string code = "a = 1024 or 999\n" +
+                                "b = '' or 42";
+            var processor = (PyProcessor)new PyCompiler().Compile(code, errorCatcher);
+
+            // Act
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkLine();
+            processor.WalkLine();
+
+            // Assert
+            var a = processor.GetVariable("a");
+            Assert.That.ScriptTypeEqual(1024, a);
+
+            var b = processor.GetVariable("b");
+            Assert.That.ScriptTypeEqual(42, b);
+
+            Assert.AreEqual(ProcessState.Ended, processor.State);
+            errorCatcher.AssertNoErrors();
+        }
+
+        [TestMethod]
         public void ProcessIfTrueTest()
         {
             // Arrange

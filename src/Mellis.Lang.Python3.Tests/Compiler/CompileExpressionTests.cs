@@ -21,31 +21,29 @@ namespace Mellis.Lang.Python3.Tests.Compiler
     public class CompileExpressionTests
     {
         [DataTestMethod]
-        [DataRow(typeof(ArithmeticAdd), OperatorCode.AAdd, DisplayName = "comp op +")]
-        [DataRow(typeof(ArithmeticSubtract), OperatorCode.ASub, DisplayName = "comp op -")]
-        [DataRow(typeof(ArithmeticMultiply), OperatorCode.AMul, DisplayName = "comp op *")]
-        [DataRow(typeof(ArithmeticDivide), OperatorCode.ADiv, DisplayName = "comp op /")]
-        [DataRow(typeof(ArithmeticFloor), OperatorCode.AFlr, DisplayName = "comp op //")]
-        [DataRow(typeof(ArithmeticModulus), OperatorCode.AMod, DisplayName = "comp op %")]
-        [DataRow(typeof(ArithmeticPower), OperatorCode.APow, DisplayName = "comp op **")]
-        [DataRow(typeof(BinaryAnd), OperatorCode.BAnd, DisplayName = "comp op a&b")]
-        [DataRow(typeof(BinaryLeftShift), OperatorCode.BLsh, DisplayName = "comp op a<<b")]
-        [DataRow(typeof(BinaryRightShift), OperatorCode.BRsh, DisplayName = "comp op a>>b")]
-        [DataRow(typeof(BinaryOr), OperatorCode.BOr, DisplayName = "comp op a|b")]
-        [DataRow(typeof(BinaryXor), OperatorCode.BXor, DisplayName = "comp op a^b")]
-        [DataRow(typeof(CompareEquals), OperatorCode.CEq, DisplayName = "comp op a==b")]
-        [DataRow(typeof(CompareNotEquals), OperatorCode.CNEq, DisplayName = "comp op a!=b")]
-        [DataRow(typeof(CompareGreaterThan), OperatorCode.CGt, DisplayName = "comp op a>b")]
-        [DataRow(typeof(CompareGreaterThanOrEqual), OperatorCode.CGtEq, DisplayName = "comp op a>=b")]
-        [DataRow(typeof(CompareLessThan), OperatorCode.CLt, DisplayName = "comp op a<b")]
-        [DataRow(typeof(CompareLessThanOrEqual), OperatorCode.CLtEq, DisplayName = "comp op a<=b")]
-        [DataRow(typeof(CompareIn), OperatorCode.CIn, DisplayName = "comp op a in b")]
-        [DataRow(typeof(CompareInNot), OperatorCode.CNIn, DisplayName = "comp op a not in b")]
-        [DataRow(typeof(CompareIs), OperatorCode.CIs, DisplayName = "comp op a is b")]
-        [DataRow(typeof(CompareIsNot), OperatorCode.CIsN, DisplayName = "comp op a is not b")]
-        [DataRow(typeof(LogicalAnd), OperatorCode.LAnd, DisplayName = "comp op a&&b")]
-        [DataRow(typeof(LogicalOr), OperatorCode.LOr, DisplayName = "comp op a||b")]
-        public void CompileBinaryTests(Type operatorType, OperatorCode expectedCode)
+        [DataRow(typeof(ArithmeticAdd), BasicOperatorCode.AAdd, DisplayName = "comp op +")]
+        [DataRow(typeof(ArithmeticSubtract), BasicOperatorCode.ASub, DisplayName = "comp op -")]
+        [DataRow(typeof(ArithmeticMultiply), BasicOperatorCode.AMul, DisplayName = "comp op *")]
+        [DataRow(typeof(ArithmeticDivide), BasicOperatorCode.ADiv, DisplayName = "comp op /")]
+        [DataRow(typeof(ArithmeticFloor), BasicOperatorCode.AFlr, DisplayName = "comp op //")]
+        [DataRow(typeof(ArithmeticModulus), BasicOperatorCode.AMod, DisplayName = "comp op %")]
+        [DataRow(typeof(ArithmeticPower), BasicOperatorCode.APow, DisplayName = "comp op **")]
+        [DataRow(typeof(BinaryAnd), BasicOperatorCode.BAnd, DisplayName = "comp op a&b")]
+        [DataRow(typeof(BinaryLeftShift), BasicOperatorCode.BLsh, DisplayName = "comp op a<<b")]
+        [DataRow(typeof(BinaryRightShift), BasicOperatorCode.BRsh, DisplayName = "comp op a>>b")]
+        [DataRow(typeof(BinaryOr), BasicOperatorCode.BOr, DisplayName = "comp op a|b")]
+        [DataRow(typeof(BinaryXor), BasicOperatorCode.BXor, DisplayName = "comp op a^b")]
+        [DataRow(typeof(CompareEquals), BasicOperatorCode.CEq, DisplayName = "comp op a==b")]
+        [DataRow(typeof(CompareNotEquals), BasicOperatorCode.CNEq, DisplayName = "comp op a!=b")]
+        [DataRow(typeof(CompareGreaterThan), BasicOperatorCode.CGt, DisplayName = "comp op a>b")]
+        [DataRow(typeof(CompareGreaterThanOrEqual), BasicOperatorCode.CGtEq, DisplayName = "comp op a>=b")]
+        [DataRow(typeof(CompareLessThan), BasicOperatorCode.CLt, DisplayName = "comp op a<b")]
+        [DataRow(typeof(CompareLessThanOrEqual), BasicOperatorCode.CLtEq, DisplayName = "comp op a<=b")]
+        [DataRow(typeof(CompareIn), BasicOperatorCode.CIn, DisplayName = "comp op a in b")]
+        [DataRow(typeof(CompareInNot), BasicOperatorCode.CNIn, DisplayName = "comp op a not in b")]
+        [DataRow(typeof(CompareIs), BasicOperatorCode.CIs, DisplayName = "comp op a is b")]
+        [DataRow(typeof(CompareIsNot), BasicOperatorCode.CIsN, DisplayName = "comp op a is not b")]
+        public void CompileBasicBinaryTests(Type operatorType, BasicOperatorCode expectedCode)
         {
             // Arrange
             var compiler = new PyCompiler();
@@ -57,7 +55,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
                 out Mock<ExpressionNode> exprRhsMock,
                 out NopOp exprRhsOp);
 
-            var opNode = (BinaryOperator) Activator.CreateInstance(operatorType,
+            var opNode = (BinaryOperator)Activator.CreateInstance(operatorType,
                 exprLhsMock.Object, exprRhsMock.Object);
 
             // Act
@@ -74,11 +72,11 @@ namespace Mellis.Lang.Python3.Tests.Compiler
         }
 
         [DataTestMethod]
-        [DataRow(typeof(ArithmeticNegative), OperatorCode.ANeg, DisplayName = "comp op +b")]
-        [DataRow(typeof(ArithmeticPositive), OperatorCode.APos, DisplayName = "comp op -b")]
-        [DataRow(typeof(BinaryNot), OperatorCode.BNot, DisplayName = "comp op ~b")]
-        [DataRow(typeof(LogicalNot), OperatorCode.LNot, DisplayName = "comp op !b")]
-        public void CompileUnaryTests(Type operatorType, OperatorCode expectedCode)
+        [DataRow(typeof(ArithmeticNegative), BasicOperatorCode.ANeg, DisplayName = "comp op +b")]
+        [DataRow(typeof(ArithmeticPositive), BasicOperatorCode.APos, DisplayName = "comp op -b")]
+        [DataRow(typeof(BinaryNot), BasicOperatorCode.BNot, DisplayName = "comp op ~b")]
+        [DataRow(typeof(LogicalNot), BasicOperatorCode.LNot, DisplayName = "comp op !b")]
+        public void CompileBasicUnaryTests(Type operatorType, BasicOperatorCode expectedCode)
         {
             // Arrange
             var compiler = new PyCompiler();
@@ -87,7 +85,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
                 out Mock<ExpressionNode> exprMock,
                 out NopOp exprOp);
 
-            var opNode = (UnaryOperator) Activator.CreateInstance(operatorType,
+            var opNode = (UnaryOperator)Activator.CreateInstance(operatorType,
                 SourceReference.ClrSource,
                 exprMock.Object);
 
@@ -100,6 +98,60 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             Assert.AreSame(exprOp, compiler[0]);
 
             exprMock.Verify(o => o.Compile(compiler), Times.Once);
+        }
+
+        [TestMethod]
+        public void CompileShortCircuitAnd()
+        {
+            CompileShortCircuit(typeof(LogicalAnd), jumpOverRhsIfTrue: false);
+        }
+
+        [TestMethod]
+        public void CompileShortCircuitOr()
+        {
+            CompileShortCircuit(typeof(LogicalOr), jumpOverRhsIfTrue: true);
+        }
+
+        private static void CompileShortCircuit(Type operatorType, bool jumpOverRhsIfTrue)
+        {
+            // Arrange
+            var compiler = new PyCompiler();
+            compiler.CreateAndSetup(
+                out Mock<ExpressionNode> exprLhsMock,
+                out NopOp exprLhsOp);
+
+            compiler.CreateAndSetup(
+                out Mock<ExpressionNode> exprRhsMock,
+                out NopOp exprRhsOp);
+
+            var opNode = (BinaryOperator)Activator.CreateInstance(operatorType,
+                exprLhsMock.Object, exprRhsMock.Object);
+
+            // Act
+            opNode.Compile(compiler);
+
+            // Assert
+            Assert.That.IsExpectedOpCode(compiler, 0, exprLhsOp);
+            Assert.That.IsOpCode<VarPop>(compiler, 2);
+            Assert.That.IsExpectedOpCode(compiler, 3, exprRhsOp);
+
+            Assert.AreEqual(4, compiler.Count);
+
+            if (jumpOverRhsIfTrue)
+            {
+                var jump = Assert.That.IsOpCode<JumpIfTrue>(compiler, 1);
+                Assert.IsTrue(jump.Peek);
+                Assert.AreEqual(4, jump.Target);
+            }
+            else
+            {
+                var jump = Assert.That.IsOpCode<JumpIfFalse>(compiler, 1);
+                Assert.IsTrue(jump.Peek);
+                Assert.AreEqual(4, jump.Target);
+            }
+
+            exprLhsMock.Verify(o => o.Compile(compiler), Times.Once);
+            exprRhsMock.Verify(o => o.Compile(compiler), Times.Once);
         }
 
         [TestMethod]
@@ -154,7 +206,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             }
 
             // Act
-            var ex = Assert.ThrowsException<SyntaxUncompilableException>((Action) Action);
+            var ex = Assert.ThrowsException<SyntaxUncompilableException>((Action)Action);
 
             // Assert
             Assert.That.ErrorSyntaxFormatArgsEqual(ex,
@@ -202,9 +254,8 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             const int expectedLiteral = 5;
             const string expectedIdentifier = "foo";
 
-            var args = new []
-            {
-                new LiteralInteger(SourceReference.ClrSource, expectedLiteral), 
+            var args = new[] {
+                new LiteralInteger(SourceReference.ClrSource, expectedLiteral),
             };
 
             var callNode = new FunctionCall(
@@ -241,10 +292,9 @@ namespace Mellis.Lang.Python3.Tests.Compiler
 
             const string expectedIdentifier = "foo";
 
-            var args = new ExpressionNode[]
-            {
+            var args = new ExpressionNode[] {
                 new LiteralInteger(SourceReference.ClrSource, expectedLiteral1),
-                new LiteralString(SourceReference.ClrSource, expectedLiteral2), 
+                new LiteralString(SourceReference.ClrSource, expectedLiteral2),
                 new LiteralBoolean(SourceReference.ClrSource, expectedLiteral3),
             };
 
@@ -260,7 +310,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             // Assert
             var foo = Assert.That.IsOpCode<VarGet>(compiler, 0);
             Assert.AreEqual(expectedIdentifier, foo.Identifier);
-            
+
             Assert.That.IsPushLiteralOpCode(expectedLiteral1, compiler, 1);
             Assert.That.IsPushLiteralOpCode(expectedLiteral2, compiler, 2);
             Assert.That.IsPushLiteralOpCode(expectedLiteral3, compiler, 3);

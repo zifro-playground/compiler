@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using Mellis.Core.Entities;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Extensions;
 using Mellis.Lang.Python3.Instructions;
+using Mellis.Lang.Python3.VM;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Mellis.Lang.Python3.Tests.Processor
 {
@@ -16,147 +17,140 @@ namespace Mellis.Lang.Python3.Tests.Processor
         [TestMethod]
         public void EvaluateBinary_Add_Test()
         {
-            EvaluateBinaryTestTemplate(OperatorCode.AAdd,
+            EvaluateBinaryTestTemplate(BasicOperatorCode.AAdd,
                 o => o.ArithmeticAdd(It.IsAny<IScriptType>()));
         }
 
         [TestMethod]
         public void EvaluateBinary_Sub_Test()
         {
-            EvaluateBinaryTestTemplate(OperatorCode.ASub,
+            EvaluateBinaryTestTemplate(BasicOperatorCode.ASub,
                 o => o.ArithmeticSubtract(It.IsAny<IScriptType>()));
         }
 
         [TestMethod]
         public void EvaluateBinary_Mul_Test()
         {
-            EvaluateBinaryTestTemplate(OperatorCode.AMul,
+            EvaluateBinaryTestTemplate(BasicOperatorCode.AMul,
                 o => o.ArithmeticMultiply(It.IsAny<IScriptType>()));
         }
 
         [TestMethod]
         public void EvaluateBinary_Div_Test()
         {
-            EvaluateBinaryTestTemplate(OperatorCode.ADiv,
+            EvaluateBinaryTestTemplate(BasicOperatorCode.ADiv,
                 o => o.ArithmeticDivide(It.IsAny<IScriptType>()));
         }
 
         [TestMethod]
         public void EvaluateBinary_Flr_Test()
         {
-            EvaluateBinaryTestTemplate(OperatorCode.AFlr,
+            EvaluateBinaryTestTemplate(BasicOperatorCode.AFlr,
                 o => o.ArithmeticFloorDivide(It.IsAny<IScriptType>()));
         }
 
         [TestMethod]
         public void EvaluateBinary_Mod_Test()
         {
-            EvaluateBinaryTestTemplate(OperatorCode.AMod,
+            EvaluateBinaryTestTemplate(BasicOperatorCode.AMod,
                 o => o.ArithmeticModulus(It.IsAny<IScriptType>()));
         }
 
         [TestMethod]
         public void EvaluateBinary_Pow_Test()
         {
-            EvaluateBinaryTestTemplate(OperatorCode.APow,
+            EvaluateBinaryTestTemplate(BasicOperatorCode.APow,
                 o => o.ArithmeticExponent(It.IsAny<IScriptType>()));
         }
 
         [TestMethod]
         public void EvaluateBinary_BAnd_Test()
         {
-            EvaluateBinaryTestTemplate(OperatorCode.BAnd,
+            EvaluateBinaryTestTemplate(BasicOperatorCode.BAnd,
                 o => o.BinaryAnd(It.IsAny<IScriptType>()));
         }
 
         [TestMethod]
         public void EvaluateBinary_BLsh_Test()
         {
-            EvaluateBinaryTestTemplate(OperatorCode.BLsh,
+            EvaluateBinaryTestTemplate(BasicOperatorCode.BLsh,
                 o => o.BinaryLeftShift(It.IsAny<IScriptType>()));
         }
 
         [TestMethod]
         public void EvaluateBinary_BRsh_Test()
         {
-            EvaluateBinaryTestTemplate(OperatorCode.BRsh,
+            EvaluateBinaryTestTemplate(BasicOperatorCode.BRsh,
                 o => o.BinaryRightShift(It.IsAny<IScriptType>()));
         }
 
         [TestMethod]
         public void EvaluateBinary_BOr_Test()
         {
-            EvaluateBinaryTestTemplate(OperatorCode.BOr,
+            EvaluateBinaryTestTemplate(BasicOperatorCode.BOr,
                 o => o.BinaryOr(It.IsAny<IScriptType>()));
         }
 
         [TestMethod]
         public void EvaluateBinary_BXor_Test()
         {
-            EvaluateBinaryTestTemplate(OperatorCode.BXor,
+            EvaluateBinaryTestTemplate(BasicOperatorCode.BXor,
                 o => o.BinaryXor(It.IsAny<IScriptType>()));
         }
 
         [TestMethod]
         public void EvaluateBinary_CEq_Test()
         {
-            EvaluateBinaryTestTemplate(OperatorCode.CEq,
+            EvaluateBinaryTestTemplate(BasicOperatorCode.CEq,
                 o => o.CompareEqual(It.IsAny<IScriptType>()));
         }
 
         [TestMethod]
         public void EvaluateBinary_CNEq_Test()
         {
-            EvaluateBinaryTestTemplate(OperatorCode.CNEq,
+            EvaluateBinaryTestTemplate(BasicOperatorCode.CNEq,
                 o => o.CompareNotEqual(It.IsAny<IScriptType>()));
         }
 
         [TestMethod]
         public void EvaluateBinary_CGt_Test()
         {
-            EvaluateBinaryTestTemplate(OperatorCode.CGt,
+            EvaluateBinaryTestTemplate(BasicOperatorCode.CGt,
                 o => o.CompareGreaterThan(It.IsAny<IScriptType>()));
         }
 
         [TestMethod]
         public void EvaluateBinary_CGtEq_Test()
         {
-            EvaluateBinaryTestTemplate(OperatorCode.CGtEq,
+            EvaluateBinaryTestTemplate(BasicOperatorCode.CGtEq,
                 o => o.CompareGreaterThanOrEqual(It.IsAny<IScriptType>()));
         }
 
         [TestMethod]
         public void EvaluateBinary_CLt_Test()
         {
-            EvaluateBinaryTestTemplate(OperatorCode.CLt,
+            EvaluateBinaryTestTemplate(BasicOperatorCode.CLt,
                 o => o.CompareLessThan(It.IsAny<IScriptType>()));
         }
 
         [TestMethod]
         public void EvaluateBinary_CLtEq_Test()
         {
-            EvaluateBinaryTestTemplate(OperatorCode.CLtEq,
+            EvaluateBinaryTestTemplate(BasicOperatorCode.CLtEq,
                 o => o.CompareLessThanOrEqual(It.IsAny<IScriptType>()));
         }
 
         [DataTestMethod]
         // Binary operators (lhs op rhs)
-        [DataRow(OperatorCode.LAnd, "and", DisplayName = "nyi and")]
-        [DataRow(OperatorCode.LOr, "or", DisplayName = "nyi or")]
-        [DataRow(OperatorCode.CIn, "in", DisplayName = "nyi in")]
-        [DataRow(OperatorCode.CNIn, "not in", DisplayName = "nyi not in")]
-        [DataRow(OperatorCode.CIs, "is", DisplayName = "nyi is")]
-        [DataRow(OperatorCode.CIsN, "is not", DisplayName = "nyi is not")]
-        // Unary operators (op rhs)
-        [DataRow(OperatorCode.ANeg, "+", DisplayName = "nyi +")]
-        [DataRow(OperatorCode.APos, "-", DisplayName = "nyi -")]
-        [DataRow(OperatorCode.BNot, "~", DisplayName = "nyi ~")]
-        [DataRow(OperatorCode.LNot, "not", DisplayName = "nyi not")]
-        public void EvaluateBinary_NotYetImplemented_Tests(OperatorCode opCode, string expectedKeyword)
+        [DataRow(BasicOperatorCode.CIn, "in", DisplayName = "nyi in")]
+        [DataRow(BasicOperatorCode.CNIn, "not in", DisplayName = "nyi not in")]
+        [DataRow(BasicOperatorCode.CIs, "is", DisplayName = "nyi is")]
+        [DataRow(BasicOperatorCode.CIsN, "is not", DisplayName = "nyi is not")]
+        public void EvaluateBinary_NotYetImplemented_Tests(BasicOperatorCode opCode, string expectedKeyword)
         {
             // Arrange
-            var source = new SourceReference(1,2,3,4);
-            var processor = new VM.PyProcessor(
+            var source = new SourceReference(1, 2, 3, 4);
+            var processor = new PyProcessor(
                 new BasicOperator(source, opCode)
             );
 
@@ -168,7 +162,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // to enter first op
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action) processor.WalkLine);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action)processor.WalkLine);
 
             // Assert
             Assert.IsNotNull(processor.LastError);
@@ -177,10 +171,12 @@ namespace Mellis.Lang.Python3.Tests.Processor
             Assert.That.ErrorNotYetImplFormatArgs(ex, source, expectedKeyword);
         }
 
-        protected void EvaluateBinaryTestTemplate(OperatorCode opCode, Expression<Func<IScriptType, IScriptType>> method)
+        private static void EvaluateBinaryTestTemplate(
+            BasicOperatorCode opCode,
+            Expression<Func<IScriptType, IScriptType>> method)
         {
             // Arrange
-            var processor = new VM.PyProcessor(
+            var processor = new PyProcessor(
                 new BasicOperator(SourceReference.ClrSource, opCode)
             );
 
@@ -200,67 +196,157 @@ namespace Mellis.Lang.Python3.Tests.Processor
             var result = processor.PopValue();
 
             // Assert
-            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name, processor.LastError?.Message);
+            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name,
+                processor.LastError?.Message);
 
             Assert.AreEqual(1, numOfValues, "Did not absorb values.");
             Assert.AreSame(resultMock.Object, result, "Did not produce result.");
             lhsMock.Verify(method);
         }
 
-        [DataTestMethod]
-        [DataRow(OperatorCode.AAdd, DisplayName = "is bin op a+b")]
-        [DataRow(OperatorCode.ASub, DisplayName = "is bin op a-b")]
-        [DataRow(OperatorCode.AMul, DisplayName = "is bin op a*b")]
-        [DataRow(OperatorCode.ADiv, DisplayName = "is bin op a/b")]
-        [DataRow(OperatorCode.AFlr, DisplayName = "is bin op a//b")]
-        [DataRow(OperatorCode.AMod, DisplayName = "is bin op a%b")]
-        [DataRow(OperatorCode.APow, DisplayName = "is bin op a**b")]
-
-        [DataRow(OperatorCode.BAnd, DisplayName = "is bin op a&b")]
-        [DataRow(OperatorCode.BLsh, DisplayName = "is bin op a<<b")]
-        [DataRow(OperatorCode.BRsh, DisplayName = "is bin op a>>b")]
-        [DataRow(OperatorCode.BOr, DisplayName = "is bin op a|b")]
-        [DataRow(OperatorCode.BXor, DisplayName = "is bin op a^b")]
-
-        [DataRow(OperatorCode.CEq, DisplayName = "is bin op a==b")]
-        [DataRow(OperatorCode.CNEq, DisplayName = "is bin op a!=b")]
-        [DataRow(OperatorCode.CGt, DisplayName = "is bin op a>b")]
-        [DataRow(OperatorCode.CGtEq, DisplayName = "is bin op a>=b")]
-        [DataRow(OperatorCode.CLt, DisplayName = "is bin op a<b")]
-        [DataRow(OperatorCode.CLtEq, DisplayName = "is bin op a<=b")]
-
-        [DataRow(OperatorCode.CIn, DisplayName = "is bin op a in b")]
-        [DataRow(OperatorCode.CNIn, DisplayName = "is bin op a not in b")]
-        [DataRow(OperatorCode.CIs, DisplayName = "is bin op a is b")]
-        [DataRow(OperatorCode.CIsN, DisplayName = "is bin op a is not b")]
-
-        [DataRow(OperatorCode.LAnd, DisplayName = "is bin op a&&b")]
-        [DataRow(OperatorCode.LOr, DisplayName = "is bin op a||b")]
-        public void IsBinaryTests(OperatorCode code)
+        [TestMethod]
+        public void EvaluateShortCircuit_NotBasicOperator()
         {
+            // Arrange
+
             // Act
-            bool isBinary = code.IsBinary();
-            bool isUnary = code.IsUnary();
 
             // Assert
-            Assert.IsTrue(isBinary, $"OperatorCode.{code}.IsBinary() was false");
-            Assert.IsFalse(isUnary, $"OperatorCode.{code}.IsUnary() was true");
+        }
+
+        [TestMethod]
+        public void EvaluateUnary_ANeg_Test()
+        {
+            EvaluateUnaryTestTemplate(BasicOperatorCode.ANeg,
+                o => o.ArithmeticUnaryNegative());
+        }
+
+        [TestMethod]
+        public void EvaluateUnary_APos_Test()
+        {
+            EvaluateUnaryTestTemplate(BasicOperatorCode.APos,
+                o => o.ArithmeticUnaryPositive());
+        }
+
+        [TestMethod]
+        public void EvaluateUnary_BNot_Test()
+        {
+            EvaluateUnaryTestTemplate(BasicOperatorCode.BNot,
+                o => o.BinaryNot());
+        }
+
+        private static void EvaluateUnaryTestTemplate(
+            BasicOperatorCode opCode,
+            Expression<Func<IScriptType, IScriptType>> method)
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new BasicOperator(SourceReference.ClrSource, opCode)
+            );
+
+            var valueMock = new Mock<IScriptType>(MockBehavior.Strict);
+            var resultMock = new Mock<IScriptType>();
+
+            valueMock.Setup(method).Returns(resultMock.Object);
+
+            processor.PushValue(valueMock.Object);
+
+            // Act
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkLine();
+            int numOfValues = processor.ValueStackCount;
+            var result = processor.PopValue();
+
+            // Assert
+            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name,
+                processor.LastError?.Message);
+
+            Assert.AreEqual(1, numOfValues, "Did not absorb value.");
+            Assert.AreSame(resultMock.Object, result, "Did not produce result.");
+            valueMock.Verify(method);
         }
 
         [DataTestMethod]
-        [DataRow(OperatorCode.ANeg, DisplayName = "is un op +a")]
-        [DataRow(OperatorCode.APos, DisplayName = "is un op -a")]
-        [DataRow(OperatorCode.BNot, DisplayName = "is un op ~a")]
-        [DataRow(OperatorCode.LNot, DisplayName = "is un op !a")]
-        public void IsUnaryTests(OperatorCode code)
+        [DataRow(true, DisplayName = "Truthy gives false")]
+        [DataRow(false, DisplayName = "Falsy gives true")]
+        public void EvaluateUnary_LNot_Test(bool truthy)
+        {
+            // Arrange
+            bool expectedResult = !truthy;
+
+            var processor = new PyProcessor(
+                new BasicOperator(SourceReference.ClrSource, BasicOperatorCode.LNot)
+            );
+
+            var valueMock = new Mock<IScriptType>(MockBehavior.Strict);
+
+            valueMock.Setup(o => o.IsTruthy()).Returns(truthy);
+
+            processor.PushValue(valueMock.Object);
+
+            // Act
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkLine();
+            int numOfValues = processor.ValueStackCount;
+            var result = processor.PopValue();
+
+            // Assert
+            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name,
+                processor.LastError?.Message);
+
+            Assert.AreEqual(1, numOfValues, "Did not absorb value.");
+            Assert.That.ScriptTypeEqual(expectedResult, result);
+            valueMock.Verify(o => o.IsTruthy(), Times.Once);
+        }
+
+        [DataTestMethod]
+        [DataRow(BasicOperatorCode.AAdd, DisplayName = "is bin op a+b")]
+        [DataRow(BasicOperatorCode.ASub, DisplayName = "is bin op a-b")]
+        [DataRow(BasicOperatorCode.AMul, DisplayName = "is bin op a*b")]
+        [DataRow(BasicOperatorCode.ADiv, DisplayName = "is bin op a/b")]
+        [DataRow(BasicOperatorCode.AFlr, DisplayName = "is bin op a//b")]
+        [DataRow(BasicOperatorCode.AMod, DisplayName = "is bin op a%b")]
+        [DataRow(BasicOperatorCode.APow, DisplayName = "is bin op a**b")]
+        [DataRow(BasicOperatorCode.BAnd, DisplayName = "is bin op a&b")]
+        [DataRow(BasicOperatorCode.BLsh, DisplayName = "is bin op a<<b")]
+        [DataRow(BasicOperatorCode.BRsh, DisplayName = "is bin op a>>b")]
+        [DataRow(BasicOperatorCode.BOr, DisplayName = "is bin op a|b")]
+        [DataRow(BasicOperatorCode.BXor, DisplayName = "is bin op a^b")]
+        [DataRow(BasicOperatorCode.CEq, DisplayName = "is bin op a==b")]
+        [DataRow(BasicOperatorCode.CNEq, DisplayName = "is bin op a!=b")]
+        [DataRow(BasicOperatorCode.CGt, DisplayName = "is bin op a>b")]
+        [DataRow(BasicOperatorCode.CGtEq, DisplayName = "is bin op a>=b")]
+        [DataRow(BasicOperatorCode.CLt, DisplayName = "is bin op a<b")]
+        [DataRow(BasicOperatorCode.CLtEq, DisplayName = "is bin op a<=b")]
+        [DataRow(BasicOperatorCode.CIn, DisplayName = "is bin op a in b")]
+        [DataRow(BasicOperatorCode.CNIn, DisplayName = "is bin op a not in b")]
+        [DataRow(BasicOperatorCode.CIs, DisplayName = "is bin op a is b")]
+        [DataRow(BasicOperatorCode.CIsN, DisplayName = "is bin op a is not b")]
+        public void IsBinaryTests(BasicOperatorCode code)
         {
             // Act
             bool isBinary = code.IsBinary();
             bool isUnary = code.IsUnary();
 
             // Assert
-            Assert.IsFalse(isBinary, $"OperatorCode.{code}.IsBinary() was true");
-            Assert.IsTrue(isUnary, $"OperatorCode.{code}.IsUnary() was false");
+            Assert.IsTrue(isBinary, $"{nameof(BasicOperatorCode)}.{code}.IsBinary() was false");
+            Assert.IsFalse(isUnary, $"{nameof(BasicOperatorCode)}.{code}.IsUnary() was true");
+        }
+
+        [DataTestMethod]
+        [DataRow(BasicOperatorCode.ANeg, DisplayName = "is un op +a")]
+        [DataRow(BasicOperatorCode.APos, DisplayName = "is un op -a")]
+        [DataRow(BasicOperatorCode.BNot, DisplayName = "is un op ~a")]
+        [DataRow(BasicOperatorCode.LNot, DisplayName = "is un op !a")]
+        public void IsUnaryTests(BasicOperatorCode code)
+        {
+            // Act
+            bool isBinary = code.IsBinary();
+            bool isUnary = code.IsUnary();
+
+            // Assert
+            Assert.IsFalse(isBinary, $"{nameof(BasicOperatorCode)}.{code}.IsBinary() was true");
+            Assert.IsTrue(isUnary, $"{nameof(BasicOperatorCode)}.{code}.IsUnary() was false");
         }
     }
 }

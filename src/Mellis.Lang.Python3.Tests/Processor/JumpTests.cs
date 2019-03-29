@@ -125,6 +125,56 @@ namespace Mellis.Lang.Python3.Tests.Processor
         }
 
         [DataTestMethod]
+        [DataRow(true, DisplayName = "bool true")]
+        [DataRow(false, DisplayName = "bool false")]
+        public void EvaluateJumpIfFalse_Pops_Test(object value)
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new JumpIfFalse(SourceReference.ClrSource, 5, peek: false),
+                new NopOp(),
+                new NopOp(),
+                new NopOp(),
+                new NopOp()
+            );
+
+            processor.PushValue(GetPyValue(value, processor));
+
+            // Act
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkInstruction(); // performed jump
+
+            // Assert
+            Assert.AreEqual(0, processor.ValueStackCount, "Did not pop.");
+        }
+
+        [DataTestMethod]
+        [DataRow(true, DisplayName = "bool true")]
+        [DataRow(false, DisplayName = "bool false")]
+        public void EvaluateJumpIfFalse_Peeks_Test(object value)
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new JumpIfFalse(SourceReference.ClrSource, 5, peek: true),
+                new NopOp(),
+                new NopOp(),
+                new NopOp(),
+                new NopOp()
+            );
+
+            var scriptType = GetPyValue(value, processor);
+            processor.PushValue(scriptType);
+
+            // Act
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkInstruction(); // performed jump
+
+            // Assert
+            Assert.AreEqual(1, processor.ValueStackCount, "Did not peek.");
+            Assert.AreSame(scriptType, processor.PopValue());
+        }
+
+        [DataTestMethod]
         [DataRow(0, DisplayName = "int 0")]
         [DataRow(0d, DisplayName = "double 0")]
         [DataRow(false, DisplayName = "bool false")]
@@ -182,6 +232,57 @@ namespace Mellis.Lang.Python3.Tests.Processor
             Assert.AreEqual(ProcessState.Running, processor.State);
             Assert.AreEqual(1, processor.ProgramCounter);
         }
+
+        [DataTestMethod]
+        [DataRow(true, DisplayName = "bool true")]
+        [DataRow(false, DisplayName = "bool false")]
+        public void EvaluateJumpIfTrue_Pops_Test(object value)
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new JumpIfTrue(SourceReference.ClrSource, 5, peek: false),
+                new NopOp(),
+                new NopOp(),
+                new NopOp(),
+                new NopOp()
+            );
+
+            processor.PushValue(GetPyValue(value, processor));
+
+            // Act
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkInstruction(); // performed jump
+
+            // Assert
+            Assert.AreEqual(0, processor.ValueStackCount, "Did not pop.");
+        }
+
+        [DataTestMethod]
+        [DataRow(true, DisplayName = "bool true")]
+        [DataRow(false, DisplayName = "bool false")]
+        public void EvaluateJumpIfTrue_Peeks_Test(object value)
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new JumpIfTrue(SourceReference.ClrSource, 5, peek: true),
+                new NopOp(),
+                new NopOp(),
+                new NopOp(),
+                new NopOp()
+            );
+
+            var scriptType = GetPyValue(value, processor);
+            processor.PushValue(scriptType);
+
+            // Act
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkInstruction(); // performed jump
+
+            // Assert
+            Assert.AreEqual(1, processor.ValueStackCount, "Did not peek.");
+            Assert.AreSame(scriptType, processor.PopValue());
+        }
+
 
         [DataTestMethod]
         [DataRow(0, DisplayName = "int 0")]

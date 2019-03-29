@@ -2,9 +2,9 @@
 
 namespace Mellis.Lang.Python3.Syntax.Operators.Binaries
 {
-    public class BinaryOr : BinaryOperator
+    public class BinaryOr : BasicBinaryOperator
     {
-        public override OperatorCode OpCode => OperatorCode.BOr;
+        public override BasicOperatorCode OpCode => BasicOperatorCode.BOr;
 
         public BinaryOr(
             ExpressionNode leftOperand,

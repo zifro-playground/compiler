@@ -6,7 +6,7 @@ namespace Mellis.Lang.Python3.Syntax.Operators.Comparisons
     {
         public override ComparisonType Type => ComparisonType.Equals;
 
-        public override OperatorCode OpCode => OperatorCode.CEq;
+        public override BasicOperatorCode OpCode => BasicOperatorCode.CEq;
 
         public CompareEquals(ExpressionNode leftOperand, ExpressionNode rightOperand)
             : base(leftOperand, rightOperand)

@@ -23,7 +23,7 @@ namespace Mellis.Lang.Python3.Instructions
 
         public override string ToString()
         {
-            return $"pop->{Identifier}";
+            return $"set->{Identifier}";
         }
     }
 }

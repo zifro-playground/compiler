@@ -2,9 +2,9 @@
 
 namespace Mellis.Lang.Python3.Syntax.Operators.Arithmetics
 {
-    public class ArithmeticDivide : BinaryOperator
+    public class ArithmeticDivide : BasicBinaryOperator
     {
-        public override OperatorCode OpCode => OperatorCode.ADiv;
+        public override BasicOperatorCode OpCode => BasicOperatorCode.ADiv;
 
         public ArithmeticDivide(
             ExpressionNode leftOperand,

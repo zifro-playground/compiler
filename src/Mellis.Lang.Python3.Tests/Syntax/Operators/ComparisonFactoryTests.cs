@@ -14,27 +14,27 @@ namespace Mellis.Lang.Python3.Tests.Syntax.Operators
     public class ComparisonFactoryTests
     {
         [DataTestMethod]
-        [DataRow(typeof(CompareEquals), ComparisonType.Equals, OperatorCode.CEq,
+        [DataRow(typeof(CompareEquals), ComparisonType.Equals, BasicOperatorCode.CEq,
             DisplayName = "factory create ==")]
-        [DataRow(typeof(CompareLessThan), ComparisonType.LessThan, OperatorCode.CLt,
+        [DataRow(typeof(CompareLessThan), ComparisonType.LessThan, BasicOperatorCode.CLt,
             DisplayName = "factory create <")]
-        [DataRow(typeof(CompareLessThanOrEqual), ComparisonType.LessThanOrEqual, OperatorCode.CLtEq,
+        [DataRow(typeof(CompareLessThanOrEqual), ComparisonType.LessThanOrEqual, BasicOperatorCode.CLtEq,
             DisplayName = "factory create <=")]
-        [DataRow(typeof(CompareGreaterThan), ComparisonType.GreaterThan, OperatorCode.CGt,
+        [DataRow(typeof(CompareGreaterThan), ComparisonType.GreaterThan, BasicOperatorCode.CGt,
             DisplayName = "factory create >")]
-        [DataRow(typeof(CompareGreaterThanOrEqual), ComparisonType.GreaterThanOrEqual, OperatorCode.CGtEq,
+        [DataRow(typeof(CompareGreaterThanOrEqual), ComparisonType.GreaterThanOrEqual, BasicOperatorCode.CGtEq,
             DisplayName = "factory create >=")]
-        [DataRow(typeof(CompareNotEquals), ComparisonType.NotEquals, OperatorCode.CNEq,
+        [DataRow(typeof(CompareNotEquals), ComparisonType.NotEquals, BasicOperatorCode.CNEq,
             DisplayName = "factory create !=")]
-        [DataRow(typeof(CompareIn), ComparisonType.In, OperatorCode.CIn,
+        [DataRow(typeof(CompareIn), ComparisonType.In, BasicOperatorCode.CIn,
             DisplayName = "factory create in")]
-        [DataRow(typeof(CompareInNot), ComparisonType.InNot, OperatorCode.CNIn,
+        [DataRow(typeof(CompareInNot), ComparisonType.InNot, BasicOperatorCode.CNIn,
             DisplayName = "factory create not in")]
-        [DataRow(typeof(CompareIs), ComparisonType.Is, OperatorCode.CIs,
+        [DataRow(typeof(CompareIs), ComparisonType.Is, BasicOperatorCode.CIs,
             DisplayName = "factory create is")]
-        [DataRow(typeof(CompareIsNot), ComparisonType.IsNot, OperatorCode.CIsN,
+        [DataRow(typeof(CompareIsNot), ComparisonType.IsNot, BasicOperatorCode.CIsN,
             DisplayName = "factory create is not")]
-        public void FactoryCreateValid_Test(Type expectedType, ComparisonType compType, OperatorCode opCode)
+        public void FactoryCreateValid_Test(Type expectedType, ComparisonType compType, BasicOperatorCode opCode)
         {
             // Arrange
             ExpressionNode lhs = BaseVisitClass.GetExpressionMock();

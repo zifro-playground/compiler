@@ -24,7 +24,7 @@ namespace Mellis.Lang.Python3.Instructions
 
         public override string ToString()
         {
-            return $"push->{Identifier}";
+            return $"set->{Identifier}";
         }
     }
 }

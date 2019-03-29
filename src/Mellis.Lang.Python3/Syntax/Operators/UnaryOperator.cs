@@ -14,14 +14,6 @@ namespace Mellis.Lang.Python3.Syntax.Operators
             Operand = operand;
         }
 
-        public ExpressionNode Operand { get; set; }
-
-        public abstract OperatorCode OpCode { get; }
-
-        public override void Compile(PyCompiler compiler)
-        {
-            Operand.Compile(compiler);
-            compiler.Push(new BasicOperator(Source, OpCode));
-        }
+        public ExpressionNode Operand { get; }
     }
 }

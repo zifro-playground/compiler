@@ -2,9 +2,9 @@
 
 namespace Mellis.Lang.Python3.Syntax.Operators.Binaries
 {
-    public class BinaryRightShift : BinaryOperator
+    public class BinaryRightShift : BasicBinaryOperator
     {
-        public override OperatorCode OpCode => OperatorCode.BRsh;
+        public override BasicOperatorCode OpCode => BasicOperatorCode.BRsh;
 
         public BinaryRightShift(
             ExpressionNode leftOperand,

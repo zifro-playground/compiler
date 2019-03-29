@@ -2,9 +2,9 @@
 
 namespace Mellis.Lang.Python3.Syntax.Operators.Arithmetics
 {
-    public class ArithmeticAdd : BinaryOperator
+    public class ArithmeticAdd : BasicBinaryOperator
     {
-        public override OperatorCode OpCode => OperatorCode.AAdd;
+        public override BasicOperatorCode OpCode => BasicOperatorCode.AAdd;
 
         public ArithmeticAdd(
             ExpressionNode leftOperand,
