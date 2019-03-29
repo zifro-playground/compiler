@@ -149,9 +149,6 @@ namespace Mellis.Lang.Python3.Tests.Processor
         [DataRow(BasicOperatorCode.CIs, "is", DisplayName = "nyi is")]
         [DataRow(BasicOperatorCode.CIsN, "is not", DisplayName = "nyi is not")]
         // Unary operators (op rhs)
-        [DataRow(BasicOperatorCode.ANeg, "+", DisplayName = "nyi +")]
-        [DataRow(BasicOperatorCode.APos, "-", DisplayName = "nyi -")]
-        [DataRow(BasicOperatorCode.BNot, "~", DisplayName = "nyi ~")]
         [DataRow(BasicOperatorCode.LNot, "not", DisplayName = "nyi not")]
         public void EvaluateBinary_NotYetImplemented_Tests(BasicOperatorCode opCode, string expectedKeyword)
         {
@@ -206,6 +203,55 @@ namespace Mellis.Lang.Python3.Tests.Processor
             Assert.AreEqual(1, numOfValues, "Did not absorb values.");
             Assert.AreSame(resultMock.Object, result, "Did not produce result.");
             lhsMock.Verify(method);
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_ANeg_Test()
+        {
+            EvaluateUnaryTestTemplate(BasicOperatorCode.ANeg,
+                o => o.ArithmeticUnaryNegative());
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_APos_Test()
+        {
+            EvaluateUnaryTestTemplate(BasicOperatorCode.APos,
+                o => o.ArithmeticUnaryPositive());
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_BNot_Test()
+        {
+            EvaluateUnaryTestTemplate(BasicOperatorCode.BNot,
+                o => o.ArithmeticUnaryPositive());
+        }
+
+        private static void EvaluateUnaryTestTemplate(BasicOperatorCode opCode, Expression<Func<IScriptType, IScriptType>> method)
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new BasicOperator(SourceReference.ClrSource, opCode)
+            );
+
+            var valueMock = new Mock<IScriptType>(MockBehavior.Strict);
+            var resultMock = new Mock<IScriptType>();
+
+            valueMock.Setup(method).Returns(resultMock.Object);
+
+            processor.PushValue(valueMock.Object);
+
+            // Act
+            processor.WalkInstruction(); // to enter first op
+            processor.WalkLine();
+            int numOfValues = processor.ValueStackCount;
+            var result = processor.PopValue();
+
+            // Assert
+            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name, processor.LastError?.Message);
+
+            Assert.AreEqual(1, numOfValues, "Did not absorb value.");
+            Assert.AreSame(resultMock.Object, result, "Did not produce result.");
+            valueMock.Verify(method);
         }
 
         [DataTestMethod]
