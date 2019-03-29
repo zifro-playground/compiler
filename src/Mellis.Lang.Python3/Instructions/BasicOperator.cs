@@ -4,6 +4,7 @@ using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Extensions;
 using Mellis.Lang.Python3.Interfaces;
+using Mellis.Lang.Python3.VM;
 
 namespace Mellis.Lang.Python3.Instructions
 {
@@ -19,7 +20,7 @@ namespace Mellis.Lang.Python3.Instructions
             Code = code;
         }
 
-        public void Execute(VM.PyProcessor processor)
+        public void Execute(PyProcessor processor)
         {
             IScriptType result = Code.IsBinary()
                 ? GetBinaryResult(processor)
@@ -28,7 +29,7 @@ namespace Mellis.Lang.Python3.Instructions
             processor.PushValue(result);
         }
 
-        private IScriptType GetBinaryResult(VM.PyProcessor processor)
+        private IScriptType GetBinaryResult(PyProcessor processor)
         {
             IScriptType rhs = processor.PopValue();
             IScriptType lhs = processor.PopValue();
@@ -87,7 +88,7 @@ namespace Mellis.Lang.Python3.Instructions
             }
         }
 
-        private IScriptType GetUnaryResult(VM.PyProcessor processor)
+        private IScriptType GetUnaryResult(PyProcessor processor)
         {
             IScriptType lhs = processor.PopValue();
 
@@ -101,7 +102,8 @@ namespace Mellis.Lang.Python3.Instructions
                 case BasicOperatorCode.BNot:
                     return lhs.BinaryNot();
 
-                case BasicOperatorCode.LNot: throw new SyntaxNotYetImplementedExceptionKeyword(Source, "not");
+                case BasicOperatorCode.LNot:
+                    return processor.Factory.Create(!lhs.IsTruthy());
 
                 default:
                     throw new InvalidEnumArgumentException(nameof(Code), (int)Code, typeof(BasicOperatorCode));
