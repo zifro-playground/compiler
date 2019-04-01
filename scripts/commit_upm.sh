@@ -52,7 +52,7 @@ else
     git --no-pager show --show-signature --name-status
     echo
     echo ">>> Changeset"
-    changeset="$(git diff --shortstat)"
+    changeset="$(git diff HEAD^ --shortstat)"
     echo "$changeset"
 fi
 echo
