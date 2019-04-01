@@ -40,6 +40,8 @@ if [ $COMMIT_STATUS -eq 1 ]
 then
     # Nothing to commit.
     echo "<<< Nothing to commit."
+    echo "Exiting... Nothing new anyways."
+    exit 0
 elif [ $COMMIT_STATUS -ne 0 ]
 then
     echo "<<< Unexpected error during commit. Aborting."
@@ -47,6 +49,10 @@ then
 else
     echo ">>> Commit summary"
     git --no-pager show --show-signature --name-status
+    echo
+    echo ">>> Changeset"
+    changeset="$(git diff --shortstat)"
+    echo "$changeset"
 fi
 echo
 
@@ -86,17 +92,27 @@ This tag was created autonomously by a script in the CircleCI workflow.
 
 tag "m$MELLIS_VERSION" "$tagMessage"
 TAG_STATUS=$?
-if [ $TAG_STATUS -eq 0 ]; then ((TAG_COUNT++)); fi
+if [ $TAG_STATUS -eq 0 ]; then
+    ((TAG_COUNT++))
+    echo "export DEPLOY_TAG_MELLIS='m$MELLIS_VERSION'" >> $BASH_ENV
+fi
 
 sleep 5s
 tag "p$MELLIS_PYTHON3_VERSION" "$tagMessage"
 TAG_STATUS=$?
-if [ $TAG_STATUS -eq 0 ]; then ((TAG_COUNT++)); fi
+if [ $TAG_STATUS -eq 0 ]; then
+    ((TAG_COUNT++))
+    echo "export DEPLOY_TAG_PYTHON3='p$MELLIS_PYTHON3_VERSION'" >> $BASH_ENV
+fi
 
 sleep 5s
-tag "(m$MELLIS_VERSION-p$MELLIS_PYTHON3_VERSION)" "$tagMessage"
+comboTag="(m$MELLIS_VERSION-p$MELLIS_PYTHON3_VERSION)"
+tag "$comboTag" "$tagMessage"
 TAG_STATUS=$?
-if [ $TAG_STATUS -eq 0 ]; then ((TAG_COUNT++)); fi
+if [ $TAG_STATUS -eq 0 ]; then
+    ((TAG_COUNT++))
+    echo "export DEPLOY_TAG_COMBINED='(m$MELLIS_VERSION-p$MELLIS_PYTHON3_VERSION)'" >> $BASH_ENV
+fi
 
 set -e
 echo "<<< Added $TAG_COUNT tags"
@@ -105,6 +121,7 @@ echo
 if [ $TAG_COUNT -eq 0 ]
 then
     echo ">>> No new tags, not pushing."
+    echo 'export DEPLOY_STATUS="idle"' >> $BASH_ENV
 else
     echo ">>> Pushing to $CIRCLE_REPOSITORY_URL"
     if [ -n "${LOCAL:-}" ]; then
@@ -112,4 +129,6 @@ else
     else
         git push --follow-tags
     fi
+    echo 'export DEPLOY_STATUS="success"' >> $BASH_ENV
+    echo "export DEPLOY_CHANGESET='$changeset'" >> $BASH_ENV
 fi

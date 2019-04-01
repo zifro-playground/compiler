@@ -47,6 +47,7 @@ Key                 | Description
 ------------------- | -----------
 `GITHUB_USER_EMAIL` | Your github email, same as used in GPG and SSH key.
 `GITHUB_USER_NAME`  | Your github display name (not username).
+`GITHUB_USER_ID`    | Your github username (same as <https://github.com/your_user_id>)
 
 # Import commands inside CircleCI container
 
@@ -85,5 +86,6 @@ Key                  | Description
 `GITHUB_GPG_SEC_B64` | GPG private key, base64 encoded.
 `GITHUB_USER_EMAIL`  | Your github email, same as used in GPG and SSH key.
 `GITHUB_USER_NAME`   | Your github display name (not username).
+`GITHUB_USER_ID`     | Your github username (same as <https://github.com/your_user_id>)
 
 <!-- `GITHUB_SSH_KEY_B64` | SSH private key, base64 encoded. -->

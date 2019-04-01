@@ -132,7 +132,7 @@ then
 fi
 
 author=""
-if [[ $CIRCLE_USERNAME ]]
+if [[ "${CIRCLE_USERNAME:-}" ]]
 then
     echo "Looking up commit author $CIRCLE_USERNAME on github..."
 
@@ -146,8 +146,14 @@ then
         echo "Found author profile picture: $authorIcon"
 
         author="
-        \"author_name\": \"$CIRCLE_USERNAME\",
+        \"author_name\": \"pushed by $CIRCLE_USERNAME\",
         \"author_icon\": \"$authorIcon\",
+        \"author_link\": \"https://github.com/$CIRCLE_USERNAME\",
+        "
+    else
+        echo "No profile picture found."
+        author="
+        \"author_name\": \"pushed by $CIRCLE_USERNAME\",
         \"author_link\": \"https://github.com/$CIRCLE_USERNAME\",
         "
     fi
@@ -155,11 +161,22 @@ fi
 
 echo
 text=""
+commitCount=$((0))
 while read commit
 do
     echo "Collecting commit: $commit"
     text="$(getTextForCommit $commit)\\n$text"
+    ((commitCount++))
 done < <(git log --pretty=%h $commitRange)
+
+if [[ $commitCount -eq 1 ]]
+then
+    text="Commit:\\n$text"
+else
+    text="$commitCount commits _(oldest first):_\\n$text"
+fi
+
+text="*`Project: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME, Branch: $CIRCLE_BRANCH`*\\n$text"
 
 footer="$(git diff --shortstat $commitRange)"
 testPercent=$((100*TEST_PASSED/TEST_TOTAL))
@@ -170,7 +187,7 @@ data=" {
         \"fallback\": \"$fallback\",
         \"title\": \"$title\",
         \"footer\": \"$footer\",
-        \"text\": \"Commits _(oldest first):_\\n$text\\n$errorsField\",
+        \"text\": \"$text\\n$errorsField\",
         \"mrkdwn_in\": [\"fields\", \"text\"], 
         \"color\": \"$color\",
         \"fields\": [

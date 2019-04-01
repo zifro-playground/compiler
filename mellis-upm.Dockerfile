@@ -45,3 +45,4 @@ COPY scripts/git_login.sh /usr/local/bin/git_login.sh
 COPY scripts/move_upm_files.sh /usr/local/bin/move_upm_files.sh
 COPY scripts/get_dll_version.sh /usr/local/bin/get_dll_version.sh
 COPY scripts/commit_upm.sh /usr/local/bin/commit_upm.sh
+COPY scripts/slack_notify_github_deploy.sh /usr/local/bin/slack_notify_github_deploy.sh
