@@ -215,30 +215,8 @@ then
     echo "Job completed successfully. Alert sent."
 else
     echo "Something went wrong in the webhook..."
-    echo "Payload:"
-    echo
-    echo "$data"
 fi
 
-# Unused project/branch fields
-
-        # \"ts\": $(date +%s) \
-    # \"footer\": \"Branch: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BRANCH\", \
-
-            # { \
-            #     \"title\": \"Project\", \
-            #     \"value\": \"$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME\", \
-            #     \"short\": true \
-            # }, \
-            # { \
-            #     \"title\": \"Branch\", \
-            #     \"value\": \"$CIRCLE_BRANCH\", \
-            #     \"short\": true \
-            # } \
-
-            
-            # { \
-            #     \"type\": \"button\", \
-            #     \"text\": \"Visit GitHub commit\", \
-            #     \"url\": \"https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$commitShortSHA\" \
-            # } \
+echo "Payload:"
+echo
+echo "$data"

@@ -83,6 +83,7 @@ author=""
 text="*Project: \`$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME\` Branch: \`$CIRCLE_BRANCH\`*"
 fields=""
 actions=""
+footer="$DEPLOY_CHANGESET"
 
 echo "BUILD_STATUS='$BUILD_STATUS'"
 echo "DEPLOY_STATUS='$DEPLOY_STATUS'"
@@ -92,6 +93,7 @@ then
     if [[ "$DEPLOY_STATUS" == "success" ]]
     then
         # Deploy success
+        echo "Got successful deployment"
         color="#1CBF43" # green
         visitJobActionStyle="primary" # green
         author="$(getAuthorFields)"
@@ -104,11 +106,13 @@ then
             }
         "
         if [[ "$DEPLOY_TAG_MELLIS" ]]; then
+            echo "Recording new mellis tag: '$DEPLOY_TAG_MELLIS'"
             mellisTagText="_(tag: <https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/releases/tag/$DEPLOY_TAG_MELLIS|$DEPLOY_TAG_MELLIS>)_"
         else
             mellisTagText="_(no new tag)_"
         fi
         if [[ "$DEPLOY_TAG_PYTHON3" ]]; then
+            echo "Recording new python3 tag: '$DEPLOY_TAG_PYTHON3'"
             python3TagText="_(tag: <https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/releases/tag/$DEPLOY_TAG_PYTHON3|$DEPLOY_TAG_PYTHON3>)_"
         else
             python3TagText="_(no new tag)_"
@@ -124,8 +128,8 @@ then
                 \"short\": true
             }"
     else
-        echo "Nothing to deploy 'eh?"
         # Nothing to deploy
+        echo "Nothing to deploy 'eh?"
         #color="#3AA3E3" # blue
         color="" # slack defaults to gray
         visitJobActionStyle="default" # gray
@@ -134,13 +138,14 @@ then
     fi
 else
     # Build failed
+    echo "Build failed"
     color="#ed5c5c" # red
     visitJobActionStyle="danger" # red
     title=":no_entry_sign: DEPLOYMENT JOB FAILED"
-    text="$text\\n_No new tags_"
+    text="$text\\n_Visit CircleCI for further details._"
+    footer=""
 fi
 
-footer="$DEPLOY_CHANGESET"
 data=" {
 \"attachments\": [
     {
