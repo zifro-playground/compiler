@@ -176,7 +176,7 @@ else
     text="$commitCount commits _(oldest first):_\\n$text"
 fi
 
-text="*`Project: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME, Branch: $CIRCLE_BRANCH`*\\n$text"
+text="*Project: \`$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME\` Branch: \`$CIRCLE_BRANCH\`*\\n$text"
 
 footer="$(git diff --shortstat $commitRange)"
 testPercent=$((100*TEST_PASSED/TEST_TOTAL))

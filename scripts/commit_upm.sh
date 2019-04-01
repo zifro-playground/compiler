@@ -40,8 +40,6 @@ if [ $COMMIT_STATUS -eq 1 ]
 then
     # Nothing to commit.
     echo "<<< Nothing to commit."
-    echo "Exiting... Nothing new anyways."
-    exit 0
 elif [ $COMMIT_STATUS -ne 0 ]
 then
     echo "<<< Unexpected error during commit. Aborting."
