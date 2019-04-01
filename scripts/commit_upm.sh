@@ -128,5 +128,6 @@ else
         git push --follow-tags
     fi
     echo 'export DEPLOY_STATUS="success"' >> $BASH_ENV
-    echo "export DEPLOY_CHANGESET='$changeset'" >> $BASH_ENV
 fi
+
+echo "export DEPLOY_CHANGESET='$changeset'" >> $BASH_ENV
