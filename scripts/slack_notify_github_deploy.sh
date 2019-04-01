@@ -98,6 +98,7 @@ then
         visitJobActionStyle="primary" # green
         author="$(getAuthorFields)"
         title=":tada: DEPLOYED TO GITHUB"
+        fallback="Deployed to GitHub successfully, new tag: $DEPLOY_TAG_COMBINED"
         actions=",
             {
                 \"type\": \"button\",
@@ -135,6 +136,7 @@ then
         visitJobActionStyle="default" # gray
         title="NOTHING TO DEPLOY"
         text="$text\\n_No new tags_"
+        fallback="Nothing to deploy. No new tags."
     fi
 else
     # Build failed
@@ -144,6 +146,7 @@ else
     title=":no_entry_sign: DEPLOYMENT JOB FAILED"
     text="$text\\n_Visit CircleCI for further details._"
     footer=""
+    fallback="Deployment failed. Unknown error during the build."
 fi
 
 data=" {
