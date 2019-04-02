@@ -1,7 +1,7 @@
 {
 	"name": "se.zifro.mellis",
-	"displayName": "Mellis Compiler",
-	"description": "A compiler for (to start with) Python with support for code walking and looking at variables.",
+	"displayName": "Zifro Mellis Compiler",
+	"description": "A compiler for code walking and looking at variables.\n\nCurrently supports:\n- Python3",
 	"version": "0.1.0",
 	"unity": "2018.3",
 	"license": "",
