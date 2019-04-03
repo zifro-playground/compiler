@@ -38,6 +38,25 @@ $ base64 ~/.ssh/id_rsa | clip
 ```
 -->
 
+# Add Slack webhook for notifications
+
+To use an existing integration, head to  
+[https://your_domain.slack.com/apps/manage](https://slack.com/apps/manage)
+
+To create a new integration via CircleCI, head to  
+[https://your_domain.slack.com/apps/new/A0F7VRE7N-circleci](https://slack.com/apps/new/A0F7VRE7N-circleci)
+
+Finally, paste the webhook url into the `SLACK_WEBHOOK` environment variable.
+
+# Add CircleCI API key
+
+For further detailed slack messages the script uses CircleCI's API.
+
+Create a personal API token at:  
+<https://circleci.com/account/api>
+
+Paste the key into `CIRCLE_API_TOKEN` in the [env settings on CircleCI](https://circleci.com/gh/zardan/compiler/edit#env-vars).
+
 # Other data into CircleCI
 
 Together with the environment variables mentioned above,
@@ -87,5 +106,7 @@ Key                  | Description
 `GITHUB_USER_EMAIL`  | Your github email, same as used in GPG and SSH key.
 `GITHUB_USER_NAME`   | Your github display name (not username).
 `GITHUB_USER_ID`     | Your github username (same as <https://github.com/your_user_id>)
+`SLACK_WEBHOOK`      | Slack webhook url, for use in Slack integration
+`CIRCLE_API_TOKEN`   | CircleCI personal API token, for use in Slack integration
 
 <!-- `GITHUB_SSH_KEY_B64` | SSH private key, base64 encoded. -->
