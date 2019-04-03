@@ -159,6 +159,7 @@ data=" {
         \"text\": \"$text\",
         \"mrkdwn_in\": [\"fields\", \"text\"], 
         \"color\": \"$color\",
+        \"thumb_url\": \"https://img.icons8.com/nolan/100/000000/rice-bowl.png\",
         \"fields\": [
             $fields
         ],
