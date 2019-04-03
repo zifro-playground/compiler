@@ -118,22 +118,28 @@ function isfolderempty {
 
 # files or non-empty folders without .meta files
 function findorphanfiles {
-    find ${1-.} -not -name '*.meta' -and -not -path '*/\.*' -and -not -path '.' |
+    local folder="${1-.}"
+    find "$folder" -not -name '*.meta' -and -not -path '*/\.*' -and -not -path '.' |
     while read path
     do
+        # skip topmost
+        if [[ "$folder" == "$path" ]]
+        then
+            continue
+        fi
         # missing .meta file?
         if [ ! -f "${path}.meta" ]
         then
             # is file?
-            if [ -f $path ]
+            if [ -f "$path" ]
             then
                 echo $path
             # is folder and not empty?
-            elif [ -d $path ]
+            elif [ -d "$path" ]
             then
-                if ! isfolderempty $path
+                if ! isfolderempty "$path"
                 then
-                    echo $path
+                    echo "$path"
                 fi
             fi
         fi
@@ -148,14 +154,14 @@ function findorphanmeta {
         local other="${path/%.meta}"
         
         # is empty folder?
-        if [ -d $other ]
+        if [ -d "$other" ]
         then
             if isfolderempty $other
             then
                 echo $path
             fi
         # missing file?
-        elif [ ! -f $other ]
+        elif [ ! -f "$other" ]
         then
             echo $path
         fi
@@ -164,9 +170,10 @@ function findorphanmeta {
 
 function generatemeta {
     local COUNTER=$((0))
+    local folder="${1-.}"
     while read path
     do
-        if [ -d $path ]
+        if [ -d "$path" ]
         then
             # folder
             metatemplate "" > "${path}.meta"
@@ -178,7 +185,7 @@ function generatemeta {
             ((COUNTER++))
             echo "Generated for \"${path##*.}\" file: ${path}.meta"
         fi
-    done < <(findorphanfiles ${1-.})
+    done < <(findorphanfiles "$folder")
     echo "<<< Generated $COUNTER meta files."
 }
 
@@ -187,14 +194,14 @@ function removeorphans {
     while read path
     do
         local other="${path/%.meta}"
-        if [ -d $other ]
+        if [ -d "$other" ]
         then
             # remove empty folder
-            rm -rf $other
+            rm -rf "$other"
         fi
 
         # remove meta file
-        rm $path
+        rm "$path"
         ((COUNTER++))
         echo "Removed orphaned \".meta\" file: $path"
     done < <(findorphanmeta ${1-.})
