@@ -103,9 +103,9 @@ Key                  | Description
 -------------------- | -----------
 `GITHUB_GPG_ID`      | ID of GPG key.
 `GITHUB_GPG_SEC_B64` | GPG private key, base64 encoded.
-`GITHUB_USER_EMAIL`  | Your github email, same as used in GPG and SSH key.
-`GITHUB_USER_NAME`   | Your github display name (not username).
-`GITHUB_USER_ID`     | Your github username (same as <https://github.com/your_user_id>)
+`GITHUB_USER_EMAIL`  | Deployment github account email, same as used in GPG and SSH key.
+`GITHUB_USER_NAME`   | Deployment github account display name (not username).
+`GITHUB_USER_ID`     | Deployment github account username (same as <https://github.com/your_user_id>)
 `SLACK_WEBHOOK`      | Slack webhook url, for use in Slack integration
 `CIRCLE_API_TOKEN`   | CircleCI personal API token, for use in Slack integration
 
