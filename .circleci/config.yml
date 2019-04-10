@@ -9,7 +9,7 @@ jobs:
 
     docker:
       # - image: mcr.microsoft.com/dotnet/core/sdk:2.2
-      - image: applejag/mellis-testrunner
+      - image: zifrose/mellis-testrunner
 
     steps:
       # Checkout repo -> ~/repo
@@ -64,7 +64,7 @@ jobs:
 
     docker:
       # - image: mcr.microsoft.com/dotnet/core/sdk:2.2
-      - image: applejag/mellis-upm
+      - image: zifrose/mellis-upm
 
     steps:
       

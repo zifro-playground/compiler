@@ -4,7 +4,7 @@
 set -o nounset
 set -o errexit
 
-ACCOUNT=${1:-"applejag"}
+ACCOUNT=${1:-"zifrose"}
 
 echo ">>> Building $ACCOUNT/mellis-upm docker image"
 docker build . -t $ACCOUNT/mellis-upm -f mellis-upm.Dockerfile
