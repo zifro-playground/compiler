@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Mellis.Core.Interfaces;
 
 namespace Mellis.Lang.Python3.VM
@@ -16,6 +17,25 @@ namespace Mellis.Lang.Python3.VM
         public IScopeContext ParentScope { get; }
 
         public IReadOnlyDictionary<string, IScriptType> Variables => _variables;
+
+        public string[] ListVariableNames()
+        {
+            return Variables.Keys.ToArray();
+        }
+
+        public string[] ListVariableNamesUpwards()
+        {
+            IEnumerable<string> names = Variables.Keys;
+            IScopeContext parent = ParentScope;
+
+            while (!(parent is null))
+            {
+                names = names.Concat(parent.Variables.Keys);
+                parent = parent.ParentScope;
+            }
+
+            return names.Distinct().ToArray();
+        }
 
         internal void SetVariableNoCopyUsingName(IScriptType value)
         {

@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
+using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Resources;
+using Mellis.Tools;
 
 namespace Mellis.Lang.Python3.VM
 {
@@ -46,10 +48,15 @@ namespace Mellis.Lang.Python3.VM
 
             if (scope == null)
             {
-                throw new RuntimeException(
-                    nameof(Localized_Python3_Runtime.Ex_Variable_NotDefined),
-                    Localized_Python3_Runtime.Ex_Variable_NotDefined,
-                    key);
+                string[] allNames = CurrentScope.ListVariableNamesUpwards();
+                LevenshteinMatch match = StringUtilities.LevenshteinBestMatchFiltered(in key, in allNames);
+
+                if (!match.IsNull)
+                {
+                    throw new RuntimeVariableNotDefinedSuggestionException(key, match.value);
+                }
+
+                throw new RuntimeVariableNotDefinedException(key);
             }
 
             return scope.GetVariable(key);
