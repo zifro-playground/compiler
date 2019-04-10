@@ -4,6 +4,7 @@ using Moq;
 using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
+using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.VM;
@@ -118,7 +119,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // to enter first op
-            var ex = Assert.ThrowsException<RuntimeException>((Action) processor.WalkLine);
+            var ex = Assert.ThrowsException<RuntimeVariableNotDefinedException>((Action) processor.WalkLine);
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
