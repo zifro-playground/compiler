@@ -109,7 +109,6 @@ if [ $TAG_STATUS -eq 0 ]; then
     echo "export DEPLOY_TAG_MELLIS='m$MELLIS_VERSION'" >> $BASH_ENV
 fi
 
-sleep 5s
 tag "p$MELLIS_PYTHON3_VERSION" "$tagMessage"
 TAG_STATUS=$?
 if [ $TAG_STATUS -eq 0 ]; then
@@ -117,7 +116,6 @@ if [ $TAG_STATUS -eq 0 ]; then
     echo "export DEPLOY_TAG_PYTHON3='p$MELLIS_PYTHON3_VERSION'" >> $BASH_ENV
 fi
 
-sleep 5s
 comboTag="(m$MELLIS_VERSION-p$MELLIS_PYTHON3_VERSION)"
 tag "$comboTag" "$tagMessage"
 TAG_STATUS=$?
