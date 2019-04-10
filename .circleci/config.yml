@@ -134,6 +134,37 @@ jobs:
             : ${CIRCLE_PROJECT_REPONAME?}
 
             commit_upm.sh ~/upm
+            
+      - run:
+          name: Trigger zardan/ui build
+          command: |
+            set +o errexit
+            set +o pipefail
+            
+            : ${DEPLOY_STATUS:="fail"}
+            : ${CIRCLE_API_KEY:=}
+            : ${TRIGGER_UI_USER:="zardan"}
+            : ${TRIGGER_UI_REPO:="ui"}
+            : ${TRIGGER_UI_BRANCH:="develop"}
+
+            if [[ "$DEPLOY_STATUS" != "success" ]]
+            then
+              echo "Did not deploy. Do not trigger ui build."
+              echo "TRIGGER_UI='idle'" >> $BASH_ENV
+            elif ! [[ "$CIRCLE_API_KEY" ]]
+            then
+              echo "No CircleCI API key. Can not trigger build."
+              echo "TRIGGER_UI='fail'" >> $BASH_ENV
+            else
+              echo "Successfully deployed. Let's go trigger ui build."
+              curl -X POST \
+                --header "Content-Type: application/json" \
+                --data "{
+                  \"branch\": \"$TRIGGER_UI_BRANCH\"
+                }" https://circleci.com/api/v1.1/project/github/$TRIGGER_UI_USER/$TRIGGER_UI_REPO/build?circle-token=$CIRCLE_API_KEY
+              
+              echo "TRIGGER_UI='success'" >> $BASH_ENV
+            fi
 
       - run:
           command: |

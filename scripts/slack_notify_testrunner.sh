@@ -216,8 +216,10 @@ then
     echo "Job completed successfully. Alert sent."
 else
     echo "Something went wrong in the webhook..."
+    echo "Response: $response"
 fi
 
+echo
 echo "Payload:"
 echo
 echo "$data"

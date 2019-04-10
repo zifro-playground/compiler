@@ -11,6 +11,7 @@
 : ${DEPLOY_TAG_COMBINED:=}
 : ${DEPLOY_CHANGESET:=}
 : ${BUILD_STATUS:="fail"}
+: ${TRIGGER_UI:="fail"}
 
 if [ -z "$SLACK_WEBHOOK" ]; then
     echo "NO SLACK WEBHOOK SET"
@@ -98,6 +99,19 @@ then
                 \"value\": \"\`\`\`$MELLIS_PYTHON3_VERSION\`\`\`\\n$python3TagText\",
                 \"short\": true
             }"
+
+        if [[ "$TRIGGER_UI" == "success" ]]
+        then
+            fields="$fields,
+            {
+                \"value\": \"_:heavy_check_mark: Triggered Playground UI build._\"
+            }"
+        else
+            fields="$fields,
+            {
+                \"value\": \"_:exclamation: Failed triggering Playground UI build. Visit job for more info._\"
+            }"
+        fi
 
         if [[ "${GITHUB_USER_ID:-}" ]]
         then
