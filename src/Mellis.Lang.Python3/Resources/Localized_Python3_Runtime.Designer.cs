@@ -115,11 +115,20 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Finns ingen variabel med namn &apos;{0}&apos; definierad..
+        ///   Looks up a localized string similar to Variabeln &apos;{0}&apos; finns inte i minnet..
         /// </summary>
         internal static string Ex_Variable_NotDefined {
             get {
                 return ResourceManager.GetString("Ex_Variable_NotDefined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Variabeln &apos;{0}&apos; finns inte i minnet. Menade du &apos;{1}&apos; istället?.
+        /// </summary>
+        internal static string Ex_Variable_NotDefined_Suggestion {
+            get {
+                return ResourceManager.GetString("Ex_Variable_NotDefined_Suggestion", resourceCulture);
             }
         }
     }

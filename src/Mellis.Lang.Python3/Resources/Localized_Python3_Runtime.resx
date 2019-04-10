@@ -153,8 +153,14 @@
 {0} type name</comment>
   </data>
   <data name="Ex_Variable_NotDefined" xml:space="preserve">
-    <value>Finns ingen variabel med namn '{0}' definierad.</value>
-    <comment>Variable not found in local or global scope.
+    <value>Variabeln '{0}' finns inte i minnet.</value>
+    <comment>Variable not found scope.
 {0} name of variable</comment>
+  </data>
+  <data name="Ex_Variable_NotDefined_Suggestion" xml:space="preserve">
+    <value>Variabeln '{0}' finns inte i minnet. Menade du '{1}' istället?</value>
+    <comment>Variable not found in scope, but variable with similar name was found.
+{0} name of variable
+{1} name of similar existing variable</comment>
   </data>
 </root>
