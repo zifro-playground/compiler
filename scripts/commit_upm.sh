@@ -17,6 +17,11 @@ repo=${1?Local repo folder required.}
 # Working directory
 cd $repo
 
+# Reading most recent commit
+echo "Fetching latest commit message from '$repo'"
+latestCommit="$(git --no-pager log --pretty='%h %B' -n 1)"
+echo
+
 # Commit
 echo ">>> Committing changes"
 
@@ -30,6 +35,9 @@ echo
 set +e
 git commit -m ":heavy_check_mark: [CircleCI] Mellis $MELLIS_VERSION, Python3 module $MELLIS_PYTHON3_VERSION
 This commit was created autonomously by a script in the CircleCI workflow.
+
+Latest commit:
+$latestCommit
 
 :shipit: $CIRCLE_BUILD_URL
 :octocat: https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1"
@@ -87,6 +95,9 @@ TAG_COUNT=$((0))
 
 tagMessage="Mellis $MELLIS_VERSION, Python3 module $MELLIS_PYTHON3_VERSION
 This tag was created autonomously by a script in the CircleCI workflow.
+
+Latest commit:
+$latestCommit
 
 :shipit: $CIRCLE_BUILD_URL
 :octocat: https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1"
