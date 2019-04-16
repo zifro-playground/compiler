@@ -13,6 +13,7 @@ Minimal Unity version: `2018.3.10f1` or `2019.1.0b9`
 Add the following inside the `dependencies` object in your `<project root>/Packages/manifest.json`:
 
 ```diff
+@@ Packages/manifest.json @@
 {
   "dependencies": {
 
