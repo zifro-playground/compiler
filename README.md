@@ -12,23 +12,41 @@ Minimal Unity version: `2018.3.10f1` or `2019.1.0b9`
 
 Add the following inside the `dependencies` object in your `<project root>/Packages/manifest.json`:
 
+If unsure of which variant to use, go for the HTTPS variant.
+
+#### 1.1 HTTPS variant
+
 ```diff
 @@ Packages/manifest.json @@
 {
   "dependencies": {
-
-// HTTPS variant
-+    "se.zifro.mellis": "https://github.com/zardan/compiler.git#upm",
-
-// SSH variant
-+    "se.zifro.mellis": "ssh://git@github.com/zardan/compiler.git#upm",
++   "se.zifro.mellis": "ssh://git@github.com/zardan/compiler.git#upm",
+    "com.unity.analytics": "3.2.2",
+    "com.unity.collab-proxy": "1.2.16",
+    "com.unity.package-manager-ui": "2.0.7",
+    "com.unity.modules.ai": "1.0.0",
 
     /* ... rest of Unity packages ... */
   }
 }
 ```
 
-If unsure of which variant to use, go for the HTTPS variant.
+#### 1.2 SSH variant
+
+```diff
+@@ Packages/manifest.json @@
+{
+  "dependencies": {
++   "se.zifro.mellis": "ssh://git@github.com/zardan/compiler.git#upm",
+    "com.unity.analytics": "3.2.2",
+    "com.unity.collab-proxy": "1.2.16",
+    "com.unity.package-manager-ui": "2.0.7",
+    "com.unity.modules.ai": "1.0.0",
+
+    /* ... rest of Unity packages ... */
+  }
+}
+```
 
 > **Note**: The Mellis repository is (at time or writing) private, therefore you must be logged in to `git` on your local machine when UPM updates.
 >
@@ -76,3 +94,31 @@ Change the `webGLUseEmbeddedResources` setting to `1` inside your `<project root
    webGLThreadsSupport: 0
 ```
 
+### 3. Updating Mellis
+
+There's at time of writing no way to update via the Package Manager UI.
+
+To do it manually, remove the lock of `se.zifro.mellis` in your `<project root>/Packages/manifest.json`
+
+```diff
+@@ Packages/manifest.json @@
+{
+  "dependencies": {
+    "se.zifro.mellis": "ssh://git@github.com/zardan/compiler.git#upm",
+    "com.unity.analytics": "3.2.2",
+    "com.unity.collab-proxy": "1.2.16",
+    "com.unity.package-manager-ui": "2.0.7",
+    "com.unity.modules.ai": "1.0.0",
+
+    /* ... rest of Unity packages ... */
+  },
+  "lock": {
+-   "se.zifro.mellis": {
+-     "hash": "8a61a6b637735194520a896ed3bafc322f7710ce",
+-     "revision": "upm"
+-   }
+  }
+}
+```
+
+Then jump back into Unity and watch it gather the latest release.
