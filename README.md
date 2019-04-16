@@ -94,7 +94,7 @@ Change the `webGLUseEmbeddedResources` setting to `1` inside your `<project root
    webGLThreadsSupport: 0
 ```
 
-### 3. Updating Mellis
+## Updating
 
 There's at time of writing no way to update via the Package Manager UI.
 
