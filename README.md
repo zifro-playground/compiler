@@ -122,3 +122,8 @@ To do it manually, remove the lock of `se.zifro.mellis` in your `<project root>/
 ```
 
 Then jump back into Unity and watch it gather the latest release.
+
+---
+
+Zifro Mellis compiler is developed, maintained, and owned by © Zifro AB ([zifro.se](https://zifro.se/))
+
