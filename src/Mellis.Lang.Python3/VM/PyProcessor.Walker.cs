@@ -152,25 +152,32 @@ namespace Mellis.Lang.Python3.VM
                 try
                 {
                     int startCounter = ProgramCounter;
-
+                    
                     IOpCode opCode = _opCodes[ProgramCounter++];
+
+                    if (opCode is Instructions.Breakpoint)
+                    {
+                        State = ProcessState.Running;
+                        return WalkStatus.Break;
+                    }
+
                     opCode.Execute(this);
 
                     if (State == ProcessState.Yielded)
                     {
                         ProgramCounter = startCounter;
+                        return WalkStatus.Yielded;
+                    }
+
+                    if (ProgramCounter < _opCodes.Length)
+                    {
+                        State = ProcessState.Running;
                     }
                     else
                     {
-                        if (ProgramCounter < _opCodes.Length)
-                        {
-                            State = ProcessState.Running;
-                        }
-                        else
-                        {
-                            State = ProcessState.Ended;
-                            OnProcessEnded(State);
-                        }
+                        State = ProcessState.Ended;
+                        OnProcessEnded(State);
+                        return WalkStatus.Ended;
                     }
                 }
                 catch (Exception ex)

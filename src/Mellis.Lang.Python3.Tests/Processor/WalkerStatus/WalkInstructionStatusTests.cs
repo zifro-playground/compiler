@@ -11,5 +11,19 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
         {
             return processor.WalkInstruction();
         }
+
+
+        [TestMethod]
+        public void NullStatusWhenNothingPeculiarTest()
+        {
+            // Arrange
+            var processor = new PyProcessor();
+
+            // Act
+            var status = WalkProcessor(processor);
+
+            // Assert
+            Assert.AreEqual(PyProcessor.NULL_WALK_STATUS, status);
+        }
     }
 }
