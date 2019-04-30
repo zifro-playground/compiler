@@ -13,7 +13,7 @@ namespace Mellis.Lang.Python3.Tests.TestingOps
             Exception = exception;
         }
 
-        public SourceReference Source { get; } = SourceReference.ClrSource;
+        public SourceReference Source { get; set; } = SourceReference.ClrSource;
 
         public void Execute(VM.PyProcessor processor)
         {
