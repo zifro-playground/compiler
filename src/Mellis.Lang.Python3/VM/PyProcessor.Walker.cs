@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
+using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Interfaces;
 using Mellis.Lang.Python3.Resources;
 
@@ -11,17 +12,16 @@ namespace Mellis.Lang.Python3.VM
 {
     public partial class PyProcessor
     {
-        private int _numOfJumpsThisWalk;
-
-        private YieldData _currentYield;
-
-        /// <summary>
-        /// No particular walk status. Nothing happened.
-        /// </summary>
-        internal const WalkStatus NULL_WALK_STATUS = (WalkStatus) (-1);
-
         // Oliver & Fredrik approved ✔
         internal const int JUMPS_THRESHOLD = 102 + 137;
+
+        /// <summary>
+        ///     No particular walk status. Nothing happened.
+        /// </summary>
+        internal const WalkStatus NULL_WALK_STATUS = (WalkStatus)(-1);
+
+        private YieldData _currentYield;
+        private int _numOfJumpsThisWalk;
 
         public void ResolveYield(IScriptType returnValue)
         {
@@ -62,12 +62,6 @@ namespace Mellis.Lang.Python3.VM
             ResolveYield(Factory.Null);
         }
 
-        internal void Yield(YieldData yieldData)
-        {
-            _currentYield = yieldData;
-            State = ProcessState.Yielded;
-        }
-
         public WalkStatus WalkLine()
         {
             _numOfJumpsThisWalk = 0;
@@ -78,6 +72,16 @@ namespace Mellis.Lang.Python3.VM
                 WalkInstruction();
                 return WalkStatus.NewLine;
             }
+
+            int instructionsThisWalk = 0;
+            int instructionLimit = CompilerSettings.InstructionLimit;
+            bool hasInstructionLimit = CompilerSettings.BreakOn.HasFlag(BreakCause.InstructionLimitReached) &&
+                                       instructionLimit > 0;
+
+            int jumpLimit = CompilerSettings.JumpLimit;
+            bool hasJumpLimitBreak = CompilerSettings.BreakOn.HasFlag(BreakCause.JumpLimitReached) &&
+                                     jumpLimit > 0;
+
 
             int? initialRow = GetRow(ProgramCounter);
 
@@ -91,6 +95,18 @@ namespace Mellis.Lang.Python3.VM
                     if (walkStatus != NULL_WALK_STATUS)
                     {
                         return walkStatus;
+                    }
+
+                    if (hasJumpLimitBreak && _numOfJumpsThisWalk >= jumpLimit)
+                    {
+                        // Too many jumps, abort
+                        return WalkStatus.Break;
+                    }
+
+                    if (hasInstructionLimit && ++instructionsThisWalk >= instructionLimit)
+                    {
+                        // Too many instructions, abort
+                        return WalkStatus.Break;
                     }
 
                     nextRow = GetRow(ProgramCounter);
@@ -107,6 +123,18 @@ namespace Mellis.Lang.Python3.VM
                     if (walkStatus != NULL_WALK_STATUS)
                     {
                         return walkStatus;
+                    }
+
+                    if (hasJumpLimitBreak && _numOfJumpsThisWalk >= jumpLimit)
+                    {
+                        // Too many jumps, abort
+                        return WalkStatus.Break;
+                    }
+
+                    if (hasInstructionLimit && ++instructionsThisWalk >= instructionLimit)
+                    {
+                        // Too many instructions, abort
+                        return WalkStatus.Break;
                     }
 
                 } while (GetRow(ProgramCounter) == null &&
@@ -136,51 +164,6 @@ namespace Mellis.Lang.Python3.VM
             }
 
             return _WalkUntilEnd();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private WalkStatus _WalkUntilInstructionLimit()
-        {
-            int limit = CompilerSettings.InstructionLimit;
-
-            for (int i = 0; i < limit; i++)
-            {
-                WalkStatus walkStatus = _WalkInstructionWithJumpLimit();
-                if (walkStatus != NULL_WALK_STATUS)
-                {
-                    return walkStatus;
-                }
-            }
-
-            return WalkStatus.Break;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private WalkStatus _WalkUntilEnd()
-        {
-            while (true)
-            {
-                WalkStatus walkStatus = _WalkInstructionWithJumpLimit();
-                if (walkStatus != NULL_WALK_STATUS)
-                {
-                    return walkStatus;
-                }
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private WalkStatus _WalkInstructionWithJumpLimit()
-        {
-            if (CompilerSettings.BreakOn.HasFlag(BreakCause.JumpLimitReached) &&
-                CompilerSettings.JumpLimit > 0 &&
-                _numOfJumpsThisWalk >= CompilerSettings.JumpLimit)
-            {
-                // Too many jumps, abort
-                return WalkStatus.Break;
-            }
-
-            // Free to go
-            return WalkInstruction();
         }
 
         public WalkStatus WalkInstruction()
@@ -216,10 +199,10 @@ namespace Mellis.Lang.Python3.VM
                 try
                 {
                     int startCounter = ProgramCounter;
-                    
+
                     IOpCode opCode = _opCodes[ProgramCounter++];
 
-                    if (opCode is Instructions.Breakpoint)
+                    if (opCode is Breakpoint)
                     {
                         State = ProcessState.Running;
                         return WalkStatus.Break;
@@ -263,14 +246,10 @@ namespace Mellis.Lang.Python3.VM
             return NULL_WALK_STATUS;
         }
 
-        private SourceReference GetSourceReference(int opCodeIndex)
+        internal void Yield(YieldData yieldData)
         {
-            if (opCodeIndex >= 0 && opCodeIndex < _opCodes.Length)
-            {
-                return _opCodes[opCodeIndex].Source;
-            }
-
-            return SourceReference.ClrSource;
+            _currentYield = yieldData;
+            State = ProcessState.Yielded;
         }
 
         internal void JumpToInstruction(int index)
@@ -284,6 +263,66 @@ namespace Mellis.Lang.Python3.VM
             }
 
             _numOfJumpsThisWalk++;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private WalkStatus _WalkUntilInstructionLimit()
+        {
+            int instructionLimit = CompilerSettings.InstructionLimit;
+
+            int jumpLimit = CompilerSettings.JumpLimit;
+            bool hasJumpLimitBreak = CompilerSettings.BreakOn.HasFlag(BreakCause.JumpLimitReached) &&
+                                     jumpLimit > 0;
+
+            for (int i = 0; i < instructionLimit; i++)
+            {
+                WalkStatus walkStatus = WalkInstruction();
+                if (walkStatus != NULL_WALK_STATUS)
+                {
+                    return walkStatus;
+                }
+
+                if (hasJumpLimitBreak && _numOfJumpsThisWalk >= jumpLimit)
+                {
+                    // Too many jumps, abort
+                    return WalkStatus.Break;
+                }
+            }
+
+            return WalkStatus.Break;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private WalkStatus _WalkUntilEnd()
+        {
+            int jumpLimit = CompilerSettings.JumpLimit;
+            bool hasJumpLimitBreak = CompilerSettings.BreakOn.HasFlag(BreakCause.JumpLimitReached) &&
+                                     jumpLimit > 0;
+
+            while (true)
+            {
+                WalkStatus walkStatus = WalkInstruction();
+                if (walkStatus != NULL_WALK_STATUS)
+                {
+                    return walkStatus;
+                }
+
+                if (hasJumpLimitBreak && _numOfJumpsThisWalk >= jumpLimit)
+                {
+                    // Too many jumps, abort
+                    return WalkStatus.Break;
+                }
+            }
+        }
+
+        private SourceReference GetSourceReference(int opCodeIndex)
+        {
+            if (opCodeIndex >= 0 && opCodeIndex < _opCodes.Length)
+            {
+                return _opCodes[opCodeIndex].Source;
+            }
+
+            return SourceReference.ClrSource;
         }
     }
 }

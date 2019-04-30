@@ -16,6 +16,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
         private class YieldingTestOp : IOpCode
         {
             public SourceReference Source { get; }
+
             public void Execute(PyProcessor processor)
             {
                 processor.Yield(new YieldData(new IScriptType[0], Mock.Of<IClrYieldingFunction>()));
@@ -73,15 +74,20 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
         [TestMethod]
         public virtual void BreakStatusOnJumpLimitReachedTest()
         {
+            BreakStatusOnJumpLimitReachedBase(SourceReference.ClrSource);
+        }
+
+        protected void BreakStatusOnJumpLimitReachedBase(SourceReference jumpSource)
+        {
             // Arrange
             var processor = new PyProcessor(
                 new CompilerSettings {
                     BreakOn = BreakCause.JumpLimitReached,
                     JumpLimit = 2
                 },
-                new Jump(SourceReference.ClrSource, 1),
-                new Jump(SourceReference.ClrSource, 2),
-                new Jump(SourceReference.ClrSource, 3)
+                new Jump(jumpSource, 1),
+                new Jump(jumpSource, 2),
+                new Jump(jumpSource, 3)
             );
 
             // Act
@@ -95,15 +101,21 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
         [TestMethod]
         public virtual void EndedStatusOnJumpLimitNotReachedTest()
         {
+            EndedStatusOnJumpLimitNotReachedBase(SourceReference.ClrSource);
+        }
+
+        protected void EndedStatusOnJumpLimitNotReachedBase(SourceReference jumpSource)
+        {
+
             // Arrange
             var processor = new PyProcessor(
                 new CompilerSettings {
                     BreakOn = BreakCause.JumpLimitReached,
                     JumpLimit = 4
                 },
-                new Jump(SourceReference.ClrSource, 1),
-                new Jump(SourceReference.ClrSource, 2),
-                new Jump(SourceReference.ClrSource, 3)
+                new Jump(jumpSource, 1),
+                new Jump(jumpSource, 2),
+                new Jump(jumpSource, 3)
             );
 
             // Act
@@ -117,15 +129,20 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
         [TestMethod]
         public virtual void BreakStatusOnInstructionLimitReachedTest()
         {
+            BreakStatusOnInstructionLimitReachedBase(SourceReference.ClrSource);
+        }
+
+        protected void BreakStatusOnInstructionLimitReachedBase(SourceReference nopSource)
+        {
             // Arrange
             var processor = new PyProcessor(
                 new CompilerSettings {
                     BreakOn = BreakCause.InstructionLimitReached,
                     InstructionLimit = 2
                 },
-                new NopOp(),
-                new NopOp(),
-                new NopOp()
+                new NopOp {Source = nopSource},
+                new NopOp {Source = nopSource},
+                new NopOp {Source = nopSource}
             );
 
             // Act
@@ -139,15 +156,20 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
         [TestMethod]
         public virtual void EndedStatusOnInstructionLimitNotReachedTest()
         {
+            EndedStatusOnInstructionLimitNotReachedBase(SourceReference.ClrSource);
+        }
+
+        protected void EndedStatusOnInstructionLimitNotReachedBase(SourceReference nopSource)
+        {
             // Arrange
             var processor = new PyProcessor(
                 new CompilerSettings {
                     BreakOn = BreakCause.InstructionLimitReached,
                     InstructionLimit = 4
                 },
-                new NopOp(),
-                new NopOp(),
-                new NopOp()
+                new NopOp {Source = nopSource},
+                new NopOp {Source = nopSource},
+                new NopOp {Source = nopSource}
             );
 
             // Act

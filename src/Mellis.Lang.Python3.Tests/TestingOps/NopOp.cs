@@ -5,7 +5,7 @@ namespace Mellis.Lang.Python3.Tests.TestingOps
 {
     public class NopOp : IOpCode
     {
-        public SourceReference Source { get; set; }
+        public SourceReference Source { get; set; } = SourceReference.ClrSource;
         public void Execute(VM.PyProcessor processor)
         { }
     }
