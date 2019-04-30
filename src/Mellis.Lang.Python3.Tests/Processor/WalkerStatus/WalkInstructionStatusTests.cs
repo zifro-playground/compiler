@@ -25,5 +25,15 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
             // Assert
             Assert.AreEqual(PyProcessor.NULL_WALK_STATUS, status);
         }
+
+        public override void BreakStatusOnJumpLimitReachedTest()
+        {
+            // Disables the test
+        }
+
+        public override void BreakStatusOnInstructionLimitReachedTest()
+        {
+            // Disables the test
+        }
     }
 }
