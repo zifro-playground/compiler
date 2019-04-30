@@ -11,7 +11,7 @@ namespace Mellis.Core.Entities
         /// The setting for inserting breaks in the compiled code
         /// that when the processor walks over in <see cref="IProcessor.Walk"/>
         /// or walk line <see cref="IProcessor.WalkLine"/> shall break.
-        /// <para>Default: <see cref="BreakCause.Nothing"/>, i.e. no breaks.</para>
+        /// <para>Default: <see cref="BreakCause.JumpLimitReached"/></para>
         /// </summary>
         public BreakCause BreakOn { get; set; }
 
@@ -48,7 +48,7 @@ namespace Mellis.Core.Entities
         /// Gets the default settings used in compilation among the language modules.
         /// </summary>
         public static CompilerSettings DefaultSettings { get; } = new CompilerSettings {
-            BreakOn = BreakCause.Nothing,
+            BreakOn = BreakCause.JumpLimitReached,
             Optimize = false,
             JumpLimit = 102 + 137, // Oliver & Fredrik approved ✔
             InstructionLimit = 0
