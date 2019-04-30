@@ -10,9 +10,14 @@ namespace Mellis.Lang.Python3.VM
 {
     public partial class PyProcessor
     {
-        private int _numOfJumpsThisWalk = 0;
+        private int _numOfJumpsThisWalk;
 
         private YieldData _currentYield;
+
+        /// <summary>
+        /// No particular walk status. Nothing happened.
+        /// </summary>
+        internal const WalkStatus NULL_WALK_STATUS = (WalkStatus) (-1);
 
         // Oliver & Fredrik approved ✔
         internal const int JUMPS_THRESHOLD = 102 + 137;
@@ -93,17 +98,16 @@ namespace Mellis.Lang.Python3.VM
                 do
                 {
                     WalkInstruction();
-                }
-                while (GetRow(ProgramCounter) == null &&
-                       State == ProcessState.Running &&
-                       _numOfJumpsThisWalk < JUMPS_THRESHOLD);
+                } while (GetRow(ProgramCounter) == null &&
+                         State == ProcessState.Running &&
+                         _numOfJumpsThisWalk < JUMPS_THRESHOLD);
             }
 
             int? GetRow(int i)
             {
                 SourceReference source = GetSourceReference(i);
                 return source.IsFromClr
-                    ? (int?) null
+                    ? (int?)null
                     : source.FromRow;
             }
 
@@ -115,77 +119,77 @@ namespace Mellis.Lang.Python3.VM
             throw new NotImplementedException();
         }
 
-        public WalkStatus? WalkInstruction()
+        public WalkStatus WalkInstruction()
         {
             switch (State)
             {
-                case ProcessState.Ended:
-                case ProcessState.Error:
-                    throw new InternalException(
-                        nameof(Localized_Python3_Interpreter.Ex_Process_Ended),
-                        Localized_Python3_Interpreter.Ex_Process_Ended);
+            case ProcessState.Ended:
+            case ProcessState.Error:
+                throw new InternalException(
+                    nameof(Localized_Python3_Interpreter.Ex_Process_Ended),
+                    Localized_Python3_Interpreter.Ex_Process_Ended);
 
-                case ProcessState.Yielded:
-                    throw new InternalException(
-                        nameof(Localized_Python3_Interpreter.Ex_Process_Yielded),
-                        Localized_Python3_Interpreter.Ex_Process_Yielded);
+            case ProcessState.Yielded:
+                throw new InternalException(
+                    nameof(Localized_Python3_Interpreter.Ex_Process_Yielded),
+                    Localized_Python3_Interpreter.Ex_Process_Yielded);
 
-                case ProcessState.NotStarted when _opCodes.Length == 0:
-                    State = ProcessState.Ended;
-                    OnProcessEnded(State);
-                    break;
+            case ProcessState.NotStarted when _opCodes.Length == 0:
+                State = ProcessState.Ended;
+                OnProcessEnded(State);
+                break;
 
-                case ProcessState.NotStarted:
-                    ProgramCounter = 0;
-                    State = ProcessState.Running;
-                    break;
+            case ProcessState.NotStarted:
+                ProgramCounter = 0;
+                State = ProcessState.Running;
+                break;
 
-                case ProcessState.Running when ProgramCounter < 0:
-                    ProgramCounter = 0;
-                    break;
+            case ProcessState.Running when ProgramCounter < 0:
+                ProgramCounter = 0;
+                break;
 
-                case ProcessState.Running:
-                    try
+            case ProcessState.Running:
+                try
+                {
+                    int startCounter = ProgramCounter;
+
+                    IOpCode opCode = _opCodes[ProgramCounter++];
+                    opCode.Execute(this);
+
+                    if (State == ProcessState.Yielded)
                     {
-                        int startCounter = ProgramCounter;
-
-                        IOpCode opCode = _opCodes[ProgramCounter++];
-                        opCode.Execute(this);
-
-                        if (State == ProcessState.Yielded)
-                        {
-                            ProgramCounter = startCounter;
-                        }
-                        else
-                        {
-                            if (ProgramCounter < _opCodes.Length)
+                        ProgramCounter = startCounter;
+                    }
+                    else
+                    {
+                        if (ProgramCounter < _opCodes.Length)
                         {
                             State = ProcessState.Running;
                         }
                         else
-                            {
-                                State = ProcessState.Ended;
-                                OnProcessEnded(State);
-                            }
+                        {
+                            State = ProcessState.Ended;
+                            OnProcessEnded(State);
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        State = ProcessState.Error;
+                }
+                catch (Exception ex)
+                {
+                    State = ProcessState.Error;
 
-                        LastError = ConvertException(ex);
+                    LastError = ConvertException(ex);
 
-                        OnProcessEnded(State);
-                        throw LastError;
-                    }
+                    OnProcessEnded(State);
+                    throw LastError;
+                }
 
-                    break;
+                break;
 
-                default:
-                    throw new InvalidEnumArgumentException(nameof(State), (int) State, typeof(ProcessState));
+            default:
+                throw new InvalidEnumArgumentException(nameof(State), (int)State, typeof(ProcessState));
             }
 
-            return WalkStatus.Ended;
+            return NULL_WALK_STATUS;
         }
 
         private SourceReference GetSourceReference(int opCodeIndex)

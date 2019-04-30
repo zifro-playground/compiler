@@ -10,7 +10,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
 {
     public abstract class BaseWalkerStatusTester
     {
-        protected abstract WalkStatus? WalkProcessor(PyProcessor processor);
+        protected abstract WalkStatus WalkProcessor(PyProcessor processor);
 
         private class YieldingTestOp : IOpCode
         {

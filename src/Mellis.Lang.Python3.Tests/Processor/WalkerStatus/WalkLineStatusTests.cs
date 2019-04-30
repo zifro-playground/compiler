@@ -8,7 +8,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
     [TestClass]
     public sealed class WalkLineStatusTests : BaseWalkerStatusTester
     {
-        protected override WalkStatus? WalkProcessor(PyProcessor processor)
+        protected override WalkStatus WalkProcessor(PyProcessor processor)
         {
             return processor.WalkLine();
         }

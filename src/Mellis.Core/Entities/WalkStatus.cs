@@ -35,6 +35,6 @@ namespace Mellis.Core.Entities
         /// A breakpoint defined at compile-time with <see cref="BreakCause"/> in the
         /// <see cref="ICompiler"/> compiler property <see cref="ICompiler.Settings"/>.
         /// </summary>
-        Break,
+        Break
     }
 }
