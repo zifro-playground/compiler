@@ -224,7 +224,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
 
             // Act
             processor.WalkInstruction(); // warmup
-            var ex = Assert.ThrowsException<InternalException>((Action)processor.WalkInstruction);
+            var ex = Assert.ThrowsException<InternalException>(delegate { processor.WalkInstruction(); });
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,

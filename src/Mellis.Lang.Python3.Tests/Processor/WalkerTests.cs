@@ -53,7 +53,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // to enter first op
-            var thrownEx = Assert.ThrowsException<InternalException>((Action) processor.WalkInstruction);
+            var thrownEx = Assert.ThrowsException<InternalException>(delegate { processor.WalkInstruction(); });
 
             // Assert
             Assert.AreEqual(ProcessState.Error, processor.State);
@@ -73,7 +73,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // to enter first op
-            var thrownEx = Assert.ThrowsException<InterpreterLocalizedException>((Action) processor.WalkInstruction);
+            var thrownEx = Assert.ThrowsException<InterpreterLocalizedException>(delegate { processor.WalkInstruction(); });
 
             // Assert
             Assert.AreEqual(ProcessState.Error, processor.State);
@@ -91,7 +91,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction();
-            var ex = Assert.ThrowsException<InternalException>((Action) processor.WalkInstruction);
+            var ex = Assert.ThrowsException<InternalException>(delegate { processor.WalkInstruction(); });
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
@@ -111,9 +111,9 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // to enter first op
-            Assert.ThrowsException<InternalException>((Action)processor.WalkInstruction);
+            Assert.ThrowsException<InternalException>(delegate { processor.WalkInstruction(); });
 
-            var ex = Assert.ThrowsException<InternalException>((Action) processor.WalkInstruction);
+            var ex = Assert.ThrowsException<InternalException>(delegate { processor.WalkInstruction(); });
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
@@ -129,9 +129,9 @@ namespace Mellis.Lang.Python3.Tests.Processor
             processor.Yield(new YieldData(new IScriptType[0], Mock.Of<IClrYieldingFunction>()));
 
             // Act
-            Assert.ThrowsException<InternalException>((Action)processor.WalkInstruction);
+            Assert.ThrowsException<InternalException>(delegate { processor.WalkInstruction(); });
 
-            var ex = Assert.ThrowsException<InternalException>((Action)processor.WalkInstruction);
+            var ex = Assert.ThrowsException<InternalException>(delegate { processor.WalkInstruction(); });
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,

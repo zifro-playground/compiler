@@ -23,7 +23,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // warmup
-            var ex = Assert.ThrowsException<InternalException>((Action)processor.WalkInstruction);
+            var ex = Assert.ThrowsException<InternalException>(delegate { processor.WalkInstruction(); });
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
@@ -45,7 +45,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // warmup
-            var ex = Assert.ThrowsException<RuntimeException>((Action)processor.WalkInstruction);
+            var ex = Assert.ThrowsException<RuntimeException>(delegate { processor.WalkInstruction(); });
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,

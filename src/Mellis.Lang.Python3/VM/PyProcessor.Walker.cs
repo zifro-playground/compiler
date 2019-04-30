@@ -115,7 +115,7 @@ namespace Mellis.Lang.Python3.VM
             throw new NotImplementedException();
         }
 
-        public void WalkInstruction()
+        public WalkStatus WalkInstruction()
         {
             switch (State)
             {
@@ -184,6 +184,8 @@ namespace Mellis.Lang.Python3.VM
                 default:
                     throw new InvalidEnumArgumentException(nameof(State), (int) State, typeof(ProcessState));
             }
+
+            return WalkStatus.Ended;
         }
 
         private SourceReference GetSourceReference(int opCodeIndex)
