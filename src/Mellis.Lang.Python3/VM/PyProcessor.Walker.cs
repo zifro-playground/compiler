@@ -126,7 +126,14 @@ namespace Mellis.Lang.Python3.VM
 
         public WalkStatus Walk()
         {
-            throw new NotImplementedException();
+            while (true)
+            {
+                WalkStatus walkStatus = WalkInstruction();
+                if (walkStatus != NULL_WALK_STATUS)
+                {
+                    return walkStatus;
+                }
+            }
         }
 
         public WalkStatus WalkInstruction()
