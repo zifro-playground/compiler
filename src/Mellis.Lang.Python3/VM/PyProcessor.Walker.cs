@@ -115,7 +115,7 @@ namespace Mellis.Lang.Python3.VM
             throw new NotImplementedException();
         }
 
-        public WalkStatus WalkInstruction()
+        public WalkStatus? WalkInstruction()
         {
             switch (State)
             {
