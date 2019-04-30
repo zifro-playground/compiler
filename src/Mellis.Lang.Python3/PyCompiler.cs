@@ -26,7 +26,7 @@ namespace Mellis.Lang.Python3
             _opCodes = new List<IOpCode>(opCodes);
         }
 
-        public CompilerSettings Settings { get; set; }
+        public CompilerSettings Settings { get; set; } = CompilerSettings.DefaultSettings;
 
         public IProcessor Compile(string code)
         {

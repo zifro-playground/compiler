@@ -51,6 +51,8 @@ namespace Mellis.Lang.Python3.VM
 
         public InterpreterException LastError { get; private set; }
 
+        public BreakCause LastBreakCause { get; private set; }
+
         public CompilerSettings CompilerSettings { get; }
 
         public int ProgramCounter { get; private set; }

@@ -78,8 +78,7 @@ namespace Mellis.Lang.Python3.VM
             int jumpLimit = CompilerSettings.JumpLimit;
             bool hasJumpLimitBreak = CompilerSettings.BreakOn.HasFlag(BreakCause.JumpLimitReached) &&
                                      jumpLimit > 0;
-
-
+            
             int? initialRow = GetRow(ProgramCounter);
 
             if (initialRow.HasValue)
@@ -97,12 +96,14 @@ namespace Mellis.Lang.Python3.VM
                     if (hasJumpLimitBreak && _numOfJumpsThisWalk >= jumpLimit)
                     {
                         // Too many jumps, abort
+                        LastBreakCause = BreakCause.JumpLimitReached;
                         return WalkStatus.Break;
                     }
 
                     if (hasInstructionLimit && ++instructionsThisWalk >= instructionLimit)
                     {
                         // Too many instructions, abort
+                        LastBreakCause = BreakCause.InstructionLimitReached;
                         return WalkStatus.Break;
                     }
 
@@ -124,12 +125,14 @@ namespace Mellis.Lang.Python3.VM
                     if (hasJumpLimitBreak && _numOfJumpsThisWalk >= jumpLimit)
                     {
                         // Too many jumps, abort
+                        LastBreakCause = BreakCause.JumpLimitReached;
                         return WalkStatus.Break;
                     }
 
                     if (hasInstructionLimit && ++instructionsThisWalk >= instructionLimit)
                     {
                         // Too many instructions, abort
+                        LastBreakCause = BreakCause.InstructionLimitReached;
                         return WalkStatus.Break;
                     }
                 } while (GetRow(ProgramCounter) == null &&
@@ -196,9 +199,10 @@ namespace Mellis.Lang.Python3.VM
 
                     IOpCode opCode = _opCodes[ProgramCounter++];
 
-                    if (opCode is Breakpoint)
+                    if (opCode is Breakpoint breakpoint)
                     {
                         State = ProcessState.Running;
+                        LastBreakCause = breakpoint.BreakCause;
                         return WalkStatus.Break;
                     }
 
@@ -279,10 +283,12 @@ namespace Mellis.Lang.Python3.VM
                 if (hasJumpLimitBreak && _numOfJumpsThisWalk >= jumpLimit)
                 {
                     // Too many jumps, abort
+                    LastBreakCause = BreakCause.JumpLimitReached;
                     return WalkStatus.Break;
                 }
             }
 
+            LastBreakCause = BreakCause.InstructionLimitReached;
             return WalkStatus.Break;
         }
 
@@ -304,6 +310,7 @@ namespace Mellis.Lang.Python3.VM
                 if (hasJumpLimitBreak && _numOfJumpsThisWalk >= jumpLimit)
                 {
                     // Too many jumps, abort
+                    LastBreakCause = BreakCause.JumpLimitReached;
                     return WalkStatus.Break;
                 }
             }

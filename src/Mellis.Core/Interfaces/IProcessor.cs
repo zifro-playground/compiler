@@ -36,6 +36,11 @@ namespace Mellis.Core.Interfaces
         InterpreterException LastError { get; }
 
         /// <summary>
+        /// Break cause from latest break after a walk.
+        /// </summary>
+        BreakCause LastBreakCause { get; }
+
+        /// <summary>
         /// Compiler settings used when compiling this processor.
         /// </summary>
         CompilerSettings CompilerSettings { get; }

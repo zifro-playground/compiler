@@ -69,6 +69,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
 
             // Assert
             Assert.AreEqual(WalkStatus.Break, status);
+            Assert.AreEqual(BreakCause.LoopEnter, processor.LastBreakCause);
         }
 
         [TestMethod]
@@ -96,6 +97,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
 
             // Assert
             Assert.AreEqual(WalkStatus.Break, status);
+            Assert.AreEqual(BreakCause.JumpLimitReached, processor.LastBreakCause);
         }
 
         [TestMethod]
@@ -151,6 +153,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
 
             // Assert
             Assert.AreEqual(WalkStatus.Break, status);
+            Assert.AreEqual(BreakCause.InstructionLimitReached, processor.LastBreakCause);
         }
 
         [TestMethod]
