@@ -12,11 +12,8 @@ namespace Mellis.Lang.Python3.VM
 {
     public partial class PyProcessor
     {
-        // Oliver & Fredrik approved ✔
-        internal const int JUMPS_THRESHOLD = 102 + 137;
-
         /// <summary>
-        ///     No particular walk status. Nothing happened.
+        /// No particular walk status. Nothing happened.
         /// </summary>
         internal const WalkStatus NULL_WALK_STATUS = (WalkStatus)(-1);
 
@@ -111,8 +108,7 @@ namespace Mellis.Lang.Python3.VM
 
                     nextRow = GetRow(ProgramCounter);
                 } while ((nextRow == null || nextRow.Value == initialRow.Value) &&
-                         State == ProcessState.Running &&
-                         _numOfJumpsThisWalk < JUMPS_THRESHOLD);
+                         State == ProcessState.Running);
             }
             else
             {
@@ -136,10 +132,8 @@ namespace Mellis.Lang.Python3.VM
                         // Too many instructions, abort
                         return WalkStatus.Break;
                     }
-
                 } while (GetRow(ProgramCounter) == null &&
-                         State == ProcessState.Running &&
-                         _numOfJumpsThisWalk < JUMPS_THRESHOLD);
+                         State == ProcessState.Running);
             }
 
             int? GetRow(int i)
