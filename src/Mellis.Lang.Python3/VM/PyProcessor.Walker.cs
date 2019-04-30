@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
@@ -126,14 +127,60 @@ namespace Mellis.Lang.Python3.VM
 
         public WalkStatus Walk()
         {
-            while (true)
+            _numOfJumpsThisWalk = 0;
+
+            if (CompilerSettings.InstructionLimit > 0 &&
+                CompilerSettings.BreakOn.HasFlag(BreakCause.InstructionLimitReached))
             {
-                WalkStatus walkStatus = WalkInstruction();
+                return _WalkUntilInstructionLimit();
+            }
+
+            return _WalkUntilEnd();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private WalkStatus _WalkUntilInstructionLimit()
+        {
+            int limit = CompilerSettings.InstructionLimit;
+
+            for (int i = 0; i < limit; i++)
+            {
+                WalkStatus walkStatus = _WalkInstructionWithJumpLimit();
                 if (walkStatus != NULL_WALK_STATUS)
                 {
                     return walkStatus;
                 }
             }
+
+            return WalkStatus.Break;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private WalkStatus _WalkUntilEnd()
+        {
+            while (true)
+            {
+                WalkStatus walkStatus = _WalkInstructionWithJumpLimit();
+                if (walkStatus != NULL_WALK_STATUS)
+                {
+                    return walkStatus;
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private WalkStatus _WalkInstructionWithJumpLimit()
+        {
+            if (CompilerSettings.BreakOn.HasFlag(BreakCause.JumpLimitReached) &&
+                CompilerSettings.JumpLimit > 0 &&
+                _numOfJumpsThisWalk >= CompilerSettings.JumpLimit)
+            {
+                // Too many jumps, abort
+                return WalkStatus.Break;
+            }
+
+            // Free to go
+            return WalkInstruction();
         }
 
         public WalkStatus WalkInstruction()

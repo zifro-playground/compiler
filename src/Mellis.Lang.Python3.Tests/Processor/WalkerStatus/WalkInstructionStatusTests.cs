@@ -31,7 +31,17 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
             // Disables the test
         }
 
+        public override void EndedStatusOnJumpLimitNotReachedTest()
+        {
+            // Disables the test
+        }
+
         public override void BreakStatusOnInstructionLimitReachedTest()
+        {
+            // Disables the test
+        }
+
+        public override void EndedStatusOnInstructionLimitNotReachedTest()
         {
             // Disables the test
         }

@@ -93,6 +93,28 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
         }
 
         [TestMethod]
+        public virtual void EndedStatusOnJumpLimitNotReachedTest()
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new CompilerSettings {
+                    BreakOn = BreakCause.JumpLimitReached,
+                    JumpLimit = 4
+                },
+                new Jump(SourceReference.ClrSource, 1),
+                new Jump(SourceReference.ClrSource, 2),
+                new Jump(SourceReference.ClrSource, 3)
+            );
+
+            // Act
+            processor.WalkInstruction(); // warmup
+            var status = WalkProcessor(processor);
+
+            // Assert
+            Assert.AreEqual(WalkStatus.Ended, status);
+        }
+
+        [TestMethod]
         public virtual void BreakStatusOnInstructionLimitReachedTest()
         {
             // Arrange
@@ -112,6 +134,28 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
 
             // Assert
             Assert.AreEqual(WalkStatus.Break, status);
+        }
+
+        [TestMethod]
+        public virtual void EndedStatusOnInstructionLimitNotReachedTest()
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new CompilerSettings {
+                    BreakOn = BreakCause.InstructionLimitReached,
+                    InstructionLimit = 4
+                },
+                new NopOp(),
+                new NopOp(),
+                new NopOp()
+            );
+
+            // Act
+            processor.WalkInstruction(); // warmup
+            var status = WalkProcessor(processor);
+
+            // Assert
+            Assert.AreEqual(WalkStatus.Ended, status);
         }
     }
 }
