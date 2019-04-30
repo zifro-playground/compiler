@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Antlr4.Runtime;
+using Mellis.Core.Entities;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Extensions;
 using Mellis.Lang.Python3.Grammar;
@@ -23,6 +24,8 @@ namespace Mellis.Lang.Python3
         {
             _opCodes = new List<IOpCode>(opCodes);
         }
+
+        public CompilerSettings Settings { get; set; }
 
         public IProcessor Compile(string code)
         {

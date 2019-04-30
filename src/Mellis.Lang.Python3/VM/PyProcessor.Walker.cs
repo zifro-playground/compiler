@@ -62,7 +62,7 @@ namespace Mellis.Lang.Python3.VM
             State = ProcessState.Yielded;
         }
 
-        public void WalkLine()
+        public WalkStatus WalkLine()
         {
             _numOfJumpsThisWalk = 0;
 
@@ -70,7 +70,7 @@ namespace Mellis.Lang.Python3.VM
             if (State == ProcessState.NotStarted)
             {
                 WalkInstruction();
-                return;
+                return WalkStatus.NewLine;
             }
 
             int? initialRow = GetRow(ProgramCounter);
@@ -106,6 +106,13 @@ namespace Mellis.Lang.Python3.VM
                     ? (int?) null
                     : source.FromRow;
             }
+
+            return WalkStatus.Break;
+        }
+
+        public WalkStatus Walk()
+        {
+            throw new NotImplementedException();
         }
 
         public void WalkInstruction()

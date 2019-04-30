@@ -32,7 +32,10 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // to enter first op
-            var ex = Assert.ThrowsException<InternalException>((Action) processor.WalkLine);
+            var ex = Assert.ThrowsException<InternalException>(delegate
+            {
+                processor.WalkLine();
+            });
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
@@ -57,7 +60,10 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // to enter first op
-            var ex = Assert.ThrowsException<InternalException>((Action)processor.WalkLine);
+            var ex = Assert.ThrowsException<InternalException>(delegate
+            {
+                processor.WalkLine();
+            });
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
@@ -135,7 +141,10 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // to enter first op
-            var ex = Assert.ThrowsException<InternalException>((Action)processor.WalkLine);
+            var ex = Assert.ThrowsException<InternalException>(delegate
+            {
+                processor.WalkLine(); 
+            });
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
@@ -158,7 +167,10 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // to enter first op
-            var ex = Assert.ThrowsException<InternalException>((Action)processor.WalkLine);
+            var ex = Assert.ThrowsException<InternalException>(delegate
+            {
+                processor.WalkLine();
+            });
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,

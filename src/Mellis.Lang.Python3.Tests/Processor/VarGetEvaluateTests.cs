@@ -119,7 +119,10 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // to enter first op
-            var ex = Assert.ThrowsException<RuntimeVariableNotDefinedException>((Action) processor.WalkLine);
+            var ex = Assert.ThrowsException<RuntimeVariableNotDefinedException>(delegate
+            {
+                processor.WalkLine();
+            });
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
