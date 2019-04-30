@@ -86,7 +86,12 @@ namespace Mellis.Lang.Python3.VM
                 int? nextRow;
                 do
                 {
-                    WalkInstruction();
+                    WalkStatus walkStatus = WalkInstruction();
+                    if (walkStatus != NULL_WALK_STATUS)
+                    {
+                        return walkStatus;
+                    }
+
                     nextRow = GetRow(ProgramCounter);
                 } while ((nextRow == null || nextRow.Value == initialRow.Value) &&
                          State == ProcessState.Running &&
@@ -97,7 +102,12 @@ namespace Mellis.Lang.Python3.VM
                 // Initial is clr => walk until current is not clr
                 do
                 {
-                    WalkInstruction();
+                    WalkStatus walkStatus = WalkInstruction();
+                    if (walkStatus != NULL_WALK_STATUS)
+                    {
+                        return walkStatus;
+                    }
+
                 } while (GetRow(ProgramCounter) == null &&
                          State == ProcessState.Running &&
                          _numOfJumpsThisWalk < JUMPS_THRESHOLD);
@@ -111,7 +121,7 @@ namespace Mellis.Lang.Python3.VM
                     : source.FromRow;
             }
 
-            return WalkStatus.Break;
+            return WalkStatus.NewLine;
         }
 
         public WalkStatus Walk()
