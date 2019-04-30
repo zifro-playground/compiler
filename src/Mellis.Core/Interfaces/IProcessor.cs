@@ -34,7 +34,23 @@ namespace Mellis.Core.Interfaces
         /// </summary>
         void ResolveYield();
 
-        void WalkLine();
+        /// <summary>
+        /// Walks the instructions and stops if a new line was reached,
+        /// a yielding function <seealso cref="IClrYieldingFunction"/> was called,
+        /// a breakpoint defined in the compiler settings was reached,
+        /// or the processor finishes all instructions.
+        /// <para>See walk status enum <see cref="WalkStatus"/> for more info.</para>
+        /// </summary>
+        WalkStatus WalkLine();
+
+        /// <summary>
+        /// Walks the instructions and stops if
+        /// a yielding function <seealso cref="IClrYieldingFunction"/> was called,
+        /// a breakpoint <see cref="BreakCause"/> in the compiler settings was reached,
+        /// or the processor finishes all instructions.
+        /// <para>See walk status enum <see cref="WalkStatus"/> for more info.</para>
+        /// </summary>
+        WalkStatus Walk();
 
         void AddBuiltin(params IEmbeddedType[] builtinList);
     }

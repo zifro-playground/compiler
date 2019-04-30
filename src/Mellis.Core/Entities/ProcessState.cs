@@ -1,4 +1,6 @@
-﻿namespace Mellis.Core.Entities
+﻿using Mellis.Core.Interfaces;
+
+namespace Mellis.Core.Entities
 {
     public enum ProcessState
     {
@@ -14,6 +16,8 @@
 
         /// <summary>
         /// Interpreter has paused in anticipation of a yielded function return.
+        /// Use the resolve yield method <see cref="IProcessor.ResolveYield()"/>
+        /// on processor <see cref="IProcessor"/> to release the yield lock.
         /// </summary>
         Yielded,
 
