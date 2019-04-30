@@ -1,5 +1,6 @@
 ﻿using Mellis.Core.Entities;
 using Mellis.Core.Interfaces;
+using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Interfaces;
 using Mellis.Lang.Python3.Tests.TestingOps;
 using Mellis.Lang.Python3.VM;
@@ -51,6 +52,22 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
 
             // Assert
             Assert.AreEqual(WalkStatus.Yielded, status);
+        }
+
+        [TestMethod]
+        public void BreakStatusWhenBreakpointOpTest()
+        {
+            // Arrange
+            var processor = new PyProcessor(
+                new Breakpoint(BreakCause.LoopEnter)
+            );
+
+            // Act
+            processor.WalkInstruction(); // warmup
+            var status = WalkProcessor(processor);
+
+            // Assert
+            Assert.AreEqual(WalkStatus.Break, status);
         }
     }
 }
