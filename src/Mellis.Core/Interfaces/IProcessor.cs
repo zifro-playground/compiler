@@ -1,17 +1,44 @@
 ﻿using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
+using Mellis.Core.Resources;
 
 namespace Mellis.Core.Interfaces
 {
     public interface IProcessor
     {
+        /// <summary>
+        /// Value factory. Use this to create new values, bound to this
+        /// processor.
+        /// </summary>
         IScriptTypeFactory Factory { get; }
+
         IScopeContext GlobalScope { get; }
+
+        /// <summary>
+        /// Current scope for the processor.
+        /// </summary>
         IScopeContext CurrentScope { get; }
+
+        /// <summary>
+        /// Current state in the process.
+        /// </summary>
         ProcessState State { get; }
+
+        /// <summary>
+        /// Current source pointer of the execution.
+        /// </summary>
         SourceReference CurrentSource { get; }
 
+        /// <summary>
+        /// Last thrown error from inside the processor during a walk.
+        /// Does not record "process ended" nor "already yielded" errors.
+        /// </summary>
         InterpreterException LastError { get; }
+
+        /// <summary>
+        /// Compiler settings used when compiling this processor.
+        /// </summary>
+        CompilerSettings CompilerSettings { get; }
 
         /// <summary>
         /// Resolves a yielding function <see cref="IClrYieldingFunction"/>
@@ -52,6 +79,11 @@ namespace Mellis.Core.Interfaces
         /// </summary>
         WalkStatus Walk();
 
+        /// <summary>
+        /// Adds CLR functions to list of builtins.
+        /// Functions added this way does not show up in the current scope
+        /// but are still accessible in the code.
+        /// </summary>
         void AddBuiltin(params IEmbeddedType[] builtinList);
     }
 }

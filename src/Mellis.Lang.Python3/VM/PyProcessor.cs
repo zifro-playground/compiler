@@ -12,7 +12,13 @@ namespace Mellis.Lang.Python3.VM
     public partial class PyProcessor : IProcessor
     {
         internal PyProcessor(params IOpCode[] opCodes)
+            : this(CompilerSettings.DefaultSettings, opCodes)
         {
+        }
+
+        internal PyProcessor(CompilerSettings compilerSettings, params IOpCode[] opCodes)
+        {
+            CompilerSettings = compilerSettings;
             Factory = new PyScriptTypeFactory(this);
             State = ProcessState.NotStarted;
             LastError = null;
@@ -44,6 +50,8 @@ namespace Mellis.Lang.Python3.VM
         public SourceReference CurrentSource => GetSourceReference(ProgramCounter);
 
         public InterpreterException LastError { get; private set; }
+
+        public CompilerSettings CompilerSettings { get; }
 
         public int ProgramCounter { get; private set; }
 
