@@ -322,6 +322,87 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             Assert.AreEqual(5, compiler.Count);
         }
 
+        [DataTestMethod]
+        [DataRow(BreakCause.FunctionAnyCall)]
+        [DataRow(BreakCause.FunctionClrCall)]
+        [DataRow(BreakCause.FunctionUserCall)]
+        public void BreakOn_FunctionCallEmptyArgs(BreakCause breakCause)
+        {
+            // Arrange
+            var compiler = new PyCompiler {
+                Settings = new CompilerSettings {
+                    BreakOn = breakCause
+                }
+            };
+
+            var args = new ExpressionNode[0];
+
+            var callNode = new FunctionCall(
+                SourceReference.ClrSource,
+                new Identifier(SourceReference.ClrSource, "foo"),
+                new ArgumentsList(SourceReference.ClrSource, args)
+            );
+
+            // Act
+            callNode.Compile(compiler);
+
+            // Assert
+            Assert.That.IsOpCode<VarGet>(compiler, 0);
+            var breakpoint = Assert.That.IsOpCode<Breakpoint>(compiler, 1);
+            Assert.That.IsOpCode<Call>(compiler, 2);
+
+            Assert.AreEqual(breakCause, breakpoint.BreakCause);
+            Assert.AreEqual(3, compiler.Count);
+        }
+
+
+        [DataTestMethod]
+        [DataRow(BreakCause.FunctionAnyCall)]
+        [DataRow(BreakCause.FunctionClrCall)]
+        [DataRow(BreakCause.FunctionUserCall)]
+        public void BreakOn_FunctionCallMultipleArgs(BreakCause breakCause)
+        {
+            // Arrange
+            var compiler = new PyCompiler {
+                Settings = new CompilerSettings {
+                    BreakOn = breakCause
+                }
+            };
+            
+            compiler.CreateAndSetup(out Mock<ExpressionNode> expr1Mock, out var nop1);
+            compiler.CreateAndSetup(out Mock<ExpressionNode> expr2Mock, out var nop2);
+            compiler.CreateAndSetup(out Mock<ExpressionNode> expr3Mock, out var nop3);
+
+            var args = new[] {
+                expr1Mock.Object,
+                expr2Mock.Object,
+                expr3Mock.Object
+            };
+
+            var callNode = new FunctionCall(
+                SourceReference.ClrSource,
+                new Identifier(SourceReference.ClrSource, "foo"),
+                new ArgumentsList(SourceReference.ClrSource, args)
+            );
+
+            // Act
+            callNode.Compile(compiler);
+
+            // Assert
+            Assert.That.IsOpCode<VarGet>(compiler, 0);
+
+            Assert.That.IsExpectedOpCode(compiler, 1, nop1);
+            Assert.That.IsExpectedOpCode(compiler, 2, nop2);
+            Assert.That.IsExpectedOpCode(compiler, 3, nop3);
+
+            var breakpoint = Assert.That.IsOpCode<Breakpoint>(compiler, 4);
+
+            Assert.That.IsOpCode<Call>(compiler, 5);
+
+            Assert.AreEqual(breakCause, breakpoint.BreakCause);
+            Assert.AreEqual(6, compiler.Count);
+        }
+
         [TestMethod]
         public void ExpressionStatementTest()
         {

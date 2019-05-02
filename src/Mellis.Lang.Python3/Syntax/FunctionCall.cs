@@ -27,6 +27,12 @@ namespace Mellis.Lang.Python3.Syntax
                 argument.Compile(compiler);
             }
 
+            // Has either ClrCall, UserCall, or both?
+            if ((compiler.Settings.BreakOn & BreakCause.FunctionAnyCall) != 0)
+            {
+                compiler.Push(new Breakpoint(Source, compiler.Settings.BreakOn & BreakCause.FunctionAnyCall));
+            }
+
             int returnAddress = compiler.GetJumpTargetRelative(+2);
             compiler.Push(new Call(Source, Arguments.Count, returnAddress));
         }
