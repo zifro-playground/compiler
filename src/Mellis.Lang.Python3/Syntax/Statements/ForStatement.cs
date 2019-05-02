@@ -22,6 +22,11 @@ namespace Mellis.Lang.Python3.Syntax.Statements
 
         public override void Compile(PyCompiler compiler)
         {
+            if (compiler.Settings.BreakOn.HasFlag(BreakCause.LoopEnter))
+            {
+                compiler.Push(new Breakpoint(Source, BreakCause.LoopEnter));
+            }
+
             VarSet operandOpCode = Assignment.GetOpCodeForAssignmentOrThrow(Operand.Source, Operand);
 
             Iterator.Compile(compiler);
@@ -37,6 +42,11 @@ namespace Mellis.Lang.Python3.Syntax.Statements
             Suite.Compile(compiler);
 
             jumpToNext.Target = compiler.GetJumpTargetForNext();
+
+            if (compiler.Settings.BreakOn.HasFlag(BreakCause.LoopBlockEnd))
+            {
+                compiler.Push(new Breakpoint(Source, BreakCause.LoopBlockEnd));
+            }
 
             compiler.Push(
                 new ForEachNext(Iterator.Source, jumpTargetToAssign)
