@@ -1,4 +1,6 @@
-﻿using Mellis.Core.Exceptions;
+﻿using System;
+using System.Linq;
+using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Resources;
 
@@ -30,6 +32,23 @@ namespace Mellis.Lang.Python3.VM
             }
 
             return _valueStack.Peek();
+        }
+
+        internal IScriptType PeekValue(int offset)
+        {
+            if (offset < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(offset));
+            }
+
+            if (_valueStack.Count <= offset)
+            {
+                throw new InternalException(
+                    nameof(Localized_Python3_Interpreter.Ex_ValueStack_PopEmpty),
+                    Localized_Python3_Interpreter.Ex_ValueStack_PopEmpty);
+            }
+
+            return _valueStack.Skip(offset).First();
         }
 
         internal void PushValue(IScriptType value)

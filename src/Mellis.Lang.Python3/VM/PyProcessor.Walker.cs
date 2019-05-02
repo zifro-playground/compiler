@@ -199,7 +199,10 @@ namespace Mellis.Lang.Python3.VM
 
                     IOpCode opCode = _opCodes[ProgramCounter++];
 
-                    if (opCode is Breakpoint breakpoint)
+                    if (opCode is Breakpoint breakpoint &&
+                        breakpoint.ShouldBreak(this, ProgramCounter < _opCodes.Length
+                                                     ? _opCodes[ProgramCounter]
+                                                     : null))
                     {
                         State = ProcessState.Running;
                         LastBreakCause = breakpoint.BreakCause;

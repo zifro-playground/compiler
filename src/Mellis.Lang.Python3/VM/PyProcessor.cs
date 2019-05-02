@@ -82,7 +82,8 @@ namespace Mellis.Lang.Python3.VM
                     continue;
 
                 default:
-                    return new InterpreterLocalizedException(nameof(Localized_Python3_Interpreter.Ex_Unknown_Error), Localized_Python3_Interpreter.Ex_Unknown_Error, e, e.Message);
+                    return new InterpreterLocalizedException(nameof(Localized_Python3_Interpreter.Ex_Unknown_Error),
+                        Localized_Python3_Interpreter.Ex_Unknown_Error, e, e.Message);
                 }
             }
         }
