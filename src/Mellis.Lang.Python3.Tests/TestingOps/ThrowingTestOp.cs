@@ -4,16 +4,16 @@ using Mellis.Lang.Python3.Interfaces;
 
 namespace Mellis.Lang.Python3.Tests.TestingOps
 {
-    public class ThrowingOp : IOpCode
+    public class ThrowingTestOp : IOpCode
     {
         public readonly Exception Exception;
 
-        public ThrowingOp(Exception exception)
+        public ThrowingTestOp(Exception exception)
         {
             Exception = exception;
         }
 
-        public SourceReference Source { get; } = SourceReference.ClrSource;
+        public SourceReference Source { get; set; } = SourceReference.ClrSource;
 
         public void Execute(VM.PyProcessor processor)
         {

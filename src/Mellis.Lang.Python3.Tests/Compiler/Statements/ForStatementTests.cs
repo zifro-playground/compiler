@@ -16,21 +16,31 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
     [TestClass]
     public class ForStatementTests
     {
-        [TestMethod]
-        public void ForLoopAssignIdentifier()
+        private static PyCompiler ArrangeAndAct(
+            out NopOp iterOp,
+            out NopOp suiteOp)
+        {
+            return ArrangeAndAct(CompilerSettings.DefaultSettings,
+                out iterOp,
+                out suiteOp);
+        }
+
+        private static PyCompiler ArrangeAndAct(
+            CompilerSettings settings,
+            out NopOp iterOp,
+            out NopOp suiteOp)
         {
             // Arrange
-            var compiler = new PyCompiler();
-
+            var compiler = new PyCompiler {Settings = settings};
             var id = new Identifier(SourceReference.ClrSource, "fool");
 
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> iterMock,
-                out var iterOp);
+                out iterOp);
 
             compiler.CreateAndSetup(
                 out Mock<Statement> suiteMock,
-                out var suiteOp);
+                out suiteOp);
 
             var stmt = new ForStatement(SourceReference.ClrSource,
                 id, iterMock.Object, suiteMock.Object
@@ -39,28 +49,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
             // Act
             stmt.Compile(compiler);
 
-            // Assert
-
-            /* 
-             0 nop "iter"
-             1 iter->prep
-             2 jmp->@5 (iter->next)
-             3 set->foo
-             4 nop "suite"
-             5 iter->next->@3 (set->foo)
-             6 iter->end
-             */
-            Assert.That.IsExpectedOpCode(compiler, 0, iterOp);
-            Assert.That.IsOpCode<ForEachEnter>(compiler, 1);
-            var jumpToNext = Assert.That.IsOpCode<Jump>(compiler, 2);
-            var varSet = Assert.That.IsOpCode<VarSet>(compiler, 3);
-            Assert.That.IsExpectedOpCode(compiler, 4, suiteOp);
-            var iterNext = Assert.That.IsOpCode<ForEachNext>(compiler, 5);
-            Assert.That.IsOpCode<ForEachExit>(compiler, 6);
-
-            Assert.AreSame("fool", varSet.Identifier);
-            Assert.AreEqual(jumpToNext.Target, 5);
-            Assert.AreEqual(iterNext.JumpTarget, 3);
+            return compiler;
         }
 
         private static void _ThrowAssignLiteralIntegerTest<TLiteral>(
@@ -106,6 +95,152 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
         }
 
         [TestMethod]
+        public void ForLoopAssignIdentifier()
+        {
+            var compiler = ArrangeAndAct(out var iterOp, out var suiteOp);
+
+            // Assert
+
+            /* 
+             0 nop "iter"
+             1 iter->prep
+             2 jmp->@5 (iter->next)
+             3 set->fool
+             4 nop "suite"
+             5 iter->next->@3 (set->foo)
+             6 iter->end
+             */
+
+            Assert.That.IsExpectedOpCode(compiler, 0, iterOp);
+            Assert.That.IsOpCode<ForEachEnter>(compiler, 1);
+            var jumpToNext = Assert.That.IsOpCode<Jump>(compiler, 2);
+            var varSet = Assert.That.IsOpCode<VarSet>(compiler, 3);
+            Assert.That.IsExpectedOpCode(compiler, 4, suiteOp);
+            var iterNext = Assert.That.IsOpCode<ForEachNext>(compiler, 5);
+            Assert.That.IsOpCode<ForEachExit>(compiler, 6);
+
+            Assert.AreSame("fool", varSet.Identifier);
+            Assert.AreEqual(jumpToNext.Target, 5);
+            Assert.AreEqual(iterNext.JumpTarget, 3);
+            Assert.AreEqual(7, compiler.Count, "Too many op codes.");
+        }
+
+        [TestMethod]
+        public void BreakOn_LoopEnter_Test()
+        {
+            var compiler = ArrangeAndAct(
+                new CompilerSettings {
+                    BreakOn = BreakCause.LoopEnter
+                },
+                out var iterOp,
+                out var suiteOp
+            );
+
+            // Assert
+
+            /*
+             0 break->LoopEnter
+             1 nop "iter"
+             2 iter->prep
+             3 jmp->@5 (iter->next)
+             4 set->fool
+             5 nop "suite"
+             6 iter->next->@3 (set->foo)
+             7 iter->end
+             */
+
+            var breakpoint = Assert.That.IsOpCode<Breakpoint>(compiler, 0);
+            Assert.That.IsExpectedOpCode(compiler, 1, iterOp);
+            Assert.That.IsOpCode<ForEachEnter>(compiler, 2);
+            Assert.That.IsOpCode<Jump>(compiler, 3);
+            Assert.That.IsOpCode<VarSet>(compiler, 4);
+            Assert.That.IsExpectedOpCode(compiler, 5, suiteOp);
+            Assert.That.IsOpCode<ForEachNext>(compiler, 6);
+            Assert.That.IsOpCode<ForEachExit>(compiler, 7);
+
+            Assert.AreEqual(BreakCause.LoopEnter, breakpoint.BreakCause);
+            Assert.AreEqual(8, compiler.Count, "Too many op codes.");
+        }
+
+        [TestMethod]
+        public void BreakOn_LoopBlockEnd_Test()
+        {
+            var compiler = ArrangeAndAct(
+                new CompilerSettings {
+                    BreakOn = BreakCause.LoopBlockEnd
+                },
+                out var iterOp,
+                out var suiteOp
+            );
+
+            // Assert
+
+            /* 
+             0 nop "iter"
+             1 iter->prep
+             2 jmp->@5 (iter->next)
+             3 set->fool
+             4 nop "suite"
+             5 break->LoopBlockEnd
+             6 iter->next->@3 (set->foo)
+             7 iter->end
+             */
+
+            Assert.That.IsExpectedOpCode(compiler, 0, iterOp);
+            Assert.That.IsOpCode<ForEachEnter>(compiler, 1);
+            Assert.That.IsOpCode<Jump>(compiler, 2);
+            Assert.That.IsOpCode<VarSet>(compiler, 3);
+            Assert.That.IsExpectedOpCode(compiler, 4, suiteOp);
+            var breakpoint = Assert.That.IsOpCode<Breakpoint>(compiler, 5);
+            Assert.That.IsOpCode<ForEachNext>(compiler, 6);
+            Assert.That.IsOpCode<ForEachExit>(compiler, 7);
+
+            Assert.AreEqual(BreakCause.LoopBlockEnd, breakpoint.BreakCause);
+            Assert.AreEqual(8, compiler.Count, "Too many op codes.");
+        }
+
+        [TestMethod]
+        public void BreakOn_LoopBoth_Test()
+        {
+            var compiler = ArrangeAndAct(
+                new CompilerSettings {
+                    BreakOn = BreakCause.LoopEnter |
+                              BreakCause.LoopBlockEnd
+                },
+                out var iterOp,
+                out var suiteOp
+            );
+
+            // Assert
+
+            /*
+             0 break->LoopEnter
+             1 nop "iter"
+             2 iter->prep
+             3 jmp->@5 (iter->next)
+             4 set->fool
+             5 nop "suite"
+             6 break->LoopBlockEnd
+             7 iter->next->@3 (set->foo)
+             8 iter->end
+             */
+
+            var breakpoint1 = Assert.That.IsOpCode<Breakpoint>(compiler, 0);
+            Assert.That.IsExpectedOpCode(compiler, 1, iterOp);
+            Assert.That.IsOpCode<ForEachEnter>(compiler, 2);
+            Assert.That.IsOpCode<Jump>(compiler, 3);
+            Assert.That.IsOpCode<VarSet>(compiler, 4);
+            Assert.That.IsExpectedOpCode(compiler, 5, suiteOp);
+            var breakpoint2 = Assert.That.IsOpCode<Breakpoint>(compiler, 6);
+            Assert.That.IsOpCode<ForEachNext>(compiler, 7);
+            Assert.That.IsOpCode<ForEachExit>(compiler, 8);
+
+            Assert.AreEqual(BreakCause.LoopEnter, breakpoint1.BreakCause);
+            Assert.AreEqual(BreakCause.LoopBlockEnd, breakpoint2.BreakCause);
+            Assert.AreEqual(9, compiler.Count, "Too many op codes.");
+        }
+
+        [TestMethod]
         public void ThrowAssignLiteralIntegerTest()
         {
             var source = new SourceReference(3, 5, 5, 1);
@@ -114,7 +249,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
             _ThrowAssignLiteralIntegerTest(
                 source,
                 literalMock,
-                errorLocalizedKey: nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Literal),
+                nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Literal),
                 literalMock.Object.GetTypeName());
         }
 
@@ -127,7 +262,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
             _ThrowAssignLiteralIntegerTest(
                 source,
                 literalMock,
-                errorLocalizedKey: nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Literal),
+                nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Literal),
                 literalMock.Object.GetTypeName());
         }
 
@@ -140,7 +275,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
             _ThrowAssignLiteralIntegerTest(
                 source,
                 literalMock,
-                errorLocalizedKey: nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Literal),
+                nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Literal),
                 literalMock.Object.GetTypeName());
         }
 
@@ -195,6 +330,5 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
                 nameof(Localized_Python3_Parser.Ex_Syntax_Assign_None)
             );
         }
-
     }
 }

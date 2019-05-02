@@ -19,6 +19,11 @@ namespace Mellis.Lang.Python3.Syntax.Statements
 
         public override void Compile(PyCompiler compiler)
         {
+            if (compiler.Settings.BreakOn.HasFlag(BreakCause.LoopEnter))
+            {
+                compiler.Push(new Breakpoint(Source, BreakCause.LoopEnter));
+            }
+
             var jumpToCondition = new Jump(Source);
             compiler.Push(jumpToCondition);
 
@@ -27,6 +32,11 @@ namespace Mellis.Lang.Python3.Syntax.Statements
 
             jumpToCondition.Target = compiler.GetJumpTargetForNext();
             Condition.Compile(compiler);
+
+            if (compiler.Settings.BreakOn.HasFlag(BreakCause.LoopBlockEnd))
+            {
+                compiler.Push(new Breakpoint(Source, BreakCause.LoopBlockEnd));
+            }
 
             compiler.Push(new JumpIfTrue(Condition.Source, jumpToSuitePos));
         }

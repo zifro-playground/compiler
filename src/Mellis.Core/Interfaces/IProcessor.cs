@@ -1,17 +1,49 @@
 ﻿using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
+using Mellis.Core.Resources;
 
 namespace Mellis.Core.Interfaces
 {
     public interface IProcessor
     {
+        /// <summary>
+        /// Value factory. Use this to create new values, bound to this
+        /// processor.
+        /// </summary>
         IScriptTypeFactory Factory { get; }
+
         IScopeContext GlobalScope { get; }
+
+        /// <summary>
+        /// Current scope for the processor.
+        /// </summary>
         IScopeContext CurrentScope { get; }
+
+        /// <summary>
+        /// Current state in the process.
+        /// </summary>
         ProcessState State { get; }
+
+        /// <summary>
+        /// Current source pointer of the execution.
+        /// </summary>
         SourceReference CurrentSource { get; }
 
+        /// <summary>
+        /// Last thrown error from inside the processor during a walk.
+        /// Does not record "process ended" nor "already yielded" errors.
+        /// </summary>
         InterpreterException LastError { get; }
+
+        /// <summary>
+        /// Break cause from latest break after a walk.
+        /// </summary>
+        BreakCause LastBreakCause { get; }
+
+        /// <summary>
+        /// Compiler settings used when compiling this processor.
+        /// </summary>
+        CompilerSettings CompilerSettings { get; }
 
         /// <summary>
         /// Resolves a yielding function <see cref="IClrYieldingFunction"/>
@@ -34,8 +66,29 @@ namespace Mellis.Core.Interfaces
         /// </summary>
         void ResolveYield();
 
-        void WalkLine();
+        /// <summary>
+        /// Walks the instructions and stops if a new line was reached,
+        /// a yielding function <seealso cref="IClrYieldingFunction"/> was called,
+        /// a breakpoint defined in the compiler settings was reached,
+        /// or the processor finishes all instructions.
+        /// <para>See walk status enum <see cref="WalkStatus"/> for more info.</para>
+        /// </summary>
+        WalkStatus WalkLine();
 
+        /// <summary>
+        /// Walks the instructions and stops if
+        /// a yielding function <seealso cref="IClrYieldingFunction"/> was called,
+        /// a breakpoint <see cref="BreakCause"/> in the compiler settings was reached,
+        /// or the processor finishes all instructions.
+        /// <para>See walk status enum <see cref="WalkStatus"/> for more info.</para>
+        /// </summary>
+        WalkStatus Walk();
+
+        /// <summary>
+        /// Adds CLR functions to list of builtins.
+        /// Functions added this way does not show up in the current scope
+        /// but are still accessible in the code.
+        /// </summary>
         void AddBuiltin(params IEmbeddedType[] builtinList);
     }
 }

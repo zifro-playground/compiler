@@ -12,7 +12,13 @@ namespace Mellis.Lang.Python3.VM
     public partial class PyProcessor : IProcessor
     {
         internal PyProcessor(params IOpCode[] opCodes)
+            : this(CompilerSettings.DefaultSettings, opCodes)
         {
+        }
+
+        internal PyProcessor(CompilerSettings compilerSettings, params IOpCode[] opCodes)
+        {
+            CompilerSettings = compilerSettings;
             Factory = new PyScriptTypeFactory(this);
             State = ProcessState.NotStarted;
             LastError = null;
@@ -45,6 +51,10 @@ namespace Mellis.Lang.Python3.VM
 
         public InterpreterException LastError { get; private set; }
 
+        public BreakCause LastBreakCause { get; private set; }
+
+        public CompilerSettings CompilerSettings { get; }
+
         public int ProgramCounter { get; private set; }
 
         private readonly Stack<IScriptType> _valueStack;
@@ -72,7 +82,8 @@ namespace Mellis.Lang.Python3.VM
                     continue;
 
                 default:
-                    return new InterpreterLocalizedException(nameof(Localized_Python3_Interpreter.Ex_Unknown_Error), Localized_Python3_Interpreter.Ex_Unknown_Error, e, e.Message);
+                    return new InterpreterLocalizedException(nameof(Localized_Python3_Interpreter.Ex_Unknown_Error),
+                        Localized_Python3_Interpreter.Ex_Unknown_Error, e, e.Message);
                 }
             }
         }

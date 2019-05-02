@@ -162,7 +162,10 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // to enter first op
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action)processor.WalkLine);
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(delegate
+            {
+                processor.WalkLine();
+            });
 
             // Assert
             Assert.IsNotNull(processor.LastError);

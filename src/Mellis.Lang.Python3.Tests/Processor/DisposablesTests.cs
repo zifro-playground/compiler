@@ -25,7 +25,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new ThrowingOp(new Exception())
+                new ThrowingTestOp(new Exception())
             );
 
             var disposableMock = new Mock<IDisposable>();
@@ -54,7 +54,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new ThrowingOp(new Exception())
+                new ThrowingTestOp(new Exception())
             );
 
             var exception = new InterpreterException("foo bar");
@@ -65,7 +65,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // warmup
-            var ex = Assert.ThrowsException<InterpreterException>((Action)processor.WalkInstruction);
+            var ex = Assert.ThrowsException<InterpreterException>(delegate { processor.WalkInstruction(); });
 
             // Assert
             Assert.AreSame(exception, ex);
@@ -76,7 +76,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new ThrowingOp(new Exception())
+                new ThrowingTestOp(new Exception())
             );
 
             var exception = new Exception("foo bar");
@@ -87,7 +87,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // warmup
-            var ex = Assert.ThrowsException<InterpreterLocalizedException>((Action)processor.WalkInstruction);
+            var ex = Assert.ThrowsException<InterpreterLocalizedException>(delegate { processor.WalkInstruction(); });
 
             // Assert
             Assert.AreEqual(nameof(Localized_Python3_Interpreter.Ex_Unknown_Error), ex.LocalizeKey);
@@ -100,7 +100,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new ThrowingOp(new Exception())
+                new ThrowingTestOp(new Exception())
             );
 
             var exception1 = new Exception("foo bar 1");
@@ -116,7 +116,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction(); // warmup
-            var ex = Assert.ThrowsException<InterpreterLocalizedException>((Action)processor.WalkInstruction);
+            var ex = Assert.ThrowsException<InterpreterLocalizedException>(delegate { processor.WalkInstruction(); });
 
             // Assert
             Assert.AreEqual(nameof(Localized_Python3_Interpreter.Ex_Unknown_Error), ex.LocalizeKey);

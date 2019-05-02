@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
+using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Resources;
@@ -47,12 +48,12 @@ namespace Mellis.Lang.Python3.Tests.Processor
             // Arrange
             var expectedEx = new InternalException("", "");
             var processor = new PyProcessor(
-                new ThrowingOp(expectedEx)
+                new ThrowingTestOp(expectedEx)
             );
 
             // Act
             processor.WalkInstruction(); // to enter first op
-            var thrownEx = Assert.ThrowsException<InternalException>((Action) processor.WalkInstruction);
+            var thrownEx = Assert.ThrowsException<InternalException>(delegate { processor.WalkInstruction(); });
 
             // Assert
             Assert.AreEqual(ProcessState.Error, processor.State);
@@ -67,12 +68,12 @@ namespace Mellis.Lang.Python3.Tests.Processor
             // Arrange
             var expectedEx = new Exception();
             var processor = new PyProcessor(
-                new ThrowingOp(expectedEx)
+                new ThrowingTestOp(expectedEx)
             );
 
             // Act
             processor.WalkInstruction(); // to enter first op
-            var thrownEx = Assert.ThrowsException<InterpreterLocalizedException>((Action) processor.WalkInstruction);
+            var thrownEx = Assert.ThrowsException<InterpreterLocalizedException>(delegate { processor.WalkInstruction(); });
 
             // Assert
             Assert.AreEqual(ProcessState.Error, processor.State);
@@ -90,13 +91,14 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             // Act
             processor.WalkInstruction();
-            var ex = Assert.ThrowsException<InternalException>((Action) processor.WalkInstruction);
+            var ex = Assert.ThrowsException<InternalException>(delegate { processor.WalkInstruction(); });
 
             // Assert
-            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}", processor.LastError?.GetType().Name,
-                processor.LastError?.Message);
             Assert.That.ErrorFormatArgsEqual(ex,
                 nameof(Localized_Python3_Interpreter.Ex_Process_Ended));
+            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}",
+                processor.LastError?.GetType().Name,
+                processor.LastError?.Message);
         }
 
         [TestMethod]
@@ -104,19 +106,39 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new ThrowingOp(new InternalException("", ""))
+                new ThrowingTestOp(new InternalException("", ""))
             );
 
             // Act
             processor.WalkInstruction(); // to enter first op
-            Assert.ThrowsException<InternalException>((Action)processor.WalkInstruction);
+            Assert.ThrowsException<InternalException>(delegate { processor.WalkInstruction(); });
 
-            var ex = Assert.ThrowsException<InternalException>((Action) processor.WalkInstruction);
+            var ex = Assert.ThrowsException<InternalException>(delegate { processor.WalkInstruction(); });
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
                 nameof(Localized_Python3_Interpreter.Ex_Process_Ended));
             Assert.IsNotNull(processor.LastError);
+        }
+
+        [TestMethod]
+        public void ErrorWalkAfterYieldedTest()
+        {
+            // Arrange
+            var processor = new PyProcessor();
+            processor.Yield(new YieldData(new IScriptType[0], Mock.Of<IClrYieldingFunction>()));
+
+            // Act
+            Assert.ThrowsException<InternalException>(delegate { processor.WalkInstruction(); });
+
+            var ex = Assert.ThrowsException<InternalException>(delegate { processor.WalkInstruction(); });
+
+            // Assert
+            Assert.That.ErrorFormatArgsEqual(ex,
+                nameof(Localized_Python3_Interpreter.Ex_Process_Yielded));
+            Assert.IsNull(processor.LastError, "Last error <{0}>:{1}",
+                processor.LastError?.GetType().Name,
+                processor.LastError?.Message);
         }
 
         [TestMethod]

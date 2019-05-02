@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using Antlr4.Runtime;
+using Mellis.Core.Entities;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Extensions;
 using Mellis.Lang.Python3.Grammar;
 using Mellis.Lang.Python3.Interfaces;
 using Mellis.Lang.Python3.Syntax;
+using Mellis.Lang.Python3.VM;
 
 namespace Mellis.Lang.Python3
 {
@@ -23,6 +25,8 @@ namespace Mellis.Lang.Python3
         {
             _opCodes = new List<IOpCode>(opCodes);
         }
+
+        public CompilerSettings Settings { get; set; } = CompilerSettings.DefaultSettings;
 
         public IProcessor Compile(string code)
         {
@@ -47,13 +51,13 @@ namespace Mellis.Lang.Python3
 
             if (result is null)
             {
-                return new VM.PyProcessor();
+                return new PyProcessor(Settings);
             }
 
             Statement statement = result.AsTypeOrThrow<Statement>();
             statement.Compile(this);
 
-            return new VM.PyProcessor(_opCodes.ToArray());
+            return new PyProcessor(Settings, _opCodes.ToArray());
         }
 
         public void Push(IOpCode opCode)
