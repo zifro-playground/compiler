@@ -55,7 +55,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
                 new NopOp {Source = SourceReference.ClrSource},
                 new NopOp {Source = SourceReference.ClrSource},
                 new NopOp {Source = new SourceReference(1, 1, 1, 1)},
-                new ThrowingOp(new AssertFailedException("Walked too far.")) {
+                new ThrowingTestOp(new AssertFailedException("Walked too far.")) {
                     Source = new SourceReference(2, 2, 1, 1)
                 }
             );
@@ -76,7 +76,7 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
                 new NopOp {Source = new SourceReference(1, 1, 1, 1)},
                 new NopOp {Source = new SourceReference(1, 1, 1, 1)},
                 new NopOp {Source = new SourceReference(1, 1, 1, 1)},
-                new ThrowingOp(new AssertFailedException("Walked too far.")) {
+                new ThrowingTestOp(new AssertFailedException("Walked too far.")) {
                     Source = new SourceReference(2, 2, 1, 1)
                 }
             );

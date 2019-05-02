@@ -48,7 +48,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             // Arrange
             var expectedEx = new InternalException("", "");
             var processor = new PyProcessor(
-                new ThrowingOp(expectedEx)
+                new ThrowingTestOp(expectedEx)
             );
 
             // Act
@@ -68,7 +68,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             // Arrange
             var expectedEx = new Exception();
             var processor = new PyProcessor(
-                new ThrowingOp(expectedEx)
+                new ThrowingTestOp(expectedEx)
             );
 
             // Act
@@ -106,7 +106,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new ThrowingOp(new InternalException("", ""))
+                new ThrowingTestOp(new InternalException("", ""))
             );
 
             // Act

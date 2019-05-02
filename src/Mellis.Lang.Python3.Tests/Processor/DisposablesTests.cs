@@ -25,7 +25,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new ThrowingOp(new Exception())
+                new ThrowingTestOp(new Exception())
             );
 
             var disposableMock = new Mock<IDisposable>();
@@ -54,7 +54,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new ThrowingOp(new Exception())
+                new ThrowingTestOp(new Exception())
             );
 
             var exception = new InterpreterException("foo bar");
@@ -76,7 +76,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new ThrowingOp(new Exception())
+                new ThrowingTestOp(new Exception())
             );
 
             var exception = new Exception("foo bar");
@@ -100,7 +100,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         {
             // Arrange
             var processor = new PyProcessor(
-                new ThrowingOp(new Exception())
+                new ThrowingTestOp(new Exception())
             );
 
             var exception1 = new Exception("foo bar 1");

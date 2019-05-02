@@ -4,11 +4,11 @@ using Mellis.Lang.Python3.Interfaces;
 
 namespace Mellis.Lang.Python3.Tests.TestingOps
 {
-    public class ThrowingOp : IOpCode
+    public class ThrowingTestOp : IOpCode
     {
         public readonly Exception Exception;
 
-        public ThrowingOp(Exception exception)
+        public ThrowingTestOp(Exception exception)
         {
             Exception = exception;
         }
