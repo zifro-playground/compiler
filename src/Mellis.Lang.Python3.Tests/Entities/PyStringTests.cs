@@ -82,22 +82,12 @@ namespace Mellis.Lang.Python3.Tests.Entities
             var entity = CreateEntity();
             var other = new PyDouble(entity.Processor, 1);
 
-            void Action()
-            {
-                entity.ArithmeticMultiply(other);
-            }
-
             // Act
-            var ex = Assert.ThrowsException<RuntimeException>((Action)Action);
+            var result = entity.ArithmeticMultiply(other);
 
             // Assert
-            Assert.That.ErrorFormatArgsEqual(ex,
-                nameof(Localized_Base_Entities.Ex_Base_OperatorInvalidType),
-                /* type name */ ExpectedTypeName,
-                /* other type name */ other.GetTypeName(),
-                /* operation */ "*");
+            Assert.IsNull(result);
         }
-
 
         [TestMethod]
         public void EnumerateCharacters()

@@ -203,19 +203,19 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [TestMethod]
-        public void DoubleDivideInvalidTest()
+        public void DoubleDivideInvalidReturnsNullTest()
         {
             // Arrange
             var a = GetDouble(5);
             var b = GetString("foo");
-            object[] expectedFormatArgs = { 5d, b.GetTypeName() };
-            void Action()
-            { a.ArithmeticDivide(b); }
+            object[] expectedFormatArgs = {5d, b.GetTypeName()};
+            
+            // Act
+            var result = a.ArithmeticDivide(b);
 
             // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Double_DivideInvalidType), expectedFormatArgs);
+            Assert.IsNull(result);
         }
-
 
         [TestMethod]
         public void DoubleDivideByZero()
