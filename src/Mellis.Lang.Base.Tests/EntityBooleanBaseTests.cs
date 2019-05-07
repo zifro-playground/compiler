@@ -20,8 +20,8 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanAdditionTest()
         {
             // Arrange
-            BooleanBase a = GetBoolean(true);
-            BooleanBase b = GetBoolean(false);
+            var a = GetBoolean(true);
+            var b = GetBoolean(false);
             object[] expectedFormatArgs = {a.Value, LocalizedBool(a.Value), b.GetTypeName()};
 
             void Action() { a.ArithmeticAdd(b); }
@@ -35,8 +35,8 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanSubtractionTest()
         {
             // Arrange
-            BooleanBase a = GetBoolean(true);
-            BooleanBase b = GetBoolean(false);
+            var a = GetBoolean(true);
+            var b = GetBoolean(false);
             object[] expectedFormatArgs = {a.Value, LocalizedBool(a.Value), b.GetTypeName()};
 
             void Action() { a.ArithmeticSubtract(b); }
@@ -50,8 +50,8 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanMultiplicationTest()
         {
             // Arrange
-            BooleanBase a = GetBoolean(true);
-            BooleanBase b = GetBoolean(false);
+            var a = GetBoolean(true);
+            var b = GetBoolean(false);
             object[] expectedFormatArgs = {a.Value, LocalizedBool(a.Value), b.GetTypeName()};
 
             void Action() { a.ArithmeticMultiply(b); }
@@ -65,8 +65,8 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanDivideTest()
         {
             // Arrange
-            BooleanBase a = GetBoolean(true);
-            BooleanBase b = GetBoolean(false);
+            var a = GetBoolean(true);
+            var b = GetBoolean(false);
             object[] expectedFormatArgs = {a.Value, LocalizedBool(a.Value), b.GetTypeName()};
 
             void Action() { a.ArithmeticDivide(b); }
@@ -79,8 +79,8 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanDivideByZeroTest()
         {
             // Arrange
-            BooleanBase a = GetBoolean(true);
-            BooleanBase b = GetBoolean(false);
+            var a = GetBoolean(true);
+            var b = GetBoolean(false);
             object[] expectedFormatArgs = {a.Value, LocalizedBool(a.Value), b.GetTypeName()};
 
             void Action() { a.ArithmeticDivide(b); }
@@ -94,7 +94,7 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanIndexGet()
         {
             // Arrange
-            BooleanBase a = GetBoolean(true);
+            var a = GetBoolean(true);
             object[] expectedFormatArgs = {a.Value, LocalizedBool(a.Value)};
 
             void Action() { a.GetIndex(null); }
@@ -107,7 +107,7 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanIndexSet()
         {
             // Arrange
-            BooleanBase a = GetBoolean(true);
+            var a = GetBoolean(true);
             object[] expectedFormatArgs = { a.Value, LocalizedBool(a.Value) };
 
             void Action() { a.SetIndex(null, null); }
@@ -120,7 +120,7 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanPropertyGet()
         {
             // Arrange
-            BooleanBase a = GetBoolean(true);
+            var a = GetBoolean(true);
             const string property = "prop";
             object[] expectedFormatArgs = { a.Value, LocalizedBool(a.Value), property };
 
@@ -134,7 +134,7 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanPropertySet()
         {
             // Arrange
-            BooleanBase a = GetBoolean(true);
+            var a = GetBoolean(true);
             const string property = "prop";
             object[] expectedFormatArgs = { a.Value, LocalizedBool(a.Value), property };
 
@@ -148,7 +148,7 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanTryConvertValid()
         {
             // Arrange
-            BooleanBase a = GetBoolean(true);
+            var a = GetBoolean(true);
 
             // Act
             bool success = a.TryCoerce(typeof(bool), out object result);
@@ -172,7 +172,7 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanTryConvertInvalid(bool input, Type type)
         {
             // Arrange
-            BooleanBase a = GetBoolean(input);
+            var a = GetBoolean(input);
 
             // Act
             bool success = a.TryCoerce(type, out object _);
@@ -187,7 +187,7 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanTryConvertGenericValid()
         {
             // Arrange
-            BooleanBase a = GetBoolean(true);
+            var a = GetBoolean(true);
 
             // Act
             bool success = a.TryCoerce(out bool result);
@@ -203,7 +203,7 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanTryConvertGenericInvalid()
         {
             // Arrange
-            BooleanBase a = GetBoolean(true);
+            var a = GetBoolean(true);
 
             // Act
             bool success = a.TryCoerce(out char _);
@@ -222,11 +222,11 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanCompareEqualBoolean(bool aVal, bool bVal, bool expected)
         {
             // Arrange
-            BooleanBase a = GetBoolean(aVal);
-            BooleanBase b = GetBoolean(bVal);
+            var a = GetBoolean(aVal);
+            var b = GetBoolean(bVal);
 
             // Act
-            IScriptType result = a.CompareEqual(b);
+            var result = a.CompareEqual(b);
 
             // Assert
             AssertArithmeticResult<BooleanBase>(result, a, b, expected);
@@ -241,12 +241,12 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanCompareEqualOther(object value)
         {
             // Arrange
-            BooleanBase a = GetBoolean(true);
-            IScriptType b = GetValue(value);
+            var a = GetBoolean(true);
+            var b = GetValue(value);
             const bool expected = false;
 
             // Act
-            IScriptType result = a.CompareEqual(b);
+            var result = a.CompareEqual(b);
 
             // Assert
             AssertArithmeticResult<BooleanBase>(result, a, b, expected);
@@ -260,11 +260,11 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanCompareNotEqualBoolean(bool aVal, bool bVal, bool expected)
         {
             // Arrange
-            BooleanBase a = GetBoolean(aVal);
-            BooleanBase b = GetBoolean(bVal);
+            var a = GetBoolean(aVal);
+            var b = GetBoolean(bVal);
 
             // Act
-            IScriptType result = a.CompareNotEqual(b);
+            var result = a.CompareNotEqual(b);
 
             // Assert
             AssertArithmeticResult<BooleanBase>(result, a, b, expected);
@@ -279,12 +279,12 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanCompareNotEqualOther(object value)
         {
             // Arrange
-            BooleanBase a = GetBoolean(true);
-            IScriptType b = GetValue(value);
+            var a = GetBoolean(true);
+            var b = GetValue(value);
             const bool expected = true;
 
             // Act
-            IScriptType result = a.CompareNotEqual(b);
+            var result = a.CompareNotEqual(b);
 
             // Assert
             AssertArithmeticResult<BooleanBase>(result, a, b, expected);

@@ -20,14 +20,14 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
         private void CreateAndSetupTest(out Mock<Python3Parser.TestContext> testMock, out ExpressionNode testExpr)
         {
             testMock = GetMockRule<Python3Parser.TestContext>();
-            Mock<Python3Parser.TestContext> refCopy = testMock;
+            var refCopy = testMock;
             testExpr = ctorMock.SetupExpressionMock(o => o.VisitTest(refCopy.Object));
         }
 
         private void CreateAndSetupSuite(out Mock<Python3Parser.SuiteContext> suiteMock, out Statement suiteStmt)
         {
             suiteMock = GetMockRule<Python3Parser.SuiteContext>();
-            Mock<Python3Parser.SuiteContext> refCopy = suiteMock;
+            var refCopy = suiteMock;
             suiteStmt = ctorMock.SetupStatementMock(o => o.VisitSuite(refCopy.Object));
         }
 
@@ -38,11 +38,11 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             CreateAndSetupTest(
-                out Mock<Python3Parser.TestContext> testMock,
-                out ExpressionNode testExpr);
+                out var testMock,
+                out var testExpr);
             CreateAndSetupSuite(
-                out Mock<Python3Parser.SuiteContext> suiteMock, 
-                out Statement suiteStmt);
+                out var suiteMock, 
+                out var suiteStmt);
 
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.IF),
@@ -52,7 +52,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             /* Expected tree:
@@ -81,8 +81,8 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             CreateAndSetupTest(
-                out Mock<Python3Parser.TestContext> testMock,
-                out ExpressionNode testExpr);
+                out var testMock,
+                out var testExpr);
             var suiteMock = GetMockRule<Python3Parser.SuiteContext>();
             var elseMock = GetMockRule<Python3Parser.SuiteContext>();
 
@@ -100,7 +100,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             /* Expected tree:
@@ -129,20 +129,20 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             CreateAndSetupTest(
-                out Mock<Python3Parser.TestContext> testMock,
-                out ExpressionNode testExpr);
+                out var testMock,
+                out var testExpr);
 
             CreateAndSetupSuite(
-                out Mock<Python3Parser.SuiteContext> suiteMock,
-                out Statement suiteStmt);
+                out var suiteMock,
+                out var suiteStmt);
 
             CreateAndSetupTest(
-                out Mock<Python3Parser.TestContext> elifTestMock,
-                out ExpressionNode elifTestExpr);
+                out var elifTestMock,
+                out var elifTestExpr);
 
             CreateAndSetupSuite(
-                out Mock<Python3Parser.SuiteContext> elifSuiteMock,
-                out Statement elifStmt);
+                out var elifSuiteMock,
+                out var elifStmt);
 
             elifSuiteMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
@@ -158,7 +158,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             /* Expected tree:
@@ -195,26 +195,26 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             CreateAndSetupTest(
-                out Mock<Python3Parser.TestContext> testMock,
-                out ExpressionNode testExpr);
+                out var testMock,
+                out var testExpr);
 
             CreateAndSetupSuite(
-                out Mock<Python3Parser.SuiteContext> suiteMock,
-                out Statement suiteStmt);
+                out var suiteMock,
+                out var suiteStmt);
 
             CreateAndSetupTest(
-                out Mock<Python3Parser.TestContext> elifTestMock,
-                out ExpressionNode elifTestExpr);
+                out var elifTestMock,
+                out var elifTestExpr);
 
             CreateAndSetupSuite(
-                out Mock<Python3Parser.SuiteContext> elifSuiteMock,
-                out Statement elifStmt);
+                out var elifSuiteMock,
+                out var elifStmt);
 
             elifSuiteMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             CreateAndSetupSuite(
-                out Mock<Python3Parser.SuiteContext> elseSuiteMock,
-                out Statement elseStmt);
+                out var elseSuiteMock,
+                out var elseStmt);
 
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.IF),
@@ -233,7 +233,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             /* Expected tree:
@@ -271,36 +271,36 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             CreateAndSetupTest(
-                out Mock<Python3Parser.TestContext> testMock,
-                out ExpressionNode testExpr);
+                out var testMock,
+                out var testExpr);
 
             CreateAndSetupSuite(
-                out Mock<Python3Parser.SuiteContext> suiteMock,
-                out Statement suiteStmt);
+                out var suiteMock,
+                out var suiteStmt);
 
             CreateAndSetupTest(
-                out Mock<Python3Parser.TestContext> elif1TestMock,
-                out ExpressionNode elif1TestExpr);
+                out var elif1TestMock,
+                out var elif1TestExpr);
 
             CreateAndSetupSuite(
-                out Mock<Python3Parser.SuiteContext> elif1SuiteMock,
-                out Statement elif1Stmt);
+                out var elif1SuiteMock,
+                out var elif1Stmt);
 
             elif1SuiteMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             CreateAndSetupTest(
-                out Mock<Python3Parser.TestContext> elif2TestMock,
-                out ExpressionNode elif2TestExpr);
+                out var elif2TestMock,
+                out var elif2TestExpr);
 
             CreateAndSetupSuite(
-                out Mock<Python3Parser.SuiteContext> elif2SuiteMock,
-                out Statement elif2Stmt);
+                out var elif2SuiteMock,
+                out var elif2Stmt);
 
             elif2SuiteMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             CreateAndSetupSuite(
-                out Mock<Python3Parser.SuiteContext> elseSuiteMock,
-                out Statement elseStmt);
+                out var elseSuiteMock,
+                out var elseStmt);
 
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.IF),
@@ -324,7 +324,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             /* Expected tree:
@@ -369,7 +369,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             // Arrange
             var testMock = GetMockRule<Python3Parser.TestContext>();
             var suiteMock = GetMockRule<Python3Parser.SuiteContext>();
-            ITerminalNode missingColon = GetMissingTerminal(Python3Parser.COLON);
+            var missingColon = GetMissingTerminal(Python3Parser.COLON);
 
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.IF),
@@ -397,14 +397,14 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
         {
             // Arrange
             CreateAndSetupTest(
-                out Mock<Python3Parser.TestContext> testMock,
+                out var testMock,
                 out _);
             CreateAndSetupSuite(
-                out Mock<Python3Parser.SuiteContext> suiteMock,
-                out Statement _);
+                out var suiteMock,
+                out var _);
 
             var elseSuiteMock = GetMockRule<Python3Parser.SuiteContext>();
-            ITerminalNode missingColon = GetMissingTerminal(Python3Parser.COLON);
+            var missingColon = GetMissingTerminal(Python3Parser.COLON);
 
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.IF),
@@ -435,15 +435,15 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
         {
             // Arrange
             CreateAndSetupTest(
-                out Mock<Python3Parser.TestContext> testMock,
+                out var testMock,
                 out _);
             CreateAndSetupSuite(
-                out Mock<Python3Parser.SuiteContext> suiteMock,
-                out Statement _);
+                out var suiteMock,
+                out var _);
 
             var elifTestMock = GetMockRule<Python3Parser.TestContext>();
             var elifSuiteMock = GetMockRule<Python3Parser.SuiteContext>();
-            ITerminalNode missingColon = GetMissingTerminal(Python3Parser.COLON);
+            var missingColon = GetMissingTerminal(Python3Parser.COLON);
 
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.IF),

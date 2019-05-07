@@ -100,7 +100,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             Assert.AreEqual(1, processor.ValueStackCount);
 
-            IScriptType actualValue = processor.PopValue();
+            var actualValue = processor.PopValue();
             Assert.AreSame(value, actualValue);
         }
 
@@ -130,7 +130,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             Assert.AreEqual(1, processor.ValueStackCount);
 
-            IScriptType actualValue = processor.PopValue();
+            var actualValue = processor.PopValue();
             Assert.AreSame(value, actualValue);
         }
 
@@ -158,7 +158,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
 
             Assert.AreEqual(1, processor.ValueStackCount);
 
-            IScriptType actualValue = processor.PopValue();
+            var actualValue = processor.PopValue();
             Assert.AreSame(processor.Factory.Null, actualValue);
         }
 

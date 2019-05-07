@@ -18,7 +18,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
         public virtual Mock<TInnerContext> GetInnerMockWithSetup(SyntaxNode returnValue)
         {
-            Mock<TInnerContext> mock = GetMockRule<TInnerContext>();
+            var mock = GetMockRule<TInnerContext>();
             SetupForInnerMock(mock, returnValue);
             return mock;
         }

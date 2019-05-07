@@ -51,7 +51,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             SetupForInnerMock(innerRuleMock, expected);
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.AreSame(expected, result);
@@ -105,7 +105,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.That.IsUnaryOperator<LogicalNot>(expected, result);
@@ -123,7 +123,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var innerRuleMock = GetMockRule<Python3Parser.Not_testContext>();
 
-            ITerminalNode unexpected = GetTerminalForThisClass();
+            var unexpected = GetTerminalForThisClass();
             contextMock.SetupChildren(
                 GetTerminalForThisClass(),
                 unexpected,
@@ -148,7 +148,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var innerRuleMock = GetMockRule<Python3Parser.Not_testContext>();
 
-            ITerminalNode unexpected = GetTerminalForThisClass();
+            var unexpected = GetTerminalForThisClass();
             contextMock.SetupChildren(
                 GetTerminalForThisClass(),
                 innerRuleMock.Object,
@@ -226,7 +226,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var innerRuleMock = GetMockRule<Python3Parser.Not_testContext>();
 
-            ITerminalNode unexpected = GetTerminal(Python3Parser.ASYNC);
+            var unexpected = GetTerminal(Python3Parser.ASYNC);
             contextMock.SetupChildren(
                 unexpected,
                 innerRuleMock.Object

@@ -42,7 +42,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.AreSame(expr, result);
@@ -112,7 +112,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         {
             // Arrange
             var innerMock = GetInnerMock();
-            ITerminalNode unexpected = GetTerminal(Python3Parser.ASSIGN);
+            var unexpected = GetTerminal(Python3Parser.ASSIGN);
 
             contextMock.SetupChildren(
                 innerMock.Object,
@@ -136,7 +136,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         {
             // Arrange
             var innerMock = GetInnerMock();
-            ITerminalNode unexpected = GetTerminal(Python3Parser.POWER);
+            var unexpected = GetTerminal(Python3Parser.POWER);
 
             contextMock.SetupChildren(
                 unexpected,
@@ -159,7 +159,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         {
             // Arrange
             var innerMock = GetInnerMock();
-            ITerminalNode unexpected = GetTerminal(Python3Parser.STAR);
+            var unexpected = GetTerminal(Python3Parser.STAR);
 
             contextMock.SetupChildren(
                 unexpected,

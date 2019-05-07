@@ -45,7 +45,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var innerRuleMock = GetInnerMockWithSetup(GetExpressionMock());
 
-            ITerminalNode unexpectedToken = GetTerminal(token);
+            var unexpectedToken = GetTerminal(token);
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,

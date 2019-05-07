@@ -28,7 +28,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void InvalidResolveWhenNotYieldedTest()
         {
             // Arrange
-            PyProcessor processor = DummyProcessor();
+            var processor = DummyProcessor();
 
             // Act
             var ex = Assert.ThrowsException<InternalException>((Action)processor.ResolveYield);
@@ -42,7 +42,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void InvalidResolveWhenNoCallStackTest()
         {
             // Arrange
-            PyProcessor processor = DummyProcessor();
+            var processor = DummyProcessor();
             processor.Yield(new YieldData(null, null));
 
             // Act
@@ -57,7 +57,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void InvalidResolveNoYieldDataTest()
         {
             // Arrange
-            PyProcessor processor = DummyProcessor();
+            var processor = DummyProcessor();
             processor.Yield(null);
 
             // Act
@@ -72,7 +72,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ResolvePopsCallStackTest()
         {
             // Arrange
-            PyProcessor processor = DummyProcessor();
+            var processor = DummyProcessor();
             processor.PushCallStack(new CallStack(
                 SourceReference.ClrSource, "foo", 1
             ));
@@ -94,7 +94,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ResolveCallsExitTest()
         {
             // Arrange
-            PyProcessor processor = DummyProcessor();
+            var processor = DummyProcessor();
             processor.PushCallStack(new CallStack(
                 SourceReference.ClrSource, "foo", 1
             ));
@@ -116,7 +116,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ResolveJumpsTest()
         {
             // Arrange
-            PyProcessor processor = DummyProcessor();
+            var processor = DummyProcessor();
             processor.PushCallStack(new CallStack(
                 SourceReference.ClrSource, "foo", 1
             ));
@@ -138,7 +138,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ResolveChangesStateTest()
         {
             // Arrange
-            PyProcessor processor = DummyProcessor();
+            var processor = DummyProcessor();
             processor.PushCallStack(new CallStack(
                 SourceReference.ClrSource, "foo", 1
             ));
@@ -158,7 +158,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ResolveEmptyUsesNullTest()
         {
             // Arrange
-            PyProcessor processor = DummyProcessor();
+            var processor = DummyProcessor();
             processor.PushCallStack(new CallStack(
                 SourceReference.ClrSource, "foo", 1
             ));
@@ -181,7 +181,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ResolveNullConvertsToNullTest()
         {
             // Arrange
-            PyProcessor processor = DummyProcessor();
+            var processor = DummyProcessor();
             processor.PushCallStack(new CallStack(
                 SourceReference.ClrSource, "foo", 1
             ));
@@ -204,7 +204,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ResolveArgumentIsPassedTest()
         {
             // Arrange
-            PyProcessor processor = DummyProcessor();
+            var processor = DummyProcessor();
             processor.PushCallStack(new CallStack(
                 SourceReference.ClrSource, "foo", 1
             ));
@@ -229,7 +229,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void ResolvePushesAlteredValueTest()
         {
             // Arrange
-            PyProcessor processor = DummyProcessor();
+            var processor = DummyProcessor();
             processor.PushCallStack(new CallStack(
                 SourceReference.ClrSource, "foo", 1
             ));
@@ -258,7 +258,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void YieldChangesStateTest()
         {
             // Arrange
-            PyProcessor processor = DummyProcessor();
+            var processor = DummyProcessor();
             processor.PushCallStack(new CallStack(
                 SourceReference.ClrSource, "foo", 1
             ));

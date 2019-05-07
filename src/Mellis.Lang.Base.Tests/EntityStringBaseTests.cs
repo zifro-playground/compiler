@@ -13,11 +13,11 @@ namespace Mellis.Lang.Base.Tests
         public void StringAdditionTest()
         {
             // Arrange
-            StringBase a = GetString("foo");
-            StringBase b = GetString("bar");
+            var a = GetString("foo");
+            var b = GetString("bar");
 
             // Act
-            IScriptType resultBase = a.ArithmeticAdd(b);
+            var resultBase = a.ArithmeticAdd(b);
 
             // Assert
             AssertArithmeticResult<StringBase>(resultBase, a, b, "foobar");
@@ -27,11 +27,11 @@ namespace Mellis.Lang.Base.Tests
         public void StringAdditionEmptyTest()
         {
             // Arrange
-            StringBase a = GetString("");
-            StringBase b = GetString("");
+            var a = GetString("");
+            var b = GetString("");
 
             // Act
-            IScriptType resultBase = a.ArithmeticAdd(b);
+            var resultBase = a.ArithmeticAdd(b);
 
             // Assert
             AssertArithmeticResult<StringBase>(resultBase, a, b, "");
@@ -41,8 +41,8 @@ namespace Mellis.Lang.Base.Tests
         public void StringAdditionInvalidTest()
         {
             // Arrange
-            StringBase a = GetString("foo");
-            IntegerBase b = GetInteger(5);
+            var a = GetString("foo");
+            var b = GetInteger(5);
             object[] expectedFormatArgs = { a.Value, a.Value.Length, b.GetTypeName() };
 
             void Action() { a.ArithmeticAdd(b); }
@@ -55,8 +55,8 @@ namespace Mellis.Lang.Base.Tests
         public void StringSubtractionTest()
         {
             // Arrange
-            StringBase a = GetString("foo");
-            StringBase b = GetString("bar");
+            var a = GetString("foo");
+            var b = GetString("bar");
             object[] expectedFormatArgs = { a.Value, a.Value.Length, b.GetTypeName() };
 
             void Action() { a.ArithmeticSubtract(b); }
@@ -69,8 +69,8 @@ namespace Mellis.Lang.Base.Tests
         public void StringMultiplicationTest()
         {
             // Arrange
-            StringBase a = GetString("foo");
-            StringBase b = GetString("bar");
+            var a = GetString("foo");
+            var b = GetString("bar");
             object[] expectedFormatArgs = { a.Value, a.Value.Length, b.GetTypeName() };
 
             void Action() { a.ArithmeticMultiply(b); }
@@ -83,8 +83,8 @@ namespace Mellis.Lang.Base.Tests
         public void StringDivideWholeTest()
         {
             // Arrange
-            StringBase a = GetString("foo");
-            StringBase b = GetString("bar");
+            var a = GetString("foo");
+            var b = GetString("bar");
             object[] expectedFormatArgs = { a.Value, a.Value.Length, b.GetTypeName() };
 
             void Action() { a.ArithmeticDivide(b); }
@@ -97,8 +97,8 @@ namespace Mellis.Lang.Base.Tests
         public void StringDivideByZeroTest()
         {
             // Arrange
-            StringBase a = GetString("foo");
-            IntegerBase b = GetInteger(0);
+            var a = GetString("foo");
+            var b = GetInteger(0);
             object[] expectedFormatArgs = { a.Value, a.Value.Length, b.GetTypeName() };
 
             void Action() { a.ArithmeticDivide(b); }
@@ -112,11 +112,11 @@ namespace Mellis.Lang.Base.Tests
         public void StringIndexGetInteger()
         {
             // Arrange
-            StringBase a = GetString("foo");
-            IntegerBase b = GetInteger(0);
+            var a = GetString("foo");
+            var b = GetInteger(0);
 
             // Act
-            IScriptType result = a.GetIndex(b);
+            var result = a.GetIndex(b);
 
             // Assert
             AssertArithmeticResult<StringBase>(result, a, b, "f");
@@ -126,8 +126,8 @@ namespace Mellis.Lang.Base.Tests
         public void StringIndexGetIntegerOutOfRange()
         {
             // Arrange
-            StringBase a = GetString("foo");
-            IntegerBase b = GetInteger(10);
+            var a = GetString("foo");
+            var b = GetInteger(10);
             object[] expectedFormatArgs = { a.Value, a.Value.Length, b.Value };
 
             void Action() { a.GetIndex(b); }
@@ -140,8 +140,8 @@ namespace Mellis.Lang.Base.Tests
         public void StringIndexGetInvalid()
         {
             // Arrange
-            StringBase a = GetString("foo");
-            StringBase b = GetString("a");
+            var a = GetString("foo");
+            var b = GetString("a");
             object[] expectedFormatArgs = { a.Value, a.Value.Length, b.GetTypeName() };
 
             void Action() { a.GetIndex(b); }
@@ -154,7 +154,7 @@ namespace Mellis.Lang.Base.Tests
         public void StringIndexSet()
         {
             // Arrange
-            StringBase a = GetString("foo");
+            var a = GetString("foo");
             object[] expectedFormatArgs = { a.Value, a.Value.Length };
 
             void Action() { a.SetIndex(null, null); }
@@ -167,7 +167,7 @@ namespace Mellis.Lang.Base.Tests
         public void StringPropertyGet()
         {
             // Arrange
-            StringBase a = GetString("foo");
+            var a = GetString("foo");
             const string property = "prop";
             object[] expectedFormatArgs = { a.Value, a.Value.Length, property };
 
@@ -181,7 +181,7 @@ namespace Mellis.Lang.Base.Tests
         public void StringPropertySet()
         {
             // Arrange
-            StringBase a = GetString("foo");
+            var a = GetString("foo");
             const string property = "prop";
             object[] expectedFormatArgs = { a.Value, a.Value.Length, property };
 
@@ -200,8 +200,8 @@ namespace Mellis.Lang.Base.Tests
         public void StringTryConvertValid(string input, object expected)
         {
             // Arrange
-            StringBase a = GetString(input);
-            Type type = expected.GetType();
+            var a = GetString(input);
+            var type = expected.GetType();
 
             // Act
             bool success = a.TryCoerce(type, out object result);
@@ -224,7 +224,7 @@ namespace Mellis.Lang.Base.Tests
         public void StringTryConvertInvalid(string input, Type type)
         {
             // Arrange
-            StringBase a = GetString(input);
+            var a = GetString(input);
 
             // Act
             bool success = a.TryCoerce(type, out object _);
@@ -239,7 +239,7 @@ namespace Mellis.Lang.Base.Tests
         public void StringTryConvertGenericValid()
         {
             // Arrange
-            StringBase a = GetString("foo");
+            var a = GetString("foo");
 
             // Act
             bool success = a.TryCoerce(out string result);
@@ -255,7 +255,7 @@ namespace Mellis.Lang.Base.Tests
         public void StringTryConvertGenericInvalid()
         {
             // Arrange
-            StringBase a = GetString("");
+            var a = GetString("");
 
             // Act
             bool success = a.TryCoerce(out char _);

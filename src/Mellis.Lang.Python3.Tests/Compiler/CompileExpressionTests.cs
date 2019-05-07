@@ -49,11 +49,11 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             var compiler = new PyCompiler();
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> exprLhsMock,
-                out NopOp exprLhsOp);
+                out var exprLhsOp);
 
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> exprRhsMock,
-                out NopOp exprRhsOp);
+                out var exprRhsOp);
 
             var opNode = (BinaryOperator)Activator.CreateInstance(operatorType,
                 exprLhsMock.Object, exprRhsMock.Object);
@@ -83,7 +83,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler
 
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> exprMock,
-                out NopOp exprOp);
+                out var exprOp);
 
             var opNode = (UnaryOperator)Activator.CreateInstance(operatorType,
                 SourceReference.ClrSource,
@@ -118,11 +118,11 @@ namespace Mellis.Lang.Python3.Tests.Compiler
             var compiler = new PyCompiler();
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> exprLhsMock,
-                out NopOp exprLhsOp);
+                out var exprLhsOp);
 
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> exprRhsMock,
-                out NopOp exprRhsOp);
+                out var exprRhsOp);
 
             var opNode = (BinaryOperator)Activator.CreateInstance(operatorType,
                 exprLhsMock.Object, exprRhsMock.Object);

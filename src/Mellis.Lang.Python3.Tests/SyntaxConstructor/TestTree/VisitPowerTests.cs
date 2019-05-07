@@ -38,7 +38,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var innerRuleMock = GetInnerMockWithSetup(GetExpressionMock());
 
-            ITerminalNode unexpectedNode = GetTerminalForThisClass();
+            var unexpectedNode = GetTerminalForThisClass();
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
@@ -66,7 +66,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             var atomExprMock = GetInnerMockWithSetup(GetExpressionMock());
             var factorMock = GetMockRule<Python3Parser.FactorContext>();
 
-            ITerminalNode unexpectedNode = GetTerminalForThisClass();
+            var unexpectedNode = GetTerminalForThisClass();
 
             contextMock.SetupChildren(
                 atomExprMock.Object,
@@ -107,7 +107,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.That.IsBinaryOperator<ArithmeticPower>(expectedLhs, expectedRhs, result);

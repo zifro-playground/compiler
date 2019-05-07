@@ -13,11 +13,11 @@ namespace Mellis.Lang.Base.Tests
         public void IntAdditionTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            IntegerBase b = GetInteger(10);
+            var a = GetInteger(5);
+            var b = GetInteger(10);
 
             // Act
-            IScriptType resultBase = a.ArithmeticAdd(b);
+            var resultBase = a.ArithmeticAdd(b);
 
             // Assert
             AssertArithmeticResult<IntegerBase>(resultBase, a, b, 15);
@@ -27,8 +27,8 @@ namespace Mellis.Lang.Base.Tests
         public void IntAdditionInvalidTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            StringBase b = GetString("foo");
+            var a = GetInteger(5);
+            var b = GetString("foo");
             object[] expectedFormatArgs = {5, b.GetTypeName()};
             void Action() { a.ArithmeticAdd(b); }
 
@@ -40,11 +40,11 @@ namespace Mellis.Lang.Base.Tests
         public void IntSubtractionTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            IntegerBase b = GetInteger(10);
+            var a = GetInteger(5);
+            var b = GetInteger(10);
 
             // Act
-            IScriptType resultBase = a.ArithmeticSubtract(b);
+            var resultBase = a.ArithmeticSubtract(b);
 
             // Assert
             AssertArithmeticResult<IntegerBase>(resultBase, a, b, -5);
@@ -54,8 +54,8 @@ namespace Mellis.Lang.Base.Tests
         public void IntSubtractionInvalidTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            StringBase b = GetString("foo");
+            var a = GetInteger(5);
+            var b = GetString("foo");
             object[] expectedFormatArgs = {5, b.GetTypeName()};
             void Action() { a.ArithmeticSubtract(b); }
 
@@ -67,11 +67,11 @@ namespace Mellis.Lang.Base.Tests
         public void IntMultiplicationTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            IntegerBase b = GetInteger(10);
+            var a = GetInteger(5);
+            var b = GetInteger(10);
 
             // Act
-            IScriptType resultBase = a.ArithmeticMultiply(b);
+            var resultBase = a.ArithmeticMultiply(b);
 
             // Assert
             AssertArithmeticResult<IntegerBase>(resultBase, a, b, 50);
@@ -81,8 +81,8 @@ namespace Mellis.Lang.Base.Tests
         public void IntMultiplicationInvalidTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            StringBase b = GetString("foo");
+            var a = GetInteger(5);
+            var b = GetString("foo");
             object[] expectedFormatArgs = {5, b.GetTypeName()};
             void Action() { a.ArithmeticMultiply(b); }
 
@@ -94,11 +94,11 @@ namespace Mellis.Lang.Base.Tests
         public void IntMultiplicationDoubleWholeTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            DoubleBase b = GetDouble(2);
+            var a = GetInteger(5);
+            var b = GetDouble(2);
 
             // Act
-            IScriptType resultBase = a.ArithmeticMultiply(b);
+            var resultBase = a.ArithmeticMultiply(b);
 
             // Assert
             AssertArithmeticResult<IntegerBase>(resultBase, a, b, 10);
@@ -108,12 +108,12 @@ namespace Mellis.Lang.Base.Tests
         public void IntMultiplicationDoubleFractionTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            DoubleBase b = GetDouble(2.5);
+            var a = GetInteger(5);
+            var b = GetDouble(2.5);
             const double expected = 5 * 2.5;
 
             // Act
-            IScriptType resultBase = a.ArithmeticMultiply(b);
+            var resultBase = a.ArithmeticMultiply(b);
 
             // Assert
             AssertArithmeticResult<DoubleBase>(resultBase, a, b, expected);
@@ -123,11 +123,11 @@ namespace Mellis.Lang.Base.Tests
         public void IntDivideWholeTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(50);
-            IntegerBase b = GetInteger(10);
+            var a = GetInteger(50);
+            var b = GetInteger(10);
 
             // Act
-            IScriptType resultBase = a.ArithmeticDivide(b);
+            var resultBase = a.ArithmeticDivide(b);
 
             // Assert
             AssertArithmeticResult<IntegerBase>(resultBase, a, b, 5);
@@ -137,11 +137,11 @@ namespace Mellis.Lang.Base.Tests
         public void IntDivideFractionTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            IntegerBase b = GetInteger(10);
+            var a = GetInteger(5);
+            var b = GetInteger(10);
 
             // Act
-            IScriptType resultBase = a.ArithmeticDivide(b);
+            var resultBase = a.ArithmeticDivide(b);
 
             // Assert
             AssertArithmeticResult<DoubleBase>(resultBase, a, b, 0.5);
@@ -151,8 +151,8 @@ namespace Mellis.Lang.Base.Tests
         public void IntDivideInvalidTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            StringBase b = GetString("foo");
+            var a = GetInteger(5);
+            var b = GetString("foo");
             object[] expectedFormatArgs = {5, b.GetTypeName()};
             void Action() { a.ArithmeticDivide(b); }
 
@@ -164,8 +164,8 @@ namespace Mellis.Lang.Base.Tests
         public void IntDivideByZero()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            IntegerBase b = GetInteger(0);
+            var a = GetInteger(5);
+            var b = GetInteger(0);
             object[] expectedFormatArgs = { };
             void Action() { a.ArithmeticDivide(b); }
 
@@ -177,11 +177,11 @@ namespace Mellis.Lang.Base.Tests
         public void IntDivideByDouble()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            DoubleBase b = GetDouble(2);
+            var a = GetInteger(5);
+            var b = GetDouble(2);
 
             // Act
-            IScriptType resultBase = a.ArithmeticDivide(b);
+            var resultBase = a.ArithmeticDivide(b);
 
             // Assert
             AssertArithmeticResult<DoubleBase>(resultBase, a, b, 2.5);
@@ -191,7 +191,7 @@ namespace Mellis.Lang.Base.Tests
         public void IntIndexGet()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            var a = GetInteger(5);
             object[] expectedFormatArgs = {5};
 
             void Action() { a.GetIndex(null); }
@@ -204,7 +204,7 @@ namespace Mellis.Lang.Base.Tests
         public void IntIndexSet()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            var a = GetInteger(5);
             object[] expectedFormatArgs = {5};
 
             void Action() { a.SetIndex(null, null); }
@@ -217,7 +217,7 @@ namespace Mellis.Lang.Base.Tests
         public void IntPropertyGet()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            var a = GetInteger(5);
             const string property = "prop";
             object[] expectedFormatArgs = {5, property};
 
@@ -231,7 +231,7 @@ namespace Mellis.Lang.Base.Tests
         public void IntPropertySet()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            var a = GetInteger(5);
             const string property = "prop";
             object[] expectedFormatArgs = {5, property};
 
@@ -249,8 +249,8 @@ namespace Mellis.Lang.Base.Tests
         public void IntTryConvertValid(object expected)
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            Type type = expected.GetType();
+            var a = GetInteger(5);
+            var type = expected.GetType();
 
             // Act
             bool success = a.TryCoerce(type, out object result);
@@ -266,7 +266,7 @@ namespace Mellis.Lang.Base.Tests
         public void IntTryConvertDecimal()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            var a = GetInteger(5);
 
             // Act
             bool success = a.TryCoerce(typeof(decimal), out object result);
@@ -290,7 +290,7 @@ namespace Mellis.Lang.Base.Tests
         public void IntTryConvertInvalid(Type type)
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            var a = GetInteger(5);
 
             // Act
             bool success = a.TryCoerce(type, out object _);
@@ -305,7 +305,7 @@ namespace Mellis.Lang.Base.Tests
         public void IntTryConvertGenericValid()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            var a = GetInteger(5);
 
             // Act
             bool success = a.TryCoerce(out int result);
@@ -321,7 +321,7 @@ namespace Mellis.Lang.Base.Tests
         public void IntTryConvertGenericInvalid()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            var a = GetInteger(5);
 
             // Act
             bool success = a.TryCoerce(out string _);

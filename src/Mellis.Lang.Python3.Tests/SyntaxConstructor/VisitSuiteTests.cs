@@ -21,7 +21,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             // Arrange
             var innerMock = GetMockRule<Python3Parser.Simple_stmtContext>();
 
-            Statement suitStmt = ctorMock.SetupStatementMock(o
+            var suitStmt = ctorMock.SetupStatementMock(o
                 => o.VisitSimple_stmt(innerMock.Object));
 
             contextMock.SetupChildren(
@@ -29,7 +29,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.AreSame(suitStmt, result);
@@ -44,7 +44,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
         {
             // Arrange
             var innerMock = GetMockRule<Python3Parser.Simple_stmtContext>();
-            ITerminalNode unexpected = GetTerminal(Python3Parser.IF);
+            var unexpected = GetTerminal(Python3Parser.IF);
 
             contextMock.SetupChildren(
                 unexpected,
@@ -69,7 +69,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             // Arrange
             var innerMock = GetMockRule<Python3Parser.StmtContext>();
 
-            Statement stmt = ctorMock.SetupStatementMock(o
+            var stmt = ctorMock.SetupStatementMock(o
                 => o.VisitStmt(innerMock.Object));
 
             contextMock.SetupChildren(
@@ -80,7 +80,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.AreSame(stmt, result);
@@ -97,7 +97,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             var innerMock = GetMockRule<Python3Parser.StmtContext>();
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
-            Statement stmt = ctorMock.SetupStatementMock(o
+            var stmt = ctorMock.SetupStatementMock(o
                 => o.VisitStmt(innerMock.Object));
 
             contextMock.SetupChildren(
@@ -110,7 +110,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.That.IsStatementListContaining(result,
@@ -133,10 +133,10 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
 
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
-            Statement stmt = ctorMock.SetupStatementMock(o
+            var stmt = ctorMock.SetupStatementMock(o
                 => o.VisitStmt(innerMock.Object));
 
-            Statement nestedStmt = GetStatementMock();
+            var nestedStmt = GetStatementMock();
             
             var stmtList = new StatementList(SourceReference.ClrSource, new[]
                 {
@@ -157,7 +157,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.That.IsStatementListContaining(result,
@@ -202,7 +202,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             // Arrange
             var innerMock = GetMockRule<Python3Parser.StmtContext>();
 
-            ITerminalNode unexpected = GetTerminal(Python3Parser.NOT);
+            var unexpected = GetTerminal(Python3Parser.NOT);
             contextMock.SetupChildren(
                 unexpected,
                 GetTerminal(Python3Parser.AS),

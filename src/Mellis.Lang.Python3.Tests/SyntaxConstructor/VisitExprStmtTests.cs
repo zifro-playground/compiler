@@ -41,7 +41,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(ExpressionStatement));
@@ -71,7 +71,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(Assignment));
@@ -90,7 +90,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             // Arrange
             var testListMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
 
-            ITerminalNode secondEqual = GetTerminal(Python3Parser.ASSIGN);
+            var secondEqual = GetTerminal(Python3Parser.ASSIGN);
 
             contextMock.SetupChildren(
                 testListMock.Object,
@@ -217,7 +217,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
         public void Visit_OnlyAssignmentToken_Test()
         {
             // Arrange
-            ITerminalNode assignNode = GetTerminal(Python3Parser.ASSIGN);
+            var assignNode = GetTerminal(Python3Parser.ASSIGN);
 
             contextMock.SetupChildren(
                 assignNode

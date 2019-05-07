@@ -295,7 +295,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             globalScope.SetVariable("foo", value);
 
             // Act
-            IScriptType result = processor.GetVariable("foo");
+            var result = processor.GetVariable("foo");
 
             // Assert
             Assert.IsNotNull(result);
@@ -312,7 +312,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             globalScope.SetVariable("foo", value);
 
             // Act
-            IScriptType result = processor.GetVariable("foo");
+            var result = processor.GetVariable("foo");
 
             // Assert
             Assert.IsNotNull(result, "global value was null");
@@ -330,7 +330,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             localScope.SetVariable("foo", value);
 
             // Act
-            IScriptType result = processor.GetVariable("foo");
+            var result = processor.GetVariable("foo");
 
             // Assert
             Assert.IsNotNull(result, "fromLocal was not null");

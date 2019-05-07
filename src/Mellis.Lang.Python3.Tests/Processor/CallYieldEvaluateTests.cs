@@ -202,7 +202,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             processor.ResolveYield(value);
 
             int stackCount = processor.ValueStackCount;
-            IScriptType actualValue = processor.PopValue();
+            var actualValue = processor.PopValue();
 
             // Assert
             defMock.Verify();

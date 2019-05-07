@@ -21,7 +21,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void TestNonClosingParentheses()
         {
             // Arrange
-            ITerminalNode opening = GetTerminal(Python3Parser.OPEN_PAREN);
+            var opening = GetTerminal(Python3Parser.OPEN_PAREN);
             contextMock.SetupChildren(
                 opening
             );
@@ -41,7 +41,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void TestNonClosingBrackets()
         {
             // Arrange
-            ITerminalNode opening = GetTerminal(Python3Parser.OPEN_BRACK);
+            var opening = GetTerminal(Python3Parser.OPEN_BRACK);
             contextMock.SetupChildren(
                 opening
             );
@@ -81,7 +81,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void TestNoNameAfterDot()
         {
             // Arrange
-            ITerminalNode dot = GetTerminal(Python3Parser.DOT);
+            var dot = GetTerminal(Python3Parser.DOT);
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
             contextMock.SetupChildren(
                 dot
@@ -108,7 +108,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(ArgumentsList));
@@ -133,7 +133,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(ArgumentsList));

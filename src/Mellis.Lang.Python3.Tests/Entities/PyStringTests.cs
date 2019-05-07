@@ -88,7 +88,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
             }
 
             // Act
-            var ex = Assert.ThrowsException<RuntimeException>((Action) Action);
+            var ex = Assert.ThrowsException<RuntimeException>((Action)Action);
 
             // Assert
             Assert.That.ErrorFormatArgsEqual(ex,
@@ -97,6 +97,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
                 /* other type name */ other.GetTypeName(),
                 /* operation */ "*");
         }
+
 
         [TestMethod]
         public void EnumerateCharacters()
@@ -107,13 +108,13 @@ namespace Mellis.Lang.Python3.Tests.Entities
             var values = new List<IScriptType>();
 
             // Act
-            foreach (IScriptType scriptType in entity)
+            foreach (var scriptType in entity)
             {
                 values.Add(scriptType);
             }
 
             // Assert
-            var minLength = Math.Min(values.Count, str.Length);
+            int minLength = Math.Min(values.Count, str.Length);
             for (int i = 0; i < minLength; i++)
             {
                 Assert.That.ScriptTypeEqual(str[i].ToString(), values[i],

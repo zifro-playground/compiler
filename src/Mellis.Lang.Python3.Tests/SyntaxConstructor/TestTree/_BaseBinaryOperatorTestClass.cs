@@ -41,7 +41,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.AreSame(expected, result);
@@ -66,7 +66,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.That.IsBinaryOperator<TOperator>(expected, expected, result);
@@ -107,7 +107,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var innerRuleMock = GetInnerMockWithSetup(GetExpressionMock());
 
-            ITerminalNode unexpectedNode = GetTerminal(Python3Parser.ASYNC);
+            var unexpectedNode = GetTerminal(Python3Parser.ASYNC);
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
@@ -133,7 +133,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             var innerRuleMock = GetInnerMockWithSetup(GetExpressionMock());
             innerRuleMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
-            ITerminalNode unexpectedNode = GetTerminalForThisClass();
+            var unexpectedNode = GetTerminalForThisClass();
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
@@ -175,7 +175,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             // Expect order ((1 op 2) op 3)

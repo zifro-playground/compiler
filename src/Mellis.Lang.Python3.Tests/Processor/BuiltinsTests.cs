@@ -20,7 +20,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Act
-            IScriptType result = processor.GetVariable("foo");
+            var result = processor.GetVariable("foo");
 
             // Assert
             Assert.That.ScriptTypeEqual(builtinMock.Object, result);
@@ -43,7 +43,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             // Assert
-            IScriptType result = processor.GetVariable("foo");
+            var result = processor.GetVariable("foo");
             Assert.That.ScriptTypeEqual(builtinMock2.Object, result);
         }
     }

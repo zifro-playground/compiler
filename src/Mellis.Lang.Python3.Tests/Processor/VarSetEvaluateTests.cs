@@ -29,7 +29,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             var rhsMock = GetSetupScriptType(
-                out IScriptType rhsCopy);
+                out var rhsCopy);
 
             processor.PushValue(rhsMock.Object);
 
@@ -41,7 +41,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             int numOfValues = processor.ValueStackCount;
 
             // Assert
-            globalScope.Variables.TryGetValue(identifier, out IScriptType globalVar);
+            globalScope.Variables.TryGetValue(identifier, out var globalVar);
             Assert.AreSame(rhsCopy, globalVar);
             Assert.AreNotSame(rhsMock.Object, globalVar);
             rhsMock.Verify();
@@ -59,11 +59,11 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             var rhsMock = GetSetupScriptType(
-                out IScriptType rhsCopy);
+                out var rhsCopy);
             processor.PushValue(rhsMock.Object);
 
             var beforeMock = GetSetupScriptType(
-                out IScriptType beforeCopy);
+                out var beforeCopy);
             var globalScope = (PyScope)processor.GlobalScope;
             globalScope.SetVariable(identifier, beforeMock.Object);
 
@@ -73,7 +73,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             int numOfValues = processor.ValueStackCount;
 
             // Assert
-            globalScope.Variables.TryGetValue(identifier, out IScriptType globalVar);
+            globalScope.Variables.TryGetValue(identifier, out var globalVar);
             Assert.AreSame(rhsCopy, globalVar);
             Assert.AreNotSame(rhsMock.Object, globalVar);
             Assert.AreNotSame(beforeCopy, globalVar);
@@ -96,7 +96,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             var rhsMock = GetSetupScriptType(
-                out IScriptType rhsCopy);
+                out var rhsCopy);
             processor.PushValue(rhsMock.Object);
 
             var globalScope = (PyScope)processor.GlobalScope;
@@ -105,13 +105,13 @@ namespace Mellis.Lang.Python3.Tests.Processor
             processor.WalkInstruction(); // to enter first op
             processor.WalkInstruction(); // push->$scope
             processor.WalkInstruction(); // pop->foo
-            IScopeContext localScope =  processor.CurrentScope;
+            var localScope =  processor.CurrentScope;
             processor.WalkInstruction(); // pop->$scope
             int numOfValues = processor.ValueStackCount;
 
             // Assert
-            globalScope.Variables.TryGetValue(identifier, out IScriptType globalVar);
-            localScope.Variables.TryGetValue(identifier, out IScriptType localVar);
+            globalScope.Variables.TryGetValue(identifier, out var globalVar);
+            localScope.Variables.TryGetValue(identifier, out var localVar);
             Assert.IsNull(globalVar);
             Assert.AreSame(rhsCopy, localVar);
             Assert.AreNotSame(rhsMock.Object, localVar);
@@ -132,14 +132,14 @@ namespace Mellis.Lang.Python3.Tests.Processor
             );
 
             var rhsMock = GetSetupScriptType(
-                out IScriptType rhsCopy);
+                out var rhsCopy);
             processor.PushValue(rhsMock.Object);
 
             processor.WalkInstruction(); // to enter first op
             processor.WalkInstruction();
 
             var beforeMock = GetSetupScriptType(
-                out IScriptType beforeCopy);
+                out var beforeCopy);
             var localScope = (PyScope)processor.CurrentScope;
             localScope.SetVariable(identifier, beforeMock.Object);
 
@@ -148,7 +148,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             int numOfValues = processor.ValueStackCount;
 
             // Assert
-            localScope.Variables.TryGetValue(identifier, out IScriptType localVar);
+            localScope.Variables.TryGetValue(identifier, out var localVar);
             Assert.AreSame(rhsCopy, localVar);
             Assert.AreNotSame(rhsMock.Object, localVar);
             Assert.AreNotSame(rhsMock.Object, beforeMock.Object);

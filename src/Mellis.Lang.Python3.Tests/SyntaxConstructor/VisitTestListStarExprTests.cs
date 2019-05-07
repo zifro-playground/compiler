@@ -33,7 +33,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
                 .Returns(expected).Verifiable();
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.AreSame(expected, result);
@@ -60,7 +60,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
                 .Returns(expected).Verifiable();
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.AreSame(expected, result);
@@ -77,7 +77,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             // Arrange
             var testMock = GetMockRule<Python3Parser.TestContext>();
 
-            ITerminalNode unexpected = GetTerminal(Python3Parser.COMMA);
+            var unexpected = GetTerminal(Python3Parser.COMMA);
 
             contextMock.SetupChildren(
                 unexpected,
@@ -129,7 +129,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
         public void Visit_NoTestsOnlyCommasTest()
         {
             // Arrange
-            ITerminalNode unexpected = GetTerminal(Python3Parser.COMMA);
+            var unexpected = GetTerminal(Python3Parser.COMMA);
             contextMock.SetupChildren(
                 unexpected,
                 GetTerminal(Python3Parser.COMMA),
@@ -280,7 +280,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
 
             ctorMock.Setup(o => o.VisitTest(testMock.Object))
                 .Returns(GetExpressionMock).Verifiable();
-            ITerminalNode unexpected = GetTerminal(Python3Parser.COMMA);
+            var unexpected = GetTerminal(Python3Parser.COMMA);
 
             contextMock.SetupChildren(
                 testMock.Object,

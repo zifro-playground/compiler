@@ -19,7 +19,7 @@ namespace Mellis.Lang.Python3.Tests.Syntax.Literals
             var source = SourceReference.ClrSource;
 
             // Act
-            TLiteral result = Parse(source, input);
+            var result = Parse(source, input);
 
             // Assert
             Assert.IsNotNull(result);
