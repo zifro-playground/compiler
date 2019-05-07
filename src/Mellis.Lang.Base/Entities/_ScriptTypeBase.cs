@@ -28,14 +28,6 @@ namespace Mellis.Lang.Base.Entities
         /// <inheritdoc/>
         public abstract string GetTypeName();
 
-        protected RuntimeException NotImplemented(string keyword)
-        {
-            return new RuntimeException(
-                nameof(Localized_Base_Entities.Ex_Base_Operator),
-                Localized_Base_Entities.Ex_Base_Operator,
-                GetTypeName(), keyword);
-        }
-
         protected RuntimeException InvalidType(IScriptType rhs, string keyword)
         {
             return new RuntimeException(
@@ -45,7 +37,10 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc/>
-        public abstract bool IsTruthy();
+        public virtual bool IsTruthy()
+        {
+            return true;
+        }
 
         /// <inheritdoc/>
         public virtual IScriptType GetIndex(IScriptType index)
@@ -102,151 +97,193 @@ namespace Mellis.Lang.Base.Entities
         /// <inheritdoc/>
         public virtual IScriptType ArithmeticUnaryPositive()
         {
-            throw NotImplemented("+");
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType ArithmeticUnaryNegative()
         {
-            throw NotImplemented("-");
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType ArithmeticAdd(IScriptType rhs)
         {
-            throw NotImplemented("+");
+            return null;
+        }
+
+        public virtual IScriptType ArithmeticAddReverse(IScriptType lhs)
+        {
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType ArithmeticSubtract(IScriptType rhs)
         {
-            throw NotImplemented("-");
+            return null;
+        }
+
+        public virtual IScriptType ArithmeticSubtractReverse(IScriptType lhs)
+        {
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType ArithmeticMultiply(IScriptType rhs)
         {
-            throw NotImplemented("*");
+            return null;
+        }
+
+        public virtual IScriptType ArithmeticMultiplyReverse(IScriptType lhs)
+        {
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType ArithmeticDivide(IScriptType rhs)
         {
-            throw NotImplemented("/");
+            return null;
+        }
+
+        public virtual IScriptType ArithmeticDivideReverse(IScriptType lhs)
+        {
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType ArithmeticModulus(IScriptType rhs)
         {
-            throw NotImplemented("%");
+            return null;
+        }
+
+        public virtual IScriptType ArithmeticModulusReverse(IScriptType lhs)
+        {
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType ArithmeticExponent(IScriptType rhs)
         {
-            throw NotImplemented("**");
+            return null;
+        }
+
+        public virtual IScriptType ArithmeticExponentReverse(IScriptType lhs)
+        {
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType ArithmeticFloorDivide(IScriptType rhs)
         {
-            throw NotImplemented("//");
+            return null;
+        }
+
+        public virtual IScriptType ArithmeticFloorDivideReverse(IScriptType lhs)
+        {
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType CompareEqual(IScriptType rhs)
         {
-            throw NotImplemented("==");
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType CompareNotEqual(IScriptType rhs)
         {
-            throw NotImplemented("!=");
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType CompareGreaterThan(IScriptType rhs)
         {
-            throw NotImplemented(">");
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType CompareGreaterThanOrEqual(IScriptType rhs)
         {
-            throw NotImplemented(">=");
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType CompareLessThan(IScriptType rhs)
         {
-            throw NotImplemented("<");
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType CompareLessThanOrEqual(IScriptType rhs)
         {
-            throw NotImplemented("<=");
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType BinaryNot()
         {
-            throw NotImplemented("~");
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType BinaryAnd(IScriptType rhs)
         {
-            throw NotImplemented("&");
+            return null;
+        }
+
+        public IScriptType BinaryAndReverse(IScriptType lhs)
+        {
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType BinaryOr(IScriptType rhs)
         {
-            throw NotImplemented("|");
+            return null;
+        }
+
+        public IScriptType BinaryOrReverse(IScriptType lhs)
+        {
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType BinaryXor(IScriptType rhs)
         {
-            throw NotImplemented("^");
+            return null;
+        }
+
+        public IScriptType BinaryXorReverse(IScriptType lhs)
+        {
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType BinaryLeftShift(IScriptType rhs)
         {
-            throw NotImplemented("<<");
+            return null;
+        }
+
+        public IScriptType BinaryLeftShiftReverse(IScriptType lhs)
+        {
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType BinaryRightShift(IScriptType rhs)
         {
-            throw NotImplemented(">>");
+            return null;
+        }
+
+        public IScriptType BinaryRightShiftReverse(IScriptType lhs)
+        {
+            return null;
         }
 
         /// <inheritdoc/>
         public virtual IScriptType MemberIn(IScriptType lhs)
         {
-            throw NotImplemented("in");
-        }
-
-        /// <inheritdoc/>
-        public virtual IScriptType MemberNotIn(IScriptType lhs)
-        {
-            throw NotImplemented("not in");
-        }
-
-        /// <inheritdoc/>
-        public virtual IScriptType IdentityIs(IScriptType rhs)
-        {
-            throw NotImplemented("is");
-        }
-
-        /// <inheritdoc/>
-        public virtual IScriptType IdentityIsNot(IScriptType rhs)
-        {
-            throw NotImplemented("is not");
+            return null;
         }
     }
 }

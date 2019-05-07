@@ -14,11 +14,6 @@ namespace Mellis.Lang.Base.Entities
         {
             FunctionName = functionName;
         }
-        
-        public override bool IsTruthy()
-        {
-            return true;
-        }
 
         /// <inheritdoc />
         public override string GetTypeName()

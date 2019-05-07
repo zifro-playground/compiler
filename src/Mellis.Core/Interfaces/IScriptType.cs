@@ -92,9 +92,19 @@ namespace Mellis.Core.Interfaces
         IScriptType ArithmeticAdd(IScriptType rhs);
 
         /// <summary>
+        /// <paramref name="lhs"/> + this
+        /// </summary>
+        IScriptType ArithmeticAddReverse(IScriptType lhs);
+
+        /// <summary>
         /// this - <paramref name="rhs"/>
         /// </summary>
         IScriptType ArithmeticSubtract(IScriptType rhs);
+
+        /// <summary>
+        /// <paramref name="lhs"/> - this
+        /// </summary>
+        IScriptType ArithmeticSubtractReverse(IScriptType lhs);
 
         /// <summary>
         /// this * <paramref name="rhs"/>
@@ -102,14 +112,29 @@ namespace Mellis.Core.Interfaces
         IScriptType ArithmeticMultiply(IScriptType rhs);
 
         /// <summary>
+        /// <paramref name="lhs"/> * this
+        /// </summary>
+        IScriptType ArithmeticMultiplyReverse(IScriptType lhs);
+
+        /// <summary>
         /// this / <paramref name="rhs"/>
         /// </summary>
         IScriptType ArithmeticDivide(IScriptType rhs);
 
         /// <summary>
+        /// <paramref name="lhs"/> / this
+        /// </summary>
+        IScriptType ArithmeticDivideReverse(IScriptType lhs);
+
+        /// <summary>
         /// this % <paramref name="rhs"/>
         /// </summary>
         IScriptType ArithmeticModulus(IScriptType rhs);
+
+        /// <summary>
+        /// <paramref name="lhs"/> % this
+        /// </summary>
+        IScriptType ArithmeticModulusReverse(IScriptType lhs);
 
         /// <summary>
         /// <para>(Python) this ** <paramref name="rhs"/></para>
@@ -118,9 +143,20 @@ namespace Mellis.Core.Interfaces
         IScriptType ArithmeticExponent(IScriptType rhs);
 
         /// <summary>
+        /// <para>(Python) <paramref name="lhs"/> ** this</para>
+        /// <para>(Lua) <paramref name="lhs"/> ^ this</para>
+        /// </summary>
+        IScriptType ArithmeticExponentReverse(IScriptType lhs);
+
+        /// <summary>
         /// (Python, Lua) this // <paramref name="rhs"/>
         /// </summary>
         IScriptType ArithmeticFloorDivide(IScriptType rhs);
+
+        /// <summary>
+        /// (Python, Lua) <paramref name="lhs"/> // this
+        /// </summary>
+        IScriptType ArithmeticFloorDivideReverse(IScriptType lhs);
 
         #endregion
 
@@ -140,15 +176,11 @@ namespace Mellis.Core.Interfaces
 
         /// <summary>
         /// this &gt; <paramref name="rhs"/>
-        /// <para>In Lua this is ignored.
-        /// Greater than is evaluated via reversing the order of <see cref="CompareLessThan"/></para>
         /// </summary>
         IScriptType CompareGreaterThan(IScriptType rhs);
 
         /// <summary>
         /// this &gt;= <paramref name="rhs"/>
-        /// <para>In Lua this is ignored.
-        /// Greater than is evaluated via reversing the order of <see cref="CompareLessThanOrEqual"/></para>
         /// </summary>
         IScriptType CompareGreaterThanOrEqual(IScriptType rhs);
 
@@ -177,9 +209,19 @@ namespace Mellis.Core.Interfaces
         IScriptType BinaryAnd(IScriptType rhs);
 
         /// <summary>
+        /// <paramref name="lhs"/> &amp; this
+        /// </summary>
+        IScriptType BinaryAndReverse(IScriptType lhs);
+
+        /// <summary>
         /// this | <paramref name="rhs"/>
         /// </summary>
         IScriptType BinaryOr(IScriptType rhs);
+
+        /// <summary>
+        /// <paramref name="lhs"/> | this
+        /// </summary>
+        IScriptType BinaryOrReverse(IScriptType lhs);
 
         /// <summary>
         /// <para>(Python, JavaScript) this ^ <paramref name="rhs"/></para>
@@ -188,14 +230,30 @@ namespace Mellis.Core.Interfaces
         IScriptType BinaryXor(IScriptType rhs);
 
         /// <summary>
+        /// <para>(Python, JavaScript) <paramref name="lhs"/> ^ this</para>
+        /// <para>(Lua) <paramref name="lhs"/> ~ this</para>
+        /// </summary>
+        IScriptType BinaryXorReverse(IScriptType lhs);
+
+        /// <summary>
         /// this &lt;&lt; <paramref name="rhs"/>
         /// </summary>
         IScriptType BinaryLeftShift(IScriptType rhs);
 
         /// <summary>
+        /// <paramref name="lhs"/> &lt;&lt; this
+        /// </summary>
+        IScriptType BinaryLeftShiftReverse(IScriptType lhs);
+
+        /// <summary>
         /// this &gt;&gt; <paramref name="rhs"/>
         /// </summary>
         IScriptType BinaryRightShift(IScriptType rhs);
+
+        /// <summary>
+        /// <paramref name="lhs"/> &gt;&gt; this
+        /// </summary>
+        IScriptType BinaryRightShiftReverse(IScriptType lhs);
 
         #endregion
 
@@ -205,26 +263,6 @@ namespace Mellis.Core.Interfaces
         /// (JavaScript, Python) <paramref name="lhs"/> in this
         /// </summary>
         IScriptType MemberIn(IScriptType lhs);
-
-        /// <summary>
-        /// (Python) <paramref name="lhs"/> not in this
-        /// </summary>
-        IScriptType MemberNotIn(IScriptType lhs);
-
-        #endregion
-
-        #region Identity operators
-
-        /// <summary>
-        /// (Python) this is <paramref name="rhs"/>
-        /// (JavaScript) this instanceof <paramref name="rhs"/>
-        /// </summary>
-        IScriptType IdentityIs(IScriptType rhs);
-
-        /// <summary>
-        /// (Python) this is not <paramref name="rhs"/>
-        /// </summary>
-        IScriptType IdentityIsNot(IScriptType rhs);
 
         #endregion
     }
