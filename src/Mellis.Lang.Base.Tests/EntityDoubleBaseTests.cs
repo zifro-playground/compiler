@@ -208,7 +208,6 @@ namespace Mellis.Lang.Base.Tests
             // Arrange
             var a = GetDouble(5);
             var b = GetString("foo");
-            object[] expectedFormatArgs = {5d, b.GetTypeName()};
             
             // Act
             var result = a.ArithmeticDivide(b);

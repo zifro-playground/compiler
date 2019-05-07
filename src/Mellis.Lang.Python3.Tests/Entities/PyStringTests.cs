@@ -63,7 +63,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
             var multiplier = new PyInteger(entity.Processor, value);
 
             var expected = new StringBuilder(value * 3, value * 3);
-            for (var i = 0; i < value; i++)
+            for (int i = 0; i < value; i++)
             {
                 expected.Append(str);
             }
