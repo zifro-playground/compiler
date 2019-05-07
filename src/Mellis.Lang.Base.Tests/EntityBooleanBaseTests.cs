@@ -151,7 +151,7 @@ namespace Mellis.Lang.Base.Tests
             BooleanBase a = GetBoolean(true);
 
             // Act
-            bool success = a.TryConvert(typeof(bool), out object result);
+            bool success = a.TryCoerce(typeof(bool), out object result);
 
             // Assert
             Assert.IsTrue(success);
@@ -175,7 +175,7 @@ namespace Mellis.Lang.Base.Tests
             BooleanBase a = GetBoolean(input);
 
             // Act
-            bool success = a.TryConvert(type, out object _);
+            bool success = a.TryCoerce(type, out object _);
 
             // Assert
             Assert.IsFalse(success);
@@ -190,7 +190,7 @@ namespace Mellis.Lang.Base.Tests
             BooleanBase a = GetBoolean(true);
 
             // Act
-            bool success = a.TryConvert(out bool result);
+            bool success = a.TryCoerce(out bool result);
 
             // Assert
             Assert.IsTrue(success);
@@ -206,7 +206,7 @@ namespace Mellis.Lang.Base.Tests
             BooleanBase a = GetBoolean(true);
 
             // Act
-            bool success = a.TryConvert(out char _);
+            bool success = a.TryCoerce(out char _);
 
             // Assert
             Assert.IsFalse(success);

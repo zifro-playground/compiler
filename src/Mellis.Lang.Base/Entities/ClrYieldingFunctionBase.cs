@@ -23,7 +23,7 @@ namespace Mellis.Lang.Base.Entities
             return true;
         }
 
-        public override bool TryConvert(Type type, out object value)
+        public override bool TryCoerce(Type type, out object value)
         {
             value = default;
             return false;

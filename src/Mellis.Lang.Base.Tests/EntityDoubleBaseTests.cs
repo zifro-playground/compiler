@@ -291,7 +291,7 @@ namespace Mellis.Lang.Base.Tests
             Type type = expected.GetType();
 
             // Act
-            bool success = a.TryConvert(type, out object result);
+            bool success = a.TryCoerce(type, out object result);
 
             // Assert
             Assert.IsTrue(success);
@@ -307,7 +307,7 @@ namespace Mellis.Lang.Base.Tests
             DoubleBase a = GetDouble(5);
 
             // Act
-            bool success = a.TryConvert(typeof(decimal), out object result);
+            bool success = a.TryCoerce(typeof(decimal), out object result);
 
             // Assert
             Assert.IsTrue(success);
@@ -333,7 +333,7 @@ namespace Mellis.Lang.Base.Tests
             DoubleBase a = GetDouble(5);
 
             // Act
-            bool success = a.TryConvert(type, out object _);
+            bool success = a.TryCoerce(type, out object _);
 
             // Assert
             Assert.IsFalse(success);
@@ -348,7 +348,7 @@ namespace Mellis.Lang.Base.Tests
             DoubleBase a = GetDouble(5);
 
             // Act
-            bool success = a.TryConvert(out double result);
+            bool success = a.TryCoerce(out double result);
 
             // Assert
             Assert.IsTrue(success);
@@ -364,7 +364,7 @@ namespace Mellis.Lang.Base.Tests
             DoubleBase a = GetDouble(5);
 
             // Act
-            bool success = a.TryConvert(out string _);
+            bool success = a.TryCoerce(out string _);
 
             // Assert
             Assert.IsFalse(success);

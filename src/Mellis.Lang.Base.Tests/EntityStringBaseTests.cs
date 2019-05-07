@@ -204,7 +204,7 @@ namespace Mellis.Lang.Base.Tests
             Type type = expected.GetType();
 
             // Act
-            bool success = a.TryConvert(type, out object result);
+            bool success = a.TryCoerce(type, out object result);
 
             // Assert
             Assert.IsTrue(success);
@@ -227,7 +227,7 @@ namespace Mellis.Lang.Base.Tests
             StringBase a = GetString(input);
 
             // Act
-            bool success = a.TryConvert(type, out object _);
+            bool success = a.TryCoerce(type, out object _);
 
             // Assert
             Assert.IsFalse(success);
@@ -242,7 +242,7 @@ namespace Mellis.Lang.Base.Tests
             StringBase a = GetString("foo");
 
             // Act
-            bool success = a.TryConvert(out string result);
+            bool success = a.TryCoerce(out string result);
 
             // Assert
             Assert.IsTrue(success);
@@ -258,7 +258,7 @@ namespace Mellis.Lang.Base.Tests
             StringBase a = GetString("");
 
             // Act
-            bool success = a.TryConvert(out char _);
+            bool success = a.TryCoerce(out char _);
 
             // Assert
             Assert.IsFalse(success);

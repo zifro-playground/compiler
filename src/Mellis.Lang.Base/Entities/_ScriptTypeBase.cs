@@ -84,9 +84,9 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc/>
-        public bool TryConvert<T>(out T value)
+        public bool TryCoerce<T>(out T value)
         {
-            if (TryConvert(typeof(T), out object boxed))
+            if (TryCoerce(typeof(T), out object boxed))
             {
                 value = (T) boxed;
                 return true;
@@ -97,7 +97,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc/>
-        public abstract bool TryConvert(Type type, out object value);
+        public abstract bool TryCoerce(Type type, out object value);
 
         /// <inheritdoc/>
         public virtual IScriptType ArithmeticUnaryPositive()

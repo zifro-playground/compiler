@@ -66,7 +66,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public override bool TryConvert(Type type, out object value)
+        public override bool TryCoerce(Type type, out object value)
         {
             if (type == typeof(double))
             {

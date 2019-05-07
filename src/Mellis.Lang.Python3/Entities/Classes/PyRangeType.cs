@@ -59,7 +59,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
 
             int GetIntegerArg(int index)
             {
-                if (!arguments[index].TryConvert(out int value))
+                if (!arguments[index].TryCoerce(out int value))
                 {
                     throw new RuntimeException(
                         nameof(Localized_Python3_Entities.Ex_RangeType_Ctor_Arg_NotInteger),

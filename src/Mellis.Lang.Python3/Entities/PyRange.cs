@@ -47,7 +47,7 @@ namespace Mellis.Lang.Python3.Entities
             return true;
         }
 
-        public override bool TryConvert(Type type, out object value)
+        public override bool TryCoerce(Type type, out object value)
         {
             if (type == typeof(IEnumerable<IScriptType>))
             {
