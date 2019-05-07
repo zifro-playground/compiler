@@ -5,13 +5,13 @@ using Mellis.Lang.Base.Resources;
 
 namespace Mellis.Lang.Base.Entities
 {
-    public abstract class ScriptTypeBase : IScriptType
+    public abstract class ScriptBaseType : IScriptType
     {
         public IProcessor Processor { get; internal set; }
 
         public string Name { get; }
 
-        protected ScriptTypeBase(IProcessor processor, string name = null)
+        protected ScriptBaseType(IProcessor processor, string name = null)
         {
             Processor = processor;
             Name = name;

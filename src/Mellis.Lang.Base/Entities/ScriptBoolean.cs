@@ -9,11 +9,11 @@ namespace Mellis.Lang.Base.Entities
     /// <summary>
     /// Basic functionality of a double value.
     /// </summary>
-    public abstract class BooleanBase : ScriptTypeBase
+    public abstract class ScriptBoolean : ScriptBaseType
     {
         public bool Value { get; }
 
-        protected BooleanBase(IProcessor processor, bool value, string name = null)
+        protected ScriptBoolean(IProcessor processor, bool value, string name = null)
             : base(processor, name)
         {
             Value = value;
@@ -105,7 +105,7 @@ namespace Mellis.Lang.Base.Entities
                 value = Value ? '\x0' : '\x1';
                 return true;
 
-            case TypeCode.Object when typeof(BooleanBase).IsAssignableFrom(type):
+            case TypeCode.Object when typeof(ScriptBoolean).IsAssignableFrom(type):
                 value = this;
                 return true;
 
@@ -149,7 +149,7 @@ namespace Mellis.Lang.Base.Entities
 
         public override IScriptType CompareEqual(IScriptType rhs)
         {
-            if (rhs is BooleanBase b && b.Value == Value)
+            if (rhs is ScriptBoolean b && b.Value == Value)
             {
                 return Processor.Factory.True;
             }
@@ -159,7 +159,7 @@ namespace Mellis.Lang.Base.Entities
 
         public override IScriptType CompareNotEqual(IScriptType rhs)
         {
-            if (rhs is BooleanBase b && b.Value == Value)
+            if (rhs is ScriptBoolean b && b.Value == Value)
             {
                 return Processor.Factory.False;
             }

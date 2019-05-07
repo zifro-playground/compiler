@@ -20,7 +20,7 @@ namespace Mellis.Lang.Base.Tests
             var result = a.ArithmeticAdd(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(result, a, b, 15);
+            AssertArithmeticResult<ScriptInteger>(result, a, b, 15);
         }
 
         [TestMethod]
@@ -34,7 +34,7 @@ namespace Mellis.Lang.Base.Tests
             var result = a.ArithmeticAdd(b);
 
             // Assert
-            AssertArithmeticResult<DoubleBase>(result, a, b, 1.5);
+            AssertArithmeticResult<ScriptDouble>(result, a, b, 1.5);
         }
 
         [TestMethod]
@@ -48,7 +48,7 @@ namespace Mellis.Lang.Base.Tests
             var result = a.ArithmeticAdd(b);
 
             // Assert
-            AssertArithmeticResult<DoubleBase>(result, a, b, 1.5);
+            AssertArithmeticResult<ScriptDouble>(result, a, b, 1.5);
         }
 
         [TestMethod]
@@ -75,7 +75,7 @@ namespace Mellis.Lang.Base.Tests
             var result = a.ArithmeticSubtract(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(result, a, b, -5);
+            AssertArithmeticResult<ScriptInteger>(result, a, b, -5);
         }
 
         [TestMethod]
@@ -89,7 +89,7 @@ namespace Mellis.Lang.Base.Tests
             var result = a.ArithmeticSubtract(b);
 
             // Assert
-            AssertArithmeticResult<DoubleBase>(result, a, b, .4);
+            AssertArithmeticResult<ScriptDouble>(result, a, b, .4);
         }
 
         [TestMethod]
@@ -103,7 +103,7 @@ namespace Mellis.Lang.Base.Tests
             var result = a.ArithmeticSubtract(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(result, a, b, 4);
+            AssertArithmeticResult<ScriptInteger>(result, a, b, 4);
         }
 
         [TestMethod]
@@ -130,7 +130,7 @@ namespace Mellis.Lang.Base.Tests
             var result = a.ArithmeticMultiply(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(result, a, b, 50);
+            AssertArithmeticResult<ScriptInteger>(result, a, b, 50);
         }
 
         [TestMethod]
@@ -144,7 +144,7 @@ namespace Mellis.Lang.Base.Tests
             var result = a.ArithmeticMultiply(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(result, a, b, 50);
+            AssertArithmeticResult<ScriptInteger>(result, a, b, 50);
         }
 
         [TestMethod]
@@ -171,7 +171,7 @@ namespace Mellis.Lang.Base.Tests
             var result = a.ArithmeticDivide(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(result, a, b, 5);
+            AssertArithmeticResult<ScriptInteger>(result, a, b, 5);
         }
 
         [TestMethod]
@@ -185,7 +185,7 @@ namespace Mellis.Lang.Base.Tests
             var result = a.ArithmeticDivide(b);
 
             // Assert
-            AssertArithmeticResult<DoubleBase>(result, a, b, .5);
+            AssertArithmeticResult<ScriptDouble>(result, a, b, .5);
         }
         
         [TestMethod]
@@ -199,7 +199,7 @@ namespace Mellis.Lang.Base.Tests
             var result = a.ArithmeticDivide(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(result, a, b, 5);
+            AssertArithmeticResult<ScriptInteger>(result, a, b, 5);
         }
 
         [TestMethod]

@@ -229,7 +229,7 @@ namespace Mellis.Lang.Base.Tests
             var result = a.CompareEqual(b);
 
             // Assert
-            AssertArithmeticResult<BooleanBase>(result, a, b, expected);
+            AssertArithmeticResult<ScriptBoolean>(result, a, b, expected);
         }
 
         [DataTestMethod]
@@ -249,7 +249,7 @@ namespace Mellis.Lang.Base.Tests
             var result = a.CompareEqual(b);
 
             // Assert
-            AssertArithmeticResult<BooleanBase>(result, a, b, expected);
+            AssertArithmeticResult<ScriptBoolean>(result, a, b, expected);
         }
 
         [DataTestMethod]
@@ -267,7 +267,7 @@ namespace Mellis.Lang.Base.Tests
             var result = a.CompareNotEqual(b);
 
             // Assert
-            AssertArithmeticResult<BooleanBase>(result, a, b, expected);
+            AssertArithmeticResult<ScriptBoolean>(result, a, b, expected);
         }
 
         [DataTestMethod]
@@ -287,7 +287,7 @@ namespace Mellis.Lang.Base.Tests
             var result = a.CompareNotEqual(b);
 
             // Assert
-            AssertArithmeticResult<BooleanBase>(result, a, b, expected);
+            AssertArithmeticResult<ScriptBoolean>(result, a, b, expected);
         }
     }
 }

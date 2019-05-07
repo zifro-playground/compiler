@@ -7,7 +7,7 @@ using Mellis.Lang.Python3.Resources;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyEnumeratorWrapper : ScriptTypeBase, IEnumerator<IScriptType>, IEnumerable<IScriptType>
+    public class PyEnumeratorWrapper : ScriptBaseType, IEnumerator<IScriptType>, IEnumerable<IScriptType>
     {
         public IScriptType SourceType { get; }
         public IEnumerator<IScriptType> Enumerator { get; }

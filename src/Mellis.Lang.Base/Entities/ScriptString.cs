@@ -10,11 +10,11 @@ namespace Mellis.Lang.Base.Entities
     /// <summary>
     /// Basic functionality of a string value.
     /// </summary>
-    public abstract class StringBase : ScriptTypeBase
+    public abstract class ScriptString : ScriptBaseType
     {
         public string Value { get; }
 
-        protected StringBase(IProcessor processor, string value, string name = null)
+        protected ScriptString(IProcessor processor, string value, string name = null)
             : base(processor, name)
         {
             Value = value ?? string.Empty;
@@ -46,11 +46,11 @@ namespace Mellis.Lang.Base.Entities
         {
             switch (index)
             {
-                case IntegerBase indexInteger when indexInteger.Value >= 0 &&
+                case ScriptInteger indexInteger when indexInteger.Value >= 0 &&
                                                    indexInteger.Value < Value.Length:
                     return Processor.Factory.Create(Value[indexInteger.Value]);
 
-                case IntegerBase indexInteger:
+                case ScriptInteger indexInteger:
                     throw new RuntimeException(
                         nameof(Localized_Base_Entities.Ex_String_IndexGet_OutOfRange),
                         Localized_Base_Entities.Ex_String_IndexGet_OutOfRange,
@@ -115,7 +115,7 @@ namespace Mellis.Lang.Base.Entities
         {
             switch (rhs)
             {
-                case StringBase rhsString:
+                case ScriptString rhsString:
                     return Processor.Factory.Create(Value + rhsString.Value);
                 default:
                     throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_AddInvalidType),

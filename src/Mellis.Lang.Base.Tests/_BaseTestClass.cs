@@ -34,24 +34,24 @@ namespace Mellis.Lang.Base.Tests
                 .Returns(GetBoolean(false));
         }
 
-        protected IntegerBase GetInteger(int value)
+        protected ScriptInteger GetInteger(int value)
         {
-            return GetValue<IntegerBase, int>(value);
+            return GetValue<ScriptInteger, int>(value);
         }
 
-        protected DoubleBase GetDouble(double value)
+        protected ScriptDouble GetDouble(double value)
         {
-            return GetValue<DoubleBase, double>(value);
+            return GetValue<ScriptDouble, double>(value);
         }
 
-        protected StringBase GetString(string value)
+        protected ScriptString GetString(string value)
         {
-            return GetValue<StringBase, string>(value);
+            return GetValue<ScriptString, string>(value);
         }
 
-        protected BooleanBase GetBoolean(bool value)
+        protected ScriptBoolean GetBoolean(bool value)
         {
-            return GetValue<BooleanBase, bool>(value);
+            return GetValue<ScriptBoolean, bool>(value);
         }
 
         private TScriptType GetValue<TScriptType, TValue>(TValue value)
@@ -138,16 +138,16 @@ namespace Mellis.Lang.Base.Tests
         {
             switch (actual)
             {
-                case DoubleBase d when expected is double e:
+                case ScriptDouble d when expected is double e:
                     Assert.AreEqual(e, d.Value, 1e-10);
                     break;
-                case IntegerBase i:
+                case ScriptInteger i:
                     Assert.AreEqual(expected, i.Value);
                     break;
-                case StringBase s:
+                case ScriptString s:
                     Assert.AreEqual(expected, s.Value);
                     break;
-                case BooleanBase s:
+                case ScriptBoolean s:
                     Assert.AreEqual(expected, s.Value);
                     break;
                 default:

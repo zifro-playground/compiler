@@ -4,7 +4,7 @@ using Mellis.Lang.Python3.Entities.Classes;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyEmbeddedClrYieldingFunction : EmbeddedClrYieldingFunctionBase
+    public class PyEmbeddedClrYieldingFunction : ScriptEmbeddedClrYieldingFunction
     {
         public PyEmbeddedClrYieldingFunction(
             IProcessor processor,

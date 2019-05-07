@@ -4,9 +4,9 @@ using Mellis.Lang.Base.Resources;
 
 namespace Mellis.Lang.Base.Entities
 {
-    public abstract class NullBase : ScriptTypeBase
+    public abstract class ScriptNull : ScriptBaseType
     {
-        protected NullBase(IProcessor processor, string name = null) : base(processor, name)
+        protected ScriptNull(IProcessor processor, string name = null) : base(processor, name)
         {
         }
 

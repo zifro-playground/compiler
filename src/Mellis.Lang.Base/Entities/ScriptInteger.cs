@@ -8,13 +8,13 @@ using Mellis.Tools.Extensions;
 namespace Mellis.Lang.Base.Entities
 {
     /// <summary>
-    /// Basic functionality of a double value.
+    /// Basic functionality of an integer value.
     /// </summary>
-    public abstract class DoubleBase : ScriptTypeBase
+    public abstract class ScriptInteger : ScriptBaseType
     {
-        public double Value { get; }
+        public int Value { get; }
 
-        protected DoubleBase(IProcessor processor, double value, string name = null)
+        protected ScriptInteger(IProcessor processor, int value, string name = null)
             : base(processor, name)
         {
             Value = value;
@@ -22,7 +22,12 @@ namespace Mellis.Lang.Base.Entities
 
         public override string GetTypeName()
         {
-            return Localized_Base_Entities.Type_Double_Name;
+            return Localized_Base_Entities.Type_Int_Name;
+        }
+
+        public override bool IsTruthy()
+        {
+            return !Value.Equals(0);
         }
 
         public override bool TryCoerce(Type type, out object value)
@@ -30,7 +35,7 @@ namespace Mellis.Lang.Base.Entities
             switch (Type.GetTypeCode(type))
             {
             case TypeCode.Boolean:
-                value = !Value.Equals(0d);
+                value = Value != 0;
                 return true;
 
             case TypeCode.Byte:
@@ -42,7 +47,7 @@ namespace Mellis.Lang.Base.Entities
                 return true;
 
             case TypeCode.Int32:
-                value = (int)Value;
+                value = Value;
                 return true;
 
             case TypeCode.Int64:
@@ -70,7 +75,7 @@ namespace Mellis.Lang.Base.Entities
                 return true;
 
             case TypeCode.Double:
-                value = Value;
+                value = (double)Value;
                 return true;
 
             case TypeCode.Decimal:
@@ -81,7 +86,7 @@ namespace Mellis.Lang.Base.Entities
                 value = Value.Equals(0) ? '\x0' : '\x1';
                 return true;
 
-            case TypeCode.Object when typeof(DoubleBase).IsAssignableFrom(type):
+            case TypeCode.Object when typeof(ScriptInteger).IsAssignableFrom(type):
                 value = this;
                 return true;
 
@@ -95,31 +100,12 @@ namespace Mellis.Lang.Base.Entities
             }
         }
 
-        public override bool IsTruthy()
-        {
-            return !Value.Equals(0d);
-        }
-
-        public override IScriptType ArithmeticUnaryPositive()
-        {
-            return this;
-        }
-
-        public override IScriptType ArithmeticUnaryNegative()
-        {
-            return Processor.Factory.Create(-Value);
-        }
-
         public override IScriptType ArithmeticAdd(IScriptType rhs)
         {
             switch (rhs)
             {
-            case DoubleBase rhsDouble:
-                return Processor.Factory.CreateAppropriate(Value + rhsDouble.Value);
-
-            case IntegerBase rhsInt:
-                return Processor.Factory.CreateAppropriate(Value + rhsInt.Value);
-
+            case ScriptInteger rhsInt:
+                return Processor.Factory.Create(Value + rhsInt.Value);
             default:
                 return null;
             }
@@ -129,12 +115,8 @@ namespace Mellis.Lang.Base.Entities
         {
             switch (rhs)
             {
-            case DoubleBase rhsDouble:
-                return Processor.Factory.CreateAppropriate(Value - rhsDouble.Value);
-
-            case IntegerBase rhsInt:
-                return Processor.Factory.CreateAppropriate(Value - rhsInt.Value);
-
+            case ScriptInteger rhsInt:
+                return Processor.Factory.Create(Value - rhsInt.Value);
             default:
                 return null;
             }
@@ -144,10 +126,10 @@ namespace Mellis.Lang.Base.Entities
         {
             switch (rhs)
             {
-            case IntegerBase rhsInt:
-                return Processor.Factory.CreateAppropriate(Value * rhsInt.Value);
+            case ScriptInteger rhsInt:
+                return Processor.Factory.Create(Value * rhsInt.Value);
 
-            case DoubleBase rhsDouble:
+            case ScriptDouble rhsDouble:
                 return Processor.Factory.CreateAppropriate(Value * rhsDouble.Value);
 
             default:
@@ -159,134 +141,143 @@ namespace Mellis.Lang.Base.Entities
         {
             switch (rhs)
             {
-            case IntegerBase rhsInteger when rhsInteger.Value.Equals(0):
-            case DoubleBase rhsDouble when rhsDouble.Value.Equals(0d):
+            case ScriptInteger rhsInt when rhsInt.Value.Equals(0):
+            case ScriptDouble rhsDouble when rhsDouble.Value.Equals(0):
                 throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
                     Localized_Base_Entities.Ex_Math_DivideByZero);
 
-            case DoubleBase rhsDouble:
-                return Processor.Factory.CreateAppropriate(Value / rhsDouble.Value);
+            case ScriptInteger rhsInt:
+                return Processor.Factory.CreateAppropriate(Value / (double)rhsInt.Value);
 
-            case IntegerBase rhsInt:
-                return Processor.Factory.CreateAppropriate(Value / rhsInt.Value);
+            case ScriptDouble rhsDouble:
+                return Processor.Factory.CreateAppropriate(Value / rhsDouble.Value);
 
             default:
                 return null;
             }
         }
 
+        /// <inheritdoc />
         public override IScriptType ArithmeticModulus(IScriptType rhs)
         {
             switch (rhs)
             {
-            case IntegerBase rhsInteger:
+            case ScriptInteger rhsInteger:
                 return Processor.Factory.Create(Value % rhsInteger.Value);
-            case DoubleBase rhsDouble:
-                return Processor.Factory.Create(Value % rhsDouble.Value);
+            case ScriptDouble rhsDouble:
+                return rhsDouble.ArithmeticModulus(this);
             default:
                 return null;
             }
         }
 
+        /// <inheritdoc />
         public override IScriptType ArithmeticExponent(IScriptType rhs)
         {
             switch (rhs)
             {
-            case IntegerBase rhsInteger:
+            case ScriptInteger rhsInteger:
                 return Processor.Factory.Create(Math.Pow(Value, rhsInteger.Value));
-            case DoubleBase rhsDouble:
-                return Processor.Factory.Create(Math.Pow(Value, rhsDouble.Value));
+            case ScriptDouble rhsDouble:
+                return rhsDouble.ArithmeticExponent(this);
             default:
                 return null;
             }
         }
 
+        /// <inheritdoc />
         public override IScriptType ArithmeticFloorDivide(IScriptType rhs)
         {
             switch (rhs)
             {
-            case IntegerBase rhsInteger:
-                return Processor.Factory.Create((int)Math.Floor(Value / rhsInteger.Value));
-            case DoubleBase rhsDouble:
-                return Processor.Factory.Create((int)Math.Floor(Value / rhsDouble.Value));
+            case ScriptInteger rhsInteger:
+                return Processor.Factory.Create(Value / rhsInteger.Value);
+            case ScriptDouble rhsDouble:
+                return rhsDouble.ArithmeticFloorDivide(this);
             default:
                 return null;
             }
         }
 
+        /// <inheritdoc />
         public override IScriptType CompareEqual(IScriptType rhs)
         {
             switch (rhs)
             {
-            case IntegerBase rhsInteger:
+            case ScriptInteger rhsInteger:
                 return Processor.Factory.Create(Value.Equals(rhsInteger.Value));
-            case DoubleBase rhsDouble:
-                return Processor.Factory.Create(Value.Equals(rhsDouble.Value));
+            case ScriptDouble rhsDouble:
+                return rhsDouble.CompareEqual(this);
             default:
                 return Processor.Factory.False;
             }
         }
 
+        /// <inheritdoc />
         public override IScriptType CompareNotEqual(IScriptType rhs)
         {
             switch (rhs)
             {
-            case IntegerBase rhsInteger:
+            case ScriptInteger rhsInteger:
                 return Processor.Factory.Create(!Value.Equals(rhsInteger.Value));
-            case DoubleBase rhsDouble:
-                return Processor.Factory.Create(!Value.Equals(rhsDouble.Value));
+            case ScriptDouble rhsDouble:
+                return rhsDouble.CompareNotEqual(this);
             default:
                 return Processor.Factory.True;
             }
         }
 
+        /// <inheritdoc />
         public override IScriptType CompareGreaterThan(IScriptType rhs)
         {
             switch (rhs)
             {
-            case IntegerBase rhsInteger:
+            case ScriptInteger rhsInteger:
                 return Processor.Factory.Create(Value > rhsInteger.Value);
-            case DoubleBase rhsDouble:
-                return Processor.Factory.Create(Value > rhsDouble.Value);
+            case ScriptDouble rhsDouble:
+                return rhsDouble.CompareGreaterThan(this);
             default:
                 return null;
             }
         }
 
+        /// <inheritdoc />
         public override IScriptType CompareGreaterThanOrEqual(IScriptType rhs)
         {
             switch (rhs)
             {
-            case IntegerBase rhsInteger:
+            case ScriptInteger rhsInteger:
                 return Processor.Factory.Create(Value >= rhsInteger.Value);
-            case DoubleBase rhsDouble:
-                return Processor.Factory.Create(Value >= rhsDouble.Value);
+            case ScriptDouble rhsDouble:
+                return rhsDouble.CompareGreaterThanOrEqual(this);
             default:
                 return null;
             }
         }
 
+        /// <inheritdoc />
         public override IScriptType CompareLessThan(IScriptType rhs)
         {
             switch (rhs)
             {
-            case IntegerBase rhsInteger:
+            case ScriptInteger rhsInteger:
                 return Processor.Factory.Create(Value < rhsInteger.Value);
-            case DoubleBase rhsDouble:
-                return Processor.Factory.Create(Value < rhsDouble.Value);
+            case ScriptDouble rhsDouble:
+                return rhsDouble.CompareLessThan(this);
             default:
                 return null;
             }
         }
 
+        /// <inheritdoc />
         public override IScriptType CompareLessThanOrEqual(IScriptType rhs)
         {
             switch (rhs)
             {
-            case IntegerBase rhsInteger:
+            case ScriptInteger rhsInteger:
                 return Processor.Factory.Create(Value <= rhsInteger.Value);
-            case DoubleBase rhsDouble:
-                return Processor.Factory.Create(Value <= rhsDouble.Value);
+            case ScriptDouble rhsDouble:
+                return rhsDouble.CompareLessThanOrEqual(this);
             default:
                 return null;
             }
@@ -294,18 +285,7 @@ namespace Mellis.Lang.Base.Entities
 
         public override string ToString()
         {
-            switch (Value)
-            {
-            case double.PositiveInfinity:
-                return Localized_Base_Entities.Type_Double_PosInfinity;
-            case double.NegativeInfinity:
-                return Localized_Base_Entities.Type_Double_NegInfinity;
-            case double.NaN:
-                return Localized_Base_Entities.Type_Double_NaN;
-
-            default:
-                return Value.ToString(CultureInfo.InvariantCulture).ToLower();
-            }
+            return Value.ToString(CultureInfo.CurrentCulture);
         }
     }
 }

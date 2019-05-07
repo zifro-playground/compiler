@@ -20,7 +20,7 @@ namespace Mellis.Lang.Base.Tests
             var resultBase = a.ArithmeticAdd(b);
 
             // Assert
-            AssertArithmeticResult<StringBase>(resultBase, a, b, "foobar");
+            AssertArithmeticResult<ScriptString>(resultBase, a, b, "foobar");
         }
 
         [TestMethod]
@@ -34,7 +34,7 @@ namespace Mellis.Lang.Base.Tests
             var resultBase = a.ArithmeticAdd(b);
 
             // Assert
-            AssertArithmeticResult<StringBase>(resultBase, a, b, "");
+            AssertArithmeticResult<ScriptString>(resultBase, a, b, "");
         }
 
         [TestMethod]
@@ -119,7 +119,7 @@ namespace Mellis.Lang.Base.Tests
             var result = a.GetIndex(b);
 
             // Assert
-            AssertArithmeticResult<StringBase>(result, a, b, "f");
+            AssertArithmeticResult<ScriptString>(result, a, b, "f");
         }
 
         [TestMethod]

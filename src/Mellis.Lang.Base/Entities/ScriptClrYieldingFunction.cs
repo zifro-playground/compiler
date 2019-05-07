@@ -4,9 +4,9 @@ using Mellis.Lang.Base.Resources;
 
 namespace Mellis.Lang.Base.Entities
 {
-    public abstract class ClrYieldingFunctionBase : ScriptTypeBase, IClrYieldingFunction
+    public abstract class ScriptClrYieldingFunction : ScriptBaseType, IClrYieldingFunction
     {
-        public ClrYieldingFunctionBase(
+        public ScriptClrYieldingFunction(
             IProcessor processor, string functionName, string name = null)
             : base(processor, name)
         {
