@@ -173,9 +173,7 @@ namespace Mellis.Lang.Base.Entities
                     return Processor.Factory.CreateAppropriate(Value / rhsInt.Value);
 
                 default:
-                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Double_DivideInvalidType),
-                        Localized_Base_Entities.Ex_Double_DivideInvalidType,
-                        Value, rhs.GetTypeName());
+                    return null;
             }
         }
 
@@ -189,7 +187,7 @@ namespace Mellis.Lang.Base.Entities
                 case DoubleBase rhsDouble:
                     return Processor.Factory.Create(Value % rhsDouble.Value);
                 default:
-                    throw InvalidType(rhs, "%");
+                    return null;
             }
         }
 
@@ -203,7 +201,7 @@ namespace Mellis.Lang.Base.Entities
                 case DoubleBase rhsDouble:
                     return Processor.Factory.Create(Math.Pow(Value, rhsDouble.Value));
                 default:
-                    throw InvalidType(rhs, "**");
+                    return null;
             }
         }
 
@@ -217,7 +215,7 @@ namespace Mellis.Lang.Base.Entities
                 case DoubleBase rhsDouble:
                     return Processor.Factory.Create((int) Math.Floor(Value / rhsDouble.Value));
                 default:
-                    throw InvalidType(rhs, "//");
+                    return null;
             }
         }
 
@@ -259,7 +257,7 @@ namespace Mellis.Lang.Base.Entities
                 case DoubleBase rhsDouble:
                     return Processor.Factory.Create(Value > rhsDouble.Value);
                 default:
-                    throw InvalidType(rhs, ">");
+                    return null;
             }
         }
 
@@ -273,7 +271,7 @@ namespace Mellis.Lang.Base.Entities
                 case DoubleBase rhsDouble:
                     return Processor.Factory.Create(Value >= rhsDouble.Value);
                 default:
-                    throw InvalidType(rhs, ">=");
+                    return null;
             }
         }
 
@@ -287,7 +285,7 @@ namespace Mellis.Lang.Base.Entities
                 case DoubleBase rhsDouble:
                     return Processor.Factory.Create(Value < rhsDouble.Value);
                 default:
-                    throw InvalidType(rhs, "<");
+                    return null;
             }
         }
 
@@ -301,7 +299,7 @@ namespace Mellis.Lang.Base.Entities
                 case DoubleBase rhsDouble:
                     return Processor.Factory.Create(Value <= rhsDouble.Value);
                 default:
-                    throw InvalidType(rhs, "<=");
+                    return null;
             }
         }
 

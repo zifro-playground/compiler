@@ -44,7 +44,7 @@ namespace Mellis.Lang.Python3.Entities
                     return Processor.Factory.Create(builder.ToString());
 
                 default:
-                    throw InvalidType(rhs, "*");
+                    return null;
             }
         }
 

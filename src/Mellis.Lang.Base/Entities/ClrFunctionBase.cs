@@ -27,7 +27,7 @@ namespace Mellis.Lang.Base.Entities
             // Invoke()
             if (type == typeof(Action))
             {
-                void Action() => Invoke(new IScriptType[0]);
+                void Action() => Invoke();
                 value = (Action)Action;
                 return true;
             }
@@ -43,7 +43,7 @@ namespace Mellis.Lang.Base.Entities
             // Invoke(arg0)
             if (type == typeof(Action<IScriptType>))
             {
-                void Action1(IScriptType arg0) => Invoke(new[] { arg0 });
+                void Action1(IScriptType arg0) => Invoke(arg0);
                 value = (Action<IScriptType>)Action1;
                 return true;
             }
@@ -51,7 +51,7 @@ namespace Mellis.Lang.Base.Entities
             // Invoke() => val
             if (type == typeof(Func<IScriptType>))
             {
-                IScriptType Func() => Invoke(new IScriptType[0]);
+                IScriptType Func() => Invoke();
                 value = (Func<IScriptType>)Func;
                 return true;
             }
@@ -67,7 +67,7 @@ namespace Mellis.Lang.Base.Entities
             // Invoke(arg0) => val
             if (type == typeof(Func<IScriptType, IScriptType>))
             {
-                IScriptType Func1(IScriptType arg0) => Invoke(new[] { arg0 });
+                IScriptType Func1(IScriptType arg0) => Invoke(arg0);
                 value = (Func<IScriptType, IScriptType>)Func1;
                 return true;
             }

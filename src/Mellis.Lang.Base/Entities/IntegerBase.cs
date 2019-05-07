@@ -186,7 +186,7 @@ namespace Mellis.Lang.Base.Entities
                 case DoubleBase rhsDouble:
                     return rhsDouble.ArithmeticModulus(this);
                 default:
-                    throw InvalidType(rhs, "%");
+                    return null;
             }
         }
 
@@ -200,7 +200,7 @@ namespace Mellis.Lang.Base.Entities
                 case DoubleBase rhsDouble:
                     return rhsDouble.ArithmeticExponent(this);
                 default:
-                    throw InvalidType(rhs, "**");
+                    return null;
             }
         }
 
@@ -214,7 +214,7 @@ namespace Mellis.Lang.Base.Entities
                 case DoubleBase rhsDouble:
                     return rhsDouble.ArithmeticFloorDivide(this);
                 default:
-                    throw InvalidType(rhs, "//");
+                    return null;
             }
         }
 
@@ -256,7 +256,7 @@ namespace Mellis.Lang.Base.Entities
                 case DoubleBase rhsDouble:
                     return rhsDouble.CompareGreaterThan(this);
                 default:
-                    throw InvalidType(rhs, ">");
+                    return null;
             }
         }
 
@@ -270,7 +270,7 @@ namespace Mellis.Lang.Base.Entities
                 case DoubleBase rhsDouble:
                     return rhsDouble.CompareGreaterThanOrEqual(this);
                 default:
-                    throw InvalidType(rhs, ">=");
+                    return null;
             }
         }
 
@@ -284,7 +284,7 @@ namespace Mellis.Lang.Base.Entities
                 case DoubleBase rhsDouble:
                     return rhsDouble.CompareLessThan(this);
                 default:
-                    throw InvalidType(rhs, "<");
+                    return null;
             }
         }
 
@@ -298,7 +298,7 @@ namespace Mellis.Lang.Base.Entities
                 case DoubleBase rhsDouble:
                     return rhsDouble.CompareLessThanOrEqual(this);
                 default:
-                    throw InvalidType(rhs, "<=");
+                    return null;
             }
         }
 
