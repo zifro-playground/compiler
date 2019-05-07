@@ -4,7 +4,7 @@ using System.Threading;
 namespace Mellis.Core.Interfaces
 {
     /// <summary>
-    /// Used for reference typed variables.
+    /// Used as value throughout Mellis.
     /// </summary>
     public interface IScriptType
     {
@@ -16,7 +16,7 @@ namespace Mellis.Core.Interfaces
         /// <summary>
         /// Name of this value.
         /// Can be function name, variable name, or parameter name.
-        /// Null if undetermined (ex: equation result)
+        /// Null if undetermined (ex: equation result and literals)
         /// </summary>
         string Name { get; }
 
@@ -27,8 +27,8 @@ namespace Mellis.Core.Interfaces
         IScriptType Copy(string newName);
 
         /// <summary>
-        /// <para>(Lua, Python) type(this)</para>
-        /// <para>(JavaScript) typeof(this)</para>
+        /// <para>(Lua, Python) <c>type(this)</c></para>
+        /// <para>(JavaScript) <c>typeof(this)</c></para>
         /// </summary>
         IScriptType GetTypeDef();
 
@@ -39,8 +39,8 @@ namespace Mellis.Core.Interfaces
         string GetTypeName();
 
         /// <summary>
-        /// For use in <c>and</c> & <c>or</c> operators, as well as <c>if</c> and <c>while</c> statements.
-        /// <para>As <c>and</c> & <c>or</c> operators short-circuit depending on a values truthy'ness.</para>
+        /// For use in <c>and</c> &amp; <c>or</c> operators, as well as <c>if</c> and <c>while</c> statements.
+        /// <para>As <c>and</c> &amp; <c>or</c> operators short-circuit depending on a values truthy'ness.</para>
         /// </summary>
         bool IsTruthy();
 
@@ -172,7 +172,7 @@ namespace Mellis.Core.Interfaces
         IScriptType BinaryNot();
 
         /// <summary>
-        /// this & <paramref name="rhs"/>
+        /// this &amp; <paramref name="rhs"/>
         /// </summary>
         IScriptType BinaryAnd(IScriptType rhs);
 
