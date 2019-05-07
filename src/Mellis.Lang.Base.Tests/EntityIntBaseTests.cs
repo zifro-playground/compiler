@@ -29,11 +29,12 @@ namespace Mellis.Lang.Base.Tests
             // Arrange
             var a = GetInteger(5);
             var b = GetString("foo");
-            object[] expectedFormatArgs = {5, b.GetTypeName()};
-            void Action() { a.ArithmeticAdd(b); }
 
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_AddInvalidType), expectedFormatArgs);
+            // Act
+            var result = a.ArithmeticAdd(b);
+
+            // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]
@@ -56,11 +57,12 @@ namespace Mellis.Lang.Base.Tests
             // Arrange
             var a = GetInteger(5);
             var b = GetString("foo");
-            object[] expectedFormatArgs = {5, b.GetTypeName()};
-            void Action() { a.ArithmeticSubtract(b); }
 
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_SubtractInvalidType), expectedFormatArgs);
+            // Act
+            var result = a.ArithmeticSubtract(b);
+
+            // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]
@@ -83,11 +85,12 @@ namespace Mellis.Lang.Base.Tests
             // Arrange
             var a = GetInteger(5);
             var b = GetString("foo");
-            object[] expectedFormatArgs = {5, b.GetTypeName()};
-            void Action() { a.ArithmeticMultiply(b); }
 
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_MultiplyInvalidType), expectedFormatArgs);
+            // Act
+            var result = a.ArithmeticMultiply(b);
+
+            // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]
@@ -153,11 +156,12 @@ namespace Mellis.Lang.Base.Tests
             // Arrange
             var a = GetInteger(5);
             var b = GetString("foo");
-            object[] expectedFormatArgs = {5, b.GetTypeName()};
-            void Action() { a.ArithmeticDivide(b); }
 
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_DivideInvalidType), expectedFormatArgs);
+            // Act
+            var result = a.ArithmeticDivide(b);
+
+            // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]
@@ -313,21 +317,6 @@ namespace Mellis.Lang.Base.Tests
             // Assert
             Assert.IsTrue(success);
             Assert.AreEqual(5, result);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.VerifyNoOtherCalls();
-        }
-
-        [TestMethod]
-        public void IntTryConvertGenericInvalid()
-        {
-            // Arrange
-            var a = GetInteger(5);
-
-            // Act
-            bool success = a.TryCoerce(out string _);
-
-            // Assert
-            Assert.IsFalse(success);
             processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }
