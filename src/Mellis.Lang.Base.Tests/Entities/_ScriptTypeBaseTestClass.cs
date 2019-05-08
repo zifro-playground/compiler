@@ -6,9 +6,9 @@ using Mellis.Lang.Base.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace Mellis.Lang.Base.Tests
+namespace Mellis.Lang.Base.Tests.Entities
 {
-    public abstract class BaseTestClass
+    public abstract class ScriptTypeBaseTestClass
     {
         protected Mock<IScriptTypeFactory> factoryMock;
         protected Mock<IProcessor> processorMock;

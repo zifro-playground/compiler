@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Mellis.Core.Interfaces;
+﻿using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Entities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Mellis.Lang.Base.Tests
+namespace Mellis.Lang.Base.Tests.Entities
 {
     [TestClass]
-    public class EntityBooleanBaseTests : BaseTestClass
+    public class ScriptBooleanTests : ScriptTypeBaseTestClass
     {
         [DataTestMethod]
         [DataRow(true, false, false)]

@@ -1,13 +1,12 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Mellis.Core.Interfaces;
+﻿using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Entities;
 using Mellis.Lang.Base.Resources;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Mellis.Lang.Base.Tests
+namespace Mellis.Lang.Base.Tests.Entities
 {
     [TestClass]
-    public class EntityStringBaseTests : BaseTestClass
+    public class ScriptStringTests : ScriptTypeBaseTestClass
     {
         [TestMethod]
         public void AdditionTest()
