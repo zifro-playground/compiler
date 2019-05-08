@@ -14,13 +14,14 @@ repo=${1?Local repo folder required.}
 : ${CIRCLE_PROJECT_REPONAME?}
 : ${CIRCLE_SHA1?}
 
-# Working directory
-cd $repo
-
 # Reading most recent commit
 echo "Fetching latest commit message from '$repo'"
 latestCommit="$(git --no-pager log --pretty='%h %B' -n 1)"
 echo
+
+# Working directory
+echo "Now working from '$repo'"
+cd $repo
 
 # Commit
 echo ">>> Committing changes"
