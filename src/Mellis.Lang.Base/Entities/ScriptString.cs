@@ -6,7 +6,6 @@ using Mellis.Lang.Base.Resources;
 
 namespace Mellis.Lang.Base.Entities
 {
-    /// <inheritdoc/>
     /// <summary>
     /// Basic functionality of a string value.
     /// </summary>
@@ -20,7 +19,6 @@ namespace Mellis.Lang.Base.Entities
             Value = value ?? string.Empty;
         }
 
-        /// <inheritdoc/>
         public override string GetTypeName()
         {
             return Localized_Base_Entities.Type_String_Name;
@@ -41,30 +39,28 @@ namespace Mellis.Lang.Base.Entities
             return new object[] {Value, Value.Length};
         }
 
-        /// <inheritdoc/>
         public override IScriptType GetIndex(IScriptType index)
         {
             switch (index)
             {
-                case ScriptInteger indexInteger when indexInteger.Value >= 0 &&
-                                                   indexInteger.Value < Value.Length:
-                    return Processor.Factory.Create(Value[indexInteger.Value]);
+            case ScriptInteger indexInteger when indexInteger.Value >= 0 &&
+                                                 indexInteger.Value < Value.Length:
+                return Processor.Factory.Create(Value[indexInteger.Value]);
 
-                case ScriptInteger indexInteger:
-                    throw new RuntimeException(
-                        nameof(Localized_Base_Entities.Ex_String_IndexGet_OutOfRange),
-                        Localized_Base_Entities.Ex_String_IndexGet_OutOfRange,
-                        formatArgs: GetErrorArgs(indexInteger.Value));
+            case ScriptInteger indexInteger:
+                throw new RuntimeException(
+                    nameof(Localized_Base_Entities.Ex_String_IndexGet_OutOfRange),
+                    Localized_Base_Entities.Ex_String_IndexGet_OutOfRange,
+                    formatArgs: GetErrorArgs(indexInteger.Value));
 
-                default:
-                    throw new RuntimeException(
-                        nameof(Localized_Base_Entities.Ex_String_IndexGet_InvalidType),
-                        Localized_Base_Entities.Ex_String_IndexGet_InvalidType,
-                        formatArgs: GetErrorArgs(index.GetTypeName()));
+            default:
+                throw new RuntimeException(
+                    nameof(Localized_Base_Entities.Ex_String_IndexGet_InvalidType),
+                    Localized_Base_Entities.Ex_String_IndexGet_InvalidType,
+                    formatArgs: GetErrorArgs(index.GetTypeName()));
             }
         }
 
-        /// <inheritdoc/>
         public override IScriptType SetIndex(IScriptType index, IScriptType value)
         {
             throw new RuntimeException(
@@ -73,7 +69,6 @@ namespace Mellis.Lang.Base.Entities
                 formatArgs: GetErrorArgs());
         }
 
-        /// <inheritdoc/>
         public override IScriptType GetProperty(string property)
         {
             throw new RuntimeException(
@@ -82,7 +77,6 @@ namespace Mellis.Lang.Base.Entities
                 formatArgs: GetErrorArgs(property));
         }
 
-        /// <inheritdoc/>
         public override IScriptType SetProperty(string property, IScriptType value)
         {
             throw new RuntimeException(
@@ -91,40 +85,19 @@ namespace Mellis.Lang.Base.Entities
                 formatArgs: GetErrorArgs(property));
         }
 
-        /// <inheritdoc/>
-        public override bool TryCoerce(Type type, out object value)
-        {
-            if (type == typeof(string))
-            {
-                value = Value;
-                return true;
-            }
-
-            if (type == typeof(char) && Value?.Length >= 1)
-            {
-                value = Value[0];
-                return true;
-            }
-
-            value = default;
-            return false;
-        }
-
-        /// <inheritdoc/>
         public override IScriptType ArithmeticAdd(IScriptType rhs)
         {
             switch (rhs)
             {
-                case ScriptString rhsString:
-                    return Processor.Factory.Create(Value + rhsString.Value);
-                default:
-                    throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_AddInvalidType),
-                        Localized_Base_Entities.Ex_String_AddInvalidType,
-                        formatArgs: GetErrorArgs(rhs.GetTypeName()));
+            case ScriptString rhsString:
+                return Processor.Factory.Create(Value + rhsString.Value);
+            default:
+                throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_AddInvalidType),
+                    Localized_Base_Entities.Ex_String_AddInvalidType,
+                    formatArgs: GetErrorArgs(rhs.GetTypeName()));
             }
         }
 
-        /// <inheritdoc/>
         public override IScriptType ArithmeticSubtract(IScriptType rhs)
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_SubtractInvalidOperation),
@@ -132,7 +105,6 @@ namespace Mellis.Lang.Base.Entities
                 formatArgs: GetErrorArgs(rhs.GetTypeName()));
         }
 
-        /// <inheritdoc/>
         public override IScriptType ArithmeticMultiply(IScriptType rhs)
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_MultiplyInvalidOperation),
@@ -140,7 +112,6 @@ namespace Mellis.Lang.Base.Entities
                 formatArgs: GetErrorArgs(rhs.GetTypeName()));
         }
 
-        /// <inheritdoc/>
         public override IScriptType ArithmeticDivide(IScriptType rhs)
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_DivideInvalidOperation),

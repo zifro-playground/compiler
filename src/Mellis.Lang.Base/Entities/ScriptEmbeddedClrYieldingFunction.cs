@@ -26,12 +26,6 @@ namespace Mellis.Lang.Base.Entities
             return true;
         }
 
-        public override bool TryCoerce(Type type, out object value)
-        {
-            value = default;
-            return false;
-        }
-
         public override string ToString()
         {
             return string.Format(

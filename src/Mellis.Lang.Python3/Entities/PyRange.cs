@@ -41,36 +41,6 @@ namespace Mellis.Lang.Python3.Entities
             return true;
         }
 
-        public override bool TryCoerce(Type type, out object value)
-        {
-            if (type == typeof(IEnumerable<IScriptType>))
-            {
-                value = this;
-                return true;
-            }
-
-            if (type == typeof(IEnumerable))
-            {
-                value = this;
-                return true;
-            }
-
-            if (type == typeof(IEnumerator<IScriptType>))
-            {
-                value = GetEnumerator();
-                return true;
-            }
-
-            if (type == typeof(IEnumerator))
-            {
-                value = ((IEnumerable)this).GetEnumerator();
-                return true;
-            }
-
-            value = default;
-            return false;
-        }
-
         public IEnumerator<IScriptType> GetEnumerator()
         {
             if (RangeStep > 0)

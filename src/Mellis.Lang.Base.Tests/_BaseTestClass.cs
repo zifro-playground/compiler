@@ -35,30 +35,6 @@ namespace Mellis.Lang.Base.Tests
                 .Returns(GetBoolean(false));
         }
 
-        protected void AssertTryCoerceTyped(IScriptType value, Type type, object expected)
-        {
-            bool success = value.TryCoerce(type, out object result);
-            Assert.IsTrue(success);
-            Assert.AreEqual(type, result?.GetType());
-            Assert.AreEqual(expected, result);
-
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.VerifyNoOtherCalls();
-        }
-
-        // TODO:
-        //protected void AssertTryCoerceGeneric(IScriptType value, Type type, object expected)
-        //{
-        //    var tryCoerce = value.GetType()
-        //        .GetMethods()
-        //        .First(o => o.IsGenericMethod && o.Name == nameof(IScriptType.TryCoerce));
-
-        //    bool success = tryCoerce.
-        //    Assert.IsTrue(success);
-        //    Assert.AreEqual(type, result?.GetType());
-        //    Assert.AreEqual(expected, result);
-        //}
-
         protected ScriptInteger GetInteger(int value)
         {
             return GetValue<ScriptInteger, int>(value);

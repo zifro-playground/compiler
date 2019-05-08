@@ -51,16 +51,6 @@ namespace Mellis.Core.Interfaces
         /// </summary>
         IScriptType SetProperty(string property, IScriptType value);
 
-        /// <summary>
-        /// Try convert this value to it's CLR representation.
-        /// </summary>
-        bool TryCoerce<T>(out T value);
-
-        /// <summary>
-        /// Try convert this value to it's CLR representation.
-        /// </summary>
-        bool TryCoerce(Type type, out object value);
-
         #region Arithmetic operators
 
         /// <summary>

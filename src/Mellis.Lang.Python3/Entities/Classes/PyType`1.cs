@@ -28,12 +28,6 @@ namespace Mellis.Lang.Python3.Entities.Classes
             return Localized_Python3_Entities.Type_Type_Name;
         }
 
-        public override bool TryCoerce(Type type, out object value)
-        {
-            value = default;
-            return false;
-        }
-
         public override string ToString()
         {
             return string.Format(Localized_Python3_Entities.Type_Type_ToString,

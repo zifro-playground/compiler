@@ -42,21 +42,7 @@ namespace Mellis.Lang.Base.Entities
         {
             return null;
         }
-
-        public bool TryCoerce<T>(out T value)
-        {
-            if (TryCoerce(typeof(T), out object boxed))
-            {
-                value = (T)boxed;
-                return true;
-            }
-
-            value = default;
-            return false;
-        }
-
-        public abstract bool TryCoerce(Type type, out object value);
-
+        
         public virtual IScriptType ArithmeticUnaryPositive()
         {
             return null;

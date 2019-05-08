@@ -1,5 +1,6 @@
 ﻿using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
+using Mellis.Lang.Base.Entities;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Resources;
 
@@ -20,7 +21,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
             }
 
             int from = 0;
-            int to = 0;
+            int to;
             int step = 1;
             switch (arguments.Length)
             {
@@ -54,7 +55,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
 
             int GetIntegerArg(int index)
             {
-                if (!arguments[index].TryCoerce(out int value))
+                if (!(arguments[index] is ScriptInteger intVal))
                 {
                     throw new RuntimeException(
                         nameof(Localized_Python3_Entities.Ex_RangeType_Ctor_Arg_NotInteger),
@@ -63,7 +64,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
                     );
                 }
 
-                return value;
+                return intVal.Value;
             }
         }
     }

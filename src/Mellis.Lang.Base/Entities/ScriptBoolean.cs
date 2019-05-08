@@ -48,77 +48,7 @@ namespace Mellis.Lang.Base.Entities
         {
             return Value;
         }
-
-        public override bool TryCoerce(Type type, out object value)
-        {
-            switch (Type.GetTypeCode(type))
-            {
-            case TypeCode.Boolean:
-                value = Value;
-                return true;
-
-            case TypeCode.Byte:
-                value = (byte)(Value ? 1 : 0);
-                return true;
-
-            case TypeCode.Int16:
-                value = (short)(Value ? 1 : 0);
-                return true;
-
-            case TypeCode.Int32:
-                value = Value ? 1 : 0;
-                return true;
-
-            case TypeCode.Int64:
-                value = Value ? 1L : 0L;
-                return true;
-
-            case TypeCode.SByte:
-                value = (sbyte)(Value ? 1 : 0);
-                return true;
-
-            case TypeCode.UInt16:
-                value = (ushort)(Value ? 1 : 0);
-                return true;
-
-            case TypeCode.UInt32:
-                value = Value ? 1u : 0u;
-                return true;
-
-            case TypeCode.UInt64:
-                value = Value ? 1Lu : 0Lu;
-                return true;
-
-            case TypeCode.Single:
-                value = Value ? 1f : 0f;
-                return true;
-
-            case TypeCode.Double:
-                value = Value ? 1d : 0d;
-                return true;
-
-            case TypeCode.Decimal:
-                value = Value ? 1m : 0m;
-                return true;
-
-            case TypeCode.Char:
-                value = Value ? '\x0' : '\x1';
-                return true;
-
-            case TypeCode.Object when typeof(ScriptBoolean).IsAssignableFrom(type):
-                value = this;
-                return true;
-
-            case TypeCode.String:
-                value = ToString();
-                return true;
-
-            default:
-                value = default;
-                return false;
-            }
-        }
-
+        
         public override IScriptType ArithmeticAdd(IScriptType rhs)
         {
             throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Boolean_AddInvalidOperation),

@@ -29,77 +29,7 @@ namespace Mellis.Lang.Base.Entities
         {
             return !Value.Equals(0);
         }
-
-        public override bool TryCoerce(Type type, out object value)
-        {
-            switch (Type.GetTypeCode(type))
-            {
-            case TypeCode.Boolean:
-                value = Value != 0;
-                return true;
-
-            case TypeCode.Byte:
-                value = (byte)Value;
-                return true;
-
-            case TypeCode.Int16:
-                value = (short)Value;
-                return true;
-
-            case TypeCode.Int32:
-                value = Value;
-                return true;
-
-            case TypeCode.Int64:
-                value = (long)Value;
-                return true;
-
-            case TypeCode.SByte:
-                value = (sbyte)Value;
-                return true;
-
-            case TypeCode.UInt16:
-                value = (ushort)Value;
-                return true;
-
-            case TypeCode.UInt32:
-                value = (uint)Value;
-                return true;
-
-            case TypeCode.UInt64:
-                value = (ulong)Value;
-                return true;
-
-            case TypeCode.Single:
-                value = (float)Value;
-                return true;
-
-            case TypeCode.Double:
-                value = (double)Value;
-                return true;
-
-            case TypeCode.Decimal:
-                value = (decimal)Value;
-                return true;
-
-            case TypeCode.Char:
-                value = Value.Equals(0) ? '\x0' : '\x1';
-                return true;
-
-            case TypeCode.Object when typeof(ScriptInteger).IsAssignableFrom(type):
-                value = this;
-                return true;
-
-            case TypeCode.String:
-                value = ToString();
-                return true;
-
-            default:
-                value = default;
-                return false;
-            }
-        }
-
+        
         public override IScriptType ArithmeticAdd(IScriptType rhs)
         {
             switch (rhs)

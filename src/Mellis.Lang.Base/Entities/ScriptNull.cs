@@ -15,18 +15,6 @@ namespace Mellis.Lang.Base.Entities
             return false;
         }
 
-        public override bool TryCoerce(Type type, out object value)
-        {
-            if (type == null || type == typeof(void))
-            {
-                value = null;
-                return true;
-            }
-
-            value = default;
-            return false;
-        }
-
         public override string GetTypeName()
         {
             return Localized_Base_Entities.Type_Null_Name;

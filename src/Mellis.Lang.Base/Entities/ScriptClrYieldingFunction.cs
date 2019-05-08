@@ -18,12 +18,6 @@ namespace Mellis.Lang.Base.Entities
             return Localized_Base_Entities.Type_ClrFunction_Name;
         }
 
-        public override bool TryCoerce(Type type, out object value)
-        {
-            value = default;
-            return false;
-        }
-
         IProcessor IEmbeddedType.Processor
         {
             set => Processor = value;
