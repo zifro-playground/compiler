@@ -1,9 +1,8 @@
 ﻿using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Entities;
-using Mellis.Lang.Base.Resources;
+using Mellis.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Mellis.Lang.Base.Tests.Entities
+namespace Mellis.Tests.Entities
 {
     [TestClass]
     public class ScriptStringTests : ScriptTypeBaseTestClass

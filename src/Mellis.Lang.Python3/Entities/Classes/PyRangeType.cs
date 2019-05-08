@@ -1,6 +1,5 @@
 ﻿using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Entities;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Resources;
 

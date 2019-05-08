@@ -1,8 +1,7 @@
-﻿using System;
-using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Resources;
+﻿using Mellis.Core.Interfaces;
+using Mellis.Resources;
 
-namespace Mellis.Lang.Base.Entities
+namespace Mellis
 {
     public abstract class ScriptClrFunction : ScriptBaseType, IClrFunction
     {

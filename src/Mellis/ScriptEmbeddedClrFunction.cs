@@ -1,7 +1,7 @@
 ﻿using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Resources;
+using Mellis.Resources;
 
-namespace Mellis.Lang.Base.Entities
+namespace Mellis
 {
     public abstract class ScriptEmbeddedClrFunction : ScriptClrFunction
     {

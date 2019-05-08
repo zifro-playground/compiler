@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mellis.Lang.Base\Mellis.Lang.Base.csproj" />
     <ProjectReference Include="..\Mellis.Tools\Mellis.Tools.csproj" />
     <ProjectReference Include="..\Mellis\Mellis.csproj" />
   </ItemGroup>

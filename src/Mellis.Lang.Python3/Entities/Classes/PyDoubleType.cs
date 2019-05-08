@@ -2,9 +2,9 @@
 using System.Globalization;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Resources;
+using Mellis.Resources;
 
 namespace Mellis.Lang.Python3.Entities.Classes
 {

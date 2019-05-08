@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Resources;
+using Mellis.Resources;
 
-namespace Mellis.Lang.Base.Entities
+namespace Mellis
 {
     /// <summary>
     /// Basic functionality of a string value.

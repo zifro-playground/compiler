@@ -6,10 +6,10 @@ using Antlr4.Runtime.Sharpen;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mellis.Core.Entities;
 using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Entities.Classes;
 using Mellis.Lang.Python3.VM;
+using Mellis.Resources;
 using Moq;
 
 namespace Mellis.Lang.Python3.Tests

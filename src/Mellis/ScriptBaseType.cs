@@ -1,9 +1,8 @@
-﻿using System;
-using Mellis.Core.Exceptions;
+﻿using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Resources;
+using Mellis.Resources;
 
-namespace Mellis.Lang.Base.Entities
+namespace Mellis
 {
     public abstract class ScriptBaseType : IScriptType
     {

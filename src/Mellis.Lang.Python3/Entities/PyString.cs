@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Entities;
 using Mellis.Lang.Python3.Entities.Classes;
 using Mellis.Lang.Python3.Syntax.Literals;
 

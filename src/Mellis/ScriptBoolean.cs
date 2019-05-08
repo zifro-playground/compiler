@@ -1,9 +1,7 @@
-﻿using System;
-using Mellis.Core.Exceptions;
-using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Resources;
+﻿using Mellis.Core.Interfaces;
+using Mellis.Resources;
 
-namespace Mellis.Lang.Base.Entities
+namespace Mellis
 {
     /// <summary>
     /// Basic functionality of a double value.

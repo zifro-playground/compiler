@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Mellis.Lang.Base.Resources {
+namespace Mellis.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Mellis.Lang.Base.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Mellis.Lang.Base.Resources.Localized_Base_Entities", typeof(Localized_Base_Entities).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Mellis.Resources.Localized_Base_Entities", typeof(Localized_Base_Entities).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
