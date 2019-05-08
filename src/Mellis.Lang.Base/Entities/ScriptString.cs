@@ -61,30 +61,6 @@ namespace Mellis.Lang.Base.Entities
             }
         }
 
-        public override IScriptType SetIndex(IScriptType index, IScriptType value)
-        {
-            throw new RuntimeException(
-                nameof(Localized_Base_Entities.Ex_String_IndexSet),
-                Localized_Base_Entities.Ex_String_IndexSet,
-                formatArgs: GetErrorArgs());
-        }
-
-        public override IScriptType GetProperty(string property)
-        {
-            throw new RuntimeException(
-                nameof(Localized_Base_Entities.Ex_String_PropertyGet),
-                Localized_Base_Entities.Ex_String_PropertyGet,
-                formatArgs: GetErrorArgs(property));
-        }
-
-        public override IScriptType SetProperty(string property, IScriptType value)
-        {
-            throw new RuntimeException(
-                nameof(Localized_Base_Entities.Ex_String_PropertySet),
-                Localized_Base_Entities.Ex_String_PropertySet,
-                formatArgs: GetErrorArgs(property));
-        }
-
         public override IScriptType ArithmeticAdd(IScriptType rhs)
         {
             switch (rhs)
@@ -92,31 +68,8 @@ namespace Mellis.Lang.Base.Entities
             case ScriptString rhsString:
                 return Processor.Factory.Create(Value + rhsString.Value);
             default:
-                throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_AddInvalidType),
-                    Localized_Base_Entities.Ex_String_AddInvalidType,
-                    formatArgs: GetErrorArgs(rhs.GetTypeName()));
+                return null;
             }
-        }
-
-        public override IScriptType ArithmeticSubtract(IScriptType rhs)
-        {
-            throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_SubtractInvalidOperation),
-                Localized_Base_Entities.Ex_String_SubtractInvalidOperation,
-                formatArgs: GetErrorArgs(rhs.GetTypeName()));
-        }
-
-        public override IScriptType ArithmeticMultiply(IScriptType rhs)
-        {
-            throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_MultiplyInvalidOperation),
-                Localized_Base_Entities.Ex_String_MultiplyInvalidOperation,
-                formatArgs: GetErrorArgs(rhs.GetTypeName()));
-        }
-
-        public override IScriptType ArithmeticDivide(IScriptType rhs)
-        {
-            throw new RuntimeException(nameof(Localized_Base_Entities.Ex_String_DivideInvalidOperation),
-                Localized_Base_Entities.Ex_String_DivideInvalidOperation,
-                formatArgs: GetErrorArgs(rhs.GetTypeName()));
         }
     }
 }

@@ -118,156 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Ex_Math_DivideByZero" xml:space="preserve">
-    <value>Du får inte dela ett tal på noll!</value>
+    <value>Det går inte att dela ett tal på noll!</value>
     <comment>myNumber / 0</comment>
-  </data>
-  <data name="Ex_Int_IndexGet" xml:space="preserve">
-    <value>Ett heltal kan inte indexeras.</value>
-    <comment>myInt[x]; value of int={0}</comment>
-  </data>
-  <data name="Ex_Int_IndexSet" xml:space="preserve">
-    <value>Det går inte att sätta inre värde på ett heltal genom indexering.</value>
-    <comment>myInt[x] = value; value of int={0}</comment>
-  </data>
-  <data name="Ex_Int_Invoke" xml:space="preserve">
-    <value>Ett heltalsvärde kan inte köras som en funktion.</value>
-    <comment>myInt(); value of int={0}</comment>
-  </data>
-  <data name="Ex_Int_PropertyGet" xml:space="preserve">
-    <value>Gick inte att läsa egenskapen '{1}' från heltalet. Heltal har inga egenskaper.</value>
-    <comment>myInt.prop; value of int={0}, property name={1}</comment>
-  </data>
-  <data name="Ex_Int_PropertySet" xml:space="preserve">
-    <value>Det går inte att ändra egenskapen '{1}' på ett heltal. Heltal har inga egenskaper.</value>
-    <comment>myInt.prop = value; value of int={0}, property name={1}</comment>
-  </data>
-  <data name="Ex_Double_IndexGet" xml:space="preserve">
-    <value>Ett decimaltal kan inte indexeras.</value>
-    <comment>myDouble[x]; value of double={0}</comment>
-  </data>
-  <data name="Ex_Double_IndexSet" xml:space="preserve">
-    <value>Det går inte att sätta inre värde på ett decimaltal genom indexering.</value>
-    <comment>myDouble[x] = value; value of double={0}</comment>
-  </data>
-  <data name="Ex_Double_Invoke" xml:space="preserve">
-    <value>Ett decimaltal kan inte köras som en funktion.</value>
-    <comment>myDouble(); value of double={0}</comment>
-  </data>
-  <data name="Ex_Double_PropertyGet" xml:space="preserve">
-    <value>Gick inte att läsa egenskapen '{1}' från decimaltalet. Decimaltal har inga egenskaper.</value>
-    <comment>myDouble.prop; value of double={0}, property name={1}</comment>
-  </data>
-  <data name="Ex_Double_PropertySet" xml:space="preserve">
-    <value>Det går inte att ändra egenskapen '{1}' på decimaltalet. Decimaltal har inga egenskaper.</value>
-    <comment>myDouble.prop = value; value of double={0}, property name={1}</comment>
-  </data>
-  <data name="Ex_String_IndexGet_InvalidType" xml:space="preserve">
-    <value>En textsträng kan endast indexeras av heltal, inte av typen '{2}'.</value>
-    <comment>myStr[x]; value of str={0}, length of str={1}, index type str={1}</comment>
-  </data>
-  <data name="Ex_String_IndexGet_OutOfRange" xml:space="preserve">
-    <value>Gick inte att läsa bokstaven på plats '{2}' då den är utanför textsträngens längd ({1}).</value>
-    <comment>myStr[x]; value of str={0}, length of str={1}, int index={2}</comment>
-  </data>
-  <data name="Ex_String_IndexSet" xml:space="preserve">
-    <value>Det går inte att ändra enstaka bokstäver i en textsträng genom indexering.</value>
-    <comment>myStr[x] = value; value of str={0}, length of str={1}</comment>
-  </data>
-  <data name="Ex_String_Invoke" xml:space="preserve">
-    <value>En textsträng kan inte köras som en funktion.</value>
-    <comment>myStr(); value of str={0}, length of str={1}</comment>
-  </data>
-  <data name="Ex_String_PropertyGet" xml:space="preserve">
-    <value>Gick inte att läsa egenskapen '{2}' från textsträngen.</value>
-    <comment>myStr.prop; value of str={0}, length of str={1}, property name={2}</comment>
-  </data>
-  <data name="Ex_String_PropertySet" xml:space="preserve">
-    <value>Det går inte att ändra egenskapen '{2}' på en textsträng.</value>
-    <comment>myStr.prop = value; value of str={0}, length of str={1}, property name={2}</comment>
-  </data>
-  <data name="Ex_Int_DivideInvalidType" xml:space="preserve">
-    <value>Gick inte att dividera heltalet '{0}' med värde av typen '{1}'.</value>
-    <comment>myInt / value; value of int={0}, other type name={1}</comment>
-  </data>
-  <data name="Ex_Int_AddInvalidType" xml:space="preserve">
-    <value>Gick inte att addera heltalet '{0}' med värde av typen '{1}'.</value>
-    <comment>myInt + value; value of int={0}, other type name={1}</comment>
-  </data>
-  <data name="Ex_Int_MultiplyInvalidType" xml:space="preserve">
-    <value>Gick inte att multiplisera heltalet '{0}' med värde av typen '{1}'.</value>
-    <comment>myInt * value; value of int={0}, other type name={1}</comment>
-  </data>
-  <data name="Ex_Int_SubtractInvalidType" xml:space="preserve">
-    <value>Gick inte att subtrahera heltalet '{0}' med värde av typen '{1}'.</value>
-    <comment>myInt - value; value of int={0}, other type name={1}</comment>
-  </data>
-  <data name="Ex_Double_DivideInvalidType" xml:space="preserve">
-    <value>Gick inte att dividera decimaltalet '{0}' med värde av typen '{1}'.</value>
-    <comment>myDouble / value; value of double={0}, other type name={1}</comment>
-  </data>
-  <data name="Ex_Double_AddInvalidType" xml:space="preserve">
-    <value>Gick inte att addera decimaltalet '{0}' med värde av typen '{1}'.</value>
-    <comment>myDouble + value; value of double={0}, other type name={1}</comment>
-  </data>
-  <data name="Ex_Double_MultiplyInvalidType" xml:space="preserve">
-    <value>Gick inte att multiplisera decimaltalet '{0}' med värde av typen '{1}'.</value>
-    <comment>myDouble * value; value of double={0}, other type name={1}</comment>
-  </data>
-  <data name="Ex_Double_SubtractInvalidType" xml:space="preserve">
-    <value>Gick inte att subtrahera decimaltalet '{0}' med värde av typen '{1}'.</value>
-    <comment>myDouble - value; value of double={0}, other type name={1}</comment>
-  </data>
-  <data name="Ex_String_AddInvalidType" xml:space="preserve">
-    <value>Gick inte att addera din textsträng på {1} karaktärer med värde av typen '{2}'.</value>
-    <comment>myStr + value; value of str={0}, length of str={1}, other type name={2}</comment>
-  </data>
-  <data name="Ex_String_DivideInvalidOperation" xml:space="preserve">
-    <value>En textsträng kan inte divideras med ett annat värde.</value>
-    <comment>myStr / value; value of str={0}, length of str={1}, other type name={2}</comment>
-  </data>
-  <data name="Ex_String_MultiplyInvalidOperation" xml:space="preserve">
-    <value>En textsträng kan inte multipliseras med ett annat värde.</value>
-    <comment>myStr * value; value of str={0}, length of str={1}, other type name={2}</comment>
-  </data>
-  <data name="Ex_String_SubtractInvalidOperation" xml:space="preserve">
-    <value>En textsträng kan inte subtraheras med ett annat värde.</value>
-    <comment>myStr - value; value of str={0}, length of str={1}, other type name={2}</comment>
-  </data>
-  <data name="Ex_Boolean_IndexGet" xml:space="preserve">
-    <value>Ett {1} boolean värde kan inte indexeras.</value>
-    <comment>myBool[x]; value of bool={0}, Type_Boolean_True/False={1}</comment>
-  </data>
-  <data name="Ex_Boolean_IndexSet" xml:space="preserve">
-    <value>Det går inte att sätta inre värde på ett {1} boolean värde genom indexering.</value>
-    <comment>myBool[x] = value; value of bool={0}, Type_Boolean_True/False={1}</comment>
-  </data>
-  <data name="Ex_Boolean_Invoke" xml:space="preserve">
-    <value>Ett {1} boolean värde kan inte köras som en funktion.</value>
-    <comment>myBool(); value of bool={0}, Type_Boolean_True/False={1}</comment>
-  </data>
-  <data name="Ex_Boolean_PropertyGet" xml:space="preserve">
-    <value>Gick inte att läsa egenskapen '{2}' från ett {1} boolean värde. Booleans har inga egenskaper.</value>
-    <comment>myBool.prop; value of bool={0}, Type_Boolean_True/False={1}, property name={2}</comment>
-  </data>
-  <data name="Ex_Boolean_PropertySet" xml:space="preserve">
-    <value>Det går inte att ändra egenskapen '{2}' på ett {1} boolean värde. Booleans har inga egenskaper.</value>
-    <comment>myBool.prop = value; value of bool={0}, Type_Boolean_True/False={1}, property name={2}</comment>
-  </data>
-  <data name="Ex_Boolean_AddInvalidOperation" xml:space="preserve">
-    <value>Ett {1} boolean värde kan inte adderas med ett annat värde.</value>
-    <comment>myBool + value; value of bool={0}, Type_Boolean_True/False={1}, other type name={2}</comment>
-  </data>
-  <data name="Ex_Boolean_DivideInvalidOperation" xml:space="preserve">
-    <value>Ett {1} boolean värde kan inte divideras med ett annat värde.</value>
-    <comment>myBool / value; value of bool={0}, Type_Boolean_True/False={1}, other type name={2}</comment>
-  </data>
-  <data name="Ex_Boolean_MultiplyInvalidOperation" xml:space="preserve">
-    <value>Ett {1} boolean värde kan inte multipliseras med ett annat värde.</value>
-    <comment>myBool * value; value of bool={0}, Type_Boolean_True/False={1}, other type name={2}</comment>
-  </data>
-  <data name="Ex_Boolean_SubtractInvalidOperation" xml:space="preserve">
-    <value>Ett {1} boolean värde kan inte subtraheras med ett annat värde.</value>
-    <comment>myBool - value; value of bool={0}, Type_Boolean_True/False={1}, other type name={2}</comment>
   </data>
   <data name="Type_Double_Name" xml:space="preserve">
     <value>decimaltal</value>
@@ -363,5 +215,14 @@ Ex: myValue.x = y
   <data name="Type_Double_PosInfinity" xml:space="preserve">
     <value>∞</value>
     <comment>ToString name upon using double.PositiveInfinity.</comment>
+  </data>
+  <data name="Ex_String_IndexGet_InvalidType" xml:space="preserve">
+    <value>En textsträng kan endast indexeras av heltal, inte av typen '{2}'.</value>
+    <comment>myStr[x]; value of str={0}, length of str={1}, index type str={1}</comment>
+  </data>
+
+  <data name="Ex_String_IndexGet_OutOfRange" xml:space="preserve">
+    <value>Gick inte att läsa bokstaven på plats '{2}' då den är utanför textsträngens längd ({1}).</value>
+    <comment>myStr[x]; value of str={0}, length of str={1}, int index={2}</comment>
   </data>
 </root>

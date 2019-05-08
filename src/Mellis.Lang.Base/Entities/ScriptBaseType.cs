@@ -25,22 +25,34 @@ namespace Mellis.Lang.Base.Entities
 
         public virtual IScriptType GetIndex(IScriptType index)
         {
-            return null;
+            throw new RuntimeException(
+                nameof(Localized_Base_Entities.Ex_Base_IndexGet),
+                Localized_Base_Entities.Ex_Base_IndexGet,
+                GetTypeName());
         }
 
         public virtual IScriptType SetIndex(IScriptType index, IScriptType value)
         {
-            return null;
+            throw new RuntimeException(
+                nameof(Localized_Base_Entities.Ex_Base_IndexSet),
+                Localized_Base_Entities.Ex_Base_IndexSet,
+                GetTypeName());
         }
 
         public virtual IScriptType GetProperty(string property)
         {
-            return null;
+            throw new RuntimeException(
+                nameof(Localized_Base_Entities.Ex_Base_PropertyGet),
+                Localized_Base_Entities.Ex_Base_PropertyGet,
+                GetTypeName());
         }
 
         public virtual IScriptType SetProperty(string property, IScriptType value)
         {
-            return null;
+            throw new RuntimeException(
+                nameof(Localized_Base_Entities.Ex_Base_PropertySet),
+                Localized_Base_Entities.Ex_Base_PropertySet,
+                GetTypeName());
         }
         
         public virtual IScriptType ArithmeticUnaryPositive()

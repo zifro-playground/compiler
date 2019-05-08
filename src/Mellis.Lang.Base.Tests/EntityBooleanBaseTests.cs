@@ -2,33 +2,24 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Entities;
-using Mellis.Lang.Base.Resources;
 
 namespace Mellis.Lang.Base.Tests
 {
     [TestClass]
     public class EntityBooleanBaseTests : BaseTestClass
     {
-        private static string LocalizedBool(bool value)
-        {
-            return value
-                ? Localized_Base_Entities.Type_Boolean_True
-                : Localized_Base_Entities.Type_Boolean_False;
-        }
-
         [TestMethod]
         public void BooleanAdditionTest()
         {
             // Arrange
             var a = GetBoolean(true);
             var b = GetBoolean(false);
-            object[] expectedFormatArgs = {a.Value, LocalizedBool(a.Value), b.GetTypeName()};
 
-            void Action() { a.ArithmeticAdd(b); }
+            // Act
+            var result = a.ArithmeticAdd(b);
 
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_AddInvalidOperation),
-                expectedFormatArgs);
+            // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]
@@ -37,13 +28,12 @@ namespace Mellis.Lang.Base.Tests
             // Arrange
             var a = GetBoolean(true);
             var b = GetBoolean(false);
-            object[] expectedFormatArgs = {a.Value, LocalizedBool(a.Value), b.GetTypeName()};
 
-            void Action() { a.ArithmeticSubtract(b); }
+            // Act
+            var result = a.ArithmeticSubtract(b);
 
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_SubtractInvalidOperation),
-                expectedFormatArgs);
+            // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]
@@ -52,13 +42,12 @@ namespace Mellis.Lang.Base.Tests
             // Arrange
             var a = GetBoolean(true);
             var b = GetBoolean(false);
-            object[] expectedFormatArgs = {a.Value, LocalizedBool(a.Value), b.GetTypeName()};
 
-            void Action() { a.ArithmeticMultiply(b); }
+            // Act
+            var result = a.ArithmeticMultiply(b);
 
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_MultiplyInvalidOperation),
-                expectedFormatArgs);
+            // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]
@@ -67,81 +56,12 @@ namespace Mellis.Lang.Base.Tests
             // Arrange
             var a = GetBoolean(true);
             var b = GetBoolean(false);
-            object[] expectedFormatArgs = {a.Value, LocalizedBool(a.Value), b.GetTypeName()};
 
-            void Action() { a.ArithmeticDivide(b); }
+            // Act
+            var result = a.ArithmeticDivide(b);
 
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_DivideInvalidOperation), expectedFormatArgs);
-        }
-
-        [TestMethod]
-        public void BooleanDivideByZeroTest()
-        {
-            // Arrange
-            var a = GetBoolean(true);
-            var b = GetBoolean(false);
-            object[] expectedFormatArgs = {a.Value, LocalizedBool(a.Value), b.GetTypeName()};
-
-            void Action() { a.ArithmeticDivide(b); }
-
-            // Act + Assert
-            // Ensure not the "DIVIDE BY ZERO" error, just regular invalid-operation error
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_DivideInvalidOperation), expectedFormatArgs);
-        }
-
-        [TestMethod]
-        public void BooleanIndexGet()
-        {
-            // Arrange
-            var a = GetBoolean(true);
-            object[] expectedFormatArgs = {a.Value, LocalizedBool(a.Value)};
-
-            void Action() { a.GetIndex(null); }
-
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_IndexGet), expectedFormatArgs);
-        }
-
-        [TestMethod]
-        public void BooleanIndexSet()
-        {
-            // Arrange
-            var a = GetBoolean(true);
-            object[] expectedFormatArgs = { a.Value, LocalizedBool(a.Value) };
-
-            void Action() { a.SetIndex(null, null); }
-
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_IndexSet), expectedFormatArgs);
-        }
-
-        [TestMethod]
-        public void BooleanPropertyGet()
-        {
-            // Arrange
-            var a = GetBoolean(true);
-            const string property = "prop";
-            object[] expectedFormatArgs = { a.Value, LocalizedBool(a.Value), property };
-
-            void Action() { a.GetProperty(property); }
-
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_PropertyGet), expectedFormatArgs);
-        }
-
-        [TestMethod]
-        public void BooleanPropertySet()
-        {
-            // Arrange
-            var a = GetBoolean(true);
-            const string property = "prop";
-            object[] expectedFormatArgs = { a.Value, LocalizedBool(a.Value), property };
-
-            void Action() { a.SetProperty(property, null); }
-
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Boolean_PropertySet), expectedFormatArgs);
+            // Assert
+            Assert.IsNull(result);
         }
 
         [DataTestMethod]
@@ -218,6 +138,11 @@ namespace Mellis.Lang.Base.Tests
 
             // Assert
             AssertArithmeticResult<ScriptBoolean>(result, a, b, expected);
+        }
+
+        protected override IScriptType GetBasicOperand()
+        {
+            return GetBoolean(true);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Resources;
@@ -24,19 +23,6 @@ namespace Mellis.Lang.Base.Entities
             return Localized_Base_Entities.Type_Boolean_Name;
         }
 
-        protected object[] GetErrorArgs(params object[] additional)
-        {
-            return GetErrorArgs().Concat(additional).ToArray();
-        }
-
-        protected object[] GetErrorArgs()
-        {
-            return new object[] {
-                Value,
-                GetLocalizedString()
-            };
-        }
-
         public string GetLocalizedString()
         {
             return Value
@@ -47,34 +33,6 @@ namespace Mellis.Lang.Base.Entities
         public override bool IsTruthy()
         {
             return Value;
-        }
-        
-        public override IScriptType ArithmeticAdd(IScriptType rhs)
-        {
-            throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Boolean_AddInvalidOperation),
-                Localized_Base_Entities.Ex_Boolean_AddInvalidOperation,
-                formatArgs: GetErrorArgs(rhs.GetTypeName()));
-        }
-
-        public override IScriptType ArithmeticSubtract(IScriptType rhs)
-        {
-            throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Boolean_SubtractInvalidOperation),
-                Localized_Base_Entities.Ex_Boolean_SubtractInvalidOperation,
-                formatArgs: GetErrorArgs(rhs.GetTypeName()));
-        }
-
-        public override IScriptType ArithmeticMultiply(IScriptType rhs)
-        {
-            throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Boolean_MultiplyInvalidOperation),
-                Localized_Base_Entities.Ex_Boolean_MultiplyInvalidOperation,
-                formatArgs: GetErrorArgs(rhs.GetTypeName()));
-        }
-
-        public override IScriptType ArithmeticDivide(IScriptType rhs)
-        {
-            throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Boolean_DivideInvalidOperation),
-                Localized_Base_Entities.Ex_Boolean_DivideInvalidOperation,
-                formatArgs: GetErrorArgs(rhs.GetTypeName()));
         }
 
         public override IScriptType CompareEqual(IScriptType rhs)

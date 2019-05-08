@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Linq;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Entities;
+using Mellis.Lang.Base.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 namespace Mellis.Lang.Base.Tests
 {
-    public class BaseTestClass
+    public abstract class BaseTestClass
     {
         protected Mock<IScriptTypeFactory> factoryMock;
         protected Mock<IProcessor> processorMock;
@@ -34,6 +34,74 @@ namespace Mellis.Lang.Base.Tests
             factoryMock.SetupGet(o => o.False)
                 .Returns(GetBoolean(false));
         }
+
+        [TestMethod]
+        public virtual void IndexGetFails()
+        {
+            // Arrange
+            var a = GetBasicOperand();
+            object[] expectedFormatArgs = {a.GetTypeName()};
+
+            void Action()
+            {
+                a.GetIndex(null);
+            }
+
+            // Act + Assert
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Base_IndexGet), expectedFormatArgs);
+        }
+
+        [TestMethod]
+        public virtual void IndexSetFails()
+        {
+            // Arrange
+            var a = GetBasicOperand();
+            object[] expectedFormatArgs = {a.GetTypeName()};
+
+            void Action()
+            {
+                a.SetIndex(null, null);
+            }
+
+            // Act + Assert
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Base_IndexSet), expectedFormatArgs);
+        }
+
+        [TestMethod]
+        public virtual void PropertyGetFails()
+        {
+            // Arrange
+            var a = GetBasicOperand();
+            const string property = "prop";
+            object[] expectedFormatArgs = {a.GetTypeName()};
+
+            void Action()
+            {
+                a.GetProperty(property);
+            }
+
+            // Act + Assert
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Base_PropertyGet), expectedFormatArgs);
+        }
+
+        [TestMethod]
+        public virtual void PropertySetFails()
+        {
+            // Arrange
+            var a = GetBasicOperand();
+            const string property = "prop";
+            object[] expectedFormatArgs = {a.GetTypeName()};
+
+            void Action()
+            {
+                a.SetProperty(property, null);
+            }
+
+            // Act + Assert
+            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Base_PropertySet), expectedFormatArgs);
+        }
+
+        protected abstract IScriptType GetBasicOperand();
 
         protected ScriptInteger GetInteger(int value)
         {

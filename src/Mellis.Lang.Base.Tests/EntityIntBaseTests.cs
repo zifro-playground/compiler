@@ -192,58 +192,9 @@ namespace Mellis.Lang.Base.Tests
             AssertArithmeticResult<ScriptDouble>(resultBase, a, b, 2.5);
         }
 
-        [TestMethod]
-        public void IntIndexGet()
+        protected override IScriptType GetBasicOperand()
         {
-            // Arrange
-            var a = GetInteger(5);
-            object[] expectedFormatArgs = {5};
-
-            void Action() { a.GetIndex(null); }
-
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_IndexGet), expectedFormatArgs);
-        }
-
-        [TestMethod]
-        public void IntIndexSet()
-        {
-            // Arrange
-            var a = GetInteger(5);
-            object[] expectedFormatArgs = {5};
-
-            void Action() { a.SetIndex(null, null); }
-
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_IndexSet), expectedFormatArgs);
-        }
-
-        [TestMethod]
-        public void IntPropertyGet()
-        {
-            // Arrange
-            var a = GetInteger(5);
-            const string property = "prop";
-            object[] expectedFormatArgs = {5, property};
-
-            void Action() { a.GetProperty(property); }
-
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_PropertyGet), expectedFormatArgs);
-        }
-
-        [TestMethod]
-        public void IntPropertySet()
-        {
-            // Arrange
-            var a = GetInteger(5);
-            const string property = "prop";
-            object[] expectedFormatArgs = {5, property};
-
-            void Action() { a.SetProperty(property, null); }
-
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_PropertySet), expectedFormatArgs);
+            return GetInteger(5);
         }
     }
 }

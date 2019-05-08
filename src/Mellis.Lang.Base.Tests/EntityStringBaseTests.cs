@@ -17,10 +17,10 @@ namespace Mellis.Lang.Base.Tests
             var b = GetString("bar");
 
             // Act
-            var resultBase = a.ArithmeticAdd(b);
+            var result = a.ArithmeticAdd(b);
 
             // Assert
-            AssertArithmeticResult<ScriptString>(resultBase, a, b, "foobar");
+            AssertArithmeticResult<ScriptString>(result, a, b, "foobar");
         }
 
         [TestMethod]
@@ -31,10 +31,10 @@ namespace Mellis.Lang.Base.Tests
             var b = GetString("");
 
             // Act
-            var resultBase = a.ArithmeticAdd(b);
+            var result = a.ArithmeticAdd(b);
 
             // Assert
-            AssertArithmeticResult<ScriptString>(resultBase, a, b, "");
+            AssertArithmeticResult<ScriptString>(result, a, b, "");
         }
 
         [TestMethod]
@@ -43,12 +43,12 @@ namespace Mellis.Lang.Base.Tests
             // Arrange
             var a = GetString("foo");
             var b = GetInteger(5);
-            object[] expectedFormatArgs = { a.Value, a.Value.Length, b.GetTypeName() };
 
-            void Action() { a.ArithmeticAdd(b); }
+            // Act
+            var result = a.ArithmeticAdd(b);
 
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_String_AddInvalidType), expectedFormatArgs);
+            // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]
@@ -57,12 +57,12 @@ namespace Mellis.Lang.Base.Tests
             // Arrange
             var a = GetString("foo");
             var b = GetString("bar");
-            object[] expectedFormatArgs = { a.Value, a.Value.Length, b.GetTypeName() };
 
-            void Action() { a.ArithmeticSubtract(b); }
+            // Act
+            var result = a.ArithmeticSubtract(b);
 
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_String_SubtractInvalidOperation), expectedFormatArgs);
+            // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]
@@ -71,12 +71,12 @@ namespace Mellis.Lang.Base.Tests
             // Arrange
             var a = GetString("foo");
             var b = GetString("bar");
-            object[] expectedFormatArgs = { a.Value, a.Value.Length, b.GetTypeName() };
 
-            void Action() { a.ArithmeticMultiply(b); }
+            // Act
+            var result = a.ArithmeticMultiply(b);
 
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_String_MultiplyInvalidOperation), expectedFormatArgs);
+            // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]
@@ -85,12 +85,12 @@ namespace Mellis.Lang.Base.Tests
             // Arrange
             var a = GetString("foo");
             var b = GetString("bar");
-            object[] expectedFormatArgs = { a.Value, a.Value.Length, b.GetTypeName() };
 
-            void Action() { a.ArithmeticDivide(b); }
-
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_String_DivideInvalidOperation), expectedFormatArgs);
+            // Act
+            var result = a.ArithmeticDivide(b);
+            
+            // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]
@@ -99,13 +99,12 @@ namespace Mellis.Lang.Base.Tests
             // Arrange
             var a = GetString("foo");
             var b = GetInteger(0);
-            object[] expectedFormatArgs = { a.Value, a.Value.Length, b.GetTypeName() };
 
-            void Action() { a.ArithmeticDivide(b); }
+            // Act
+            var result = a.ArithmeticDivide(b);
 
-            // Act + Assert
-            // Ensure not the "DIVIDE BY ZERO" error, just regular invalid-operation error
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_String_DivideInvalidOperation), expectedFormatArgs);
+            // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]
@@ -150,45 +149,14 @@ namespace Mellis.Lang.Base.Tests
             AssertThrow(Action, nameof(Localized_Base_Entities.Ex_String_IndexGet_InvalidType), expectedFormatArgs);
         }
 
-        [TestMethod]
-        public void StringIndexSet()
+        public override void IndexGetFails()
         {
-            // Arrange
-            var a = GetString("foo");
-            object[] expectedFormatArgs = { a.Value, a.Value.Length };
-
-            void Action() { a.SetIndex(null, null); }
-
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_String_IndexSet), expectedFormatArgs);
+            // disabled
         }
 
-        [TestMethod]
-        public void StringPropertyGet()
+        protected override IScriptType GetBasicOperand()
         {
-            // Arrange
-            var a = GetString("foo");
-            const string property = "prop";
-            object[] expectedFormatArgs = { a.Value, a.Value.Length, property };
-
-            void Action() { a.GetProperty(property); }
-
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_String_PropertyGet), expectedFormatArgs);
-        }
-
-        [TestMethod]
-        public void StringPropertySet()
-        {
-            // Arrange
-            var a = GetString("foo");
-            const string property = "prop";
-            object[] expectedFormatArgs = { a.Value, a.Value.Length, property };
-
-            void Action() { a.SetProperty(property, null); }
-
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_String_PropertySet), expectedFormatArgs);
+            return GetString("foo");
         }
     }
 }
