@@ -7,12 +7,12 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "Mellis.Lang.Python3/0.6.3.0": {
+      "Mellis.Lang.Python3/0.7.3.0": {
         "dependencies": {
           "Antlr4.Runtime.Standard": "4.7.2",
-          "Mellis": "0.2.1",
-          "Mellis.Core": "0.2.1",
-          "Mellis.Lang.Base": "0.2.1",
+          "Mellis": "0.4.0",
+          "Mellis.Core": "0.4.0",
+          "Mellis.Tools": "0.4.0",
           "NETStandard.Library": "2.0.3"
         },
         "runtime": {
@@ -36,31 +36,22 @@
           "Microsoft.NETCore.Platforms": "1.1.0"
         }
       },
-      "Mellis/0.2.1": {
+      "Mellis/0.4.0": {
         "dependencies": {
-          "Mellis.Core": "0.2.1"
+          "Mellis.Core": "0.4.0"
         },
         "runtime": {
           "Mellis.dll": {}
         }
       },
-      "Mellis.Core/0.2.1": {
+      "Mellis.Core/0.4.0": {
         "runtime": {
           "Mellis.Core.dll": {}
         }
       },
-      "Mellis.Lang.Base/0.2.1": {
+      "Mellis.Tools/0.4.0": {
         "dependencies": {
-          "Mellis.Core": "0.2.1",
-          "Mellis.Tools": "0.2.1"
-        },
-        "runtime": {
-          "Mellis.Lang.Base.dll": {}
-        }
-      },
-      "Mellis.Tools/0.2.1": {
-        "dependencies": {
-          "Mellis.Core": "0.2.1"
+          "Mellis.Core": "0.4.0"
         },
         "runtime": {
           "Mellis.Tools.dll": {}
@@ -69,7 +60,7 @@
     }
   },
   "libraries": {
-    "Mellis.Lang.Python3/0.6.3.0": {
+    "Mellis.Lang.Python3/0.7.3.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -84,7 +75,7 @@
     "Microsoft.NETCore.Platforms/1.1.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-a/iSwnRZb+LHFk49hQOyThh/ZNC3vsbZsF65XwQIb863qF6msmhdQtxGXFL28Ob2NsCz/drEj28BJd/YPpLRBg==",
+      "sha512": "sha512-kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
       "path": "microsoft.netcore.platforms/1.1.0",
       "hashPath": "microsoft.netcore.platforms.1.1.0.nupkg.sha512"
     },
@@ -95,22 +86,17 @@
       "path": "netstandard.library/2.0.3",
       "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
     },
-    "Mellis/0.2.1": {
+    "Mellis/0.4.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Mellis.Core/0.2.1": {
+    "Mellis.Core/0.4.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Mellis.Lang.Base/0.2.1": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Mellis.Tools/0.2.1": {
+    "Mellis.Tools/0.4.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
