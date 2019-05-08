@@ -56,7 +56,7 @@ namespace Mellis.Lang.Base.Tests
         {
             // Arrange
             var a = GetScriptInteger(5);
-            var b = GetScriptDouble(2);
+            var b = GetScriptInteger(2);
 
             // Act
             var resultBase = a.ArithmeticMultiply(b);
@@ -91,7 +91,7 @@ namespace Mellis.Lang.Base.Tests
             var resultBase = a.ArithmeticDivide(b);
 
             // Assert
-            AssertArithmeticResult<ScriptInteger>(resultBase, a, b, 5);
+            AssertArithmeticResult<ScriptDouble>(resultBase, a, b, 5d);
         }
 
         [TestMethod]

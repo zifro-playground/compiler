@@ -3,7 +3,6 @@ using System.Globalization;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Resources;
-using Mellis.Tools.Extensions;
 
 namespace Mellis.Lang.Base.Entities
 {
@@ -45,10 +44,10 @@ namespace Mellis.Lang.Base.Entities
             switch (rhs)
             {
             case ScriptDouble rhsDouble:
-                return Processor.Factory.CreateAppropriate(Value + rhsDouble.Value);
+                return Processor.Factory.Create(Value + rhsDouble.Value);
 
             case ScriptInteger rhsInt:
-                return Processor.Factory.CreateAppropriate(Value + rhsInt.Value);
+                return Processor.Factory.Create(Value + rhsInt.Value);
 
             default:
                 return null;
@@ -60,10 +59,10 @@ namespace Mellis.Lang.Base.Entities
             switch (rhs)
             {
             case ScriptDouble rhsDouble:
-                return Processor.Factory.CreateAppropriate(Value - rhsDouble.Value);
+                return Processor.Factory.Create(Value - rhsDouble.Value);
 
             case ScriptInteger rhsInt:
-                return Processor.Factory.CreateAppropriate(Value - rhsInt.Value);
+                return Processor.Factory.Create(Value - rhsInt.Value);
 
             default:
                 return null;
@@ -75,10 +74,10 @@ namespace Mellis.Lang.Base.Entities
             switch (rhs)
             {
             case ScriptInteger rhsInt:
-                return Processor.Factory.CreateAppropriate(Value * rhsInt.Value);
+                return Processor.Factory.Create(Value * rhsInt.Value);
 
             case ScriptDouble rhsDouble:
-                return Processor.Factory.CreateAppropriate(Value * rhsDouble.Value);
+                return Processor.Factory.Create(Value * rhsDouble.Value);
 
             default:
                 return null;
@@ -95,10 +94,10 @@ namespace Mellis.Lang.Base.Entities
                     Localized_Base_Entities.Ex_Math_DivideByZero);
 
             case ScriptDouble rhsDouble:
-                return Processor.Factory.CreateAppropriate(Value / rhsDouble.Value);
+                return Processor.Factory.Create(Value / rhsDouble.Value);
 
             case ScriptInteger rhsInt:
-                return Processor.Factory.CreateAppropriate(Value / rhsInt.Value);
+                return Processor.Factory.Create(Value / rhsInt.Value);
 
             default:
                 return null;
