@@ -29,7 +29,7 @@ namespace Mellis.Lang.Base.Entities
         {
             return !Value.Equals(0);
         }
-        
+
         public override IScriptType ArithmeticAdd(IScriptType rhs)
         {
             switch (rhs)
@@ -87,7 +87,6 @@ namespace Mellis.Lang.Base.Entities
             }
         }
 
-        /// <inheritdoc />
         public override IScriptType ArithmeticModulus(IScriptType rhs)
         {
             switch (rhs)
@@ -101,7 +100,6 @@ namespace Mellis.Lang.Base.Entities
             }
         }
 
-        /// <inheritdoc />
         public override IScriptType ArithmeticExponent(IScriptType rhs)
         {
             switch (rhs)
@@ -115,7 +113,6 @@ namespace Mellis.Lang.Base.Entities
             }
         }
 
-        /// <inheritdoc />
         public override IScriptType ArithmeticFloorDivide(IScriptType rhs)
         {
             switch (rhs)
@@ -129,7 +126,21 @@ namespace Mellis.Lang.Base.Entities
             }
         }
 
-        /// <inheritdoc />
+        public override IScriptType ArithmeticUnaryPositive()
+        {
+            return this;
+        }
+
+        public override IScriptType ArithmeticUnaryNegative()
+        {
+            return Processor.Factory.Create(-Value);
+        }
+
+        public override IScriptType BinaryNot()
+        {
+            return Processor.Factory.Create(~Value);
+        }
+
         public override IScriptType CompareEqual(IScriptType rhs)
         {
             switch (rhs)
@@ -143,7 +154,6 @@ namespace Mellis.Lang.Base.Entities
             }
         }
 
-        /// <inheritdoc />
         public override IScriptType CompareNotEqual(IScriptType rhs)
         {
             switch (rhs)
@@ -157,7 +167,6 @@ namespace Mellis.Lang.Base.Entities
             }
         }
 
-        /// <inheritdoc />
         public override IScriptType CompareGreaterThan(IScriptType rhs)
         {
             switch (rhs)
@@ -171,7 +180,6 @@ namespace Mellis.Lang.Base.Entities
             }
         }
 
-        /// <inheritdoc />
         public override IScriptType CompareGreaterThanOrEqual(IScriptType rhs)
         {
             switch (rhs)
@@ -185,7 +193,6 @@ namespace Mellis.Lang.Base.Entities
             }
         }
 
-        /// <inheritdoc />
         public override IScriptType CompareLessThan(IScriptType rhs)
         {
             switch (rhs)
@@ -199,7 +206,6 @@ namespace Mellis.Lang.Base.Entities
             }
         }
 
-        /// <inheritdoc />
         public override IScriptType CompareLessThanOrEqual(IScriptType rhs)
         {
             switch (rhs)

@@ -220,9 +220,14 @@ Ex: myValue.x = y
     <value>En textsträng kan endast indexeras av heltal, inte av typen '{2}'.</value>
     <comment>myStr[x]; value of str={0}, length of str={1}, index type str={1}</comment>
   </data>
-
   <data name="Ex_String_IndexGet_OutOfRange" xml:space="preserve">
     <value>Gick inte att läsa bokstaven på plats '{2}' då den är utanför textsträngens längd ({1}).</value>
     <comment>myStr[x]; value of str={0}, length of str={1}, int index={2}</comment>
+  </data>
+  <data name="Ex_Base_MemberIn" xml:space="preserve">
+    <value>Typen '{0}' har inte stöd att genomsökas.</value>
+    <comment>Generic fallback error used on when "member in" operand is evaluated.
+Ex: other in myValue
+{0} localized name of type</comment>
   </data>
 </root>

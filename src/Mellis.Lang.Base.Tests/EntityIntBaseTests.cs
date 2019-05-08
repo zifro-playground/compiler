@@ -9,13 +9,12 @@ namespace Mellis.Lang.Base.Tests
     [TestClass]
     public class EntityIntBaseTests : BaseTestClass
     {
-
         [TestMethod]
-        public void IntAdditionTest()
+        public void IntAddTest()
         {
             // Arrange
-            var a = GetInteger(5);
-            var b = GetInteger(10);
+            var a = GetScriptInteger(5);
+            var b = GetScriptInteger(10);
 
             // Act
             var resultBase = a.ArithmeticAdd(b);
@@ -25,25 +24,11 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [TestMethod]
-        public void IntAdditionInvalidTest()
+        public void IntSubtractTest()
         {
             // Arrange
-            var a = GetInteger(5);
-            var b = GetString("foo");
-
-            // Act
-            var result = a.ArithmeticAdd(b);
-
-            // Assert
-            Assert.IsNull(result);
-        }
-
-        [TestMethod]
-        public void IntSubtractionTest()
-        {
-            // Arrange
-            var a = GetInteger(5);
-            var b = GetInteger(10);
+            var a = GetScriptInteger(5);
+            var b = GetScriptInteger(10);
 
             // Act
             var resultBase = a.ArithmeticSubtract(b);
@@ -53,25 +38,11 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [TestMethod]
-        public void IntSubtractionInvalidTest()
+        public void IntMultiplyTest()
         {
             // Arrange
-            var a = GetInteger(5);
-            var b = GetString("foo");
-
-            // Act
-            var result = a.ArithmeticSubtract(b);
-
-            // Assert
-            Assert.IsNull(result);
-        }
-
-        [TestMethod]
-        public void IntMultiplicationTest()
-        {
-            // Arrange
-            var a = GetInteger(5);
-            var b = GetInteger(10);
+            var a = GetScriptInteger(5);
+            var b = GetScriptInteger(10);
 
             // Act
             var resultBase = a.ArithmeticMultiply(b);
@@ -81,25 +52,11 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [TestMethod]
-        public void IntMultiplicationInvalidTest()
+        public void IntMultiplyDoubleWholeTest()
         {
             // Arrange
-            var a = GetInteger(5);
-            var b = GetString("foo");
-
-            // Act
-            var result = a.ArithmeticMultiply(b);
-
-            // Assert
-            Assert.IsNull(result);
-        }
-
-        [TestMethod]
-        public void IntMultiplicationDoubleWholeTest()
-        {
-            // Arrange
-            var a = GetInteger(5);
-            var b = GetDouble(2);
+            var a = GetScriptInteger(5);
+            var b = GetScriptDouble(2);
 
             // Act
             var resultBase = a.ArithmeticMultiply(b);
@@ -109,11 +66,11 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [TestMethod]
-        public void IntMultiplicationDoubleFractionTest()
+        public void IntMultiplyDoubleFractionTest()
         {
             // Arrange
-            var a = GetInteger(5);
-            var b = GetDouble(2.5);
+            var a = GetScriptInteger(5);
+            var b = GetScriptDouble(2.5);
             const double expected = 5 * 2.5;
 
             // Act
@@ -127,8 +84,8 @@ namespace Mellis.Lang.Base.Tests
         public void IntDivideWholeTest()
         {
             // Arrange
-            var a = GetInteger(50);
-            var b = GetInteger(10);
+            var a = GetScriptInteger(50);
+            var b = GetScriptInteger(10);
 
             // Act
             var resultBase = a.ArithmeticDivide(b);
@@ -141,8 +98,8 @@ namespace Mellis.Lang.Base.Tests
         public void IntDivideFractionTest()
         {
             // Arrange
-            var a = GetInteger(5);
-            var b = GetInteger(10);
+            var a = GetScriptInteger(5);
+            var b = GetScriptInteger(10);
 
             // Act
             var resultBase = a.ArithmeticDivide(b);
@@ -152,38 +109,30 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [TestMethod]
-        public void IntDivideInvalidTest()
-        {
-            // Arrange
-            var a = GetInteger(5);
-            var b = GetString("foo");
-
-            // Act
-            var result = a.ArithmeticDivide(b);
-
-            // Assert
-            Assert.IsNull(result);
-        }
-
-        [TestMethod]
         public void IntDivideByZero()
         {
             // Arrange
-            var a = GetInteger(5);
-            var b = GetInteger(0);
+            var a = GetScriptInteger(5);
+            var b = GetScriptInteger(0);
             object[] expectedFormatArgs = { };
-            void Action() { a.ArithmeticDivide(b); }
+
+            void Action()
+            {
+                a.ArithmeticDivide(b);
+            }
 
             // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Math_DivideByZero), expectedFormatArgs);
+            AssertThrow(Action,
+                nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
+                expectedFormatArgs);
         }
 
         [TestMethod]
         public void IntDivideByDouble()
         {
             // Arrange
-            var a = GetInteger(5);
-            var b = GetDouble(2);
+            var a = GetScriptInteger(5);
+            var b = GetScriptDouble(2);
 
             // Act
             var resultBase = a.ArithmeticDivide(b);
@@ -192,9 +141,71 @@ namespace Mellis.Lang.Base.Tests
             AssertArithmeticResult<ScriptDouble>(resultBase, a, b, 2.5);
         }
 
+        public override void ArithmeticUnaryPositive_NotImplemented()
+        {
+            // disable
+        }
+
+        [TestMethod]
+        public void IntArithmeticUnaryPositive()
+        {
+            // Arrange
+            var a = GetScriptInteger(5);
+            const int expected = +5;
+
+            // Act
+            var result = a.ArithmeticUnaryPositive();
+
+            // Assert
+            AssertAreEqual(expected, result);
+        }
+
+        public override void ArithmeticUnaryNegative_NotImplemented()
+        {
+            // disable
+        }
+
+        [TestMethod]
+        public void IntArithmeticUnaryNegative()
+        {
+            // Arrange
+            var a = GetScriptInteger(5);
+            const int expected = -5;
+
+            // Act
+            var result = a.ArithmeticUnaryNegative();
+
+            // Assert
+            AssertAreEqual(expected, result);
+        }
+
+        public override void BinaryNot_NotImplemented()
+        {
+            // disable
+        }
+
+        [TestMethod]
+        public void IntBinaryNot()
+        {
+            // Arrange
+            var a = GetScriptInteger(5);
+            const int expected = ~5;
+
+            // Act
+            var result = a.BinaryNot();
+
+            // Assert
+            AssertAreEqual(expected, result);
+        }
+
         protected override IScriptType GetBasicOperand()
         {
-            return GetInteger(5);
+            return GetScriptInteger(5);
+        }
+
+        protected override IScriptType GetBasicOtherOperandInvalidType()
+        {
+            return GetScriptNull();
         }
     }
 }

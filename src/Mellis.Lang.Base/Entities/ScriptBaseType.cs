@@ -44,7 +44,8 @@ namespace Mellis.Lang.Base.Entities
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Base_PropertyGet),
                 Localized_Base_Entities.Ex_Base_PropertyGet,
-                GetTypeName());
+                GetTypeName(),
+                property);
         }
 
         public virtual IScriptType SetProperty(string property, IScriptType value)
@@ -52,7 +53,8 @@ namespace Mellis.Lang.Base.Entities
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Base_PropertySet),
                 Localized_Base_Entities.Ex_Base_PropertySet,
-                GetTypeName());
+                GetTypeName(),
+                property);
         }
         
         public virtual IScriptType ArithmeticUnaryPositive()
@@ -222,7 +224,10 @@ namespace Mellis.Lang.Base.Entities
 
         public virtual IScriptType MemberIn(IScriptType lhs)
         {
-            return null;
+            throw new RuntimeException(
+                nameof(Localized_Base_Entities.Ex_Base_MemberIn),
+                Localized_Base_Entities.Ex_Base_MemberIn,
+                GetTypeName());
         }
     }
 }

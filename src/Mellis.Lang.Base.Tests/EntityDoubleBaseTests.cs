@@ -10,11 +10,11 @@ namespace Mellis.Lang.Base.Tests
     public class EntityDoubleBaseTests : BaseTestClass
     {
         [TestMethod]
-        public void DoubleAdditionWholeTest()
+        public void DoubleAddWholeTest()
         {
             // Arrange
-            var a = GetDouble(5);
-            var b = GetDouble(10);
+            var a = GetScriptDouble(5);
+            var b = GetScriptDouble(10);
 
             // Act
             var result = a.ArithmeticAdd(b);
@@ -24,11 +24,11 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [TestMethod]
-        public void DoubleAdditionFractionTest()
+        public void DoubleAddFractionTest()
         {
             // Arrange
-            var a = GetDouble(0.5);
-            var b = GetDouble(1);
+            var a = GetScriptDouble(0.5);
+            var b = GetScriptDouble(1);
 
             // Act
             var result = a.ArithmeticAdd(b);
@@ -38,11 +38,11 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [TestMethod]
-        public void DoubleAdditionIntegerTest()
+        public void DoubleAddIntegerTest()
         {
             // Arrange
-            var a = GetDouble(0.5);
-            var b = GetInteger(1);
+            var a = GetScriptDouble(0.5);
+            var b = GetScriptInteger(1);
 
             // Act
             var result = a.ArithmeticAdd(b);
@@ -52,25 +52,11 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [TestMethod]
-        public void DoubleAdditionInvalidTest()
+        public void DoubleSubtractWholeTest()
         {
             // Arrange
-            var a = GetDouble(5);
-            var b = GetString("foo");
-
-            // Act
-            var result = a.ArithmeticAdd(b);
-
-            // Assert
-            Assert.IsNull(result);
-        }
-
-        [TestMethod]
-        public void DoubleSubtractionWholeTest()
-        {
-            // Arrange
-            var a = GetDouble(5);
-            var b = GetDouble(10);
+            var a = GetScriptDouble(5);
+            var b = GetScriptDouble(10);
 
             // Act
             var result = a.ArithmeticSubtract(b);
@@ -80,11 +66,11 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [TestMethod]
-        public void DoubleSubtractionFractionTest()
+        public void DoubleSubtractFractionTest()
         {
             // Arrange
-            var a = GetDouble(.5);
-            var b = GetDouble(.1);
+            var a = GetScriptDouble(.5);
+            var b = GetScriptDouble(.1);
 
             // Act
             var result = a.ArithmeticSubtract(b);
@@ -94,11 +80,11 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [TestMethod]
-        public void DoubleSubtractionIntegerTest()
+        public void DoubleSubtractIntegerTest()
         {
             // Arrange
-            var a = GetDouble(5);
-            var b = GetInteger(1);
+            var a = GetScriptDouble(5);
+            var b = GetScriptInteger(1);
 
             // Act
             var result = a.ArithmeticSubtract(b);
@@ -108,25 +94,11 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [TestMethod]
-        public void DoubleSubtractionInvalidTest()
+        public void DoubleMultiplyTest()
         {
             // Arrange
-            var a = GetDouble(5);
-            var b = GetString("foo");
-
-            // Act
-            var result = a.ArithmeticSubtract(b);
-
-            // Assert
-            Assert.IsNull(result);
-        }
-
-        [TestMethod]
-        public void DoubleMultiplicationTest()
-        {
-            // Arrange
-            var a = GetDouble(5);
-            var b = GetDouble(10);
+            var a = GetScriptDouble(5);
+            var b = GetScriptDouble(10);
 
             // Act
             var result = a.ArithmeticMultiply(b);
@@ -136,39 +108,25 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [TestMethod]
-        public void DoubleMultiplicationIntegerTest()
+        public void DoubleMultiplyIntegerTest()
         {
             // Arrange
-            var a = GetDouble(5);
-            var b = GetInteger(10);
+            var a = GetScriptDouble(5);
+            var b = GetScriptInteger(10);
 
             // Act
             var result = a.ArithmeticMultiply(b);
 
             // Assert
             AssertArithmeticResult<ScriptInteger>(result, a, b, 50);
-        }
-
-        [TestMethod]
-        public void DoubleMultiplicationInvalidTest()
-        {
-            // Arrange
-            var a = GetDouble(5);
-            var b = GetString("foo");
-
-            // Act
-            var result = a.ArithmeticMultiply(b);
-
-            // Assert
-            Assert.IsNull(result);
         }
 
         [TestMethod]
         public void DoubleDivideWholeTest()
         {
             // Arrange
-            var a = GetDouble(50);
-            var b = GetDouble(10);
+            var a = GetScriptDouble(50);
+            var b = GetScriptDouble(10);
 
             // Act
             var result = a.ArithmeticDivide(b);
@@ -181,8 +139,8 @@ namespace Mellis.Lang.Base.Tests
         public void DoubleDivideFractionTest()
         {
             // Arrange
-            var a = GetDouble(5);
-            var b = GetDouble(10);
+            var a = GetScriptDouble(5);
+            var b = GetScriptDouble(10);
 
             // Act
             var result = a.ArithmeticDivide(b);
@@ -190,13 +148,13 @@ namespace Mellis.Lang.Base.Tests
             // Assert
             AssertArithmeticResult<ScriptDouble>(result, a, b, .5);
         }
-        
+
         [TestMethod]
         public void DoubleDivideIntegerTest()
         {
             // Arrange
-            var a = GetDouble(50);
-            var b = GetInteger(10);
+            var a = GetScriptDouble(50);
+            var b = GetScriptInteger(10);
 
             // Act
             var result = a.ArithmeticDivide(b);
@@ -206,30 +164,60 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [TestMethod]
-        public void DoubleDivideInvalidTest()
-        {
-            // Arrange
-            var a = GetDouble(5);
-            var b = GetString("foo");
-            
-            // Act
-            var result = a.ArithmeticDivide(b);
-
-            // Act + Assert
-            Assert.IsNull(result);
-        }
-
-        [TestMethod]
         public void DoubleDivideByZero()
         {
             // Arrange
-            var a = GetDouble(5);
-            var b = GetDouble(0);
+            var a = GetScriptDouble(5);
+            var b = GetScriptDouble(0);
             object[] expectedFormatArgs = { };
-            void Action() { a.ArithmeticDivide(b); }
+
+            void Action()
+            {
+                a.ArithmeticDivide(b);
+            }
 
             // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Math_DivideByZero), expectedFormatArgs);
+            AssertThrow(Action,
+                nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
+                expectedFormatArgs);
+        }
+
+        public override void ArithmeticUnaryPositive_NotImplemented()
+        {
+            // disable
+        }
+
+        public override void ArithmeticUnaryNegative_NotImplemented()
+        {
+            // disable
+        }
+
+        [TestMethod]
+        public void IntArithmeticUnaryPositive()
+        {
+            // Arrange
+            var a = GetScriptDouble(5);
+            const double expected = +5;
+
+            // Act
+            var result = a.ArithmeticUnaryPositive();
+
+            // Assert
+            AssertAreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void IntArithmeticUnaryNegative()
+        {
+            // Arrange
+            var a = GetScriptDouble(5);
+            const double expected = -5;
+
+            // Act
+            var result = a.ArithmeticUnaryNegative();
+
+            // Assert
+            AssertAreEqual(expected, result);
         }
 
         [DataTestMethod]
@@ -239,7 +227,7 @@ namespace Mellis.Lang.Base.Tests
         public void DoubleToStringSpecial(double value, string expectedKey)
         {
             // Arrange
-            var scriptType = GetDouble(value);
+            var scriptType = GetScriptDouble(value);
             string expected = Localized_Base_Entities.ResourceManager.GetString(expectedKey);
 
             // Act
@@ -251,7 +239,12 @@ namespace Mellis.Lang.Base.Tests
 
         protected override IScriptType GetBasicOperand()
         {
-            return GetDouble(5d);
+            return GetScriptDouble(5d);
+        }
+
+        protected override IScriptType GetBasicOtherOperandInvalidType()
+        {
+            return GetScriptNull();
         }
     }
 }

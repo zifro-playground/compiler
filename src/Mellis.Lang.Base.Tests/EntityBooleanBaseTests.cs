@@ -8,62 +8,6 @@ namespace Mellis.Lang.Base.Tests
     [TestClass]
     public class EntityBooleanBaseTests : BaseTestClass
     {
-        [TestMethod]
-        public void BooleanAdditionTest()
-        {
-            // Arrange
-            var a = GetBoolean(true);
-            var b = GetBoolean(false);
-
-            // Act
-            var result = a.ArithmeticAdd(b);
-
-            // Assert
-            Assert.IsNull(result);
-        }
-
-        [TestMethod]
-        public void BooleanSubtractionTest()
-        {
-            // Arrange
-            var a = GetBoolean(true);
-            var b = GetBoolean(false);
-
-            // Act
-            var result = a.ArithmeticSubtract(b);
-
-            // Assert
-            Assert.IsNull(result);
-        }
-
-        [TestMethod]
-        public void BooleanMultiplicationTest()
-        {
-            // Arrange
-            var a = GetBoolean(true);
-            var b = GetBoolean(false);
-
-            // Act
-            var result = a.ArithmeticMultiply(b);
-
-            // Assert
-            Assert.IsNull(result);
-        }
-
-        [TestMethod]
-        public void BooleanDivideTest()
-        {
-            // Arrange
-            var a = GetBoolean(true);
-            var b = GetBoolean(false);
-
-            // Act
-            var result = a.ArithmeticDivide(b);
-
-            // Assert
-            Assert.IsNull(result);
-        }
-
         [DataTestMethod]
         [DataRow(true, false, false)]
         [DataRow(false, true, false)]
@@ -72,8 +16,8 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanCompareEqualBoolean(bool aVal, bool bVal, bool expected)
         {
             // Arrange
-            var a = GetBoolean(aVal);
-            var b = GetBoolean(bVal);
+            var a = GetScriptBoolean(aVal);
+            var b = GetScriptBoolean(bVal);
 
             // Act
             var result = a.CompareEqual(b);
@@ -91,8 +35,8 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanCompareEqualOther(object value)
         {
             // Arrange
-            var a = GetBoolean(true);
-            var b = GetValue(value);
+            var a = GetScriptBoolean(true);
+            var b = GetScriptValue(value);
             const bool expected = false;
 
             // Act
@@ -110,8 +54,8 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanCompareNotEqualBoolean(bool aVal, bool bVal, bool expected)
         {
             // Arrange
-            var a = GetBoolean(aVal);
-            var b = GetBoolean(bVal);
+            var a = GetScriptBoolean(aVal);
+            var b = GetScriptBoolean(bVal);
 
             // Act
             var result = a.CompareNotEqual(b);
@@ -129,8 +73,8 @@ namespace Mellis.Lang.Base.Tests
         public void BooleanCompareNotEqualOther(object value)
         {
             // Arrange
-            var a = GetBoolean(true);
-            var b = GetValue(value);
+            var a = GetScriptBoolean(true);
+            var b = GetScriptValue(value);
             const bool expected = true;
 
             // Act
@@ -142,7 +86,12 @@ namespace Mellis.Lang.Base.Tests
 
         protected override IScriptType GetBasicOperand()
         {
-            return GetBoolean(true);
+            return GetScriptBoolean(true);
+        }
+
+        protected override IScriptType GetBasicOtherOperandInvalidType()
+        {
+            return GetScriptNull();
         }
     }
 }

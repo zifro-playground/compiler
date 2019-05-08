@@ -10,11 +10,11 @@ namespace Mellis.Lang.Base.Tests
     public class EntityStringBaseTests : BaseTestClass
     {
         [TestMethod]
-        public void StringAdditionTest()
+        public void AdditionTest()
         {
             // Arrange
-            var a = GetString("foo");
-            var b = GetString("bar");
+            var a = GetScriptString("foo");
+            var b = GetScriptString("bar");
 
             // Act
             var result = a.ArithmeticAdd(b);
@@ -24,11 +24,11 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [TestMethod]
-        public void StringAdditionEmptyTest()
+        public void AdditionEmptyTest()
         {
             // Arrange
-            var a = GetString("");
-            var b = GetString("");
+            var a = GetScriptString("");
+            var b = GetScriptString("");
 
             // Act
             var result = a.ArithmeticAdd(b);
@@ -38,81 +38,11 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [TestMethod]
-        public void StringAdditionInvalidTest()
+        public void IndexGetInteger()
         {
             // Arrange
-            var a = GetString("foo");
-            var b = GetInteger(5);
-
-            // Act
-            var result = a.ArithmeticAdd(b);
-
-            // Assert
-            Assert.IsNull(result);
-        }
-
-        [TestMethod]
-        public void StringSubtractionTest()
-        {
-            // Arrange
-            var a = GetString("foo");
-            var b = GetString("bar");
-
-            // Act
-            var result = a.ArithmeticSubtract(b);
-
-            // Assert
-            Assert.IsNull(result);
-        }
-
-        [TestMethod]
-        public void StringMultiplicationTest()
-        {
-            // Arrange
-            var a = GetString("foo");
-            var b = GetString("bar");
-
-            // Act
-            var result = a.ArithmeticMultiply(b);
-
-            // Assert
-            Assert.IsNull(result);
-        }
-
-        [TestMethod]
-        public void StringDivideWholeTest()
-        {
-            // Arrange
-            var a = GetString("foo");
-            var b = GetString("bar");
-
-            // Act
-            var result = a.ArithmeticDivide(b);
-            
-            // Assert
-            Assert.IsNull(result);
-        }
-
-        [TestMethod]
-        public void StringDivideByZeroTest()
-        {
-            // Arrange
-            var a = GetString("foo");
-            var b = GetInteger(0);
-
-            // Act
-            var result = a.ArithmeticDivide(b);
-
-            // Assert
-            Assert.IsNull(result);
-        }
-
-        [TestMethod]
-        public void StringIndexGetInteger()
-        {
-            // Arrange
-            var a = GetString("foo");
-            var b = GetInteger(0);
+            var a = GetScriptString("foo");
+            var b = GetScriptInteger(0);
 
             // Act
             var result = a.GetIndex(b);
@@ -122,41 +52,56 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [TestMethod]
-        public void StringIndexGetIntegerOutOfRange()
+        public void IndexGetIntegerOutOfRange()
         {
             // Arrange
-            var a = GetString("foo");
-            var b = GetInteger(10);
-            object[] expectedFormatArgs = { a.Value, a.Value.Length, b.Value };
+            var a = GetScriptString("foo");
+            var b = GetScriptInteger(10);
+            object[] expectedFormatArgs = {a.Value, a.Value.Length, b.Value};
 
-            void Action() { a.GetIndex(b); }
+            void Action()
+            {
+                a.GetIndex(b);
+            }
 
             // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_String_IndexGet_OutOfRange), expectedFormatArgs);
+            AssertThrow(Action,
+                nameof(Localized_Base_Entities.Ex_String_IndexGet_OutOfRange),
+                expectedFormatArgs);
         }
 
         [TestMethod]
-        public void StringIndexGetInvalid()
+        public void IndexGetInvalid()
         {
             // Arrange
-            var a = GetString("foo");
-            var b = GetString("a");
-            object[] expectedFormatArgs = { a.Value, a.Value.Length, b.GetTypeName() };
+            var a = GetScriptString("foo");
+            var b = GetScriptString("a");
+            object[] expectedFormatArgs = {a.Value, a.Value.Length, b.GetTypeName()};
 
-            void Action() { a.GetIndex(b); }
+            void Action()
+            {
+                a.GetIndex(b);
+            }
 
             // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_String_IndexGet_InvalidType), expectedFormatArgs);
+            AssertThrow(Action,
+                nameof(Localized_Base_Entities.Ex_String_IndexGet_InvalidType),
+                expectedFormatArgs);
         }
 
-        public override void IndexGetFails()
+        public override void IndexGet_NotImplemented()
         {
             // disabled
         }
 
         protected override IScriptType GetBasicOperand()
         {
-            return GetString("foo");
+            return GetScriptString("foo");
+        }
+
+        protected override IScriptType GetBasicOtherOperandInvalidType()
+        {
+            return GetScriptNull();
         }
     }
 }

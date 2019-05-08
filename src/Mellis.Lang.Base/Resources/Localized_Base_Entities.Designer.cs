@@ -88,6 +88,15 @@ namespace Mellis.Lang.Base.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Typen &apos;{0}&apos; har inte stöd att genomsökas..
+        /// </summary>
+        public static string Ex_Base_MemberIn {
+            get {
+                return ResourceManager.GetString("Ex_Base_MemberIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Typen &apos;{0}&apos; stödjer inte &apos;{1}&apos;..
         /// </summary>
         public static string Ex_Base_Operator {
