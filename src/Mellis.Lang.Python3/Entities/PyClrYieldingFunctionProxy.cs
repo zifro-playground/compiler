@@ -3,11 +3,11 @@ using Mellis.Lang.Python3.Entities.Classes;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyEmbeddedClrFunction : ScriptEmbeddedClrFunction
+    public class PyClrYieldingFunctionProxy : ScriptClrYieldingFunctionProxy
     {
-        public PyEmbeddedClrFunction(
+        public PyClrYieldingFunctionProxy(
             IProcessor processor,
-            IClrFunction definition)
+            IClrYieldingFunction definition)
             : base(processor, definition)
         {
         }

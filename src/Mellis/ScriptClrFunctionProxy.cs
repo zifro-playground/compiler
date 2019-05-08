@@ -3,11 +3,11 @@ using Mellis.Resources;
 
 namespace Mellis
 {
-    public abstract class ScriptEmbeddedClrFunction : ScriptClrFunction
+    public abstract class ScriptClrFunctionProxy : ScriptClrFunction
     {
         public IClrFunction Definition { get; }
 
-        protected ScriptEmbeddedClrFunction(
+        protected ScriptClrFunctionProxy(
             IProcessor processor,
             IClrFunction definition)
             : base(processor, definition.FunctionName)
