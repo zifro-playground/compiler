@@ -1,9 +1,11 @@
 ﻿using Antlr4.Runtime.Tree;
+using Mellis.Core.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mellis.Core.Exceptions;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Grammar;
+using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Syntax;
 using Mellis.Lang.Python3.Syntax.Statements;
 
@@ -51,6 +53,29 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             contextMock.VerifyLoopedChildren(1);
 
             innerMock.Verify();
+            contextMock.Verify();
+            ctorMock.Verify();
+        }
+
+        [TestMethod]
+        public void Visit_InvalidAssignmentTerminal()
+        {
+            // Arrange
+            var testListMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
+
+            var unexpected = GetTerminal(Python3Parser.ADD);
+
+            contextMock.SetupChildren(
+                testListMock.Object,
+                unexpected,
+                testListMock.Object
+            );
+
+            // Act + Assert
+            var ex = Assert.ThrowsException<SyntaxException>(VisitContext);
+
+            Assert.That.ErrorUnexpectedChildTypeFormatArgs(ex, contextMock, unexpected);
+
             contextMock.Verify();
             ctorMock.Verify();
         }
@@ -141,28 +166,35 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
         public void Visit_AugmentedAssignment_Test()
         {
             // Arrange
-            var testListStarMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
-            var augAssignMock = GetMockRule<Python3Parser.AugassignContext>();
-            var testListMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
+            contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
-            var addAssign = GetTerminal(Python3Parser.ADD_ASSIGN);
-            augAssignMock.SetupChildren(addAssign);
-            augAssignMock.SetupForSourceReference(startTokenMock, stopTokenMock);
+            var lhsMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
+            var rhsMock = GetMockRule<Python3Parser.TestlistContext>();
+            var augAssignMock = GetMockRule<Python3Parser.AugassignContext>();
+            
+            ctorMock.Setup(o => o.VisitAugassign(augAssignMock.Object))
+                .Returns(new AugmentedAssignment(SourceReference.ClrSource, BasicOperatorCode.AMul))
+                .Verifiable();
 
             contextMock.SetupChildren(
-                testListStarMock.Object,
+                lhsMock.Object,
                 augAssignMock.Object,
-                testListMock.Object
+                rhsMock.Object
             );
-            
-            // Act + Assert
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(VisitContext);
 
-            Assert.That.ErrorNotYetImplFormatArgs(ex, startTokenMock, stopTokenMock, "+=");
-            // Should throw at 2nd
-            contextMock.VerifyLoopedChildren(2);
+            var lhsExpr = ctorMock.SetupExpressionMock(o => o.VisitTestlist_star_expr(lhsMock.Object));
+            var rhsExpr = ctorMock.SetupExpressionMock(o => o.VisitTestlist(rhsMock.Object));
 
-            contextMock.Verify();
+            // Act
+            var result = VisitContext();
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(AugmentedAssignment));
+            var augAssignResult = (AugmentedAssignment)result;
+            Assert.AreSame(lhsExpr, augAssignResult.LeftOperand);
+            Assert.AreSame(rhsExpr, augAssignResult.RightOperand);
+            Assert.AreEqual(BasicOperatorCode.AMul, augAssignResult.OpCode);
+
             ctorMock.Verify();
         }
 
