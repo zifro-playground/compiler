@@ -1,9 +1,9 @@
 ﻿using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
-using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.Syntax.Literals;
+using Mellis.Resources;
 
 namespace Mellis.Lang.Python3.Syntax.Statements
 {

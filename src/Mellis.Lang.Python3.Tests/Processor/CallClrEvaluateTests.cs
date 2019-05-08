@@ -25,7 +25,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             defMock.Setup(o => o.Invoke(It.IsAny<IScriptType[]>()))
                 .Returns(Mock.Of<IScriptType>());
 
-            var function = new PyEmbeddedClrFunction(processor, defMock.Object);
+            var function = new PyClrFunctionProxy(processor, defMock.Object);
 
             processor.PushValue(function);
 
@@ -53,7 +53,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             defMock.Setup(o => o.Invoke(It.IsAny<IScriptType[]>()))
                 .Returns(Mock.Of<IScriptType>()).Verifiable();
 
-            var function = new PyEmbeddedClrFunction(processor, defMock.Object);
+            var function = new PyClrFunctionProxy(processor, defMock.Object);
 
             processor.PushValue(function);
 
@@ -79,7 +79,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             defMock.Setup(o => o.Invoke(It.IsAny<IScriptType[]>()))
                 .Returns(value).Verifiable();
 
-            var function = new PyEmbeddedClrFunction(processor, defMock.Object);
+            var function = new PyClrFunctionProxy(processor, defMock.Object);
             processor.PushValue(function);
 
             var lit1 = new PyInteger(processor, 5);
@@ -118,7 +118,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             defMock.Setup(o => o.Invoke(It.IsAny<IScriptType[]>()))
                 .Returns(value).Verifiable();
 
-            var function = new PyEmbeddedClrFunction(processor, defMock.Object);
+            var function = new PyClrFunctionProxy(processor, defMock.Object);
             processor.PushValue(function);
 
             // Act
@@ -146,7 +146,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
             defMock.Setup(o => o.Invoke(It.IsAny<IScriptType[]>()))
                 .Returns((IScriptType) null).Verifiable();
 
-            var function = new PyEmbeddedClrFunction(processor, defMock.Object);
+            var function = new PyClrFunctionProxy(processor, defMock.Object);
             processor.PushValue(function);
 
             // Act
@@ -180,7 +180,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
                     return null;
                 });
 
-            var function = new PyEmbeddedClrFunction(processor, defMock.Object);
+            var function = new PyClrFunctionProxy(processor, defMock.Object);
             processor.PushValue(function);
 
             // Act

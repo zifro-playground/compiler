@@ -45,15 +45,6 @@ namespace Mellis.Lang.Python3.Entities.Functions
                 return arguments[1];
             }
 
-            if (!(value.Name is null))
-            {
-                throw new RuntimeException(
-                    nameof(Localized_Python3_Entities.Builtin_Next_StopIteration_Named),
-                    Localized_Python3_Entities.Builtin_Next_StopIteration_Named,
-                    value.Name
-                );
-            }
-
             throw new RuntimeException(
                 nameof(Localized_Python3_Entities.Builtin_Next_StopIteration),
                 Localized_Python3_Entities.Builtin_Next_StopIteration

@@ -1,8 +1,8 @@
 ﻿using System;
-using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Entities.Classes;
 using Mellis.Lang.Python3.VM;
+using Mellis.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Mellis.Lang.Python3.Tests.Entities
@@ -15,7 +15,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
         protected override PyDouble CreateEntity(PyProcessor processor, double value)
         {
-            return new PyDouble(processor, value, nameof(PyBooleanTests));
+            return new PyDouble(processor, value);
         }
 
         [DataTestMethod]

@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Entities;
 using Mellis.Lang.Python3.Entities.Classes;
 using Mellis.Lang.Python3.Resources;
 
@@ -18,18 +17,12 @@ namespace Mellis.Lang.Python3.Entities
             IProcessor processor,
             int rangeFrom,
             int rangeTo,
-            int rangeStep = 1,
-            string name = null)
-            : base(processor, name)
+            int rangeStep = 1)
+            : base(processor)
         {
             RangeFrom = rangeFrom;
             RangeTo = rangeTo;
             RangeStep = rangeStep;
-        }
-
-        public override IScriptType Copy(string newName)
-        {
-            return new PyRange(Processor, RangeFrom, RangeTo, RangeStep, newName);
         }
 
         public override IScriptType GetTypeDef()
@@ -45,36 +38,6 @@ namespace Mellis.Lang.Python3.Entities
         public override bool IsTruthy()
         {
             return true;
-        }
-
-        public override bool TryCoerce(Type type, out object value)
-        {
-            if (type == typeof(IEnumerable<IScriptType>))
-            {
-                value = this;
-                return true;
-            }
-
-            if (type == typeof(IEnumerable))
-            {
-                value = this;
-                return true;
-            }
-
-            if (type == typeof(IEnumerator<IScriptType>))
-            {
-                value = GetEnumerator();
-                return true;
-            }
-
-            if (type == typeof(IEnumerator))
-            {
-                value = ((IEnumerable)this).GetEnumerator();
-                return true;
-            }
-
-            value = default;
-            return false;
         }
 
         public IEnumerator<IScriptType> GetEnumerator()

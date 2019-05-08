@@ -40,20 +40,5 @@ namespace Mellis.Lang.Python3.Tests.Entities
             // Assert
             Assert.AreEqual(entity.GetTypeName(), ExpectedTypeName, "Entity type name did not match.");
         }
-        
-        [TestMethod]
-        public virtual void CopyGivesRightType()
-        {
-            // Arrange
-            var entity = CreateEntity();
-
-            // Act
-            var result = entity.Copy("foo");
-
-            // Assert
-            Assert.IsNotNull(result, "Copied entity is null.");
-            Assert.IsInstanceOfType(result, typeof(T), "Copied entity is not same type.");
-            Assert.AreEqual(result.Name, "foo", "Copied entity did not get name.");
-        }
     }
 }

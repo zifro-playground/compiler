@@ -17,15 +17,12 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
 
         protected override PyRangeType CreateEntity(PyProcessor processor)
         {
-            return new PyRangeType(processor, nameof(PyRangeTypeTests));
+            return new PyRangeType(processor);
         }
 
-        private static IScriptType CreateConvertibleInteger(int value)
+        private static ScriptInteger CreateConvertibleInteger(int value)
         {
-            var mock = new Mock<IScriptType>();
-            object boxed = value;
-            mock.Setup(o => o.TryCoerce(typeof(int), out boxed)).Returns(true);
-            mock.Setup(o => o.TryCoerce(out value)).Returns(true);
+            var mock = new Mock<ScriptInteger>(null, value);
             mock.Setup(o => o.GetTypeName()).Returns($"fake<{value}>");
             return mock.Object;
         }

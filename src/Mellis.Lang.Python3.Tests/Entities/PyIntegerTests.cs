@@ -1,8 +1,8 @@
 ﻿using System;
-using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Entities.Classes;
 using Mellis.Lang.Python3.VM;
+using Mellis.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Mellis.Lang.Python3.Tests.Entities
@@ -15,7 +15,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
         protected override PyInteger CreateEntity(PyProcessor processor, int value)
         {
-            return new PyInteger(processor, value, nameof(PyBooleanTests));
+            return new PyInteger(processor, value);
         }
 
         [DataTestMethod]

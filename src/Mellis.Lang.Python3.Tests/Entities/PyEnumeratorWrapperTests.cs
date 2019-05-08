@@ -47,8 +47,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
             return new PyEnumeratorWrapper(
                 processor: processor,
                 sourceType: sourceTypeMock.Object,
-                enumerator: value,
-                name: nameof(PyEnumeratorWrapperTests));
+                enumerator: value);
         }
 
         [TestMethod]

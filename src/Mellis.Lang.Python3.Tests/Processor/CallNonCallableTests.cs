@@ -1,11 +1,11 @@
 ﻿using System;
 using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
-using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.VM;
+using Mellis.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Mellis.Lang.Python3.Tests.Processor

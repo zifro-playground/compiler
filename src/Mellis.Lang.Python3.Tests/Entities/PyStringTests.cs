@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Entities.Classes;
 using Mellis.Lang.Python3.VM;
+using Mellis.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Mellis.Lang.Python3.Tests.Entities
@@ -20,7 +19,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
         protected override PyString CreateEntity(PyProcessor processor, string value)
         {
-            return new PyString(processor, value, nameof(PyBooleanTests));
+            return new PyString(processor, value);
         }
 
         [DataTestMethod]

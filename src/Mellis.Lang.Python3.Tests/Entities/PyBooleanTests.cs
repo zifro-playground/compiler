@@ -1,8 +1,8 @@
 ﻿using System;
-using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Entities.Classes;
 using Mellis.Lang.Python3.VM;
+using Mellis.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Mellis.Lang.Python3.Tests.Entities
@@ -15,7 +15,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
         protected override PyBoolean CreateEntity(PyProcessor processor, bool value)
         {
-            return new PyBoolean(processor, value, nameof(PyBooleanTests));
+            return new PyBoolean(processor, value);
         }
 
         [DataTestMethod]

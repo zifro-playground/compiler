@@ -14,11 +14,9 @@ namespace Mellis.Lang.Python3.Tests.Processor
     [TestClass]
     public class VarGetEvaluateTests
     {
-        protected static IScriptType GetSetupCopy()
+        protected static IScriptType GetMockedValue()
         {
             var mock = new Mock<IScriptType>(MockBehavior.Strict);
-            mock.Setup(o => o.Copy(It.IsAny<string>()))
-                .Returns(mock.Object).Verifiable();
             return mock.Object;
         }
 
@@ -31,7 +29,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
                 new VarGet(SourceReference.ClrSource, identifier)
             );
 
-            var value = GetSetupCopy();
+            var value = GetMockedValue();
 
             var globalScope = (PyScope) processor.GlobalScope;
             globalScope.SetVariable(identifier, value);
@@ -59,7 +57,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
                 new ScopePop(SourceReference.ClrSource)
             );
 
-            var value = GetSetupCopy();
+            var value = GetMockedValue();
 
             var globalScope = (PyScope)processor.GlobalScope;
             globalScope.SetVariable(identifier, value);
@@ -87,7 +85,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
                 new ScopePop(SourceReference.ClrSource)
             );
 
-            var value = GetSetupCopy();
+            var value = GetMockedValue();
 
             processor.WalkInstruction(); // to enter first op
             processor.WalkInstruction(); // push->$scope

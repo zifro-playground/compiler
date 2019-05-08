@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Entities;
 using Mellis.Lang.Python3.Resources;
 
 namespace Mellis.Lang.Python3.Entities
@@ -15,17 +14,11 @@ namespace Mellis.Lang.Python3.Entities
         public PyEnumeratorWrapper(
             IProcessor processor,
             IScriptType sourceType,
-            IEnumerator<IScriptType> enumerator,
-            string name = null)
-            : base(processor, name)
+            IEnumerator<IScriptType> enumerator)
+            : base(processor)
         {
             SourceType = sourceType;
             Enumerator = enumerator;
-        }
-
-        public override IScriptType Copy(string newName)
-        {
-            return new PyEnumeratorWrapper(Processor, SourceType, Enumerator, newName);
         }
 
         public override IScriptType GetTypeDef()
@@ -41,12 +34,6 @@ namespace Mellis.Lang.Python3.Entities
         public override bool IsTruthy()
         {
             return true;
-        }
-
-        public override bool TryCoerce(Type type, out object value)
-        {
-            value = default;
-            return false;
         }
 
         public override string ToString()

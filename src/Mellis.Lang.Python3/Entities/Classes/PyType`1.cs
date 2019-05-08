@@ -1,6 +1,5 @@
 ﻿using System;
 using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Entities;
 using Mellis.Lang.Python3.Resources;
 
 namespace Mellis.Lang.Python3.Entities.Classes
@@ -12,9 +11,8 @@ namespace Mellis.Lang.Python3.Entities.Classes
 
         public PyType(
             IProcessor processor,
-            string className,
-            string name = null)
-            : base(processor, className, name)
+            string className)
+            : base(processor, className)
         {
             ClassName = className;
         }
@@ -27,12 +25,6 @@ namespace Mellis.Lang.Python3.Entities.Classes
         public override string GetTypeName()
         {
             return Localized_Python3_Entities.Type_Type_Name;
-        }
-
-        public override bool TryCoerce(Type type, out object value)
-        {
-            value = default;
-            return false;
         }
 
         public override string ToString()

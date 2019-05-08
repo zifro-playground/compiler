@@ -1,23 +1,17 @@
-﻿using System;
-using Mellis.Core.Exceptions;
+﻿using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Resources;
+using Mellis.Resources;
 
-namespace Mellis.Lang.Base.Entities
+namespace Mellis
 {
     public abstract class ScriptBaseType : IScriptType
     {
         public IProcessor Processor { get; internal set; }
 
-        public string Name { get; }
-
-        protected ScriptBaseType(IProcessor processor, string name = null)
+        protected ScriptBaseType(IProcessor processor)
         {
             Processor = processor;
-            Name = name;
         }
-
-        public abstract IScriptType Copy(string newName);
 
         public abstract IScriptType GetTypeDef();
 
@@ -30,38 +24,38 @@ namespace Mellis.Lang.Base.Entities
 
         public virtual IScriptType GetIndex(IScriptType index)
         {
-            return null;
+            throw new RuntimeException(
+                nameof(Localized_Base_Entities.Ex_Base_IndexGet),
+                Localized_Base_Entities.Ex_Base_IndexGet,
+                GetTypeName());
         }
 
         public virtual IScriptType SetIndex(IScriptType index, IScriptType value)
         {
-            return null;
+            throw new RuntimeException(
+                nameof(Localized_Base_Entities.Ex_Base_IndexSet),
+                Localized_Base_Entities.Ex_Base_IndexSet,
+                GetTypeName());
         }
 
         public virtual IScriptType GetProperty(string property)
         {
-            return null;
+            throw new RuntimeException(
+                nameof(Localized_Base_Entities.Ex_Base_PropertyGet),
+                Localized_Base_Entities.Ex_Base_PropertyGet,
+                GetTypeName(),
+                property);
         }
 
         public virtual IScriptType SetProperty(string property, IScriptType value)
         {
-            return null;
+            throw new RuntimeException(
+                nameof(Localized_Base_Entities.Ex_Base_PropertySet),
+                Localized_Base_Entities.Ex_Base_PropertySet,
+                GetTypeName(),
+                property);
         }
-
-        public bool TryCoerce<T>(out T value)
-        {
-            if (TryCoerce(typeof(T), out object boxed))
-            {
-                value = (T)boxed;
-                return true;
-            }
-
-            value = default;
-            return false;
-        }
-
-        public abstract bool TryCoerce(Type type, out object value);
-
+        
         public virtual IScriptType ArithmeticUnaryPositive()
         {
             return null;
@@ -229,7 +223,10 @@ namespace Mellis.Lang.Base.Entities
 
         public virtual IScriptType MemberIn(IScriptType lhs)
         {
-            return null;
+            throw new RuntimeException(
+                nameof(Localized_Base_Entities.Ex_Base_MemberIn),
+                Localized_Base_Entities.Ex_Base_MemberIn,
+                GetTypeName());
         }
     }
 }

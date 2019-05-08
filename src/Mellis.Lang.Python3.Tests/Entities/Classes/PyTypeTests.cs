@@ -17,13 +17,13 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
 
         protected override PyType CreateEntity(PyProcessor processor)
         {
-            return new PyType(processor, nameof(PyTypeTests));
+            return new PyType(processor);
         }
 
         private static PyType<T> CreateEntity<T>(PyProcessor processor, string className)
             where T : IScriptType
         {
-            return new Mock<PyType<T>>(processor, className, null)
+            return new Mock<PyType<T>>(processor, className)
             {
                 CallBase = true
             }.Object;

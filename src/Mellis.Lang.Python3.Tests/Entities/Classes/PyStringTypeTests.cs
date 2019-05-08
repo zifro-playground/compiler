@@ -1,11 +1,11 @@
 ﻿using System;
 using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Entities.Classes;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.VM;
+using Mellis.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -18,7 +18,7 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
 
         protected override PyStringType CreateEntity(PyProcessor processor)
         {
-            return new PyStringType(processor, nameof(PyStringTypeTests));
+            return new PyStringType(processor);
         }
 
         [TestMethod]

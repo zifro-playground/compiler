@@ -14,19 +14,6 @@ namespace Mellis.Core.Interfaces
         IProcessor Processor { get; }
 
         /// <summary>
-        /// Name of this value.
-        /// Can be function name, variable name, or parameter name.
-        /// Null if undetermined (ex: equation result and literals)
-        /// </summary>
-        string Name { get; }
-
-        /// <summary>
-        /// Creates a copy of this value with new name.
-        /// Used internally by the processor on variable assignment.
-        /// </summary>
-        IScriptType Copy(string newName);
-
-        /// <summary>
         /// <para>(Lua, Python) <c>type(this)</c></para>
         /// <para>(JavaScript) <c>typeof(this)</c></para>
         /// </summary>
@@ -63,16 +50,6 @@ namespace Mellis.Core.Interfaces
         /// this.<paramref name="property"/> = <paramref name="value"/>
         /// </summary>
         IScriptType SetProperty(string property, IScriptType value);
-
-        /// <summary>
-        /// Try convert this value to it's CLR representation.
-        /// </summary>
-        bool TryCoerce<T>(out T value);
-
-        /// <summary>
-        /// Try convert this value to it's CLR representation.
-        /// </summary>
-        bool TryCoerce(Type type, out object value);
 
         #region Arithmetic operators
 

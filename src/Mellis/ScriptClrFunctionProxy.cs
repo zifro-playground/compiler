@@ -1,22 +1,20 @@
 ﻿using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Resources;
+using Mellis.Resources;
 
-namespace Mellis.Lang.Base.Entities
+namespace Mellis
 {
-    public abstract class ScriptEmbeddedClrFunction : ScriptClrFunction
+    public abstract class ScriptClrFunctionProxy : ScriptClrFunction
     {
         public IClrFunction Definition { get; }
 
-        protected ScriptEmbeddedClrFunction(
+        protected ScriptClrFunctionProxy(
             IProcessor processor,
-            IClrFunction definition,
-            string name = null)
-            : base(processor, definition.FunctionName, name)
+            IClrFunction definition)
+            : base(processor, definition.FunctionName)
         {
             Definition = definition;
         }
 
-        /// <inheritdoc />
         public override IScriptType Invoke(params IScriptType[] arguments)
         {
             return Definition.Invoke(arguments);

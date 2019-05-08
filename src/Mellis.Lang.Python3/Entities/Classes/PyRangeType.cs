@@ -7,14 +7,9 @@ namespace Mellis.Lang.Python3.Entities.Classes
 {
     public class PyRangeType : PyType<PyRange>
     {
-        public PyRangeType(IProcessor processor, string name = null)
-            : base(processor, Localized_Python3_Entities.Type_Range_Name, name)
+        public PyRangeType(IProcessor processor)
+            : base(processor, Localized_Python3_Entities.Type_Range_Name)
         {
-        }
-
-        public override IScriptType Copy(string newName)
-        {
-            return new PyRangeType(Processor, newName);
         }
 
         public override IScriptType Invoke(params IScriptType[] arguments)
@@ -25,7 +20,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
             }
 
             int from = 0;
-            int to = 0;
+            int to;
             int step = 1;
             switch (arguments.Length)
             {
@@ -59,7 +54,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
 
             int GetIntegerArg(int index)
             {
-                if (!arguments[index].TryCoerce(out int value))
+                if (!(arguments[index] is ScriptInteger intVal))
                 {
                     throw new RuntimeException(
                         nameof(Localized_Python3_Entities.Ex_RangeType_Ctor_Arg_NotInteger),
@@ -68,7 +63,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
                     );
                 }
 
-                return value;
+                return intVal.Value;
             }
         }
     }

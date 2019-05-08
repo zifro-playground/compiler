@@ -1,24 +1,17 @@
 ﻿using Mellis.Core.Interfaces;
-using Mellis.Lang.Base.Resources;
 using Mellis.Lang.Python3.Exceptions;
+using Mellis.Resources;
 
 namespace Mellis.Lang.Python3.Entities.Classes
 {
     public class PyStringType : PyType<PyString>
     {
         public PyStringType(
-            IProcessor processor,
-            string name = null)
+            IProcessor processor)
             : base(
                 processor: processor,
-                className: Localized_Base_Entities.Type_String_Name,
-                name: name)
+                className: Localized_Base_Entities.Type_String_Name)
         {
-        }
-
-        public override IScriptType Copy(string newName)
-        {
-            return new PyStringType(Processor, newName);
         }
 
         public override IScriptType Invoke(params IScriptType[] arguments)
