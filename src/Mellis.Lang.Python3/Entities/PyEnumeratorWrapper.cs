@@ -15,17 +15,11 @@ namespace Mellis.Lang.Python3.Entities
         public PyEnumeratorWrapper(
             IProcessor processor,
             IScriptType sourceType,
-            IEnumerator<IScriptType> enumerator,
-            string name = null)
-            : base(processor, name)
+            IEnumerator<IScriptType> enumerator)
+            : base(processor)
         {
             SourceType = sourceType;
             Enumerator = enumerator;
-        }
-
-        public override IScriptType Copy(string newName)
-        {
-            return new PyEnumeratorWrapper(Processor, SourceType, Enumerator, newName);
         }
 
         public override IScriptType GetTypeDef()

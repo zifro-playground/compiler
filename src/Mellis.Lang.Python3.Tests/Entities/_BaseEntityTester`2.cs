@@ -38,12 +38,6 @@ namespace Mellis.Lang.Python3.Tests.Entities
         // Some testing libraries only check 1 deep in inheritance for tests
 
         [TestMethod]
-        public override void CopyGivesRightType()
-        {
-            base.CopyGivesRightType();
-        }
-
-        [TestMethod]
         public override void TypeNameTest()
         {
             base.TypeNameTest();

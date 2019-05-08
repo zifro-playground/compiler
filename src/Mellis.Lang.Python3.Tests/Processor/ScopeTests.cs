@@ -14,11 +14,9 @@ namespace Mellis.Lang.Python3.Tests.Processor
     [TestClass]
     public class ScopeTests
     {
-        protected static IScriptType GetSetupCopy()
+        protected static IScriptType GetMockedValue()
         {
             var mock = new Mock<IScriptType>(MockBehavior.Strict);
-            mock.Setup(o => o.Copy(It.IsAny<string>()))
-                .Returns(mock.Object).Verifiable();
             return mock.Object;
         }
 
@@ -187,7 +185,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void SetGlobalValueInGlobalScopeTest()
         {
             // Arrange
-            var value = GetSetupCopy();
+            var value = GetMockedValue();
             var processor = new PyProcessor();
             var globalScope = (PyScope)processor.GlobalScope;
 
@@ -204,7 +202,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void SetGlobalValueInLocalScopeTest()
         {
             // Arrange
-            var value = GetSetupCopy();
+            var value = GetMockedValue();
             var processor = new PyProcessor();
             var globalScope = (PyScope)processor.GlobalScope;
             processor.PushScope();
@@ -227,7 +225,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void SetLocalValueInGlobalScopeTest()
         {
             // Arrange
-            var value = GetSetupCopy();
+            var value = GetMockedValue();
             var processor = new PyProcessor();
             var globalScope = (PyScope)processor.GlobalScope;
 
@@ -245,7 +243,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void SetLocalValueInLocalScopeTest()
         {
             // Arrange
-            var value = GetSetupCopy();
+            var value = GetMockedValue();
             var processor = new PyProcessor();
             var globalScope = (PyScope)processor.GlobalScope;
             processor.PushScope();
@@ -267,8 +265,8 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void OverwriteValueTest()
         {
             // Arrange
-            var valueBefore = GetSetupCopy();
-            var valueAfter = GetSetupCopy();
+            var valueBefore = GetMockedValue();
+            var valueAfter = GetMockedValue();
             var processor = new PyProcessor();
             var globalScope = (PyScope)processor.GlobalScope;
             globalScope.SetVariable("foo", valueBefore);
@@ -288,7 +286,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void GetGlobalValueWithinLocalScopeTest()
         {
             // Arrange
-            var value = GetSetupCopy();
+            var value = GetMockedValue();
             var processor = new PyProcessor();
             var globalScope = (PyScope)processor.GlobalScope;
             processor.PushScope();
@@ -306,7 +304,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void GetValueInGlobalScopeTest()
         {
             // Arrange
-            var value = GetSetupCopy();
+            var value = GetMockedValue();
             var processor = new PyProcessor();
             var globalScope = (PyScope)processor.GlobalScope;
             globalScope.SetVariable("foo", value);
@@ -323,7 +321,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         public void GetValueFromLocalScopeTest()
         {
             // Arrange
-            var value = GetSetupCopy();
+            var value = GetMockedValue();
             var processor = new PyProcessor();
             processor.PushScope();
             var localScope = (PyScope)processor.CurrentScope;

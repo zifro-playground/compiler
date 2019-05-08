@@ -11,18 +11,11 @@ namespace Mellis.Lang.Python3.Entities.Classes
     public class PyDoubleType : PyType<PyDouble>
     {
         public PyDoubleType(
-            IProcessor processor,
-            string name = null)
+            IProcessor processor)
             : base(
                 processor: processor,
-                className: Localized_Base_Entities.Type_Double_Name,
-                name: name)
+                className: Localized_Base_Entities.Type_Double_Name)
         {
-        }
-
-        public override IScriptType Copy(string newName)
-        {
-            return new PyDoubleType(Processor, newName);
         }
 
         public override IScriptType Invoke(params IScriptType[] arguments)
@@ -118,7 +111,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
                     return new PyDouble(Processor, boolType.Value ? 1d : 0d);
 
                 case PyDouble doubleType:
-                    return doubleType.Copy(null);
+                    return doubleType;
 
                 case PyInteger intType:
                     return new PyDouble(Processor, intType.Value);

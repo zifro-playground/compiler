@@ -13,8 +13,8 @@ namespace Mellis.Lang.Base.Entities
     {
         public bool Value { get; }
 
-        protected ScriptBoolean(IProcessor processor, bool value, string name = null)
-            : base(processor, name)
+        protected ScriptBoolean(IProcessor processor, bool value)
+            : base(processor)
         {
             Value = value;
         }

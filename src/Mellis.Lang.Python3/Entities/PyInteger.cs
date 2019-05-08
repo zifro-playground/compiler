@@ -7,18 +7,11 @@ namespace Mellis.Lang.Python3.Entities
 {
     public class PyInteger : ScriptInteger
     {
-        public PyInteger(IProcessor processor, int value, string name = null)
-            : base(processor, value, name)
+        public PyInteger(IProcessor processor, int value)
+            : base(processor, value)
         {
         }
 
-        /// <inheritdoc />
-        public override IScriptType Copy(string newName)
-        {
-            return new PyInteger(Processor, Value, newName);
-        }
-
-        /// <inheritdoc />
         public override IScriptType GetTypeDef()
         {
             return new PyIntegerType(Processor);

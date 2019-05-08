@@ -9,15 +9,10 @@ namespace Mellis.Lang.Base.Entities
     {
         public IProcessor Processor { get; internal set; }
 
-        public string Name { get; }
-
-        protected ScriptBaseType(IProcessor processor, string name = null)
+        protected ScriptBaseType(IProcessor processor)
         {
             Processor = processor;
-            Name = name;
         }
-
-        public abstract IScriptType Copy(string newName);
 
         public abstract IScriptType GetTypeDef();
 

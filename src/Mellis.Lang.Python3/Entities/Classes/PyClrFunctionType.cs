@@ -9,17 +9,11 @@ namespace Mellis.Lang.Python3.Entities.Classes
     public class PyClrFunctionType : PyType<ScriptClrFunction>
     {
         public PyClrFunctionType(
-            IProcessor processor, string name = null)
+            IProcessor processor)
             : base(
                 processor: processor,
-                className: Localized_Base_Entities.Type_ClrFunction_Name,
-                name: name)
+                className: Localized_Base_Entities.Type_ClrFunction_Name)
         {
-        }
-
-        public override IScriptType Copy(string newName)
-        {
-            return new PyClrFunctionType(Processor, newName);
         }
 
         public override IScriptType Invoke(params IScriptType[] arguments)

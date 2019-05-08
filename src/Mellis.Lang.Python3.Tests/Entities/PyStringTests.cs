@@ -20,7 +20,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
         protected override PyString CreateEntity(PyProcessor processor, string value)
         {
-            return new PyString(processor, value, nameof(PyBooleanTests));
+            return new PyString(processor, value);
         }
 
         [DataTestMethod]

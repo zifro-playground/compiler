@@ -124,7 +124,7 @@ namespace Mellis.Lang.Python3.Tests.Entities.Functions
         }
 
         [TestMethod]
-        public void ThrowsIfUnnamedExhaustedWithNoDefault()
+        public void ThrowsIfExhaustedWithNoDefault()
         {
             // Arrange
             const bool moveNext = false;
@@ -147,37 +147,6 @@ namespace Mellis.Lang.Python3.Tests.Entities.Functions
             );
 
             enumMock.VerifyGet(o => o.Current, Times.Never);
-        }
-
-        [TestMethod]
-        public void ThrowsIfNamedExhaustedWithNoDefault()
-        {
-            // Arrange
-            const bool moveNext = false;
-
-            var func = CreateInitializedFunction();
-
-            var arg1Mock = new Mock<IScriptType>();
-            arg1Mock.SetupGet(o => o.Name)
-                .Returns("foo")
-                .Verifiable();
-
-            var enumMock = arg1Mock.As<IEnumerator<IScriptType>>();
-            enumMock.Setup(o => o.MoveNext())
-                .Returns(moveNext)
-                .Verifiable();
-
-            // Act
-            var ex = Assert.That.Throws(func, arg1Mock.Object);
-
-            // Assert
-            Assert.That.ErrorFormatArgsEqual(ex,
-                nameof(Localized_Python3_Entities.Builtin_Next_StopIteration_Named),
-                "foo"
-            );
-
-            enumMock.VerifyGet(o => o.Current, Times.Never);
-            arg1Mock.Verify();
         }
 
         [TestMethod]

@@ -15,7 +15,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
         protected override PyInteger CreateEntity(PyProcessor processor, int value)
         {
-            return new PyInteger(processor, value, nameof(PyBooleanTests));
+            return new PyInteger(processor, value);
         }
 
         [DataTestMethod]

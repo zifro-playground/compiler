@@ -7,8 +7,8 @@ namespace Mellis.Lang.Base.Entities
     public abstract class ScriptClrYieldingFunction : ScriptBaseType, IClrYieldingFunction
     {
         public ScriptClrYieldingFunction(
-            IProcessor processor, string functionName, string name = null)
-            : base(processor, name)
+            IProcessor processor, string functionName)
+            : base(processor)
         {
             FunctionName = functionName;
         }

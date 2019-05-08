@@ -15,7 +15,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
         protected override PyNone CreateEntity(PyProcessor processor, object value)
         {
-            return new PyNone(processor, nameof(PyNoneTests));
+            return new PyNone(processor);
         }
 
         [DataTestMethod]

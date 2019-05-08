@@ -8,20 +8,17 @@ namespace Mellis.Lang.Base.Entities
     {
         public ScriptClrFunction(
             IProcessor processor,
-            string functionName,
-            string name = null)
-            : base(processor, name)
+            string functionName)
+            : base(processor)
         {
             FunctionName = functionName;
         }
 
-        /// <inheritdoc />
         public override string GetTypeName()
         {
             return Localized_Base_Entities.Type_ClrFunction_Name;
         }
 
-        /// <inheritdoc />
         public override bool TryCoerce(Type type, out object value)
         {
             // Invoke()

@@ -14,8 +14,8 @@ namespace Mellis.Lang.Base.Entities
     {
         public int Value { get; }
 
-        protected ScriptInteger(IProcessor processor, int value, string name = null)
-            : base(processor, name)
+        protected ScriptInteger(IProcessor processor, int value)
+            : base(processor)
         {
             Value = value;
         }

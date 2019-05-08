@@ -10,18 +10,11 @@ namespace Mellis.Lang.Python3.Entities
 {
     public class PyString : ScriptString, IEnumerable<IScriptType>
     {
-        public PyString(IProcessor processor, string value, string name = null)
-            : base(processor, value, name)
+        public PyString(IProcessor processor, string value)
+            : base(processor, value)
         {
         }
 
-        /// <inheritdoc />
-        public override IScriptType Copy(string newName)
-        {
-            return new PyString(Processor, Value, newName);
-        }
-
-        /// <inheritdoc />
         public override IScriptType GetTypeDef()
         {
             return new PyStringType(Processor);

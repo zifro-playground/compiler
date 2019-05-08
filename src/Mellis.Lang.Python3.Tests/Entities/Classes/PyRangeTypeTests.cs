@@ -17,7 +17,7 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
 
         protected override PyRangeType CreateEntity(PyProcessor processor)
         {
-            return new PyRangeType(processor, nameof(PyRangeTypeTests));
+            return new PyRangeType(processor);
         }
 
         private static IScriptType CreateConvertibleInteger(int value)

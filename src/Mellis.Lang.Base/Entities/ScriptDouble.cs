@@ -14,8 +14,8 @@ namespace Mellis.Lang.Base.Entities
     {
         public double Value { get; }
 
-        protected ScriptDouble(IProcessor processor, double value, string name = null)
-            : base(processor, name)
+        protected ScriptDouble(IProcessor processor, double value)
+            : base(processor)
         {
             Value = value;
         }

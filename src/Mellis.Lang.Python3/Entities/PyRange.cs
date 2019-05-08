@@ -18,18 +18,12 @@ namespace Mellis.Lang.Python3.Entities
             IProcessor processor,
             int rangeFrom,
             int rangeTo,
-            int rangeStep = 1,
-            string name = null)
-            : base(processor, name)
+            int rangeStep = 1)
+            : base(processor)
         {
             RangeFrom = rangeFrom;
             RangeTo = rangeTo;
             RangeStep = rangeStep;
-        }
-
-        public override IScriptType Copy(string newName)
-        {
-            return new PyRange(Processor, RangeFrom, RangeTo, RangeStep, newName);
         }
 
         public override IScriptType GetTypeDef()

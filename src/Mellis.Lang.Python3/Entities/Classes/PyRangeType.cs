@@ -7,14 +7,9 @@ namespace Mellis.Lang.Python3.Entities.Classes
 {
     public class PyRangeType : PyType<PyRange>
     {
-        public PyRangeType(IProcessor processor, string name = null)
-            : base(processor, Localized_Python3_Entities.Type_Range_Name, name)
+        public PyRangeType(IProcessor processor)
+            : base(processor, Localized_Python3_Entities.Type_Range_Name)
         {
-        }
-
-        public override IScriptType Copy(string newName)
-        {
-            return new PyRangeType(Processor, newName);
         }
 
         public override IScriptType Invoke(params IScriptType[] arguments)

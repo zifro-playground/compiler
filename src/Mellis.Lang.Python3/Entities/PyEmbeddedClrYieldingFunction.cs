@@ -8,15 +8,9 @@ namespace Mellis.Lang.Python3.Entities
     {
         public PyEmbeddedClrYieldingFunction(
             IProcessor processor,
-            IClrYieldingFunction definition,
-            string name = null)
-            : base(processor, definition, name)
+            IClrYieldingFunction definition)
+            : base(processor, definition)
         {
-        }
-
-        public override IScriptType Copy(string newName)
-        {
-            return new PyEmbeddedClrYieldingFunction(Processor, Definition, newName);
         }
 
         public override IScriptType GetTypeDef()

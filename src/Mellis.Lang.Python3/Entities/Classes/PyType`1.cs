@@ -12,9 +12,8 @@ namespace Mellis.Lang.Python3.Entities.Classes
 
         public PyType(
             IProcessor processor,
-            string className,
-            string name = null)
-            : base(processor, className, name)
+            string className)
+            : base(processor, className)
         {
             ClassName = className;
         }

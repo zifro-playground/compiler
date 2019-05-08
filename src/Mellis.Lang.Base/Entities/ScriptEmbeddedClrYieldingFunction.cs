@@ -10,26 +10,22 @@ namespace Mellis.Lang.Base.Entities
 
         protected ScriptEmbeddedClrYieldingFunction(
             IProcessor processor,
-            IClrYieldingFunction definition,
-            string name = null)
-            : base(processor, definition.FunctionName, name)
+            IClrYieldingFunction definition)
+            : base(processor, definition.FunctionName)
         {
             Definition = definition;
         }
 
-        /// <inheritdoc />
         public override string GetTypeName()
         {
             return Localized_Base_Entities.Type_ClrFunction_Name;
         }
 
-        /// <inheritdoc />
         public override bool IsTruthy()
         {
             return true;
         }
 
-        /// <inheritdoc />
         public override bool TryCoerce(Type type, out object value)
         {
             value = default;

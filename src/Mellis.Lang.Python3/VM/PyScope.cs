@@ -37,14 +37,9 @@ namespace Mellis.Lang.Python3.VM
             return names.Distinct().ToArray();
         }
 
-        internal void SetVariableNoCopyUsingName(IScriptType value)
-        {
-            _variables[value.Name] = value;
-        }
-
         internal void SetVariable(string key, IScriptType value)
         {
-            _variables[key] = value.Copy(key);
+            _variables[key] = value;
         }
 
         internal IScriptType GetVariable(string key)

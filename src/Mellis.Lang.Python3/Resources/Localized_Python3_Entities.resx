@@ -135,11 +135,6 @@
     <value>Iteratorn har tagit slut.</value>
     <comment>Ex: next(x), when x is exhausted, and x is unnamed.</comment>
   </data>
-  <data name="Builtin_Next_StopIteration_Named" xml:space="preserve">
-    <value>Iteratorn '{0}' har tagit slut.</value>
-    <comment>Ex: next(x), when x is exhausted, and x is named variable.
-{0} name of arg1 variable</comment>
-  </data>
   <data name="Ex_DoubleType_Ctor_Arg1_EmptyString" xml:space="preserve">
     <value>Kan inte i 'float()' omvandla en tom text sträng till decimaltal.</value>
     <comment>Triggers on arg1 is only whitespace or empty. Ex: float("")</comment>

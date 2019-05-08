@@ -15,7 +15,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
         protected override PyBoolean CreateEntity(PyProcessor processor, bool value)
         {
-            return new PyBoolean(processor, value, nameof(PyBooleanTests));
+            return new PyBoolean(processor, value);
         }
 
         [DataTestMethod]

@@ -9,14 +9,12 @@ namespace Mellis.Lang.Base.Entities
 
         protected ScriptEmbeddedClrFunction(
             IProcessor processor,
-            IClrFunction definition,
-            string name = null)
-            : base(processor, definition.FunctionName, name)
+            IClrFunction definition)
+            : base(processor, definition.FunctionName)
         {
             Definition = definition;
         }
 
-        /// <inheritdoc />
         public override IScriptType Invoke(params IScriptType[] arguments)
         {
             return Definition.Invoke(arguments);

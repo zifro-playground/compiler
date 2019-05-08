@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Entities.Classes;
@@ -21,6 +22,9 @@ namespace Mellis.Lang.Python3.VM
             {
                 switch (embedded)
                 {
+                case IScriptType scriptType:
+                    return scriptType;
+
                 case IClrFunction function:
                     return Factory.Create(function);
 
@@ -35,24 +39,24 @@ namespace Mellis.Lang.Python3.VM
 
         private void AddBuiltinsInternal()
         {
-            IScriptType[] builtinVariables = {
+            var builtinVariables = new Dictionary<string, IScriptType> {
                 // Literal types
-                new PyDoubleType(this, "float"),
-                new PyIntegerType(this, "int"),
-                new PyStringType(this, "str"),
-                new PyBooleanType(this, "bool"),
+                ["float"] = new PyDoubleType(this),
+                ["int"] = new PyIntegerType(this),
+                ["str"] = new PyStringType(this),
+                ["bool"] = new PyBooleanType(this),
 
                 // Special objects
-                new PyType(this, "type"),
-                new PyRangeType(this, "range"),
+                ["type"] = new PyType(this),
+                ["range"] = new PyRangeType(this),
 
                 // Special variables
-                new PyString(this, "__main__", "__name__"),
+                ["__name__"] = new PyString(this, "__main__"),
             };
 
-            foreach (IScriptType builtin in builtinVariables)
+            foreach (KeyValuePair<string, IScriptType> builtin in builtinVariables)
             {
-                _builtins.SetVariableNoCopyUsingName(builtin);
+                _builtins.SetVariable(builtin.Key, builtin.Value);
             }
 
             IEmbeddedType[] builtinFunctions = {

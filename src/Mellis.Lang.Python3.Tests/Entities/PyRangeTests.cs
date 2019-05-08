@@ -24,7 +24,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
         protected override PyRange CreateEntity(PyProcessor processor, (int from, int to, int step) value)
         {
             (int from, int to, int step) = value;
-            return new PyRange(processor, from, to, step, nameof(PyRangeTests));
+            return new PyRange(processor, from, to, step);
         }
 
         [TestMethod]

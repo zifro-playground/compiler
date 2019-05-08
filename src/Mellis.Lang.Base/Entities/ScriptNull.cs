@@ -6,7 +6,7 @@ namespace Mellis.Lang.Base.Entities
 {
     public abstract class ScriptNull : ScriptBaseType
     {
-        protected ScriptNull(IProcessor processor, string name = null) : base(processor, name)
+        protected ScriptNull(IProcessor processor) : base(processor)
         {
         }
 

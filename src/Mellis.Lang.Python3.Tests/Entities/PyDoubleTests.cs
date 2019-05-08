@@ -15,7 +15,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
 
         protected override PyDouble CreateEntity(PyProcessor processor, double value)
         {
-            return new PyDouble(processor, value, nameof(PyBooleanTests));
+            return new PyDouble(processor, value);
         }
 
         [DataTestMethod]

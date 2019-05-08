@@ -6,18 +6,11 @@ namespace Mellis.Lang.Python3.Entities
 {
     public class PyBoolean : ScriptBoolean
     {
-        public PyBoolean(IProcessor processor, bool value, string name = null)
-            : base(processor, value, name)
+        public PyBoolean(IProcessor processor, bool value)
+            : base(processor, value)
         {
         }
 
-        /// <inheritdoc />
-        public override IScriptType Copy(string newName)
-        {
-            return new PyBoolean(Processor, Value, newName);
-        }
-
-        /// <inheritdoc />
         public override IScriptType GetTypeDef()
         {
             return new PyBooleanType(Processor);
