@@ -5,7 +5,7 @@ using Mellis.Lang.Python3.Resources;
 
 namespace Mellis.Lang.Python3.Entities.Classes
 {
-    public abstract class PyType<T> : ClrFunctionBase
+    public abstract class PyType<T> : ScriptClrFunction
         where T : IScriptType
     {
         public string ClassName { get; }
@@ -29,7 +29,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
             return Localized_Python3_Entities.Type_Type_Name;
         }
 
-        public override bool TryConvert(Type type, out object value)
+        public override bool TryCoerce(Type type, out object value)
         {
             value = default;
             return false;

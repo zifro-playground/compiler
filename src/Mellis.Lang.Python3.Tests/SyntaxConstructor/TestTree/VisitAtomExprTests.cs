@@ -74,7 +74,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_Atom_Test()
         {
             // Arrange
-            ExpressionNode expr = GetExpressionMock();
+            var expr = GetExpressionMock();
             var innerMock = GetInnerMockWithSetup(expr);
             innerMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
@@ -83,7 +83,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.AreSame(expr, result);
@@ -112,10 +112,10 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
-            
+            var result = VisitContext();
+
             // Assert
-            ExpressionNode result2 = Assert.That.IsFunctionCall(result, argsNode);
+            var result2 = Assert.That.IsFunctionCall(result, argsNode);
             Assert.AreSame(exprNode, result2);
 
             contextMock.VerifyLoopedChildren(2);
@@ -154,13 +154,13 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             // Expect last-in, first-out
-            ExpressionNode result2 = Assert.That.IsFunctionCall(result, argsNode3);
-            ExpressionNode result3 = Assert.That.IsFunctionCall(result2, argsNode2);
-            ExpressionNode result4 = Assert.That.IsFunctionCall(result3, argsNode1);
+            var result2 = Assert.That.IsFunctionCall(result, argsNode3);
+            var result3 = Assert.That.IsFunctionCall(result2, argsNode2);
+            var result4 = Assert.That.IsFunctionCall(result3, argsNode1);
             Assert.AreSame(exprNode, result4);
 
             contextMock.VerifyLoopedChildren(4);

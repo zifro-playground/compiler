@@ -8,7 +8,7 @@ using Mellis.Lang.Python3.Resources;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyRange : ScriptTypeBase, IEnumerable<IScriptType>
+    public class PyRange : ScriptBaseType, IEnumerable<IScriptType>
     {
         public int RangeFrom { get; }
         public int RangeTo { get; }
@@ -47,7 +47,7 @@ namespace Mellis.Lang.Python3.Entities
             return true;
         }
 
-        public override bool TryConvert(Type type, out object value)
+        public override bool TryCoerce(Type type, out object value)
         {
             if (type == typeof(IEnumerable<IScriptType>))
             {

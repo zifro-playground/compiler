@@ -7,7 +7,7 @@ using Mellis.Lang.Python3.Resources;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyEnumeratorWrapper : ScriptTypeBase, IEnumerator<IScriptType>, IEnumerable<IScriptType>
+    public class PyEnumeratorWrapper : ScriptBaseType, IEnumerator<IScriptType>, IEnumerable<IScriptType>
     {
         public IScriptType SourceType { get; }
         public IEnumerator<IScriptType> Enumerator { get; }
@@ -43,7 +43,7 @@ namespace Mellis.Lang.Python3.Entities
             return true;
         }
 
-        public override bool TryConvert(Type type, out object value)
+        public override bool TryCoerce(Type type, out object value)
         {
             value = default;
             return false;

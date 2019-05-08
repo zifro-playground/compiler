@@ -5,7 +5,7 @@ using Mellis.Lang.Python3.Entities.Classes;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyInteger : IntegerBase
+    public class PyInteger : ScriptInteger
     {
         public PyInteger(IProcessor processor, int value, string name = null)
             : base(processor, value, name)

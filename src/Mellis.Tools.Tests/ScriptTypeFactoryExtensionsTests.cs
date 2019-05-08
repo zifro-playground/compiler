@@ -92,18 +92,18 @@ namespace Mellis.Tools.Tests
         }
 
         [DataTestMethod]
-        [DataRow(1 + double.Epsilon, 1, typeof(IntegerBase))]
-        [DataRow(150, 150, typeof(IntegerBase))]
-        [DataRow(0.1+0.2, 0.3, typeof(DoubleBase))]
-        [DataRow(1e5+double.Epsilon, 1e5, typeof(IntegerBase))]
-        [DataRow(1e5+1e-5, 1e5+1e-5, typeof(DoubleBase))]
+        [DataRow(1 + double.Epsilon, 1, typeof(ScriptInteger))]
+        [DataRow(150, 150, typeof(ScriptInteger))]
+        [DataRow(0.1+0.2, 0.3, typeof(ScriptDouble))]
+        [DataRow(1e5+double.Epsilon, 1e5, typeof(ScriptInteger))]
+        [DataRow(1e5+1e-5, 1e5+1e-5, typeof(ScriptDouble))]
         public void CreateAppropriateDoubleSimple(double input, double expectedValue, Type expectedType)
         {
             // Arrange
             factoryMock.Setup(o => o.Create(It.IsAny<double>()))
-                .Returns<double>(d => new Mock<DoubleBase>(null, d, null).Object);
+                .Returns<double>(d => new Mock<ScriptDouble>(null, d, null).Object);
             factoryMock.Setup(o => o.Create(It.IsAny<int>()))
-                .Returns<int>(i => new Mock<IntegerBase>(null, i, null).Object);
+                .Returns<int>(i => new Mock<ScriptInteger>(null, i, null).Object);
 
             // Act
             IScriptType result = factoryObject.CreateAppropriate(input);
@@ -111,12 +111,12 @@ namespace Mellis.Tools.Tests
             // Assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, expectedType);
-            if (result is DoubleBase db)
+            if (result is ScriptDouble db)
             {
                 Assert.AreEqual(expectedValue, db.Value, 1e-10);
             }
 
-            if (result is IntegerBase ib)
+            if (result is ScriptInteger ib)
             {
                 Assert.AreEqual(expectedValue, ib.Value);
             }

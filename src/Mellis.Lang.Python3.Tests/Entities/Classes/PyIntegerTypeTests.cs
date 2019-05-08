@@ -69,7 +69,7 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
             var entity = CreateEntity();
 
             // Act
-            IScriptType result = entity.Invoke(new PyDouble(entity.Processor, input));
+            var result = entity.Invoke(new PyDouble(entity.Processor, input));
 
             // Assert
             Assert.That.ScriptTypeEqual(expected, result);
@@ -156,7 +156,7 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
             var entity = CreateEntity();
 
             // Act
-            IScriptType result = entity.Invoke(new PyString(entity.Processor, input));
+            var result = entity.Invoke(new PyString(entity.Processor, input));
 
             // Assert
             Assert.That.ScriptTypeEqual(expected, result);
@@ -178,7 +178,7 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
             var entity = CreateEntity();
 
             // Act
-            IScriptType result = entity.Invoke(new PyString(entity.Processor, input), new PyInteger(entity.Processor, numBase));
+            var result = entity.Invoke(new PyString(entity.Processor, input), new PyInteger(entity.Processor, numBase));
 
             // Assert
             Assert.That.ScriptTypeEqual(expected, result);
@@ -195,7 +195,7 @@ namespace Mellis.Lang.Python3.Tests.Entities.Classes
             var entity = CreateEntity();
 
             // Act
-            IScriptType result = entity.Invoke(new PyString(entity.Processor, input), new PyInteger(entity.Processor, 0));
+            var result = entity.Invoke(new PyString(entity.Processor, input), new PyInteger(entity.Processor, 0));
 
             // Assert
             Assert.That.ScriptTypeEqual(expected, result);

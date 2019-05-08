@@ -5,7 +5,7 @@ using Mellis.Lang.Python3.Entities.Classes;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyDouble : DoubleBase
+    public class PyDouble : ScriptDouble
     {
         public PyDouble(IProcessor processor, double value, string name = null)
             : base(processor, value, name)

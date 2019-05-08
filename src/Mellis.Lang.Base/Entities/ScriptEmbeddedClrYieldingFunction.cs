@@ -4,15 +4,15 @@ using Mellis.Lang.Base.Resources;
 
 namespace Mellis.Lang.Base.Entities
 {
-    public abstract class EmbeddedClrYieldingFunctionBase : ScriptTypeBase, IClrYieldingFunction
+    public abstract class ScriptEmbeddedClrYieldingFunction : ScriptClrYieldingFunction
     {
         public IClrYieldingFunction Definition { get; }
 
-        protected EmbeddedClrYieldingFunctionBase(
+        protected ScriptEmbeddedClrYieldingFunction(
             IProcessor processor,
             IClrYieldingFunction definition,
             string name = null)
-            : base(processor, name)
+            : base(processor, definition.FunctionName, name)
         {
             Definition = definition;
         }
@@ -30,7 +30,7 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public override bool TryConvert(Type type, out object value)
+        public override bool TryCoerce(Type type, out object value)
         {
             value = default;
             return false;
@@ -46,18 +46,12 @@ namespace Mellis.Lang.Base.Entities
 
         #region IClrYieldingFunction implementation
 
-        IProcessor IEmbeddedType.Processor {
-            set => Processor = value;
-        }
-
-        public string FunctionName => Definition.FunctionName;
-
-        public void InvokeEnter(params IScriptType[] arguments)
+        public override void InvokeEnter(params IScriptType[] arguments)
         {
             Definition.InvokeEnter(arguments);
         }
 
-        public IScriptType InvokeExit(IScriptType[] arguments, IScriptType returnValue)
+        public override IScriptType InvokeExit(IScriptType[] arguments, IScriptType returnValue)
         {
             return Definition.InvokeExit(arguments, returnValue);
         }

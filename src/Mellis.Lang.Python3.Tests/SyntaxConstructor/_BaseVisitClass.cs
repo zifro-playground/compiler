@@ -31,7 +31,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
         public virtual void Visit_InvalidToken_Test()
         {
             // Arrange
-            ITerminalNode unexpectedNode = GetTerminal(Python3Parser.ASYNC);
+            var unexpectedNode = GetTerminal(Python3Parser.ASYNC);
             contextMock.SetupChildren(
                 unexpectedNode
             );

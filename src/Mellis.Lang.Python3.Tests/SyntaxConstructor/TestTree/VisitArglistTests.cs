@@ -43,7 +43,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
 
             for (var i = 0; i < arguments.Length; i++)
             {
-                ExpressionNode arg = arguments[i];
+                var arg = arguments[i];
                 var argMock = GetInnerMockWithSetup(arg);
 
                 args[i * 2] = argMock.Object;
@@ -82,7 +82,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             ).Cast<Mock>().ToArray();
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(ArgumentsList));
@@ -111,7 +111,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             ).Cast<Mock>().ToArray();
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(ArgumentsList));

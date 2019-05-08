@@ -39,7 +39,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var innerMock = GetMockRule<Python3Parser.FactorContext>();
 
-            ExpressionNode expr = GetExpressionMock();
+            var expr = GetExpressionMock();
             ctorMock.Setup(o => o.VisitFactor(innerMock.Object))
                 .Returns(expr).Verifiable();
 
@@ -51,7 +51,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.IsInstanceOfType(result, expectedType);
@@ -73,7 +73,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         {
             // Arrange
             var innerMock = GetMockRule<Python3Parser.FactorContext>();
-            ITerminalNode unexpectedToken = GetTerminal(factorToken);
+            var unexpectedToken = GetTerminal(factorToken);
 
             contextMock.SetupChildren(
                 unexpectedToken,
@@ -97,7 +97,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         {
             // Arrange
             var innerMock = GetMockRule<Python3Parser.FactorContext>();
-            ITerminalNode unexpectedToken = GetTerminal(Python3Parser.ADD);
+            var unexpectedToken = GetTerminal(Python3Parser.ADD);
 
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.ADD),
@@ -192,7 +192,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var innerMock = GetInnerMock();
 
-            ExpressionNode expr = GetExpressionMock();
+            var expr = GetExpressionMock();
             SetupForInnerMock(innerMock, expr);
 
             contextMock.SetupChildren(
@@ -200,7 +200,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.AreSame(expr, result);

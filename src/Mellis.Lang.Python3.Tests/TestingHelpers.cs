@@ -27,7 +27,7 @@ namespace Mellis.Lang.Python3.Tests
         {
             nodeMock = new Mock<TSyntaxType>(SourceReference.ClrSource);
             resultOp = new NopOp();
-            NopOp exprOpRefCopy = resultOp;
+            var exprOpRefCopy = resultOp;
 
             nodeMock.Setup(o => o.Compile(compiler))
                 .Callback((PyCompiler c) => { c.Push(exprOpRefCopy); })

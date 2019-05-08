@@ -53,14 +53,14 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_LiteralTypes_Test(int token, string text, Type expectedType)
         {
             // Arrange
-            ITerminalNode node = GetTerminal(token, text);
+            var node = GetTerminal(token, text);
 
             contextMock.SetupChildren(
                 node
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.IsInstanceOfType(result, expectedType);
@@ -73,8 +73,8 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_LiteralStringsConcatenated_Test()
         {
             // Arrange
-            ITerminalNode node1 = GetTerminal(Python3Parser.STRING, "\"foo\"");
-            ITerminalNode node2 = GetTerminal(Python3Parser.STRING, "\"bar\"");
+            var node1 = GetTerminal(Python3Parser.STRING, "\"foo\"");
+            var node2 = GetTerminal(Python3Parser.STRING, "\"bar\"");
 
             contextMock.SetupChildren(
                 node1,
@@ -102,7 +102,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_LiteralsNotYetImplemented_Test(int token, string text)
         {
             // Arrange
-            ITerminalNode node = GetTerminal(token, text);
+            var node = GetTerminal(token, text);
 
             contextMock.SetupChildren(
                 node
@@ -122,7 +122,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_LiteralsNotYetImplementedKeyword_Test(int token, string text, string expectedKeyword)
         {
             // Arrange
-            ITerminalNode node = GetTerminal(token, text);
+            var node = GetTerminal(token, text);
 
             contextMock.SetupChildren(
                 node
@@ -143,7 +143,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_GroupAllEmptyNotYetImplemented_Test(int openToken, int closeToken, string expectedKeyword)
         {
             // Arrange
-            ITerminalNode open = GetTerminal(openToken);
+            var open = GetTerminal(openToken);
 
             contextMock.SetupChildren(
                 open,
@@ -166,7 +166,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_GroupAllMissingClosing_Test(int openToken, string expectedEndingParenthesis)
         {
             // Arrange
-            ITerminalNode open = GetTerminal(openToken);
+            var open = GetTerminal(openToken);
 
             contextMock.SetupChildren(
                 open
@@ -208,7 +208,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         {
             // Arrange
             var expression = GetExpressionMock();
-            Mock<Python3Parser.Testlist_compContext> innerMock
+            var innerMock
                 = GetInnerMockWithSetup(expression);
 
             contextMock.SetupChildren(
@@ -218,7 +218,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.AreSame(expression, result);
@@ -280,7 +280,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_ParenthesesTooMany_Test()
         {
             // Arrange
-            Mock<Python3Parser.Testlist_compContext> innerMock = GetInnerMock();
+            var innerMock = GetInnerMock();
             var unexpectedMock = GetMockRule<Python3Parser.File_inputContext>();
             unexpectedMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 

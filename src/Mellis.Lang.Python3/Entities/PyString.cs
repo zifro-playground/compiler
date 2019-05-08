@@ -8,7 +8,7 @@ using Mellis.Lang.Python3.Syntax.Literals;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyString : StringBase, IEnumerable<IScriptType>
+    public class PyString : ScriptString, IEnumerable<IScriptType>
     {
         public PyString(IProcessor processor, string value, string name = null)
             : base(processor, value, name)
@@ -31,10 +31,10 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-                case IntegerBase rhsInteger when rhsInteger.Value <= 0:
+                case ScriptInteger rhsInteger when rhsInteger.Value <= 0:
                     return Processor.Factory.Create(string.Empty);
 
-                case IntegerBase rhsInteger:
+                case ScriptInteger rhsInteger:
                     var builder = new StringBuilder(Value.Length * rhsInteger.Value);
                     for (int i = 0; i < rhsInteger.Value; i++)
                     {
@@ -44,7 +44,7 @@ namespace Mellis.Lang.Python3.Entities
                     return Processor.Factory.Create(builder.ToString());
 
                 default:
-                    throw InvalidType(rhs, "*");
+                    return null;
             }
         }
 

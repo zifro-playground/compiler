@@ -19,7 +19,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_TooManyChildren_Test()
         {
             // Arrange
-            ITerminalNode excess = GetTerminal(Python3Parser.NOT);
+            var excess = GetTerminal(Python3Parser.NOT);
 
             contextMock.SetupChildren(
                 GetTerminal(Python3Parser.NOT),
@@ -49,13 +49,13 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_ValidSingleToken_Tests(int token, ComparisonType type)
         {
             // Arrange
-            ITerminalNode term = GetTerminal(token);
+            var term = GetTerminal(token);
             contextMock.SetupChildren(
                 term
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(ComparisonFactory));
@@ -77,8 +77,8 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_ValidDoubleTokens_Tests(int token1, int token2, ComparisonType type)
         {
             // Arrange
-            ITerminalNode term1 = GetTerminal(token1);
-            ITerminalNode term2 = GetTerminal(token2);
+            var term1 = GetTerminal(token1);
+            var term2 = GetTerminal(token2);
             string expectedKeyword = $"{term1.Symbol.Text} {term2.Symbol.Text}";
 
             contextMock.SetupChildren(
@@ -86,7 +86,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(ComparisonFactory));
@@ -108,7 +108,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_InvalidDoubleFirstToken_Tests(int token1, int token2)
         {
             // Arrange
-            ITerminalNode first = GetTerminal(token1);
+            var first = GetTerminal(token1);
             contextMock.SetupChildren(
                 first, GetTerminal(token2)
             );
@@ -135,7 +135,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
         public void Visit_InvalidDoubleSecondToken_Tests(int token1, int token2)
         {
             // Arrange
-            ITerminalNode second = GetTerminal(token2);
+            var second = GetTerminal(token2);
             contextMock.SetupChildren(
                 GetTerminal(token1), second
             );

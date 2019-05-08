@@ -13,50 +13,50 @@ namespace Mellis.Lang.Base.Tests
         public void DoubleAdditionWholeTest()
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
-            DoubleBase b = GetDouble(10);
+            var a = GetDouble(5);
+            var b = GetDouble(10);
 
             // Act
-            IScriptType result = a.ArithmeticAdd(b);
+            var result = a.ArithmeticAdd(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(result, a, b, 15);
+            AssertArithmeticResult<ScriptInteger>(result, a, b, 15);
         }
 
         [TestMethod]
         public void DoubleAdditionFractionTest()
         {
             // Arrange
-            DoubleBase a = GetDouble(0.5);
-            DoubleBase b = GetDouble(1);
+            var a = GetDouble(0.5);
+            var b = GetDouble(1);
 
             // Act
-            IScriptType result = a.ArithmeticAdd(b);
+            var result = a.ArithmeticAdd(b);
 
             // Assert
-            AssertArithmeticResult<DoubleBase>(result, a, b, 1.5);
+            AssertArithmeticResult<ScriptDouble>(result, a, b, 1.5);
         }
 
         [TestMethod]
         public void DoubleAdditionIntegerTest()
         {
             // Arrange
-            DoubleBase a = GetDouble(0.5);
-            IntegerBase b = GetInteger(1);
+            var a = GetDouble(0.5);
+            var b = GetInteger(1);
 
             // Act
-            IScriptType result = a.ArithmeticAdd(b);
+            var result = a.ArithmeticAdd(b);
 
             // Assert
-            AssertArithmeticResult<DoubleBase>(result, a, b, 1.5);
+            AssertArithmeticResult<ScriptDouble>(result, a, b, 1.5);
         }
 
         [TestMethod]
         public void DoubleAdditionInvalidTest()
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
-            StringBase b = GetString("foo");
+            var a = GetDouble(5);
+            var b = GetString("foo");
             object[] expectedFormatArgs = {5d, b.GetTypeName()};
             void Action() { a.ArithmeticAdd(b); }
 
@@ -68,50 +68,50 @@ namespace Mellis.Lang.Base.Tests
         public void DoubleSubtractionWholeTest()
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
-            DoubleBase b = GetDouble(10);
+            var a = GetDouble(5);
+            var b = GetDouble(10);
 
             // Act
-            IScriptType result = a.ArithmeticSubtract(b);
+            var result = a.ArithmeticSubtract(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(result, a, b, -5);
+            AssertArithmeticResult<ScriptInteger>(result, a, b, -5);
         }
 
         [TestMethod]
         public void DoubleSubtractionFractionTest()
         {
             // Arrange
-            DoubleBase a = GetDouble(.5);
-            DoubleBase b = GetDouble(.1);
+            var a = GetDouble(.5);
+            var b = GetDouble(.1);
 
             // Act
-            IScriptType result = a.ArithmeticSubtract(b);
+            var result = a.ArithmeticSubtract(b);
 
             // Assert
-            AssertArithmeticResult<DoubleBase>(result, a, b, .4);
+            AssertArithmeticResult<ScriptDouble>(result, a, b, .4);
         }
 
         [TestMethod]
         public void DoubleSubtractionIntegerTest()
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
-            IntegerBase b = GetInteger(1);
+            var a = GetDouble(5);
+            var b = GetInteger(1);
 
             // Act
-            IScriptType result = a.ArithmeticSubtract(b);
+            var result = a.ArithmeticSubtract(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(result, a, b, 4);
+            AssertArithmeticResult<ScriptInteger>(result, a, b, 4);
         }
 
         [TestMethod]
         public void DoubleSubtractionInvalidTest()
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
-            StringBase b = GetString("foo");
+            var a = GetDouble(5);
+            var b = GetString("foo");
             object[] expectedFormatArgs = {5d, b.GetTypeName()};
             void Action() { a.ArithmeticSubtract(b); }
 
@@ -123,36 +123,36 @@ namespace Mellis.Lang.Base.Tests
         public void DoubleMultiplicationTest()
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
-            DoubleBase b = GetDouble(10);
+            var a = GetDouble(5);
+            var b = GetDouble(10);
 
             // Act
-            IScriptType result = a.ArithmeticMultiply(b);
+            var result = a.ArithmeticMultiply(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(result, a, b, 50);
+            AssertArithmeticResult<ScriptInteger>(result, a, b, 50);
         }
 
         [TestMethod]
         public void DoubleMultiplicationIntegerTest()
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
-            IntegerBase b = GetInteger(10);
+            var a = GetDouble(5);
+            var b = GetInteger(10);
 
             // Act
-            IScriptType result = a.ArithmeticMultiply(b);
+            var result = a.ArithmeticMultiply(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(result, a, b, 50);
+            AssertArithmeticResult<ScriptInteger>(result, a, b, 50);
         }
 
         [TestMethod]
         public void DoubleMultiplicationInvalidTest()
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
-            StringBase b = GetString("foo");
+            var a = GetDouble(5);
+            var b = GetString("foo");
             object[] expectedFormatArgs = {5d, b.GetTypeName()};
             void Action() { a.ArithmeticMultiply(b); }
 
@@ -164,63 +164,64 @@ namespace Mellis.Lang.Base.Tests
         public void DoubleDivideWholeTest()
         {
             // Arrange
-            DoubleBase a = GetDouble(50);
-            DoubleBase b = GetDouble(10);
+            var a = GetDouble(50);
+            var b = GetDouble(10);
 
             // Act
-            IScriptType result = a.ArithmeticDivide(b);
+            var result = a.ArithmeticDivide(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(result, a, b, 5);
+            AssertArithmeticResult<ScriptInteger>(result, a, b, 5);
         }
 
         [TestMethod]
         public void DoubleDivideFractionTest()
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
-            DoubleBase b = GetDouble(10);
+            var a = GetDouble(5);
+            var b = GetDouble(10);
 
             // Act
-            IScriptType result = a.ArithmeticDivide(b);
+            var result = a.ArithmeticDivide(b);
 
             // Assert
-            AssertArithmeticResult<DoubleBase>(result, a, b, .5);
+            AssertArithmeticResult<ScriptDouble>(result, a, b, .5);
         }
         
         [TestMethod]
         public void DoubleDivideIntegerTest()
         {
             // Arrange
-            DoubleBase a = GetDouble(50);
-            IntegerBase b = GetInteger(10);
+            var a = GetDouble(50);
+            var b = GetInteger(10);
 
             // Act
-            IScriptType result = a.ArithmeticDivide(b);
+            var result = a.ArithmeticDivide(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(result, a, b, 5);
+            AssertArithmeticResult<ScriptInteger>(result, a, b, 5);
         }
 
         [TestMethod]
-        public void DoubleDivideInvalidTest()
+        public void DoubleDivideInvalidReturnsNullTest()
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
-            StringBase b = GetString("foo");
-            object[] expectedFormatArgs = {5d, b.GetTypeName()};
-            void Action() { a.ArithmeticDivide(b); }
+            var a = GetDouble(5);
+            var b = GetString("foo");
+            
+            // Act
+            var result = a.ArithmeticDivide(b);
 
             // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Double_DivideInvalidType), expectedFormatArgs);
+            Assert.IsNull(result);
         }
 
         [TestMethod]
         public void DoubleDivideByZero()
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
-            DoubleBase b = GetDouble(0);
+            var a = GetDouble(5);
+            var b = GetDouble(0);
             object[] expectedFormatArgs = { };
             void Action() { a.ArithmeticDivide(b); }
 
@@ -232,7 +233,7 @@ namespace Mellis.Lang.Base.Tests
         public void DoubleIndexGet()
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
+            var a = GetDouble(5);
             object[] expectedFormatArgs = {5d};
 
             void Action() { a.GetIndex(null); }
@@ -245,7 +246,7 @@ namespace Mellis.Lang.Base.Tests
         public void DoubleIndexSet()
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
+            var a = GetDouble(5);
             object[] expectedFormatArgs = {5d};
 
             void Action() { a.SetIndex(null, null); }
@@ -258,7 +259,7 @@ namespace Mellis.Lang.Base.Tests
         public void DoublePropertyGet()
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
+            var a = GetDouble(5);
             const string property = "prop";
             object[] expectedFormatArgs = {5d, property};
 
@@ -272,7 +273,7 @@ namespace Mellis.Lang.Base.Tests
         public void DoublePropertySet()
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
+            var a = GetDouble(5);
             const string property = "prop";
             object[] expectedFormatArgs = {5d, property};
 
@@ -287,11 +288,11 @@ namespace Mellis.Lang.Base.Tests
         public void DoubleTryConvertValid(object expected)
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
-            Type type = expected.GetType();
+            var a = GetDouble(5);
+            var type = expected.GetType();
 
             // Act
-            bool success = a.TryConvert(type, out object result);
+            bool success = a.TryCoerce(type, out object result);
 
             // Assert
             Assert.IsTrue(success);
@@ -304,10 +305,10 @@ namespace Mellis.Lang.Base.Tests
         public void DoubleTryConvertDecimal()
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
+            var a = GetDouble(5);
 
             // Act
-            bool success = a.TryConvert(typeof(decimal), out object result);
+            bool success = a.TryCoerce(typeof(decimal), out object result);
 
             // Assert
             Assert.IsTrue(success);
@@ -330,10 +331,10 @@ namespace Mellis.Lang.Base.Tests
         public void DoubleTryConvertInvalid(Type type)
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
+            var a = GetDouble(5);
 
             // Act
-            bool success = a.TryConvert(type, out object _);
+            bool success = a.TryCoerce(type, out object _);
 
             // Assert
             Assert.IsFalse(success);
@@ -345,10 +346,10 @@ namespace Mellis.Lang.Base.Tests
         public void DoubleTryConvertGenericValid()
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
+            var a = GetDouble(5);
 
             // Act
-            bool success = a.TryConvert(out double result);
+            bool success = a.TryCoerce(out double result);
 
             // Assert
             Assert.IsTrue(success);
@@ -361,10 +362,10 @@ namespace Mellis.Lang.Base.Tests
         public void DoubleTryConvertGenericInvalid()
         {
             // Arrange
-            DoubleBase a = GetDouble(5);
+            var a = GetDouble(5);
 
             // Act
-            bool success = a.TryConvert(out string _);
+            bool success = a.TryCoerce(out string _);
 
             // Assert
             Assert.IsFalse(success);
@@ -376,9 +377,9 @@ namespace Mellis.Lang.Base.Tests
         public void DoubleToStringSpecial()
         {
             // Arrange
-            DoubleBase posInf = GetDouble(double.PositiveInfinity);
-            DoubleBase negInf = GetDouble(double.NegativeInfinity);
-            DoubleBase nan = GetDouble(double.NaN);
+            var posInf = GetDouble(double.PositiveInfinity);
+            var negInf = GetDouble(double.NegativeInfinity);
+            var nan = GetDouble(double.NaN);
 
             // Act
             string posInfStr = posInf.ToString();

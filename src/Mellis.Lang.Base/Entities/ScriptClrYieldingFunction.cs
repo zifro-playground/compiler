@@ -4,9 +4,9 @@ using Mellis.Lang.Base.Resources;
 
 namespace Mellis.Lang.Base.Entities
 {
-    public abstract class ClrYieldingFunctionBase : ScriptTypeBase, IClrYieldingFunction
+    public abstract class ScriptClrYieldingFunction : ScriptBaseType, IClrYieldingFunction
     {
-        public ClrYieldingFunctionBase(
+        public ScriptClrYieldingFunction(
             IProcessor processor, string functionName, string name = null)
             : base(processor, name)
         {
@@ -18,12 +18,7 @@ namespace Mellis.Lang.Base.Entities
             return Localized_Base_Entities.Type_ClrFunction_Name;
         }
 
-        public override bool IsTruthy()
-        {
-            return true;
-        }
-
-        public override bool TryConvert(Type type, out object value)
+        public override bool TryCoerce(Type type, out object value)
         {
             value = default;
             return false;

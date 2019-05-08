@@ -4,7 +4,7 @@ using Mellis.Lang.Python3.Entities.Classes;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyNone : NullBase
+    public class PyNone : ScriptNull
     {
         public PyNone(IProcessor processor, string name = null)
             : base(processor, name)

@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Mellis.Lang.Python3.Tests.Entities.Classes
 {
     [TestClass]
-    public class PyClrFunctionTypeTests : BaseEntityTypeTester<PyClrFunctionType, ClrFunctionBase>
+    public class PyClrFunctionTypeTests : BaseEntityTypeTester<PyClrFunctionType, ScriptClrFunction>
     {
         protected override string ExpectedClassName => Localized_Base_Entities.Type_ClrFunction_Name;
 

@@ -4,7 +4,7 @@ using Mellis.Lang.Python3.Entities.Classes;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyBoolean : BooleanBase
+    public class PyBoolean : ScriptBoolean
     {
         public PyBoolean(IProcessor processor, bool value, string name = null)
             : base(processor, value, name)

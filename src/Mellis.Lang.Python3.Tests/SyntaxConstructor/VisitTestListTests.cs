@@ -29,7 +29,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
                 .Returns(expected).Verifiable();
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.AreSame(expected, result);

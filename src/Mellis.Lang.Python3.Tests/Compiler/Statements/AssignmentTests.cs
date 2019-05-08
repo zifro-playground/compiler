@@ -27,7 +27,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
 
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> exprRhsMock,
-                out NopOp exprRhsOp);
+                out var exprRhsOp);
 
             var stmt = new Assignment(SourceReference.ClrSource,
                 leftOperand: idLhsMock.Object,
@@ -58,7 +58,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
 
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> exprRhsMock,
-                out NopOp exprRhsOp);
+                out var exprRhsOp);
 
             var stmt = new Assignment(SourceReference.ClrSource,
                 leftOperand: literalMock.Object,

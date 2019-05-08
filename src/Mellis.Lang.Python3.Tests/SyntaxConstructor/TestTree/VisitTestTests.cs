@@ -46,7 +46,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             SetupForInnerMock(innerRuleMock, expected);
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.AreSame(expected, result);
@@ -137,8 +137,8 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var innerRuleMock = GetInnerMock();
             var testMock = GetMockRule<Python3Parser.TestContext>();
-            
-            ITerminalNode ifNode = GetTerminalForThisClass();
+
+            var ifNode = GetTerminalForThisClass();
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,
@@ -221,7 +221,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.TestTree
             // Arrange
             var innerRuleMock = GetInnerMock();
 
-            ITerminalNode unexpected = GetTerminal(Python3Parser.ASYNC);
+            var unexpected = GetTerminal(Python3Parser.ASYNC);
 
             contextMock.SetupChildren(
                 innerRuleMock.Object,

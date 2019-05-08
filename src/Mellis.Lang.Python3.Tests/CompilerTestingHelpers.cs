@@ -32,7 +32,7 @@ namespace Mellis.Lang.Python3.Tests
                 throw new AssertFailedException($"Expected {expectedCode} op code at index {index} but compiler only contains {compiler.Count} op codes.");
             }
 
-            IOpCode opCode = compiler[index];
+            var opCode = compiler[index];
             Assert.IsInstanceOfType(opCode, typeof(BasicOperator));
             var binOpCode = (BasicOperator) opCode;
             Assert.AreEqual(expectedCode, binOpCode.Code);
@@ -46,7 +46,7 @@ namespace Mellis.Lang.Python3.Tests
                 throw new AssertFailedException($"Expected {typeof(TOpCode).Name} op code at index {index} but compiler only contains {compiler.Count} op codes.");
             }
 
-            IOpCode opCode = compiler[index];
+            var opCode = compiler[index];
             Assert.IsInstanceOfType(opCode, typeof(TOpCode), $"Op code at index {index} is wrong type.");
             return (TOpCode) opCode;
         }

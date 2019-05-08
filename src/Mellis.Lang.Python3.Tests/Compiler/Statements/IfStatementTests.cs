@@ -19,11 +19,11 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
 
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> testMock,
-                out NopOp testOp);
+                out var testOp);
 
             compiler.CreateAndSetup(
                 out Mock<Statement> suiteMock,
-                out NopOp suiteOp);
+                out var suiteOp);
 
             var stmt = new IfStatement(SourceReference.ClrSource,
                 testMock.Object, suiteMock.Object
@@ -57,15 +57,15 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
 
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> testMock,
-                out NopOp testOp);
+                out var testOp);
 
             compiler.CreateAndSetup(
                 out Mock<Statement> suiteMock,
-                out NopOp suiteOp);
+                out var suiteOp);
 
             compiler.CreateAndSetup(
                 out Mock<Statement> elseMock,
-                out NopOp elseOp);
+                out var elseOp);
 
             var stmt = new IfStatement(SourceReference.ClrSource,
                 condition: testMock.Object,
@@ -106,19 +106,19 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
 
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> testMock,
-                out NopOp testOp);
+                out var testOp);
 
             compiler.CreateAndSetup(
                 out Mock<Statement> suiteMock,
-                out NopOp suiteOp);
+                out var suiteOp);
 
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> elifTestMock,
-                out NopOp elifTestOp);
+                out var elifTestOp);
 
             compiler.CreateAndSetup(
                 out Mock<Statement> elifSuiteMock,
-                out NopOp elifSuiteOp);
+                out var elifSuiteOp);
 
             var elif = new IfStatement(SourceReference.ClrSource,
                 condition: elifTestMock.Object,
@@ -167,20 +167,20 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
 
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> testMock,
-                out NopOp testOp);
+                out var testOp);
 
             compiler.CreateAndSetup(
                 out Mock<Statement> suiteMock,
-                out NopOp suiteOp);
+                out var suiteOp);
 
             // elif 2
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> elif2TestMock,
-                out NopOp elif2TestOp);
+                out var elif2TestOp);
 
             compiler.CreateAndSetup(
                 out Mock<Statement> elif2SuiteMock,
-                out NopOp elif2SuiteOp);
+                out var elif2SuiteOp);
 
             var elif2 = new IfStatement(SourceReference.ClrSource,
                 condition: elif2TestMock.Object,
@@ -189,11 +189,11 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
             // elif 1
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> elif1TestMock,
-                out NopOp elif1TestOp);
+                out var elif1TestOp);
 
             compiler.CreateAndSetup(
                 out Mock<Statement> elif1SuiteMock,
-                out NopOp elif1SuiteOp);
+                out var elif1SuiteOp);
 
             var elif1 = new IfStatement(SourceReference.ClrSource,
                 condition: elif1TestMock.Object,
@@ -256,23 +256,23 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
 
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> testMock,
-                out NopOp testOp);
+                out var testOp);
 
             compiler.CreateAndSetup(
                 out Mock<Statement> suiteMock,
-                out NopOp suiteOp);
+                out var suiteOp);
 
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> elifTestMock,
-                out NopOp elifTestOp);
+                out var elifTestOp);
 
             compiler.CreateAndSetup(
                 out Mock<Statement> elifSuiteMock,
-                out NopOp elifSuiteOp);
+                out var elifSuiteOp);
 
             compiler.CreateAndSetup(
                 out Mock<Statement> elseSuiteMock,
-                out NopOp elseSuiteOp);
+                out var elseSuiteOp);
 
             var elif = new IfStatement(SourceReference.ClrSource,
                 condition: elifTestMock.Object,

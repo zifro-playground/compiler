@@ -63,7 +63,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
             var multiplier = new PyInteger(entity.Processor, value);
 
             var expected = new StringBuilder(value * 3, value * 3);
-            for (var i = 0; i < value; i++)
+            for (int i = 0; i < value; i++)
             {
                 expected.Append(str);
             }
@@ -82,20 +82,11 @@ namespace Mellis.Lang.Python3.Tests.Entities
             var entity = CreateEntity();
             var other = new PyDouble(entity.Processor, 1);
 
-            void Action()
-            {
-                entity.ArithmeticMultiply(other);
-            }
-
             // Act
-            var ex = Assert.ThrowsException<RuntimeException>((Action) Action);
+            var result = entity.ArithmeticMultiply(other);
 
             // Assert
-            Assert.That.ErrorFormatArgsEqual(ex,
-                nameof(Localized_Base_Entities.Ex_Base_OperatorInvalidType),
-                /* type name */ ExpectedTypeName,
-                /* other type name */ other.GetTypeName(),
-                /* operation */ "*");
+            Assert.IsNull(result);
         }
 
         [TestMethod]
@@ -107,13 +98,13 @@ namespace Mellis.Lang.Python3.Tests.Entities
             var values = new List<IScriptType>();
 
             // Act
-            foreach (IScriptType scriptType in entity)
+            foreach (var scriptType in entity)
             {
                 values.Add(scriptType);
             }
 
             // Assert
-            var minLength = Math.Min(values.Count, str.Length);
+            int minLength = Math.Min(values.Count, str.Length);
             for (int i = 0; i < minLength; i++)
             {
                 Assert.That.ScriptTypeEqual(str[i].ToString(), values[i],

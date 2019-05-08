@@ -111,7 +111,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
         {
             // Arrange
             var innerMock = GetMockRule<TInnerRule>();
-            Statement statement = GetStatementMock();
+            var statement = GetStatementMock();
 
             ctorMock.Setup(setupExpression)
                 .Returns(statement).Verifiable();
@@ -121,7 +121,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor.CompoundTree
             );
 
             // Act
-            SyntaxNode result = VisitContext();
+            var result = VisitContext();
 
             // Assert
             Assert.AreSame(statement, result, "Visit did not return same statement.");

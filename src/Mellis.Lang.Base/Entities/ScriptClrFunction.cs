@@ -4,20 +4,15 @@ using Mellis.Lang.Base.Resources;
 
 namespace Mellis.Lang.Base.Entities
 {
-    public abstract class ClrFunctionBase : ScriptTypeBase, IClrFunction
+    public abstract class ScriptClrFunction : ScriptBaseType, IClrFunction
     {
-        public ClrFunctionBase(
+        public ScriptClrFunction(
             IProcessor processor,
             string functionName,
             string name = null)
             : base(processor, name)
         {
             FunctionName = functionName;
-        }
-        
-        public override bool IsTruthy()
-        {
-            return true;
         }
 
         /// <inheritdoc />
@@ -27,12 +22,12 @@ namespace Mellis.Lang.Base.Entities
         }
 
         /// <inheritdoc />
-        public override bool TryConvert(Type type, out object value)
+        public override bool TryCoerce(Type type, out object value)
         {
             // Invoke()
             if (type == typeof(Action))
             {
-                void Action() => Invoke(new IScriptType[0]);
+                void Action() => Invoke();
                 value = (Action)Action;
                 return true;
             }
@@ -48,7 +43,7 @@ namespace Mellis.Lang.Base.Entities
             // Invoke(arg0)
             if (type == typeof(Action<IScriptType>))
             {
-                void Action1(IScriptType arg0) => Invoke(new[] { arg0 });
+                void Action1(IScriptType arg0) => Invoke(arg0);
                 value = (Action<IScriptType>)Action1;
                 return true;
             }
@@ -56,7 +51,7 @@ namespace Mellis.Lang.Base.Entities
             // Invoke() => val
             if (type == typeof(Func<IScriptType>))
             {
-                IScriptType Func() => Invoke(new IScriptType[0]);
+                IScriptType Func() => Invoke();
                 value = (Func<IScriptType>)Func;
                 return true;
             }
@@ -72,7 +67,7 @@ namespace Mellis.Lang.Base.Entities
             // Invoke(arg0) => val
             if (type == typeof(Func<IScriptType, IScriptType>))
             {
-                IScriptType Func1(IScriptType arg0) => Invoke(new[] { arg0 });
+                IScriptType Func1(IScriptType arg0) => Invoke(arg0);
                 value = (Func<IScriptType, IScriptType>)Func1;
                 return true;
             }

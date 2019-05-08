@@ -9,163 +9,168 @@ namespace Mellis.Lang.Base.Tests
     [TestClass]
     public class EntityIntBaseTests : BaseTestClass
     {
+
         [TestMethod]
         public void IntAdditionTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            IntegerBase b = GetInteger(10);
+            var a = GetInteger(5);
+            var b = GetInteger(10);
 
             // Act
-            IScriptType resultBase = a.ArithmeticAdd(b);
+            var resultBase = a.ArithmeticAdd(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(resultBase, a, b, 15);
+            AssertArithmeticResult<ScriptInteger>(resultBase, a, b, 15);
         }
 
         [TestMethod]
         public void IntAdditionInvalidTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            StringBase b = GetString("foo");
-            object[] expectedFormatArgs = {5, b.GetTypeName()};
-            void Action() { a.ArithmeticAdd(b); }
+            var a = GetInteger(5);
+            var b = GetString("foo");
 
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_AddInvalidType), expectedFormatArgs);
+            // Act
+            var result = a.ArithmeticAdd(b);
+
+            // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]
         public void IntSubtractionTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            IntegerBase b = GetInteger(10);
+            var a = GetInteger(5);
+            var b = GetInteger(10);
 
             // Act
-            IScriptType resultBase = a.ArithmeticSubtract(b);
+            var resultBase = a.ArithmeticSubtract(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(resultBase, a, b, -5);
+            AssertArithmeticResult<ScriptInteger>(resultBase, a, b, -5);
         }
 
         [TestMethod]
         public void IntSubtractionInvalidTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            StringBase b = GetString("foo");
-            object[] expectedFormatArgs = {5, b.GetTypeName()};
-            void Action() { a.ArithmeticSubtract(b); }
+            var a = GetInteger(5);
+            var b = GetString("foo");
 
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_SubtractInvalidType), expectedFormatArgs);
+            // Act
+            var result = a.ArithmeticSubtract(b);
+
+            // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]
         public void IntMultiplicationTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            IntegerBase b = GetInteger(10);
+            var a = GetInteger(5);
+            var b = GetInteger(10);
 
             // Act
-            IScriptType resultBase = a.ArithmeticMultiply(b);
+            var resultBase = a.ArithmeticMultiply(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(resultBase, a, b, 50);
+            AssertArithmeticResult<ScriptInteger>(resultBase, a, b, 50);
         }
 
         [TestMethod]
         public void IntMultiplicationInvalidTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            StringBase b = GetString("foo");
-            object[] expectedFormatArgs = {5, b.GetTypeName()};
-            void Action() { a.ArithmeticMultiply(b); }
+            var a = GetInteger(5);
+            var b = GetString("foo");
 
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_MultiplyInvalidType), expectedFormatArgs);
+            // Act
+            var result = a.ArithmeticMultiply(b);
+
+            // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]
         public void IntMultiplicationDoubleWholeTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            DoubleBase b = GetDouble(2);
+            var a = GetInteger(5);
+            var b = GetDouble(2);
 
             // Act
-            IScriptType resultBase = a.ArithmeticMultiply(b);
+            var resultBase = a.ArithmeticMultiply(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(resultBase, a, b, 10);
+            AssertArithmeticResult<ScriptInteger>(resultBase, a, b, 10);
         }
 
         [TestMethod]
         public void IntMultiplicationDoubleFractionTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            DoubleBase b = GetDouble(2.5);
+            var a = GetInteger(5);
+            var b = GetDouble(2.5);
             const double expected = 5 * 2.5;
 
             // Act
-            IScriptType resultBase = a.ArithmeticMultiply(b);
+            var resultBase = a.ArithmeticMultiply(b);
 
             // Assert
-            AssertArithmeticResult<DoubleBase>(resultBase, a, b, expected);
+            AssertArithmeticResult<ScriptDouble>(resultBase, a, b, expected);
         }
 
         [TestMethod]
         public void IntDivideWholeTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(50);
-            IntegerBase b = GetInteger(10);
+            var a = GetInteger(50);
+            var b = GetInteger(10);
 
             // Act
-            IScriptType resultBase = a.ArithmeticDivide(b);
+            var resultBase = a.ArithmeticDivide(b);
 
             // Assert
-            AssertArithmeticResult<IntegerBase>(resultBase, a, b, 5);
+            AssertArithmeticResult<ScriptInteger>(resultBase, a, b, 5);
         }
 
         [TestMethod]
         public void IntDivideFractionTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            IntegerBase b = GetInteger(10);
+            var a = GetInteger(5);
+            var b = GetInteger(10);
 
             // Act
-            IScriptType resultBase = a.ArithmeticDivide(b);
+            var resultBase = a.ArithmeticDivide(b);
 
             // Assert
-            AssertArithmeticResult<DoubleBase>(resultBase, a, b, 0.5);
+            AssertArithmeticResult<ScriptDouble>(resultBase, a, b, 0.5);
         }
 
         [TestMethod]
         public void IntDivideInvalidTest()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            StringBase b = GetString("foo");
-            object[] expectedFormatArgs = {5, b.GetTypeName()};
-            void Action() { a.ArithmeticDivide(b); }
+            var a = GetInteger(5);
+            var b = GetString("foo");
 
-            // Act + Assert
-            AssertThrow(Action, nameof(Localized_Base_Entities.Ex_Int_DivideInvalidType), expectedFormatArgs);
+            // Act
+            var result = a.ArithmeticDivide(b);
+
+            // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]
         public void IntDivideByZero()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            IntegerBase b = GetInteger(0);
+            var a = GetInteger(5);
+            var b = GetInteger(0);
             object[] expectedFormatArgs = { };
             void Action() { a.ArithmeticDivide(b); }
 
@@ -177,21 +182,21 @@ namespace Mellis.Lang.Base.Tests
         public void IntDivideByDouble()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
-            DoubleBase b = GetDouble(2);
+            var a = GetInteger(5);
+            var b = GetDouble(2);
 
             // Act
-            IScriptType resultBase = a.ArithmeticDivide(b);
+            var resultBase = a.ArithmeticDivide(b);
 
             // Assert
-            AssertArithmeticResult<DoubleBase>(resultBase, a, b, 2.5);
+            AssertArithmeticResult<ScriptDouble>(resultBase, a, b, 2.5);
         }
 
         [TestMethod]
         public void IntIndexGet()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            var a = GetInteger(5);
             object[] expectedFormatArgs = {5};
 
             void Action() { a.GetIndex(null); }
@@ -204,7 +209,7 @@ namespace Mellis.Lang.Base.Tests
         public void IntIndexSet()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            var a = GetInteger(5);
             object[] expectedFormatArgs = {5};
 
             void Action() { a.SetIndex(null, null); }
@@ -217,7 +222,7 @@ namespace Mellis.Lang.Base.Tests
         public void IntPropertyGet()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            var a = GetInteger(5);
             const string property = "prop";
             object[] expectedFormatArgs = {5, property};
 
@@ -231,7 +236,7 @@ namespace Mellis.Lang.Base.Tests
         public void IntPropertySet()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            var a = GetInteger(5);
             const string property = "prop";
             object[] expectedFormatArgs = {5, property};
 
@@ -242,61 +247,41 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [DataTestMethod]
-        [DataRow(5)]
-        [DataRow(5L)]
-        [DataRow(5D)]
-        [DataRow(5F)]
-        public void IntTryConvertValid(object expected)
+        [DataRow(1, typeof(byte), (byte)1)]
+        [DataRow(1, typeof(sbyte), (sbyte)1)]
+        [DataRow(1, typeof(short), (short)1)]
+        [DataRow(1, typeof(ushort), (ushort)1)]
+        [DataRow(1, typeof(int), 1)]
+        [DataRow(1, typeof(uint), 1u)]
+        [DataRow(1, typeof(long), 1L)]
+        [DataRow(1, typeof(ulong), 1Lu)]
+        [DataRow(1, typeof(float), 1f)]
+        [DataRow(1, typeof(double), 1d)]
+        public void TryCoerceValid(int input, Type type, object expected)
         {
-            // Arrange
-            IntegerBase a = GetInteger(5);
-            Type type = expected.GetType();
-
-            // Act
-            bool success = a.TryConvert(type, out object result);
-
-            // Assert
-            Assert.IsTrue(success);
-            Assert.AreEqual(expected, result);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.VerifyNoOtherCalls();
+            AssertTryCoerceTyped(GetInteger(input), type, expected);
         }
 
         [TestMethod]
-        public void IntTryConvertDecimal()
+        public void IntTryCoerceDecimal()
         {
-            // Arrange
-            IntegerBase a = GetInteger(5);
-
-            // Act
-            bool success = a.TryConvert(typeof(decimal), out object result);
-
-            // Assert
-            Assert.IsTrue(success);
-            Assert.AreEqual(5m, result);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.VerifyNoOtherCalls();
+            AssertTryCoerceTyped(GetInteger(1), typeof(decimal), 1m);
         }
 
         [DataTestMethod]
-        [DataRow(typeof(uint))]
-        [DataRow(typeof(ulong))]
-        [DataRow(typeof(bool))]
-        [DataRow(typeof(byte))]
-        [DataRow(typeof(short))]
         [DataRow(typeof(char))]
         [DataRow(typeof(string))]
         [DataRow(typeof(DateTime))]
-        public void IntTryConvertInvalid(Type type)
+        public void IntTryCoerceInvalid(Type type)
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            var a = GetInteger(5);
 
             // Act
-            bool success = a.TryConvert(type, out object _);
+            bool success = a.TryCoerce(type, out object result);
 
             // Assert
-            Assert.IsFalse(success);
+            Assert.IsFalse(success, "Unexpected result: {0}", result);
             processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }
@@ -305,29 +290,14 @@ namespace Mellis.Lang.Base.Tests
         public void IntTryConvertGenericValid()
         {
             // Arrange
-            IntegerBase a = GetInteger(5);
+            var a = GetInteger(5);
 
             // Act
-            bool success = a.TryConvert(out int result);
+            bool success = a.TryCoerce(out int result);
 
             // Assert
             Assert.IsTrue(success);
             Assert.AreEqual(5, result);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.VerifyNoOtherCalls();
-        }
-
-        [TestMethod]
-        public void IntTryConvertGenericInvalid()
-        {
-            // Arrange
-            IntegerBase a = GetInteger(5);
-
-            // Act
-            bool success = a.TryConvert(out string _);
-
-            // Assert
-            Assert.IsFalse(success);
             processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }

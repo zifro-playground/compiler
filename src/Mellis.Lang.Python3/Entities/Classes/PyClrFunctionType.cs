@@ -6,7 +6,7 @@ using Mellis.Lang.Python3.Resources;
 
 namespace Mellis.Lang.Python3.Entities.Classes
 {
-    public class PyClrFunctionType : PyType<ClrFunctionBase>
+    public class PyClrFunctionType : PyType<ScriptClrFunction>
     {
         public PyClrFunctionType(
             IProcessor processor, string name = null)

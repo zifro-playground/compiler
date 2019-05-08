@@ -37,12 +37,12 @@ namespace Mellis.Lang.Python3.Tests.Syntax.Operators
         public void FactoryCreateValid_Test(Type expectedType, ComparisonType compType, BasicOperatorCode opCode)
         {
             // Arrange
-            ExpressionNode lhs = BaseVisitClass.GetExpressionMock();
-            ExpressionNode rhs = BaseVisitClass.GetExpressionMock();
+            var lhs = BaseVisitClass.GetExpressionMock();
+            var rhs = BaseVisitClass.GetExpressionMock();
             var factory = new ComparisonFactory(compType);
 
             // Act
-            Comparison result = factory.Create(lhs, rhs);
+            var result = factory.Create(lhs, rhs);
 
             // Assert
             Assert.AreEqual(compType, result.Type, "ComparisonType did not match.");
@@ -57,8 +57,8 @@ namespace Mellis.Lang.Python3.Tests.Syntax.Operators
         public void FactoryCreateNYI_Test(string expectedKeyword, ComparisonType inputType)
         {
             // Arrange
-            ExpressionNode lhs = BaseVisitClass.GetExpressionMock();
-            ExpressionNode rhs = BaseVisitClass.GetExpressionMock();
+            var lhs = BaseVisitClass.GetExpressionMock();
+            var rhs = BaseVisitClass.GetExpressionMock();
             var factory = new ComparisonFactory(inputType);
 
             void GetResult()
