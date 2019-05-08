@@ -9,6 +9,7 @@ namespace Mellis.Lang.Base.Tests
     [TestClass]
     public class EntityIntBaseTests : BaseTestClass
     {
+
         [TestMethod]
         public void IntAdditionTest()
         {
@@ -246,61 +247,41 @@ namespace Mellis.Lang.Base.Tests
         }
 
         [DataTestMethod]
-        [DataRow(5)]
-        [DataRow(5L)]
-        [DataRow(5D)]
-        [DataRow(5F)]
-        public void IntTryConvertValid(object expected)
+        [DataRow(1, typeof(byte), (byte)1)]
+        [DataRow(1, typeof(sbyte), (sbyte)1)]
+        [DataRow(1, typeof(short), (short)1)]
+        [DataRow(1, typeof(ushort), (ushort)1)]
+        [DataRow(1, typeof(int), 1)]
+        [DataRow(1, typeof(uint), 1u)]
+        [DataRow(1, typeof(long), 1L)]
+        [DataRow(1, typeof(ulong), 1Lu)]
+        [DataRow(1, typeof(float), 1f)]
+        [DataRow(1, typeof(double), 1d)]
+        public void TryCoerceValid(int input, Type type, object expected)
+        {
+            AssertTryCoerceTyped(GetInteger(input), type, expected);
+        }
+
+        [TestMethod]
+        public void IntTryCoerceDecimal()
+        {
+            AssertTryCoerceTyped(GetInteger(1), typeof(decimal), 1m);
+        }
+
+        [DataTestMethod]
+        [DataRow(typeof(char))]
+        [DataRow(typeof(string))]
+        [DataRow(typeof(DateTime))]
+        public void IntTryCoerceInvalid(Type type)
         {
             // Arrange
             var a = GetInteger(5);
-            var type = expected.GetType();
 
             // Act
             bool success = a.TryCoerce(type, out object result);
 
             // Assert
-            Assert.IsTrue(success);
-            Assert.AreEqual(expected, result);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.VerifyNoOtherCalls();
-        }
-
-        [TestMethod]
-        public void IntTryConvertDecimal()
-        {
-            // Arrange
-            var a = GetInteger(5);
-
-            // Act
-            bool success = a.TryCoerce(typeof(decimal), out object result);
-
-            // Assert
-            Assert.IsTrue(success);
-            Assert.AreEqual(5m, result);
-            processorMock.VerifyNoOtherCalls();
-            factoryMock.VerifyNoOtherCalls();
-        }
-
-        [DataTestMethod]
-        [DataRow(typeof(uint))]
-        [DataRow(typeof(ulong))]
-        [DataRow(typeof(bool))]
-        [DataRow(typeof(byte))]
-        [DataRow(typeof(short))]
-        [DataRow(typeof(char))]
-        [DataRow(typeof(string))]
-        [DataRow(typeof(DateTime))]
-        public void IntTryConvertInvalid(Type type)
-        {
-            // Arrange
-            var a = GetInteger(5);
-
-            // Act
-            bool success = a.TryCoerce(type, out object _);
-
-            // Assert
-            Assert.IsFalse(success);
+            Assert.IsFalse(success, "Unexpected result: {0}", result);
             processorMock.VerifyNoOtherCalls();
             factoryMock.VerifyNoOtherCalls();
         }

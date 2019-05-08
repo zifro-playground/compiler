@@ -1,16 +1,17 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+using System.Linq;
 using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Base.Entities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Mellis.Lang.Base.Tests
 {
     public class BaseTestClass
     {
-        protected Mock<IProcessor> processorMock;
         protected Mock<IScriptTypeFactory> factoryMock;
+        protected Mock<IProcessor> processorMock;
 
         [TestInitialize]
         public void TestInitialize()
@@ -34,6 +35,30 @@ namespace Mellis.Lang.Base.Tests
                 .Returns(GetBoolean(false));
         }
 
+        protected void AssertTryCoerceTyped(IScriptType value, Type type, object expected)
+        {
+            bool success = value.TryCoerce(type, out object result);
+            Assert.IsTrue(success);
+            Assert.AreEqual(type, result?.GetType());
+            Assert.AreEqual(expected, result);
+
+            processorMock.VerifyNoOtherCalls();
+            factoryMock.VerifyNoOtherCalls();
+        }
+
+        // TODO:
+        //protected void AssertTryCoerceGeneric(IScriptType value, Type type, object expected)
+        //{
+        //    var tryCoerce = value.GetType()
+        //        .GetMethods()
+        //        .First(o => o.IsGenericMethod && o.Name == nameof(IScriptType.TryCoerce));
+
+        //    bool success = tryCoerce.
+        //    Assert.IsTrue(success);
+        //    Assert.AreEqual(type, result?.GetType());
+        //    Assert.AreEqual(expected, result);
+        //}
+
         protected ScriptInteger GetInteger(int value)
         {
             return GetValue<ScriptInteger, int>(value);
@@ -54,30 +79,27 @@ namespace Mellis.Lang.Base.Tests
             return GetValue<ScriptBoolean, bool>(value);
         }
 
-        private TScriptType GetValue<TScriptType, TValue>(TValue value)
-            where TScriptType : class, IScriptType
-        {
-            return new Mock<TScriptType>(processorMock.Object, value, null) {CallBase = true}.Object;
-        }
-
         protected IScriptType GetValue(object value)
         {
             switch (value)
             {
-                case int i:
-                    return GetInteger(i);
-                case double d:
-                    return GetDouble(d);
-                case string s:
-                    return GetString(s);
-                case bool b:
-                    return GetBoolean(b);
-                default:
-                    throw new NotSupportedException();
+            case int i:
+                return GetInteger(i);
+            case double d:
+                return GetDouble(d);
+            case string s:
+                return GetString(s);
+            case bool b:
+                return GetBoolean(b);
+            default:
+                throw new NotSupportedException();
             }
         }
 
-        protected void AssertArithmeticResult<T>(IScriptType resultBase, IScriptType lhs, IScriptType rhs,
+        protected void AssertArithmeticResult<T>(
+            IScriptType resultBase,
+            IScriptType lhs,
+            IScriptType rhs,
             object expected)
             where T : IScriptType
         {
@@ -95,30 +117,30 @@ namespace Mellis.Lang.Base.Tests
 
             switch (expected)
             {
-                case int i:
-                    factoryMock.Verify(o => o.Create(i),
-                        Times.Once);
-                    break;
+            case int i:
+                factoryMock.Verify(o => o.Create(i),
+                    Times.Once);
+                break;
 
-                case double d:
-                    factoryMock.Verify(o => o.Create(It.Is<double>(v => Math.Abs(v - d) < 1e-10)),
-                        Times.Once);
-                    break;
+            case double d:
+                factoryMock.Verify(o => o.Create(It.Is<double>(v => Math.Abs(v - d) < 1e-10)),
+                    Times.Once);
+                break;
 
-                case string s:
-                    factoryMock.Verify(o => o.Create(It.Is<string>(v => v == s)),
-                        Times.Exactly(s.Length == 1 ? 0 : 1));
-                    factoryMock.Verify(o => o.Create(It.Is<char>(v => v.ToString() == s)),
-                        Times.Exactly(s.Length == 1 ? 1 : 0));
-                    break;
+            case string s:
+                factoryMock.Verify(o => o.Create(It.Is<string>(v => v == s)),
+                    Times.Exactly(s.Length == 1 ? 0 : 1));
+                factoryMock.Verify(o => o.Create(It.Is<char>(v => v.ToString() == s)),
+                    Times.Exactly(s.Length == 1 ? 1 : 0));
+                break;
 
-                case bool b when b:
-                    factoryMock.VerifyGet(o => o.True, Times.Once);
-                    break;
+            case bool b when b:
+                factoryMock.VerifyGet(o => o.True, Times.Once);
+                break;
 
-                case bool b when !b:
-                    factoryMock.VerifyGet(o => o.False, Times.Once);
-                    break;
+            case bool b when !b:
+                factoryMock.VerifyGet(o => o.False, Times.Once);
+                break;
             }
 
             factoryMock.VerifyNoOtherCalls();
@@ -138,21 +160,27 @@ namespace Mellis.Lang.Base.Tests
         {
             switch (actual)
             {
-                case ScriptDouble d when expected is double e:
-                    Assert.AreEqual(e, d.Value, 1e-10);
-                    break;
-                case ScriptInteger i:
-                    Assert.AreEqual(expected, i.Value);
-                    break;
-                case ScriptString s:
-                    Assert.AreEqual(expected, s.Value);
-                    break;
-                case ScriptBoolean s:
-                    Assert.AreEqual(expected, s.Value);
-                    break;
-                default:
-                    throw new NotSupportedException();
+            case ScriptDouble d when expected is double e:
+                Assert.AreEqual(e, d.Value, 1e-10);
+                break;
+            case ScriptInteger i:
+                Assert.AreEqual(expected, i.Value);
+                break;
+            case ScriptString s:
+                Assert.AreEqual(expected, s.Value);
+                break;
+            case ScriptBoolean s:
+                Assert.AreEqual(expected, s.Value);
+                break;
+            default:
+                throw new NotSupportedException();
             }
+        }
+
+        private TScriptType GetValue<TScriptType, TValue>(TValue value)
+            where TScriptType : class, IScriptType
+        {
+            return new Mock<TScriptType>(processorMock.Object, value, null) {CallBase = true}.Object;
         }
     }
 }
