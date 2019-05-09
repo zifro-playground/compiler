@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Mellis.Lang.Python3.Tests.Syntax.Operators
 {
+    [TestClass]
     public class InPlaceBinaryOperatorFactoryTests
     {
         [DataTestMethod]
@@ -20,6 +21,7 @@ namespace Mellis.Lang.Python3.Tests.Syntax.Operators
         [DataRow(BasicOperatorCode.IAFlr)]
         [DataRow(BasicOperatorCode.IAMod)]
         [DataRow(BasicOperatorCode.IAPow)]
+        [DataRow(BasicOperatorCode.IAMat)]
         [DataRow(BasicOperatorCode.IBAnd)]
         [DataRow(BasicOperatorCode.IBOr)]
         [DataRow(BasicOperatorCode.IBXor)]
@@ -39,24 +41,6 @@ namespace Mellis.Lang.Python3.Tests.Syntax.Operators
             Assert.That.IsBinaryOperator<InPlaceBinaryOperator>(
                 lhs, rhs, result
             );
-        }
-
-        [DataTestMethod]
-        [DataRow(BasicOperatorCode.IAMat)]
-        public void FactoryCreateNYI(BasicOperatorCode operatorCode, string expectedKeyword)
-        {
-            // Arrange
-            var factory = new InPlaceBinaryOperatorFactory(SourceReference.ClrSource, operatorCode);
-
-            void Action()
-            {
-                factory.Create(null, null);
-            }
-
-            // Act
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action)Action);
-
-            Assert.That.ErrorNotYetImplFormatArgs(ex, SourceReference.ClrSource, expectedKeyword);
         }
 
         [DataTestMethod]
@@ -86,7 +70,7 @@ namespace Mellis.Lang.Python3.Tests.Syntax.Operators
         [DataRow(BasicOperatorCode.APos, DisplayName = "un op -a")]
         [DataRow(BasicOperatorCode.BNot, DisplayName = "un op ~a")]
         [DataRow(BasicOperatorCode.LNot, DisplayName = "un op !a")]
-        public void FactoryCreateNonInPlaceOps(BasicOperatorCode operatorCode, string expectedKeyword)
+        public void FactoryCreateNonInPlaceOps(BasicOperatorCode operatorCode)
         {
             // Arrange
             var factory = new InPlaceBinaryOperatorFactory(SourceReference.ClrSource, operatorCode);
@@ -97,7 +81,7 @@ namespace Mellis.Lang.Python3.Tests.Syntax.Operators
             }
 
             // Act
-            Assert.ThrowsException<InvalidEnumArgumentException>((Action)Action);
+            Assert.ThrowsException<ArgumentOutOfRangeException>((Action)Action);
         }
     }
 }

@@ -3,16 +3,21 @@ using Mellis.Lang.Python3.Instructions;
 
 namespace Mellis.Lang.Python3.Syntax.Operators
 {
-    public abstract class InPlaceBinaryOperator : BasicBinaryOperator
+    public class InPlaceBinaryOperator : BasicBinaryOperator
     {
-        protected InPlaceBinaryOperator(SourceReference source, ExpressionNode leftOperand, ExpressionNode rightOperand) :
+        public override BasicOperatorCode OpCode { get; }
+
+        public InPlaceBinaryOperator(SourceReference source, ExpressionNode leftOperand, ExpressionNode rightOperand, BasicOperatorCode opCode) :
             base(source, leftOperand, rightOperand)
         {
+            OpCode = opCode;
         }
 
-        protected InPlaceBinaryOperator(ExpressionNode leftOperand, ExpressionNode rightOperand) : base(leftOperand,
-            rightOperand)
+        public InPlaceBinaryOperator(ExpressionNode leftOperand, ExpressionNode rightOperand, BasicOperatorCode opCode)
+            : base(leftOperand, rightOperand)
         {
+            OpCode = opCode;
         }
+
     }
 }

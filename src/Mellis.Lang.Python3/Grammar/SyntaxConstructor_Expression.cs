@@ -105,7 +105,13 @@ namespace Mellis.Lang.Python3.Grammar
                     var testListExpr = VisitTestlist(testListRule)
                         .AsTypeOrThrow<ExpressionNode>();
 
-                    return augAssignFactory.Create(firstExpr, testListExpr);
+                    InPlaceBinaryOperator rhsExpr = augAssignFactory.Create(firstExpr, testListExpr);
+
+                    return new Assignment(
+                        context.GetSourceReference(),
+                        firstExpr,
+                        rhsExpr
+                    );
 
                 case Python3Parser.Yield_exprContext yieldExpr:
                     throw yieldExpr.NotYetImplementedException("yield");
@@ -183,21 +189,19 @@ namespace Mellis.Lang.Python3.Grammar
             {
                 switch (terminal.Symbol.Type)
                 {
-                case Python3Parser.ADD_ASSIGN: return BasicOperatorCode.AAdd;
-                case Python3Parser.SUB_ASSIGN: return BasicOperatorCode.ASub;
-                case Python3Parser.MULT_ASSIGN: return BasicOperatorCode.AMul;
-                case Python3Parser.DIV_ASSIGN: return BasicOperatorCode.ADiv;
-                case Python3Parser.MOD_ASSIGN: return BasicOperatorCode.AMod;
-                case Python3Parser.AND_ASSIGN: return BasicOperatorCode.BAnd;
-                case Python3Parser.OR_ASSIGN: return BasicOperatorCode.BOr;
-                case Python3Parser.XOR_ASSIGN: return BasicOperatorCode.BXor;
-                case Python3Parser.LEFT_SHIFT_ASSIGN: return BasicOperatorCode.BLsh;
-                case Python3Parser.RIGHT_SHIFT_ASSIGN: return BasicOperatorCode.BRsh;
-                case Python3Parser.POWER_ASSIGN: return BasicOperatorCode.APow;
-                case Python3Parser.IDIV_ASSIGN: return BasicOperatorCode.AFlr;
-
-                case Python3Parser.AT_ASSIGN:
-                    throw terminal.NotYetImplementedException("@=");
+                case Python3Parser.ADD_ASSIGN: return BasicOperatorCode.IAAdd;
+                case Python3Parser.SUB_ASSIGN: return BasicOperatorCode.IASub;
+                case Python3Parser.MULT_ASSIGN: return BasicOperatorCode.IAMul;
+                case Python3Parser.DIV_ASSIGN: return BasicOperatorCode.IADiv;
+                case Python3Parser.MOD_ASSIGN: return BasicOperatorCode.IAMod;
+                case Python3Parser.AND_ASSIGN: return BasicOperatorCode.IBAnd;
+                case Python3Parser.OR_ASSIGN: return BasicOperatorCode.IBOr;
+                case Python3Parser.XOR_ASSIGN: return BasicOperatorCode.IBXor;
+                case Python3Parser.LEFT_SHIFT_ASSIGN: return BasicOperatorCode.IBLsh;
+                case Python3Parser.RIGHT_SHIFT_ASSIGN: return BasicOperatorCode.IBRsh;
+                case Python3Parser.POWER_ASSIGN: return BasicOperatorCode.IAPow;
+                case Python3Parser.IDIV_ASSIGN: return BasicOperatorCode.IAFlr;
+                case Python3Parser.AT_ASSIGN: return BasicOperatorCode.IAMat;
 
                 default:
                     throw context.UnexpectedChildType(terminal);

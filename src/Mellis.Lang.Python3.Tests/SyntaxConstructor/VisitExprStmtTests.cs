@@ -167,7 +167,7 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
         public void Visit_AugmentedAssignment_Test()
         {
             // Arrange
-            const BasicOperatorCode operatorCode = BasicOperatorCode.AMul;
+            const BasicOperatorCode operatorCode = BasicOperatorCode.IAMul;
 
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
