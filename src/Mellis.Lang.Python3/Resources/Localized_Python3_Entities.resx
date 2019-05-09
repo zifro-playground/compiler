@@ -209,6 +209,21 @@
     <comment>Ex: range(True)
 {0} invalid argument type name</comment>
   </data>
+  <data name="Ex_String_IndexGet_EmptyString" xml:space="preserve">
+    <value>En tom textsträng kan inte indexeras.</value>
+    <comment>Ex: ""[1]</comment>
+  </data>
+  <data name="Ex_String_IndexGet_IndexNotInteger" xml:space="preserve">
+    <value>En textsträng kan endast indexeras av heltal, inte av typen '{0}'.</value>
+    <comment>Ex: "foo"[None]
+{0} type name of index</comment>
+  </data>
+  <data name="Ex_String_IndexGet_OutOfRange" xml:space="preserve">
+    <value>Gick inte att läsa bokstaven på plats '{0}' då den är utanför textsträngens längd ({1}).</value>
+    <comment>Ex: "foo"[5]
+{0} index
+{1} length of string</comment>
+  </data>
   <data name="Type_Enumerator_Name" xml:space="preserve">
     <value>iterator</value>
     <comment>Name of IEnumerator wrapper.</comment>
