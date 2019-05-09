@@ -4,7 +4,7 @@ using Mellis.Lang.Python3.Instructions;
 namespace Mellis.Lang.Python3.Syntax.Operators
 {
     /// <summary>
-    /// Common two part operators, such as "and" (a && b), "or" (a || b), "xor" (a ^ b)
+    /// Common two part operators, such as "and" (a &amp;&amp; b), "or" (a || b), "xor" (a ^ b)
     /// </summary>
     public abstract class BasicBinaryOperator : BinaryOperator, IBasicOperatorNode
     {

@@ -9,8 +9,8 @@ namespace Mellis.Lang.Python3.Syntax.Statements
 {
     public class Assignment : Statement
     {
-        public ExpressionNode LeftOperand { get; }
-        public ExpressionNode RightOperand { get; }
+        public ExpressionNode LeftOperand { get; set; }
+        public ExpressionNode RightOperand { get; set; }
 
         public Assignment(
             SourceReference source,

@@ -171,6 +171,25 @@ namespace Mellis.Lang.Python3.Tests
             return assert.IsBinaryOperatorGetLhs(typeof(TOperator), expectedRhs, resultNode);
         }
 
+        public static ExpressionNode IsBinaryOperatorGetRhs(this Assert assert,
+            Type expectedType,
+            ExpressionNode expectedLhs,
+            SyntaxNode resultNode)
+        {
+            Assert.IsInstanceOfType(resultNode, expectedType);
+            var op = (BinaryOperator)resultNode;
+            Assert.AreSame(expectedLhs, op.LeftOperand);
+            return op.RightOperand;
+        }
+
+        public static ExpressionNode IsBinaryOperatorGetRhs<TOperator>(this Assert assert,
+            ExpressionNode expectedLhs,
+            SyntaxNode resultNode)
+            where TOperator : BinaryOperator
+        {
+            return assert.IsBinaryOperatorGetRhs(typeof(TOperator), expectedLhs, resultNode);
+        }
+
         public static ExpressionNode IsFunctionCall(this Assert assert,
             SyntaxNode result,
             ArgumentsList expectedArgumentsList)

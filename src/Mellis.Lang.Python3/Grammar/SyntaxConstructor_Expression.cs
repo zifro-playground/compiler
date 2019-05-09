@@ -6,6 +6,7 @@ using Mellis.Core.Entities;
 using Mellis.Core.Exceptions;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Extensions;
+using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Syntax;
 using Mellis.Lang.Python3.Syntax.Literals;
 using Mellis.Lang.Python3.Syntax.Operators;
@@ -49,7 +50,7 @@ namespace Mellis.Lang.Python3.Grammar
                     firstExpr
                 };
 
-                for (var i = 2; i < context.ChildCount; i += 2)
+                for (int i = 2; i < context.ChildCount; i += 2)
                 {
                     var rule = context.GetChildOrThrow<ParserRuleContext>(i);
 
@@ -92,10 +93,31 @@ namespace Mellis.Lang.Python3.Grammar
             // testlist_star_expr augassign (yield_expr | testlist)
             case Python3Parser.AugassignContext _ when context.ChildCount > 3:
                 throw context.UnexpectedChildType(context.GetChild(3));
-            case Python3Parser.AugassignContext augAssign:
-                string keyword = augAssign.GetChildOrThrow<ITerminalNode>(0).Symbol.Text;
-                throw augAssign.NotYetImplementedException(keyword);
+            case Python3Parser.AugassignContext augAssignRule:
 
+                var augAssignFactory = VisitAugassign(augAssignRule)
+                    .AsTypeOrThrow<InPlaceBinaryOperatorFactory>();
+                var rhsRule = context.GetChildOrThrow<ParserRuleContext>(2);
+
+                switch (rhsRule)
+                {
+                case Python3Parser.TestlistContext testListRule:
+                    var testListExpr = VisitTestlist(testListRule)
+                        .AsTypeOrThrow<ExpressionNode>();
+
+                    InPlaceBinaryOperator rhsExpr = augAssignFactory.Create(firstExpr, testListExpr);
+
+                    return new Assignment(
+                        context.GetSourceReference(),
+                        firstExpr,
+                        rhsExpr
+                    );
+
+                case Python3Parser.Yield_exprContext yieldExpr:
+                    throw yieldExpr.NotYetImplementedException("yield");
+                default:
+                    throw context.UnexpectedChildType(rhsRule);
+                }
             default:
                 throw context.UnexpectedChildType(second);
             }
@@ -107,7 +129,7 @@ namespace Mellis.Lang.Python3.Grammar
 
             ExpressionNode result = null;
 
-            for (var i = 0; i < context.ChildCount; i += 2)
+            for (int i = 0; i < context.ChildCount; i += 2)
             {
                 var rule = context.GetChildOrThrow<ParserRuleContext>(i);
 
@@ -158,14 +180,33 @@ namespace Mellis.Lang.Python3.Grammar
 
         public override SyntaxNode VisitAugassign(Python3Parser.AugassignContext context)
         {
-            VisitChildren(context);
-            var child = context.GetChild<ITerminalNode>(0);
-            if (child != null)
-            {
-                throw context.NotYetImplementedException(child.Symbol.Text);
-            }
+            var child = context.GetChildOrThrow<ITerminalNode>(0);
+            var operatorCode = GetOperatorCodeFromTerminal(child);
 
-            throw context.NotYetImplementedException();
+            return new InPlaceBinaryOperatorFactory(context.GetSourceReference(), operatorCode);
+
+            BasicOperatorCode GetOperatorCodeFromTerminal(ITerminalNode terminal)
+            {
+                switch (terminal.Symbol.Type)
+                {
+                case Python3Parser.ADD_ASSIGN: return BasicOperatorCode.IAAdd;
+                case Python3Parser.SUB_ASSIGN: return BasicOperatorCode.IASub;
+                case Python3Parser.MULT_ASSIGN: return BasicOperatorCode.IAMul;
+                case Python3Parser.DIV_ASSIGN: return BasicOperatorCode.IADiv;
+                case Python3Parser.MOD_ASSIGN: return BasicOperatorCode.IAMod;
+                case Python3Parser.AND_ASSIGN: return BasicOperatorCode.IBAnd;
+                case Python3Parser.OR_ASSIGN: return BasicOperatorCode.IBOr;
+                case Python3Parser.XOR_ASSIGN: return BasicOperatorCode.IBXor;
+                case Python3Parser.LEFT_SHIFT_ASSIGN: return BasicOperatorCode.IBLsh;
+                case Python3Parser.RIGHT_SHIFT_ASSIGN: return BasicOperatorCode.IBRsh;
+                case Python3Parser.POWER_ASSIGN: return BasicOperatorCode.IAPow;
+                case Python3Parser.IDIV_ASSIGN: return BasicOperatorCode.IAFlr;
+                case Python3Parser.AT_ASSIGN: return BasicOperatorCode.IAMat;
+
+                default:
+                    throw context.UnexpectedChildType(terminal);
+                }
+            }
         }
 
         public override SyntaxNode VisitTest(Python3Parser.TestContext context)
@@ -227,7 +268,7 @@ namespace Mellis.Lang.Python3.Grammar
             var expr = VisitAnd_test(rule)
                 .AsTypeOrThrow<ExpressionNode>();
 
-            for (var i = 1; i < context.ChildCount; i += 2)
+            for (int i = 1; i < context.ChildCount; i += 2)
             {
                 context.GetChildOrThrow(i, Python3Parser.OR);
 
@@ -249,7 +290,7 @@ namespace Mellis.Lang.Python3.Grammar
             var expr = VisitNot_test(rule)
                 .AsTypeOrThrow<ExpressionNode>();
 
-            for (var i = 1; i < context.ChildCount; i += 2)
+            for (int i = 1; i < context.ChildCount; i += 2)
             {
                 context.GetChildOrThrow(i, Python3Parser.AND);
                 var secondRule = context.GetChildOrThrow<Python3Parser.Not_testContext>(i + 1);
@@ -307,7 +348,7 @@ namespace Mellis.Lang.Python3.Grammar
             var expr = VisitExpr(rule)
                 .AsTypeOrThrow<ExpressionNode>();
 
-            for (var i = 1; i < context.ChildCount; i += 2)
+            for (int i = 1; i < context.ChildCount; i += 2)
             {
                 var compRule = context.GetChildOrThrow<Python3Parser.Comp_opContext>(i);
                 var rhsRule = context.GetChildOrThrow<Python3Parser.ExprContext>(i + 1);
@@ -413,7 +454,7 @@ namespace Mellis.Lang.Python3.Grammar
             var expr = VisitXor_expr(rule)
                 .AsTypeOrThrow<ExpressionNode>();
 
-            for (var i = 1; i < context.ChildCount; i += 2)
+            for (int i = 1; i < context.ChildCount; i += 2)
             {
                 context.GetChildOrThrow(i, Python3Parser.OR_OP);
                 var secondRule = context.GetChildOrThrow<Python3Parser.Xor_exprContext>(i + 1);
@@ -434,7 +475,7 @@ namespace Mellis.Lang.Python3.Grammar
             var expr = VisitAnd_expr(rule)
                 .AsTypeOrThrow<ExpressionNode>();
 
-            for (var i = 1; i < context.ChildCount; i += 2)
+            for (int i = 1; i < context.ChildCount; i += 2)
             {
                 context.GetChildOrThrow(i, Python3Parser.XOR);
                 var secondRule = context.GetChildOrThrow<Python3Parser.And_exprContext>(i + 1);
@@ -455,7 +496,7 @@ namespace Mellis.Lang.Python3.Grammar
             var expr = VisitShift_expr(rule)
                 .AsTypeOrThrow<ExpressionNode>();
 
-            for (var i = 1; i < context.ChildCount; i += 2)
+            for (int i = 1; i < context.ChildCount; i += 2)
             {
                 context.GetChildOrThrow(i, Python3Parser.AND_OP);
                 var secondRule = context.GetChildOrThrow<Python3Parser.Shift_exprContext>(i + 1);
@@ -476,7 +517,7 @@ namespace Mellis.Lang.Python3.Grammar
             var expr = VisitArith_expr(rule)
                 .AsTypeOrThrow<ExpressionNode>();
 
-            for (var i = 1; i < context.ChildCount; i += 2)
+            for (int i = 1; i < context.ChildCount; i += 2)
             {
                 var op = context.GetChildOrThrow<ITerminalNode>(i);
                 var secondRule = context.GetChildOrThrow<Python3Parser.Arith_exprContext>(i + 1);
@@ -507,7 +548,7 @@ namespace Mellis.Lang.Python3.Grammar
             var expr = VisitTerm(rule)
                 .AsTypeOrThrow<ExpressionNode>();
 
-            for (var i = 1; i < context.ChildCount; i += 2)
+            for (int i = 1; i < context.ChildCount; i += 2)
             {
                 var op = context.GetChildOrThrow<ITerminalNode>(i);
                 var secondRule = context.GetChildOrThrow<Python3Parser.TermContext>(i + 1);
@@ -538,7 +579,7 @@ namespace Mellis.Lang.Python3.Grammar
             var expr = VisitFactor(rule)
                 .AsTypeOrThrow<ExpressionNode>();
 
-            for (var i = 1; i < context.ChildCount; i += 2)
+            for (int i = 1; i < context.ChildCount; i += 2)
             {
                 var op = context.GetChildOrThrow<ITerminalNode>(i);
                 var secondRule = context.GetChildOrThrow<Python3Parser.FactorContext>(i + 1);
@@ -677,7 +718,7 @@ namespace Mellis.Lang.Python3.Grammar
                     .AsTypeOrThrow<ExpressionNode>();
                 SourceReference atomSource = atom.GetSourceReference();
 
-                for (var i = 1; i < context.ChildCount; i++)
+                for (int i = 1; i < context.ChildCount; i++)
                 {
                     var trailerRule = context.GetChildOrThrow<Python3Parser.TrailerContext>(i);
                     var trailerExpr = VisitTrailer(trailerRule);
@@ -751,7 +792,7 @@ namespace Mellis.Lang.Python3.Grammar
                 }
 
             case Python3Parser.STRING:
-                for (var i = 1; i < context.ChildCount; /* i++ */)
+                for (int i = 1; i < context.ChildCount; /* i++ */)
                 {
                     throw new SyntaxNotYetImplementedException(
                         context.GetChildOrThrow(i, Python3Parser.STRING)
@@ -840,7 +881,7 @@ namespace Mellis.Lang.Python3.Grammar
             }
 
             // Start from the 3rd
-            for (var i = 2; i < context.ChildCount; i += 2)
+            for (int i = 2; i < context.ChildCount; i += 2)
             {
                 var rule = context.GetChildOrThrow<ParserRuleContext>(i);
 
@@ -951,7 +992,7 @@ namespace Mellis.Lang.Python3.Grammar
                 throw context.ExpectedChild();
             }
 
-            for (var i = 0; i < context.ChildCount; i += 2)
+            for (int i = 0; i < context.ChildCount; i += 2)
             {
                 var argRule = context.GetChildOrThrow<Python3Parser.ArgumentContext>(i);
                 if (i + 1 < context.ChildCount)
