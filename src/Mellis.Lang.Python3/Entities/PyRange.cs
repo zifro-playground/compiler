@@ -7,7 +7,7 @@ using Mellis.Lang.Python3.Resources;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyRange : ScriptBaseType, IEnumerable<IScriptType>
+    public class PyRange : ScriptType, IEnumerable<IScriptType>
     {
         public int RangeFrom { get; }
         public int RangeTo { get; }

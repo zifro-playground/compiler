@@ -6,7 +6,7 @@ namespace Mellis
     /// <summary>
     /// Basic functionality of a double value.
     /// </summary>
-    public abstract class ScriptBoolean : ScriptBaseType
+    public abstract class ScriptBoolean : ScriptType
     {
         public bool Value { get; }
 

@@ -9,7 +9,7 @@ namespace Mellis
     /// <summary>
     /// Basic functionality of a double value.
     /// </summary>
-    public abstract class ScriptDouble : ScriptBaseType
+    public abstract class ScriptDouble : ScriptType
     {
         public double Value { get; }
 

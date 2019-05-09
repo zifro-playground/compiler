@@ -8,7 +8,7 @@ namespace Mellis
     /// <summary>
     /// Basic functionality of a string value.
     /// </summary>
-    public abstract class ScriptString : ScriptBaseType
+    public abstract class ScriptString : ScriptType
     {
         public string Value { get; }
 

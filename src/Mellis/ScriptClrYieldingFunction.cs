@@ -3,7 +3,7 @@ using Mellis.Resources;
 
 namespace Mellis
 {
-    public abstract class ScriptClrYieldingFunction : ScriptBaseType, IClrYieldingFunction
+    public abstract class ScriptClrYieldingFunction : ScriptType, IClrYieldingFunction
     {
         public ScriptClrYieldingFunction(
             IProcessor processor, string functionName)

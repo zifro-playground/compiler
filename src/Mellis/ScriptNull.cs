@@ -3,7 +3,7 @@ using Mellis.Resources;
 
 namespace Mellis
 {
-    public abstract class ScriptNull : ScriptBaseType
+    public abstract class ScriptNull : ScriptType
     {
         protected ScriptNull(IProcessor processor) : base(processor)
         {

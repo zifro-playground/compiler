@@ -9,7 +9,7 @@ namespace Mellis
     /// <summary>
     /// Basic functionality of an integer value.
     /// </summary>
-    public abstract class ScriptInteger : ScriptBaseType
+    public abstract class ScriptInteger : ScriptType
     {
         public int Value { get; }
 

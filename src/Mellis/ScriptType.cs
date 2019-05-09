@@ -4,11 +4,11 @@ using Mellis.Resources;
 
 namespace Mellis
 {
-    public abstract class ScriptBaseType : IScriptType
+    public abstract class ScriptType : IScriptType
     {
         public IProcessor Processor { get; internal set; }
 
-        protected ScriptBaseType(IProcessor processor)
+        protected ScriptType(IProcessor processor)
         {
             Processor = processor;
         }
