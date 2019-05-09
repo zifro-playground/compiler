@@ -28,38 +28,6 @@ namespace Mellis
             return !string.IsNullOrEmpty(Value);
         }
 
-        protected object[] GetErrorArgs(params object[] additional)
-        {
-            return GetErrorArgs().Concat(additional).ToArray();
-        }
-
-        protected object[] GetErrorArgs()
-        {
-            return new object[] {Value, Value.Length};
-        }
-
-        public override IScriptType GetIndex(IScriptType index)
-        {
-            switch (index)
-            {
-            case ScriptInteger indexInteger when indexInteger.Value >= 0 &&
-                                                 indexInteger.Value < Value.Length:
-                return Processor.Factory.Create(Value[indexInteger.Value]);
-
-            case ScriptInteger indexInteger:
-                throw new RuntimeException(
-                    nameof(Localized_Base_Entities.Ex_String_IndexGet_OutOfRange),
-                    Localized_Base_Entities.Ex_String_IndexGet_OutOfRange,
-                    formatArgs: GetErrorArgs(indexInteger.Value));
-
-            default:
-                throw new RuntimeException(
-                    nameof(Localized_Base_Entities.Ex_String_IndexGet_InvalidType),
-                    Localized_Base_Entities.Ex_String_IndexGet_InvalidType,
-                    formatArgs: GetErrorArgs(index.GetTypeName()));
-            }
-        }
-
         public override IScriptType ArithmeticAdd(IScriptType rhs)
         {
             switch (rhs)
