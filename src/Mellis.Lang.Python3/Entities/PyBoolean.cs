@@ -7,13 +7,14 @@ using Mellis.Tools;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyBoolean : ScriptBoolean, IScriptInteger
+    public class PyBoolean : PyInteger, IScriptBoolean
     {
-        int IScriptInteger.Value => Value ? 1 : 0;
+        public new bool Value { get; }
 
         public PyBoolean(IProcessor processor, bool value)
-            : base(processor, value)
+            : base(processor, value ? 1 : 0)
         {
+            Value = value;
         }
 
         public override IScriptType GetTypeDef()
