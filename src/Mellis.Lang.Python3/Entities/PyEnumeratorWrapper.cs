@@ -36,6 +36,28 @@ namespace Mellis.Lang.Python3.Entities
             return true;
         }
 
+        public override IScriptType CompareEqual(IScriptType rhs)
+        {
+            if (rhs is PyEnumeratorWrapper wrapper &&
+                wrapper.Enumerator == Enumerator)
+            {
+                return Processor.Factory.True;
+            }
+
+            return Processor.Factory.False;
+        }
+
+        public override IScriptType CompareNotEqual(IScriptType rhs)
+        {
+            if (!(rhs is PyEnumeratorWrapper wrapper) ||
+                wrapper.Enumerator != Enumerator)
+            {
+                return Processor.Factory.True;
+            }
+
+            return Processor.Factory.False;
+        }
+
         public override string ToString()
         {
             return string.Format(

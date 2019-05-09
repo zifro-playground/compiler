@@ -40,6 +40,32 @@ namespace Mellis.Lang.Python3.Entities
             return true;
         }
 
+        public override IScriptType CompareEqual(IScriptType rhs)
+        {
+            if (rhs is PyRange range &&
+                range.RangeFrom == RangeFrom &&
+                range.RangeTo == RangeTo &&
+                range.RangeStep == RangeStep)
+            {
+                return Processor.Factory.True;
+            }
+
+            return Processor.Factory.False;
+        }
+
+        public override IScriptType CompareNotEqual(IScriptType rhs)
+        {
+            if (!(rhs is PyRange range) ||
+                range.RangeFrom != RangeFrom ||
+                range.RangeTo != RangeTo ||
+                range.RangeStep != RangeStep)
+            {
+                return Processor.Factory.True;
+            }
+
+            return Processor.Factory.False;
+        }
+
         public IEnumerator<IScriptType> GetEnumerator()
         {
             if (RangeStep > 0)
