@@ -237,9 +237,9 @@ namespace Mellis.Core.Interfaces
         #region Member operators
 
         /// <summary>
-        /// (JavaScript, Python) <paramref name="lhs"/> in this
+        /// (JavaScript, Python) <paramref name="item"/> in this
         /// </summary>
-        IScriptType MemberIn(IScriptType lhs);
+        IScriptType Contains(IScriptType item);
 
         #endregion
     }

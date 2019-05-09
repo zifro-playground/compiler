@@ -572,7 +572,7 @@ namespace Mellis.Tests.Entities
 
             void Action()
             {
-                a.MemberIn(null);
+                a.Contains(null);
             }
 
             // Act + Assert

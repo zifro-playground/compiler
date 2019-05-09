@@ -227,7 +227,7 @@ namespace Mellis
             return null;
         }
 
-        public virtual IScriptType MemberIn(IScriptType lhs)
+        public virtual IScriptType Contains(IScriptType item)
         {
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Base_MemberIn),
