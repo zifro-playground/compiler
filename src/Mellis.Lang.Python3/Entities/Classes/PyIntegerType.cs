@@ -39,7 +39,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
             {
                 IScriptType arg2 = arguments[1];
 
-                if (!(arg2 is PyInteger arg2Int))
+                if (!(arg2 is IScriptInteger arg2Int))
                 {
                     throw new RuntimeException(
                         nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg2_Type),
@@ -48,7 +48,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
                     );
                 }
 
-                if (!(arg1 is PyString arg1Str))
+                if (!(arg1 is IScriptString arg1Str))
                 {
                     throw new RuntimeException(
                         nameof(Localized_Python3_Entities.Ex_IntegerType_Ctor_Arg1_NotString_Arg2_Int),
@@ -109,7 +109,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
             }
         }
 
-        private static int ParseZeroBase(PyString strType)
+        private static int ParseZeroBase(IScriptString strType)
         {
             string trimmed = strType.Value.Trim().ToLowerInvariant();
 
@@ -142,7 +142,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
             }
         }
 
-        private static int ParseWithNonZeroBase(PyString strType, int numBase)
+        private static int ParseWithNonZeroBase(IScriptString strType, int numBase)
         {
             try
             {
