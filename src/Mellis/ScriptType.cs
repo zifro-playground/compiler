@@ -136,10 +136,7 @@ namespace Mellis
             return null;
         }
 
-        public virtual IScriptType CompareEqual(IScriptType rhs)
-        {
-            return null;
-        }
+        public abstract IScriptType CompareEqual(IScriptType rhs);
 
         public virtual IScriptType CompareNotEqual(IScriptType rhs)
         {

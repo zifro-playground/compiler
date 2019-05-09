@@ -46,5 +46,19 @@ namespace Mellis
         }
 
         #endregion
+
+        public override IScriptType CompareEqual(IScriptType rhs)
+        {
+            return Processor.Factory.Create(rhs == this ||
+                                            (rhs is ScriptClrYieldingFunctionProxy proxy &&
+                                             proxy.Definition == Definition));
+        }
+
+        public override IScriptType CompareNotEqual(IScriptType rhs)
+        {
+            return Processor.Factory.Create(rhs != this &&
+                                            (!(rhs is ScriptClrYieldingFunctionProxy proxy) ||
+                                             proxy.Definition != Definition));
+        }
     }
 }

@@ -45,12 +45,12 @@ namespace Mellis
 
         public override IScriptType CompareNotEqual(IScriptType rhs)
         {
-            if (rhs is ScriptBoolean b && b.Value == Value)
+            if (!(rhs is ScriptBoolean b) || b.Value != Value)
             {
-                return Processor.Factory.False;
+                return Processor.Factory.True;
             }
 
-            return Processor.Factory.True;
+            return Processor.Factory.False;
         }
 
         public override string ToString()

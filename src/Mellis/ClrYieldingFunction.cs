@@ -16,13 +16,10 @@ namespace Mellis
             FunctionName = name;
         }
 
-        /// <inheritdoc />
         public IProcessor Processor { get; set; }
 
-        /// <inheritdoc />
         public string FunctionName { get; }
 
-        /// <inheritdoc />
         public abstract void InvokeEnter(params IScriptType[] arguments);
 
         /// <inheritdoc />

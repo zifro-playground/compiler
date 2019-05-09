@@ -23,5 +23,15 @@ namespace Mellis
         {
             return "null";
         }
+
+        public override IScriptType CompareEqual(IScriptType rhs)
+        {
+            return Processor.Factory.Create(rhs is ScriptNull);
+        }
+
+        public override IScriptType CompareNotEqual(IScriptType rhs)
+        {
+            return Processor.Factory.Create(!(rhs is ScriptNull));
+        }
     }
 }
