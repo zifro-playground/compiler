@@ -36,12 +36,19 @@ namespace Mellis.Lang.Python3.Instructions
         {
             switch (Code)
             {
+            case BasicOperatorCode.IAAdd:
             case BasicOperatorCode.AAdd: return value.ArithmeticAdd;
+            case BasicOperatorCode.IASub:
             case BasicOperatorCode.ASub: return value.ArithmeticSubtract;
+            case BasicOperatorCode.IAMul:
             case BasicOperatorCode.AMul: return value.ArithmeticMultiply;
+            case BasicOperatorCode.IADiv:
             case BasicOperatorCode.ADiv: return value.ArithmeticDivide;
+            case BasicOperatorCode.IAFlr:
             case BasicOperatorCode.AFlr: return value.ArithmeticFloorDivide;
+            case BasicOperatorCode.IAMod:
             case BasicOperatorCode.AMod: return value.ArithmeticModulus;
+            case BasicOperatorCode.IAPow:
             case BasicOperatorCode.APow: return value.ArithmeticExponent;
 
             case BasicOperatorCode.BAnd: return value.BinaryAnd;
@@ -57,14 +64,12 @@ namespace Mellis.Lang.Python3.Instructions
             case BasicOperatorCode.CLt: return value.CompareLessThan;
             case BasicOperatorCode.CLtEq: return value.CompareLessThanOrEqual;
 
+            case BasicOperatorCode.AMat:
             case BasicOperatorCode.CIn:
-                throw new SyntaxNotYetImplementedExceptionKeyword(Source, "in");
             case BasicOperatorCode.CNIn:
-                throw new SyntaxNotYetImplementedExceptionKeyword(Source, "not in");
             case BasicOperatorCode.CIs:
-                throw new SyntaxNotYetImplementedExceptionKeyword(Source, "is");
             case BasicOperatorCode.CIsN:
-                throw new SyntaxNotYetImplementedExceptionKeyword(Source, "is not");
+                throw new SyntaxNotYetImplementedExceptionKeyword(Source, GetBasicOperatorString(Code));
 
             default:
                 throw new InvalidEnumArgumentException(nameof(Code), (int)Code, typeof(BasicOperatorCode));
@@ -96,14 +101,12 @@ namespace Mellis.Lang.Python3.Instructions
             case BasicOperatorCode.CLt: return value.CompareGreaterThan;
             case BasicOperatorCode.CLtEq: return value.CompareGreaterThanOrEqual;
 
+            case BasicOperatorCode.AMat:
             case BasicOperatorCode.CIn:
-                throw new SyntaxNotYetImplementedExceptionKeyword(Source, "in");
             case BasicOperatorCode.CNIn:
-                throw new SyntaxNotYetImplementedExceptionKeyword(Source, "not in");
             case BasicOperatorCode.CIs:
-                throw new SyntaxNotYetImplementedExceptionKeyword(Source, "is");
             case BasicOperatorCode.CIsN:
-                throw new SyntaxNotYetImplementedExceptionKeyword(Source, "is not");
+                throw new SyntaxNotYetImplementedExceptionKeyword(Source, GetBasicOperatorString(Code));
 
             default:
                 throw new InvalidEnumArgumentException(nameof(Code), (int)Code, typeof(BasicOperatorCode));
@@ -165,6 +168,7 @@ namespace Mellis.Lang.Python3.Instructions
             case BasicOperatorCode.AFlr: return "//";
             case BasicOperatorCode.AMod: return "%";
             case BasicOperatorCode.APow: return "**";
+            case BasicOperatorCode.AMat: return "@";
 
             case BasicOperatorCode.BAnd: return "&";
             case BasicOperatorCode.BLsh: return "<<";
@@ -188,6 +192,21 @@ namespace Mellis.Lang.Python3.Instructions
             case BasicOperatorCode.APos: return "+x";
             case BasicOperatorCode.BNot: return "~x";
             case BasicOperatorCode.LNot: return "not x";
+
+            case BasicOperatorCode.IAAdd: return "+=";
+            case BasicOperatorCode.IASub: return "-=";
+            case BasicOperatorCode.IAMul: return "*=";
+            case BasicOperatorCode.IADiv: return "/=";
+            case BasicOperatorCode.IAFlr: return "//=";
+            case BasicOperatorCode.IAMod: return "%=";
+            case BasicOperatorCode.IAPow: return "**=";
+            case BasicOperatorCode.IAMat: return "@=";
+
+            case BasicOperatorCode.IBAnd: return "&=";
+            case BasicOperatorCode.IBLsh: return "<<=";
+            case BasicOperatorCode.IBRsh: return ">>=";
+            case BasicOperatorCode.IBOr: return "|=";
+            case BasicOperatorCode.IBXor: return "^=";
             default:
                 throw new InvalidEnumArgumentException(nameof(code), (int)code, typeof(BasicOperatorCode));
             }

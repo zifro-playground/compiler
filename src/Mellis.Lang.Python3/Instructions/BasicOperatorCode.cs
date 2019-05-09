@@ -19,6 +19,8 @@
         AMod,
         /// <summary>a**b</summary>
         APow,
+        /// <summary>a@b</summary>
+        AMat,
 
         /*
          * Binary binary operators (lhs op rhs)

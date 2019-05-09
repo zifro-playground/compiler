@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using Mellis.Core.Entities;
+using Mellis.Core.Exceptions;
 using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Syntax.Operators;
@@ -58,35 +60,34 @@ namespace Mellis.Lang.Python3.Tests.Syntax.Operators
         }
 
         [DataTestMethod]
-        [DataRow(BasicOperatorCode.AAdd, DisplayName = "is bin op a+b")]
-        [DataRow(BasicOperatorCode.ASub, DisplayName = "is bin op a-b")]
-        [DataRow(BasicOperatorCode.AMul, DisplayName = "is bin op a*b")]
-        [DataRow(BasicOperatorCode.ADiv, DisplayName = "is bin op a/b")]
-        [DataRow(BasicOperatorCode.AFlr, DisplayName = "is bin op a//b")]
-        [DataRow(BasicOperatorCode.AMod, DisplayName = "is bin op a%b")]
-        [DataRow(BasicOperatorCode.APow, DisplayName = "is bin op a**b")]
-        [DataRow(BasicOperatorCode.BAnd, DisplayName = "is bin op a&b")]
-        [DataRow(BasicOperatorCode.BLsh, DisplayName = "is bin op a<<b")]
-        [DataRow(BasicOperatorCode.BRsh, DisplayName = "is bin op a>>b")]
-        [DataRow(BasicOperatorCode.BOr, DisplayName = "is bin op a|b")]
-        [DataRow(BasicOperatorCode.BXor, DisplayName = "is bin op a^b")]
-        [DataRow(BasicOperatorCode.CEq, DisplayName = "is bin op a==b")]
-        [DataRow(BasicOperatorCode.CNEq, DisplayName = "is bin op a!=b")]
-        [DataRow(BasicOperatorCode.CGt, DisplayName = "is bin op a>b")]
-        [DataRow(BasicOperatorCode.CGtEq, DisplayName = "is bin op a>=b")]
-        [DataRow(BasicOperatorCode.CLt, DisplayName = "is bin op a<b")]
-        [DataRow(BasicOperatorCode.CLtEq, DisplayName = "is bin op a<=b")]
-        [DataRow(BasicOperatorCode.CIn, DisplayName = "is bin op a in b")]
-        [DataRow(BasicOperatorCode.CNIn, DisplayName = "is bin op a not in b")]
-        [DataRow(BasicOperatorCode.CIs, DisplayName = "is bin op a is b")]
-        [DataRow(BasicOperatorCode.CIsN, DisplayName = "is bin op a is not b")]
-        [DataRow(BasicOperatorCode.ANeg, DisplayName = "is un op +a")]
-        [DataRow(BasicOperatorCode.APos, DisplayName = "is un op -a")]
-        [DataRow(BasicOperatorCode.BNot, DisplayName = "is un op ~a")]
-        [DataRow(BasicOperatorCode.LNot, DisplayName = "is un op !a")]
+        [DataRow(BasicOperatorCode.AAdd, DisplayName = "bin op a+b")]
+        [DataRow(BasicOperatorCode.ASub, DisplayName = "bin op a-b")]
+        [DataRow(BasicOperatorCode.AMul, DisplayName = "bin op a*b")]
+        [DataRow(BasicOperatorCode.ADiv, DisplayName = "bin op a/b")]
+        [DataRow(BasicOperatorCode.AFlr, DisplayName = "bin op a//b")]
+        [DataRow(BasicOperatorCode.AMod, DisplayName = "bin op a%b")]
+        [DataRow(BasicOperatorCode.APow, DisplayName = "bin op a**b")]
+        [DataRow(BasicOperatorCode.BAnd, DisplayName = "bin op a&b")]
+        [DataRow(BasicOperatorCode.BLsh, DisplayName = "bin op a<<b")]
+        [DataRow(BasicOperatorCode.BRsh, DisplayName = "bin op a>>b")]
+        [DataRow(BasicOperatorCode.BOr, DisplayName = "bin op a|b")]
+        [DataRow(BasicOperatorCode.BXor, DisplayName = "bin op a^b")]
+        [DataRow(BasicOperatorCode.CEq, DisplayName = "bin op a==b")]
+        [DataRow(BasicOperatorCode.CNEq, DisplayName = "bin op a!=b")]
+        [DataRow(BasicOperatorCode.CGt, DisplayName = "bin op a>b")]
+        [DataRow(BasicOperatorCode.CGtEq, DisplayName = "bin op a>=b")]
+        [DataRow(BasicOperatorCode.CLt, DisplayName = "bin op a<b")]
+        [DataRow(BasicOperatorCode.CLtEq, DisplayName = "bin op a<=b")]
+        [DataRow(BasicOperatorCode.CIn, DisplayName = "bin op a in b")]
+        [DataRow(BasicOperatorCode.CNIn, DisplayName = "bin op a not in b")]
+        [DataRow(BasicOperatorCode.CIs, DisplayName = "bin op a is b")]
+        [DataRow(BasicOperatorCode.CIsN, DisplayName = "bin op a is not b")]
+        [DataRow(BasicOperatorCode.ANeg, DisplayName = "un op +a")]
+        [DataRow(BasicOperatorCode.APos, DisplayName = "un op -a")]
+        [DataRow(BasicOperatorCode.BNot, DisplayName = "un op ~a")]
+        [DataRow(BasicOperatorCode.LNot, DisplayName = "un op !a")]
         public void FactoryCreateNonInPlaceOps(BasicOperatorCode operatorCode, string expectedKeyword)
         {
-            // TODO
             // Arrange
             var factory = new InPlaceBinaryOperatorFactory(SourceReference.ClrSource, operatorCode);
 
@@ -96,9 +97,7 @@ namespace Mellis.Lang.Python3.Tests.Syntax.Operators
             }
 
             // Act
-            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>((Action)Action);
-
-            Assert.That.ErrorNotYetImplFormatArgs(ex, SourceReference.ClrSource, expectedKeyword);
+            Assert.ThrowsException<InvalidEnumArgumentException>((Action)Action);
         }
     }
 }

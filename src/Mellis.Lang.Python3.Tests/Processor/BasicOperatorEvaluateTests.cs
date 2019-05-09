@@ -146,6 +146,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         [DataRow(BasicOperatorCode.CNIn, "not in", DisplayName = "nyi not in")]
         [DataRow(BasicOperatorCode.CIs, "is", DisplayName = "nyi is")]
         [DataRow(BasicOperatorCode.CIsN, "is not", DisplayName = "nyi is not")]
+        [DataRow(BasicOperatorCode.AMat, "@", DisplayName = "nyi @")]
         public void EvaluateBinary_NotYetImplemented_Tests(BasicOperatorCode opCode, string expectedKeyword)
         {
             // Arrange

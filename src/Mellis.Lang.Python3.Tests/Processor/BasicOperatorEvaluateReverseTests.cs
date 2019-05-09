@@ -189,5 +189,35 @@ namespace Mellis.Lang.Python3.Tests.Processor
             rhsMock.Verify(reversedMethod, Times.Once);
             lhsMock.Verify(method, Times.Once);
         }
+
+        [DataTestMethod]
+        // Binary operators (lhs op rhs)
+        [DataRow(BasicOperatorCode.CIn, "in", DisplayName = "nyi in")]
+        [DataRow(BasicOperatorCode.CNIn, "not in", DisplayName = "nyi not in")]
+        [DataRow(BasicOperatorCode.CIs, "is", DisplayName = "nyi is")]
+        [DataRow(BasicOperatorCode.CIsN, "is not", DisplayName = "nyi is not")]
+        [DataRow(BasicOperatorCode.AMat, "@", DisplayName = "nyi @")]
+        public void EvaluateBinaryReversed_NotYetImplemented_Tests(BasicOperatorCode opCode, string expectedKeyword)
+        {
+            // Arrange
+            var source = new SourceReference(1, 2, 3, 4);
+            var basicOperator = new BasicOperator(source, opCode);
+
+            var lhsMock = new Mock<IScriptType>(MockBehavior.Loose); // important Loose
+            var rhsMock = new Mock<IScriptType>(MockBehavior.Strict);
+
+            var processor = new PyProcessor();
+            processor.PushValue(lhsMock.Object);
+            processor.PushValue(rhsMock.Object);
+
+            // Act
+            var ex = Assert.ThrowsException<SyntaxNotYetImplementedExceptionKeyword>(delegate
+            {
+                basicOperator.Execute(processor);
+            });
+
+            // Assert
+            Assert.That.ErrorNotYetImplFormatArgs(ex, source, expectedKeyword);
+        }
     }
 }
