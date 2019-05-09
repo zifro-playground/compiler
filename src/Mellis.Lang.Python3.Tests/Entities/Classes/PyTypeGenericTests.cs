@@ -1,5 +1,6 @@
 ﻿using System;
 using Mellis.Core.Exceptions;
+using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Entities.Classes;
 using Mellis.Lang.Python3.Resources;
@@ -10,13 +11,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Mellis.Lang.Python3.Tests.Entities.Classes
 {
     [TestClass]
-    public class PyNoneTypeTests : BaseEntityTypeTester<PyNoneType, PyNone>
+    public class PyTypeGenericTests : BaseEntityTypeTester<PyType<IScriptType>, IScriptType>
     {
-        protected override string ExpectedClassName => Localized_Base_Entities.Type_Null_Name;
+        protected override string ExpectedClassName => nameof(PyTypeGenericTests);
 
-        protected override PyNoneType CreateEntity(PyProcessor processor)
+        protected override PyType<IScriptType> CreateEntity(PyProcessor processor)
         {
-            return new PyNoneType(processor);
+            return new PyType<IScriptType>(processor, nameof(PyTypeGenericTests));
         }
 
         [TestMethod]

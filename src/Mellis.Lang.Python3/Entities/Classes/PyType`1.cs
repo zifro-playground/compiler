@@ -1,10 +1,11 @@
 ﻿using System;
+using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Resources;
 
 namespace Mellis.Lang.Python3.Entities.Classes
 {
-    public abstract class PyType<T> : ScriptClrFunction
+    public class PyType<T> : ScriptClrFunction
         where T : IScriptType
     {
         public string ClassName { get; }
@@ -27,6 +28,14 @@ namespace Mellis.Lang.Python3.Entities.Classes
             return Localized_Python3_Entities.Type_Type_Name;
         }
 
+        public override IScriptType Invoke(params IScriptType[] arguments)
+        {
+            throw new RuntimeException(
+                nameof(Localized_Python3_Runtime.Ex_Type_CannotInstantiate),
+                Localized_Python3_Runtime.Ex_Type_CannotInstantiate,
+                ClassName);
+        }
+
         public override string ToString()
         {
             return string.Format(Localized_Python3_Entities.Type_Type_ToString,
@@ -35,7 +44,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
         }
 
         #region Comparison implementations
-        
+
         public override IScriptType CompareEqual(IScriptType rhs)
         {
             return Processor.Factory.Create(rhs is PyType<T>);
@@ -47,6 +56,5 @@ namespace Mellis.Lang.Python3.Entities.Classes
         }
 
         #endregion
-
     }
 }
