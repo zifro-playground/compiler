@@ -54,7 +54,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
 
             int GetIntegerArg(int index)
             {
-                if (!(arguments[index] is ScriptInteger intVal))
+                if (!(arguments[index] is IScriptInteger intVal))
                 {
                     throw new RuntimeException(
                         nameof(Localized_Python3_Entities.Ex_RangeType_Ctor_Arg_NotInteger),

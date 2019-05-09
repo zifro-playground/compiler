@@ -27,12 +27,12 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i when i.Value >= 0:
+            case IScriptInteger i when i.Value >= 0:
                 // Try integer exponentiation
                 return Processor.Factory.Create(MathUtilities.Pow(Value, i.Value));
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Math.Pow(Value, i.Value));
-            case ScriptDouble d:
+            case IScriptDouble d:
                 return Processor.Factory.Create(Math.Pow(Value, d.Value));
             default:
                 return null;
@@ -43,12 +43,12 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (lhs)
             {
-            case ScriptInteger i when Value >= 0:
+            case IScriptInteger i when Value >= 0:
                 // Try integer exponentiation
                 return Processor.Factory.Create(MathUtilities.Pow(i.Value, Value));
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Math.Pow(i.Value, Value));
-            case ScriptDouble d:
+            case IScriptDouble d:
                 return Processor.Factory.Create(Math.Pow(d.Value, Value));
             default:
                 return null;

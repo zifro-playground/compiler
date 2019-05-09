@@ -18,7 +18,7 @@ namespace Mellis.Tests.Entities
             var result = a.ArithmeticAdd(b);
 
             // Assert
-            AssertArithmeticResult<ScriptDouble>(result, a, b, 15d);
+            AssertArithmeticResult<IScriptDouble>(result, a, b, 15d);
         }
 
         [TestMethod]
@@ -32,7 +32,7 @@ namespace Mellis.Tests.Entities
             var result = a.ArithmeticAdd(b);
 
             // Assert
-            AssertArithmeticResult<ScriptDouble>(result, a, b, 1.5d);
+            AssertArithmeticResult<IScriptDouble>(result, a, b, 1.5d);
         }
 
         [TestMethod]
@@ -46,7 +46,7 @@ namespace Mellis.Tests.Entities
             var result = a.ArithmeticAdd(b);
 
             // Assert
-            AssertArithmeticResult<ScriptDouble>(result, a, b, 1.5d);
+            AssertArithmeticResult<IScriptDouble>(result, a, b, 1.5d);
         }
 
         [TestMethod]
@@ -60,7 +60,7 @@ namespace Mellis.Tests.Entities
             var result = a.ArithmeticSubtract(b);
 
             // Assert
-            AssertArithmeticResult<ScriptDouble>(result, a, b, -5d);
+            AssertArithmeticResult<IScriptDouble>(result, a, b, -5d);
         }
 
         [TestMethod]
@@ -74,7 +74,7 @@ namespace Mellis.Tests.Entities
             var result = a.ArithmeticSubtract(b);
 
             // Assert
-            AssertArithmeticResult<ScriptDouble>(result, a, b, .4d);
+            AssertArithmeticResult<IScriptDouble>(result, a, b, .4d);
         }
 
         [TestMethod]
@@ -88,7 +88,7 @@ namespace Mellis.Tests.Entities
             var result = a.ArithmeticSubtract(b);
 
             // Assert
-            AssertArithmeticResult<ScriptDouble>(result, a, b, 4d);
+            AssertArithmeticResult<IScriptDouble>(result, a, b, 4d);
         }
 
         [TestMethod]
@@ -102,7 +102,7 @@ namespace Mellis.Tests.Entities
             var result = a.ArithmeticMultiply(b);
 
             // Assert
-            AssertArithmeticResult<ScriptDouble>(result, a, b, 50d);
+            AssertArithmeticResult<IScriptDouble>(result, a, b, 50d);
         }
 
         [TestMethod]
@@ -116,7 +116,7 @@ namespace Mellis.Tests.Entities
             var result = a.ArithmeticMultiply(b);
 
             // Assert
-            AssertArithmeticResult<ScriptDouble>(result, a, b, 50d);
+            AssertArithmeticResult<IScriptDouble>(result, a, b, 50d);
         }
 
         [TestMethod]
@@ -130,7 +130,7 @@ namespace Mellis.Tests.Entities
             var result = a.ArithmeticDivide(b);
 
             // Assert
-            AssertArithmeticResult<ScriptDouble>(result, a, b, 5d);
+            AssertArithmeticResult<IScriptDouble>(result, a, b, 5d);
         }
 
         [TestMethod]
@@ -144,7 +144,7 @@ namespace Mellis.Tests.Entities
             var result = a.ArithmeticDivide(b);
 
             // Assert
-            AssertArithmeticResult<ScriptDouble>(result, a, b, .5);
+            AssertArithmeticResult<IScriptDouble>(result, a, b, .5);
         }
 
         [TestMethod]
@@ -158,7 +158,7 @@ namespace Mellis.Tests.Entities
             var result = a.ArithmeticDivide(b);
 
             // Assert
-            AssertArithmeticResult<ScriptDouble>(result, a, b, 5d);
+            AssertArithmeticResult<IScriptDouble>(result, a, b, 5d);
         }
 
         [TestMethod]

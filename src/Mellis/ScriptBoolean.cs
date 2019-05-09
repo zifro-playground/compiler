@@ -6,7 +6,7 @@ namespace Mellis
     /// <summary>
     /// Basic functionality of a double value.
     /// </summary>
-    public abstract class ScriptBoolean : ScriptType
+    public abstract class ScriptBoolean : ScriptType, IScriptBoolean
     {
         public bool Value { get; }
 
@@ -35,7 +35,7 @@ namespace Mellis
 
         public override IScriptType CompareEqual(IScriptType rhs)
         {
-            if (rhs is ScriptBoolean b && b.Value == Value)
+            if (rhs is IScriptBoolean b && b.Value == Value)
             {
                 return Processor.Factory.True;
             }
@@ -45,7 +45,7 @@ namespace Mellis
 
         public override IScriptType CompareNotEqual(IScriptType rhs)
         {
-            if (!(rhs is ScriptBoolean b) || b.Value != Value)
+            if (!(rhs is IScriptBoolean b) || b.Value != Value)
             {
                 return Processor.Factory.True;
             }

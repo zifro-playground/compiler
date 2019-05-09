@@ -18,7 +18,7 @@ namespace Mellis.Tests.Entities
             var result = a.ArithmeticAdd(b);
 
             // Assert
-            AssertArithmeticResult<ScriptString>(result, a, b, "foobar");
+            AssertArithmeticResult<IScriptString>(result, a, b, "foobar");
         }
 
         [TestMethod]
@@ -32,7 +32,7 @@ namespace Mellis.Tests.Entities
             var result = a.ArithmeticAdd(b);
 
             // Assert
-            AssertArithmeticResult<ScriptString>(result, a, b, "");
+            AssertArithmeticResult<IScriptString>(result, a, b, "");
         }
 
         protected override IScriptType GetBasicOperand()

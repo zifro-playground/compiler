@@ -30,9 +30,9 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Value01 + i.Value);
-            case ScriptDouble d:
+            case IScriptDouble d:
                 return Processor.Factory.Create(Value01 + d.Value);
             case PyBoolean b:
                 return Processor.Factory.Create(Value01 + b.Value01);
@@ -51,9 +51,9 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Value01 - i.Value);
-            case ScriptDouble d:
+            case IScriptDouble d:
                 return Processor.Factory.Create(Value01 - d.Value);
             case PyBoolean b:
                 return Processor.Factory.Create(Value01 - b.Value01);
@@ -66,9 +66,9 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (lhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(i.Value - Value01);
-            case ScriptDouble d:
+            case IScriptDouble d:
                 return Processor.Factory.Create(d.Value - Value01);
             case PyBoolean b:
                 return Processor.Factory.Create(b.Value01 - Value01);
@@ -81,9 +81,9 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Value01 * i.Value);
-            case ScriptDouble d:
+            case IScriptDouble d:
                 return Processor.Factory.Create(Value01 * d.Value);
             case PyBoolean b:
                 return Processor.Factory.Create(Value01 * b.Value01);
@@ -103,16 +103,16 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i when i.Value.Equals(0):
-            case ScriptDouble d when d.Value.Equals(0):
+            case IScriptInteger i when i.Value.Equals(0):
+            case IScriptDouble d when d.Value.Equals(0):
             case PyBoolean b when b.Value01.Equals(0):
                 throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
                     Localized_Base_Entities.Ex_Math_DivideByZero);
 
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Value01 / (double)i.Value);
 
-            case ScriptDouble d:
+            case IScriptDouble d:
                 return Processor.Factory.Create(Value01 / d.Value);
 
             case PyBoolean b:
@@ -133,9 +133,9 @@ namespace Mellis.Lang.Python3.Entities
 
             switch (lhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(i.Value / (double)Value01);
-            case ScriptDouble d:
+            case IScriptDouble d:
                 return Processor.Factory.Create(d.Value / Value01);
             case PyBoolean b:
                 return Processor.Factory.Create(b.Value01 / Value01);
@@ -148,15 +148,15 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i when i.Value.Equals(0):
-            case ScriptDouble d when d.Value.Equals(0):
+            case IScriptInteger i when i.Value.Equals(0):
+            case IScriptDouble d when d.Value.Equals(0):
             case PyBoolean b when b.Value01.Equals(0):
                 throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
                     Localized_Base_Entities.Ex_Math_DivideByZero);
 
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Value01 % i.Value);
-            case ScriptDouble d:
+            case IScriptDouble d:
                 return Processor.Factory.Create(Value01 % d.Value);
             case PyBoolean b:
                 return Processor.Factory.Create(Value01 % b.Value01);
@@ -175,9 +175,9 @@ namespace Mellis.Lang.Python3.Entities
 
             switch (lhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(i.Value % Value01);
-            case ScriptDouble d:
+            case IScriptDouble d:
                 return Processor.Factory.Create(d.Value % Value01);
             case PyBoolean b:
                 return Processor.Factory.Create(b.Value01 % Value01);
@@ -190,12 +190,12 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i when i.Value >= 0:
+            case IScriptInteger i when i.Value >= 0:
                 // Try integer exponentiation
                 return Processor.Factory.Create(MathUtilities.Pow(Value01, i.Value));
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Math.Pow(Value01, i.Value));
-            case ScriptDouble d:
+            case IScriptDouble d:
                 return Processor.Factory.Create(Math.Pow(Value01, d.Value));
             case PyBoolean b:
                 return Processor.Factory.Create(MathUtilities.Pow(Value01, b.Value01));
@@ -208,9 +208,9 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (lhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(MathUtilities.Pow(i.Value, Value01));
-            case ScriptDouble d:
+            case IScriptDouble d:
                 return Processor.Factory.Create(Math.Pow(d.Value, Value01));
             case PyBoolean b:
                 return Processor.Factory.Create(MathUtilities.Pow(b.Value01, Value01));
@@ -223,15 +223,15 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i when i.Value.Equals(0):
-            case ScriptDouble d when d.Value.Equals(0d):
+            case IScriptInteger i when i.Value.Equals(0):
+            case IScriptDouble d when d.Value.Equals(0d):
             case PyBoolean b when b.Value01.Equals(0):
                 throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
                     Localized_Base_Entities.Ex_Math_DivideByZero);
 
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Value01 / i.Value);
-            case ScriptDouble d:
+            case IScriptDouble d:
                 return Processor.Factory.Create(Value01 / (int)d.Value);
             case PyBoolean b:
                 return Processor.Factory.Create(Value01 / b.Value01);
@@ -250,9 +250,9 @@ namespace Mellis.Lang.Python3.Entities
 
             switch (lhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(i.Value / Value01);
-            case ScriptDouble d:
+            case IScriptDouble d:
                 return Processor.Factory.Create((int)d.Value / Value01);
             case PyBoolean b:
                 return Processor.Factory.Create(b.Value01 / Value01);
@@ -280,9 +280,9 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Value01 == i.Value);
-            case ScriptDouble d:
+            case IScriptDouble d:
                 // ReSharper disable once CompareOfFloatsByEqualityOperator
                 return Processor.Factory.Create(Value01 == d.Value);
             case ScriptBoolean b:
@@ -296,9 +296,9 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Value01 != i.Value);
-            case ScriptDouble d:
+            case IScriptDouble d:
                 // ReSharper disable once CompareOfFloatsByEqualityOperator
                 return Processor.Factory.Create(Value01 != d.Value);
             case ScriptBoolean b:
@@ -312,9 +312,9 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Value01 > i.Value);
-            case ScriptDouble d:
+            case IScriptDouble d:
                 return Processor.Factory.Create(Value01 > d.Value);
             case PyBoolean b:
                 return Processor.Factory.Create(Value01 > b.Value01);
@@ -327,9 +327,9 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Value01 >= i.Value);
-            case ScriptDouble d:
+            case IScriptDouble d:
                 return Processor.Factory.Create(Value01 >= d.Value);
             case PyBoolean b:
                 return Processor.Factory.Create(Value01 >= b.Value01);
@@ -342,9 +342,9 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Value01 < i.Value);
-            case ScriptDouble d:
+            case IScriptDouble d:
                 return Processor.Factory.Create(Value01 < d.Value);
             case PyBoolean b:
                 return Processor.Factory.Create(Value01 < b.Value01);
@@ -357,9 +357,9 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Value01 <= i.Value);
-            case ScriptDouble d:
+            case IScriptDouble d:
                 return Processor.Factory.Create(Value01 <= d.Value);
             case PyBoolean b:
                 return Processor.Factory.Create(Value01 <= b.Value01);
@@ -372,7 +372,7 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Value01 & i.Value);
             case PyBoolean b:
                 return Processor.Factory.Create(Value01 & b.Value01);
@@ -391,7 +391,7 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Value01 | i.Value);
             case PyBoolean b:
                 return Processor.Factory.Create(Value01 | b.Value01);
@@ -410,7 +410,7 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Value01 ^ i.Value);
             case PyBoolean b:
                 return Processor.Factory.Create(Value01 ^ b.Value01);
@@ -429,7 +429,7 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Value01 << i.Value);
             case PyBoolean b:
                 return Processor.Factory.Create(Value01 << b.Value01);
@@ -442,7 +442,7 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (lhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(i.Value << Value01);
             case PyBoolean b:
                 return Processor.Factory.Create(b.Value01 << Value01);
@@ -455,7 +455,7 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(Value01 >> i.Value);
             case PyBoolean b:
                 return Processor.Factory.Create(Value01 >> b.Value01);
@@ -468,7 +468,7 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (lhs)
             {
-            case ScriptInteger i:
+            case IScriptInteger i:
                 return Processor.Factory.Create(i.Value >> Value01);
             case PyBoolean b:
                 return Processor.Factory.Create(b.Value01 >> Value01);

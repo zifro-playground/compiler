@@ -18,7 +18,7 @@ namespace Mellis.Tests.Entities
             var resultBase = a.ArithmeticAdd(b);
 
             // Assert
-            AssertArithmeticResult<ScriptInteger>(resultBase, a, b, 15);
+            AssertArithmeticResult<IScriptInteger>(resultBase, a, b, 15);
         }
 
         [TestMethod]
@@ -32,7 +32,7 @@ namespace Mellis.Tests.Entities
             var resultBase = a.ArithmeticSubtract(b);
 
             // Assert
-            AssertArithmeticResult<ScriptInteger>(resultBase, a, b, -5);
+            AssertArithmeticResult<IScriptInteger>(resultBase, a, b, -5);
         }
 
         [TestMethod]
@@ -46,7 +46,7 @@ namespace Mellis.Tests.Entities
             var resultBase = a.ArithmeticMultiply(b);
 
             // Assert
-            AssertArithmeticResult<ScriptInteger>(resultBase, a, b, 50);
+            AssertArithmeticResult<IScriptInteger>(resultBase, a, b, 50);
         }
 
         [TestMethod]
@@ -60,7 +60,7 @@ namespace Mellis.Tests.Entities
             var resultBase = a.ArithmeticMultiply(b);
 
             // Assert
-            AssertArithmeticResult<ScriptInteger>(resultBase, a, b, 10);
+            AssertArithmeticResult<IScriptInteger>(resultBase, a, b, 10);
         }
 
         [TestMethod]
@@ -75,7 +75,7 @@ namespace Mellis.Tests.Entities
             var resultBase = a.ArithmeticMultiply(b);
 
             // Assert
-            AssertArithmeticResult<ScriptDouble>(resultBase, a, b, expected);
+            AssertArithmeticResult<IScriptDouble>(resultBase, a, b, expected);
         }
 
         [TestMethod]
@@ -89,7 +89,7 @@ namespace Mellis.Tests.Entities
             var resultBase = a.ArithmeticDivide(b);
 
             // Assert
-            AssertArithmeticResult<ScriptDouble>(resultBase, a, b, 5d);
+            AssertArithmeticResult<IScriptDouble>(resultBase, a, b, 5d);
         }
 
         [TestMethod]
@@ -103,7 +103,7 @@ namespace Mellis.Tests.Entities
             var resultBase = a.ArithmeticDivide(b);
 
             // Assert
-            AssertArithmeticResult<ScriptDouble>(resultBase, a, b, 0.5);
+            AssertArithmeticResult<IScriptDouble>(resultBase, a, b, 0.5);
         }
 
         [TestMethod]
@@ -136,7 +136,7 @@ namespace Mellis.Tests.Entities
             var resultBase = a.ArithmeticDivide(b);
 
             // Assert
-            AssertArithmeticResult<ScriptDouble>(resultBase, a, b, 2.5);
+            AssertArithmeticResult<IScriptDouble>(resultBase, a, b, 2.5);
         }
 
         public override void ArithmeticUnaryPositive_NotImplemented()

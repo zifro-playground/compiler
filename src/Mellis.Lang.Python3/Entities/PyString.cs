@@ -25,10 +25,10 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
-            case ScriptInteger rhsInteger when rhsInteger.Value <= 0:
+            case IScriptInteger rhsInteger when rhsInteger.Value <= 0:
                 return Processor.Factory.Create(string.Empty);
 
-            case ScriptInteger rhsInteger:
+            case IScriptInteger rhsInteger:
                 var builder = new StringBuilder(Value.Length * rhsInteger.Value);
                 for (int i = 0; i < rhsInteger.Value; i++)
                 {
@@ -50,7 +50,7 @@ namespace Mellis.Lang.Python3.Entities
 
         public override IScriptType GetIndex(IScriptType index)
         {
-            if (!(index is ScriptInteger i))
+            if (!(index is IScriptInteger i))
             {
                 throw new RuntimeException(
                     nameof(Localized_Python3_Entities.Ex_String_IndexGet_IndexNotInteger),

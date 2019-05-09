@@ -250,7 +250,7 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to En textsträng kan endast indexeras av heltal, inte av typen &apos;{2}&apos;..
+        ///   Looks up a localized string similar to En textsträng kan endast indexeras av heltal, inte av typen &apos;{0}&apos;..
         /// </summary>
         internal static string Ex_String_IndexGet_IndexNotInteger {
             get {

@@ -8,7 +8,7 @@ namespace Mellis
     /// <summary>
     /// Basic functionality of a string value.
     /// </summary>
-    public abstract class ScriptString : ScriptType
+    public abstract class ScriptString : ScriptType, IScriptString
     {
         public string Value { get; }
 
@@ -32,7 +32,7 @@ namespace Mellis
         {
             switch (rhs)
             {
-            case ScriptString rhsString:
+            case IScriptString rhsString:
                 return Processor.Factory.Create(Value + rhsString.Value);
             default:
                 return null;
@@ -41,13 +41,13 @@ namespace Mellis
 
         public override IScriptType CompareEqual(IScriptType rhs)
         {
-            bool equals = rhs is ScriptString str && str.Value.Equals(Value);
+            bool equals = rhs is IScriptString str && str.Value.Equals(Value);
             return Processor.Factory.Create(equals);
         }
 
         public override IScriptType CompareNotEqual(IScriptType rhs)
         {
-            bool notEquals = !(rhs is ScriptString str) || !str.Value.Equals(Value);
+            bool notEquals = !(rhs is IScriptString str) || !str.Value.Equals(Value);
             return Processor.Factory.Create(notEquals);
         }
     }
