@@ -60,8 +60,8 @@ namespace Mellis.Lang.Python3.Tests.Processor.ForEach
 
             // Assert
             var result = processor.PopValue();
-            Assert.IsInstanceOfType(result, typeof(PyEnumeratorWrapper));
-            var resultWrapper = (PyEnumeratorWrapper)result;
+            Assert.IsInstanceOfType(result, typeof(PyEnumeratorProxy));
+            var resultWrapper = (PyEnumeratorProxy)result;
             Assert.AreSame(setup.ValueMock.Object, resultWrapper.SourceType);
             Assert.AreSame(setup.EnumeratorMock.Object, resultWrapper.Enumerator);
 

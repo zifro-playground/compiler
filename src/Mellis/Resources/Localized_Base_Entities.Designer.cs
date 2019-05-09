@@ -142,24 +142,6 @@ namespace Mellis.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to En textsträng kan endast indexeras av heltal, inte av typen &apos;{2}&apos;..
-        /// </summary>
-        public static string Ex_String_IndexGet_InvalidType {
-            get {
-                return ResourceManager.GetString("Ex_String_IndexGet_InvalidType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Gick inte att läsa bokstaven på plats &apos;{2}&apos; då den är utanför textsträngens längd ({1})..
-        /// </summary>
-        public static string Ex_String_IndexGet_OutOfRange {
-            get {
-                return ResourceManager.GetString("Ex_String_IndexGet_OutOfRange", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to falskt.
         /// </summary>
         public static string Type_Boolean_False {

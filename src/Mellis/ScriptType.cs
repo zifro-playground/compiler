@@ -4,11 +4,11 @@ using Mellis.Resources;
 
 namespace Mellis
 {
-    public abstract class ScriptBaseType : IScriptType
+    public abstract class ScriptType : IScriptType
     {
         public IProcessor Processor { get; internal set; }
 
-        protected ScriptBaseType(IProcessor processor)
+        protected ScriptType(IProcessor processor)
         {
             Processor = processor;
         }
@@ -136,14 +136,17 @@ namespace Mellis
             return null;
         }
 
-        public virtual IScriptType CompareEqual(IScriptType rhs)
-        {
-            return null;
-        }
+        public abstract IScriptType CompareEqual(IScriptType rhs);
 
         public virtual IScriptType CompareNotEqual(IScriptType rhs)
         {
-            return null;
+            // Default: NotEqual := !Equal
+            IScriptType compareEqual = CompareEqual(rhs);
+            if (compareEqual is null)
+            {
+                return null;
+            }
+            return Processor.Factory.Create(!compareEqual.IsTruthy());
         }
 
         public virtual IScriptType CompareGreaterThan(IScriptType rhs)
@@ -221,7 +224,7 @@ namespace Mellis
             return null;
         }
 
-        public virtual IScriptType MemberIn(IScriptType lhs)
+        public virtual IScriptType Contains(IScriptType item)
         {
             throw new RuntimeException(
                 nameof(Localized_Base_Entities.Ex_Base_MemberIn),

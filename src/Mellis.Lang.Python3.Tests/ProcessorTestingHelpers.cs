@@ -16,29 +16,29 @@ namespace Mellis.Lang.Python3.Tests
         public static void ScriptTypeEqual(this Assert assert, int expectedInt, IScriptType actual)
         {
             Assert.IsNotNull(actual, "Expected integer variable, got null.");
-            Assert.IsInstanceOfType(actual, typeof(ScriptInteger), $"Expected integer variable, got {actual.GetType().Name}.");
-            Assert.AreEqual(expectedInt, ((ScriptInteger)actual).Value);
+            Assert.IsInstanceOfType(actual, typeof(IScriptInteger), $"Expected integer variable, got {actual.GetType().Name}.");
+            Assert.AreEqual(expectedInt, ((IScriptInteger)actual).Value);
         }
 
         public static void ScriptTypeEqual(this Assert assert, double expectedDouble, IScriptType actual)
         {
             Assert.IsNotNull(actual, "Expected double variable, got null.");
-            Assert.IsInstanceOfType(actual, typeof(ScriptDouble), $"Expected double variable, got {actual.GetType().Name}.");
-            Assert.AreEqual(expectedDouble, ((ScriptDouble)actual).Value);
+            Assert.IsInstanceOfType(actual, typeof(IScriptDouble), $"Expected double variable, got {actual.GetType().Name}.");
+            Assert.AreEqual(expectedDouble, ((IScriptDouble)actual).Value);
         }
 
         public static void ScriptTypeEqual(this Assert assert, string expectedString, IScriptType actual, string message = null)
         {
             Assert.IsNotNull(actual, $"Expected string variable, got null.\n{message}");
-            Assert.IsInstanceOfType(actual, typeof(ScriptString), $"Expected string variable, got {actual.GetType().Name}.\n{message}");
-            Assert.AreEqual(expectedString, ((ScriptString)actual).Value, message);
+            Assert.IsInstanceOfType(actual, typeof(IScriptString), $"Expected string variable, got {actual.GetType().Name}.\n{message}");
+            Assert.AreEqual(expectedString, ((IScriptString)actual).Value, message);
         }
 
         public static void ScriptTypeEqual(this Assert assert, bool expectedBool, IScriptType actual)
         {
             Assert.IsNotNull(actual, "Expected boolean variable, got null.");
-            Assert.IsInstanceOfType(actual, typeof(ScriptBoolean), $"Expected boolean variable, got {actual.GetType().Name}.");
-            Assert.AreEqual(expectedBool, ((ScriptBoolean)actual).Value);
+            Assert.IsInstanceOfType(actual, typeof(IScriptBoolean), $"Expected boolean variable, got {actual.GetType().Name}.");
+            Assert.AreEqual(expectedBool, ((IScriptBoolean)actual).Value);
         }
 
         public static void ScriptTypeEqual(this Assert assert, IClrFunction expectedClrFunction, IScriptType actual)
@@ -62,11 +62,11 @@ namespace Mellis.Lang.Python3.Tests
 
             string expectedString = $"range({from}, {to}, {step})";
             string actualString = $"range({range.RangeFrom}, {range.RangeTo}, {range.RangeStep})";
-            string errorMessage = $"Expected:{expectedRange}. Actual:{actualString}";
+            string errorMessage = $"Expected:{expectedString}. Actual:{actualString}";
 
-            Assert.AreEqual(from, range.RangeFrom, errorMessage);
-            Assert.AreEqual(to, range.RangeTo, errorMessage);
-            Assert.AreEqual(step, range.RangeStep, errorMessage);
+            Assert.AreEqual(from, range.RangeFrom.Value, errorMessage);
+            Assert.AreEqual(to, range.RangeTo.Value, errorMessage);
+            Assert.AreEqual(step, range.RangeStep.Value, errorMessage);
         }
     }
 }

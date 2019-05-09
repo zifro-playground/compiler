@@ -572,7 +572,7 @@ namespace Mellis.Tests.Entities
 
             void Action()
             {
-                a.MemberIn(null);
+                a.Contains(null);
             }
 
             // Act + Assert
@@ -688,16 +688,16 @@ namespace Mellis.Tests.Entities
         {
             switch (actual)
             {
-            case ScriptDouble d when expected is double e:
+            case IScriptDouble d when expected is double e:
                 Assert.AreEqual(e, d.Value, 1e-10);
                 break;
-            case ScriptInteger i:
+            case IScriptInteger i:
                 Assert.AreEqual(expected, i.Value);
                 break;
-            case ScriptString s:
+            case IScriptString s:
                 Assert.AreEqual(expected, s.Value);
                 break;
-            case ScriptBoolean s:
+            case IScriptBoolean s:
                 Assert.AreEqual(expected, s.Value);
                 break;
             default:

@@ -241,6 +241,33 @@ namespace Mellis.Lang.Python3.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to En tom textsträng kan inte indexeras..
+        /// </summary>
+        internal static string Ex_String_IndexGet_EmptyString {
+            get {
+                return ResourceManager.GetString("Ex_String_IndexGet_EmptyString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to En textsträng kan endast indexeras av heltal, inte av typen &apos;{0}&apos;..
+        /// </summary>
+        internal static string Ex_String_IndexGet_IndexNotInteger {
+            get {
+                return ResourceManager.GetString("Ex_String_IndexGet_IndexNotInteger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gick inte att läsa bokstaven på plats &apos;{0}&apos; då den är utanför textsträngens längd ({1})..
+        /// </summary>
+        internal static string Ex_String_IndexGet_OutOfRange {
+            get {
+                return ResourceManager.GetString("Ex_String_IndexGet_OutOfRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to iterator.
         /// </summary>
         internal static string Type_Enumerator_Name {

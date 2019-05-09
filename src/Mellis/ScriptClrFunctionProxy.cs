@@ -27,5 +27,19 @@ namespace Mellis
                 arg0: Definition.FunctionName
             );
         }
+
+        public override IScriptType CompareEqual(IScriptType rhs)
+        {
+            return Processor.Factory.Create(rhs == this ||
+                                            (rhs is ScriptClrFunctionProxy proxy &&
+                                             proxy.Definition == Definition));
+        }
+
+        public override IScriptType CompareNotEqual(IScriptType rhs)
+        {
+            return Processor.Factory.Create(rhs != this &&
+                                            (!(rhs is ScriptClrFunctionProxy proxy) ||
+                                             proxy.Definition != Definition));
+        }
     }
 }

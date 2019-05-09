@@ -6,6 +6,7 @@ using Mellis.Lang.Python3.Entities.Classes;
 using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.VM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Mellis.Lang.Python3.Tests.Entities
 {
@@ -24,7 +25,16 @@ namespace Mellis.Lang.Python3.Tests.Entities
         protected override PyRange CreateEntity(PyProcessor processor, (int from, int to, int step) value)
         {
             (int from, int to, int step) = value;
-            return new PyRange(processor, from, to, step);
+            return new PyRange(processor, GetInteger(from), GetInteger(to), GetInteger(step));
+        }
+
+        private static IScriptInteger GetInteger(int value)
+        {
+            var mock = new Mock<IScriptInteger>();
+            mock.Setup(o => o.GetTypeName()).Returns("<fake int>");
+            mock.SetupGet(o => o.Value).Returns(value);
+            mock.Setup(o => o.ToString()).Returns(value.ToString);
+            return mock.Object;
         }
 
         [TestMethod]

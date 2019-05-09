@@ -62,8 +62,8 @@ namespace Mellis.Lang.Python3.Tests.Entities.Functions
             var result = func.Invoke(argMock.Object);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(PyEnumeratorWrapper));
-            var wrapper = (PyEnumeratorWrapper)result;
+            Assert.IsInstanceOfType(result, typeof(PyEnumeratorProxy));
+            var wrapper = (PyEnumeratorProxy)result;
             Assert.AreSame(enumMock.Object, wrapper.Enumerator);
         }
 

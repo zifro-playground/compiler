@@ -21,7 +21,7 @@ namespace Mellis.Tests.Entities
             var result = a.CompareEqual(b);
 
             // Assert
-            AssertArithmeticResult<ScriptBoolean>(result, a, b, expected);
+            AssertArithmeticResult<IScriptBoolean>(result, a, b, expected);
         }
 
         [DataTestMethod]
@@ -41,7 +41,7 @@ namespace Mellis.Tests.Entities
             var result = a.CompareEqual(b);
 
             // Assert
-            AssertArithmeticResult<ScriptBoolean>(result, a, b, expected);
+            AssertArithmeticResult<IScriptBoolean>(result, a, b, expected);
         }
 
         [DataTestMethod]
@@ -59,7 +59,7 @@ namespace Mellis.Tests.Entities
             var result = a.CompareNotEqual(b);
 
             // Assert
-            AssertArithmeticResult<ScriptBoolean>(result, a, b, expected);
+            AssertArithmeticResult<IScriptBoolean>(result, a, b, expected);
         }
 
         [DataTestMethod]
@@ -79,7 +79,7 @@ namespace Mellis.Tests.Entities
             var result = a.CompareNotEqual(b);
 
             // Assert
-            AssertArithmeticResult<ScriptBoolean>(result, a, b, expected);
+            AssertArithmeticResult<IScriptBoolean>(result, a, b, expected);
         }
 
         protected override IScriptType GetBasicOperand()

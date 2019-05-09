@@ -35,7 +35,7 @@ namespace Mellis.Lang.Python3.Instructions
 
             if (!(enumerator is IScriptType enumeratorScriptType))
             {
-                enumeratorScriptType = new PyEnumeratorWrapper(value.Processor, value, enumerator);
+                enumeratorScriptType = new PyEnumeratorProxy(value.Processor, value, enumerator);
             }
 
             processor.PushValue(enumeratorScriptType);

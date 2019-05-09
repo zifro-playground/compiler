@@ -3,7 +3,7 @@ using Mellis.Resources;
 
 namespace Mellis
 {
-    public abstract class ScriptClrFunction : ScriptBaseType, IClrFunction
+    public abstract class ScriptClrFunction : ScriptType, IClrFunction
     {
         public ScriptClrFunction(
             IProcessor processor,
@@ -26,5 +26,15 @@ namespace Mellis
         public string FunctionName { get; }
 
         public abstract IScriptType Invoke(params IScriptType[] arguments);
+
+        public override IScriptType CompareEqual(IScriptType rhs)
+        {
+            return Processor.Factory.Create(rhs == this);
+        }
+
+        public override IScriptType CompareNotEqual(IScriptType rhs)
+        {
+            return Processor.Factory.Create(rhs != this);
+        }
     }
 }

@@ -3,7 +3,7 @@ using Mellis.Resources;
 
 namespace Mellis
 {
-    public abstract class ScriptNull : ScriptBaseType
+    public abstract class ScriptNull : ScriptType
     {
         protected ScriptNull(IProcessor processor) : base(processor)
         {
@@ -22,6 +22,16 @@ namespace Mellis
         public override string ToString()
         {
             return "null";
+        }
+
+        public override IScriptType CompareEqual(IScriptType rhs)
+        {
+            return Processor.Factory.Create(rhs is ScriptNull);
+        }
+
+        public override IScriptType CompareNotEqual(IScriptType rhs)
+        {
+            return Processor.Factory.Create(!(rhs is ScriptNull));
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Mellis.Core.Exceptions;
 using Mellis.Core.Interfaces;
 using Mellis.Lang.Python3.Entities;
 using Mellis.Lang.Python3.Entities.Classes;
+using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.VM;
 using Mellis.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -20,6 +22,69 @@ namespace Mellis.Lang.Python3.Tests.Entities
         protected override PyString CreateEntity(PyProcessor processor, string value)
         {
             return new PyString(processor, value);
+        }
+
+        [TestMethod]
+        public void IndexGetIntegerOutOfRange()
+        {
+            // Arrange
+            var a = CreateEntity("foo");
+            var b = new PyInteger(a.Processor, 10);
+
+            void Action()
+            {
+                a.GetIndex(b);
+            }
+
+            // Act
+            var ex = Assert.ThrowsException<RuntimeException>((Action)Action);
+
+            // Assert
+            Assert.That.ErrorFormatArgsEqual(ex,
+                nameof(Localized_Python3_Entities.Ex_String_IndexGet_OutOfRange),
+                b.Value, a.Value.Length);
+        }
+
+        [TestMethod]
+        public void IndexGetIntegerOnEmptyString()
+        {
+            // Arrange
+            var a = CreateEntity("");
+            var b = new PyInteger(a.Processor, 10);
+            object[] expectedFormatArgs = { a.Value, a.Value.Length, b.Value };
+
+            void Action()
+            {
+                a.GetIndex(b);
+            }
+
+            // Act
+            var ex = Assert.ThrowsException<RuntimeException>((Action)Action);
+
+            // Assert
+            Assert.That.ErrorFormatArgsEqual(ex,
+                nameof(Localized_Python3_Entities.Ex_String_IndexGet_EmptyString));
+        }
+
+        [TestMethod]
+        public void IndexGetInvalid()
+        {
+            // Arrange
+            var a = CreateEntity("foo");
+            var b = CreateEntity("a");
+
+            void Action()
+            {
+                a.GetIndex(b);
+            }
+
+            // Act
+            var ex = Assert.ThrowsException<RuntimeException>((Action)Action);
+
+            // Assert
+            Assert.That.ErrorFormatArgsEqual(ex,
+                nameof(Localized_Python3_Entities.Ex_String_IndexGet_IndexNotInteger),
+                b.GetTypeName());
         }
 
         [DataTestMethod]

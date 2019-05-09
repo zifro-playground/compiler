@@ -9,7 +9,7 @@ namespace Mellis
     /// <summary>
     /// Basic functionality of an integer value.
     /// </summary>
-    public abstract class ScriptInteger : ScriptBaseType
+    public abstract class ScriptInteger : ScriptType, IScriptInteger
     {
         public int Value { get; }
 
@@ -33,19 +33,42 @@ namespace Mellis
         {
             switch (rhs)
             {
-            case ScriptInteger rhsInt:
-                return Processor.Factory.Create(Value + rhsInt.Value);
+            case IScriptInteger i:
+                return Processor.Factory.Create(Value + i.Value);
+            case IScriptDouble d:
+                return Processor.Factory.Create(Value + d.Value);
             default:
                 return null;
             }
+        }
+
+        public override IScriptType ArithmeticAddReverse(IScriptType lhs)
+        {
+            // Commutative
+            return ArithmeticAdd(lhs);
         }
 
         public override IScriptType ArithmeticSubtract(IScriptType rhs)
         {
             switch (rhs)
             {
-            case ScriptInteger rhsInt:
-                return Processor.Factory.Create(Value - rhsInt.Value);
+            case IScriptInteger i:
+                return Processor.Factory.Create(Value - i.Value);
+            case IScriptDouble d:
+                return Processor.Factory.Create(Value - d.Value);
+            default:
+                return null;
+            }
+        }
+
+        public override IScriptType ArithmeticSubtractReverse(IScriptType lhs)
+        {
+            switch (lhs)
+            {
+            case IScriptInteger i:
+                return Processor.Factory.Create(i.Value - Value);
+            case IScriptDouble d:
+                return Processor.Factory.Create(d.Value - Value);
             default:
                 return null;
             }
@@ -55,31 +78,58 @@ namespace Mellis
         {
             switch (rhs)
             {
-            case ScriptInteger rhsInt:
-                return Processor.Factory.Create(Value * rhsInt.Value);
+            case IScriptInteger i:
+                return Processor.Factory.Create(Value * i.Value);
 
-            case ScriptDouble rhsDouble:
-                return Processor.Factory.Create(Value * rhsDouble.Value);
+            case IScriptDouble d:
+                return Processor.Factory.Create(Value * d.Value);
 
             default:
                 return null;
             }
         }
 
+        public override IScriptType ArithmeticMultiplyReverse(IScriptType lhs)
+        {
+            // Commutative
+            return ArithmeticMultiply(lhs);
+        }
+
         public override IScriptType ArithmeticDivide(IScriptType rhs)
         {
             switch (rhs)
             {
-            case ScriptInteger rhsInt when rhsInt.Value.Equals(0):
-            case ScriptDouble rhsDouble when rhsDouble.Value.Equals(0):
+            case IScriptInteger i when i.Value.Equals(0):
+            case IScriptDouble d when d.Value.Equals(0):
                 throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
                     Localized_Base_Entities.Ex_Math_DivideByZero);
 
-            case ScriptInteger rhsInt:
-                return Processor.Factory.Create(Value / (double)rhsInt.Value);
+            case IScriptInteger i:
+                return Processor.Factory.Create(Value / (double)i.Value);
 
-            case ScriptDouble rhsDouble:
-                return Processor.Factory.Create(Value / rhsDouble.Value);
+            case IScriptDouble d:
+                return Processor.Factory.Create(Value / d.Value);
+
+            default:
+                return null;
+            }
+        }
+
+        public override IScriptType ArithmeticDivideReverse(IScriptType lhs)
+        {
+            if (Value.Equals(0))
+            {
+                throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
+                    Localized_Base_Entities.Ex_Math_DivideByZero);
+            }
+
+            switch (lhs)
+            {
+            case IScriptInteger i:
+                return Processor.Factory.Create(i.Value / (double)Value);
+
+            case IScriptDouble d:
+                return Processor.Factory.Create(d.Value / Value);
 
             default:
                 return null;
@@ -90,10 +140,34 @@ namespace Mellis
         {
             switch (rhs)
             {
-            case ScriptInteger rhsInteger:
-                return Processor.Factory.Create(Value % rhsInteger.Value);
-            case ScriptDouble rhsDouble:
-                return rhsDouble.ArithmeticModulus(this);
+            case IScriptInteger i when i.Value.Equals(0):
+            case IScriptDouble d when d.Value.Equals(0):
+                throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
+                    Localized_Base_Entities.Ex_Math_DivideByZero);
+
+            case IScriptInteger i:
+                return Processor.Factory.Create(Value % i.Value);
+            case IScriptDouble d:
+                return Processor.Factory.Create(Value % d.Value);
+            default:
+                return null;
+            }
+        }
+
+        public override IScriptType ArithmeticModulusReverse(IScriptType lhs)
+        {
+            if (Value.Equals(0))
+            {
+                throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
+                    Localized_Base_Entities.Ex_Math_DivideByZero);
+            }
+
+            switch (lhs)
+            {
+            case IScriptInteger i:
+                return Processor.Factory.Create(i.Value % Value);
+            case IScriptDouble d:
+                return Processor.Factory.Create(d.Value % Value);
             default:
                 return null;
             }
@@ -103,10 +177,23 @@ namespace Mellis
         {
             switch (rhs)
             {
-            case ScriptInteger rhsInteger:
-                return Processor.Factory.Create(Math.Pow(Value, rhsInteger.Value));
-            case ScriptDouble rhsDouble:
-                return rhsDouble.ArithmeticExponent(this);
+            case IScriptInteger i:
+                return Processor.Factory.Create(Math.Pow(Value, i.Value));
+            case IScriptDouble d:
+                return Processor.Factory.Create(Math.Pow(Value, d.Value));
+            default:
+                return null;
+            }
+        }
+
+        public override IScriptType ArithmeticExponentReverse(IScriptType lhs)
+        {
+            switch (lhs)
+            {
+            case IScriptInteger i:
+                return Processor.Factory.Create(Math.Pow(i.Value, Value));
+            case IScriptDouble d:
+                return Processor.Factory.Create(Math.Pow(d.Value, Value));
             default:
                 return null;
             }
@@ -116,10 +203,34 @@ namespace Mellis
         {
             switch (rhs)
             {
-            case ScriptInteger rhsInteger:
-                return Processor.Factory.Create(Value / rhsInteger.Value);
-            case ScriptDouble rhsDouble:
-                return rhsDouble.ArithmeticFloorDivide(this);
+            case IScriptInteger i when i.Value.Equals(0):
+            case IScriptDouble d when d.Value.Equals(0d):
+                throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
+                    Localized_Base_Entities.Ex_Math_DivideByZero);
+
+            case IScriptInteger i:
+                return Processor.Factory.Create(Value / i.Value);
+            case IScriptDouble d:
+                return Processor.Factory.Create(Value / (int)d.Value);
+            default:
+                return null;
+            }
+        }
+
+        public override IScriptType ArithmeticFloorDivideReverse(IScriptType lhs)
+        {
+            if (Value.Equals(0))
+            {
+                throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
+                    Localized_Base_Entities.Ex_Math_DivideByZero);
+            }
+
+            switch (lhs)
+            {
+            case IScriptInteger i:
+                return Processor.Factory.Create(i.Value / Value);
+            case IScriptDouble d:
+                return Processor.Factory.Create((int)d.Value / Value);
             default:
                 return null;
             }
@@ -144,10 +255,11 @@ namespace Mellis
         {
             switch (rhs)
             {
-            case ScriptInteger rhsInteger:
-                return Processor.Factory.Create(Value.Equals(rhsInteger.Value));
-            case ScriptDouble rhsDouble:
-                return rhsDouble.CompareEqual(this);
+            case IScriptInteger i:
+                return Processor.Factory.Create(Value == i.Value);
+            case IScriptDouble d:
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
+                return Processor.Factory.Create(Value == d.Value);
             default:
                 return Processor.Factory.False;
             }
@@ -157,10 +269,11 @@ namespace Mellis
         {
             switch (rhs)
             {
-            case ScriptInteger rhsInteger:
-                return Processor.Factory.Create(!Value.Equals(rhsInteger.Value));
-            case ScriptDouble rhsDouble:
-                return rhsDouble.CompareNotEqual(this);
+            case IScriptInteger i:
+                return Processor.Factory.Create(Value != i.Value);
+            case IScriptDouble d:
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
+                return Processor.Factory.Create(Value != d.Value);
             default:
                 return Processor.Factory.True;
             }
@@ -170,10 +283,10 @@ namespace Mellis
         {
             switch (rhs)
             {
-            case ScriptInteger rhsInteger:
-                return Processor.Factory.Create(Value > rhsInteger.Value);
-            case ScriptDouble rhsDouble:
-                return rhsDouble.CompareGreaterThan(this);
+            case IScriptInteger i:
+                return Processor.Factory.Create(Value > i.Value);
+            case IScriptDouble d:
+                return Processor.Factory.Create(Value > d.Value);
             default:
                 return null;
             }
@@ -183,10 +296,10 @@ namespace Mellis
         {
             switch (rhs)
             {
-            case ScriptInteger rhsInteger:
-                return Processor.Factory.Create(Value >= rhsInteger.Value);
-            case ScriptDouble rhsDouble:
-                return rhsDouble.CompareGreaterThanOrEqual(this);
+            case IScriptInteger i:
+                return Processor.Factory.Create(Value >= i.Value);
+            case IScriptDouble d:
+                return Processor.Factory.Create(Value >= d.Value);
             default:
                 return null;
             }
@@ -196,10 +309,10 @@ namespace Mellis
         {
             switch (rhs)
             {
-            case ScriptInteger rhsInteger:
-                return Processor.Factory.Create(Value < rhsInteger.Value);
-            case ScriptDouble rhsDouble:
-                return rhsDouble.CompareLessThan(this);
+            case IScriptInteger i:
+                return Processor.Factory.Create(Value < i.Value);
+            case IScriptDouble d:
+                return Processor.Factory.Create(Value < d.Value);
             default:
                 return null;
             }
@@ -209,13 +322,101 @@ namespace Mellis
         {
             switch (rhs)
             {
-            case ScriptInteger rhsInteger:
-                return Processor.Factory.Create(Value <= rhsInteger.Value);
-            case ScriptDouble rhsDouble:
-                return rhsDouble.CompareLessThanOrEqual(this);
+            case IScriptInteger i:
+                return Processor.Factory.Create(Value <= i.Value);
+            case IScriptDouble d:
+                return Processor.Factory.Create(Value <= d.Value);
             default:
                 return null;
             }
+        }
+
+        public override IScriptType BinaryAnd(IScriptType rhs)
+        {
+            if (rhs is IScriptInteger i)
+            {
+                return Processor.Factory.Create(Value & i.Value);
+            }
+
+            return null;
+        }
+
+        public override IScriptType BinaryAndReverse(IScriptType lhs)
+        {
+            // Commutative
+            return BinaryAnd(lhs);
+        }
+
+        public override IScriptType BinaryOr(IScriptType rhs)
+        {
+            if (rhs is IScriptInteger i)
+            {
+                return Processor.Factory.Create(Value | i.Value);
+            }
+
+            return null;
+        }
+
+        public override IScriptType BinaryOrReverse(IScriptType lhs)
+        {
+            // Commutative
+            return BinaryOr(lhs);
+        }
+
+        public override IScriptType BinaryXor(IScriptType rhs)
+        {
+            if (rhs is IScriptInteger i)
+            {
+                return Processor.Factory.Create(Value ^ i.Value);
+            }
+
+            return null;
+        }
+
+        public override IScriptType BinaryXorReverse(IScriptType lhs)
+        {
+            // Commutative
+            return BinaryXor(lhs);
+        }
+
+        public override IScriptType BinaryLeftShift(IScriptType rhs)
+        {
+            if (rhs is IScriptInteger i)
+            {
+                return Processor.Factory.Create(Value << i.Value);
+            }
+
+            return null;
+        }
+
+        public override IScriptType BinaryLeftShiftReverse(IScriptType lhs)
+        {
+            if (lhs is IScriptInteger i)
+            {
+                return Processor.Factory.Create(i.Value << Value);
+            }
+
+            return null;
+        }
+
+        public override IScriptType BinaryRightShift(IScriptType rhs)
+        {
+            if (rhs is IScriptInteger i)
+            {
+                return Processor.Factory.Create(Value >> i.Value);
+            }
+
+            return null;
+        }
+
+        public override IScriptType BinaryRightShiftReverse(IScriptType lhs)
+        {
+            if (lhs is IScriptInteger i)
+            {
+                return Processor.Factory.Create(i.Value >> Value);
+            }
+
+            return null;
         }
 
         public override string ToString()

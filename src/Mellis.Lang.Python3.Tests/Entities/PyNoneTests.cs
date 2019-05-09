@@ -11,7 +11,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
     public class PyNoneTests : BaseEntityTester<PyNone, object>
     {
         protected override string ExpectedTypeName => Localized_Base_Entities.Type_Null_Name;
-        protected override Type ExpectedTypeDef => typeof(PyNoneType);
+        protected override Type ExpectedTypeDef => typeof(PyType<PyNone>);
 
         protected override PyNone CreateEntity(PyProcessor processor, object value)
         {

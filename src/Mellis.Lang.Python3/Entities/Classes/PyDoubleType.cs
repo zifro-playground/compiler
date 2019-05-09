@@ -34,7 +34,7 @@ namespace Mellis.Lang.Python3.Entities.Classes
             IScriptType arg1 = arguments[0];
             switch (arg1)
             {
-                case PyString strType:
+                case IScriptString strType:
                     string trimmed = strType.Value.Trim();
 
                     // Empty string?
@@ -107,13 +107,13 @@ namespace Mellis.Lang.Python3.Entities.Classes
                         );
                     }
 
-                case PyBoolean boolType:
+                case IScriptBoolean boolType:
                     return new PyDouble(Processor, boolType.Value ? 1d : 0d);
 
-                case PyDouble doubleType:
+                case IScriptDouble doubleType:
                     return doubleType;
 
-                case PyInteger intType:
+                case IScriptInteger intType:
                     return new PyDouble(Processor, intType.Value);
 
                 default:
