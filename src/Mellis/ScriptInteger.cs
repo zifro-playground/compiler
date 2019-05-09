@@ -140,6 +140,11 @@ namespace Mellis
         {
             switch (rhs)
             {
+            case ScriptInteger i when i.Value.Equals(0):
+            case ScriptDouble d when d.Value.Equals(0):
+                throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
+                    Localized_Base_Entities.Ex_Math_DivideByZero);
+
             case ScriptInteger i:
                 return Processor.Factory.Create(Value % i.Value);
             case ScriptDouble d:
@@ -151,6 +156,12 @@ namespace Mellis
 
         public override IScriptType ArithmeticModulusReverse(IScriptType lhs)
         {
+            if (Value.Equals(0))
+            {
+                throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
+                    Localized_Base_Entities.Ex_Math_DivideByZero);
+            }
+
             switch (lhs)
             {
             case ScriptInteger i:
