@@ -198,10 +198,16 @@ namespace Mellis.Lang.Python3.Instructions
             // BAnd => op->band
             // AAdd => op->add
             // CEq => op->eq
+            // IAAdd => op->iadd
+            // IBAnd => op->iband
             string name = Code.ToString().ToLowerInvariant();
-            return "op->" + (name[0] != 'b'
-                       ? name.Substring(1)
-                       : name);
+
+            if (name[0] == 'i')
+            {
+                return $"op->i{(name[1] != 'b' ? name.Substring(2) : name.Substring(1))}";
+            }
+
+            return $"op->{(name[0] != 'b' ? name.Substring(1) : name)}";
         }
     }
 }
