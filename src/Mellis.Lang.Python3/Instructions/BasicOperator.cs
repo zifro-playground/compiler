@@ -51,10 +51,15 @@ namespace Mellis.Lang.Python3.Instructions
             case BasicOperatorCode.IAPow:
             case BasicOperatorCode.APow: return value.ArithmeticExponent;
 
+            case BasicOperatorCode.IBAnd:
             case BasicOperatorCode.BAnd: return value.BinaryAnd;
+            case BasicOperatorCode.IBLsh:
             case BasicOperatorCode.BLsh: return value.BinaryLeftShift;
+            case BasicOperatorCode.IBRsh:
             case BasicOperatorCode.BRsh: return value.BinaryRightShift;
+            case BasicOperatorCode.IBOr:
             case BasicOperatorCode.BOr: return value.BinaryOr;
+            case BasicOperatorCode.IBXor:
             case BasicOperatorCode.BXor: return value.BinaryXor;
 
             case BasicOperatorCode.CEq: return value.CompareEqual;
@@ -64,6 +69,7 @@ namespace Mellis.Lang.Python3.Instructions
             case BasicOperatorCode.CLt: return value.CompareLessThan;
             case BasicOperatorCode.CLtEq: return value.CompareLessThanOrEqual;
 
+            case BasicOperatorCode.IAMat:
             case BasicOperatorCode.AMat:
             case BasicOperatorCode.CIn:
             case BasicOperatorCode.CNIn:
@@ -80,18 +86,30 @@ namespace Mellis.Lang.Python3.Instructions
         {
             switch (Code)
             {
+            case BasicOperatorCode.IAAdd:
             case BasicOperatorCode.AAdd: return value.ArithmeticAddReverse;
+            case BasicOperatorCode.IASub:
             case BasicOperatorCode.ASub: return value.ArithmeticSubtractReverse;
+            case BasicOperatorCode.IAMul:
             case BasicOperatorCode.AMul: return value.ArithmeticMultiplyReverse;
+            case BasicOperatorCode.IADiv:
             case BasicOperatorCode.ADiv: return value.ArithmeticDivideReverse;
+            case BasicOperatorCode.IAFlr:
             case BasicOperatorCode.AFlr: return value.ArithmeticFloorDivideReverse;
+            case BasicOperatorCode.IAMod:
             case BasicOperatorCode.AMod: return value.ArithmeticModulusReverse;
+            case BasicOperatorCode.IAPow:
             case BasicOperatorCode.APow: return value.ArithmeticExponentReverse;
 
+            case BasicOperatorCode.IBAnd:
             case BasicOperatorCode.BAnd: return value.BinaryAndReverse;
+            case BasicOperatorCode.IBLsh:
             case BasicOperatorCode.BLsh: return value.BinaryLeftShiftReverse;
+            case BasicOperatorCode.IBRsh:
             case BasicOperatorCode.BRsh: return value.BinaryRightShiftReverse;
+            case BasicOperatorCode.IBOr:
             case BasicOperatorCode.BOr: return value.BinaryOrReverse;
+            case BasicOperatorCode.IBXor:
             case BasicOperatorCode.BXor: return value.BinaryXorReverse;
 
             case BasicOperatorCode.CEq: return value.CompareEqual;
@@ -101,6 +119,7 @@ namespace Mellis.Lang.Python3.Instructions
             case BasicOperatorCode.CLt: return value.CompareGreaterThan;
             case BasicOperatorCode.CLtEq: return value.CompareGreaterThanOrEqual;
 
+            case BasicOperatorCode.IAMat:
             case BasicOperatorCode.AMat:
             case BasicOperatorCode.CIn:
             case BasicOperatorCode.CNIn:

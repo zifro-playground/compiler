@@ -14,6 +14,8 @@ namespace Mellis.Lang.Python3.Tests.Processor
     [TestClass]
     public class BasicOperatorEvaluateTests
     {
+        #region Binary operators
+
         [TestMethod]
         public void EvaluateBinary_Add_Test()
         {
@@ -140,6 +142,100 @@ namespace Mellis.Lang.Python3.Tests.Processor
                 o => o.CompareLessThanOrEqual(It.IsAny<IScriptType>()));
         }
 
+        #endregion
+
+        #region Binary in-place operators
+
+        // As we don't have custom in-place operators (yet)
+        // just use the default operators
+        // Todo: Test the fallback tree: a.iadd(b) -> a.add(b) -> b.radd(a)
+
+        [TestMethod]
+        public void EvaluateBinary_IAdd_Test()
+        {
+            EvaluateBinaryTestTemplate(BasicOperatorCode.IAAdd,
+                o => o.ArithmeticAdd(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_ISub_Test()
+        {
+            EvaluateBinaryTestTemplate(BasicOperatorCode.IASub,
+                o => o.ArithmeticSubtract(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_IMul_Test()
+        {
+            EvaluateBinaryTestTemplate(BasicOperatorCode.IAMul,
+                o => o.ArithmeticMultiply(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_IDiv_Test()
+        {
+            EvaluateBinaryTestTemplate(BasicOperatorCode.IADiv,
+                o => o.ArithmeticDivide(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_IFlr_Test()
+        {
+            EvaluateBinaryTestTemplate(BasicOperatorCode.IAFlr,
+                o => o.ArithmeticFloorDivide(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_IMod_Test()
+        {
+            EvaluateBinaryTestTemplate(BasicOperatorCode.IAMod,
+                o => o.ArithmeticModulus(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_IPow_Test()
+        {
+            EvaluateBinaryTestTemplate(BasicOperatorCode.IAPow,
+                o => o.ArithmeticExponent(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_IBAnd_Test()
+        {
+            EvaluateBinaryTestTemplate(BasicOperatorCode.IBAnd,
+                o => o.BinaryAnd(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_IBLsh_Test()
+        {
+            EvaluateBinaryTestTemplate(BasicOperatorCode.IBLsh,
+                o => o.BinaryLeftShift(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_IBRsh_Test()
+        {
+            EvaluateBinaryTestTemplate(BasicOperatorCode.IBRsh,
+                o => o.BinaryRightShift(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_IBOr_Test()
+        {
+            EvaluateBinaryTestTemplate(BasicOperatorCode.IBOr,
+                o => o.BinaryOr(It.IsAny<IScriptType>()));
+        }
+
+        [TestMethod]
+        public void EvaluateBinary_IBXor_Test()
+        {
+            EvaluateBinaryTestTemplate(BasicOperatorCode.IBXor,
+                o => o.BinaryXor(It.IsAny<IScriptType>()));
+        }
+
+        #endregion
+
         [DataTestMethod]
         // Binary operators (lhs op rhs)
         [DataRow(BasicOperatorCode.CIn, "in", DisplayName = "nyi in")]
@@ -147,6 +243,7 @@ namespace Mellis.Lang.Python3.Tests.Processor
         [DataRow(BasicOperatorCode.CIs, "is", DisplayName = "nyi is")]
         [DataRow(BasicOperatorCode.CIsN, "is not", DisplayName = "nyi is not")]
         [DataRow(BasicOperatorCode.AMat, "@", DisplayName = "nyi @")]
+        [DataRow(BasicOperatorCode.IAMat, "@=", DisplayName = "nyi @=")]
         public void EvaluateBinary_NotYetImplemented_Tests(BasicOperatorCode opCode, string expectedKeyword)
         {
             // Arrange
