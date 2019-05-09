@@ -13,7 +13,7 @@ namespace Mellis.Lang.Python3.Tests.Entities
     [TestClass]
     [DoNotParallelize]
     public class PyEnumeratorWrapperTests
-        : BaseEntityTester<PyEnumeratorWrapper, IEnumerator<IScriptType>>
+        : BaseEntityTester<PyEnumeratorProxy, IEnumerator<IScriptType>>
     {
         private Mock<IScriptType> sourceTypeMock;
         private Mock<IScriptType> sourceTypeMockTypeDefMock;
@@ -40,11 +40,11 @@ namespace Mellis.Lang.Python3.Tests.Entities
                 .Verifiable();
         }
 
-        protected override PyEnumeratorWrapper CreateEntity(
+        protected override PyEnumeratorProxy CreateEntity(
             PyProcessor processor,
             IEnumerator<IScriptType> value)
         {
-            return new PyEnumeratorWrapper(
+            return new PyEnumeratorProxy(
                 processor: processor,
                 sourceType: sourceTypeMock.Object,
                 enumerator: value);

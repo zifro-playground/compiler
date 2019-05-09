@@ -6,12 +6,12 @@ using Mellis.Lang.Python3.Resources;
 
 namespace Mellis.Lang.Python3.Entities
 {
-    public class PyEnumeratorWrapper : ScriptType, IEnumerator<IScriptType>, IEnumerable<IScriptType>
+    public class PyEnumeratorProxy : ScriptType, IEnumerator<IScriptType>, IEnumerable<IScriptType>
     {
         public IScriptType SourceType { get; }
         public IEnumerator<IScriptType> Enumerator { get; }
 
-        public PyEnumeratorWrapper(
+        public PyEnumeratorProxy(
             IProcessor processor,
             IScriptType sourceType,
             IEnumerator<IScriptType> enumerator)
@@ -38,8 +38,8 @@ namespace Mellis.Lang.Python3.Entities
 
         public override IScriptType CompareEqual(IScriptType rhs)
         {
-            if (rhs is PyEnumeratorWrapper wrapper &&
-                wrapper.Enumerator == Enumerator)
+            if (rhs is PyEnumeratorProxy proxy &&
+                proxy.Enumerator == Enumerator)
             {
                 return Processor.Factory.True;
             }
@@ -49,8 +49,8 @@ namespace Mellis.Lang.Python3.Entities
 
         public override IScriptType CompareNotEqual(IScriptType rhs)
         {
-            if (!(rhs is PyEnumeratorWrapper wrapper) ||
-                wrapper.Enumerator != Enumerator)
+            if (!(rhs is PyEnumeratorProxy proxy) ||
+                proxy.Enumerator != Enumerator)
             {
                 return Processor.Factory.True;
             }
@@ -77,10 +77,6 @@ namespace Mellis.Lang.Python3.Entities
         {
             return GetEnumerator();
         }
-
-        #endregion
-
-        #region IEnumerator<IScriptType> delegation
 
         void IDisposable.Dispose()
         {

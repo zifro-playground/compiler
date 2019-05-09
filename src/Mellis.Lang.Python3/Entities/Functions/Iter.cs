@@ -45,7 +45,7 @@ namespace Mellis.Lang.Python3.Entities.Functions
 
             if (!(enumerator is IScriptType enumeratorScriptType))
             {
-                enumeratorScriptType = new PyEnumeratorWrapper(value.Processor, value, enumerator);
+                enumeratorScriptType = new PyEnumeratorProxy(value.Processor, value, enumerator);
             }
 
             return enumeratorScriptType;
