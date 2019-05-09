@@ -143,7 +143,13 @@ namespace Mellis
 
         public virtual IScriptType CompareNotEqual(IScriptType rhs)
         {
-            return null;
+            // Default: NotEqual := !Equal
+            IScriptType compareEqual = CompareEqual(rhs);
+            if (compareEqual is null)
+            {
+                return null;
+            }
+            return Processor.Factory.Create(!compareEqual.IsTruthy());
         }
 
         public virtual IScriptType CompareGreaterThan(IScriptType rhs)
