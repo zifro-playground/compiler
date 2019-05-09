@@ -6,7 +6,6 @@ using Mellis.Lang.Python3.Resources;
 using Mellis.Lang.Python3.Syntax;
 using Mellis.Lang.Python3.Syntax.Literals;
 using Mellis.Lang.Python3.Syntax.Statements;
-using Mellis.Lang.Python3.Tests.TestingOps;
 using Mellis.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -16,37 +15,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
     [TestClass]
     public class AssignmentTests
     {
-        [TestMethod]
-        public void AssignIdentifierTest()
-        {
-            // Arrange
-            const string identifier = "foo";
-            var compiler = new PyCompiler();
-
-            var idLhsMock = new Mock<Identifier>(SourceReference.ClrSource, identifier);
-
-            compiler.CreateAndSetup(
-                out Mock<ExpressionNode> exprRhsMock,
-                out var exprRhsOp);
-
-            var stmt = new Assignment(SourceReference.ClrSource,
-                leftOperand: idLhsMock.Object,
-                rightOperand: exprRhsMock.Object);
-
-            // Act
-            stmt.Compile(compiler);
-
-            // Assert
-            var setOpCode = Assert.That.IsOpCode<VarSet>(compiler, index: 1);
-            Assert.AreEqual(identifier, setOpCode.Identifier);
-            Assert.AreEqual(2, compiler.Count);
-            Assert.AreSame(exprRhsOp, compiler[0], "compiler[0] was not exprRhsOp");
-
-            idLhsMock.Verify(o => o.Compile(compiler), Times.Never);
-            exprRhsMock.Verify(o => o.Compile(compiler), Times.Once);
-        }
-
-        private static void _AssignLiteralIntegerTest<TLiteral>(
+        private static void _AssignLiteralTemplateTest<TLiteral>(
             SourceReference source,
             Mock<TLiteral> literalMock,
             string errorLocalizedKey,
@@ -58,11 +27,11 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
 
             compiler.CreateAndSetup(
                 out Mock<ExpressionNode> exprRhsMock,
-                out var exprRhsOp);
+                out _);
 
             var stmt = new Assignment(SourceReference.ClrSource,
-                leftOperand: literalMock.Object,
-                rightOperand: exprRhsMock.Object);
+                literalMock.Object,
+                exprRhsMock.Object);
 
             void Action()
             {
@@ -84,12 +53,42 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
         }
 
         [TestMethod]
+        public void AssignIdentifierTest()
+        {
+            // Arrange
+            const string identifier = "foo";
+            var compiler = new PyCompiler();
+
+            var idLhsMock = new Mock<Identifier>(SourceReference.ClrSource, identifier);
+
+            compiler.CreateAndSetup(
+                out Mock<ExpressionNode> exprRhsMock,
+                out var exprRhsOp);
+
+            var stmt = new Assignment(SourceReference.ClrSource,
+                idLhsMock.Object,
+                exprRhsMock.Object);
+
+            // Act
+            stmt.Compile(compiler);
+
+            // Assert
+            var setOpCode = Assert.That.IsOpCode<VarSet>(compiler, 1);
+            Assert.AreEqual(identifier, setOpCode.Identifier);
+            Assert.AreEqual(2, compiler.Count);
+            Assert.AreSame(exprRhsOp, compiler[0], "compiler[0] was not exprRhsOp");
+
+            idLhsMock.Verify(o => o.Compile(compiler), Times.Never);
+            exprRhsMock.Verify(o => o.Compile(compiler), Times.Once);
+        }
+
+        [TestMethod]
         public void AssignLiteralIntegerTest()
         {
             var source = new SourceReference(3, 5, 5, 1);
             var literalMock = new Mock<LiteralInteger>(source, 5);
 
-            _AssignLiteralIntegerTest(
+            _AssignLiteralTemplateTest(
                 source,
                 literalMock,
                 nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Literal),
@@ -103,7 +102,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
             var source = new SourceReference(3, 5, 5, 1);
             var literalMock = new Mock<LiteralDouble>(source, 10d);
 
-            _AssignLiteralIntegerTest(
+            _AssignLiteralTemplateTest(
                 source,
                 literalMock,
                 nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Literal),
@@ -117,7 +116,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
             var source = new SourceReference(3, 5, 5, 1);
             var literalMock = new Mock<LiteralString>(source, "foo");
 
-            _AssignLiteralIntegerTest(
+            _AssignLiteralTemplateTest(
                 source,
                 literalMock,
                 nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Literal),
@@ -131,7 +130,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
             var source = new SourceReference(3, 5, 5, 1);
             var literalMock = new Mock<LiteralBoolean>(source, true);
 
-            _AssignLiteralIntegerTest(
+            _AssignLiteralTemplateTest(
                 source,
                 literalMock,
                 nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Boolean),
@@ -145,7 +144,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
             var source = new SourceReference(3, 5, 5, 1);
             var literalMock = new Mock<LiteralBoolean>(source, false);
 
-            _AssignLiteralIntegerTest(
+            _AssignLiteralTemplateTest(
                 source,
                 literalMock,
                 nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Boolean),
@@ -159,7 +158,7 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
             var source = new SourceReference(3, 5, 5, 1);
             var literalMock = new Mock<ExpressionNode>(source);
 
-            _AssignLiteralIntegerTest(
+            _AssignLiteralTemplateTest(
                 source,
                 literalMock,
                 nameof(Localized_Python3_Parser.Ex_Syntax_Assign_Expression)
@@ -172,12 +171,11 @@ namespace Mellis.Lang.Python3.Tests.Compiler.Statements
             var source = new SourceReference(3, 5, 5, 1);
             var literalMock = new Mock<LiteralNone>(source);
 
-            _AssignLiteralIntegerTest(
+            _AssignLiteralTemplateTest(
                 source,
                 literalMock,
                 nameof(Localized_Python3_Parser.Ex_Syntax_Assign_None)
             );
         }
-
     }
 }

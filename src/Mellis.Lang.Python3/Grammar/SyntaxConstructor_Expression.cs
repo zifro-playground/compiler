@@ -95,8 +95,8 @@ namespace Mellis.Lang.Python3.Grammar
                 throw context.UnexpectedChildType(context.GetChild(3));
             case Python3Parser.AugassignContext augAssignRule:
 
-                var augAssignExpr = VisitAugassign(augAssignRule)
-                    .AsTypeOrThrow<AugmentedAssignment>();
+                var augAssignFactory = VisitAugassign(augAssignRule)
+                    .AsTypeOrThrow<InPlaceBinaryOperatorFactory>();
                 var rhsRule = context.GetChildOrThrow<ParserRuleContext>(2);
 
                 switch (rhsRule)
@@ -105,9 +105,7 @@ namespace Mellis.Lang.Python3.Grammar
                     var testListExpr = VisitTestlist(testListRule)
                         .AsTypeOrThrow<ExpressionNode>();
 
-                    augAssignExpr.LeftOperand = firstExpr;
-                    augAssignExpr.RightOperand = testListExpr;
-                    return augAssignExpr;
+                    return augAssignFactory.Create(firstExpr, testListExpr);
 
                 case Python3Parser.Yield_exprContext yieldExpr:
                     throw yieldExpr.NotYetImplementedException("yield");
@@ -179,7 +177,7 @@ namespace Mellis.Lang.Python3.Grammar
             var child = context.GetChildOrThrow<ITerminalNode>(0);
             var operatorCode = GetOperatorCodeFromTerminal(child);
 
-            return new AugmentedAssignment(context.GetSourceReference(), operatorCode);
+            return new InPlaceBinaryOperatorFactory(context.GetSourceReference(), operatorCode);
 
             BasicOperatorCode GetOperatorCodeFromTerminal(ITerminalNode terminal)
             {

@@ -3,6 +3,7 @@ using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Grammar;
 using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Syntax;
+using Mellis.Lang.Python3.Syntax.Operators;
 using Mellis.Lang.Python3.Syntax.Statements;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -41,12 +42,9 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             var result = VisitContext();
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(AugmentedAssignment));
-            var augAssignResult = (AugmentedAssignment)result;
-            Assert.AreEqual(expectedOpCode, augAssignResult.OpCode);
-
-            Assert.IsNull(augAssignResult.LeftOperand);
-            Assert.IsNull(augAssignResult.RightOperand);
+            Assert.IsInstanceOfType(result, typeof(InPlaceBinaryOperatorFactory));
+            var factory = (InPlaceBinaryOperatorFactory)result;
+            Assert.AreEqual(expectedOpCode, factory.OpCode);
         }
 
         [DataTestMethod]

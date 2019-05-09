@@ -7,6 +7,7 @@ using Mellis.Lang.Python3.Exceptions;
 using Mellis.Lang.Python3.Grammar;
 using Mellis.Lang.Python3.Instructions;
 using Mellis.Lang.Python3.Syntax;
+using Mellis.Lang.Python3.Syntax.Operators;
 using Mellis.Lang.Python3.Syntax.Statements;
 
 // ReSharper disable SuggestVarOrType_SimpleTypes
@@ -166,14 +167,16 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
         public void Visit_AugmentedAssignment_Test()
         {
             // Arrange
+            const BasicOperatorCode operatorCode = BasicOperatorCode.AMul;
+
             contextMock.SetupForSourceReference(startTokenMock, stopTokenMock);
 
             var lhsMock = GetMockRule<Python3Parser.Testlist_star_exprContext>();
             var rhsMock = GetMockRule<Python3Parser.TestlistContext>();
             var augAssignMock = GetMockRule<Python3Parser.AugassignContext>();
-            
+
             ctorMock.Setup(o => o.VisitAugassign(augAssignMock.Object))
-                .Returns(new AugmentedAssignment(SourceReference.ClrSource, BasicOperatorCode.AMul))
+                .Returns(new InPlaceBinaryOperatorFactory(SourceReference.ClrSource, operatorCode))
                 .Verifiable();
 
             contextMock.SetupChildren(
@@ -189,11 +192,16 @@ namespace Mellis.Lang.Python3.Tests.SyntaxConstructor
             var result = VisitContext();
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(AugmentedAssignment));
-            var augAssignResult = (AugmentedAssignment)result;
+            Assert.IsInstanceOfType(result, typeof(Assignment));
+            var augAssignResult = (Assignment)result;
             Assert.AreSame(lhsExpr, augAssignResult.LeftOperand);
-            Assert.AreSame(rhsExpr, augAssignResult.RightOperand);
-            Assert.AreEqual(BasicOperatorCode.AMul, augAssignResult.OpCode);
+
+            Assert.IsInstanceOfType(augAssignResult.RightOperand, typeof(InPlaceBinaryOperator));
+            var inPlaceOp = (InPlaceBinaryOperator)augAssignResult.RightOperand;
+            Assert.AreSame(lhsExpr, inPlaceOp.LeftOperand);
+            Assert.AreSame(rhsExpr, inPlaceOp.RightOperand);
+
+            Assert.AreEqual(operatorCode, inPlaceOp.OpCode);
 
             ctorMock.Verify();
         }

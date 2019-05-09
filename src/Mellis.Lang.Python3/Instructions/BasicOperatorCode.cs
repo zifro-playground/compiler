@@ -66,12 +66,46 @@
          * Unary operators (op rhs)
          */
         /// <summary>+a</summary>
-        ANeg = 0x28,
+        ANeg = 0x20,
         /// <summary>-a</summary>
         APos,
         /// <summary>~a</summary>
         BNot,
         /// <summary>not a</summary>
         LNot,
+
+        /*
+         * In-place binary arithmetic operators (lhs op= rhs)
+         */
+        /// <summary>a+=b</summary>
+        IAAdd = 0x28,
+        /// <summary>a-=b</summary>
+        IASub,
+        /// <summary>a*=b</summary>
+        IAMul,
+        /// <summary>a/=b</summary>
+        IADiv,
+        /// <summary>a//=b</summary>
+        IAFlr,
+        /// <summary>a%=b</summary>
+        IAMod,
+        /// <summary>a**=b</summary>
+        IAPow,
+        /// <summary>a@=b</summary>
+        IAMat,
+
+        /*
+         * In-place binary binary operators (lhs op= rhs)
+         */
+        /// <summary>a&amp;=b</summary>
+        IBAnd = 0x30,
+        /// <summary>a&lt;&lt;=b</summary>
+        IBLsh,
+        /// <summary>a&gt;&gt;=b</summary>
+        IBRsh,
+        /// <summary>a|=b</summary>
+        IBOr,
+        /// <summary>a^=b</summary>
+        IBXor,
     }
 }
