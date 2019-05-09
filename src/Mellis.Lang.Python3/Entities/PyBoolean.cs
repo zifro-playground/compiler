@@ -148,6 +148,12 @@ namespace Mellis.Lang.Python3.Entities
         {
             switch (rhs)
             {
+            case ScriptInteger i when i.Value.Equals(0):
+            case ScriptDouble d when d.Value.Equals(0):
+            case PyBoolean b when b.Value01.Equals(0):
+                throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
+                    Localized_Base_Entities.Ex_Math_DivideByZero);
+
             case ScriptInteger i:
                 return Processor.Factory.Create(Value01 % i.Value);
             case ScriptDouble d:
@@ -161,6 +167,12 @@ namespace Mellis.Lang.Python3.Entities
 
         public override IScriptType ArithmeticModulusReverse(IScriptType lhs)
         {
+            if (Value01.Equals(0))
+            {
+                throw new RuntimeException(nameof(Localized_Base_Entities.Ex_Math_DivideByZero),
+                    Localized_Base_Entities.Ex_Math_DivideByZero);
+            }
+
             switch (lhs)
             {
             case ScriptInteger i:
