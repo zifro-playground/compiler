@@ -62,11 +62,11 @@ namespace Mellis.Lang.Python3.Tests
 
             string expectedString = $"range({from}, {to}, {step})";
             string actualString = $"range({range.RangeFrom}, {range.RangeTo}, {range.RangeStep})";
-            string errorMessage = $"Expected:{expectedRange}. Actual:{actualString}";
+            string errorMessage = $"Expected:{expectedString}. Actual:{actualString}";
 
-            Assert.AreEqual(from, range.RangeFrom, errorMessage);
-            Assert.AreEqual(to, range.RangeTo, errorMessage);
-            Assert.AreEqual(step, range.RangeStep, errorMessage);
+            Assert.AreEqual(from, range.RangeFrom.Value, errorMessage);
+            Assert.AreEqual(to, range.RangeTo.Value, errorMessage);
+            Assert.AreEqual(step, range.RangeStep.Value, errorMessage);
         }
     }
 }

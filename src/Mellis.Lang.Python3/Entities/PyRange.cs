@@ -9,15 +9,15 @@ namespace Mellis.Lang.Python3.Entities
 {
     public class PyRange : ScriptType, IEnumerable<IScriptType>
     {
-        public int RangeFrom { get; }
-        public int RangeTo { get; }
-        public int RangeStep { get; }
+        public IScriptInteger RangeFrom { get; }
+        public IScriptInteger RangeTo { get; }
+        public IScriptInteger RangeStep { get; }
 
         public PyRange(
             IProcessor processor,
-            int rangeFrom,
-            int rangeTo,
-            int rangeStep = 1)
+            IScriptInteger rangeFrom,
+            IScriptInteger rangeTo,
+            IScriptInteger rangeStep)
             : base(processor)
         {
             RangeFrom = rangeFrom;
@@ -68,17 +68,17 @@ namespace Mellis.Lang.Python3.Entities
 
         public IEnumerator<IScriptType> GetEnumerator()
         {
-            if (RangeStep > 0)
+            if (RangeStep.Value > 0)
             {
-                for (int i = RangeFrom; i < RangeTo; i += RangeStep)
+                for (int i = RangeFrom.Value; i < RangeTo.Value; i += RangeStep.Value)
                 {
                     yield return Processor.Factory.Create(i);
                 }
             }
 
-            if (RangeStep < 0)
+            if (RangeStep.Value < 0)
             {
-                for (int i = RangeFrom; i > RangeTo; i += RangeStep)
+                for (int i = RangeFrom.Value; i > RangeTo.Value; i += RangeStep.Value)
                 {
                     yield return Processor.Factory.Create(i);
                 }
@@ -92,7 +92,7 @@ namespace Mellis.Lang.Python3.Entities
 
         public override string ToString()
         {
-            if (RangeStep == 1)
+            if (RangeStep.Value == 1)
             {
                 return string.Format(
                     Localized_Python3_Entities.Type_Range_ToString,
