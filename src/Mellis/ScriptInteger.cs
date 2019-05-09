@@ -219,7 +219,7 @@ namespace Mellis
             case ScriptInteger i:
                 return Processor.Factory.Create(i.Value / Value);
             case ScriptDouble d:
-                return Processor.Factory.Create(Value / (int)d.Value);
+                return Processor.Factory.Create((int)d.Value / Value);
             default:
                 return null;
             }
