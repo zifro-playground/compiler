@@ -66,8 +66,10 @@ namespace Mellis.Lang.Python3.VM
             // First walk? Only get on op [0]
             if (State == ProcessState.NotStarted)
             {
-                WalkInstruction();
-                return WalkStatus.NewLine;
+                WalkStatus walkStatus = WalkInstruction();
+                return walkStatus != NULL_WALK_STATUS
+                    ? walkStatus
+                    : WalkStatus.NewLine;
             }
 
             int instructionsThisWalk = 0;
@@ -181,7 +183,7 @@ namespace Mellis.Lang.Python3.VM
             case ProcessState.NotStarted when _opCodes.Length == 0:
                 State = ProcessState.Ended;
                 OnProcessEnded(State);
-                break;
+                return WalkStatus.Ended;
 
             case ProcessState.NotStarted:
                 ProgramCounter = 0;

@@ -1,4 +1,5 @@
 ﻿using Mellis.Core.Entities;
+using Mellis.Lang.Python3.Tests.TestingOps;
 using Mellis.Lang.Python3.VM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,12 +13,13 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
             return processor.WalkInstruction();
         }
 
-
         [TestMethod]
         public void NullStatusWhenNothingPeculiarTest()
         {
             // Arrange
-            var processor = new PyProcessor();
+            var processor = new PyProcessor(
+                new NopOp()
+            );
 
             // Act
             var status = WalkProcessor(processor);

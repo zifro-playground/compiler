@@ -10,6 +10,19 @@ namespace Mellis.Lang.Python3.Tests.Processor.WalkerStatus
     {
         protected abstract WalkStatus WalkProcessor(PyProcessor processor);
 
+        [TestMethod]
+        public void EndedOnEmptyProcessor()
+        {
+            // Arrange
+            var processor = new PyProcessor();
+
+            // Act
+            var result = WalkProcessor(processor);
+
+            // Assert
+            Assert.AreEqual(WalkStatus.Ended, result);
+            Assert.AreEqual(ProcessState.Ended, processor.State);
+        }
 
         [TestMethod]
         public void EndedStatusWalkOneOpTest()
