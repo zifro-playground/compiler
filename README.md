@@ -1,8 +1,9 @@
 # _ZIFRO_ Mellis compiler
 
-[![CircleCI branch: rework](https://img.shields.io/circleci/token/32eed7ac8019c96700eeb31e7feacc00b57d3899/project/github/zardan/compiler/rework.svg?label=%2Frework&logo=circleci)](https://circleci.com/gh/zardan/compiler)
-[![CircleCI branch: all](https://img.shields.io/circleci/token/32eed7ac8019c96700eeb31e7feacc00b57d3899/project/github/zardan/compiler.svg?label=%2Fall&logo=circleci)](https://circleci.com/gh/zardan/compiler)
+[![CircleCI branch: rework](https://img.shields.io/circleci/token/32eed7ac8019c96700eeb31e7feacc00b57d3899/project/github/zifro-playground/compiler/rework.svg?label=%2Frework&logo=circleci)](https://circleci.com/gh/zifro-playground/compiler)
+[![CircleCI branch: all](https://img.shields.io/circleci/token/32eed7ac8019c96700eeb31e7feacc00b57d3899/project/github/zifro-playground/compiler.svg?label=%2Fall&logo=circleci)](https://circleci.com/gh/zifro-playground/compiler)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ce4b06e6b3c243d29cb25ed8462980ae?branch=rework)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=zardan/compiler&amp;utm_campaign=Badge_Grade)
+![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/zifro-playground/compiler/upm.svg)
 
 Mellis is a code library to allow compilation and code-walking of scripting languages such as Python.
 Built using .NET Standard 2.0, and for that is easily integrated into any .NET environment.
